@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<!-- saved from url=(0093)file:///C:/Users/pell/OneDrive%20-%20Roseville%20College/Downloads/figurative-language_2.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figurative Language Activity</title>
+<link href="./Figurative Language Activity - definitions and sorting_files/css2" rel="stylesheet">
+<style>
+:root {
+  --bg: #f0f4ff;
+  --card-bg: #ffffff;
+  --simile-dark: #4caf50;
+  --metaphor-dark: #e67e22;
+  --hyperbole-dark: #e74c3c;
+  --personification-dark: #8e44ad;
+  --idiom-dark: #2980b9;
+  --onomatopoeia-dark: #f39c12;
+  --text: #2c3e50;
+  --text-light: #7f8c8d;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow-hover: 0 8px 30px rgba(0,0,0,0.15);
+  --radius: 16px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+
+.header { text-align: center; padding: 40px 20px 20px; }
+.header h1 {
+  font-family: 'Fredoka', sans-serif; font-size: clamp(28px, 5vw, 48px); font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px;
+}
+.header .subtitle { font-size: 18px; color: var(--text-light); font-weight: 600; }
+
+.name-bar { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 0 20px 10px; flex-wrap: wrap; }
+.name-bar label { font-weight: 700; font-size: 15px; }
+.name-bar input {
+  font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 600;
+  padding: 8px 16px; border: 2px solid #ddd; border-radius: 10px; width: 220px; outline: none; transition: border-color 0.2s;
+}
+.name-bar input:focus { border-color: #667eea; }
+
+.phase-nav { display: flex; justify-content: center; gap: 8px; padding: 12px 20px; flex-wrap: wrap; }
+.phase-btn {
+  font-family: 'Fredoka', sans-serif; font-size: 15px; font-weight: 600;
+  padding: 10px 24px; border: 3px solid #ddd; border-radius: 40px;
+  background: white; color: var(--text-light); cursor: pointer; transition: all 0.3s;
+}
+.phase-btn.active { border-color: #667eea; color: #667eea; background: #f0f0ff; }
+.phase-btn.completed { border-color: #4caf50; color: #4caf50; }
+.phase-btn.completed::after { content: ' \2713'; }
+.phase-btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+.phase { display: none; padding: 0 20px 60px; max-width: 1200px; margin: 0 auto; }
+.phase.active { display: block; }
+.phase-intro { text-align: center; margin-bottom: 28px; font-size: 17px; color: var(--text-light); line-height: 1.6; }
+
+/* PHASE 1 */
+.matching-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.type-slot { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; transition: all 0.3s; }
+.type-slot-header {
+  padding: 14px 20px; font-family: 'Fredoka', sans-serif; font-size: 20px; font-weight: 700; color: white; text-align: center;
+}
+.type-slot[data-type="simile"] .type-slot-header { background: var(--simile-dark); }
+.type-slot[data-type="metaphor"] .type-slot-header { background: var(--metaphor-dark); }
+.type-slot[data-type="hyperbole"] .type-slot-header { background: var(--hyperbole-dark); }
+.type-slot[data-type="personification"] .type-slot-header { background: var(--personification-dark); }
+.type-slot[data-type="idiom"] .type-slot-header { background: var(--idiom-dark); }
+.type-slot[data-type="onomatopoeia"] .type-slot-header { background: var(--onomatopoeia-dark); }
+
+.type-slot-drop {
+  min-height: 70px; padding: 14px; display: flex; align-items: center; justify-content: center;
+  border: 3px dashed #ddd; border-radius: 0 0 var(--radius) var(--radius); margin: 8px; transition: all 0.3s;
+}
+.type-slot-drop.drag-over { border-color: #667eea; background: #f0f0ff; }
+.type-slot-drop .placeholder { color: #bbb; font-style: italic; font-size: 14px; }
+.type-slot-drop.matched { border-style: solid; border-color: #4caf50; background: #f0fff0; }
+
+.def-cards-container {
+  display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; padding: 16px;
+  background: white; border-radius: var(--radius); box-shadow: var(--shadow); min-height: 60px;
+}
+.def-card {
+  background: white; border: 2px solid #e0e0e0; border-radius: 12px;
+  padding: 12px 18px; font-size: 15px; font-weight: 600;
+  cursor: grab; user-select: none; transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06); max-width: 320px;
+}
+.def-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.def-card:active { cursor: grabbing; }
+.def-card.placed { display: none; }
+
+/* FOCUS OVERLAY */
+.focus-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.focus-overlay.show { opacity: 1; pointer-events: auto; }
+.focus-card {
+  background: white; border-radius: 24px; padding: 48px 40px;
+  max-width: 560px; width: 90%; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  transform: scale(0.8); transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.focus-overlay.show .focus-card { transform: scale(1); }
+.focus-card .focus-badge {
+  display: inline-block; padding: 8px 28px; border-radius: 30px;
+  font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 700; color: white; margin-bottom: 20px;
+}
+.focus-card .focus-def { font-size: 20px; line-height: 1.6; color: var(--text); margin-bottom: 24px; }
+.focus-card .focus-prompt { font-size: 16px; font-weight: 700; color: #667eea; margin-bottom: 28px; }
+.focus-card .focus-prompt .pencil { font-size: 24px; display: block; margin-bottom: 6px; }
+.focus-continue {
+  font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 600;
+  padding: 14px 40px; border: none; border-radius: 30px;
+  background: #667eea; color: white; cursor: pointer; transition: all 0.2s;
+}
+.focus-continue:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+
+.attempt-badge { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
+.attempt-badge.first { background: #e8f5e9; color: #2e7d32; }
+.attempt-badge.multi { background: #fff3e0; color: #e65100; }
+
+/* PHASE 2 */
+.statement-carousel { max-width: 600px; margin: 0 auto; }
+.statement-card-wrapper {
+  background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 40px 30px; text-align: center; position: relative; min-height: 240px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.statement-number {
+  font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: 600;
+  color: white; background: #667eea; padding: 4px 16px; border-radius: 20px;
+  position: absolute; top: 16px; left: 16px;
+}
+.statement-progress { position: absolute; top: 16px; right: 16px; font-size: 14px; font-weight: 700; color: var(--text-light); }
+.statement-text {
+  font-family: 'Fredoka', sans-serif; font-size: clamp(22px, 4vw, 32px);
+  font-weight: 600; color: var(--text); line-height: 1.4; margin: 20px 0;
+}
+.statement-instruction { font-size: 15px; color: var(--text-light); margin-top: 10px; }
+
+.hint-area { width: 100%; margin-top: 16px; text-align: center; }
+.hint-btn {
+  font-family: 'Fredoka', sans-serif; font-size: 15px; font-weight: 600;
+  padding: 8px 22px; border: 2px solid #f39c12; border-radius: 30px;
+  background: white; color: #f39c12; cursor: pointer; transition: all 0.2s;
+}
+.hint-btn:hover { background: #fff8e1; transform: translateY(-1px); }
+.hint-bubble {
+  display: none; margin-top: 12px; padding: 14px 18px;
+  background: #fff8e1; border: 2px solid #f39c12; border-radius: 14px;
+  font-size: 15px; line-height: 1.5; color: var(--text); text-align: left;
+  animation: fadeIn 0.3s ease;
+}
+.hint-bubble.show { display: block; }
+.hint-bubble .hint-icon { font-size: 18px; margin-right: 6px; }
+
+.carousel-controls { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 24px; }
+.carousel-btn {
+  font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: 600;
+  padding: 12px 28px; border: none; border-radius: 30px; cursor: pointer; transition: all 0.2s;
+}
+.carousel-btn.prev { background: #e0e0e0; color: var(--text); }
+.carousel-btn.next { background: #667eea; color: white; }
+.carousel-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+.carousel-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.carousel-btn.finish { background: #4caf50; color: white; }
+
+/* PHASE 3 */
+.check-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.check-column { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.check-column-header {
+  padding: 12px; font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 700; color: white; text-align: center;
+}
+.check-column[data-type="simile"] .check-column-header { background: var(--simile-dark); }
+.check-column[data-type="metaphor"] .check-column-header { background: var(--metaphor-dark); }
+.check-column[data-type="hyperbole"] .check-column-header { background: var(--hyperbole-dark); }
+.check-column[data-type="personification"] .check-column-header { background: var(--personification-dark); }
+.check-column[data-type="idiom"] .check-column-header { background: var(--idiom-dark); }
+.check-column[data-type="onomatopoeia"] .check-column-header { background: var(--onomatopoeia-dark); }
+.check-column-drop { min-height: 100px; padding: 10px; display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; }
+.check-column-drop.drag-over { background: #f0f0ff; }
+
+.check-pool {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 16px;
+  background: white; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 20px; min-height: 60px;
+}
+.check-card {
+  background: white; border: 2px solid #e0e0e0; border-radius: 10px;
+  padding: 8px 12px; font-size: 14px; font-weight: 600;
+  cursor: grab; user-select: none; transition: all 0.25s; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.check-card:active { cursor: grabbing; }
+.check-card .card-num {
+  font-family: 'Fredoka', sans-serif; display: inline-block; background: #667eea;
+  color: white; width: 22px; height: 22px; line-height: 22px; text-align: center;
+  border-radius: 50%; font-size: 11px; margin-right: 5px;
+}
+.check-card.correct { border-color: #4caf50; background: #f0fff0; }
+.check-card.incorrect { border-color: #e74c3c; background: #fff0f0; animation: shake 0.4s ease; }
+
+.check-actions { text-align: center; margin-top: 20px; }
+.check-btn {
+  font-family: 'Fredoka', sans-serif; font-size: 18px; font-weight: 600;
+  padding: 14px 40px; border: none; border-radius: 30px; background: #667eea; color: white; cursor: pointer; transition: all 0.2s;
+}
+.check-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.check-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.results-banner { text-align: center; padding: 30px; border-radius: var(--radius); margin-top: 24px; display: none; }
+.results-banner.show { display: block; animation: fadeIn 0.5s ease; }
+.results-banner h2 { font-family: 'Fredoka', sans-serif; font-size: 28px; margin-bottom: 8px; }
+.results-banner p { font-size: 18px; }
+.results-banner.perfect { background: linear-gradient(135deg, #a8e6cf, #dcedc1); }
+.results-banner.great { background: linear-gradient(135deg, #fff5a0, #ffd3b6); }
+.results-banner.try-again { background: linear-gradient(135deg, #ffaaa5, #ffd3b6); }
+
+.reset-btn, .summary-btn {
+  font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: 600;
+  padding: 12px 30px; border: none; border-radius: 30px; cursor: pointer; margin-top: 16px; transition: all 0.2s;
+}
+.reset-btn { background: #e74c3c; color: white; }
+.summary-btn { background: #764ba2; color: white; }
+.reset-btn:hover, .summary-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+
+/* SUMMARY OVERLAY */
+.summary-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  display: flex; align-items: flex-start; justify-content: center;
+  z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  padding: 40px 20px; overflow-y: auto;
+}
+.summary-overlay.show { opacity: 1; pointer-events: auto; }
+.summary-panel {
+  background: white; border-radius: 20px; padding: 36px; max-width: 700px; width: 100%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3); transform: translateY(20px); transition: transform 0.3s; position: relative;
+}
+.summary-overlay.show .summary-panel { transform: translateY(0); }
+.summary-panel h2 { font-family: 'Fredoka', sans-serif; font-size: 24px; margin-bottom: 6px; color: var(--text); }
+.summary-panel .student-name { font-size: 16px; color: var(--text-light); margin-bottom: 20px; }
+.summary-section { margin-bottom: 24px; }
+.summary-section h3 { font-family: 'Fredoka', sans-serif; font-size: 18px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid #eee; }
+.summary-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.summary-table th { text-align: left; padding: 8px 10px; background: #f8f9fa; font-weight: 700; border-bottom: 2px solid #ddd; }
+.summary-table td { padding: 8px 10px; border-bottom: 1px solid #eee; }
+.summary-table .correct-cell { color: #2e7d32; font-weight: 700; }
+.summary-table .incorrect-cell { color: #c62828; font-weight: 700; }
+.summary-close { position: absolute; top: 16px; right: 20px; font-size: 28px; cursor: pointer; color: var(--text-light); background: none; border: none; font-weight: 700; }
+.summary-stats { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.stat-box { flex: 1; min-width: 120px; background: #f8f9fa; border-radius: 12px; padding: 16px; text-align: center; }
+.stat-box .stat-num { font-family: 'Fredoka', sans-serif; font-size: 32px; font-weight: 700; }
+.stat-box .stat-label { font-size: 13px; color: var(--text-light); font-weight: 600; }
+.stat-box.green .stat-num { color: #2e7d32; }
+.stat-box.amber .stat-num { color: #e65100; }
+.stat-box.red .stat-num { color: #c62828; }
+.print-btn {
+  font-family: 'Fredoka', sans-serif; font-size: 15px; font-weight: 600;
+  padding: 10px 24px; border: 2px solid #667eea; border-radius: 30px;
+  background: white; color: #667eea; cursor: pointer; margin-top: 10px; transition: all 0.2s;
+}
+.print-btn:hover { background: #667eea; color: white; }
+
+@media print {
+  body * { visibility: hidden; }
+  .summary-panel, .summary-panel * { visibility: visible; }
+  .summary-panel { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; }
+  .summary-close, .print-btn { display: none !important; }
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+.touch-dragging { position: fixed; z-index: 9999; pointer-events: none; opacity: 0.85; transform: scale(1.05); box-shadow: var(--shadow-hover); }
+
+@media (max-width: 768px) { .matching-grid { grid-template-columns: 1fr; } .check-columns { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 500px) { .check-columns { grid-template-columns: 1fr; } .phase-nav { gap: 6px; } .phase-btn { font-size: 13px; padding: 8px 14px; } .focus-card { padding: 32px 24px; } .focus-card .focus-badge { font-size: 22px; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Figurative Language</h1>
+  <div class="subtitle">Sort it, write it, check it!</div>
+</div>
+<div class="name-bar">
+  <label for="studentName">Your name:</label>
+  <input type="text" id="studentName" placeholder="Enter your name">
+</div>
+<nav class="phase-nav">
+  <button class="phase-btn active" data-phase="1">1. Match Definitions</button>
+  <button class="phase-btn" data-phase="2" disabled="">2. Read &amp; Write</button>
+  <button class="phase-btn" data-phase="3" disabled="">3. Check Your Work</button>
+</nav>
+
+<!-- PHASE 1 -->
+<div class="phase active" id="phase1">
+  <p class="phase-intro">Drag each definition to the correct figurative language type.<br>When you match correctly, the definition will appear large for you to copy into your book.</p>
+  <div class="matching-grid" id="matchingGrid"><div class="type-slot" data-type="simile">
+      <div class="type-slot-header">Simile</div>
+      <div class="type-slot-drop" data-accept="simile" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
+        <span class="placeholder">Drag definition here</span>
+      </div></div><div class="type-slot" data-type="metaphor">
+      <div class="type-slot-header">Metaphor</div>
+      <div class="type-slot-drop" data-accept="metaphor" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
+        <span class="placeholder">Drag definition here</span>
+      </div></div><div class="type-slot" data-type="hyperbole">
+      <div class="type-slot-header">Hyperbole</div>
+      <div class="type-slot-drop" data-accept="hyperbole" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
+        <span class="placeholder">Drag definition here</span>
+      </div></div><div class="type-slot" data-type="personification">
+      <div class="type-slot-header">Personification</div>
+      <div class="type-slot-drop" data-accept="personification" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
+        <span class="placeholder">Drag definition here</span>
+      </div></div><div class="type-slot" data-type="idiom">
+      <div class="type-slot-header">Idiom</div>
+      <div class="type-slot-drop" data-accept="idiom" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
+        <span class="placeholder">Drag definition here</span>
+      </div></div><div class="type-slot" data-type="onomatopoeia">
+      <div class="type-slot-header">Onomatopoeia</div>
+      <div class="type-slot-drop" data-accept="onomatopoeia" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
+        <span class="placeholder">Drag definition here</span>
+      </div></div></div>
+  <p class="phase-intro" style="margin-top:8px; font-weight:700; color:#667eea;">Drag the definitions below to the correct type above:</p>
+  <div class="def-cards-container" id="defPool"><div class="def-card" draggable="true" data-type="onomatopoeia" ondragstart="handleDragStart(event)">A word that imitates the sound it represents.</div><div class="def-card" draggable="true" data-type="metaphor" ondragstart="handleDragStart(event)">A comparison of two things that implies one thing is similar to another (without using "like" or "as").</div><div class="def-card" draggable="true" data-type="simile" ondragstart="handleDragStart(event)">A comparison of two items using the words "like" or "as".</div><div class="def-card" draggable="true" data-type="hyperbole" ondragstart="handleDragStart(event)">An extravagant exaggeration that cannot possibly be true.</div><div class="def-card" draggable="true" data-type="personification" ondragstart="handleDragStart(event)">Giving human qualities to non-living things.</div><div class="def-card" draggable="true" data-type="idiom" ondragstart="handleDragStart(event)">An expression whose meaning does not relate to the literal meaning of its words.</div></div>
+  <div style="text-align:center; margin-top:28px;">
+    <button class="carousel-btn next" id="phase1Done" disabled="" onclick="goToPhase(2)">All matched! Continue to Phase 2 →</button>
+  </div>
+</div>
+
+<!-- FOCUS OVERLAY -->
+<div class="focus-overlay" id="focusOverlay">
+  <div class="focus-card">
+    <div class="focus-badge" id="focusBadge"></div>
+    <div class="focus-def" id="focusDef"></div>
+    <div class="focus-prompt"><span class="pencil">✍</span>Write this heading and definition in your book now!</div>
+    <button class="focus-continue" id="focusContinue">Got it – Continue</button>
+  </div>
+</div>
+
+<!-- PHASE 2 -->
+<div class="phase" id="phase2">
+  <p class="phase-intro">Read each statement carefully. In your book, write it under the correct figurative language heading.<br>Click <strong>Next</strong> when you have written it down.</p>
+  <div class="statement-carousel">
+    <div class="statement-card-wrapper" id="statementCard">
+      <span class="statement-number" id="stmtNum"></span>
+      <span class="statement-progress" id="stmtProgress"></span>
+      <div class="statement-text" id="stmtText"></div>
+      <div class="statement-instruction">Write this in your book under the correct heading, then press Next.</div>
+      <div class="hint-area">
+        <button class="hint-btn" id="hintBtn" onclick="showHint()">💡 Need a hint?</button>
+        <div class="hint-bubble" id="hintBubble"><span class="hint-icon">🤔</span> <span id="hintText"></span></div>
+      </div>
+    </div>
+    <div class="carousel-controls">
+      <button class="carousel-btn prev" id="prevBtn" onclick="prevStatement()">← Back</button>
+      <button class="carousel-btn next" id="nextBtn" onclick="nextStatement()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 3 -->
+<div class="phase" id="phase3">
+  <p class="phase-intro">Now check your work! Drag each statement into the correct column.<br>Once they are all placed, press <strong>Check My Answers</strong>.</p>
+  <div class="check-pool" id="checkPool"></div>
+  <div class="check-columns" id="checkColumns"></div>
+  <div class="check-actions">
+    <button class="check-btn" id="checkBtn" onclick="checkAnswers()">Check My Answers</button><br>
+    <button class="reset-btn" id="resetBtn" style="display:none;" onclick="resetPhase3()">Try Again</button>
+    <button class="summary-btn" id="summaryBtn" style="display:none;" onclick="showSummary()">View Learning Summary</button>
+  </div>
+  <div class="results-banner" id="resultsBanner"><h2 id="resultsTitle"></h2><p id="resultsText"></p></div>
+</div>
+
+<!-- SUMMARY OVERLAY -->
+<div class="summary-overlay" id="summaryOverlay">
+  <div class="summary-panel" id="summaryPanel">
+    <button class="summary-close" onclick="closeSummary()">×</button>
+    <h2>Learning Summary</h2>
+    <div class="student-name" id="summaryName"></div>
+    <div id="summaryContent"></div>
+    <div style="text-align:center;"><button class="print-btn" onclick="window.print()">Print / Save as PDF</button></div>
+  </div>
+</div>
+
+<script>
+const typeColours = {
+  simile:'var(--simile-dark)',metaphor:'var(--metaphor-dark)',hyperbole:'var(--hyperbole-dark)',
+  personification:'var(--personification-dark)',idiom:'var(--idiom-dark)',onomatopoeia:'var(--onomatopoeia-dark)'
+};
+const types = [
+  {id:'simile',name:'Simile',definition:'A comparison of two items using the words "like" or "as".'},
+  {id:'metaphor',name:'Metaphor',definition:'A comparison of two things that implies one thing is similar to another (without using "like" or "as").'},
+  {id:'hyperbole',name:'Hyperbole',definition:'An extravagant exaggeration that cannot possibly be true.'},
+  {id:'personification',name:'Personification',definition:'Giving human qualities to non-living things.'},
+  {id:'idiom',name:'Idiom',definition:'An expression whose meaning does not relate to the literal meaning of its words.'},
+  {id:'onomatopoeia',name:'Onomatopoeia',definition:'A word that imitates the sound it represents.'}
+];
+const statements = [
+  {num:1,text:'Her heels clacked on the floor as she walked.',type:'onomatopoeia',hint:'Say "clacked" out loud. Does the word itself sound like the noise it describes?'},
+  {num:2,text:'You are my sunshine.',type:'metaphor',hint:'Is the person actually made of sunlight? They are being called something they are not, without using "like" or "as".'},
+  {num:3,text:'The trees whispered secrets to each other.',type:'personification',hint:'Can trees really whisper or share secrets? What kind of thing normally whispers?'},
+  {num:4,text:"You're driving me up the wall!",type:'idiom',hint:'Is someone actually driving a car up a wall? This phrase means something completely different from its words.'},
+  {num:5,text:'She ran so fast, she could have beaten a car.',type:'hyperbole',hint:'Could a person really outrun a car? Is this a massive exaggeration?'},
+  {num:6,text:"I'm going to give that a shot!",type:'idiom',hint:'Is anyone actually shooting anything? This common phrase has a meaning that is different from what the words literally say.'},
+  {num:7,text:'I love roasting marshmallows over a crackling fire.',type:'onomatopoeia',hint:'Read "crackling" out loud. Does the word itself imitate a sound you might hear?'},
+  {num:8,text:'This backpack weighs a ton!',type:'hyperbole',hint:'Does a backpack really weigh a ton (1,000 kg)? Is this a wild exaggeration?'},
+  {num:9,text:"Please don't add fuel to the fire.",type:'idiom',hint:'Is there an actual fire? This expression means something different from what the words say on the surface.'},
+  {num:10,text:'Life is like a box of chocolates.',type:'simile',hint:'Look carefully at this sentence. Can you spot a comparison word ("like" or "as") connecting two different things?'},
+  {num:11,text:'The leaves crunched under my feet.',type:'onomatopoeia',hint:'Say "crunched" out loud. Does the word itself sound like the noise being described?'},
+  {num:12,text:'My little brother is such a chicken.',type:'metaphor',hint:'Is the brother actually a chicken? He is being called something he is not, and there is no "like" or "as".'},
+  {num:13,text:'The stars danced in the night sky.',type:'personification',hint:'Can stars really dance? What kind of thing normally dances? A human action is being given to a non-human thing.'},
+  {num:14,text:'My uncle is as wise as an owl.',type:'simile',hint:'Can you spot the comparison word? Two things are being compared using "as".'},
+  {num:15,text:"I'm so hungry I could eat a horse!",type:'hyperbole',hint:'Could someone really eat an entire horse? This is a huge exaggeration to make a point.'},
+  {num:16,text:'The soft drink fizzed as I poured it into the glass.',type:'onomatopoeia',hint:'Say "fizzed" out loud. Does it sound like the noise a soft drink makes?'},
+  {num:17,text:'My teacher gave us a quiz out of the blue.',type:'idiom',hint:'Did anything actually come out of something blue? This is a well-known expression that means something different from its literal words.'},
+  {num:18,text:'The grass scratched at my legs.',type:'personification',hint:'Can grass really scratch on purpose? That is a human action. What kind of thing normally scratches?'},
+  {num:19,text:'I could sleep for 100 years.',type:'hyperbole',hint:'Could a person really sleep for a century? Is this an extreme exaggeration?'},
+  {num:20,text:'Last night, I slept like a baby.',type:'simile',hint:'Can you spot the comparison word? The person is comparing their sleep to something else using "like".'},
+  {num:21,text:'The cookie jar was calling me by name.',type:'personification',hint:'Can a cookie jar really call out to someone? That is a human ability being given to an object.'},
+  {num:22,text:'My sister is an angel.',type:'metaphor',hint:'Is the sister literally an angel with wings? She is being called something she is not, and there is no "like" or "as".'},
+  {num:23,text:'The road was as flat as a pancake.',type:'simile',hint:'Look for the comparison word. Two things are being compared using "as".'},
+  {num:24,text:'The river swallowed up the abandoned boat.',type:'personification',hint:'Can a river really swallow something? Only living things swallow. A human action is being given to something non-human.'},
+  {num:25,text:'Time is money.',type:'metaphor',hint:'Is time literally coins or banknotes? One thing is being called another thing directly, without "like" or "as".'},
+  {num:26,text:'My brother is as brave as a lion.',type:'simile',hint:'Can you spot the comparison word? Two things are being compared using "as".'},
+  {num:27,text:'I am a night owl.',type:'metaphor',hint:'Is this person literally an owl? They are calling themselves something they are not, without using "like" or "as".'},
+  {num:28,text:'I walked a million kilometres today.',type:'hyperbole',hint:'Did someone really walk a million kilometres in one day? That is a massive exaggeration!'}
+];
+
+const tracker = { phase1:{}, phase2:{ hintsUsed:new Set() }, phase3:{ results:[], score:0, attempts:0 } };
+let matchedCount=0, currentStmt=0, draggedEl=null, touchClone=null, touchSource=null;
+
+// NAV
+document.querySelectorAll('.phase-btn').forEach(b=>b.addEventListener('click',()=>{if(!b.disabled)goToPhase(parseInt(b.dataset.phase));}));
+function goToPhase(n){
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.phase-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('phase'+n).classList.add('active');
+  document.querySelector(`.phase-btn[data-phase="${n}"]`).classList.add('active');
+  if(n===2)initPhase2(); if(n===3)initPhase3();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// PHASE 1
+function initPhase1(){
+  const grid=document.getElementById('matchingGrid'), pool=document.getElementById('defPool');
+  types.forEach(t=>{tracker.phase1[t.id]={attempts:0,wrongGuesses:[]};});
+  types.forEach(t=>{
+    grid.innerHTML+=`<div class="type-slot" data-type="${t.id}">
+      <div class="type-slot-header">${t.name}</div>
+      <div class="type-slot-drop" data-accept="${t.id}" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
+        <span class="placeholder">Drag definition here</span>
+      </div></div>`;
+  });
+  const shuffled=[...types].sort(()=>Math.random()-0.5);
+  shuffled.forEach(t=>{
+    pool.innerHTML+=`<div class="def-card" draggable="true" data-type="${t.id}" ondragstart="handleDragStart(event)">${t.definition}</div>`;
+  });
+  addTouchDrag(document.getElementById('phase1'),'.def-card','.type-slot-drop');
+}
+
+function handleDragStart(e){draggedEl=e.target;e.dataTransfer.setData('text/plain',e.target.dataset.type);e.dataTransfer.effectAllowed='move';setTimeout(()=>e.target.style.opacity='0.4',0);}
+function handleDragOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
+function handleDragLeave(e){e.currentTarget.classList.remove('drag-over');}
+
+function handleDefDrop(e){
+  e.preventDefault();
+  const drop=e.currentTarget;
+  drop.classList.remove('drag-over');
+  const droppedType=(e.dataTransfer&&e.dataTransfer.getData('text/plain'))||(draggedEl&&draggedEl.dataset.type);
+  if(!droppedType)return;
+  const targetType=drop.dataset.accept;
+  if(drop.classList.contains('matched'))return;
+
+  tracker.phase1[targetType].attempts++;
+
+  if(droppedType===targetType){
+    drop.classList.add('matched');
+    drop.innerHTML='<span style="color:#4caf50;font-weight:700;font-size:22px;">&#10003; Matched!</span>';
+    if(draggedEl){draggedEl.classList.add('placed');draggedEl.style.opacity='1';}
+    matchedCount++;
+    const typeObj=types.find(t=>t.id===targetType);
+    showFocusOverlay(typeObj);
+  } else {
+    tracker.phase1[targetType].wrongGuesses.push(droppedType);
+    drop.style.borderColor='#e74c3c';drop.style.background='#fff5f5';
+    setTimeout(()=>{drop.style.borderColor='';drop.style.background='';},600);
+    if(draggedEl)draggedEl.style.opacity='1';
+  }
+  draggedEl=null;
+}
+
+function showFocusOverlay(typeObj){
+  const o=document.getElementById('focusOverlay');
+  document.getElementById('focusBadge').textContent=typeObj.name;
+  document.getElementById('focusBadge').style.background=typeColours[typeObj.id];
+  document.getElementById('focusDef').textContent=typeObj.definition;
+  o.classList.add('show');
+  document.getElementById('focusContinue').onclick=()=>closeFocusOverlay();
+}
+function closeFocusOverlay(){
+  document.getElementById('focusOverlay').classList.remove('show');
+  if(matchedCount>=6){
+    document.getElementById('phase1Done').disabled=false;
+    document.querySelector('.phase-btn[data-phase="2"]').disabled=false;
+    document.querySelector('.phase-btn[data-phase="1"]').classList.add('completed');
+  }
+}
+
+// PHASE 2
+function initPhase2(){showStatement(0);}
+function showStatement(idx){
+  currentStmt=idx;const s=statements[idx];
+  document.getElementById('stmtNum').textContent='#'+s.num;
+  document.getElementById('stmtProgress').textContent=(idx+1)+' / '+statements.length;
+  document.getElementById('stmtText').textContent=s.text;
+  document.getElementById('prevBtn').disabled=idx===0;
+  // Reset hint
+  document.getElementById('hintBubble').classList.remove('show');
+  document.getElementById('hintBtn').style.display='inline-block';
+  document.getElementById('hintText').textContent=s.hint;
+  const nb=document.getElementById('nextBtn');
+  if(idx===statements.length-1){
+    nb.textContent="Done! Go to Phase 3 \u2192";nb.classList.add('finish');
+    nb.onclick=()=>{document.querySelector('.phase-btn[data-phase="3"]').disabled=false;document.querySelector('.phase-btn[data-phase="2"]').classList.add('completed');goToPhase(3);};
+  } else {nb.textContent="Next \u2192";nb.classList.remove('finish');nb.onclick=()=>nextStatement();}
+}
+function nextStatement(){if(currentStmt<statements.length-1)showStatement(currentStmt+1);}
+function prevStatement(){if(currentStmt>0)showStatement(currentStmt-1);}
+function showHint(){
+  document.getElementById('hintBubble').classList.add('show');
+  document.getElementById('hintBtn').style.display='none';
+  tracker.phase2.hintsUsed.add(statements[currentStmt].num);
+}
+
+// PHASE 3
+function initPhase3(){
+  const pool=document.getElementById('checkPool'),cols=document.getElementById('checkColumns');
+  pool.innerHTML='';cols.innerHTML='';
+  document.getElementById('resultsBanner').className='results-banner';
+  document.getElementById('resetBtn').style.display='none';
+  document.getElementById('summaryBtn').style.display='none';
+  document.getElementById('checkBtn').disabled=false;
+  types.forEach(t=>{
+    cols.innerHTML+=`<div class="check-column" data-type="${t.id}"><div class="check-column-header">${t.name}</div>
+      <div class="check-column-drop" data-accept="${t.id}" ondragover="handleDragOver3(event)" ondragleave="handleDragLeave3(event)" ondrop="handleDrop3(event)"></div></div>`;
+  });
+  const shuffled=[...statements].sort(()=>Math.random()-0.5);
+  shuffled.forEach(s=>{
+    const c=document.createElement('div');c.className='check-card';c.draggable=true;c.dataset.type=s.type;c.dataset.num=s.num;
+    c.innerHTML=`<span class="card-num">${s.num}</span>${s.text}`;
+    c.addEventListener('dragstart',e=>{draggedEl=c;e.dataTransfer.setData('text/plain',s.type+'|'+s.num);e.dataTransfer.effectAllowed='move';setTimeout(()=>c.style.opacity='0.4',0);});
+    c.addEventListener('dragend',()=>{c.style.opacity='1';});
+    pool.appendChild(c);
+  });
+  addTouchDrag(document.getElementById('phase3'),'.check-card','.check-column-drop');
+  pool.addEventListener('dragover',e=>e.preventDefault());
+  pool.addEventListener('drop',e=>{e.preventDefault();if(draggedEl&&draggedEl.classList.contains('check-card')){pool.appendChild(draggedEl);draggedEl.style.opacity='1';draggedEl.classList.remove('correct','incorrect');}});
+}
+
+function handleDragOver3(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
+function handleDragLeave3(e){e.currentTarget.classList.remove('drag-over');}
+function handleDrop3(e){e.preventDefault();e.currentTarget.classList.remove('drag-over');if(draggedEl&&draggedEl.classList.contains('check-card')){e.currentTarget.appendChild(draggedEl);draggedEl.style.opacity='1';draggedEl.classList.remove('correct','incorrect');}}
+
+function checkAnswers(){
+  tracker.phase3.attempts++;
+  let correct=0;const results=[];
+  document.querySelectorAll('.check-column-drop').forEach(col=>{
+    const accept=col.dataset.accept;
+    col.querySelectorAll('.check-card').forEach(card=>{
+      const ok=card.dataset.type===accept;
+      if(ok){card.classList.add('correct');card.classList.remove('incorrect');correct++;}
+      else{card.classList.add('incorrect');card.classList.remove('correct');}
+      results.push({num:parseInt(card.dataset.num),text:statements.find(s=>s.num===parseInt(card.dataset.num)).text,type:card.dataset.type,placed:accept,correct:ok});
+    });
+  });
+  const unplaced=document.getElementById('checkPool').querySelectorAll('.check-card').length;
+  tracker.phase3.results=results;tracker.phase3.score=correct;
+  const banner=document.getElementById('resultsBanner'),title=document.getElementById('resultsTitle'),text=document.getElementById('resultsText');
+  banner.className='results-banner show';
+  if(unplaced>0){banner.classList.add('try-again');title.textContent='Not quite finished!';text.textContent=`You still have ${unplaced} card${unplaced>1?'s':''} to place.`;}
+  else if(correct===28){banner.classList.add('perfect');title.textContent='Perfect! 28/28';text.textContent="Outstanding work! You nailed every single one.";document.querySelector('.phase-btn[data-phase="3"]').classList.add('completed');document.getElementById('summaryBtn').style.display='inline-block';}
+  else if(correct>=22){banner.classList.add('great');title.textContent=`Great job! ${correct}/28`;text.textContent='Nearly there! Check the red cards and try again.';document.getElementById('resetBtn').style.display='inline-block';document.getElementById('summaryBtn').style.display='inline-block';}
+  else{banner.classList.add('try-again');title.textContent=`${correct}/28`;text.textContent='Have another look at the red cards. Move them and check again!';document.getElementById('resetBtn').style.display='inline-block';document.getElementById('summaryBtn').style.display='inline-block';}
+}
+function resetPhase3(){initPhase3();}
+
+// SUMMARY
+function showSummary(){
+  const overlay=document.getElementById('summaryOverlay');
+  const name=document.getElementById('studentName').value.trim()||'Student';
+  document.getElementById('summaryName').textContent=name+' \u2014 '+new Date().toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'});
+  let html='';
+
+  // Phase 1
+  const p1=tracker.phase1;let firstTry=0,totalAttempts=0;
+  types.forEach(t=>{totalAttempts+=p1[t.id].attempts;if(p1[t.id].attempts===1)firstTry++;});
+  html+='<div class="summary-section"><h3>Phase 1: Definition Matching</h3>';
+  html+='<div class="summary-stats">';
+  html+=`<div class="stat-box green"><div class="stat-num">${firstTry}/6</div><div class="stat-label">Correct first try</div></div>`;
+  html+=`<div class="stat-box amber"><div class="stat-num">${totalAttempts}</div><div class="stat-label">Total attempts</div></div>`;
+  html+='</div>';
+  html+='<table class="summary-table"><tr><th>Type</th><th>Attempts</th><th>Wrong guesses</th></tr>';
+  types.forEach(t=>{
+    const d=p1[t.id];
+    const badge=d.attempts===1?'<span class="attempt-badge first">1st try!</span>':`<span class="attempt-badge multi">${d.attempts} tries</span>`;
+    const wrongs=d.wrongGuesses.length>0?d.wrongGuesses.map(w=>types.find(x=>x.id===w)?.name||w).join(', '):'\u2014';
+    html+=`<tr><td><strong>${t.name}</strong></td><td>${badge}</td><td>${wrongs}</td></tr>`;
+  });
+  html+='</table></div>';
+
+  // Phase 2 hints
+  const hintsUsed = tracker.phase2.hintsUsed;
+  html+='<div class="summary-section"><h3>Phase 2: Hints Used</h3>';
+  html+='<div class="summary-stats">';
+  html+=`<div class="stat-box ${hintsUsed.size===0?'green':hintsUsed.size<=5?'amber':'red'}"><div class="stat-num">${hintsUsed.size}/28</div><div class="stat-label">Hints used</div></div>`;
+  html+=`<div class="stat-box green"><div class="stat-num">${28-hintsUsed.size}</div><div class="stat-label">No hint needed</div></div>`;
+  html+='</div>';
+  if(hintsUsed.size>0){
+    html+='<p style="margin-bottom:10px;font-weight:600;">Statements where a hint was needed:</p>';
+    html+='<table class="summary-table"><tr><th>#</th><th>Statement</th><th>Type</th></tr>';
+    [...hintsUsed].sort((a,b)=>a-b).forEach(num=>{
+      const s=statements.find(st=>st.num===num);
+      const tn=types.find(t=>t.id===s.type)?.name||s.type;
+      html+=`<tr><td>${num}</td><td>${s.text}</td><td>${tn}</td></tr>`;
+    });
+    html+='</table>';
+  } else { html+='<p style="color:#2e7d32;font-weight:700;">No hints needed! Sorted all 28 independently.</p>'; }
+  html+='</div>';
+
+  // Phase 3
+  const p3=tracker.phase3;
+  if(p3.results.length>0){
+    const wrong=p3.results.filter(r=>!r.correct).sort((a,b)=>a.num-b.num);
+    html+='<div class="summary-section"><h3>Phase 3: Statement Sorting</h3>';
+    html+='<div class="summary-stats">';
+    html+=`<div class="stat-box green"><div class="stat-num">${p3.score}/28</div><div class="stat-label">Correct</div></div>`;
+    html+=`<div class="stat-box ${wrong.length>5?'red':'amber'}"><div class="stat-num">${wrong.length}</div><div class="stat-label">Incorrect</div></div>`;
+    html+=`<div class="stat-box amber"><div class="stat-num">${p3.attempts}</div><div class="stat-label">Check attempts</div></div>`;
+    html+='</div>';
+    if(wrong.length>0){
+      html+='<p style="margin-bottom:10px;font-weight:600;">Statements to review:</p>';
+      html+='<table class="summary-table"><tr><th>#</th><th>Statement</th><th>Placed under</th><th>Correct answer</th></tr>';
+      wrong.forEach(r=>{
+        const pn=types.find(t=>t.id===r.placed)?.name||r.placed;
+        const cn=types.find(t=>t.id===r.type)?.name||r.type;
+        html+=`<tr><td>${r.num}</td><td>${r.text}</td><td class="incorrect-cell">${pn}</td><td class="correct-cell">${cn}</td></tr>`;
+      });
+      html+='</table>';
+    } else { html+='<p style="color:#2e7d32;font-weight:700;">All 28 statements sorted correctly!</p>'; }
+    html+='</div>';
+  }
+  document.getElementById('summaryContent').innerHTML=html;
+  overlay.classList.add('show');
+}
+function closeSummary(){document.getElementById('summaryOverlay').classList.remove('show');}
+
+// TOUCH DRAG
+function addTouchDrag(container,cardSel,dropSel){
+  container.addEventListener('touchstart',e=>{
+    const card=e.target.closest(cardSel);if(!card||card.classList.contains('placed'))return;
+    e.preventDefault();touchSource=card;const rect=card.getBoundingClientRect();
+    touchClone=card.cloneNode(true);touchClone.classList.add('touch-dragging');touchClone.style.width=rect.width+'px';
+    document.body.appendChild(touchClone);const t=e.touches[0];
+    touchClone.style.left=(t.clientX-rect.width/2)+'px';touchClone.style.top=(t.clientY-30)+'px';card.style.opacity='0.3';
+  },{passive:false});
+  container.addEventListener('touchmove',e=>{
+    if(!touchClone)return;e.preventDefault();const t=e.touches[0];
+    touchClone.style.left=(t.clientX-touchClone.offsetWidth/2)+'px';touchClone.style.top=(t.clientY-30)+'px';
+    document.querySelectorAll(dropSel).forEach(d=>d.classList.remove('drag-over'));
+    const el=document.elementFromPoint(t.clientX,t.clientY);
+    if(el){const dt=el.closest(dropSel);if(dt)dt.classList.add('drag-over');}
+  },{passive:false});
+  container.addEventListener('touchend',e=>{
+    if(!touchClone||!touchSource)return;const t=e.changedTouches[0];touchClone.remove();touchClone=null;
+    document.querySelectorAll(dropSel).forEach(d=>d.classList.remove('drag-over'));
+    const el=document.elementFromPoint(t.clientX,t.clientY);
+    if(el){
+      const dt=el.closest(dropSel);
+      if(dt){draggedEl=touchSource;
+        if(dt.classList.contains('type-slot-drop')){
+          const fe={preventDefault:()=>{},currentTarget:dt,dataTransfer:{getData:()=>touchSource.dataset.type}};handleDefDrop(fe);
+        }else if(dt.classList.contains('check-column-drop')){dt.appendChild(touchSource);touchSource.style.opacity='1';touchSource.classList.remove('correct','incorrect');}
+        touchSource=null;return;
+      }
+      const pe=el.closest('.check-pool')||el.closest('.def-cards-container');
+      if(pe){pe.appendChild(touchSource);touchSource.style.opacity='1';touchSource=null;return;}
+    }
+    touchSource.style.opacity='1';touchSource=null;
+  });
+}
+
+document.getElementById('focusOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeFocusOverlay();});
+document.getElementById('summaryOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeSummary();});
+
+initPhase1();
+</script>
+
+
+</body></html>
