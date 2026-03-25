@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0093)file:///C:/Users/pell/OneDrive%20-%20Roseville%20College/Downloads/figurative-language_2.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Figurative Language Activity</title>
-<link href="./Figurative Language Activity - definitions and sorting_files/css2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #f0f4ff;
@@ -289,42 +289,18 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
 </div>
 <nav class="phase-nav">
   <button class="phase-btn active" data-phase="1">1. Match Definitions</button>
-  <button class="phase-btn" data-phase="2" disabled="">2. Read &amp; Write</button>
-  <button class="phase-btn" data-phase="3" disabled="">3. Check Your Work</button>
+  <button class="phase-btn" data-phase="2" disabled>2. Read & Write</button>
+  <button class="phase-btn" data-phase="3" disabled>3. Check Your Work</button>
 </nav>
 
 <!-- PHASE 1 -->
 <div class="phase active" id="phase1">
   <p class="phase-intro">Drag each definition to the correct figurative language type.<br>When you match correctly, the definition will appear large for you to copy into your book.</p>
-  <div class="matching-grid" id="matchingGrid"><div class="type-slot" data-type="simile">
-      <div class="type-slot-header">Simile</div>
-      <div class="type-slot-drop" data-accept="simile" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
-        <span class="placeholder">Drag definition here</span>
-      </div></div><div class="type-slot" data-type="metaphor">
-      <div class="type-slot-header">Metaphor</div>
-      <div class="type-slot-drop" data-accept="metaphor" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
-        <span class="placeholder">Drag definition here</span>
-      </div></div><div class="type-slot" data-type="hyperbole">
-      <div class="type-slot-header">Hyperbole</div>
-      <div class="type-slot-drop" data-accept="hyperbole" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
-        <span class="placeholder">Drag definition here</span>
-      </div></div><div class="type-slot" data-type="personification">
-      <div class="type-slot-header">Personification</div>
-      <div class="type-slot-drop" data-accept="personification" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
-        <span class="placeholder">Drag definition here</span>
-      </div></div><div class="type-slot" data-type="idiom">
-      <div class="type-slot-header">Idiom</div>
-      <div class="type-slot-drop" data-accept="idiom" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
-        <span class="placeholder">Drag definition here</span>
-      </div></div><div class="type-slot" data-type="onomatopoeia">
-      <div class="type-slot-header">Onomatopoeia</div>
-      <div class="type-slot-drop" data-accept="onomatopoeia" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDefDrop(event)">
-        <span class="placeholder">Drag definition here</span>
-      </div></div></div>
+  <div class="matching-grid" id="matchingGrid"></div>
   <p class="phase-intro" style="margin-top:8px; font-weight:700; color:#667eea;">Drag the definitions below to the correct type above:</p>
-  <div class="def-cards-container" id="defPool"><div class="def-card" draggable="true" data-type="onomatopoeia" ondragstart="handleDragStart(event)">A word that imitates the sound it represents.</div><div class="def-card" draggable="true" data-type="metaphor" ondragstart="handleDragStart(event)">A comparison of two things that implies one thing is similar to another (without using "like" or "as").</div><div class="def-card" draggable="true" data-type="simile" ondragstart="handleDragStart(event)">A comparison of two items using the words "like" or "as".</div><div class="def-card" draggable="true" data-type="hyperbole" ondragstart="handleDragStart(event)">An extravagant exaggeration that cannot possibly be true.</div><div class="def-card" draggable="true" data-type="personification" ondragstart="handleDragStart(event)">Giving human qualities to non-living things.</div><div class="def-card" draggable="true" data-type="idiom" ondragstart="handleDragStart(event)">An expression whose meaning does not relate to the literal meaning of its words.</div></div>
+  <div class="def-cards-container" id="defPool"></div>
   <div style="text-align:center; margin-top:28px;">
-    <button class="carousel-btn next" id="phase1Done" disabled="" onclick="goToPhase(2)">All matched! Continue to Phase 2 →</button>
+    <button class="carousel-btn next" id="phase1Done" disabled onclick="goToPhase(2)">All matched! Continue to Phase 2 &rarr;</button>
   </div>
 </div>
 
@@ -333,8 +309,8 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
   <div class="focus-card">
     <div class="focus-badge" id="focusBadge"></div>
     <div class="focus-def" id="focusDef"></div>
-    <div class="focus-prompt"><span class="pencil">✍</span>Write this heading and definition in your book now!</div>
-    <button class="focus-continue" id="focusContinue">Got it – Continue</button>
+    <div class="focus-prompt"><span class="pencil">&#9997;</span>Write this heading and definition in your book now!</div>
+    <button class="focus-continue" id="focusContinue">Got it &ndash; Continue</button>
   </div>
 </div>
 
@@ -348,13 +324,13 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
       <div class="statement-text" id="stmtText"></div>
       <div class="statement-instruction">Write this in your book under the correct heading, then press Next.</div>
       <div class="hint-area">
-        <button class="hint-btn" id="hintBtn" onclick="showHint()">💡 Need a hint?</button>
-        <div class="hint-bubble" id="hintBubble"><span class="hint-icon">🤔</span> <span id="hintText"></span></div>
+        <button class="hint-btn" id="hintBtn" onclick="showHint()">&#128161; Need a hint?</button>
+        <div class="hint-bubble" id="hintBubble"><span class="hint-icon">&#129300;</span> <span id="hintText"></span></div>
       </div>
     </div>
     <div class="carousel-controls">
-      <button class="carousel-btn prev" id="prevBtn" onclick="prevStatement()">← Back</button>
-      <button class="carousel-btn next" id="nextBtn" onclick="nextStatement()">Next →</button>
+      <button class="carousel-btn prev" id="prevBtn" onclick="prevStatement()">&#8592; Back</button>
+      <button class="carousel-btn next" id="nextBtn" onclick="nextStatement()">Next &#8594;</button>
     </div>
   </div>
 </div>
@@ -375,7 +351,7 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
 <!-- SUMMARY OVERLAY -->
 <div class="summary-overlay" id="summaryOverlay">
   <div class="summary-panel" id="summaryPanel">
-    <button class="summary-close" onclick="closeSummary()">×</button>
+    <button class="summary-close" onclick="closeSummary()">&times;</button>
     <h2>Learning Summary</h2>
     <div class="student-name" id="summaryName"></div>
     <div id="summaryContent"></div>
@@ -444,6 +420,7 @@ function goToPhase(n){
 // PHASE 1
 function initPhase1(){
   const grid=document.getElementById('matchingGrid'), pool=document.getElementById('defPool');
+  grid.innerHTML=''; pool.innerHTML='';
   types.forEach(t=>{tracker.phase1[t.id]={attempts:0,wrongGuesses:[]};});
   types.forEach(t=>{
     grid.innerHTML+=`<div class="type-slot" data-type="${t.id}">
@@ -695,6 +672,5 @@ document.getElementById('summaryOverlay').addEventListener('click',e=>{if(e.targ
 
 initPhase1();
 </script>
-
-
-</body></html>
+</body>
+</html>
