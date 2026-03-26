@@ -117,6 +117,9 @@ body{font-family:'Nunito',sans-serif;background:#fefcf6;color:var(--ink);min-hei
 .rubbish-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:white;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:8px;}
 .rubbish-input{flex:1;font-family:'Lora',serif;font-size:15px;padding:10px 14px;border:2px solid #e0e0e0;border-radius:10px;outline:none;transition:border-color 0.2s;}
 .rubbish-input:focus{border-color:var(--accent);}
+.back-bar{padding:12px 20px;position:relative;z-index:1;}
+.back-link{font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;color:#667eea;text-decoration:none;padding:6px 16px;border:2px solid #667eea;border-radius:20px;transition:all 0.2s;}
+.back-link:hover{background:#667eea;color:white;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:500px){.site-header{padding:32px 16px 16px;}.card{padding:20px;}.phase{padding:0 14px 40px;}.nav-btn{font-size:12px;padding:6px 12px;}}
 </style>
@@ -131,6 +134,7 @@ body{font-family:'Nunito',sans-serif;background:#fefcf6;color:var(--ink);min-hei
   <div class="bg-shape"></div>
 </div>
 
+<div class="back-bar"><a href="index.html" class="back-link">&larr; Back to Writer's Toolkit</a></div>
 <header class="site-header">
   <h1>Show, Don't <em>Tell</em></h1>
   <p class="tagline">Paint pictures with your words.</p>
