@@ -94,6 +94,9 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 .write-progress{text-align:center;font-size:clamp(14px,1.6vw,17px);font-weight:700;color:var(--ink-light);margin-bottom:16px;}
 .write-progress span{color:#4caf50;}
 
+.back-bar{padding:12px 20px;position:relative;z-index:1;}
+.back-link{font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;color:#667eea;text-decoration:none;padding:6px 16px;border:2px solid #667eea;border-radius:20px;transition:all 0.2s;}
+.back-link:hover{background:#667eea;color:white;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 .touch-dragging{position:fixed;z-index:9999;pointer-events:none;opacity:0.85;transform:scale(1.05);box-shadow:var(--shadow-hover);}
@@ -103,6 +106,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 <body>
 <div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>
 
+<div class="back-bar"><a href="index.html" class="back-link">&larr; Back to Writer's Toolkit</a></div>
 <div class="header">
   <h1>Figurative Language in Action</h1>
   <div class="sub">Part 2: Find it, build it, write it.</div>
