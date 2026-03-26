@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figurative Language in Action</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fefcf6;--card:#fff;--ink:#1e1e1e;--ink-light:#6b6b6b;--simile:#4caf50;--metaphor:#e67e22;--hyperbole:#e74c3c;--personification:#8e44ad;--idiom:#2980b9;--onomatopoeia:#f39c12;--shadow:0 4px 20px rgba(0,0,0,0.06);--shadow-hover:0 8px 32px rgba(0,0,0,0.12);--radius:16px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+.bg-shapes{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;opacity:0.1;animation:bfloat 20s ease-in-out infinite;}
+.bg-shape:nth-child(1){width:300px;height:300px;background:#ff6b6b;top:-80px;left:-60px;}
+.bg-shape:nth-child(2){width:200px;height:200px;background:#4ecdc4;top:30%;right:-40px;animation-delay:-5s;animation-duration:25s;}
+.bg-shape:nth-child(3){width:250px;height:250px;background:#ffd166;bottom:10%;left:10%;animation-delay:-10s;animation-duration:22s;}
+.bg-shape:nth-child(4){width:180px;height:180px;background:#a78bfa;top:60%;right:15%;animation-delay:-15s;animation-duration:28s;}
+.bg-shape:nth-child(5){width:140px;height:140px;background:#38bdf8;top:15%;left:40%;animation-delay:-8s;animation-duration:18s;}
+@keyframes bfloat{0%,100%{transform:translate(0,0) rotate(0deg);}25%{transform:translate(30px,-20px) rotate(5deg);}50%{transform:translate(-20px,30px) rotate(-3deg);}75%{transform:translate(15px,15px) rotate(4deg);}}
+
+.header{text-align:center;padding:40px 24px 16px;position:relative;z-index:1;}
+.header h1{font-family:'Fredoka',sans-serif;font-size:clamp(30px,6vw,52px);font-weight:700;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
+.header .sub{font-size:clamp(16px,2.5vw,22px);color:var(--ink-light);font-weight:600;}
+
+.phase-nav{display:flex;justify-content:center;gap:8px;padding:12px 20px;flex-wrap:wrap;position:relative;z-index:1;}
+.nav-btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:10px 22px;border:3px solid #ddd;border-radius:40px;background:white;color:var(--ink-light);cursor:pointer;transition:all 0.3s;}
+.nav-btn.active{border-color:#667eea;color:#667eea;background:#f0f0ff;}
+.nav-btn.done{border-color:#4caf50;color:#4caf50;}
+.nav-btn.done::after{content:' \2713';}
+.nav-btn[disabled]{opacity:0.4;cursor:not-allowed;}
+
+.phase{display:none;max-width:80%;margin:0 auto;padding:0 20px 60px;position:relative;z-index:1;}
+.phase.active{display:block;animation:fadeIn 0.4s ease;}
+.phase-title{font-family:'Fredoka',sans-serif;font-size:clamp(24px,4vw,36px);font-weight:700;text-align:center;margin-bottom:8px;}
+.phase-sub{text-align:center;font-size:clamp(15px,2vw,19px);color:var(--ink-light);margin-bottom:28px;line-height:1.5;}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px;margin-bottom:24px;}
+.card h3{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.5vw,24px);margin-bottom:14px;}
+
+.btn{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 32px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn-primary{background:#667eea;color:white;}
+.btn-teal{background:#4caf50;color:white;}
+.btn-sm{font-size:14px;padding:8px 20px;}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+.next-row{text-align:center;margin-top:28px;}
+
+/* ===== PHASE 1: SPOT IN CONTEXT ===== */
+.story-text{font-family:'Nunito',sans-serif;font-size:clamp(17px,2vw,21px);line-height:2;padding:8px 0;}
+.fig-spot{position:relative;display:inline;border-bottom:2px dashed #ccc;cursor:pointer;padding:1px 2px;border-radius:3px;transition:all 0.2s;}
+.fig-spot:hover{background:#f0f0ff;border-bottom-color:#667eea;}
+.fig-spot.correct{background:#d4edda;border-bottom:2px solid #4caf50;}
+.fig-spot.correct::after{content:attr(data-type-label);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;background:#4caf50;color:white;padding:2px 8px;border-radius:10px;margin-left:6px;position:relative;top:-1px;}
+.fig-spot.wrong{background:#f8d7da;border-bottom:2px solid #e74c3c;animation:shake 0.4s ease;}
+
+.type-picker{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:white;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.15);padding:8px;z-index:100;min-width:200px;}
+.type-picker.show{display:block;animation:fadeIn 0.2s ease;}
+.type-pick-opt{display:block;width:100%;text-align:left;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;padding:8px 14px;border:none;background:none;cursor:pointer;border-radius:8px;transition:background 0.15s;}
+.type-pick-opt:hover{background:#f5f5f5;}
+
+.spot-score{text-align:center;font-size:clamp(15px,1.8vw,18px);font-weight:700;color:var(--ink-light);margin-bottom:16px;}
+.spot-score span{color:#4caf50;}
+
+/* ===== PHASE 2: BUILD A SENTENCE ===== */
+.stem-area{margin-bottom:28px;}
+.stem-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.stem-text{font-family:'Nunito',sans-serif;font-size:clamp(17px,2vw,21px);font-weight:700;white-space:nowrap;}
+.drop-zone{min-width:250px;min-height:52px;border:3px dashed #ccc;border-radius:12px;padding:12px 16px;display:flex;align-items:center;font-size:clamp(15px,1.8vw,19px);color:#aaa;font-style:italic;transition:all 0.2s;flex:1;}
+.drop-zone.drag-over{border-color:#667eea;background:#f0f0ff;}
+.drop-zone.filled{border-style:solid;border-color:#4caf50;background:#f0fff0;color:var(--ink);font-style:normal;font-weight:600;}
+.drop-zone .type-tag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:white;padding:2px 8px;border-radius:10px;margin-left:10px;display:inline-block;}
+
+.endings-pool{display:flex;flex-wrap:wrap;gap:10px;padding:16px;background:white;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;min-height:60px;justify-content:center;}
+.ending-chip{background:white;border:2px solid #e0e0e0;border-radius:10px;padding:10px 16px;font-size:clamp(14px,1.6vw,17px);font-weight:600;cursor:grab;user-select:none;transition:all 0.2s;box-shadow:0 2px 6px rgba(0,0,0,0.05);}
+.ending-chip:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);}
+.ending-chip:active{cursor:grabbing;}
+.ending-chip.placed{opacity:0.3;pointer-events:none;}
+
+.build-progress{text-align:center;font-size:clamp(14px,1.6vw,17px);font-weight:700;color:var(--ink-light);margin-bottom:16px;}
+.build-progress span{color:#667eea;}
+
+.stem-set-nav{display:flex;justify-content:center;gap:12px;margin-top:20px;}
+
+/* ===== PHASE 3: WRITE YOUR OWN ===== */
+.write-prompt-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:20px;}
+.write-type-badge{display:inline-block;padding:6px 18px;border-radius:20px;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;color:white;margin-bottom:12px;}
+.write-scenario{font-size:clamp(16px,2vw,20px);color:var(--ink-light);margin-bottom:14px;line-height:1.5;}
+.write-input{width:100%;font-family:'Nunito',sans-serif;font-size:clamp(16px,2vw,20px);line-height:1.7;padding:16px;border:2px solid #e0e0e0;border-radius:12px;resize:none;outline:none;transition:border-color 0.2s;background:#fafafa;min-height:80px;}
+.write-input:focus{border-color:#667eea;background:white;}
+.feedback-box{display:none;margin-top:14px;padding:18px;border-radius:12px;font-size:clamp(14px,1.6vw,18px);line-height:1.7;}
+.feedback-box.show{display:block;animation:fadeIn 0.4s ease;}
+.feedback-box.loading{background:#f5f5f5;color:var(--ink-light);text-align:center;}
+.feedback-box.success{background:#d4edda;border-left:4px solid #4caf50;}
+.feedback-box.needs-work{background:#fff3cd;border-left:4px solid #f39c12;}
+.write-progress{text-align:center;font-size:clamp(14px,1.6vw,17px);font-weight:700;color:var(--ink-light);margin-bottom:16px;}
+.write-progress span{color:#4caf50;}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.touch-dragging{position:fixed;z-index:9999;pointer-events:none;opacity:0.85;transform:scale(1.05);box-shadow:var(--shadow-hover);}
+@media(max-width:500px){.phase{max-width:95%;}.card{padding:20px;}.stem-row{flex-direction:column;}.drop-zone{min-width:100%;}}
+</style>
+</head>
+<body>
+<div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>
+
+<div class="header">
+  <h1>Figurative Language in Action</h1>
+  <div class="sub">Part 2: Find it, build it, write it.</div>
+</div>
+
+<nav class="phase-nav">
+  <button class="nav-btn active" data-phase="1">1. Spot in Context</button>
+  <button class="nav-btn" data-phase="2" disabled>2. Build a Sentence</button>
+  <button class="nav-btn" data-phase="3" disabled>3. Write Your Own</button>
+</nav>
+
+<!-- ===== PHASE 1: SPOT IN CONTEXT ===== -->
+<div class="phase active" id="phase1">
+  <h2 class="phase-title">Spot the figurative language</h2>
+  <p class="phase-sub">Read the passage below. Tap each highlighted phrase and choose what type of figurative language it is.</p>
+  <div class="spot-score">Identified: <span id="spotScore">0</span> / <span id="spotTotal">0</span></div>
+  <div class="card"><div class="story-text" id="storyText"></div></div>
+  <div id="spotDone" style="display:none;">
+    <div class="card" style="background:#d4edda;border:2px solid #4caf50;text-align:center;">
+      <p style="font-size:clamp(16px,2vw,20px);font-weight:700;color:#2e7d32;">Brilliant! You identified every piece of figurative language in the passage.</p>
+    </div>
+  </div>
+  <div class="next-row"><button class="btn btn-primary" id="p1Next" disabled onclick="goPhase(2)">Next: Build sentences &rarr;</button></div>
+</div>
+
+<!-- ===== PHASE 2: BUILD A SENTENCE ===== -->
+<div class="phase" id="phase2">
+  <h2 class="phase-title">Build a sentence</h2>
+  <p class="phase-sub">Drag an ending onto each sentence stem. Notice how different figurative language techniques describe the same moment in different ways.</p>
+  <div class="build-progress">Set: <span id="buildSet">1</span> / <span id="buildTotal">0</span></div>
+  <div id="buildContainer"></div>
+  <div class="next-row"><button class="btn btn-primary" id="p2Next" disabled onclick="goPhase(3)">Next: Write your own &rarr;</button></div>
+</div>
+
+<!-- ===== PHASE 3: WRITE YOUR OWN ===== -->
+<div class="phase" id="phase3">
+  <h2 class="phase-title">Write your own</h2>
+  <p class="phase-sub">For each prompt, write a single sentence using the specified type of figurative language.</p>
+  <div class="write-progress">Completed: <span id="writeScore">0</span> / <span id="writeTotal">6</span></div>
+  <div id="writeContainer"></div>
+  <div id="writeDone" style="display:none;">
+    <div class="card" style="background:#d4edda;border:2px solid #4caf50;text-align:center;">
+      <p style="font-size:clamp(16px,2vw,20px);font-weight:700;color:#2e7d32;">Amazing work! You've written your own example of every type of figurative language.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const typeNames={simile:'Simile',metaphor:'Metaphor',hyperbole:'Hyperbole',personification:'Personification',idiom:'Idiom',onomatopoeia:'Onomatopoeia'};
+const typeColours={simile:'#4caf50',metaphor:'#e67e22',hyperbole:'#e74c3c',personification:'#8e44ad',idiom:'#2980b9',onomatopoeia:'#f39c12'};
+
+// NAV
+document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>{if(!b.disabled)goPhase(parseInt(b.dataset.phase));}));
+function goPhase(n){
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('phase'+n).classList.add('active');
+  const btn=document.querySelector(`.nav-btn[data-phase="${n}"]`);btn.classList.add('active');btn.disabled=false;
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===2)initPhase2();if(n===3)initPhase3();
+}
+
+// ===== PHASE 1: SPOT IN CONTEXT =====
+const storyParts=[
+  {text:"The bushfire season had arrived early. "},
+  {text:"The sun was a furious orange eye",type:"metaphor",label:"Metaphor"},
+  {text:", glaring down at the parched landscape. "},
+  {text:"The earth was as dry as old bones",type:"simile",label:"Simile"},
+  {text:", cracking under the relentless heat. "},
+  {text:"In the distance, the fire crackled and hissed",type:"onomatopoeia",label:"Onomatopoeia"},
+  {text:", devouring everything in its path. "},
+  {text:"The wind howled through the valley",type:"personification",label:"Personification"},
+  {text:", carrying thick smoke that stung the eyes of anyone brave enough to stay. "},
+  {text:"I've told you a million times to evacuate when the warning comes",type:"hyperbole",label:"Hyperbole"},
+  {text:", the fire chief barked at the stubborn farmer. But old Bill wouldn't budge. He'd "},
+  {text:"been through the wringer before",type:"idiom",label:"Idiom"},
+  {text:" and reckoned he could handle anything the bush threw at him. "},
+  {text:"The flames danced across the ridge",type:"personification",label:"Personification"},
+  {text:", and "},
+  {text:"the smoke rose like a dark curtain",type:"simile",label:"Simile"},
+  {text:" across the afternoon sky. Then came the "},
+  {text:"roar",type:"onomatopoeia",label:"Onomatopoeia"},
+  {text:" as the fire crowned into the treetops. This wasn't just a fire. "},
+  {text:"It was a monster",type:"metaphor",label:"Metaphor"},
+  {text:", and it was hungry."}
+];
+
+let spotCorrect=0,spotTotalCount=0,activeSpot=null;
+
+function initPhase1(){
+  const container=document.getElementById('storyText');
+  if(container.children.length>0)return;
+  let html='';
+  let spotIdx=0;
+  storyParts.forEach(p=>{
+    if(p.type){
+      html+=`<span class="fig-spot" data-idx="${spotIdx}" data-type="${p.type}" data-type-label="${p.label}" onclick="openPicker(this)">${p.text}<div class="type-picker" id="picker-${spotIdx}"></div></span>`;
+      spotIdx++;
+    }else{
+      html+=p.text;
+    }
+  });
+  container.innerHTML=html;
+  spotTotalCount=spotIdx;
+  document.getElementById('spotTotal').textContent=spotTotalCount;
+
+  // Build picker options for each spot
+  document.querySelectorAll('.fig-spot').forEach(spot=>{
+    const picker=spot.querySelector('.type-picker');
+    Object.keys(typeNames).forEach(t=>{
+      picker.innerHTML+=`<button class="type-pick-opt" data-pick="${t}" onclick="event.stopPropagation();pickType('${spot.dataset.idx}','${t}')">${typeNames[t]}</button>`;
+    });
+  });
+
+  // Close picker on outside click
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.fig-spot'))document.querySelectorAll('.type-picker').forEach(p=>p.classList.remove('show'));
+  });
+}
+
+function openPicker(el){
+  if(el.classList.contains('correct'))return;
+  document.querySelectorAll('.type-picker').forEach(p=>p.classList.remove('show'));
+  el.querySelector('.type-picker').classList.add('show');
+}
+
+function pickType(idx,chosen){
+  const spot=document.querySelector(`.fig-spot[data-idx="${idx}"]`);
+  const picker=document.getElementById('picker-'+idx);
+  picker.classList.remove('show');
+  if(chosen===spot.dataset.type){
+    spot.classList.add('correct');spot.classList.remove('wrong');
+    spotCorrect++;
+    document.getElementById('spotScore').textContent=spotCorrect;
+    if(spotCorrect>=spotTotalCount){
+      document.getElementById('spotDone').style.display='block';
+      document.getElementById('p1Next').disabled=false;
+      document.querySelector('.nav-btn[data-phase="1"]').classList.add('done');
+    }
+  }else{
+    spot.classList.add('wrong');
+    setTimeout(()=>spot.classList.remove('wrong'),600);
+  }
+}
+
+initPhase1();
+
+// ===== PHASE 2: BUILD A SENTENCE =====
+const stemSets=[
+  {
+    theme:"A thunderstorm",
+    stems:[
+      {stem:"The thunder...",endings:[
+        {text:"...rumbled and boomed across the valley.",type:"onomatopoeia"},
+        {text:"...was nature's drum kit, pounding out a furious beat.",type:"metaphor"},
+        {text:"...roared like an angry giant.",type:"simile"}
+      ]},
+      {stem:"The lightning...",endings:[
+        {text:"...danced across the sky, showing off for the clouds.",type:"personification"},
+        {text:"...crackled and fizzed through the darkness.",type:"onomatopoeia"},
+        {text:"...was so bright it could have lit up the entire country.",type:"hyperbole"}
+      ]}
+    ]
+  },
+  {
+    theme:"The ocean",
+    stems:[
+      {stem:"The waves...",endings:[
+        {text:"...crashed and whooshed against the rocks.",type:"onomatopoeia"},
+        {text:"...reached up like greedy hands, grabbing at the shore.",type:"personification"},
+        {text:"...were as tall as skyscrapers.",type:"simile"}
+      ]},
+      {stem:"The sea...",endings:[
+        {text:"...was a restless beast, tossing and turning in its sleep.",type:"metaphor"},
+        {text:"...was so cold it could freeze your bones solid in a second.",type:"hyperbole"},
+        {text:"...whispered secrets to the sand.",type:"personification"}
+      ]}
+    ]
+  },
+  {
+    theme:"A haunted house",
+    stems:[
+      {stem:"The door...",endings:[
+        {text:"...creaked and groaned as it swung open.",type:"onomatopoeia"},
+        {text:"...opened like a mouth ready to swallow us whole.",type:"simile"},
+        {text:"...seemed to beckon us inside, daring us to enter.",type:"personification"}
+      ]},
+      {stem:"The house...",endings:[
+        {text:"...was a graveyard of forgotten memories.",type:"metaphor"},
+        {text:"...hadn't been cleaned in about ten thousand years.",type:"hyperbole"},
+        {text:"...moaned and sighed with every gust of wind.",type:"personification"}
+      ]}
+    ]
+  }
+];
+
+let currentSet=0,setsCompleted=0,draggedChip=null;
+
+function initPhase2(){
+  document.getElementById('buildTotal').textContent=stemSets.length;
+  showStemSet(0);
+}
+
+function showStemSet(idx){
+  currentSet=idx;
+  const set=stemSets[idx];
+  document.getElementById('buildSet').textContent=idx+1;
+  const container=document.getElementById('buildContainer');
+
+  // Collect all endings, shuffle
+  const allEndings=[];
+  set.stems.forEach((s,si)=>{
+    s.endings.forEach(e=>{allEndings.push({...e,stemIdx:si});});
+  });
+  const shuffled=allEndings.sort(()=>Math.random()-0.5);
+
+  let html=`<div class="card"><h3>${set.theme}</h3>`;
+  set.stems.forEach((s,si)=>{
+    html+=`<div class="stem-row"><span class="stem-text">${s.stem}</span><div class="drop-zone" id="dz-${idx}-${si}" data-set="${idx}" data-stem="${si}" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event)">Drop an ending here</div></div>`;
+  });
+  html+=`</div>`;
+
+  html+=`<div class="endings-pool" id="endingsPool">`;
+  shuffled.forEach((e,i)=>{
+    html+=`<div class="ending-chip" draggable="true" data-type="${e.type}" data-stem="${e.stemIdx}" data-set="${idx}" data-eidx="${i}" ondragstart="chipDragStart(event)">${e.text}</div>`;
+  });
+  html+=`</div>`;
+
+  html+=`<div class="stem-set-nav">`;
+  if(idx>0)html+=`<button class="btn btn-sm" style="background:#e0e0e0;color:var(--ink);" onclick="showStemSet(${idx-1})">&larr; Previous</button>`;
+  if(idx<stemSets.length-1)html+=`<button class="btn btn-primary btn-sm" id="nextSetBtn" disabled onclick="showStemSet(${idx+1})">Next set &rarr;</button>`;
+  html+=`</div>`;
+
+  container.innerHTML=html;
+
+  // Touch drag
+  addTouchDrag(container,'.ending-chip','.drop-zone');
+}
+
+function chipDragStart(e){
+  draggedChip=e.target;
+  e.dataTransfer.effectAllowed='move';
+  setTimeout(()=>e.target.style.opacity='0.4',0);
+  e.target.addEventListener('dragend',()=>{e.target.style.opacity='1';},{once:true});
+}
+function dzOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
+function dzLeave(e){e.currentTarget.classList.remove('drag-over');}
+function dzDrop(e){
+  e.preventDefault();
+  const dz=e.currentTarget;
+  dz.classList.remove('drag-over');
+  if(!draggedChip||dz.classList.contains('filled'))return;
+
+  const chipStem=parseInt(draggedChip.dataset.stem);
+  const dzStem=parseInt(dz.dataset.stem);
+
+  // Any ending can go in any stem for exploration, but we mark the type
+  dz.classList.add('filled');
+  const type=draggedChip.dataset.type;
+  dz.innerHTML=draggedChip.textContent+`<span class="type-tag" style="background:${typeColours[type]}">${typeNames[type]}</span>`;
+  draggedChip.classList.add('placed');
+  draggedChip=null;
+
+  checkSetComplete();
+}
+
+function checkSetComplete(){
+  const set=stemSets[currentSet];
+  const filled=document.querySelectorAll(`.drop-zone[data-set="${currentSet}"].filled`).length;
+  if(filled>=set.stems.length){
+    setsCompleted=Math.max(setsCompleted,currentSet+1);
+    const nextBtn=document.getElementById('nextSetBtn');
+    if(nextBtn)nextBtn.disabled=false;
+    if(setsCompleted>=stemSets.length){
+      document.getElementById('p2Next').disabled=false;
+      document.querySelector('.nav-btn[data-phase="2"]').classList.add('done');
+    }
+  }
+}
+
+// ===== PHASE 3: WRITE YOUR OWN =====
+const writePrompts=[
+  {type:'simile',scenario:'Describe how fast someone was running.',hint:'Use "like" or "as" to compare their speed to something.'},
+  {type:'metaphor',scenario:'Describe a sunset.',hint:'Say the sunset IS something else, without using "like" or "as".'},
+  {type:'personification',scenario:'Describe the wind on a stormy night.',hint:'Give the wind a human action or quality.'},
+  {type:'hyperbole',scenario:'Describe how hungry you are.',hint:'Exaggerate wildly. Make it obviously impossible.'},
+  {type:'onomatopoeia',scenario:'Describe someone eating an apple.',hint:'Use a word that sounds like the noise being made.'},
+  {type:'idiom',scenario:'Describe someone who is feeling nervous before a test.',hint:'Use a common expression where the meaning is different from the literal words.'}
+];
+
+let writeCompleted=new Set();
+
+function initPhase3(){
+  const container=document.getElementById('writeContainer');
+  if(container.children.length>0)return;
+  document.getElementById('writeTotal').textContent=writePrompts.length;
+
+  writePrompts.forEach((p,i)=>{
+    container.innerHTML+=`
+      <div class="write-prompt-card" id="wpc-${i}">
+        <div class="write-type-badge" style="background:${typeColours[p.type]}">${typeNames[p.type]}</div>
+        <div class="write-scenario">${p.scenario}</div>
+        <p style="font-size:clamp(13px,1.5vw,16px);color:var(--ink-light);margin-bottom:10px;"><strong>Hint:</strong> ${p.hint}</p>
+        <textarea class="write-input" id="wi-${i}" placeholder="Write your sentence here..." rows="2"></textarea>
+        <div style="text-align:right;margin-top:8px;">
+          <button class="btn btn-teal btn-sm" onclick="checkWrite(${i})">Check my sentence</button>
+        </div>
+        <div class="feedback-box" id="wfb-${i}"></div>
+      </div>`;
+  });
+}
+
+async function checkWrite(idx){
+  const input=document.getElementById('wi-'+idx).value.trim();
+  if(input.length<5){alert('Write a sentence first!');return;}
+  const p=writePrompts[idx];
+  const fb=document.getElementById('wfb-'+idx);
+  fb.className='feedback-box show loading';fb.textContent='Checking...';
+
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:600,
+        messages:[{role:"user",content:`You are a warm, encouraging Year 5 English teacher. A student was asked to write a sentence using ${typeNames[p.type]}.
+
+Definition reminder: ${getDefinition(p.type)}
+
+Scenario: "${p.scenario}"
+
+The student wrote: "${input}"
+
+In 3-4 sentences, using British English, no bullet points, no em-dashes:
+1. Clearly state whether this IS or IS NOT a correct example of ${typeNames[p.type]}.
+2. If correct, name the specific words that make it work. If not, explain why and suggest a fix.
+3. One tip to make it even stronger.`}]})});
+    const data=await r.json();
+    const text=data.content.map(c=>c.text||'').join('');
+    const isCorrect=!(/not a |not quite|isn't a|is not a|doesn't work as|not really/i.test(text));
+    fb.className='feedback-box show '+(isCorrect?'success':'needs-work');
+    fb.innerHTML=text;
+    if(isCorrect){
+      writeCompleted.add(idx);
+      document.getElementById('writeScore').textContent=writeCompleted.size;
+      document.getElementById('wpc-'+idx).style.borderLeft='4px solid #4caf50';
+      if(writeCompleted.size>=writePrompts.length){
+        document.getElementById('writeDone').style.display='block';
+        document.querySelector('.nav-btn[data-phase="3"]').classList.add('done');
+      }
+    }
+  }catch(e){
+    const result=fallbackWriteCheck(input,p.type);
+    fb.className='feedback-box show '+(result.correct?'success':'needs-work');
+    fb.innerHTML=result.message;
+    if(result.correct){
+      writeCompleted.add(idx);
+      document.getElementById('writeScore').textContent=writeCompleted.size;
+      document.getElementById('wpc-'+idx).style.borderLeft='4px solid #4caf50';
+      if(writeCompleted.size>=writePrompts.length){
+        document.getElementById('writeDone').style.display='block';
+        document.querySelector('.nav-btn[data-phase="3"]').classList.add('done');
+      }
+    }
+  }
+}
+
+function getDefinition(type){
+  const defs={simile:'A comparison using "like" or "as".',metaphor:'Saying something IS something else (without "like" or "as").',hyperbole:'An extreme exaggeration that cannot possibly be true.',personification:'Giving human qualities to non-living things.',idiom:'An expression whose meaning is different from the literal words.',onomatopoeia:'A word that imitates the sound it describes.'};
+  return defs[type];
+}
+
+function fallbackWriteCheck(input,type){
+  const lower=input.toLowerCase();let correct=false,message='';
+  switch(type){
+    case 'simile':correct=/\blike\b/.test(lower)||/\bas\b.*\bas\b/.test(lower);message=correct?'Great simile! You\'ve used a comparison word to connect two things, helping the reader picture exactly what you mean. Try making the comparison even more unexpected for extra impact.':'This doesn\'t quite work as a simile yet. Remember to use "like" or "as" to compare two different things.';break;
+    case 'metaphor':correct=input.length>10&&!/\blike\b/.test(lower)&&!/\bas\s+\w+\s+as\b/.test(lower)&&/\bis\b|\bwas\b|\bare\b|\bwere\b/.test(lower);message=correct?'Nice metaphor! You\'ve said something IS something else, creating a vivid image. Try choosing an even more surprising comparison.':'A metaphor says something IS something else directly, without "like" or "as". Try: "The [thing] was a [something else]".';break;
+    case 'hyperbole':correct=/million|billion|thousand|forever|never|always|every|entire|world|ton|die|kill|explod|100|1000|endless|starv/i.test(lower);message=correct?'Brilliant exaggeration! That\'s clearly impossible, which makes it funny and dramatic. Great hyperbole.':'Push the exaggeration further! A hyperbole needs to be SO over the top that it obviously can\'t be true.';break;
+    case 'personification':correct=/whisper|danc|sang|cried|groan|yell|shout|slept|woke|smile|laugh|scream|call|kiss|hug|reach|grab|ate|swallow|crept|ran|walked|scratch|howl|roar|beckon|moan|sigh/i.test(lower);message=correct?'Lovely personification! You\'ve given something non-human a human action, which brings your writing to life.':'Remember, personification gives a non-living thing a human action. Try: "The [thing] [human action]."';break;
+    case 'idiom':correct=/cloud nine|raining cats|piece of cake|break a leg|spill the beans|hit the sack|under the weather|cost an arm|bite the bullet|ball is in|burning the midnight|let the cat|once in a blue|on thin ice|barking up|beat around|the last straw|a penny for|kick the bucket|out of the blue|add fuel|up the wall|give.*(shot|go)|cold shoulder|butterflies|nerves of steel|on edge/i.test(lower);message=correct?'Well done! That\'s a recognised idiom where the meaning is different from the literal words. Try using it naturally in a longer sentence.':'Try using a well-known expression like "butterflies in my stomach" or "on thin ice" where the meaning is different from the actual words.';break;
+    case 'onomatopoeia':correct=/buzz|hiss|crack|pop|bang|boom|sizzl|splash|crash|click|clack|crunch|fizz|whiz|zoom|thud|thump|whoosh|gurgle|rumbl|snap|tap|drip|pitter|clang|ring|beep|roar|screech|squeak|rustle|murmur|munch|chomp|crackl|slurp/i.test(lower);message=correct?'Fantastic! That word sounds just like the noise it describes. Your reader can almost hear it.':'You need a word that sounds like the noise it represents: "crunch", "splash", "sizzle", "buzz". Say your sentence out loud and listen!';break;
+  }
+  return{correct,message};
+}
+
+// TOUCH DRAG
+function addTouchDrag(container,chipSel,dropSel){
+  let tClone=null,tSource=null;
+  container.addEventListener('touchstart',e=>{
+    const chip=e.target.closest(chipSel);if(!chip||chip.classList.contains('placed'))return;
+    e.preventDefault();tSource=chip;const rect=chip.getBoundingClientRect();
+    tClone=chip.cloneNode(true);tClone.classList.add('touch-dragging');tClone.style.width=rect.width+'px';
+    document.body.appendChild(tClone);const t=e.touches[0];
+    tClone.style.left=(t.clientX-rect.width/2)+'px';tClone.style.top=(t.clientY-30)+'px';chip.style.opacity='0.3';
+  },{passive:false});
+  container.addEventListener('touchmove',e=>{
+    if(!tClone)return;e.preventDefault();const t=e.touches[0];
+    tClone.style.left=(t.clientX-tClone.offsetWidth/2)+'px';tClone.style.top=(t.clientY-30)+'px';
+    document.querySelectorAll(dropSel).forEach(d=>d.classList.remove('drag-over'));
+    const el=document.elementFromPoint(t.clientX,t.clientY);
+    if(el){const dt=el.closest(dropSel);if(dt)dt.classList.add('drag-over');}
+  },{passive:false});
+  container.addEventListener('touchend',e=>{
+    if(!tClone||!tSource)return;const t=e.changedTouches[0];tClone.remove();tClone=null;
+    document.querySelectorAll(dropSel).forEach(d=>d.classList.remove('drag-over'));
+    const el=document.elementFromPoint(t.clientX,t.clientY);
+    if(el){const dt=el.closest(dropSel);
+      if(dt&&!dt.classList.contains('filled')){
+        draggedChip=tSource;
+        dt.classList.add('filled');
+        const type=tSource.dataset.type;
+        dt.innerHTML=tSource.textContent+`<span class="type-tag" style="background:${typeColours[type]}">${typeNames[type]}</span>`;
+        tSource.classList.add('placed');checkSetComplete();
+      }
+    }
+    if(tSource)tSource.style.opacity='1';tSource=null;
+  });
+}
+</script>
+</body>
+</html>
