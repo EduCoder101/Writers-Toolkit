@@ -192,9 +192,9 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
   </div>
 
   <div class="slide-nav" id="slideNav">
-    <button class="btn btn-outline btn-sm" id="slidePrev" onclick="changeSlide(-1)">&larr; Back</button>
+    <button class="btn btn-outline btn-sm" id="slidePrev" tabindex="-1" onclick="changeSlide(-1)">&larr; Back</button>
     <div class="slide-dots" id="slideDots"></div>
-    <button class="btn btn-outline btn-sm" id="slideNext" onclick="changeSlide(1)">Next &rarr;</button>
+    <button class="btn btn-outline btn-sm" id="slideNext" tabindex="-1" onclick="changeSlide(1)">Next &rarr;</button>
   </div>
 </div>
 
@@ -598,6 +598,10 @@ document.addEventListener('keydown', function(e) {
   if (active.id === 'phase1') {
     e.preventDefault();
     e.stopPropagation();
+    // Remove focus from any button the clicker may have highlighted
+    if (document.activeElement && document.activeElement.tagName === 'BUTTON') {
+      document.activeElement.blur();
+    }
     if (isNext) advanceSlide();
     if (isPrev) retreatSlide();
   }
