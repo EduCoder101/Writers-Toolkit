@@ -199,6 +199,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 </div>
 
 <script>
+const API_URL = "https://writers-toolkit-proxy.patrick-ell2.workers.dev";
 const typeNames={simile:'Simile',metaphor:'Metaphor',hyperbole:'Hyperbole',personification:'Personification',idiom:'Idiom',onomatopoeia:'Onomatopoeia'};
 const typeColours={simile:'#4caf50',metaphor:'#e67e22',hyperbole:'#e74c3c',personification:'#8e44ad',idiom:'#2980b9',onomatopoeia:'#f39c12'};
 
@@ -236,7 +237,7 @@ async function analyseRewrite(){
   document.getElementById('rewriteTags').innerHTML='';
 
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:analysePrompt,
         messages:[{role:"user",content:`Original plain paragraph: "The storm arrived quickly. The rain was heavy and the wind was strong. Lightning lit up the sky. Thunder was loud. The trees moved in the wind. Everyone ran inside. It was a bad storm and it lasted a long time."\n\nStudent's figurative rewrite:\n"${input}"`}]})});
     const data=await r.json();const text=data.content.map(c=>c.text||'').join('');
@@ -305,7 +306,7 @@ async function analyseFreeWrite(){
   document.getElementById('freeWriteTags').innerHTML='';
 
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:analysePrompt,
         messages:[{role:"user",content:`Scenario: "${selectedScenario.label}"\nBrief: "${selectedScenario.brief}"\n\nStudent's writing:\n"${input}"`}]})});
     const data=await r.json();const text=data.content.map(c=>c.text||'').join('');

@@ -155,6 +155,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 </div>
 
 <script>
+const API_URL = "https://writers-toolkit-proxy.patrick-ell2.workers.dev";
 const typeNames={simile:'Simile',metaphor:'Metaphor',hyperbole:'Hyperbole',personification:'Personification',idiom:'Idiom',onomatopoeia:'Onomatopoeia'};
 const typeColours={simile:'#4caf50',metaphor:'#e67e22',hyperbole:'#e74c3c',personification:'#8e44ad',idiom:'#2980b9',onomatopoeia:'#f39c12'};
 
@@ -427,7 +428,7 @@ async function checkWrite(idx){
   fb.className='feedback-box show loading';fb.textContent='Checking...';
 
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:600,
         messages:[{role:"user",content:`You are a warm, encouraging Year 5 English teacher. A student was asked to write a sentence using ${typeNames[p.type]}.
 

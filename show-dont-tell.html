@@ -339,6 +339,7 @@ body{font-family:'Nunito',sans-serif;background:#fefcf6;color:var(--ink);min-hei
 </div>
 
 <script>
+const API_URL = "https://writers-toolkit-proxy.patrick-ell2.workers.dev";
 const feedbackPrompt=`You are a warm, specific writing coach for primary school students (around age 10-11). You are helping them practise "Show, Don't Tell" writing. Use British English. Do not use bullet points, numbered lists, or em-dashes. Write in short, plain paragraphs.
 When giving feedback:
 1. Name a SPECIFIC word or phrase the student chose and explain why it works (or suggest a stronger alternative).
@@ -443,7 +444,7 @@ async function getAndrewFeedback(){
   const fb=document.getElementById('andrewFeedback');
   fb.className='feedback-box show loading';fb.textContent='Reading your writing...';
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:feedbackPrompt,
         messages:[{role:"user",content:`The student was given these bare-bones "telling" sentences to rewrite:\n\n"${andrewOriginal}"\n\nThe student's rewrite:\n\n"${input}"\n\nGive specific feedback. Name particular words and phrases. Comment on sentence variety. Assess how well they "showed" rather than "told". 4-5 sentences.`}]})});
     const data=await r.json();fb.className='feedback-box show success';fb.innerHTML=data.content.map(c=>c.text||'').join('');
@@ -467,7 +468,7 @@ async function getAndrewRewrite(type){
     sensory:`Take this student's passage and add richer sensory details (sight, sound, touch, smell). Keep their story but make the reader feel like they are there. After the rewrite, add a note in brackets identifying which senses you added.\n\nStudent's passage: "${input}"`
   };
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,system:"You are a creative writing assistant for primary school students (age 10-11). Use British English. Write in a style that is aspirational but achievable for this age group. Do not use em-dashes.",
         messages:[{role:"user",content:prompts[type]}]})});
     const data=await r.json();box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${data.content.map(c=>c.text||'').join('')}</p>`;
@@ -514,7 +515,7 @@ async function getTransformFeedback(){
   fb.className='feedback-box show loading';fb.textContent='Reading your writing...';
   const original=transformSentences[currentTransform].tell;
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:feedbackPrompt,
         messages:[{role:"user",content:`Original "telling" sentence: "${original}"\nStudent's rewrite: "${input}"\nGive specific feedback on word choices, sentence construction, and how well they "showed" rather than "told".`}]})});
     const data=await r.json();fb.className='feedback-box show success';fb.innerHTML=data.content.map(c=>c.text||'').join('');
@@ -532,7 +533,7 @@ async function getTransformRewrite(type){
   const original=transformSentences[currentTransform].tell;
   const instructions={polished:'polish it',metaphor:'weave in a metaphor and note it in brackets',simile:'weave in a simile using "like" or "as" and note it in brackets',onomatopoeia:'add onomatopoeia and note the words in brackets'};
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:500,system:"You are a creative writing assistant for primary school students (age 10-11). Use British English. Do not use em-dashes. Write 2-4 sentences max.",
         messages:[{role:"user",content:`Original: "${original}"\nStudent wrote: "${input}"\nRewrite their version to ${instructions[type]}. Keep their ideas.`}]})});
     const data=await r.json();box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${data.content.map(c=>c.text||'').join('')}</p>`;
@@ -583,7 +584,7 @@ async function getFinalFeedback(){
   fb.className='feedback-box show loading';fb.textContent='Reading your passage...';
   const rubbish=document.getElementById('rubbishReminder').textContent;
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:feedbackPrompt,
         messages:[{role:"user",content:`Starting sentences:\n${rubbish}\n\nStudent's expanded passage:\n"${text}"\n\nGive specific feedback. Name words and phrases. Comment on sentence variety. 4-5 sentences.`}]})});
     const data=await r.json();fb.className='feedback-box show success';fb.innerHTML=data.content.map(c=>c.text||'').join('');
@@ -599,7 +600,7 @@ async function getFinalRewrite(type){
   box.className='rewrite-box show';box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Writing...</p>`;
   const instructions={polished:'polish it with better word choice and rhythm',metaphor:'weave in a metaphor and note it in brackets',simile:'weave in a simile and note it in brackets',onomatopoeia:'add onomatopoeia and note the words in brackets'};
   try{
-    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,system:"You are a creative writing assistant for primary school students (age 10-11). Use British English. Do not use em-dashes. Keep a similar length to the student's version.",
         messages:[{role:"user",content:`Student's passage: "${input}"\nRewrite to ${instructions[type]}. Keep their ideas and story.`}]})});
     const data=await r.json();box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${data.content.map(c=>c.text||'').join('')}</p>`;

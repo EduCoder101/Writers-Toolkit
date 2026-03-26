@@ -432,6 +432,7 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
 </div>
 
 <script>
+const API_URL = "https://writers-toolkit-proxy.patrick-ell2.workers.dev";
 const typeColours = {
   simile:'var(--simile-dark)',metaphor:'var(--metaphor-dark)',hyperbole:'var(--hyperbole-dark)',
   personification:'var(--personification-dark)',idiom:'var(--idiom-dark)',onomatopoeia:'var(--onomatopoeia-dark)'
@@ -815,7 +816,7 @@ async function checkWriteOwn(typeId) {
   tracker.phase4[typeId].attempts++;
 
   try {
-    const r = await fetch("https://api.anthropic.com/v1/messages", {
+    const r = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -928,7 +929,7 @@ async function showWriteExample(typeId) {
   box.innerHTML = `<span class="example-label">Example ${typeObj.name}</span><p style="color:var(--text-light);">Generating...</p>`;
 
   try {
-    const r = await fetch("https://api.anthropic.com/v1/messages", {
+    const r = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
