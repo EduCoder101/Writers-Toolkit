@@ -94,6 +94,9 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 
 @media print{body *{visibility:hidden;}.gallery-card,.gallery-card *{visibility:visible;}.gallery-card{position:absolute;left:0;top:0;width:100%;box-shadow:none;}.print-btn,.phase-nav,.header,.name-bar,.bg-shapes{display:none!important;}}
 
+.back-bar{padding:12px 20px;position:relative;z-index:1;}
+.back-link{font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;color:#667eea;text-decoration:none;padding:6px 16px;border:2px solid #667eea;border-radius:20px;transition:all 0.2s;}
+.back-link:hover{background:#667eea;color:white;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:500px){.phase{max-width:95%;}.card,.gallery-card{padding:20px;}}
 </style>
@@ -101,6 +104,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 <body>
 <div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>
 
+<div class="back-bar"><a href="index.html" class="back-link">&larr; Back to Writer's Toolkit</a></div>
 <div class="header">
   <h1>Figurative Language Workshop</h1>
   <div class="sub">Part 3: Put it all together.</div>
