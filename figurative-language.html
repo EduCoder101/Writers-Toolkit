@@ -269,6 +269,63 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
   .summary-close, .print-btn { display: none !important; }
 }
 
+/* PHASE 4: WRITE YOUR OWN */
+.write-own-card {
+  background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 24px; margin-bottom: 20px; transition: all 0.3s;
+}
+.write-own-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+}
+.write-own-badge {
+  padding: 6px 16px; border-radius: 20px; font-family: 'Fredoka', sans-serif;
+  font-size: 15px; font-weight: 700; color: white;
+}
+.write-own-def { font-size: 14px; color: var(--text-light); margin-bottom: 12px; line-height: 1.5; }
+.write-own-textarea {
+  width: 100%; min-height: 80px; font-family: 'Nunito', sans-serif; font-size: 15px;
+  line-height: 1.6; padding: 14px; border: 2px solid #e0e0e0; border-radius: 12px;
+  resize: vertical; outline: none; transition: border-color 0.2s; background: #fafafa;
+}
+.write-own-textarea:focus { border-color: #667eea; background: white; }
+.write-own-textarea::placeholder { color: #bbb; font-style: italic; }
+.write-own-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.write-own-feedback {
+  display: none; margin-top: 12px; padding: 14px 16px; border-radius: 12px;
+  font-size: 14px; line-height: 1.6;
+}
+.write-own-feedback.show { display: block; animation: fadeIn 0.4s ease; }
+.write-own-feedback.loading { background: #f5f5f5; color: var(--text-light); text-align: center; }
+.write-own-feedback.success { background: #f0fff0; border-left: 4px solid #4caf50; }
+.write-own-feedback.needs-work { background: #fff8e1; border-left: 4px solid #f39c12; }
+
+.phase4-progress {
+  text-align: center; font-size: 15px; font-weight: 700; color: var(--text-light); margin-bottom: 20px;
+}
+.phase4-progress span { color: #4caf50; }
+
+.p4-btn {
+  font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: 600;
+  padding: 8px 20px; border: none; border-radius: 20px; cursor: pointer; transition: all 0.2s;
+}
+.p4-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+.p4-btn-primary { background: #667eea; color: white; }
+.p4-btn-success { background: #4caf50; color: white; }
+.p4-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+.write-own-example {
+  display: none; margin-top: 10px; padding: 12px 16px; border-radius: 10px;
+  background: #f0f0ff; font-size: 14px; line-height: 1.5; font-style: italic; color: #444;
+}
+.write-own-example.show { display: block; animation: fadeIn 0.3s ease; }
+.write-own-example .example-label {
+  font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+  color: #667eea; font-style: normal; margin-bottom: 6px; display: block;
+}
+
+.back-bar{padding:12px 20px;position:relative;z-index:1;}
+.back-link{font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;color:#667eea;text-decoration:none;padding:6px 16px;border:2px solid #667eea;border-radius:20px;transition:all 0.2s;}
+.back-link:hover{background:#667eea;color:white;}
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
 .touch-dragging { position: fixed; z-index: 9999; pointer-events: none; opacity: 0.85; transform: scale(1.05); box-shadow: var(--shadow-hover); }
@@ -279,6 +336,7 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
 </head>
 <body>
 
+<div class="back-bar"><a href="index.html" class="back-link">&larr; Back to Writer's Toolkit</a></div>
 <div class="header">
   <h1>Figurative Language</h1>
   <div class="subtitle">Sort it, write it, check it!</div>
@@ -291,6 +349,7 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
   <button class="phase-btn active" data-phase="1">1. Match Definitions</button>
   <button class="phase-btn" data-phase="2" disabled>2. Read & Write</button>
   <button class="phase-btn" data-phase="3" disabled>3. Check Your Work</button>
+  <button class="phase-btn" data-phase="4" disabled>4. Write Your Own</button>
 </nav>
 
 <!-- PHASE 1 -->
@@ -346,6 +405,19 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
     <button class="summary-btn" id="summaryBtn" style="display:none;" onclick="showSummary()">View Learning Summary</button>
   </div>
   <div class="results-banner" id="resultsBanner"><h2 id="resultsTitle"></h2><p id="resultsText"></p></div>
+  <div class="next-row" id="phase3ToPhase4" style="display:none; margin-top:20px;">
+    <button class="carousel-btn next" onclick="goToPhase(4)">Write your own examples! &rarr;</button>
+  </div>
+</div>
+
+<!-- PHASE 4: WRITE YOUR OWN -->
+<div class="phase" id="phase4">
+  <p class="phase-intro">Now it's your turn! Write your own example of each type of figurative language.<br>Get feedback to see if you've nailed it.</p>
+  <div class="phase4-progress">Completed: <span id="p4Count">0</span> / 6</div>
+  <div id="writeOwnContainer"></div>
+  <div style="text-align:center; margin-top:24px;">
+    <button class="carousel-btn next" id="phase4Done" disabled onclick="showSummary()">View Learning Summary</button>
+  </div>
 </div>
 
 <!-- SUMMARY OVERLAY -->
@@ -413,7 +485,7 @@ function goToPhase(n){
   document.querySelectorAll('.phase-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('phase'+n).classList.add('active');
   document.querySelector(`.phase-btn[data-phase="${n}"]`).classList.add('active');
-  if(n===2)initPhase2(); if(n===3)initPhase3();
+  if(n===2)initPhase2(); if(n===3)initPhase3(); if(n===4)initPhase4();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -556,9 +628,9 @@ function checkAnswers(){
   const banner=document.getElementById('resultsBanner'),title=document.getElementById('resultsTitle'),text=document.getElementById('resultsText');
   banner.className='results-banner show';
   if(unplaced>0){banner.classList.add('try-again');title.textContent='Not quite finished!';text.textContent=`You still have ${unplaced} card${unplaced>1?'s':''} to place.`;}
-  else if(correct===28){banner.classList.add('perfect');title.textContent='Perfect! 28/28';text.textContent="Outstanding work! You nailed every single one.";document.querySelector('.phase-btn[data-phase="3"]').classList.add('completed');document.getElementById('summaryBtn').style.display='inline-block';}
-  else if(correct>=22){banner.classList.add('great');title.textContent=`Great job! ${correct}/28`;text.textContent='Nearly there! Check the red cards and try again.';document.getElementById('resetBtn').style.display='inline-block';document.getElementById('summaryBtn').style.display='inline-block';}
-  else{banner.classList.add('try-again');title.textContent=`${correct}/28`;text.textContent='Have another look at the red cards. Move them and check again!';document.getElementById('resetBtn').style.display='inline-block';document.getElementById('summaryBtn').style.display='inline-block';}
+  else if(correct===28){banner.classList.add('perfect');title.textContent='Perfect! 28/28';text.textContent="Outstanding work! You nailed every single one.";document.querySelector('.phase-btn[data-phase="3"]').classList.add('completed');document.getElementById('summaryBtn').style.display='inline-block';document.getElementById('phase3ToPhase4').style.display='block';document.querySelector('.phase-btn[data-phase="4"]').disabled=false;}
+  else if(correct>=22){banner.classList.add('great');title.textContent=`Great job! ${correct}/28`;text.textContent='Nearly there! Check the red cards and try again.';document.getElementById('resetBtn').style.display='inline-block';document.getElementById('summaryBtn').style.display='inline-block';document.getElementById('phase3ToPhase4').style.display='block';document.querySelector('.phase-btn[data-phase="4"]').disabled=false;}
+  else{banner.classList.add('try-again');title.textContent=`${correct}/28`;text.textContent='Have another look at the red cards. Move them and check again!';document.getElementById('resetBtn').style.display='inline-block';document.getElementById('summaryBtn').style.display='inline-block';document.getElementById('phase3ToPhase4').style.display='block';document.querySelector('.phase-btn[data-phase="4"]').disabled=false;}
 }
 function resetPhase3(){initPhase3();}
 
@@ -627,6 +699,29 @@ function showSummary(){
     } else { html+='<p style="color:#2e7d32;font-weight:700;">All 28 statements sorted correctly!</p>'; }
     html+='</div>';
   }
+
+  // Phase 4
+  if(tracker.phase4 && Object.keys(tracker.phase4).length>0){
+    const p4=tracker.phase4;
+    let p4success=0,p4attempted=0;
+    types.forEach(t=>{if(p4[t.id]&&p4[t.id].attempts>0){p4attempted++;if(p4[t.id].success)p4success++;}});
+    if(p4attempted>0){
+      html+='<div class="summary-section"><h3>Phase 4: Write Your Own</h3>';
+      html+='<div class="summary-stats">';
+      html+=`<div class="stat-box green"><div class="stat-num">${p4success}/6</div><div class="stat-label">Correct examples</div></div>`;
+      html+=`<div class="stat-box amber"><div class="stat-num">${p4attempted}</div><div class="stat-label">Types attempted</div></div>`;
+      html+='</div>';
+      html+='<table class="summary-table"><tr><th>Type</th><th>Student wrote</th><th>Attempts</th><th>Result</th></tr>';
+      types.forEach(t=>{
+        if(p4[t.id]&&p4[t.id].attempts>0){
+          const status=p4[t.id].success?'<span class="correct-cell">Correct</span>':'<span class="incorrect-cell">Needs work</span>';
+          html+=`<tr><td><strong>${t.name}</strong></td><td style="font-style:italic;max-width:300px;">${p4[t.id].text}</td><td>${p4[t.id].attempts}</td><td>${status}</td></tr>`;
+        }
+      });
+      html+='</table></div>';
+    }
+  }
+
   document.getElementById('summaryContent').innerHTML=html;
   overlay.classList.add('show');
 }
@@ -670,7 +765,224 @@ function addTouchDrag(container,cardSel,dropSel){
 document.getElementById('focusOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeFocusOverlay();});
 document.getElementById('summaryOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeSummary();});
 
+// ===== PHASE 4: WRITE YOUR OWN =====
+const writeExamples = {
+  simile: { hint: 'Compare two things using "like" or "as". For example: "The cat was as quiet as a shadow."', placeholder: 'Write a sentence with a simile (use "like" or "as")...' },
+  metaphor: { hint: 'Say something IS something else (without "like" or "as"). For example: "The classroom was a zoo."', placeholder: 'Write a sentence with a metaphor...' },
+  hyperbole: { hint: 'Use a wild exaggeration. For example: "I waited in line for a thousand years."', placeholder: 'Write a sentence with a hyperbole...' },
+  personification: { hint: 'Give a non-living thing a human action. For example: "The wind howled through the trees."', placeholder: 'Write a sentence using personification...' },
+  idiom: { hint: 'Use an expression that means something different from its literal words. For example: "She was on cloud nine."', placeholder: 'Write a sentence using an idiom...' },
+  onomatopoeia: { hint: 'Use a word that sounds like what it describes. For example: "The bacon sizzled in the pan."', placeholder: 'Write a sentence using onomatopoeia...' }
+};
+
+let p4Completed = new Set();
+tracker.phase4 = {};
+
+function initPhase4() {
+  const container = document.getElementById('writeOwnContainer');
+  if (container.children.length > 0) return;
+
+  types.forEach(t => {
+    tracker.phase4[t.id] = { text: '', feedback: '', attempts: 0, success: false };
+    const ex = writeExamples[t.id];
+    container.innerHTML += `
+      <div class="write-own-card" id="woc-${t.id}">
+        <div class="write-own-header">
+          <span class="write-own-badge" style="background:${typeColours[t.id]}">${t.name}</span>
+        </div>
+        <div class="write-own-def">${t.definition} <em style="color:#999;">${ex.hint}</em></div>
+        <textarea class="write-own-textarea" id="wot-${t.id}" placeholder="${ex.placeholder}"></textarea>
+        <div class="write-own-actions">
+          <button class="p4-btn p4-btn-primary" onclick="checkWriteOwn('${t.id}')">Check my sentence</button>
+          <button class="p4-btn p4-btn-success" id="woex-btn-${t.id}" style="display:none;" onclick="showWriteExample('${t.id}')">Show me an example</button>
+        </div>
+        <div class="write-own-feedback" id="wof-${t.id}"></div>
+        <div class="write-own-example" id="woex-${t.id}"></div>
+      </div>`;
+  });
+}
+
+async function checkWriteOwn(typeId) {
+  const input = document.getElementById('wot-' + typeId).value.trim();
+  if (input.length < 5) { alert('Write a sentence first!'); return; }
+
+  const fb = document.getElementById('wof-' + typeId);
+  fb.className = 'write-own-feedback show loading';
+  fb.textContent = 'Checking your sentence...';
+
+  const typeObj = types.find(t => t.id === typeId);
+  tracker.phase4[typeId].text = input;
+  tracker.phase4[typeId].attempts++;
+
+  try {
+    const r = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 600,
+        messages: [{
+          role: "user",
+          content: `You are a warm, encouraging Year 5 English teacher. A student has been asked to write their own example of ${typeObj.name}.
+
+Definition: ${typeObj.definition}
+
+The student wrote: "${input}"
+
+Respond in 3-4 sentences using British English. No bullet points. No em-dashes.
+
+First, clearly state whether this IS or IS NOT a correct example of ${typeObj.name}. If it is correct, name the specific words that make it work (e.g. "Your use of 'like' in 'fast like lightning' creates the comparison" or "The word 'crashed' sounds just like the noise it describes"). If it is not correct, explain specifically why not and what type of figurative language it might actually be (if any), then give a gentle suggestion for how to fix it.
+
+End with one brief tip to make it even stronger.`
+        }]
+      })
+    });
+    const data = await r.json();
+    const text = data.content.map(c => c.text || '').join('');
+    const isCorrect = isLikelyCorrect(input, typeId, text);
+    fb.className = 'write-own-feedback show ' + (isCorrect ? 'success' : 'needs-work');
+    fb.innerHTML = text;
+    tracker.phase4[typeId].feedback = text;
+    tracker.phase4[typeId].success = isCorrect;
+    if (isCorrect) markP4Done(typeId);
+    document.getElementById('woex-btn-' + typeId).style.display = 'inline-block';
+  } catch (e) {
+    const result = fallbackCheck(input, typeId);
+    fb.className = 'write-own-feedback show ' + (result.correct ? 'success' : 'needs-work');
+    fb.innerHTML = result.message;
+    tracker.phase4[typeId].feedback = result.message;
+    tracker.phase4[typeId].success = result.correct;
+    if (result.correct) markP4Done(typeId);
+    document.getElementById('woex-btn-' + typeId).style.display = 'inline-block';
+  }
+}
+
+function isLikelyCorrect(input, typeId, apiResponse) {
+  const lower = apiResponse.toLowerCase();
+  if (lower.includes('is a correct') || lower.includes('is a great') || lower.includes('is a strong') || lower.includes('is a lovely') || lower.includes('well done') || lower.includes('you\'ve nailed') || lower.includes('is indeed') || lower.includes('this is a')) {
+    if (!lower.includes('is not') && !lower.includes('isn\'t') && !lower.includes('not quite') && !lower.includes('not a correct')) return true;
+  }
+  return false;
+}
+
+function fallbackCheck(input, typeId) {
+  const lower = input.toLowerCase();
+  let correct = false;
+  let message = '';
+
+  switch (typeId) {
+    case 'simile':
+      correct = /\blike\b/.test(lower) || /\bas\b.*\bas\b/.test(lower);
+      message = correct
+        ? 'Great work! You\'ve used a comparison word to create a simile. The "like" or "as" connects two different things, helping the reader picture what you mean. To make it even stronger, try comparing two things that are really different from each other.'
+        : 'This doesn\'t quite work as a simile yet. Remember, a simile needs the word "like" or "as" to compare two different things. Try rewriting it with "... like ..." or "as ... as ..." to create that comparison.';
+      break;
+    case 'metaphor':
+      correct = input.length > 10 && !/\blike\b/.test(lower) && !/\bas\s+\w+\s+as\b/.test(lower) && /\bis\b|\bwas\b|\bare\b|\bwere\b|\bam\b/.test(lower);
+      message = correct
+        ? 'Well done! You\'ve called something by a name it isn\'t literally, which is exactly what a metaphor does. This helps the reader understand a feeling or idea in a fresh way. Try making your comparison even more surprising or unexpected!'
+        : 'This might not be a metaphor just yet. A metaphor says something IS something else (without using "like" or "as"). Try writing a sentence like "The [thing] was a [something else]" to directly compare two different things.';
+      break;
+    case 'hyperbole':
+      correct = /million|billion|thousand|forever|never|always|every|entire|world|ton|die|kill|explod|100|1000|endless|starv/i.test(lower);
+      message = correct
+        ? 'Brilliant! That\'s a great exaggeration that obviously can\'t be literally true. Hyperbole adds drama and humour to writing. To make it even better, try exaggerating something unexpected.'
+        : 'This could use more exaggeration to be a clear hyperbole. Remember, a hyperbole is SO over the top that it obviously can\'t be true. Try adding numbers like "a million" or extremes like "the whole world".';
+      break;
+    case 'personification':
+      correct = /whisper|danc|sang|cried|groan|yell|shout|slept|woke|smile|laugh|scream|call|kiss|hug|reach|grab|ate|swallow|crept|ran|walked|scratch|howl|roar/i.test(lower);
+      message = correct
+        ? 'Lovely! You\'ve given a non-human thing a human action, which brings your writing to life. Personification helps readers connect with things that aren\'t alive. Try using an even more specific or unexpected human action.'
+        : 'This isn\'t quite personification yet. Remember, you need to give a non-living thing (like the wind, a tree, or the sun) a human action (like dancing, whispering, or crying). Try: "The [non-living thing] [human action]."';
+      break;
+    case 'idiom':
+      correct = /cloud nine|raining cats|piece of cake|break a leg|spill the beans|hit the sack|under the weather|cost an arm|bite the bullet|ball is in|burning the midnight|let the cat|once in a blue|on thin ice|barking up|beat around|the last straw|a penny for|kick the bucket|out of the blue|add fuel|up the wall|give.*(shot|go)|cold shoulder/i.test(lower);
+      message = correct
+        ? 'Well done! That\'s a well-known idiom. The meaning of the whole phrase is completely different from what the individual words suggest. Try using it naturally in a full sentence for even more impact.'
+        : 'This might not be a recognised idiom. An idiom is a common expression whose meaning is different from the literal words, like "it\'s raining cats and dogs" (meaning it\'s raining heavily). Try using one you\'ve heard people say in everyday speech.';
+      break;
+    case 'onomatopoeia':
+      correct = /buzz|hiss|crack|pop|bang|boom|sizzl|splash|crash|click|clack|crunch|fizz|whiz|zoom|thud|thump|whoosh|gurgle|rumbl|snap|tap|drip|pitter|clang|ring|beep|roar|screech|squeak|rustle|murmur/i.test(lower);
+      message = correct
+        ? 'Fantastic! You\'ve used a word that sounds like the noise it describes. This is a powerful way to make writing more vivid and engaging. Try building a whole scene around that sound.'
+        : 'This doesn\'t quite have onomatopoeia yet. You need a word that sounds like the noise it represents, like "buzz", "crash", "sizzle", or "pop". Try saying your sentence out loud and listen for words that imitate real sounds.';
+      break;
+  }
+  return { correct, message };
+}
+
+function markP4Done(typeId) {
+  p4Completed.add(typeId);
+  document.getElementById('p4Count').textContent = p4Completed.size;
+  document.getElementById('woc-' + typeId).style.borderLeft = '4px solid #4caf50';
+  if (p4Completed.size >= 6) {
+    document.getElementById('phase4Done').disabled = false;
+    document.querySelector('.phase-btn[data-phase="4"]').classList.add('completed');
+  }
+}
+
+async function showWriteExample(typeId) {
+  const box = document.getElementById('woex-' + typeId);
+  const typeObj = types.find(t => t.id === typeId);
+  box.className = 'write-own-example show';
+  box.innerHTML = `<span class="example-label">Example ${typeObj.name}</span><p style="color:var(--text-light);">Generating...</p>`;
+
+  try {
+    const r = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 200,
+        messages: [{
+          role: "user",
+          content: `Write one creative, vivid example sentence that uses ${typeObj.name} (${typeObj.definition}). Write for a Year 5 student (age 10-11). Use British English. Just write the sentence, nothing else. Make it interesting and fun.`
+        }]
+      })
+    });
+    const data = await r.json();
+    const text = data.content.map(c => c.text || '').join('');
+    box.innerHTML = `<span class="example-label">Example ${typeObj.name}</span><p>${text}</p>`;
+  } catch (e) {
+    const fallbacks = {
+      simile: 'The thunder rumbled like an angry giant rolling boulders across the sky.',
+      metaphor: 'The city was a beehive, buzzing with energy from dawn to dusk.',
+      hyperbole: 'I have told you a million times to tidy your room!',
+      personification: 'The old house groaned and sighed as the wind pushed against its walls.',
+      idiom: 'When Mum found out about the broken vase, I knew I was in hot water.',
+      onomatopoeia: 'The fireworks crackled and whooshed as they painted the night sky with colour.'
+    };
+    box.innerHTML = `<span class="example-label">Example ${typeObj.name}</span><p>${fallbacks[typeId]}</p>`;
+  }
+}
+
 initPhase1();
+
+// ===== KEYBOARD / CLICKER NAV =====
+document.addEventListener('keydown', e => {
+  const key = e.key;
+  const isNext = key === 'ArrowRight' || key === 'PageDown';
+  const isPrev = key === 'ArrowLeft' || key === 'PageUp';
+  if (!isNext && !isPrev) return;
+
+  // Which phase is active?
+  const activePhase = document.querySelector('.phase.active');
+  if (!activePhase) return;
+  const phaseId = activePhase.id;
+
+  if (phaseId === 'phase2') {
+    // Statement carousel
+    e.preventDefault();
+    if (isNext) {
+      const nb = document.getElementById('nextBtn');
+      if (nb && !nb.disabled) nb.click();
+    }
+    if (isPrev) {
+      const pb = document.getElementById('prevBtn');
+      if (pb && !pb.disabled) pb.click();
+    }
+  }
+});
 </script>
 </body>
 </html>
