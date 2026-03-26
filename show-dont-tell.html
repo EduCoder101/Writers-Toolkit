@@ -6,36 +6,25 @@
 <title>Show, Don't Tell</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#faf8f4;--ink:#1e1e1e;--ink-light:#6b6b6b;--accent:#c0392b;--accent-light:#fadbd8;
-  --gold:#d4a017;--gold-light:#fdf2d0;--teal:#1a8a7d;--teal-light:#d0f0ec;
-  --card:#fff;--shadow:0 4px 20px rgba(0,0,0,0.06);--shadow-hover:0 8px 32px rgba(0,0,0,0.12);--radius:16px;
-}
+:root{--bg:#faf8f4;--ink:#1e1e1e;--ink-light:#6b6b6b;--accent:#c0392b;--accent-light:#fadbd8;--gold:#d4a017;--gold-light:#fdf2d0;--teal:#1a8a7d;--teal-light:#d0f0ec;--purple:#667eea;--purple-light:#f0f0ff;--card:#fff;--shadow:0 4px 20px rgba(0,0,0,0.06);--shadow-hover:0 8px 32px rgba(0,0,0,0.12);--radius:16px;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
-
 .site-header{text-align:center;padding:48px 24px 20px;}
 .site-header h1{font-family:'Lora',serif;font-size:clamp(36px,7vw,56px);font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.1;}
 .site-header h1 em{color:var(--accent);font-style:italic;}
 .site-header .tagline{font-size:18px;color:var(--ink-light);font-weight:600;}
-
 .phase-nav{display:flex;justify-content:center;gap:6px;padding:16px 20px;flex-wrap:wrap;}
-.nav-btn{font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;padding:8px 20px;border:2px solid #ddd;border-radius:30px;background:white;color:var(--ink-light);cursor:pointer;transition:all 0.3s;}
+.nav-btn{font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;padding:8px 16px;border:2px solid #ddd;border-radius:30px;background:white;color:var(--ink-light);cursor:pointer;transition:all 0.3s;}
 .nav-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
 .nav-btn.done{border-color:var(--teal);color:var(--teal);}
 .nav-btn.done::after{content:' \2713';}
 .nav-btn[disabled]{opacity:0.4;cursor:not-allowed;}
-
 .phase{display:none;max-width:800px;margin:0 auto;padding:0 20px 60px;}
 .phase.active{display:block;animation:fadeIn 0.4s ease;}
 .phase-title{font-family:'Lora',serif;font-size:28px;font-weight:700;text-align:center;margin-bottom:8px;}
 .phase-sub{text-align:center;font-size:16px;color:var(--ink-light);margin-bottom:32px;line-height:1.5;}
-
 .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:24px;}
 .card h3{font-family:'Lora',serif;font-size:20px;margin-bottom:12px;}
-
-.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
-@media(max-width:600px){.compare-row{grid-template-columns:1fr;}}
 .compare-box{border-radius:14px;padding:22px;position:relative;}
 .compare-box.tell{background:#fef2f2;border:2px solid #f5c6cb;}
 .compare-box.show{background:#f0fdf4;border:2px solid #a7f3d0;}
@@ -43,22 +32,20 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 .compare-box.tell .compare-label{color:var(--accent);}
 .compare-box.show .compare-label{color:var(--teal);}
 .compare-box p{font-family:'Lora',serif;font-size:16px;line-height:1.7;font-style:italic;}
-
 .key-point{display:flex;gap:14px;align-items:flex-start;margin-bottom:16px;}
 .key-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-top:2px;}
 .key-point p{font-size:15px;line-height:1.6;}
-
 .next-row{text-align:center;margin-top:24px;}
 .btn{font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;padding:12px 32px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;}
 .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
 .btn-primary{background:var(--accent);color:white;}
 .btn-teal{background:var(--teal);color:white;}
 .btn-gold{background:var(--gold);color:white;}
+.btn-purple{background:var(--purple);color:white;}
 .btn-outline{background:white;color:var(--ink);border:2px solid #ddd;}
 .btn-outline:hover{border-color:var(--ink);}
 .btn-sm{font-size:14px;padding:8px 20px;}
 .btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
-
 /* LEARN SLIDES */
 .learn-slide{display:none;}
 .learn-slide.active{display:block;animation:fadeIn 0.35s ease;}
@@ -66,8 +53,12 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 .slide-dots{display:flex;gap:8px;}
 .slide-dot{width:10px;height:10px;border-radius:50%;background:#ddd;transition:all 0.2s;}
 .slide-dot.active{background:var(--accent);transform:scale(1.2);}
-
-/* PHASE 2: SPOT */
+/* REVEAL */
+.reveal{opacity:0;max-height:0;overflow:hidden;transition:opacity 0.4s ease,max-height 0.5s ease,margin 0.4s ease;margin-top:0;}
+.reveal.visible{opacity:1;max-height:800px;margin-top:16px;}
+.reveal-note{display:none;text-align:center;font-size:14px;color:var(--ink-light);margin-top:16px;font-style:italic;}
+.reveal-note.visible{display:block;animation:fadeIn 0.3s ease;}
+/* SPOT */
 .passage-text{font-family:'Lora',serif;font-size:17px;line-height:2;}
 .tell-spot{background:#fef9e7;border-bottom:2px dashed var(--gold);cursor:pointer;padding:2px 4px;border-radius:4px;transition:all 0.2s;}
 .tell-spot:hover{background:#fdf2d0;}
@@ -77,28 +68,30 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 .spot-counter span{color:var(--teal);}
 .spot-hint{display:none;background:var(--gold-light);border-radius:12px;padding:14px 18px;margin-top:12px;font-size:14px;line-height:1.6;border-left:4px solid var(--gold);}
 .spot-hint.show{display:block;animation:fadeIn 0.3s ease;}
-
-/* PHASE 3: TRANSFORM */
+/* REWRITE / TRANSFORM */
+.andrew-passage{font-family:'Lora',serif;font-size:16px;line-height:1.8;color:var(--accent);background:#fef2f2;padding:18px;border-radius:12px;border-left:4px solid var(--accent);margin-bottom:16px;font-style:italic;}
 .tell-sentence{font-family:'Lora',serif;font-size:18px;font-style:italic;color:var(--accent);background:#fef2f2;padding:14px 18px;border-radius:12px;margin-bottom:16px;border-left:4px solid var(--accent);}
-.transform-textarea,.expanded-textarea{width:100%;min-height:120px;font-family:'Lora',serif;font-size:16px;line-height:1.7;padding:16px;border:2px solid #e0e0e0;border-radius:12px;resize:vertical;outline:none;transition:border-color 0.2s;background:#fafafa;}
-.transform-textarea:focus,.expanded-textarea:focus{border-color:var(--teal);background:white;}
-.transform-textarea::placeholder,.expanded-textarea::placeholder{color:#bbb;font-style:italic;}
-.expanded-textarea{min-height:200px;line-height:1.8;}
-
+.write-textarea{width:100%;min-height:180px;font-family:'Lora',serif;font-size:16px;line-height:1.8;padding:18px;border:2px solid #e0e0e0;border-radius:12px;resize:vertical;outline:none;transition:border-color 0.2s;background:#fafafa;}
+.write-textarea:focus{border-color:var(--teal);background:white;}
+.write-textarea::placeholder{color:#bbb;font-style:italic;}
+.transform-textarea{width:100%;min-height:120px;font-family:'Lora',serif;font-size:16px;line-height:1.7;padding:16px;border:2px solid #e0e0e0;border-radius:12px;resize:vertical;outline:none;transition:border-color 0.2s;background:#fafafa;}
+.transform-textarea:focus{border-color:var(--teal);background:white;}
+.transform-textarea::placeholder{color:#bbb;font-style:italic;}
+.expanded-textarea{width:100%;min-height:200px;font-family:'Lora',serif;font-size:16px;line-height:1.8;padding:18px;border:2px solid #e0e0e0;border-radius:12px;resize:vertical;outline:none;transition:border-color 0.2s;background:#fafafa;}
+.expanded-textarea:focus{border-color:var(--teal);background:white;}
 .feedback-box{display:none;margin-top:16px;padding:18px;border-radius:12px;font-size:15px;line-height:1.7;}
 .feedback-box.show{display:block;animation:fadeIn 0.4s ease;}
 .feedback-box.loading{background:#f5f5f5;color:var(--ink-light);text-align:center;}
 .feedback-box.success{background:var(--teal-light);border-left:4px solid var(--teal);}
-
-.rewrite-options{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
-.rewrite-box{display:none;margin-top:16px;padding:18px;border-radius:12px;font-size:15px;line-height:1.7;background:#f0f0ff;border-left:4px solid #667eea;}
+.rewrite-options{display:none;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.rewrite-options.show{display:flex;animation:fadeIn 0.3s ease;}
+.rewrite-box{display:none;margin-top:16px;padding:18px;border-radius:12px;font-size:15px;line-height:1.7;background:var(--purple-light);border-left:4px solid var(--purple);}
 .rewrite-box.show{display:block;animation:fadeIn 0.4s ease;}
-.rewrite-box .rewrite-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#667eea;margin-bottom:8px;display:block;}
+.rewrite-box .rewrite-label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--purple);margin-bottom:8px;display:block;}
 .rewrite-box .rewrite-text{font-family:'Lora',serif;font-style:italic;}
-
 .transform-progress{text-align:center;font-size:14px;color:var(--ink-light);margin-bottom:16px;font-weight:700;}
-
-/* PHASE 4: CREATE */
+.word-count{text-align:right;font-size:13px;color:var(--ink-light);margin-top:6px;font-weight:600;}
+/* CREATE */
 .scenario-picker{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:24px;}
 .scenario-opt{background:white;border:2px solid #e0e0e0;border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s;text-align:center;font-weight:700;font-size:15px;}
 .scenario-opt:hover{border-color:var(--gold);background:var(--gold-light);}
@@ -107,10 +100,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 .rubbish-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:white;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:8px;}
 .rubbish-input{flex:1;font-family:'Lora',serif;font-size:15px;padding:10px 14px;border:2px solid #e0e0e0;border-radius:10px;outline:none;transition:border-color 0.2s;}
 .rubbish-input:focus{border-color:var(--accent);}
-.word-count{text-align:right;font-size:13px;color:var(--ink-light);margin-top:6px;font-weight:600;}
-
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:500px){.site-header{padding:32px 16px 16px;}.card{padding:20px;}.phase{padding:0 14px 40px;}}
+@media(max-width:500px){.site-header{padding:32px 16px 16px;}.card{padding:20px;}.phase{padding:0 14px 40px;}.nav-btn{font-size:12px;padding:6px 12px;}}
 </style>
 </head>
 <body>
@@ -123,101 +114,80 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 <nav class="phase-nav">
   <button class="nav-btn active" data-phase="1">1. Learn</button>
   <button class="nav-btn" data-phase="2" disabled>2. Spot It</button>
-  <button class="nav-btn" data-phase="3" disabled>3. Transform</button>
-  <button class="nav-btn" data-phase="4" disabled>4. Create</button>
+  <button class="nav-btn" data-phase="3" disabled>3. Rewrite</button>
+  <button class="nav-btn" data-phase="4" disabled>4. Sentences</button>
+  <button class="nav-btn" data-phase="5" disabled>5. Create</button>
 </nav>
 
-<!-- ==================== PHASE 1: LEARN (slide-based) ==================== -->
+<!-- ==================== PHASE 1: LEARN ==================== -->
 <div class="phase active" id="phase1">
 
   <div class="learn-slide active" data-slide="0">
     <div class="card">
       <h3>What does "Show, Don't Tell" mean?</h3>
-      <p style="font-size:16px;line-height:1.7;color:var(--ink-light);">
-        When we write, it's tempting to just <strong>tell</strong> the reader what happened: "He was scared." "She was happy."
-        But interesting writers do something different. They <strong>describe the action</strong> so the reader can picture it for themselves.
-      </p>
-      <p style="font-size:16px;line-height:1.7;color:var(--ink-light);margin-top:12px;">
-        We call this building <strong>mind pictures</strong>. Instead of telling the reader how to feel, we give them enough detail to feel it on their own.
-      </p>
+      <p style="font-size:16px;line-height:1.7;color:var(--ink-light);">When we write, it's tempting to just <strong>tell</strong> the reader what happened: "He was scared." "She was happy." But interesting writers do something different. They <strong>describe the action</strong> so the reader can picture it for themselves.</p>
+      <p style="font-size:16px;line-height:1.7;color:var(--ink-light);margin-top:12px;">We call this building <strong>mind pictures</strong>. Instead of telling the reader how to feel, we give them enough detail to feel it on their own.</p>
     </div>
   </div>
 
-  <div class="learn-slide" data-slide="1">
+  <div class="learn-slide" data-slide="1" data-reveals="2">
     <div class="card">
       <h3>Compare these two versions:</h3>
-      <div class="compare-row">
-        <div class="compare-box tell">
-          <span class="compare-label">Telling</span>
-          <p>Daniel saw the monster and was scared, so he ran away as fast as possible.</p>
-        </div>
-        <div class="compare-box show">
-          <span class="compare-label">Showing</span>
-          <p>Daniel felt a chill down his spine as he saw the monster. The feeling was familiar. It was fear. He knew what he had to do. He nearly slipped as he began to run away as fast as he could.</p>
-        </div>
+      <div class="reveal" data-reveal-order="1">
+        <div class="compare-box tell"><span class="compare-label">Telling</span><p>Daniel saw the monster and was scared, so he ran away as fast as possible.</p></div>
       </div>
-      <p style="font-size:15px;color:var(--ink-light);line-height:1.6;">
-        The "telling" version gives us facts. The "showing" version slows down the moment so we can <em>feel</em> what Daniel feels.
-      </p>
+      <div class="reveal" data-reveal-order="2">
+        <div class="compare-box show"><span class="compare-label">Showing</span><p>Daniel felt a chill down his spine as he saw the monster. The feeling was familiar. It was fear. He knew what he had to do. He nearly slipped as he began to run away as fast as he could.</p></div>
+        <p style="font-size:15px;color:var(--ink-light);line-height:1.6;margin-top:12px;">The "telling" version gives us facts. The "showing" version slows down the moment so we can <em>feel</em> what Daniel feels.</p>
+      </div>
+      <p class="reveal-note" data-reveal-prompt="1">Click or press &rarr; to reveal</p>
     </div>
   </div>
 
-  <div class="learn-slide" data-slide="2">
+  <div class="learn-slide" data-slide="2" data-reveals="2">
     <div class="card">
       <h3>Technique 1: Add sensory details</h3>
       <div class="key-point">
         <div class="key-icon" style="background:var(--accent-light);">&#128065;</div>
-        <p>What can the character <strong>see, hear, feel, smell, or taste</strong>? "A chill down his spine" is something we can feel. "Clouds of dust puffed up with each step" is something we can see. The five senses are your most powerful tool.</p>
+        <p>What can the character <strong>see, hear, feel, smell, or taste</strong>? The five senses are your most powerful tool.</p>
       </div>
-      <div class="compare-row" style="margin-top:16px;">
-        <div class="compare-box tell"><span class="compare-label">Telling</span><p>He walked inside.</p></div>
-        <div class="compare-box show"><span class="compare-label">Showing</span><p>He breathlessly walked slowly inside. Step by step he ventured in further, clouds of dust puffed up with each step.</p></div>
-      </div>
+      <div class="reveal" data-reveal-order="1"><div class="compare-box tell"><span class="compare-label">Telling</span><p>He walked inside.</p></div></div>
+      <div class="reveal" data-reveal-order="2"><div class="compare-box show"><span class="compare-label">Showing</span><p>He breathlessly walked slowly inside. Step by step he ventured in further, clouds of dust puffed up with each step.</p></div></div>
+      <p class="reveal-note" data-reveal-prompt="1">Click or press &rarr; to see the example</p>
     </div>
   </div>
 
-  <div class="learn-slide" data-slide="3">
+  <div class="learn-slide" data-slide="3" data-reveals="2">
     <div class="card">
       <h3>Technique 2: Show thoughts and reactions</h3>
       <div class="key-point">
         <div class="key-icon" style="background:var(--gold-light);">&#129504;</div>
-        <p>Instead of writing "he was scared", show us what fear <strong>looks like</strong>: trembling, freezing, a racing heart, shallow breaths. Instead of "it was old", show the character <strong>thinking</strong> about what they notice.</p>
+        <p>Instead of "he was scared", show us what fear <strong>looks like</strong>: trembling, freezing, a racing heart. Instead of "it was old", show the character <strong>thinking</strong> about what they notice.</p>
       </div>
-      <div class="compare-row" style="margin-top:16px;">
-        <div class="compare-box tell"><span class="compare-label">Telling</span><p>The stairs were old.</p></div>
-        <div class="compare-box show"><span class="compare-label">Showing</span><p>Creaking and sagging under his weight, Andrew knew the stairs must be very old.</p></div>
-      </div>
+      <div class="reveal" data-reveal-order="1"><div class="compare-box tell"><span class="compare-label">Telling</span><p>The stairs were old.</p></div></div>
+      <div class="reveal" data-reveal-order="2"><div class="compare-box show"><span class="compare-label">Showing</span><p>Creaking and sagging under his weight, Andrew knew the stairs must be very old.</p></div></div>
+      <p class="reveal-note" data-reveal-prompt="1">Click or press &rarr; to see the example</p>
     </div>
   </div>
 
-  <div class="learn-slide" data-slide="4">
+  <div class="learn-slide" data-slide="4" data-reveals="2">
     <div class="card">
       <h3>Technique 3: Stretch the moment</h3>
       <div class="key-point">
         <div class="key-icon" style="background:var(--teal-light);">&#9202;</div>
-        <p>A single second of action can become a whole paragraph. The more important the moment, the more you <strong>slow it down</strong>. Ask yourself: what happened just before? What happened during? What happened just after?</p>
+        <p>A single second of action can become a whole paragraph. The more important the moment, the more you <strong>slow it down</strong>.</p>
       </div>
-      <div class="compare-row" style="margin-top:16px;">
-        <div class="compare-box tell"><span class="compare-label">Telling</span><p>The door closed behind him.</p></div>
-        <div class="compare-box show"><span class="compare-label">Showing</span><p>He jumped as with a loud thud the door closed behind him. He froze. Fear surged through his body. He hadn't touched it. How had it closed?</p></div>
-      </div>
+      <div class="reveal" data-reveal-order="1"><div class="compare-box tell"><span class="compare-label">Telling</span><p>The door closed behind him.</p></div></div>
+      <div class="reveal" data-reveal-order="2"><div class="compare-box show"><span class="compare-label">Showing</span><p>He jumped as with a loud thud the door closed behind him. He froze. Fear surged through his body. He hadn't touched it. How had it closed?</p></div></div>
+      <p class="reveal-note" data-reveal-prompt="1">Click or press &rarr; to see the example</p>
     </div>
   </div>
 
   <div class="learn-slide" data-slide="5">
-    <div class="card">
-      <h3>See the full transformation:</h3>
-      <div class="compare-box tell" style="margin-bottom:16px;">
-        <span class="compare-label">Before (bare bones)</span>
-        <p>Andrew walked up the wooden stairs. The front door was huge, much bigger than a normal door. He opened it gently and walked inside. With a loud thud the door closed behind him. He hadn't touched it. Was he alone? He started trembling and wondered would he ever get out of here alive.</p>
-      </div>
-      <div class="compare-box show">
-        <span class="compare-label">After (with detail)</span>
-        <p>After thinking about it for some time, Andrew walked up the wooden stairs. Creaking and sagging under his weight, Andrew knew the stairs must be very old. The front door was huge, much bigger than a normal door. Perhaps a giant used to live here? He'd heard rumours but had never believed them. Opening the door gently, he breathlessly walked slowly inside. Step by step he ventured in further, clouds of dust puffed up with each step. He jumped as with a loud thud the door closed behind him. He froze. Fear surged through his body. He hadn't touched it. How had it closed? Was he alone? He started trembling and wondered would he ever get out of here alive.</p>
-      </div>
-    </div>
-    <div class="next-row">
-      <button class="btn btn-primary" onclick="goPhase(2)">I'm ready to try! &rarr;</button>
+    <div class="card" style="text-align:center;">
+      <h3>Now it's your turn.</h3>
+      <p style="font-size:16px;line-height:1.7;color:var(--ink-light);margin-bottom:20px;">You've seen the techniques. Next, you'll spot the opportunities in a passage, then rewrite it yourself using everything you've learned.</p>
+      <button class="btn btn-primary" onclick="goPhase(2)">Let's go! &rarr;</button>
     </div>
   </div>
 
@@ -231,34 +201,70 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 <!-- ==================== PHASE 2: SPOT IT ==================== -->
 <div class="phase" id="phase2">
   <h2 class="phase-title">Spot the opportunities</h2>
-  <p class="phase-sub">This passage is full of "telling" moments that could use more detail.<br>Tap each highlighted phrase to reveal what questions a writer could ask.</p>
+  <p class="phase-sub">This passage is full of "telling" moments that could use more detail.<br>Tap each highlighted phrase to reveal what a writer could add.</p>
   <div class="spot-counter">Found: <span id="spotCount">0</span> / <span id="spotTotal">0</span></div>
   <div class="card" id="passage1"><div class="passage-text" id="passageText"></div></div>
   <div id="spotDoneMsg" style="display:none;text-align:center;margin-top:20px;">
     <div class="card" style="background:var(--teal-light);border:2px solid var(--teal);">
-      <p style="font-size:17px;font-weight:700;color:var(--teal);">You found them all! A good writer sees these gaps everywhere.</p>
+      <p style="font-size:17px;font-weight:700;color:var(--teal);">You found them all! Now it's time to rewrite this passage yourself.</p>
     </div>
   </div>
   <div class="next-row">
-    <button class="btn btn-teal" id="phase2Next" disabled onclick="goPhase(3)">Now let's write! &rarr;</button>
+    <button class="btn btn-teal" id="phase2Next" disabled onclick="goPhase(3)">Now rewrite it! &rarr;</button>
   </div>
 </div>
 
-<!-- ==================== PHASE 3: TRANSFORM ==================== -->
+<!-- ==================== PHASE 3: REWRITE ANDREW ==================== -->
 <div class="phase" id="phase3">
-  <h2 class="phase-title">Transform telling into showing</h2>
-  <p class="phase-sub">Rewrite each "telling" sentence to "show" the reader what is happening.<br>Add sensory details, thoughts, and reactions. Then see how it could be enhanced!</p>
+  <h2 class="phase-title">Rewrite the passage</h2>
+  <p class="phase-sub">Here are the bare-bones sentences. Rewrite them into a vivid, detailed passage.<br>Use sensory details, thoughts, reactions, and stretch the key moments.</p>
+
+  <div class="card">
+    <div class="andrew-passage">
+      1. Andrew walked up the wooden stairs.<br>
+      2. The front door was huge, much bigger than a normal door.<br>
+      3. He opened it gently and walked inside.<br>
+      4. With a loud thud the door closed behind him.<br>
+      5. He hadn't touched it. Was he alone?<br>
+      6. He started trembling and wondered would he ever get out of here alive.
+    </div>
+    <textarea class="write-textarea" id="andrewRewrite" placeholder="Rewrite the passage here. Slow down the action, add detail, build the picture..."></textarea>
+    <div class="word-count" id="andrewWC">0 words</div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap;">
+      <button class="btn btn-teal btn-sm" onclick="getAndrewFeedback()">Get feedback</button>
+    </div>
+    <div class="feedback-box" id="andrewFeedback"></div>
+    <div class="rewrite-options" id="andrewAddIns">
+      <span style="font-size:13px;font-weight:700;color:var(--ink-light);margin-right:4px;">Enhance your writing:</span>
+      <button class="btn btn-outline btn-sm" onclick="getAndrewRewrite('polished')">Show me a polished version</button>
+      <button class="btn btn-outline btn-sm" onclick="getAndrewRewrite('metaphor')">Add a metaphor</button>
+      <button class="btn btn-outline btn-sm" onclick="getAndrewRewrite('simile')">Add a simile</button>
+      <button class="btn btn-outline btn-sm" onclick="getAndrewRewrite('onomatopoeia')">Add onomatopoeia</button>
+      <button class="btn btn-outline btn-sm" onclick="getAndrewRewrite('sensory')">More sensory detail</button>
+    </div>
+    <div class="rewrite-box" id="andrewRewriteBox"></div>
+  </div>
+
+  <div class="next-row">
+    <button class="btn btn-gold" id="phase3Next" style="display:none;" onclick="goPhase(4)">Try some individual sentences &rarr;</button>
+  </div>
+</div>
+
+<!-- ==================== PHASE 4: TRANSFORM SENTENCES ==================== -->
+<div class="phase" id="phase4">
+  <h2 class="phase-title">Transform individual sentences</h2>
+  <p class="phase-sub">Now practise with single sentences. Rewrite each one, get feedback, and see how figurative language can enhance your writing.</p>
   <div class="transform-progress" id="transformProgress">Sentence 1 of 5</div>
   <div id="transformContainer"></div>
   <div class="next-row">
-    <button class="btn btn-gold" id="phase3Next" disabled onclick="goPhase(4)">On to the final challenge! &rarr;</button>
+    <button class="btn btn-purple" id="phase4Next" disabled onclick="goPhase(5)">On to the final challenge! &rarr;</button>
   </div>
 </div>
 
-<!-- ==================== PHASE 4: CREATE ==================== -->
-<div class="phase" id="phase4">
+<!-- ==================== PHASE 5: CREATE ==================== -->
+<div class="phase" id="phase5">
   <h2 class="phase-title">Your turn: 5 rubbish sentences</h2>
-  <p class="phase-sub">Pick a scenario, write 5 short "rubbish" sentences that tell the bare bones,<br>then expand them into a vivid passage full of showing.</p>
+  <p class="phase-sub">Pick a scenario, write 5 short "rubbish" sentences,<br>then expand them into a vivid passage.</p>
 
   <div class="card">
     <h3>Step 1: Pick your scenario</h3>
@@ -267,7 +273,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 
   <div class="card" id="rubbishCard" style="display:none;">
     <h3>Step 2: Write 5 short, boring sentences</h3>
-    <p style="font-size:14px;color:var(--ink-light);margin-bottom:16px;">Just the bare facts. No detail. Make them as plain as possible!</p>
+    <p style="font-size:14px;color:var(--ink-light);margin-bottom:16px;">Just the bare facts. No detail.</p>
     <div id="rubbishInputs"></div>
     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap;">
       <button class="btn btn-outline btn-sm" onclick="scaffoldSentences()">Write them for me</button>
@@ -277,10 +283,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 
   <div class="card" id="expandCard" style="display:none;">
     <h3>Step 3: Expand into a vivid passage</h3>
-    <p style="font-size:14px;color:var(--ink-light);margin-bottom:8px;">
-      Take those 5 boring sentences and turn them into an exciting, detailed passage.
-      Slow down the action. Add what the character sees, hears, feels, thinks.
-    </p>
+    <p style="font-size:14px;color:var(--ink-light);margin-bottom:8px;">Slow down the action. Add what the character sees, hears, feels, thinks.</p>
     <div id="rubbishReminder" style="background:#fef2f2;border-radius:12px;padding:14px 18px;margin-bottom:16px;font-family:'Lora',serif;font-size:14px;line-height:1.7;color:var(--accent);"></div>
     <textarea class="expanded-textarea" id="expandedText" placeholder="Start writing your expanded passage here..."></textarea>
     <div class="word-count" id="wordCount">0 words</div>
@@ -288,8 +291,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
       <button class="btn btn-teal btn-sm" onclick="getFinalFeedback()">Get feedback</button>
     </div>
     <div class="feedback-box" id="finalFeedback"></div>
-    <div class="rewrite-options" id="finalRewriteOpts" style="display:none;">
-      <button class="btn btn-outline btn-sm" onclick="getFinalRewrite('polished')">Show me a polished version</button>
+    <div class="rewrite-options" id="finalRewriteOpts">
+      <button class="btn btn-outline btn-sm" onclick="getFinalRewrite('polished')">Polished version</button>
       <button class="btn btn-outline btn-sm" onclick="getFinalRewrite('metaphor')">Add a metaphor</button>
       <button class="btn btn-outline btn-sm" onclick="getFinalRewrite('simile')">Add a simile</button>
       <button class="btn btn-outline btn-sm" onclick="getFinalRewrite('onomatopoeia')">Add onomatopoeia</button>
@@ -299,7 +302,15 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 </div>
 
 <script>
-// ===== NAV =====
+const feedbackPrompt=`You are a warm, specific writing coach for primary school students (around age 10-11). You are helping them practise "Show, Don't Tell" writing. Use British English. Do not use bullet points, numbered lists, or em-dashes. Write in short, plain paragraphs.
+When giving feedback:
+1. Name a SPECIFIC word or phrase the student chose and explain why it works (or suggest a stronger alternative).
+2. Comment on sentence construction: did they vary sentence length? Use a short sentence for impact?
+3. Assess whether they genuinely "showed" rather than "told". If they still have "telling" language, point it out gently.
+4. Give ONE specific next-step suggestion.
+5. Keep it to 4-5 sentences. Be encouraging but honest.`;
+
+// NAV
 document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>{if(!b.disabled)goPhase(parseInt(b.dataset.phase));}));
 function goPhase(n){
   document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
@@ -307,57 +318,120 @@ function goPhase(n){
   document.getElementById('phase'+n).classList.add('active');
   const btn=document.querySelector(`.nav-btn[data-phase="${n}"]`);btn.classList.add('active');btn.disabled=false;
   window.scrollTo({top:0,behavior:'smooth'});
-  if(n===2)initPhase2();if(n===3)initPhase3();if(n===4)initPhase4();
+  if(n===2)initPhase2();if(n===3)initPhase3();if(n===4)initPhase4();if(n===5)initPhase5();
 }
 
 // ===== PHASE 1: LEARN SLIDES =====
-let currentSlide=0;
-const totalSlides=6;
+let currentSlide=0;const totalSlides=6;let revealSteps={};
 function initSlides(){
   const dots=document.getElementById('slideDots');
   for(let i=0;i<totalSlides;i++){const d=document.createElement('div');d.className='slide-dot'+(i===0?' active':'');dots.appendChild(d);}
-  updateSlideNav();
+  document.querySelectorAll('.learn-slide').forEach((_,i)=>{revealSteps[i]=0;});
+  updateSlideNav();updateRevealPrompt();
 }
-function changeSlide(dir){
-  const next=currentSlide+dir;
-  if(next<0||next>=totalSlides)return;
+function getMaxReveals(idx){return parseInt(document.querySelectorAll('.learn-slide')[idx].dataset.reveals||'0');}
+function advanceSlide(){
+  const max=getMaxReveals(currentSlide),cur=revealSteps[currentSlide];
+  if(cur<max){revealSteps[currentSlide]++;applyReveals(currentSlide);updateRevealPrompt();updateSlideNav();}
+  else if(currentSlide<totalSlides-1){goToSlide(currentSlide+1);}
+}
+function retreatSlide(){
+  const cur=revealSteps[currentSlide];
+  if(cur>0){revealSteps[currentSlide]--;applyReveals(currentSlide);updateRevealPrompt();updateSlideNav();}
+  else if(currentSlide>0){goToSlide(currentSlide-1);revealSteps[currentSlide]=getMaxReveals(currentSlide);applyReveals(currentSlide);updateRevealPrompt();updateSlideNav();}
+}
+function goToSlide(idx){
   document.querySelectorAll('.learn-slide').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.learn-slide')[next].classList.add('active');
-  currentSlide=next;
-  updateSlideNav();
+  document.querySelectorAll('.learn-slide')[idx].classList.add('active');
+  currentSlide=idx;applyReveals(idx);updateSlideNav();updateRevealPrompt();
 }
+function applyReveals(idx){
+  const slide=document.querySelectorAll('.learn-slide')[idx],step=revealSteps[idx];
+  slide.querySelectorAll('.reveal').forEach(el=>{el.classList.toggle('visible',parseInt(el.dataset.revealOrder||'0')<=step);});
+}
+function updateRevealPrompt(){
+  document.querySelectorAll('.reveal-note').forEach(n=>n.classList.remove('visible'));
+  const slide=document.querySelectorAll('.learn-slide')[currentSlide],step=revealSteps[currentSlide],max=getMaxReveals(currentSlide);
+  if(step<max){const p=slide.querySelector(`.reveal-note[data-reveal-prompt="${step+1}"]`);if(p)p.classList.add('visible');}
+}
+function changeSlide(dir){if(dir>0)advanceSlide();else retreatSlide();}
 function updateSlideNav(){
-  document.getElementById('slidePrev').disabled=currentSlide===0;
-  document.getElementById('slideNext').disabled=currentSlide===totalSlides-1;
+  document.getElementById('slidePrev').disabled=currentSlide===0&&revealSteps[0]===0;
+  document.getElementById('slideNext').disabled=currentSlide===totalSlides-1&&revealSteps[currentSlide]>=getMaxReveals(currentSlide);
   document.querySelectorAll('.slide-dot').forEach((d,i)=>d.classList.toggle('active',i===currentSlide));
 }
 initSlides();
 
 // ===== PHASE 2: SPOT IT =====
 const spotData=[
-  {text:"Andrew walked up the wooden stairs.",hint:"How did he walk? Quickly? Slowly? Nervously? Did the stairs creak? Were they old, rotten? How did they feel underfoot?"},
-  {text:"The front door was huge, much bigger than a normal door.",hint:"What did the door look like? Were there carvings? A knocker? Was it made of iron, wood, stone? What did it make him think of?"},
-  {text:"He opened it gently and walked inside.",hint:"How did it feel to push the door? Was it heavy? Did it creak? What did he see, smell, or hear when he first stepped inside?"},
-  {text:"With a loud thud the door closed behind him.",hint:"What did the thud sound like? Did it echo? How did his body react? Did he jump? Did his heart race?"},
-  {text:"He hadn't touched it. Was he alone?",hint:"Here's a gap where you could add lots of detail. What is he feeling? What is he looking at? What sounds does he hear in the silence?"},
-  {text:"He started trembling and wondered would he ever get out of here alive?",hint:"Don't just tell us he trembled. Show us: shaking hands, weak knees, cold sweat, shallow breaths. What thoughts raced through his mind?"}
+  {text:"Andrew walked up the wooden stairs.",hint:"How did he walk? Did the stairs creak? Were they old, rotten? How did they feel underfoot?"},
+  {text:"The front door was huge, much bigger than a normal door.",hint:"What did the door look like? Were there carvings? A knocker? What did it make him think of?"},
+  {text:"He opened it gently and walked inside.",hint:"Was the door heavy? Did it creak? What did he see, smell, or hear when he stepped inside?"},
+  {text:"With a loud thud the door closed behind him.",hint:"What did the thud sound like? Did it echo? Did he jump? Did his heart race?"},
+  {text:"He hadn't touched it. Was he alone?",hint:"What is he feeling? What is he looking at? What sounds does he hear in the silence?"},
+  {text:"He started trembling and wondered would he ever get out of here alive?",hint:"Show us: shaking hands, weak knees, cold sweat, shallow breaths. What thoughts raced through his mind?"}
 ];
 let spotsFound=0;
 function initPhase2(){
   const c=document.getElementById('passageText');if(c.children.length>0)return;
   document.getElementById('spotTotal').textContent=spotData.length;
-  let html='';
-  spotData.forEach((s,i)=>{html+=`<span class="tell-spot" data-idx="${i}" onclick="revealSpot(this,${i})">${s.text}</span> <div class="spot-hint" id="hint-${i}"><strong>Ask yourself:</strong> ${s.hint}</div> `;});
+  let html='';spotData.forEach((s,i)=>{html+=`<span class="tell-spot" data-idx="${i}" onclick="revealSpot(this,${i})">${s.text}</span> <div class="spot-hint" id="hint-${i}"><strong>Ask yourself:</strong> ${s.hint}</div> `;});
   c.innerHTML=html;
 }
 function revealSpot(el,idx){
-  if(el.classList.contains('found'))return;
-  el.classList.add('found');document.getElementById('hint-'+idx).classList.add('show');spotsFound++;
+  if(el.classList.contains('found'))return;el.classList.add('found');
+  document.getElementById('hint-'+idx).classList.add('show');spotsFound++;
   document.getElementById('spotCount').textContent=spotsFound;
   if(spotsFound>=spotData.length){document.getElementById('spotDoneMsg').style.display='block';document.getElementById('phase2Next').disabled=false;document.querySelector('.nav-btn[data-phase="2"]').classList.add('done');}
 }
 
-// ===== PHASE 3: TRANSFORM =====
+// ===== PHASE 3: REWRITE ANDREW =====
+function initPhase3(){
+  document.getElementById('andrewRewrite').addEventListener('input',function(){
+    const wc=this.value.trim().split(/\s+/).filter(w=>w).length;
+    document.getElementById('andrewWC').textContent=wc+' word'+(wc!==1?'s':'');
+  });
+}
+const andrewOriginal="Andrew walked up the wooden stairs. The front door was huge, much bigger than a normal door. He opened it gently and walked inside. With a loud thud the door closed behind him. He hadn't touched it. Was he alone? He started trembling and wondered would he ever get out of here alive.";
+
+async function getAndrewFeedback(){
+  const input=document.getElementById('andrewRewrite').value.trim();
+  if(input.split(/\s+/).length<20){alert('Write a bit more before asking for feedback!');return;}
+  const fb=document.getElementById('andrewFeedback');
+  fb.className='feedback-box show loading';fb.textContent='Reading your writing...';
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:feedbackPrompt,
+        messages:[{role:"user",content:`The student was given these bare-bones "telling" sentences to rewrite:\n\n"${andrewOriginal}"\n\nThe student's rewrite:\n\n"${input}"\n\nGive specific feedback. Name particular words and phrases. Comment on sentence variety. Assess how well they "showed" rather than "told". 4-5 sentences.`}]})});
+    const data=await r.json();fb.className='feedback-box show success';fb.innerHTML=data.content.map(c=>c.text||'').join('');
+  }catch(e){fb.className='feedback-box show success';fb.innerHTML=fallbackFeedback(input);}
+  document.getElementById('andrewAddIns').classList.add('show');
+  document.getElementById('phase3Next').style.display='inline-block';
+  document.querySelector('.nav-btn[data-phase="3"]').classList.add('done');
+  document.querySelector('.nav-btn[data-phase="4"]').disabled=false;
+}
+
+async function getAndrewRewrite(type){
+  const input=document.getElementById('andrewRewrite').value.trim();
+  const box=document.getElementById('andrewRewriteBox');
+  const labels={polished:'A more polished version',metaphor:'With a metaphor woven in',simile:'With a simile woven in',onomatopoeia:'With onomatopoeia woven in',sensory:'With richer sensory detail'};
+  box.className='rewrite-box show';box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Writing...</p>`;
+  const prompts={
+    polished:`Take this student's passage and create a more polished version. Keep their ideas but improve word choice, sentence rhythm, and detail. Keep a similar length. Write for a Year 5 audience.\n\nStudent's passage: "${input}"`,
+    metaphor:`Take this student's passage and weave in 1-2 metaphors. Keep their story. After the rewrite, add a note in brackets explaining which parts are metaphors.\n\nStudent's passage: "${input}"`,
+    simile:`Take this student's passage and weave in 1-2 similes (using "like" or "as"). Keep their story. After the rewrite, add a note in brackets explaining which parts are similes.\n\nStudent's passage: "${input}"`,
+    onomatopoeia:`Take this student's passage and weave in 2-3 onomatopoeia words. Keep their story. After the rewrite, add a note in brackets explaining which words are onomatopoeia.\n\nStudent's passage: "${input}"`,
+    sensory:`Take this student's passage and add richer sensory details (sight, sound, touch, smell). Keep their story but make the reader feel like they are there. After the rewrite, add a note in brackets identifying which senses you added.\n\nStudent's passage: "${input}"`
+  };
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,system:"You are a creative writing assistant for primary school students (age 10-11). Use British English. Write in a style that is aspirational but achievable for this age group. Do not use em-dashes.",
+        messages:[{role:"user",content:prompts[type]}]})});
+    const data=await r.json();box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${data.content.map(c=>c.text||'').join('')}</p>`;
+  }catch(e){box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Could not generate. Check your connection and try again.</p>`;}
+}
+
+// ===== PHASE 4: TRANSFORM SENTENCES =====
 const transformSentences=[
   {tell:"The dry plains stretched endlessly to the horizon.",prompt:"What colour were the plains? Was the ground cracked? Was there any wind? What did the heat feel like?"},
   {tell:"A car flew down the highway.",prompt:"What kind of car? What sounds did it make? Was there dust behind it? How fast did it feel?"},
@@ -366,15 +440,12 @@ const transformSentences=[
   {tell:"Rain started to fall.",prompt:"Was it light or heavy? Cold or warm? What did it sound like hitting the ground? What did it smell like?"}
 ];
 let currentTransform=0,transformCount=0;
-
-function initPhase3(){showTransform(0);}
-
+function initPhase4(){showTransform(0);}
 function showTransform(idx){
   currentTransform=idx;const s=transformSentences[idx];
   document.getElementById('transformProgress').textContent=`Sentence ${idx+1} of ${transformSentences.length}`;
-  const c=document.getElementById('transformContainer');
   const isLast=idx===transformSentences.length-1;
-  c.innerHTML=`<div class="card">
+  document.getElementById('transformContainer').innerHTML=`<div class="card">
     <div class="tell-sentence">"${s.tell}"</div>
     <p style="font-size:14px;color:var(--ink-light);margin-bottom:12px;"><strong>Think about:</strong> ${s.prompt}</p>
     <textarea class="transform-textarea" id="transformInput" placeholder="Rewrite this sentence to show the reader what is happening..."></textarea>
@@ -383,86 +454,51 @@ function showTransform(idx){
       <button class="btn btn-primary btn-sm" id="nextTransformBtn" style="display:none;" onclick="${isLast?'finishTransforms()':'showTransform('+(idx+1)+')'}">${isLast?'Finish! \u2192':'Next sentence \u2192'}</button>
     </div>
     <div class="feedback-box" id="transformFeedback"></div>
-    <div class="rewrite-options" id="rewriteOpts" style="display:none;">
-      <button class="btn btn-outline btn-sm" onclick="getRewrite('polished')">Show me a polished version</button>
-      <button class="btn btn-outline btn-sm" onclick="getRewrite('metaphor')">Add a metaphor</button>
-      <button class="btn btn-outline btn-sm" onclick="getRewrite('simile')">Add a simile</button>
-      <button class="btn btn-outline btn-sm" onclick="getRewrite('onomatopoeia')">Add onomatopoeia</button>
+    <div class="rewrite-options" id="rewriteOpts">
+      <button class="btn btn-outline btn-sm" onclick="getTransformRewrite('polished')">Polished version</button>
+      <button class="btn btn-outline btn-sm" onclick="getTransformRewrite('metaphor')">Add a metaphor</button>
+      <button class="btn btn-outline btn-sm" onclick="getTransformRewrite('simile')">Add a simile</button>
+      <button class="btn btn-outline btn-sm" onclick="getTransformRewrite('onomatopoeia')">Add onomatopoeia</button>
     </div>
-    <div class="rewrite-box" id="rewriteBox"></div>
+    <div class="rewrite-box" id="transformRewriteBox"></div>
   </div>`;
 }
 
-const feedbackSystemPrompt = `You are a warm, specific writing coach for primary school students (around age 10-11). You are helping them practise "Show, Don't Tell" writing. Use British English. Do not use bullet points, numbered lists, or em-dashes. Write in short, plain paragraphs.
-
-When giving feedback:
-1. Name a SPECIFIC word or phrase the student chose and explain why it works (or suggest a stronger alternative). For example: "Your word 'shattered' is powerful because it helps us hear the sound."
-2. Comment on their sentence construction: did they vary sentence length? Did they use a short sentence for impact?
-3. Assess whether they genuinely "showed" rather than "told". If they still have "telling" language (e.g. "it was scary", "he felt sad"), point it out gently and suggest how to convert it.
-4. Give ONE specific next-step suggestion.
-5. Keep it to 4-5 sentences total. Be encouraging but honest.`;
-
 async function getTransformFeedback(){
   const input=document.getElementById('transformInput').value.trim();
-  if(input.length<15){alert('Write a bit more before asking for feedback!');return;}
+  if(input.length<15){alert('Write a bit more first!');return;}
   const fb=document.getElementById('transformFeedback');
   fb.className='feedback-box show loading';fb.textContent='Reading your writing...';
   const original=transformSentences[currentTransform].tell;
   try{
     const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:feedbackSystemPrompt,
-        messages:[{role:"user",content:`The original "telling" sentence was:\n"${original}"\n\nThe student rewrote it as:\n"${input}"\n\nGive specific feedback on their word choices, sentence construction, and how well they "showed" rather than "told".`}]})});
-    const data=await r.json();const text=data.content.map(c=>c.text||'').join('');
-    fb.className='feedback-box show success';fb.innerHTML=text;
-  }catch(e){fb.className='feedback-box show success';fb.innerHTML=getFallbackFeedback(input,original);}
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:feedbackPrompt,
+        messages:[{role:"user",content:`Original "telling" sentence: "${original}"\nStudent's rewrite: "${input}"\nGive specific feedback on word choices, sentence construction, and how well they "showed" rather than "told".`}]})});
+    const data=await r.json();fb.className='feedback-box show success';fb.innerHTML=data.content.map(c=>c.text||'').join('');
+  }catch(e){fb.className='feedback-box show success';fb.innerHTML=fallbackFeedback(input);}
   document.getElementById('nextTransformBtn').style.display='inline-block';
-  document.getElementById('rewriteOpts').style.display='flex';
-  transformCount++;
-  if(transformCount>=transformSentences.length)document.getElementById('phase3Next').disabled=false;
+  document.getElementById('rewriteOpts').classList.add('show');
+  transformCount++;if(transformCount>=transformSentences.length)document.getElementById('phase4Next').disabled=false;
 }
 
-async function getRewrite(type){
+async function getTransformRewrite(type){
   const input=document.getElementById('transformInput').value.trim();
-  const box=document.getElementById('rewriteBox');
-  const labels={polished:'A more polished version',metaphor:'With a metaphor added',simile:'With a simile added',onomatopoeia:'With onomatopoeia added'};
+  const box=document.getElementById('transformRewriteBox');
+  const labels={polished:'A more polished version',metaphor:'With a metaphor',simile:'With a simile',onomatopoeia:'With onomatopoeia'};
   box.className='rewrite-box show';box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Writing...</p>`;
   const original=transformSentences[currentTransform].tell;
-  const prompts={
-    polished:`Take this student's "showing" rewrite and create a more polished version. Keep the same ideas but improve word choice, sentence rhythm, and sensory detail. Write 2-4 sentences max.\n\nOriginal telling sentence: "${original}"\nStudent's version: "${input}"`,
-    metaphor:`Take this student's "showing" rewrite and add a metaphor to make it more vivid. Keep their core ideas but weave in one clear metaphor. Write 2-4 sentences max. After the rewrite, add a brief note in brackets explaining which part is the metaphor.\n\nOriginal telling sentence: "${original}"\nStudent's version: "${input}"`,
-    simile:`Take this student's "showing" rewrite and add a simile (using "like" or "as") to make it more vivid. Keep their core ideas. Write 2-4 sentences max. After the rewrite, add a brief note in brackets explaining which part is the simile.\n\nOriginal telling sentence: "${original}"\nStudent's version: "${input}"`,
-    onomatopoeia:`Take this student's "showing" rewrite and add onomatopoeia (words that sound like what they describe) to make it more vivid. Keep their core ideas. Write 2-4 sentences max. After the rewrite, add a brief note in brackets explaining which words are onomatopoeia.\n\nOriginal telling sentence: "${original}"\nStudent's version: "${input}"`
-  };
+  const instructions={polished:'polish it',metaphor:'weave in a metaphor and note it in brackets',simile:'weave in a simile using "like" or "as" and note it in brackets',onomatopoeia:'add onomatopoeia and note the words in brackets'};
   try{
     const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:500,system:"You are a creative writing assistant for primary school students (age 10-11). Use British English. Write in a style appropriate for this age group. Do not use em-dashes.",
-        messages:[{role:"user",content:prompts[type]}]})});
-    const data=await r.json();const text=data.content.map(c=>c.text||'').join('');
-    box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${text}</p>`;
-  }catch(e){
-    box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Could not generate a rewrite. Try again or check your connection.</p>`;
-  }
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:500,system:"You are a creative writing assistant for primary school students (age 10-11). Use British English. Do not use em-dashes. Write 2-4 sentences max.",
+        messages:[{role:"user",content:`Original: "${original}"\nStudent wrote: "${input}"\nRewrite their version to ${instructions[type]}. Keep their ideas.`}]})});
+    const data=await r.json();box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${data.content.map(c=>c.text||'').join('')}</p>`;
+  }catch(e){box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Could not generate. Try again.</p>`;}
 }
 
-function getFallbackFeedback(input,original){
-  const words=input.split(/\s+/).length;
-  const hasSensory=/see|saw|heard|hear|felt|feel|smell|taste|touch|cold|hot|warm|loud|soft|bright|dark|echo|crack|rumbl|wind|shadow|light|silence|dust|creak/i.test(input);
-  const hasEmotion=/heart|tremble|shak|fear|terri|nervous|breath|gasp|freez|shiver|sweat|jump|froze|surge/i.test(input);
-  const isLonger=words>original.split(/\s+/).length*1.5;
-  let fb='';
-  if(isLonger&&hasSensory)fb='Great work! You\'ve expanded the original nicely and included sensory details that help the reader picture the scene. ';
-  else if(isLonger)fb='Good effort adding more detail to the original sentence! You\'ve stretched the moment, which is exactly the right idea. ';
-  else fb='You\'ve made a start, but try to add even more detail. Remember: slow down the moment and describe what the character sees, hears, or feels. ';
-  if(hasSensory&&hasEmotion)fb+='You\'ve used both sensory details and physical reactions, which makes your writing vivid. ';
-  else if(!hasSensory)fb+='Try adding a sensory detail: what can the character hear, see, or feel in this moment? ';
-  else if(!hasEmotion)fb+='Consider adding how the character reacts physically. Does their heart race? Do they hold their breath? ';
-  fb+='Keep going, you\'re building strong writing habits!';
-  return fb;
-}
+function finishTransforms(){document.querySelector('.nav-btn[data-phase="4"]').classList.add('done');document.getElementById('phase4Next').disabled=false;goPhase(5);}
 
-function finishTransforms(){document.querySelector('.nav-btn[data-phase="3"]').classList.add('done');document.getElementById('phase3Next').disabled=false;goPhase(4);}
-
-// ===== PHASE 4: CREATE =====
+// ===== PHASE 5: CREATE =====
 const scenarios=[
   {id:'climb',label:'Rock climbing wall',scaffold:['I stood at the bottom of the wall.','I grabbed the first hold.','I climbed higher.','I got tired and scared.','I eventually made it to the top.']},
   {id:'tunnel',label:'A dark tunnel',scaffold:['The tunnel door opened.','I crawled inside.','It was pitch black.','The path twisted and turned.','I saw the light at the end of the tunnel.']},
@@ -472,35 +508,22 @@ const scenarios=[
   {id:'custom',label:'Your own idea',scaffold:['','','','','']}
 ];
 let selectedScenario=null;
-
-function initPhase4(){
+function initPhase5(){
   const picker=document.getElementById('scenarioPicker');if(picker.children.length>0)return;
   scenarios.forEach(s=>{const d=document.createElement('div');d.className='scenario-opt';d.textContent=s.label;d.onclick=()=>selectScenario(s,d);picker.appendChild(d);});
 }
-
 function selectScenario(scenario,el){
   document.querySelectorAll('.scenario-opt').forEach(o=>o.classList.remove('selected'));
   el.classList.add('selected');selectedScenario=scenario;
   document.getElementById('rubbishCard').style.display='block';
   const inputs=document.getElementById('rubbishInputs');inputs.innerHTML='';
-  for(let i=1;i<=5;i++){
-    inputs.innerHTML+=`<div class="rubbish-row"><div class="rubbish-num">${i}</div><input class="rubbish-input" id="rubbish${i}" placeholder="Short, boring sentence #${i}..."></div>`;
-  }
+  for(let i=1;i<=5;i++)inputs.innerHTML+=`<div class="rubbish-row"><div class="rubbish-num">${i}</div><input class="rubbish-input" id="rubbish${i}" placeholder="Short, boring sentence #${i}..."></div>`;
   document.getElementById('expandCard').style.display='none';
 }
-
-function scaffoldSentences(){
-  if(!selectedScenario)return;
-  selectedScenario.scaffold.forEach((s,i)=>{
-    const input=document.getElementById('rubbish'+(i+1));
-    if(input&&s)input.value=s;
-  });
-}
-
+function scaffoldSentences(){if(!selectedScenario)return;selectedScenario.scaffold.forEach((s,i)=>{const inp=document.getElementById('rubbish'+(i+1));if(inp&&s)inp.value=s;});}
 function startExpanding(){
-  const sentences=[];
-  for(let i=1;i<=5;i++){const v=document.getElementById('rubbish'+i).value.trim();if(v)sentences.push(v);}
-  if(sentences.length<3){alert('Write at least 3 sentences before expanding!');return;}
+  const sentences=[];for(let i=1;i<=5;i++){const v=document.getElementById('rubbish'+i).value.trim();if(v)sentences.push(v);}
+  if(sentences.length<3){alert('Write at least 3 sentences first!');return;}
   document.getElementById('expandCard').style.display='block';
   document.getElementById('rubbishReminder').innerHTML='<strong>Your bare bones:</strong><br>'+sentences.map((s,i)=>`${i+1}. ${s}`).join('<br>');
   document.getElementById('expandedText').addEventListener('input',function(){
@@ -512,46 +535,81 @@ function startExpanding(){
 
 async function getFinalFeedback(){
   const text=document.getElementById('expandedText').value.trim();
-  if(text.split(/\s+/).length<20){alert('Write a bit more before asking for feedback!');return;}
+  if(text.split(/\s+/).length<20){alert('Write a bit more first!');return;}
   const fb=document.getElementById('finalFeedback');
   fb.className='feedback-box show loading';fb.textContent='Reading your passage...';
   const rubbish=document.getElementById('rubbishReminder').textContent;
   try{
     const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:feedbackSystemPrompt,
-        messages:[{role:"user",content:`The student started with these bare-bones "telling" sentences:\n\n${rubbish}\n\nThen expanded them into this passage:\n\n"${text}"\n\nGive specific feedback. Name particular words and phrases they chose. Comment on sentence variety and length. Assess how well they "showed" rather than "told". Suggest one specific improvement. Be encouraging but honest. 4-5 sentences.`}]})});
-    const data=await r.json();const result=data.content.map(c=>c.text||'').join('');
-    fb.className='feedback-box show success';fb.innerHTML=result;
-  }catch(e){
-    const words=text.split(/\s+/).length;const hasSensory=/see|saw|heard|hear|felt|feel|smell|taste|touch|cold|hot|warm|loud|soft|bright|dark|echo|crack|rumbl|wind|shadow|light|silence/i.test(text);
-    let msg=words>80&&hasSensory?`Well done! You\'ve written a detailed passage with ${words} words and included some lovely sensory details. Your writing shows you understand how to slow down the action and paint a picture for the reader. To take it even further, try adding a line about what your character is thinking at the most intense moment. Keep it up!`
-      :words>40?`Good effort! You\'ve expanded into ${words} words, which shows you\'re starting to add detail. Try including more of the five senses: what can your character hear, smell, or feel? The more specific your details, the more vivid the picture becomes.`
-      :`You\'ve made a start, but there\'s room to add much more. Try picking one sentence and spending a whole paragraph just on that moment. What does the character see? Hear? Feel? Give it another go!`;
-    fb.className='feedback-box show success';fb.innerHTML=msg;
-  }
-  document.getElementById('finalRewriteOpts').style.display='flex';
-  document.querySelector('.nav-btn[data-phase="4"]').classList.add('done');
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:feedbackPrompt,
+        messages:[{role:"user",content:`Starting sentences:\n${rubbish}\n\nStudent's expanded passage:\n"${text}"\n\nGive specific feedback. Name words and phrases. Comment on sentence variety. 4-5 sentences.`}]})});
+    const data=await r.json();fb.className='feedback-box show success';fb.innerHTML=data.content.map(c=>c.text||'').join('');
+  }catch(e){fb.className='feedback-box show success';fb.innerHTML=fallbackFeedback(text);}
+  document.getElementById('finalRewriteOpts').classList.add('show');
+  document.querySelector('.nav-btn[data-phase="5"]').classList.add('done');
 }
 
 async function getFinalRewrite(type){
   const input=document.getElementById('expandedText').value.trim();
   const box=document.getElementById('finalRewrite');
-  const labels={polished:'A more polished version',metaphor:'With a metaphor woven in',simile:'With a simile woven in',onomatopoeia:'With onomatopoeia woven in'};
+  const labels={polished:'A more polished version',metaphor:'With a metaphor',simile:'With a simile',onomatopoeia:'With onomatopoeia'};
   box.className='rewrite-box show';box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Writing...</p>`;
-  const prompts={
-    polished:`Take this student's passage and create a more polished version. Keep their ideas and story but improve word choice, sentence rhythm, and sensory detail. Keep it a similar length. Write for a Year 5 audience.\n\nStudent's passage: "${input}"`,
-    metaphor:`Take this student's passage and weave in 1-2 metaphors to make it more vivid. Keep their story and ideas. After the rewrite, add a brief note in brackets explaining which parts are metaphors.\n\nStudent's passage: "${input}"`,
-    simile:`Take this student's passage and weave in 1-2 similes (using "like" or "as") to make it more vivid. Keep their story and ideas. After the rewrite, add a brief note in brackets explaining which parts are similes.\n\nStudent's passage: "${input}"`,
-    onomatopoeia:`Take this student's passage and weave in 2-3 onomatopoeia words to make it more vivid. Keep their story and ideas. After the rewrite, add a brief note in brackets explaining which words are onomatopoeia.\n\nStudent's passage: "${input}"`
-  };
+  const instructions={polished:'polish it with better word choice and rhythm',metaphor:'weave in a metaphor and note it in brackets',simile:'weave in a simile and note it in brackets',onomatopoeia:'add onomatopoeia and note the words in brackets'};
   try{
     const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,system:"You are a creative writing assistant for primary school students (age 10-11). Use British English. Write in a style that is aspirational but achievable for this age group. Do not use em-dashes.",
-        messages:[{role:"user",content:prompts[type]}]})});
-    const data=await r.json();const text=data.content.map(c=>c.text||'').join('');
-    box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${text}</p>`;
-  }catch(e){box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Could not generate. Check your connection and try again.</p>`;}
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,system:"You are a creative writing assistant for primary school students (age 10-11). Use British English. Do not use em-dashes. Keep a similar length to the student's version.",
+        messages:[{role:"user",content:`Student's passage: "${input}"\nRewrite to ${instructions[type]}. Keep their ideas and story.`}]})});
+    const data=await r.json();box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${data.content.map(c=>c.text||'').join('')}</p>`;
+  }catch(e){box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Could not generate. Try again.</p>`;}
 }
+
+function fallbackFeedback(input){
+  const words=input.split(/\s+/).length;
+  const hasSensory=/see|saw|heard|hear|felt|feel|smell|taste|touch|cold|hot|warm|loud|soft|bright|dark|echo|crack|rumbl|wind|shadow|light|silence|dust|creak/i.test(input);
+  const hasEmotion=/heart|tremble|shak|fear|terri|nervous|breath|gasp|freez|shiver|sweat|jump|froze|surge/i.test(input);
+  let fb=words>60&&hasSensory?'Great work! You\'ve written a detailed passage with sensory details that help the reader picture the scene. '
+    :words>30?'Good effort expanding the original! You\'re starting to add detail, which is exactly the right idea. '
+    :'You\'ve made a start, but try slowing down each moment and describing what the character sees, hears, or feels. ';
+  if(!hasSensory)fb+='Try adding a sensory detail: what can the character hear, see, or feel? ';
+  if(!hasEmotion)fb+='Consider showing a physical reaction: does their heart race? Do they hold their breath? ';
+  fb+='Keep going!';return fb;
+}
+
+// KEYBOARD / CLICKER
+// Capture at the document level with useCapture=true so we intercept before browser scrolls
+document.addEventListener('keydown', function(e) {
+  // Keys that presentation remotes commonly send
+  const nextKeys = ['ArrowRight', 'PageDown', 'Space', 'Enter'];
+  const prevKeys = ['ArrowLeft', 'PageUp', 'Backspace'];
+  const isNext = nextKeys.includes(e.key) || (e.key === ' ');
+  const isPrev = prevKeys.includes(e.key);
+
+  if (!isNext && !isPrev) return;
+
+  // Don't capture if typing in a text field
+  const tag = e.target.tagName;
+  if (tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'SELECT') return;
+  // Don't capture if clicking a button
+  if (tag === 'BUTTON' || e.target.closest('button')) return;
+
+  const active = document.querySelector('.phase.active');
+  if (!active) return;
+
+  if (active.id === 'phase1') {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isNext) advanceSlide();
+    if (isPrev) retreatSlide();
+  }
+}, true); // useCapture = true to fire before scroll
+
+// Click anywhere on a slide card to advance (backup for clicker issues)
+document.getElementById('phase1').addEventListener('click', function(e) {
+  // Don't trigger if clicking a button, link, textarea or input
+  if (e.target.closest('button') || e.target.closest('a') || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+  const active = document.querySelector('.phase.active');
+  if (active && active.id === 'phase1') advanceSlide();
+});
 </script>
 </body>
 </html>
