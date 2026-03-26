@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figurative Language Workshop</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fefcf6;--card:#fff;--ink:#1e1e1e;--ink-light:#6b6b6b;--accent:#667eea;--accent-light:#f0f0ff;--teal:#4caf50;--teal-light:#d4edda;--gold:#f39c12;--gold-light:#fff3cd;--shadow:0 4px 20px rgba(0,0,0,0.06);--shadow-hover:0 8px 32px rgba(0,0,0,0.12);--radius:16px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+.bg-shapes{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;opacity:0.1;animation:bfloat 20s ease-in-out infinite;}
+.bg-shape:nth-child(1){width:300px;height:300px;background:#ff6b6b;top:-80px;left:-60px;}
+.bg-shape:nth-child(2){width:200px;height:200px;background:#4ecdc4;top:30%;right:-40px;animation-delay:-5s;animation-duration:25s;}
+.bg-shape:nth-child(3){width:250px;height:250px;background:#ffd166;bottom:10%;left:10%;animation-delay:-10s;animation-duration:22s;}
+.bg-shape:nth-child(4){width:180px;height:180px;background:#a78bfa;top:60%;right:15%;animation-delay:-15s;animation-duration:28s;}
+.bg-shape:nth-child(5){width:140px;height:140px;background:#38bdf8;top:15%;left:40%;animation-delay:-8s;animation-duration:18s;}
+@keyframes bfloat{0%,100%{transform:translate(0,0) rotate(0deg);}25%{transform:translate(30px,-20px) rotate(5deg);}50%{transform:translate(-20px,30px) rotate(-3deg);}75%{transform:translate(15px,15px) rotate(4deg);}}
+
+.header{text-align:center;padding:40px 24px 16px;position:relative;z-index:1;}
+.header h1{font-family:'Fredoka',sans-serif;font-size:clamp(30px,6vw,52px);font-weight:700;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
+.header .sub{font-size:clamp(16px,2.5vw,22px);color:var(--ink-light);font-weight:600;}
+
+.name-bar{display:flex;justify-content:center;align-items:center;gap:10px;padding:0 20px 10px;position:relative;z-index:1;flex-wrap:wrap;}
+.name-bar label{font-weight:700;font-size:15px;}
+.name-bar input{font-family:'Nunito',sans-serif;font-size:16px;font-weight:600;padding:8px 16px;border:2px solid #ddd;border-radius:10px;width:220px;outline:none;}
+.name-bar input:focus{border-color:var(--accent);}
+
+.phase-nav{display:flex;justify-content:center;gap:8px;padding:12px 20px;flex-wrap:wrap;position:relative;z-index:1;}
+.nav-btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:10px 22px;border:3px solid #ddd;border-radius:40px;background:white;color:var(--ink-light);cursor:pointer;transition:all 0.3s;}
+.nav-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+.nav-btn.done{border-color:var(--teal);color:var(--teal);}
+.nav-btn.done::after{content:' \2713';}
+.nav-btn[disabled]{opacity:0.4;cursor:not-allowed;}
+
+.phase{display:none;max-width:80%;margin:0 auto;padding:0 20px 60px;position:relative;z-index:1;}
+.phase.active{display:block;animation:fadeIn 0.4s ease;}
+.phase-title{font-family:'Fredoka',sans-serif;font-size:clamp(24px,4vw,36px);font-weight:700;text-align:center;margin-bottom:8px;}
+.phase-sub{text-align:center;font-size:clamp(15px,2vw,19px);color:var(--ink-light);margin-bottom:28px;line-height:1.5;}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px;margin-bottom:24px;}
+.card h3{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.5vw,24px);margin-bottom:14px;}
+
+.btn{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 32px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn-primary{background:var(--accent);color:white;}
+.btn-teal{background:var(--teal);color:white;}
+.btn-outline{background:white;color:var(--ink);border:2px solid #ddd;}
+.btn-outline:hover{border-color:var(--ink);}
+.btn-sm{font-size:14px;padding:8px 20px;}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+.next-row{text-align:center;margin-top:28px;}
+
+/* PHASE 1: REWRITE */
+.plain-passage{font-family:'Lora',serif;font-size:clamp(16px,2vw,20px);line-height:1.8;background:#fef2f2;padding:22px;border-radius:12px;border-left:4px solid #e74c3c;margin-bottom:16px;font-style:italic;color:#c0392b;}
+.checklist{margin:16px 0;font-size:clamp(14px,1.6vw,17px);}
+.checklist-item{display:flex;align-items:center;gap:10px;padding:6px 0;}
+.checklist-item input[type="checkbox"]{width:20px;height:20px;accent-color:var(--accent);}
+.write-area{width:100%;min-height:200px;font-family:'Lora',serif;font-size:clamp(16px,2vw,20px);line-height:1.8;padding:20px;border:2px solid #e0e0e0;border-radius:12px;resize:vertical;outline:none;background:#fafafa;}
+.write-area:focus{border-color:var(--accent);background:white;}
+.write-area::placeholder{color:#bbb;font-style:italic;}
+.word-count{text-align:right;font-size:13px;color:var(--ink-light);margin-top:6px;font-weight:600;}
+
+.feedback-box{display:none;margin-top:16px;padding:20px;border-radius:12px;font-size:clamp(15px,1.8vw,19px);line-height:1.7;}
+.feedback-box.show{display:block;animation:fadeIn 0.4s ease;}
+.feedback-box.loading{background:#f5f5f5;color:var(--ink-light);text-align:center;}
+.feedback-box.success{background:var(--teal-light);border-left:4px solid var(--teal);}
+
+.technique-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.technique-tag{font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;color:white;text-transform:uppercase;letter-spacing:0.5px;}
+
+/* PHASE 2: FREE WRITE */
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:24px;}
+.scenario-card{background:white;border:2px solid #e0e0e0;border-radius:12px;padding:18px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.scenario-card:hover{border-color:var(--accent);background:var(--accent-light);}
+.scenario-card.selected{border-color:var(--accent);background:var(--accent-light);}
+.scenario-card .sc-emoji{font-size:32px;margin-bottom:6px;display:block;}
+.scenario-card .sc-label{font-weight:700;font-size:15px;}
+
+.brief-box{background:var(--accent-light);border:2px solid var(--accent);border-radius:12px;padding:18px;margin-bottom:16px;font-size:clamp(14px,1.6vw,17px);line-height:1.6;}
+.brief-box strong{color:var(--accent);}
+
+/* PHASE 3: GALLERY */
+.gallery-card{background:white;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,0.1);padding:48px 40px;max-width:700px;margin:0 auto;position:relative;overflow:hidden;}
+.gallery-card::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,#ff6b6b,#ffd166,#4ecdc4,#a78bfa,#38bdf8);}
+.gallery-title{font-family:'Fredoka',sans-serif;font-size:clamp(20px,3vw,28px);font-weight:700;color:var(--accent);margin-bottom:6px;}
+.gallery-author{font-size:clamp(14px,1.6vw,17px);color:var(--ink-light);margin-bottom:20px;font-weight:600;}
+.gallery-text{font-family:'Lora',serif;font-size:clamp(16px,2vw,20px);line-height:2;color:var(--ink);}
+.gallery-tags{margin-top:20px;display:flex;flex-wrap:wrap;gap:8px;}
+.gallery-footer{text-align:center;margin-top:24px;font-size:14px;color:var(--ink-light);font-style:italic;}
+
+.print-btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:10px 24px;border:2px solid var(--accent);border-radius:30px;background:white;color:var(--accent);cursor:pointer;margin-top:16px;}
+.print-btn:hover{background:var(--accent);color:white;}
+
+@media print{body *{visibility:hidden;}.gallery-card,.gallery-card *{visibility:visible;}.gallery-card{position:absolute;left:0;top:0;width:100%;box-shadow:none;}.print-btn,.phase-nav,.header,.name-bar,.bg-shapes{display:none!important;}}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:500px){.phase{max-width:95%;}.card,.gallery-card{padding:20px;}}
+</style>
+</head>
+<body>
+<div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>
+
+<div class="header">
+  <h1>Figurative Language Workshop</h1>
+  <div class="sub">Part 3: Put it all together.</div>
+</div>
+<div class="name-bar">
+  <label for="studentName">Your name:</label>
+  <input type="text" id="studentName" placeholder="Enter your name">
+</div>
+
+<nav class="phase-nav">
+  <button class="nav-btn active" data-phase="1">1. Rewrite</button>
+  <button class="nav-btn" data-phase="2" disabled>2. Free Write</button>
+  <button class="nav-btn" data-phase="3" disabled>3. Gallery</button>
+</nav>
+
+<!-- ===== PHASE 1: REWRITE ===== -->
+<div class="phase active" id="phase1">
+  <h2 class="phase-title">Rewrite with figurative language</h2>
+  <p class="phase-sub">This paragraph is plain and boring. Rewrite it using at least 3 different types of figurative language. Use the checklist to track what you've included.</p>
+
+  <div class="card">
+    <h3>The original (plain and boring):</h3>
+    <div class="plain-passage">The storm arrived quickly. The rain was heavy and the wind was strong. Lightning lit up the sky. Thunder was loud. The trees moved in the wind. Everyone ran inside. It was a bad storm and it lasted a long time.</div>
+
+    <h3 style="margin-top:20px;">Your figurative rewrite:</h3>
+    <div class="checklist" id="checklist">
+      <div class="checklist-item"><input type="checkbox" id="ck-simile"><label for="ck-simile">I used a <strong>simile</strong> (comparison using "like" or "as")</label></div>
+      <div class="checklist-item"><input type="checkbox" id="ck-metaphor"><label for="ck-metaphor">I used a <strong>metaphor</strong> (saying something IS something else)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="ck-personification"><label for="ck-personification">I used <strong>personification</strong> (giving non-human things human qualities)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="ck-hyperbole"><label for="ck-hyperbole">I used <strong>hyperbole</strong> (wild exaggeration)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="ck-onomatopoeia"><label for="ck-onomatopoeia">I used <strong>onomatopoeia</strong> (sound words)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="ck-idiom"><label for="ck-idiom">I used an <strong>idiom</strong> (expression with a different meaning)</label></div>
+    </div>
+
+    <textarea class="write-area" id="rewriteText" placeholder="Rewrite the storm paragraph here, packed with figurative language..."></textarea>
+    <div class="word-count" id="rewriteWC">0 words</div>
+
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap;">
+      <button class="btn btn-primary btn-sm" onclick="analyseRewrite()">Analyse my writing</button>
+    </div>
+    <div class="feedback-box" id="rewriteFB"></div>
+    <div class="technique-tags" id="rewriteTags"></div>
+  </div>
+
+  <div class="next-row">
+    <button class="btn btn-primary" id="p1Next" style="display:none;" onclick="goPhase(2)">Next: Free write &rarr;</button>
+  </div>
+</div>
+
+<!-- ===== PHASE 2: FREE WRITE ===== -->
+<div class="phase" id="phase2">
+  <h2 class="phase-title">Free write</h2>
+  <p class="phase-sub">Pick a scenario and write a paragraph packed with figurative language.<br>Try to include at least 4 different types.</p>
+
+  <div class="card">
+    <h3>Choose your scenario:</h3>
+    <div class="scenario-grid" id="scenarioGrid"></div>
+  </div>
+
+  <div class="card" id="freeWriteCard" style="display:none;">
+    <div class="brief-box" id="briefBox"></div>
+    <textarea class="write-area" id="freeWriteText" placeholder="Write your paragraph here..."></textarea>
+    <div class="word-count" id="freeWriteWC">0 words</div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap;">
+      <button class="btn btn-primary btn-sm" onclick="analyseFreeWrite()">Analyse my writing</button>
+    </div>
+    <div class="feedback-box" id="freeWriteFB"></div>
+    <div class="technique-tags" id="freeWriteTags"></div>
+  </div>
+
+  <div class="next-row">
+    <button class="btn btn-primary" id="p2Next" style="display:none;" onclick="publishToGallery()">Publish to Gallery &rarr;</button>
+  </div>
+</div>
+
+<!-- ===== PHASE 3: GALLERY ===== -->
+<div class="phase" id="phase3">
+  <h2 class="phase-title">Your published work</h2>
+  <p class="phase-sub">Here's your writing, ready to share with the class.</p>
+
+  <div class="gallery-card" id="galleryCard">
+    <div class="gallery-title" id="galleryTitle"></div>
+    <div class="gallery-author" id="galleryAuthor"></div>
+    <div class="gallery-text" id="galleryText"></div>
+    <div class="gallery-tags" id="galleryTags"></div>
+    <div class="gallery-footer">Writer's Toolkit: Figurative Language Workshop</div>
+  </div>
+
+  <div style="text-align:center;margin-top:20px;">
+    <button class="print-btn" onclick="window.print()">Print / Screenshot</button>
+  </div>
+</div>
+
+<script>
+const typeNames={simile:'Simile',metaphor:'Metaphor',hyperbole:'Hyperbole',personification:'Personification',idiom:'Idiom',onomatopoeia:'Onomatopoeia'};
+const typeColours={simile:'#4caf50',metaphor:'#e67e22',hyperbole:'#e74c3c',personification:'#8e44ad',idiom:'#2980b9',onomatopoeia:'#f39c12'};
+
+document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>{if(!b.disabled)goPhase(parseInt(b.dataset.phase));}));
+function goPhase(n){
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('phase'+n).classList.add('active');
+  const btn=document.querySelector(`.nav-btn[data-phase="${n}"]`);btn.classList.add('active');btn.disabled=false;
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===2)initPhase2();
+}
+
+// Word counters
+document.getElementById('rewriteText').addEventListener('input',function(){
+  document.getElementById('rewriteWC').textContent=this.value.trim().split(/\s+/).filter(w=>w).length+' words';
+});
+
+// ===== PHASE 1: REWRITE =====
+const analysePrompt=`You are a Year 5 English teacher analysing a student's writing for figurative language. Use British English. No bullet points. No em-dashes.
+
+Read the student's paragraph and:
+1. List every piece of figurative language you can find, naming the TYPE (simile, metaphor, personification, hyperbole, onomatopoeia, idiom) and quoting the specific words.
+2. Give 2-3 sentences of feedback on how effectively they used figurative language.
+3. If any type is missing, suggest where they could add one.
+4. Comment on one strong word choice or sentence they wrote.
+
+Format: Start with "I found these techniques in your writing:" then list each one on a new line as "TYPE: quote". Then give your feedback in a paragraph.`;
+
+async function analyseRewrite(){
+  const input=document.getElementById('rewriteText').value.trim();
+  if(input.split(/\s+/).length<20){alert('Write a bit more first!');return;}
+  const fb=document.getElementById('rewriteFB');
+  fb.className='feedback-box show loading';fb.textContent='Analysing your writing...';
+  document.getElementById('rewriteTags').innerHTML='';
+
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:analysePrompt,
+        messages:[{role:"user",content:`Original plain paragraph: "The storm arrived quickly. The rain was heavy and the wind was strong. Lightning lit up the sky. Thunder was loud. The trees moved in the wind. Everyone ran inside. It was a bad storm and it lasted a long time."\n\nStudent's figurative rewrite:\n"${input}"`}]})});
+    const data=await r.json();const text=data.content.map(c=>c.text||'').join('');
+    fb.className='feedback-box show success';fb.innerHTML=text.replace(/\n/g,'<br>');
+    // Extract types mentioned
+    const found=new Set();
+    Object.keys(typeNames).forEach(t=>{if(text.toLowerCase().includes(t))found.add(t);});
+    showTags('rewriteTags',found);
+  }catch(e){
+    fb.className='feedback-box show success';
+    fb.innerHTML='Great effort! Check your checklist to see which types of figurative language you included. Try reading your writing out loud to hear how it sounds. If any checklist items are unticked, challenge yourself to add one more technique.';
+    const checked=new Set();
+    ['simile','metaphor','personification','hyperbole','onomatopoeia','idiom'].forEach(t=>{
+      if(document.getElementById('ck-'+t).checked)checked.add(t);
+    });
+    showTags('rewriteTags',checked);
+  }
+  document.getElementById('p1Next').style.display='inline-block';
+  document.querySelector('.nav-btn[data-phase="1"]').classList.add('done');
+  document.querySelector('.nav-btn[data-phase="2"]').disabled=false;
+}
+
+function showTags(containerId,types){
+  const c=document.getElementById(containerId);
+  types.forEach(t=>{
+    c.innerHTML+=`<span class="technique-tag" style="background:${typeColours[t]}">${typeNames[t]}</span>`;
+  });
+}
+
+// ===== PHASE 2: FREE WRITE =====
+const scenarios=[
+  {emoji:'&#9889;',label:'A thunderstorm',brief:'Write a paragraph describing a powerful thunderstorm. What does it look, sound, and feel like? How do people react? Include at least 4 different types of figurative language.'},
+  {emoji:'&#127754;',label:'Underwater world',brief:'Write a paragraph describing diving beneath the ocean surface. What do you see, hear, and feel? Include at least 4 different types of figurative language.'},
+  {emoji:'&#127939;',label:'The big race',brief:'Write a paragraph describing the final moments of a school running race. The crowd, the runners, the finish line. Include at least 4 different types of figurative language.'},
+  {emoji:'&#127796;',label:'A mysterious forest',brief:'Write a paragraph describing walking into a dark, ancient forest. What surrounds you? What can you sense? Include at least 4 different types of figurative language.'},
+  {emoji:'&#127747;',label:'City at night',brief:'Write a paragraph describing a busy city at night. The lights, sounds, movement, and atmosphere. Include at least 4 different types of figurative language.'},
+  {emoji:'&#10052;',label:'A snow day',brief:'Write a paragraph describing waking up to discover everything is covered in snow. What does the world look and feel like? Include at least 4 different types of figurative language.'}
+];
+let selectedScenario=null;
+
+function initPhase2(){
+  const grid=document.getElementById('scenarioGrid');
+  if(grid.children.length>0)return;
+  scenarios.forEach((s,i)=>{
+    grid.innerHTML+=`<div class="scenario-card" onclick="selectFreeScenario(${i},this)"><span class="sc-emoji">${s.emoji}</span><span class="sc-label">${s.label}</span></div>`;
+  });
+  document.getElementById('freeWriteText').addEventListener('input',function(){
+    document.getElementById('freeWriteWC').textContent=this.value.trim().split(/\s+/).filter(w=>w).length+' words';
+  });
+}
+
+function selectFreeScenario(idx,el){
+  document.querySelectorAll('.scenario-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedScenario=scenarios[idx];
+  document.getElementById('freeWriteCard').style.display='block';
+  document.getElementById('briefBox').innerHTML=`<strong>Your brief:</strong> ${selectedScenario.brief}`;
+  document.getElementById('freeWriteCard').scrollIntoView({behavior:'smooth'});
+}
+
+async function analyseFreeWrite(){
+  const input=document.getElementById('freeWriteText').value.trim();
+  if(input.split(/\s+/).length<20){alert('Write a bit more first!');return;}
+  const fb=document.getElementById('freeWriteFB');
+  fb.className='feedback-box show loading';fb.textContent='Analysing your writing...';
+  document.getElementById('freeWriteTags').innerHTML='';
+
+  try{
+    const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:analysePrompt,
+        messages:[{role:"user",content:`Scenario: "${selectedScenario.label}"\nBrief: "${selectedScenario.brief}"\n\nStudent's writing:\n"${input}"`}]})});
+    const data=await r.json();const text=data.content.map(c=>c.text||'').join('');
+    fb.className='feedback-box show success';fb.innerHTML=text.replace(/\n/g,'<br>');
+    const found=new Set();
+    Object.keys(typeNames).forEach(t=>{if(text.toLowerCase().includes(t))found.add(t);});
+    showTags('freeWriteTags',found);
+    lastAnalysedTypes=found;
+  }catch(e){
+    fb.className='feedback-box show success';
+    fb.innerHTML='Well done on completing your free write! Read it out loud and listen for the figurative language. Can you spot your own similes, metaphors, and other techniques?';
+  }
+  document.getElementById('p2Next').style.display='inline-block';
+  document.querySelector('.nav-btn[data-phase="2"]').classList.add('done');
+  document.querySelector('.nav-btn[data-phase="3"]').disabled=false;
+}
+
+let lastAnalysedTypes=new Set();
+
+function publishToGallery(){
+  const name=document.getElementById('studentName').value.trim()||'Anonymous';
+  const text=document.getElementById('freeWriteText').value.trim();
+  const scenario=selectedScenario?selectedScenario.label:'Creative Writing';
+
+  document.getElementById('galleryTitle').textContent=scenario;
+  document.getElementById('galleryAuthor').textContent='By '+name;
+  document.getElementById('galleryText').textContent=text;
+
+  const tags=document.getElementById('galleryTags');
+  tags.innerHTML='';
+  lastAnalysedTypes.forEach(t=>{
+    tags.innerHTML+=`<span class="technique-tag" style="background:${typeColours[t]}">${typeNames[t]}</span>`;
+  });
+
+  goPhase(3);
+  document.querySelector('.nav-btn[data-phase="3"]').classList.add('done');
+}
+</script>
+</body>
+</html>
