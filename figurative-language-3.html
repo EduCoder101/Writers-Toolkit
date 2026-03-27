@@ -219,13 +219,14 @@ document.getElementById('rewriteText').addEventListener('input',function(){
 });
 
 // ===== PHASE 1: REWRITE =====
-const analysePrompt=`You are a Year 5 English teacher analysing a student's writing for figurative language. Use British English. No bullet points. No em-dashes.
+const analysePrompt=`You are a warm but demanding Year 5 English teacher analysing a student's writing for figurative language. Use British English. No bullet points. No em-dashes.
 
 Read the student's paragraph and:
 1. List every piece of figurative language you can find, naming the TYPE (simile, metaphor, personification, hyperbole, onomatopoeia, idiom) and quoting the specific words.
-2. Give 2-3 sentences of feedback on how effectively they used figurative language.
-3. If any type is missing, suggest where they could add one.
-4. Comment on one strong word choice or sentence they wrote.
+2. CRITICALLY assess originality. If they used cliched or overused figurative language (e.g. "fast as a cheetah", "heart pounding", "blanket of snow", "silence was deafening"), acknowledge it works but firmly challenge them to find something fresher and more surprising. Say something like "This is a comparison we see all the time. What would only YOU think of?"
+3. If any type is missing, suggest specifically where in their writing they could add one, with an example.
+4. Comment on sentence variety and complexity. Are all sentences the same length? Push them to mix short punchy sentences with longer flowing ones.
+5. If they HAVE written something genuinely original or surprising, praise it enthusiastically and name exactly what makes it stand out.
 
 Format: Start with "I found these techniques in your writing:" then list each one on a new line as "TYPE: quote". Then give your feedback in a paragraph.`;
 

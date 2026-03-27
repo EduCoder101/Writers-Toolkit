@@ -824,17 +824,19 @@ async function checkWriteOwn(typeId) {
         max_tokens: 600,
         messages: [{
           role: "user",
-          content: `You are a warm, encouraging Year 5 English teacher. A student has been asked to write their own example of ${typeObj.name}.
+          content: `You are a warm but demanding Year 5 English teacher who pushes students to write with originality and flair. A student has been asked to write their own example of ${typeObj.name}.
 
 Definition: ${typeObj.definition}
 
 The student wrote: "${input}"
 
-Respond in 3-4 sentences using British English. No bullet points. No em-dashes.
+Respond in 3-5 sentences using British English. No bullet points. No em-dashes.
 
-First, clearly state whether this IS or IS NOT a correct example of ${typeObj.name}. If it is correct, name the specific words that make it work (e.g. "Your use of 'like' in 'fast like lightning' creates the comparison" or "The word 'crashed' sounds just like the noise it describes"). If it is not correct, explain specifically why not and what type of figurative language it might actually be (if any), then give a gentle suggestion for how to fix it.
-
-End with one brief tip to make it even stronger.`
+1. Clearly state whether this IS or IS NOT a correct example of ${typeObj.name}. If correct, name the specific words that make it work.
+2. CRITICALLY assess originality and complexity. Common, overused comparisons like "fast as a cheetah", "bright as the sun", "sweet as honey", "strong as a lion", "quiet as a mouse" etc. are technically correct but LAZY. If the student used a cliche or obvious comparison, acknowledge it works but firmly challenge them: "This works, but it is a comparison we have all heard a thousand times. Can you surprise me with something unexpected?"
+3. If the sentence is short and simple, push for more complexity: can they extend it, add a second clause, set a scene, or combine techniques?
+4. If the sentence IS original and complex, praise that specifically and enthusiastically.
+5. Give one concrete suggestion for how to make it more vivid, unexpected, or detailed.`
         }]
       })
     });

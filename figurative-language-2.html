@@ -18,9 +18,18 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 .bg-shape:nth-child(5){width:140px;height:140px;background:#38bdf8;top:15%;left:40%;animation-delay:-8s;animation-duration:18s;}
 @keyframes bfloat{0%,100%{transform:translate(0,0) rotate(0deg);}25%{transform:translate(30px,-20px) rotate(5deg);}50%{transform:translate(-20px,30px) rotate(-3deg);}75%{transform:translate(15px,15px) rotate(4deg);}}
 
+.back-bar{padding:12px 20px;position:relative;z-index:1;}
+.back-link{font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:#667eea;text-decoration:none;padding:6px 16px;border:2px solid #667eea;border-radius:20px;transition:all 0.2s;}
+.back-link:hover{background:#667eea;color:white;}
+
 .header{text-align:center;padding:40px 24px 16px;position:relative;z-index:1;}
 .header h1{font-family:'Fredoka',sans-serif;font-size:clamp(30px,6vw,52px);font-weight:700;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
 .header .sub{font-size:clamp(16px,2.5vw,22px);color:var(--ink-light);font-weight:600;}
+
+.name-bar{display:flex;justify-content:center;align-items:center;gap:10px;padding:8px 20px 4px;position:relative;z-index:1;flex-wrap:wrap;}
+.name-bar label{font-weight:700;font-size:15px;}
+.name-bar input{font-family:'Nunito',sans-serif;font-size:16px;font-weight:600;padding:8px 16px;border:2px solid #ddd;border-radius:10px;width:220px;outline:none;}
+.name-bar input:focus{border-color:#667eea;}
 
 .phase-nav{display:flex;justify-content:center;gap:8px;padding:12px 20px;flex-wrap:wrap;position:relative;z-index:1;}
 .nav-btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:10px 22px;border:3px solid #ddd;border-radius:40px;background:white;color:var(--ink-light);cursor:pointer;transition:all 0.3s;}
@@ -44,43 +53,37 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 .btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
 .next-row{text-align:center;margin-top:28px;}
 
-/* ===== PHASE 1: SPOT IN CONTEXT ===== */
+/* PHASE 1: SPOT */
 .story-text{font-family:'Nunito',sans-serif;font-size:clamp(17px,2vw,21px);line-height:2;padding:8px 0;}
 .fig-spot{position:relative;display:inline;border-bottom:2px dashed #ccc;cursor:pointer;padding:1px 2px;border-radius:3px;transition:all 0.2s;}
 .fig-spot:hover{background:#f0f0ff;border-bottom-color:#667eea;}
 .fig-spot.correct{background:#d4edda;border-bottom:2px solid #4caf50;}
 .fig-spot.correct::after{content:attr(data-type-label);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;background:#4caf50;color:white;padding:2px 8px;border-radius:10px;margin-left:6px;position:relative;top:-1px;}
 .fig-spot.wrong{background:#f8d7da;border-bottom:2px solid #e74c3c;animation:shake 0.4s ease;}
-
 .type-picker{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:white;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.15);padding:8px;z-index:100;min-width:200px;}
 .type-picker.show{display:block;animation:fadeIn 0.2s ease;}
 .type-pick-opt{display:block;width:100%;text-align:left;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;padding:8px 14px;border:none;background:none;cursor:pointer;border-radius:8px;transition:background 0.15s;}
 .type-pick-opt:hover{background:#f5f5f5;}
-
 .spot-score{text-align:center;font-size:clamp(15px,1.8vw,18px);font-weight:700;color:var(--ink-light);margin-bottom:16px;}
 .spot-score span{color:#4caf50;}
 
-/* ===== PHASE 2: BUILD A SENTENCE ===== */
-.stem-area{margin-bottom:28px;}
+/* PHASE 2: BUILD */
 .stem-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
 .stem-text{font-family:'Nunito',sans-serif;font-size:clamp(17px,2vw,21px);font-weight:700;white-space:nowrap;}
-.drop-zone{min-width:250px;min-height:52px;border:3px dashed #ccc;border-radius:12px;padding:12px 16px;display:flex;align-items:center;font-size:clamp(15px,1.8vw,19px);color:#aaa;font-style:italic;transition:all 0.2s;flex:1;}
+.drop-zone{min-width:250px;min-height:52px;border:3px dashed #ccc;border-radius:12px;padding:12px 16px;display:flex;align-items:center;font-size:clamp(15px,1.8vw,19px);color:#aaa;font-style:italic;transition:all 0.2s;flex:1;cursor:default;}
 .drop-zone.drag-over{border-color:#667eea;background:#f0f0ff;}
-.drop-zone.filled{border-style:solid;border-color:#4caf50;background:#f0fff0;color:var(--ink);font-style:normal;font-weight:600;}
+.drop-zone.filled{border-style:solid;border-color:#4caf50;background:#f0fff0;color:var(--ink);font-style:normal;font-weight:600;cursor:pointer;}
 .drop-zone .type-tag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:white;padding:2px 8px;border-radius:10px;margin-left:10px;display:inline-block;}
-
+.drop-zone .swap-hint{font-size:12px;color:#999;margin-left:8px;font-weight:400;font-style:italic;}
 .endings-pool{display:flex;flex-wrap:wrap;gap:10px;padding:16px;background:white;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;min-height:60px;justify-content:center;}
 .ending-chip{background:white;border:2px solid #e0e0e0;border-radius:10px;padding:10px 16px;font-size:clamp(14px,1.6vw,17px);font-weight:600;cursor:grab;user-select:none;transition:all 0.2s;box-shadow:0 2px 6px rgba(0,0,0,0.05);}
 .ending-chip:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);}
 .ending-chip:active{cursor:grabbing;}
 .ending-chip.placed{opacity:0.3;pointer-events:none;}
-
 .build-progress{text-align:center;font-size:clamp(14px,1.6vw,17px);font-weight:700;color:var(--ink-light);margin-bottom:16px;}
 .build-progress span{color:#667eea;}
 
-.stem-set-nav{display:flex;justify-content:center;gap:12px;margin-top:20px;}
-
-/* ===== PHASE 3: WRITE YOUR OWN ===== */
+/* PHASE 3: WRITE */
 .write-prompt-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;margin-bottom:20px;}
 .write-type-badge{display:inline-block;padding:6px 18px;border-radius:20px;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:700;color:white;margin-bottom:12px;}
 .write-scenario{font-size:clamp(16px,2vw,20px);color:var(--ink-light);margin-bottom:14px;line-height:1.5;}
@@ -94,9 +97,10 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 .write-progress{text-align:center;font-size:clamp(14px,1.6vw,17px);font-weight:700;color:var(--ink-light);margin-bottom:16px;}
 .write-progress span{color:#4caf50;}
 
-.back-bar{padding:12px 20px;position:relative;z-index:1;}
-.back-link{font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;color:#667eea;text-decoration:none;padding:6px 16px;border:2px solid #667eea;border-radius:20px;transition:all 0.2s;}
-.back-link:hover{background:#667eea;color:white;}
+/* PDF SUMMARY */
+.pdf-btn{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 32px;border:none;border-radius:30px;cursor:pointer;background:#764ba2;color:white;transition:all 0.2s;margin-top:16px;}
+.pdf-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 .touch-dragging{position:fixed;z-index:9999;pointer-events:none;opacity:0.85;transform:scale(1.05);box-shadow:var(--shadow-hover);}
@@ -107,9 +111,14 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 <div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>
 
 <div class="back-bar"><a href="figurative-language-hub.html" class="back-link">&larr; Back to Figurative Language</a></div>
+
 <div class="header">
   <h1>Figurative Language in Action</h1>
   <div class="sub">Part 2: Find it, build it, write it.</div>
+</div>
+<div class="name-bar">
+  <label for="studentName">Your name:</label>
+  <input type="text" id="studentName" placeholder="Enter your name">
 </div>
 
 <nav class="phase-nav">
@@ -118,7 +127,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
   <button class="nav-btn" data-phase="3" disabled>3. Write Your Own</button>
 </nav>
 
-<!-- ===== PHASE 1: SPOT IN CONTEXT ===== -->
+<!-- PHASE 1 -->
 <div class="phase active" id="phase1">
   <h2 class="phase-title">Spot the figurative language</h2>
   <p class="phase-sub">Read the passage below. Tap each highlighted phrase and choose what type of figurative language it is.</p>
@@ -126,22 +135,22 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
   <div class="card"><div class="story-text" id="storyText"></div></div>
   <div id="spotDone" style="display:none;">
     <div class="card" style="background:#d4edda;border:2px solid #4caf50;text-align:center;">
-      <p style="font-size:clamp(16px,2vw,20px);font-weight:700;color:#2e7d32;">Brilliant! You identified every piece of figurative language in the passage.</p>
+      <p style="font-size:clamp(16px,2vw,20px);font-weight:700;color:#2e7d32;">Brilliant! You identified every piece of figurative language.</p>
     </div>
   </div>
   <div class="next-row"><button class="btn btn-primary" id="p1Next" disabled onclick="goPhase(2)">Next: Build sentences &rarr;</button></div>
 </div>
 
-<!-- ===== PHASE 2: BUILD A SENTENCE ===== -->
+<!-- PHASE 2 -->
 <div class="phase" id="phase2">
   <h2 class="phase-title">Build a sentence</h2>
-  <p class="phase-sub">Drag an ending onto each sentence stem. Notice how different figurative language techniques describe the same moment in different ways.</p>
+  <p class="phase-sub">Drag an ending onto each sentence stem. Click a placed ending to swap it out and try a different one.</p>
   <div class="build-progress">Set: <span id="buildSet">1</span> / <span id="buildTotal">0</span></div>
   <div id="buildContainer"></div>
   <div class="next-row"><button class="btn btn-primary" id="p2Next" disabled onclick="goPhase(3)">Next: Write your own &rarr;</button></div>
 </div>
 
-<!-- ===== PHASE 3: WRITE YOUR OWN ===== -->
+<!-- PHASE 3 -->
 <div class="phase" id="phase3">
   <h2 class="phase-title">Write your own</h2>
   <p class="phase-sub">For each prompt, write a single sentence using the specified type of figurative language.</p>
@@ -149,7 +158,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
   <div id="writeContainer"></div>
   <div id="writeDone" style="display:none;">
     <div class="card" style="background:#d4edda;border:2px solid #4caf50;text-align:center;">
-      <p style="font-size:clamp(16px,2vw,20px);font-weight:700;color:#2e7d32;">Amazing work! You've written your own example of every type of figurative language.</p>
+      <p style="font-size:clamp(16px,2vw,20px);font-weight:700;color:#2e7d32;">Amazing work! You've written your own example of every type.</p>
+      <button class="pdf-btn" onclick="savePDF()">Save all my work as PDF</button>
     </div>
   </div>
 </div>
@@ -195,34 +205,29 @@ const storyParts=[
   {text:", and it was hungry."}
 ];
 
-let spotCorrect=0,spotTotalCount=0,activeSpot=null;
+let spotCorrect=0,spotTotalCount=0;
+// Track Phase 1 results
+const phase1Results=[];
 
 function initPhase1(){
   const container=document.getElementById('storyText');
   if(container.children.length>0)return;
-  let html='';
-  let spotIdx=0;
+  let html='',spotIdx=0;
   storyParts.forEach(p=>{
     if(p.type){
       html+=`<span class="fig-spot" data-idx="${spotIdx}" data-type="${p.type}" data-type-label="${p.label}" onclick="openPicker(this)">${p.text}<div class="type-picker" id="picker-${spotIdx}"></div></span>`;
       spotIdx++;
-    }else{
-      html+=p.text;
-    }
+    }else{html+=p.text;}
   });
   container.innerHTML=html;
   spotTotalCount=spotIdx;
   document.getElementById('spotTotal').textContent=spotTotalCount;
-
-  // Build picker options for each spot
   document.querySelectorAll('.fig-spot').forEach(spot=>{
     const picker=spot.querySelector('.type-picker');
     Object.keys(typeNames).forEach(t=>{
       picker.innerHTML+=`<button class="type-pick-opt" data-pick="${t}" onclick="event.stopPropagation();pickType('${spot.dataset.idx}','${t}')">${typeNames[t]}</button>`;
     });
   });
-
-  // Close picker on outside click
   document.addEventListener('click',e=>{
     if(!e.target.closest('.fig-spot'))document.querySelectorAll('.type-picker').forEach(p=>p.classList.remove('show'));
   });
@@ -242,6 +247,7 @@ function pickType(idx,chosen){
     spot.classList.add('correct');spot.classList.remove('wrong');
     spotCorrect++;
     document.getElementById('spotScore').textContent=spotCorrect;
+    phase1Results.push({phrase:spot.textContent.replace(typeNames[chosen],'').trim(),type:typeNames[chosen],correct:true});
     if(spotCorrect>=spotTotalCount){
       document.getElementById('spotDone').style.display='block';
       document.getElementById('p1Next').disabled=false;
@@ -257,54 +263,47 @@ initPhase1();
 
 // ===== PHASE 2: BUILD A SENTENCE =====
 const stemSets=[
-  {
-    theme:"A thunderstorm",
-    stems:[
-      {stem:"The thunder...",endings:[
-        {text:"...rumbled and boomed across the valley.",type:"onomatopoeia"},
-        {text:"...was nature's drum kit, pounding out a furious beat.",type:"metaphor"},
-        {text:"...roared like an angry giant.",type:"simile"}
-      ]},
-      {stem:"The lightning...",endings:[
-        {text:"...danced across the sky, showing off for the clouds.",type:"personification"},
-        {text:"...crackled and fizzed through the darkness.",type:"onomatopoeia"},
-        {text:"...was so bright it could have lit up the entire country.",type:"hyperbole"}
-      ]}
-    ]
-  },
-  {
-    theme:"The ocean",
-    stems:[
-      {stem:"The waves...",endings:[
-        {text:"...crashed and whooshed against the rocks.",type:"onomatopoeia"},
-        {text:"...reached up like greedy hands, grabbing at the shore.",type:"personification"},
-        {text:"...were as tall as skyscrapers.",type:"simile"}
-      ]},
-      {stem:"The sea...",endings:[
-        {text:"...was a restless beast, tossing and turning in its sleep.",type:"metaphor"},
-        {text:"...was so cold it could freeze your bones solid in a second.",type:"hyperbole"},
-        {text:"...whispered secrets to the sand.",type:"personification"}
-      ]}
-    ]
-  },
-  {
-    theme:"A haunted house",
-    stems:[
-      {stem:"The door...",endings:[
-        {text:"...creaked and groaned as it swung open.",type:"onomatopoeia"},
-        {text:"...opened like a mouth ready to swallow us whole.",type:"simile"},
-        {text:"...seemed to beckon us inside, daring us to enter.",type:"personification"}
-      ]},
-      {stem:"The house...",endings:[
-        {text:"...was a graveyard of forgotten memories.",type:"metaphor"},
-        {text:"...hadn't been cleaned in about ten thousand years.",type:"hyperbole"},
-        {text:"...moaned and sighed with every gust of wind.",type:"personification"}
-      ]}
-    ]
-  }
+  {theme:"A thunderstorm",stems:[
+    {stem:"The thunder...",endings:[
+      {text:"...rumbled and boomed across the valley.",type:"onomatopoeia"},
+      {text:"...was nature's drum kit, pounding out a furious beat.",type:"metaphor"},
+      {text:"...roared like an angry giant.",type:"simile"}
+    ]},
+    {stem:"The lightning...",endings:[
+      {text:"...danced across the sky, showing off for the clouds.",type:"personification"},
+      {text:"...crackled and fizzed through the darkness.",type:"onomatopoeia"},
+      {text:"...was so bright it could have lit up the entire country.",type:"hyperbole"}
+    ]}
+  ]},
+  {theme:"The ocean",stems:[
+    {stem:"The waves...",endings:[
+      {text:"...crashed and whooshed against the rocks.",type:"onomatopoeia"},
+      {text:"...reached up like greedy hands, grabbing at the shore.",type:"personification"},
+      {text:"...were as tall as skyscrapers.",type:"simile"}
+    ]},
+    {stem:"The sea...",endings:[
+      {text:"...was a restless beast, tossing and turning in its sleep.",type:"metaphor"},
+      {text:"...was so cold it could freeze your bones solid in a second.",type:"hyperbole"},
+      {text:"...whispered secrets to the sand.",type:"personification"}
+    ]}
+  ]},
+  {theme:"A haunted house",stems:[
+    {stem:"The door...",endings:[
+      {text:"...creaked and groaned as it swung open.",type:"onomatopoeia"},
+      {text:"...opened like a mouth ready to swallow us whole.",type:"simile"},
+      {text:"...seemed to beckon us inside, daring us to enter.",type:"personification"}
+    ]},
+    {stem:"The house...",endings:[
+      {text:"...was a graveyard of forgotten memories.",type:"metaphor"},
+      {text:"...hadn't been cleaned in about ten thousand years.",type:"hyperbole"},
+      {text:"...moaned and sighed with every gust of wind.",type:"personification"}
+    ]}
+  ]}
 ];
 
 let currentSet=0,setsCompleted=0,draggedChip=null;
+// Track Phase 2 choices
+const phase2Results={};
 
 function initPhase2(){
   document.getElementById('buildTotal').textContent=stemSets.length;
@@ -316,34 +315,25 @@ function showStemSet(idx){
   const set=stemSets[idx];
   document.getElementById('buildSet').textContent=idx+1;
   const container=document.getElementById('buildContainer');
-
-  // Collect all endings, shuffle
   const allEndings=[];
-  set.stems.forEach((s,si)=>{
-    s.endings.forEach(e=>{allEndings.push({...e,stemIdx:si});});
-  });
+  set.stems.forEach((s,si)=>{s.endings.forEach(e=>{allEndings.push({...e,stemIdx:si});});});
   const shuffled=allEndings.sort(()=>Math.random()-0.5);
 
   let html=`<div class="card"><h3>${set.theme}</h3>`;
   set.stems.forEach((s,si)=>{
-    html+=`<div class="stem-row"><span class="stem-text">${s.stem}</span><div class="drop-zone" id="dz-${idx}-${si}" data-set="${idx}" data-stem="${si}" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event)">Drop an ending here</div></div>`;
+    html+=`<div class="stem-row"><span class="stem-text">${s.stem}</span><div class="drop-zone" id="dz-${idx}-${si}" data-set="${idx}" data-stem="${si}" data-original-text="${s.stem}" ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event)" onclick="dzClick(this)">Drop an ending here</div></div>`;
   });
   html+=`</div>`;
-
   html+=`<div class="endings-pool" id="endingsPool">`;
   shuffled.forEach((e,i)=>{
-    html+=`<div class="ending-chip" draggable="true" data-type="${e.type}" data-stem="${e.stemIdx}" data-set="${idx}" data-eidx="${i}" ondragstart="chipDragStart(event)">${e.text}</div>`;
+    html+=`<div class="ending-chip" draggable="true" data-type="${e.type}" data-stem="${e.stemIdx}" data-set="${idx}" data-eidx="${i}" data-text="${e.text}" ondragstart="chipDragStart(event)">${e.text}</div>`;
   });
   html+=`</div>`;
-
-  html+=`<div class="stem-set-nav">`;
-  if(idx>0)html+=`<button class="btn btn-sm" style="background:#e0e0e0;color:var(--ink);" onclick="showStemSet(${idx-1})">&larr; Previous</button>`;
+  html+=`<div style="text-align:center;margin-top:16px;">`;
+  if(idx>0)html+=`<button class="btn btn-sm" style="background:#e0e0e0;color:var(--ink);margin-right:8px;" onclick="showStemSet(${idx-1})">&larr; Previous</button>`;
   if(idx<stemSets.length-1)html+=`<button class="btn btn-primary btn-sm" id="nextSetBtn" disabled onclick="showStemSet(${idx+1})">Next set &rarr;</button>`;
   html+=`</div>`;
-
   container.innerHTML=html;
-
-  // Touch drag
   addTouchDrag(container,'.ending-chip','.drop-zone');
 }
 
@@ -355,23 +345,57 @@ function chipDragStart(e){
 }
 function dzOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
 function dzLeave(e){e.currentTarget.classList.remove('drag-over');}
+
 function dzDrop(e){
   e.preventDefault();
   const dz=e.currentTarget;
   dz.classList.remove('drag-over');
-  if(!draggedChip||dz.classList.contains('filled'))return;
+  if(!draggedChip)return;
 
-  const chipStem=parseInt(draggedChip.dataset.stem);
-  const dzStem=parseInt(dz.dataset.stem);
+  // If already filled, return the current chip to pool first
+  if(dz.classList.contains('filled')){
+    returnChipToPool(dz);
+  }
 
-  // Any ending can go in any stem for exploration, but we mark the type
-  dz.classList.add('filled');
-  const type=draggedChip.dataset.type;
-  dz.innerHTML=draggedChip.textContent+`<span class="type-tag" style="background:${typeColours[type]}">${typeNames[type]}</span>`;
-  draggedChip.classList.add('placed');
+  placeChip(dz,draggedChip);
   draggedChip=null;
-
   checkSetComplete();
+}
+
+function dzClick(dz){
+  if(!dz.classList.contains('filled'))return;
+  returnChipToPool(dz);
+  checkSetComplete();
+}
+
+function placeChip(dz,chip){
+  dz.classList.add('filled');
+  const type=chip.dataset.type;
+  const text=chip.dataset.text||chip.textContent;
+  dz.innerHTML=text+`<span class="type-tag" style="background:${typeColours[type]}">${typeNames[type]}</span><span class="swap-hint">(click to swap)</span>`;
+  dz.dataset.placedType=type;
+  dz.dataset.placedText=text;
+  dz.dataset.placedEidx=chip.dataset.eidx;
+  chip.classList.add('placed');
+
+  // Track result
+  const key=dz.dataset.set+'-'+dz.dataset.stem;
+  phase2Results[key]={stem:dz.dataset.originalText,ending:text,type:typeNames[type]};
+}
+
+function returnChipToPool(dz){
+  const eidx=dz.dataset.placedEidx;
+  const pool=document.getElementById('endingsPool');
+  const chip=pool.querySelector(`.ending-chip[data-eidx="${eidx}"][data-set="${dz.dataset.set}"]`);
+  if(chip)chip.classList.remove('placed');
+  dz.classList.remove('filled');
+  dz.innerHTML='Drop an ending here';
+  delete dz.dataset.placedType;
+  delete dz.dataset.placedText;
+  delete dz.dataset.placedEidx;
+
+  const key=dz.dataset.set+'-'+dz.dataset.stem;
+  delete phase2Results[key];
 }
 
 function checkSetComplete(){
@@ -385,6 +409,9 @@ function checkSetComplete(){
       document.getElementById('p2Next').disabled=false;
       document.querySelector('.nav-btn[data-phase="2"]').classList.add('done');
     }
+  }else{
+    const nextBtn=document.getElementById('nextSetBtn');
+    if(nextBtn)nextBtn.disabled=true;
   }
 }
 
@@ -399,12 +426,12 @@ const writePrompts=[
 ];
 
 let writeCompleted=new Set();
+const phase3Results={};
 
 function initPhase3(){
   const container=document.getElementById('writeContainer');
   if(container.children.length>0)return;
   document.getElementById('writeTotal').textContent=writePrompts.length;
-
   writePrompts.forEach((p,i)=>{
     container.innerHTML+=`
       <div class="write-prompt-card" id="wpc-${i}">
@@ -430,45 +457,41 @@ async function checkWrite(idx){
   try{
     const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:600,
-        messages:[{role:"user",content:`You are a warm, encouraging Year 5 English teacher. A student was asked to write a sentence using ${typeNames[p.type]}.
+        messages:[{role:"user",content:`You are a warm but demanding Year 5 English teacher who pushes students to write with originality and flair. A student was asked to write a sentence using ${typeNames[p.type]}.
 
-Definition reminder: ${getDefinition(p.type)}
-
+Definition: ${getDefinition(p.type)}
 Scenario: "${p.scenario}"
-
 The student wrote: "${input}"
 
-In 3-4 sentences, using British English, no bullet points, no em-dashes:
-1. Clearly state whether this IS or IS NOT a correct example of ${typeNames[p.type]}.
-2. If correct, name the specific words that make it work. If not, explain why and suggest a fix.
-3. One tip to make it even stronger.`}]})});
+In 3-5 sentences, using British English, no bullet points, no em-dashes:
+1. State whether this IS or IS NOT a correct example of ${typeNames[p.type]}. If correct, name the specific words that make it work.
+2. CRITICALLY assess the originality and complexity. Common, overused comparisons like "fast as a cheetah", "bright as the sun", "sweet as honey", "strong as a lion", "quiet as a mouse" etc. are technically correct but LAZY. If the student used a cliche or obvious comparison, acknowledge it works but firmly challenge them to be more creative and surprising. Say something like "This works, but it is a comparison we have all heard a thousand times. Can you surprise me with something unexpected?"
+3. If the sentence is short and simple, push for more complexity: can they extend it, add a second clause, set a scene, or combine techniques?
+4. If the sentence IS original and complex, praise that specifically and enthusiastically.
+5. Give one concrete suggestion for how to make it more vivid, unexpected, or detailed.`}]})});
     const data=await r.json();
     const text=data.content.map(c=>c.text||'').join('');
     const isCorrect=!(/not a |not quite|isn't a|is not a|doesn't work as|not really/i.test(text));
     fb.className='feedback-box show '+(isCorrect?'success':'needs-work');
     fb.innerHTML=text;
-    if(isCorrect){
-      writeCompleted.add(idx);
-      document.getElementById('writeScore').textContent=writeCompleted.size;
-      document.getElementById('wpc-'+idx).style.borderLeft='4px solid #4caf50';
-      if(writeCompleted.size>=writePrompts.length){
-        document.getElementById('writeDone').style.display='block';
-        document.querySelector('.nav-btn[data-phase="3"]').classList.add('done');
-      }
-    }
+    phase3Results[idx]={type:typeNames[p.type],scenario:p.scenario,sentence:input,feedback:text,correct:isCorrect};
+    if(isCorrect)markWriteDone(idx);
   }catch(e){
     const result=fallbackWriteCheck(input,p.type);
     fb.className='feedback-box show '+(result.correct?'success':'needs-work');
     fb.innerHTML=result.message;
-    if(result.correct){
-      writeCompleted.add(idx);
-      document.getElementById('writeScore').textContent=writeCompleted.size;
-      document.getElementById('wpc-'+idx).style.borderLeft='4px solid #4caf50';
-      if(writeCompleted.size>=writePrompts.length){
-        document.getElementById('writeDone').style.display='block';
-        document.querySelector('.nav-btn[data-phase="3"]').classList.add('done');
-      }
-    }
+    phase3Results[idx]={type:typeNames[p.type],scenario:p.scenario,sentence:input,feedback:result.message,correct:result.correct};
+    if(result.correct)markWriteDone(idx);
+  }
+}
+
+function markWriteDone(idx){
+  writeCompleted.add(idx);
+  document.getElementById('writeScore').textContent=writeCompleted.size;
+  document.getElementById('wpc-'+idx).style.borderLeft='4px solid #4caf50';
+  if(writeCompleted.size>=writePrompts.length){
+    document.getElementById('writeDone').style.display='block';
+    document.querySelector('.nav-btn[data-phase="3"]').classList.add('done');
   }
 }
 
@@ -480,14 +503,79 @@ function getDefinition(type){
 function fallbackWriteCheck(input,type){
   const lower=input.toLowerCase();let correct=false,message='';
   switch(type){
-    case 'simile':correct=/\blike\b/.test(lower)||/\bas\b.*\bas\b/.test(lower);message=correct?'Great simile! You\'ve used a comparison word to connect two things, helping the reader picture exactly what you mean. Try making the comparison even more unexpected for extra impact.':'This doesn\'t quite work as a simile yet. Remember to use "like" or "as" to compare two different things.';break;
-    case 'metaphor':correct=input.length>10&&!/\blike\b/.test(lower)&&!/\bas\s+\w+\s+as\b/.test(lower)&&/\bis\b|\bwas\b|\bare\b|\bwere\b/.test(lower);message=correct?'Nice metaphor! You\'ve said something IS something else, creating a vivid image. Try choosing an even more surprising comparison.':'A metaphor says something IS something else directly, without "like" or "as". Try: "The [thing] was a [something else]".';break;
-    case 'hyperbole':correct=/million|billion|thousand|forever|never|always|every|entire|world|ton|die|kill|explod|100|1000|endless|starv/i.test(lower);message=correct?'Brilliant exaggeration! That\'s clearly impossible, which makes it funny and dramatic. Great hyperbole.':'Push the exaggeration further! A hyperbole needs to be SO over the top that it obviously can\'t be true.';break;
-    case 'personification':correct=/whisper|danc|sang|cried|groan|yell|shout|slept|woke|smile|laugh|scream|call|kiss|hug|reach|grab|ate|swallow|crept|ran|walked|scratch|howl|roar|beckon|moan|sigh/i.test(lower);message=correct?'Lovely personification! You\'ve given something non-human a human action, which brings your writing to life.':'Remember, personification gives a non-living thing a human action. Try: "The [thing] [human action]."';break;
-    case 'idiom':correct=/cloud nine|raining cats|piece of cake|break a leg|spill the beans|hit the sack|under the weather|cost an arm|bite the bullet|ball is in|burning the midnight|let the cat|once in a blue|on thin ice|barking up|beat around|the last straw|a penny for|kick the bucket|out of the blue|add fuel|up the wall|give.*(shot|go)|cold shoulder|butterflies|nerves of steel|on edge/i.test(lower);message=correct?'Well done! That\'s a recognised idiom where the meaning is different from the literal words. Try using it naturally in a longer sentence.':'Try using a well-known expression like "butterflies in my stomach" or "on thin ice" where the meaning is different from the actual words.';break;
-    case 'onomatopoeia':correct=/buzz|hiss|crack|pop|bang|boom|sizzl|splash|crash|click|clack|crunch|fizz|whiz|zoom|thud|thump|whoosh|gurgle|rumbl|snap|tap|drip|pitter|clang|ring|beep|roar|screech|squeak|rustle|murmur|munch|chomp|crackl|slurp/i.test(lower);message=correct?'Fantastic! That word sounds just like the noise it describes. Your reader can almost hear it.':'You need a word that sounds like the noise it represents: "crunch", "splash", "sizzle", "buzz". Say your sentence out loud and listen!';break;
+    case 'simile':correct=/\blike\b/.test(lower)||/\bas\b.*\bas\b/.test(lower);message=correct?'Great simile! You\'ve used a comparison word to connect two things. Try making the comparison even more unexpected.':'This doesn\'t quite work as a simile yet. Use "like" or "as" to compare two different things.';break;
+    case 'metaphor':correct=input.length>10&&!/\blike\b/.test(lower)&&!/\bas\s+\w+\s+as\b/.test(lower)&&/\bis\b|\bwas\b|\bare\b|\bwere\b/.test(lower);message=correct?'Nice metaphor! You\'ve said something IS something else, creating a vivid image.':'A metaphor says something IS something else directly, without "like" or "as".';break;
+    case 'hyperbole':correct=/million|billion|thousand|forever|never|always|every|entire|world|ton|die|kill|explod|100|1000|endless|starv/i.test(lower);message=correct?'Brilliant exaggeration! That\'s clearly impossible, which is great hyperbole.':'Push the exaggeration further! Make it SO over the top that it obviously can\'t be true.';break;
+    case 'personification':correct=/whisper|danc|sang|cried|groan|yell|shout|slept|woke|smile|laugh|scream|call|kiss|hug|reach|grab|ate|swallow|crept|ran|walked|scratch|howl|roar|beckon|moan|sigh/i.test(lower);message=correct?'Lovely personification! You\'ve given something non-human a human action.':'Give a non-living thing a human action. Try: "The [thing] [human action]."';break;
+    case 'idiom':correct=/cloud nine|raining cats|piece of cake|break a leg|spill the beans|hit the sack|under the weather|cost an arm|bite the bullet|ball is in|burning the midnight|let the cat|once in a blue|on thin ice|barking up|beat around|the last straw|a penny for|kick the bucket|out of the blue|add fuel|up the wall|give.*(shot|go)|cold shoulder|butterflies|nerves of steel|on edge/i.test(lower);message=correct?'Well done! That\'s a recognised idiom.':'Try a well-known expression like "butterflies in my stomach" where the meaning differs from the words.';break;
+    case 'onomatopoeia':correct=/buzz|hiss|crack|pop|bang|boom|sizzl|splash|crash|click|clack|crunch|fizz|whiz|zoom|thud|thump|whoosh|gurgle|rumbl|snap|tap|drip|pitter|clang|ring|beep|roar|screech|squeak|rustle|murmur|munch|chomp|crackl|slurp/i.test(lower);message=correct?'Fantastic! That word sounds just like the noise it describes.':'You need a word that sounds like the noise: "crunch", "splash", "sizzle".';break;
   }
   return{correct,message};
+}
+
+// ===== SAVE AS PDF =====
+function savePDF(){
+  const name=document.getElementById('studentName').value.trim()||'Student';
+  const date=new Date().toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'});
+
+  let html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Figurative Language in Action - ${name}</title>
+  <style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:Arial,sans-serif;padding:40px;color:#1e1e1e;max-width:800px;margin:0 auto;}
+  h1{font-size:24px;margin-bottom:4px;color:#667eea;}
+  .student-info{font-size:14px;color:#6b6b6b;margin-bottom:24px;}
+  h2{font-size:18px;margin:24px 0 12px;padding-bottom:6px;border-bottom:2px solid #eee;}
+  .item{margin-bottom:14px;padding:12px;background:#f8f8f8;border-radius:8px;font-size:14px;line-height:1.6;}
+  .item .label{font-weight:700;color:#667eea;font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+  .item .type-tag{display:inline-block;font-size:11px;font-weight:700;color:white;padding:2px 8px;border-radius:10px;margin-left:6px;}
+  .correct{color:#2e7d32;font-weight:700;}
+  .feedback{font-size:13px;color:#6b6b6b;margin-top:6px;padding-top:6px;border-top:1px solid #eee;}
+  </style></head><body>`;
+
+  html+=`<h1>Figurative Language in Action</h1>`;
+  html+=`<div class="student-info">${name} &middot; ${date}</div>`;
+
+  // Phase 1
+  if(phase1Results.length>0){
+    html+=`<h2>Phase 1: Spot in Context</h2>`;
+    html+=`<p style="font-size:14px;margin-bottom:12px;">Identified ${phase1Results.length} / ${spotTotalCount} pieces of figurative language in the bushfire passage.</p>`;
+    phase1Results.forEach(r=>{
+      html+=`<div class="item"><div class="label">Identified as ${r.type}</div>"${r.phrase}"</div>`;
+    });
+  }
+
+  // Phase 2
+  const p2keys=Object.keys(phase2Results);
+  if(p2keys.length>0){
+    html+=`<h2>Phase 2: Build a Sentence</h2>`;
+    p2keys.forEach(k=>{
+      const r=phase2Results[k];
+      html+=`<div class="item"><div class="label">${r.type}</div><strong>${r.stem}</strong> ${r.ending}</div>`;
+    });
+  }
+
+  // Phase 3
+  const p3keys=Object.keys(phase3Results);
+  if(p3keys.length>0){
+    html+=`<h2>Phase 3: Write Your Own</h2>`;
+    p3keys.forEach(k=>{
+      const r=phase3Results[k];
+      const colour=typeColours[r.type.toLowerCase()]||'#667eea';
+      html+=`<div class="item"><div class="label">${r.type} <span class="type-tag" style="background:${colour}">${r.correct?'Correct':'Needs work'}</span></div>`;
+      html+=`<strong>Prompt:</strong> ${r.scenario}<br>`;
+      html+=`<strong>My sentence:</strong> "${r.sentence}"`;
+      if(r.feedback)html+=`<div class="feedback">${r.feedback}</div>`;
+      html+=`</div>`;
+    });
+  }
+
+  html+=`</body></html>`;
+
+  // Open in new window for printing as PDF
+  const w=window.open('','_blank');
+  w.document.write(html);
+  w.document.close();
+  setTimeout(()=>w.print(),500);
 }
 
 // TOUCH DRAG
@@ -512,12 +600,9 @@ function addTouchDrag(container,chipSel,dropSel){
     document.querySelectorAll(dropSel).forEach(d=>d.classList.remove('drag-over'));
     const el=document.elementFromPoint(t.clientX,t.clientY);
     if(el){const dt=el.closest(dropSel);
-      if(dt&&!dt.classList.contains('filled')){
-        draggedChip=tSource;
-        dt.classList.add('filled');
-        const type=tSource.dataset.type;
-        dt.innerHTML=tSource.textContent+`<span class="type-tag" style="background:${typeColours[type]}">${typeNames[type]}</span>`;
-        tSource.classList.add('placed');checkSetComplete();
+      if(dt){
+        if(dt.classList.contains('filled'))returnChipToPool(dt);
+        draggedChip=tSource;placeChip(dt,tSource);draggedChip=null;checkSetComplete();
       }
     }
     if(tSource)tSource.style.opacity='1';tSource=null;
