@@ -96,6 +96,15 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 .feedback-box.needs-work{background:#fff3cd;border-left:4px solid #f39c12;}
 .write-progress{text-align:center;font-size:clamp(14px,1.6vw,17px);font-weight:700;color:var(--ink-light);margin-bottom:16px;}
 .write-progress span{color:#4caf50;}
+.idiom-helper{margin-bottom:14px;}
+.idiom-toggle{font-family:'Nunito',sans-serif;font-size:clamp(14px,1.6vw,16px);font-weight:700;color:#2980b9;background:none;border:2px solid #2980b9;border-radius:10px;padding:8px 18px;cursor:pointer;transition:all 0.2s;}
+.idiom-toggle:hover{background:#2980b9;color:white;}
+.idiom-toggle.open{background:#2980b9;color:white;border-radius:10px 10px 0 0;}
+.idiom-list{display:none;background:#f0f7ff;border:2px solid #2980b9;border-top:none;border-radius:0 0 12px 12px;padding:12px 16px;max-height:260px;overflow-y:auto;}
+.idiom-list.show{display:block;animation:fadeIn 0.3s ease;}
+.idiom-list-item{padding:8px 0;border-bottom:1px solid #d6e8f7;font-size:clamp(13px,1.5vw,16px);line-height:1.5;}
+.idiom-list-item:last-child{border-bottom:none;}
+.idiom-list-item strong{color:#2980b9;}
 
 /* PDF SUMMARY */
 .pdf-btn{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 32px;border:none;border-radius:30px;cursor:pointer;background:#764ba2;color:white;transition:all 0.2s;margin-top:16px;}
@@ -425,6 +434,27 @@ const writePrompts=[
   {type:'idiom',scenario:'Describe someone who is feeling nervous before a test.',hint:'Use a common expression where the meaning is different from the literal words.'}
 ];
 
+const commonIdioms=[
+  {idiom:'Butterflies in my stomach',meaning:'Feeling nervous or anxious'},
+  {idiom:'Break a leg',meaning:'Good luck'},
+  {idiom:'Hit the nail on the head',meaning:'To be exactly right about something'},
+  {idiom:'Under the weather',meaning:'Feeling unwell'},
+  {idiom:'Cost an arm and a leg',meaning:'Very expensive'},
+  {idiom:'Piece of cake',meaning:'Something very easy'},
+  {idiom:'Let the cat out of the bag',meaning:'To reveal a secret by accident'},
+  {idiom:'Once in a blue moon',meaning:'Very rarely'},
+  {idiom:'On thin ice',meaning:'In a risky or dangerous situation'},
+  {idiom:'Bite the bullet',meaning:'To face something difficult bravely'},
+  {idiom:'Barking up the wrong tree',meaning:'Looking in the wrong place or blaming the wrong person'},
+  {idiom:'Spill the beans',meaning:'To tell a secret'},
+  {idiom:'The last straw',meaning:'The final problem that makes someone lose patience'},
+  {idiom:'A storm in a teacup',meaning:'Making a big fuss over something small'},
+  {idiom:'Pull someone\'s leg',meaning:'To joke with someone or tease them'},
+  {idiom:'Cold shoulder',meaning:'To deliberately ignore someone'},
+  {idiom:'On cloud nine',meaning:'Extremely happy'},
+  {idiom:'Raining cats and dogs',meaning:'Raining very heavily'}
+];
+
 let writeCompleted=new Set();
 const phase3Results={};
 
@@ -433,11 +463,22 @@ function initPhase3(){
   if(container.children.length>0)return;
   document.getElementById('writeTotal').textContent=writePrompts.length;
   writePrompts.forEach((p,i)=>{
+    let idiomHelper='';
+    if(p.type==='idiom'){
+      idiomHelper=`<div class="idiom-helper">
+        <button class="idiom-toggle" onclick="toggleIdiomList(this)">Show common idioms and their meanings</button>
+        <div class="idiom-list">`;
+      commonIdioms.forEach(id=>{
+        idiomHelper+=`<div class="idiom-list-item"><strong>${id.idiom}</strong> &ndash; ${id.meaning}</div>`;
+      });
+      idiomHelper+=`</div></div>`;
+    }
     container.innerHTML+=`
       <div class="write-prompt-card" id="wpc-${i}">
         <div class="write-type-badge" style="background:${typeColours[p.type]}">${typeNames[p.type]}</div>
         <div class="write-scenario">${p.scenario}</div>
         <p style="font-size:clamp(13px,1.5vw,16px);color:var(--ink-light);margin-bottom:10px;"><strong>Hint:</strong> ${p.hint}</p>
+        ${idiomHelper}
         <textarea class="write-input" id="wi-${i}" placeholder="Write your sentence here..." rows="2"></textarea>
         <div style="text-align:right;margin-top:8px;">
           <button class="btn btn-teal btn-sm" onclick="checkWrite(${i})">Check my sentence</button>
@@ -607,6 +648,13 @@ function addTouchDrag(container,chipSel,dropSel){
     }
     if(tSource)tSource.style.opacity='1';tSource=null;
   });
+}
+
+function toggleIdiomList(btn){
+  const list=btn.nextElementSibling;
+  btn.classList.toggle('open');
+  list.classList.toggle('show');
+  btn.textContent=list.classList.contains('show')?'Hide idiom list':'Show common idioms and their meanings';
 }
 </script>
 </body>
