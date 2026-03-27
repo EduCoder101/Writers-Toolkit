@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Figurative Language Activity</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
 <style>
 :root {
   --bg: #f0f4ff;
@@ -332,25 +330,6 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
 @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
 .touch-dragging { position: fixed; z-index: 9999; pointer-events: none; opacity: 0.85; transform: scale(1.05); box-shadow: var(--shadow-hover); }
 
-.share-section{background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border:2px solid #4caf50;border-radius:16px;padding:28px;text-align:center;margin-top:16px;}
-.share-section h3{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.5vw,24px);color:#2e7d32;margin-bottom:8px;}
-.share-section p{font-size:clamp(14px,1.6vw,17px);color:#6b6b6b;margin-bottom:18px;line-height:1.5;}
-.share-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center;}
-.classroom-btn{display:inline-flex;align-items:center;gap:10px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 28px;border:none;border-radius:30px;cursor:pointer;background:#1a73e8;color:white;transition:all 0.2s;}
-.classroom-btn:hover{background:#1557b0;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.12);}
-.classroom-btn svg{width:22px;height:22px;fill:white;}
-.share-done{display:none;margin-top:14px;padding:14px;background:#c8e6c9;border-radius:12px;font-weight:700;color:#2e7d32;font-size:clamp(14px,1.6vw,17px);}
-.share-done.show{display:block;animation:fadeIn 0.4s ease;}
-.teacher-view{max-width:800px;margin:0 auto;padding:40px 24px;position:relative;z-index:1;}
-.teacher-banner{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:20px 28px;border-radius:16px;margin-bottom:24px;text-align:center;}
-.teacher-banner h2{font-family:'Fredoka',sans-serif;font-size:clamp(20px,3vw,28px);margin-bottom:4px;}
-.teacher-banner p{font-size:clamp(14px,1.6vw,18px);opacity:0.9;}
-.teacher-card{background:white;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:24px;margin-bottom:20px;}
-.teacher-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(16px,2vw,22px);margin-bottom:14px;color:#667eea;}
-.teacher-item{padding:10px 0;border-bottom:1px solid #eee;font-size:clamp(14px,1.6vw,17px);line-height:1.6;}
-.teacher-item:last-child{border-bottom:none;}
-.teacher-item .type-label{display:inline-block;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:white;padding:2px 10px;border-radius:10px;margin-right:8px;}
-
 @media (max-width: 768px) { .matching-grid { grid-template-columns: 1fr; } .check-columns { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 500px) { .check-columns { grid-template-columns: 1fr; } .phase-nav { gap: 6px; } .phase-btn { font-size: 13px; padding: 8px 14px; } .focus-card { padding: 32px 24px; } .focus-card .focus-badge { font-size: 22px; } }
 </style>
@@ -448,18 +427,7 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
     <h2>Learning Summary</h2>
     <div class="student-name" id="summaryName"></div>
     <div id="summaryContent"></div>
-    <div class="share-section">
-  <h3>Share your work with your teacher</h3>
-  <p>Click the button below to send your work to Google Classroom.</p>
-  <div class="share-btns">
-    <button class="classroom-btn" onclick="shareToClassroom()">
-      <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
-      Share to Google Classroom
-    </button>
-    <button class="print-btn" onclick="window.print()">Save as PDF</button>
-  </div>
-  <div class="share-done" id="shareDone">Shared! Your teacher can now see your work in Google Classroom.</div>
-</div>
+    <div style="text-align:center;"><button class="print-btn" onclick="window.print()">Print / Save as PDF</button></div>
   </div>
 </div>
 
@@ -512,7 +480,7 @@ const tracker = { phase1:{}, phase2:{ hintsUsed:new Set() }, phase3:{ results:[]
 let matchedCount=0, currentStmt=0, draggedEl=null, touchClone=null, touchSource=null;
 
 // NAV
-document.querySelectorAll('.phase-btn').forEach(b=>b.addEventListener('click',()=>{if(!b.disabled){workStarted=true;goToPhase(parseInt(b.dataset.phase));}}));
+document.querySelectorAll('.phase-btn').forEach(b=>b.addEventListener('click',()=>{if(!b.disabled)goToPhase(parseInt(b.dataset.phase));}));
 function goToPhase(n){
   document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.phase-btn').forEach(b=>b.classList.remove('active'));
@@ -541,7 +509,7 @@ function initPhase1(){
   addTouchDrag(document.getElementById('phase1'),'.def-card','.type-slot-drop');
 }
 
-function handleDragStart(e){workStarted=true;draggedEl=e.target;e.dataTransfer.setData('text/plain',e.target.dataset.type);e.dataTransfer.effectAllowed='move';setTimeout(()=>e.target.style.opacity='0.4',0);}
+function handleDragStart(e){draggedEl=e.target;e.dataTransfer.setData('text/plain',e.target.dataset.type);e.dataTransfer.effectAllowed='move';setTimeout(()=>e.target.style.opacity='0.4',0);}
 function handleDragOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
 function handleDragLeave(e){e.currentTarget.classList.remove('drag-over');}
 
@@ -610,7 +578,6 @@ function showStatement(idx){
 function nextStatement(){if(currentStmt<statements.length-1)showStatement(currentStmt+1);}
 function prevStatement(){if(currentStmt>0)showStatement(currentStmt-1);}
 function showHint(){
-  workStarted=true;
   document.getElementById('hintBubble').classList.add('show');
   document.getElementById('hintBtn').style.display='none';
   tracker.phase2.hintsUsed.add(statements[currentStmt].num);
@@ -646,7 +613,6 @@ function handleDragLeave3(e){e.currentTarget.classList.remove('drag-over');}
 function handleDrop3(e){e.preventDefault();e.currentTarget.classList.remove('drag-over');if(draggedEl&&draggedEl.classList.contains('check-card')){e.currentTarget.appendChild(draggedEl);draggedEl.style.opacity='1';draggedEl.classList.remove('correct','incorrect');}}
 
 function checkAnswers(){
-  workStarted=true;
   tracker.phase3.attempts++;
   let correct=0;const results=[];
   document.querySelectorAll('.check-column-drop').forEach(col=>{
@@ -838,7 +804,6 @@ function initPhase4() {
 }
 
 async function checkWriteOwn(typeId) {
-  workStarted=true;
   const input = document.getElementById('wot-' + typeId).value.trim();
   if (input.length < 5) { alert('Write a sentence first!'); return; }
 
@@ -859,19 +824,19 @@ async function checkWriteOwn(typeId) {
         max_tokens: 600,
         messages: [{
           role: "user",
-          content: `You are a warm but demanding Year 5 English teacher who pushes students to write with originality and flair. A student has been asked to write their own example of ${typeObj.name}.
+          content: `You are an encouraging Year 5 English teacher who genuinely believes every student can write something brilliant. A student has been asked to write their own example of ${typeObj.name}.
 
 Definition: ${typeObj.definition}
 
 The student wrote: "${input}"
 
-Respond in 3-5 sentences using British English. No bullet points. No em-dashes.
+Respond in 3-4 sentences using British English. No bullet points. No em-dashes.
 
-1. Clearly state whether this IS or IS NOT a correct example of ${typeObj.name}. If correct, name the specific words that make it work.
-2. CRITICALLY assess originality and complexity. Common, overused comparisons like "fast as a cheetah", "bright as the sun", "sweet as honey", "strong as a lion", "quiet as a mouse" etc. are technically correct but LAZY. If the student used a cliche or obvious comparison, acknowledge it works but firmly challenge them: "This works, but it is a comparison we have all heard a thousand times. Can you surprise me with something unexpected?"
-3. If the sentence is short and simple, push for more complexity: can they extend it, add a second clause, set a scene, or combine techniques?
-4. If the sentence IS original and complex, praise that specifically and enthusiastically.
-5. Give one concrete suggestion for how to make it more vivid, unexpected, or detailed.`
+1. Start by confirming whether this IS or IS NOT a correct example of ${typeObj.name}. If correct, name the specific words that make it work and give genuine praise.
+2. If the comparison or phrase is a common one (like "fast as a cheetah", "bright as the sun", "quiet as a mouse"), say something like: "You've got the right idea here, and it works! Now here's a challenge: what comparison would nobody else in the class think of? That's where really exciting writing happens." Frame it as levelling up, not as criticism.
+3. If the sentence is quite short, gently encourage extending it: "What if you built a whole scene around this?"
+4. If the sentence IS already original or detailed, be genuinely enthusiastic about what makes it special.
+5. Always end on an encouraging, forward-looking note. Never make them feel their work was bad.`
         }]
       })
     });
@@ -994,145 +959,7 @@ async function showWriteExample(typeId) {
   }
 }
 
-// ===== BEFOREUNLOAD WARNING =====
-let workShared=false;
-let workStarted=false;
-window.addEventListener('beforeunload',e=>{
-  if(workStarted&&!workShared){
-    e.preventDefault();
-    e.returnValue='You haven\'t shared your work with your teacher yet! Are you sure you want to leave?';
-    return e.returnValue;
-  }
-});
-
-// ===== SHARE TO GOOGLE CLASSROOM =====
-function collectWorkData(){
-  const data={
-    name:document.getElementById('studentName').value.trim()||'Unknown',
-    date:new Date().toISOString(),
-    phase1:{},phase2:{hintsUsed:[]},phase3:{score:0,results:[]},phase4:{}
-  };
-  // Phase 1
-  types.forEach(t=>{
-    data.phase1[t.id]={attempts:tracker.phase1[t.id].attempts,wrongGuesses:tracker.phase1[t.id].wrongGuesses};
-  });
-  // Phase 2
-  data.phase2.hintsUsed=[...tracker.phase2.hintsUsed];
-  // Phase 3
-  data.phase3.score=tracker.phase3.score;
-  data.phase3.results=tracker.phase3.results.map(r=>({num:r.num,text:r.text,type:r.type,placed:r.placed,correct:r.correct}));
-  data.phase3.attempts=tracker.phase3.attempts;
-  // Phase 4
-  types.forEach(t=>{
-    if(tracker.phase4[t.id]&&tracker.phase4[t.id].attempts>0){
-      data.phase4[t.id]={text:tracker.phase4[t.id].text,attempts:tracker.phase4[t.id].attempts,success:tracker.phase4[t.id].success};
-    }
-  });
-  return data;
-}
-
-function generateShareURL(){
-  const data=collectWorkData();
-  const json=JSON.stringify(data);
-  const compressed=LZString.compressToEncodedURIComponent(json);
-  const base=window.location.href.split('#')[0].split('?')[0];
-  return base+'?view='+compressed;
-}
-
-function shareToClassroom(){
-  workStarted=true;
-  const url=generateShareURL();
-  const shareURL='https://classroom.google.com/share?url='+encodeURIComponent(url)+'&title='+encodeURIComponent('Figurative Language Explorer')+'&body='+encodeURIComponent((document.getElementById('studentName').value.trim()||'A student')+'\'s completed work');
-  window.open(shareURL,'_blank','width=600,height=500');
-  workShared=true;
-  document.getElementById('shareDone').classList.add('show');
-}
-
-// ===== TEACHER VIEW =====
-function checkForTeacherView(){
-  const params=new URLSearchParams(window.location.search);
-  const viewData=params.get('view');
-  if(!viewData)return false;
-  try{
-    const json=LZString.decompressFromEncodedURIComponent(viewData);
-    const data=JSON.parse(json);
-    renderTeacherView(data);
-    return true;
-  }catch(e){console.error('Could not load shared work:',e);return false;}
-}
-
-function renderTeacherView(data){
-  const typeNames={simile:'Simile',metaphor:'Metaphor',hyperbole:'Hyperbole',personification:'Personification',idiom:'Idiom',onomatopoeia:'Onomatopoeia'};
-  const typeColourMap={simile:'#4caf50',metaphor:'#e67e22',hyperbole:'#e74c3c',personification:'#8e44ad',idiom:'#2980b9',onomatopoeia:'#f39c12'};
-  document.body.innerHTML='';
-  document.body.style.background='#fefcf6';
-  const date=new Date(data.date).toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'});
-
-  let html='<div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>';
-  html+='<div class="teacher-view">';
-  html+='<div class="teacher-banner"><h2>'+data.name+'\'s Work</h2><p>Figurative Language Explorer &middot; '+date+'</p></div>';
-
-  // Phase 1: Definition Matching
-  if(data.phase1){
-    let firstTry=0;
-    Object.keys(data.phase1).forEach(k=>{if(data.phase1[k].attempts===1)firstTry++;});
-    html+='<div class="teacher-card"><h3>Phase 1: Definition Matching</h3>';
-    html+='<p><strong>'+firstTry+'/6</strong> correct on first try</p>';
-    Object.keys(data.phase1).forEach(k=>{
-      const d=data.phase1[k];
-      const colour=typeColourMap[k]||'#667eea';
-      const badge=d.attempts===1?'1st try!':d.attempts+' tries';
-      html+='<div class="teacher-item"><span class="type-label" style="background:'+colour+'">'+typeNames[k]+'</span>'+badge;
-      if(d.wrongGuesses&&d.wrongGuesses.length>0)html+=' (wrong guesses: '+d.wrongGuesses.map(w=>typeNames[w]||w).join(', ')+')';
-      html+='</div>';
-    });
-    html+='</div>';
-  }
-
-  // Phase 2: Hints Used
-  if(data.phase2){
-    html+='<div class="teacher-card"><h3>Phase 2: Hints Used</h3>';
-    html+='<p>Used hints on <strong>'+data.phase2.hintsUsed.length+'/28</strong> statements</p>';
-    html+='</div>';
-  }
-
-  // Phase 3: Statement Sorting
-  if(data.phase3&&data.phase3.results&&data.phase3.results.length>0){
-    const wrong=data.phase3.results.filter(r=>!r.correct);
-    html+='<div class="teacher-card"><h3>Phase 3: Statement Sorting</h3>';
-    html+='<p>Score: <strong>'+data.phase3.score+'/28</strong> correct ('+data.phase3.attempts+' check attempts)</p>';
-    if(wrong.length>0){
-      html+='<p style="margin-top:8px;font-weight:600;">Statements to review:</p>';
-      wrong.forEach(r=>{
-        html+='<div class="teacher-item">"'+r.text+'" &ndash; placed under <strong>'+(typeNames[r.placed]||r.placed)+'</strong>, correct answer: <strong>'+(typeNames[r.type]||r.type)+'</strong></div>';
-      });
-    }else{html+='<p style="color:#2e7d32;font-weight:700;">All 28 sorted correctly!</p>';}
-    html+='</div>';
-  }
-
-  // Phase 4: Write Your Own
-  if(data.phase4&&Object.keys(data.phase4).length>0){
-    html+='<div class="teacher-card"><h3>Phase 4: Write Your Own</h3>';
-    Object.keys(data.phase4).forEach(k=>{
-      const r=data.phase4[k];
-      const colour=typeColourMap[k]||'#667eea';
-      html+='<div class="teacher-item"><span class="type-label" style="background:'+colour+'">'+typeNames[k]+'</span>';
-      html+='<span class="student-sentence">"'+r.text+'"</span>';
-      html+=' &ndash; '+(r.success?'Correct':'Needs work')+' ('+r.attempts+' attempts)';
-      html+='</div>';
-    });
-    html+='</div>';
-  }
-
-  html+='<div style="text-align:center;margin-top:20px;"><button style="font-family:Fredoka,sans-serif;font-size:16px;font-weight:600;padding:12px 32px;border:none;border-radius:30px;cursor:pointer;background:#667eea;color:white;" onclick="window.print()">Print this summary</button></div>';
-  html+='</div>';
-  document.body.innerHTML=html;
-}
-
-// Check for teacher view on page load, before initializing normal view
-if(!checkForTeacherView()){
-  initPhase1();
-}
+initPhase1();
 
 // ===== KEYBOARD / CLICKER NAV =====
 document.addEventListener('keydown', e => {
@@ -1162,3 +989,4 @@ document.addEventListener('keydown', e => {
 </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      

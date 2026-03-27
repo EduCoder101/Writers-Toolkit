@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Figurative Language Workshop</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
 <style>
 :root{--bg:#fefcf6;--card:#fff;--ink:#1e1e1e;--ink-light:#6b6b6b;--accent:#667eea;--accent-light:#f0f0ff;--teal:#4caf50;--teal-light:#d4edda;--gold:#f39c12;--gold-light:#fff3cd;--shadow:0 4px 20px rgba(0,0,0,0.06);--shadow-hover:0 8px 32px rgba(0,0,0,0.12);--radius:16px;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -100,26 +98,6 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 .back-link{font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;color:#667eea;text-decoration:none;padding:6px 16px;border:2px solid #667eea;border-radius:20px;transition:all 0.2s;}
 .back-link:hover{background:#667eea;color:white;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-.share-section{background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border:2px solid #4caf50;border-radius:16px;padding:28px;text-align:center;margin-top:16px;}
-.share-section h3{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.5vw,24px);color:#2e7d32;margin-bottom:8px;}
-.share-section p{font-size:clamp(14px,1.6vw,17px);color:#6b6b6b;margin-bottom:18px;line-height:1.5;}
-.share-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center;}
-.classroom-btn{display:inline-flex;align-items:center;gap:10px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 28px;border:none;border-radius:30px;cursor:pointer;background:#1a73e8;color:white;transition:all 0.2s;}
-.classroom-btn:hover{background:#1557b0;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.12);}
-.classroom-btn svg{width:22px;height:22px;fill:white;}
-.share-done{display:none;margin-top:14px;padding:14px;background:#c8e6c9;border-radius:12px;font-weight:700;color:#2e7d32;font-size:clamp(14px,1.6vw,17px);}
-.share-done.show{display:block;}
-.teacher-view{max-width:800px;margin:0 auto;padding:40px 24px;position:relative;z-index:1;}
-.teacher-banner{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:20px 28px;border-radius:16px;margin-bottom:24px;text-align:center;}
-.teacher-banner h2{font-family:'Fredoka',sans-serif;font-size:clamp(20px,3vw,28px);margin-bottom:4px;}
-.teacher-banner p{font-size:clamp(14px,1.6vw,18px);opacity:0.9;}
-.teacher-card{background:white;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:24px;margin-bottom:20px;}
-.teacher-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(16px,2vw,22px);margin-bottom:14px;color:#667eea;}
-.teacher-writing{font-family:'Lora',serif;font-size:clamp(15px,1.8vw,19px);line-height:1.8;color:#1e1e1e;white-space:pre-wrap;}
-.teacher-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
-.teacher-tag{font-size:12px;font-weight:700;color:white;padding:4px 12px;border-radius:20px;}
-
 @media(max-width:500px){.phase{max-width:95%;}.card,.gallery-card{padding:20px;}}
 </style>
 </head>
@@ -215,17 +193,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
     <div class="gallery-footer">Writer's Toolkit: Figurative Language Workshop</div>
   </div>
 
-  <div class="share-section">
-    <h3>Share your work with your teacher</h3>
-    <p>Click the button below to send your published writing to Google Classroom.</p>
-    <div class="share-btns">
-      <button class="classroom-btn" onclick="shareToClassroom()">
-        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
-        Share to Google Classroom
-      </button>
-      <button class="print-btn" onclick="window.print()">Print / Screenshot</button>
-    </div>
-    <div class="share-done" id="shareDone">Shared! Your teacher can now see your work in Google Classroom.</div>
+  <div style="text-align:center;margin-top:20px;">
+    <button class="print-btn" onclick="window.print()">Print / Screenshot</button>
   </div>
 </div>
 
@@ -250,14 +219,16 @@ document.getElementById('rewriteText').addEventListener('input',function(){
 });
 
 // ===== PHASE 1: REWRITE =====
-const analysePrompt=`You are a warm but demanding Year 5 English teacher analysing a student's writing for figurative language. Use British English. No bullet points. No em-dashes.
+const analysePrompt=`You are an encouraging Year 5 English teacher who genuinely believes every student can write something brilliant. You are analysing their writing for figurative language. Use British English. No bullet points. No em-dashes.
 
 Read the student's paragraph and:
 1. List every piece of figurative language you can find, naming the TYPE (simile, metaphor, personification, hyperbole, onomatopoeia, idiom) and quoting the specific words.
-2. CRITICALLY assess originality. If they used cliched or overused figurative language (e.g. "fast as a cheetah", "heart pounding", "blanket of snow", "silence was deafening"), acknowledge it works but firmly challenge them to find something fresher and more surprising. Say something like "This is a comparison we see all the time. What would only YOU think of?"
-3. If any type is missing, suggest specifically where in their writing they could add one, with an example.
-4. Comment on sentence variety and complexity. Are all sentences the same length? Push them to mix short punchy sentences with longer flowing ones.
-5. If they HAVE written something genuinely original or surprising, praise it enthusiastically and name exactly what makes it stand out.
+2. Give genuine praise for what they included. Name specific words or phrases that work well and explain why.
+3. If any figurative language they used is a common or well-known phrase, acknowledge it works and then offer a fun challenge: "You've used [phrase] which is a great start. Here's a challenge: what comparison would be so surprising that it makes the reader stop and re-read it? That's the kind of writing that really stands out."
+4. If any type is missing, suggest specifically where in their writing they could add one, with a concrete example to inspire them.
+5. Comment on sentence variety. If it could be improved, frame it as a tip: "One trick that could make this even more powerful is..."
+6. If they HAVE written something genuinely original or surprising, be enthusiastic about it. Name exactly what makes it special.
+7. Always end on an encouraging note.
 
 Format: Start with "I found these techniques in your writing:" then list each one on a new line as "TYPE: quote". Then give your feedback in a paragraph.`;
 
@@ -376,201 +347,7 @@ function publishToGallery(){
   goPhase(3);
   document.querySelector('.nav-btn[data-phase="3"]').classList.add('done');
 }
-
-// ===== GOOGLE CLASSROOM SHARING & TEACHER VIEW =====
-let workStarted=false;
-let workShared=false;
-
-function collectWorkData(){
-  const studentName=document.getElementById('studentName').value.trim()||'Anonymous';
-  const originalPassage='The storm arrived quickly. The rain was heavy and the wind was strong. Lightning lit up the sky. Thunder was loud. The trees moved in the wind. Everyone ran inside. It was a bad storm and it lasted a long time.';
-  const rewritePassage=document.getElementById('rewriteText').value.trim();
-  const freeWritePassage=document.getElementById('freeWriteText').value.trim();
-  const galleryTitle=document.getElementById('galleryTitle').textContent;
-  const galleryText=document.getElementById('galleryText').textContent;
-
-  const rewriteTags=new Set();
-  document.querySelectorAll('#rewriteTags .technique-tag').forEach(tag=>{
-    Object.keys(typeNames).forEach(t=>{
-      if(typeNames[t]===tag.textContent.trim())rewriteTags.add(t);
-    });
-  });
-
-  const freeWriteTags=new Set();
-  document.querySelectorAll('#freeWriteTags .technique-tag').forEach(tag=>{
-    Object.keys(typeNames).forEach(t=>{
-      if(typeNames[t]===tag.textContent.trim())freeWriteTags.add(t);
-    });
-  });
-
-  const galleryTags=new Set();
-  document.querySelectorAll('#galleryTags .technique-tag').forEach(tag=>{
-    Object.keys(typeNames).forEach(t=>{
-      if(typeNames[t]===tag.textContent.trim())galleryTags.add(t);
-    });
-  });
-
-  const rewriteFeedback=document.getElementById('rewriteFB').innerHTML||'';
-  const freeWriteFeedback=document.getElementById('freeWriteFB').innerHTML||'';
-
-  return{
-    studentName,
-    originalPassage,
-    rewritePassage,
-    rewriteFeedback,
-    rewriteTags:Array.from(rewriteTags),
-    freeWritePassage,
-    freeWriteFeedback,
-    freeWriteTags:Array.from(freeWriteTags),
-    scenario:selectedScenario?selectedScenario.label:'',
-    galleryTitle,
-    galleryText,
-    galleryTags:Array.from(galleryTags),
-    timestamp:new Date().toISOString()
-  };
-}
-
-function generateShareURL(){
-  const data=collectWorkData();
-  const json=JSON.stringify(data);
-  const compressed=LZString.compressToBase64(json);
-  const baseUrl=window.location.origin+window.location.pathname;
-  return baseUrl+'?view='+encodeURIComponent(compressed);
-}
-
-function shareToClassroom(){
-  const shareUrl=generateShareURL();
-  const data=collectWorkData();
-  const text=`${data.studentName}'s Figurative Language Workshop\n\nPublished piece: "${data.galleryTitle}"\n\nView their work: ${shareUrl}`;
-
-  if(navigator.share){
-    navigator.share({title:'Figurative Language Workshop',text:text,url:shareUrl}).catch(e=>console.log('Share cancelled'));
-  }else{
-    const encoded=encodeURIComponent(shareUrl);
-    const classroomUrl=`https://classroom.google.com/c/`;
-    window.open(classroomUrl,'_blank');
-    setTimeout(()=>{
-      alert('Share URL copied! You can now paste it in Google Classroom:\n\n'+shareUrl);
-      navigator.clipboard.writeText(shareUrl).catch(e=>console.log('Copy failed'));
-    },1000);
-  }
-
-  workShared=true;
-  document.getElementById('shareDone').classList.add('show');
-}
-
-function checkForTeacherView(){
-  const params=new URLSearchParams(window.location.search);
-  const viewData=params.get('view');
-
-  if(!viewData)return false;
-
-  try{
-    const json=LZString.decompressFromBase64(viewData);
-    const data=JSON.parse(json);
-    renderTeacherView(data);
-    return true;
-  }catch(e){
-    console.log('Failed to load teacher view:',e);
-    return false;
-  }
-}
-
-function renderTeacherView(data){
-  document.body.innerHTML=`
-    <div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>
-    <div class="back-bar"><a href="figurative-language-hub.html" class="back-link">&larr; Back to Figurative Language</a></div>
-    <div class="teacher-view">
-      <div class="teacher-banner">
-        <h2>${data.studentName}'s Work</h2>
-        <p>Figurative Language Workshop - Teacher View (Read Only)</p>
-      </div>
-
-      <div class="teacher-card">
-        <h3>📖 Original Passage</h3>
-        <div class="teacher-writing">${data.originalPassage}</div>
-      </div>
-
-      <div class="teacher-card">
-        <h3>✏️ Phase 1: Rewrite</h3>
-        <div class="teacher-writing">${data.rewritePassage}</div>
-        ${data.rewriteTags.length>0?`
-        <div class="teacher-tags">
-          ${data.rewriteTags.map(t=>`<span class="teacher-tag" style="background:${typeColours[t]}">${typeNames[t]}</span>`).join('')}
-        </div>
-        `:''}
-        ${data.rewriteFeedback?`<div style="margin-top:16px;padding:14px;background:#f5f5f5;border-radius:8px;font-size:14px;line-height:1.6;">${data.rewriteFeedback}</div>`:''}
-      </div>
-
-      <div class="teacher-card">
-        <h3>📝 Phase 2: Free Write (${data.scenario})</h3>
-        <div class="teacher-writing">${data.freeWritePassage}</div>
-        ${data.freeWriteTags.length>0?`
-        <div class="teacher-tags">
-          ${data.freeWriteTags.map(t=>`<span class="teacher-tag" style="background:${typeColours[t]}">${typeNames[t]}</span>`).join('')}
-        </div>
-        `:''}
-        ${data.freeWriteFeedback?`<div style="margin-top:16px;padding:14px;background:#f5f5f5;border-radius:8px;font-size:14px;line-height:1.6;">${data.freeWriteFeedback}</div>`:''}
-      </div>
-
-      <div class="teacher-card">
-        <h3>🎨 Phase 3: Published Work</h3>
-        <div style="font-family:'Fredoka',sans-serif;font-size:20px;color:#667eea;margin-bottom:8px;">${data.galleryTitle}</div>
-        <div class="teacher-writing">${data.galleryText}</div>
-        ${data.galleryTags.length>0?`
-        <div class="teacher-tags">
-          ${data.galleryTags.map(t=>`<span class="teacher-tag" style="background:${typeColours[t]}">${typeNames[t]}</span>`).join('')}
-        </div>
-        `:''}
-      </div>
-    </div>
-    <style>
-      :root{--bg:#fefcf6;--card:#fff;--ink:#1e1e1e;--ink-light:#6b6b6b;--accent:#667eea;--accent-light:#f0f0ff;--teal:#4caf50;--teal-light:#d4edda;--gold:#f39c12;--gold-light:#fff3cd;--shadow:0 4px 20px rgba(0,0,0,0.06);--shadow-hover:0 8px 32px rgba(0,0,0,0.12);--radius:16px;}
-      *{margin:0;padding:0;box-sizing:border-box;}
-      body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
-      .bg-shapes{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
-      .bg-shape{position:absolute;border-radius:50%;opacity:0.1;animation:bfloat 20s ease-in-out infinite;}
-      .bg-shape:nth-child(1){width:300px;height:300px;background:#ff6b6b;top:-80px;left:-60px;}
-      .bg-shape:nth-child(2){width:200px;height:200px;background:#4ecdc4;top:30%;right:-40px;animation-delay:-5s;animation-duration:25s;}
-      .bg-shape:nth-child(3){width:250px;height:250px;background:#ffd166;bottom:10%;left:10%;animation-delay:-10s;animation-duration:22s;}
-      .bg-shape:nth-child(4){width:180px;height:180px;background:#a78bfa;top:60%;right:15%;animation-delay:-15s;animation-duration:28s;}
-      .bg-shape:nth-child(5){width:140px;height:140px;background:#38bdf8;top:15%;left:40%;animation-delay:-8s;animation-duration:18s;}
-      @keyframes bfloat{0%,100%{transform:translate(0,0) rotate(0deg);}25%{transform:translate(30px,-20px) rotate(5deg);}50%{transform:translate(-20px,30px) rotate(-3deg);}75%{transform:translate(15px,15px) rotate(4deg);}}
-      .back-bar{padding:12px 20px;position:relative;z-index:1;}
-      .back-link{font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;color:#667eea;text-decoration:none;padding:6px 16px;border:2px solid #667eea;border-radius:20px;transition:all 0.2s;}
-      .back-link:hover{background:#667eea;color:white;}
-      .teacher-view{max-width:800px;margin:0 auto;padding:40px 24px;position:relative;z-index:1;}
-      .teacher-banner{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:20px 28px;border-radius:16px;margin-bottom:24px;text-align:center;}
-      .teacher-banner h2{font-family:'Fredoka',sans-serif;font-size:clamp(20px,3vw,28px);margin-bottom:4px;}
-      .teacher-banner p{font-size:clamp(14px,1.6vw,18px);opacity:0.9;}
-      .teacher-card{background:white;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:24px;margin-bottom:20px;}
-      .teacher-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(16px,2vw,22px);margin-bottom:14px;color:#667eea;}
-      .teacher-writing{font-family:'Lora',serif;font-size:clamp(15px,1.8vw,19px);line-height:1.8;color:#1e1e1e;white-space:pre-wrap;}
-      .teacher-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
-      .teacher-tag{font-size:12px;font-weight:700;color:white;padding:4px 12px;border-radius:20px;}
-    </style>
-  `;
-}
-
-// Track work started
-document.addEventListener('DOMContentLoaded',function(){
-  checkForTeacherView();
-
-  const rewriteTextarea=document.getElementById('rewriteText');
-  if(rewriteTextarea){
-    rewriteTextarea.addEventListener('input',function(){
-      if(this.value.trim().length>0)workStarted=true;
-    });
-  }
-
-  window.addEventListener('beforeunload',function(e){
-    if(workStarted&&!workShared){
-      e.preventDefault();
-      e.returnValue='You have unsaved work. Are you sure you want to leave?';
-      return'You have unsaved work. Are you sure you want to leave?';
-    }
-  });
-});
 </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   

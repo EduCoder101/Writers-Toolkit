@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Figurative Language in Action</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
 <style>
 :root{--bg:#fefcf6;--card:#fff;--ink:#1e1e1e;--ink-light:#6b6b6b;--simile:#4caf50;--metaphor:#e67e22;--hyperbole:#e74c3c;--personification:#8e44ad;--idiom:#2980b9;--onomatopoeia:#f39c12;--shadow:0 4px 20px rgba(0,0,0,0.06);--shadow-hover:0 8px 32px rgba(0,0,0,0.12);--radius:16px;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -98,15 +96,6 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 .feedback-box.needs-work{background:#fff3cd;border-left:4px solid #f39c12;}
 .write-progress{text-align:center;font-size:clamp(14px,1.6vw,17px);font-weight:700;color:var(--ink-light);margin-bottom:16px;}
 .write-progress span{color:#4caf50;}
-.idiom-helper{margin-bottom:14px;}
-.idiom-toggle{font-family:'Nunito',sans-serif;font-size:clamp(14px,1.6vw,16px);font-weight:700;color:#2980b9;background:none;border:2px solid #2980b9;border-radius:10px;padding:8px 18px;cursor:pointer;transition:all 0.2s;}
-.idiom-toggle:hover{background:#2980b9;color:white;}
-.idiom-toggle.open{background:#2980b9;color:white;border-radius:10px 10px 0 0;}
-.idiom-list{display:none;background:#f0f7ff;border:2px solid #2980b9;border-top:none;border-radius:0 0 12px 12px;padding:12px 16px;max-height:260px;overflow-y:auto;}
-.idiom-list.show{display:block;animation:fadeIn 0.3s ease;}
-.idiom-list-item{padding:8px 0;border-bottom:1px solid #d6e8f7;font-size:clamp(13px,1.5vw,16px);line-height:1.5;}
-.idiom-list-item:last-child{border-bottom:none;}
-.idiom-list-item strong{color:#2980b9;}
 
 /* PDF SUMMARY */
 .pdf-btn{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 32px;border:none;border-radius:30px;cursor:pointer;background:#764ba2;color:white;transition:all 0.2s;margin-top:16px;}
@@ -115,30 +104,6 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 .touch-dragging{position:fixed;z-index:9999;pointer-events:none;opacity:0.85;transform:scale(1.05);box-shadow:var(--shadow-hover);}
-/* SHARE TO CLASSROOM */
-.share-section{background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border:2px solid #4caf50;border-radius:var(--radius);padding:28px;text-align:center;margin-top:16px;}
-.share-section h3{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.5vw,24px);color:#2e7d32;margin-bottom:8px;}
-.share-section p{font-size:clamp(14px,1.6vw,17px);color:var(--ink-light);margin-bottom:18px;line-height:1.5;}
-.share-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center;}
-.classroom-btn{display:inline-flex;align-items:center;gap:10px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 28px;border:none;border-radius:30px;cursor:pointer;background:#1a73e8;color:white;transition:all 0.2s;}
-.classroom-btn:hover{background:#1557b0;transform:translateY(-2px);box-shadow:var(--shadow-hover);}
-.classroom-btn svg{width:22px;height:22px;fill:white;}
-.share-done{display:none;margin-top:14px;padding:14px;background:#c8e6c9;border-radius:12px;font-weight:700;color:#2e7d32;font-size:clamp(14px,1.6vw,17px);}
-.share-done.show{display:block;animation:fadeIn 0.4s ease;}
-
-/* TEACHER VIEW */
-.teacher-view{max-width:800px;margin:0 auto;padding:40px 24px;position:relative;z-index:1;}
-.teacher-banner{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:20px 28px;border-radius:var(--radius);margin-bottom:24px;text-align:center;}
-.teacher-banner h2{font-family:'Fredoka',sans-serif;font-size:clamp(20px,3vw,28px);margin-bottom:4px;}
-.teacher-banner p{font-size:clamp(14px,1.6vw,18px);opacity:0.9;}
-.teacher-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px;}
-.teacher-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(16px,2vw,22px);margin-bottom:14px;color:#667eea;}
-.teacher-item{padding:10px 0;border-bottom:1px solid #eee;font-size:clamp(14px,1.6vw,17px);line-height:1.6;}
-.teacher-item:last-child{border-bottom:none;}
-.teacher-item .type-label{display:inline-block;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:white;padding:2px 10px;border-radius:10px;margin-right:8px;}
-.teacher-item .student-sentence{font-style:italic;color:var(--ink);}
-.teacher-item .feedback-text{font-size:clamp(13px,1.4vw,15px);color:var(--ink-light);margin-top:6px;padding-top:6px;border-top:1px dashed #eee;}
-
 @media(max-width:500px){.phase{max-width:95%;}.card{padding:20px;}.stem-row{flex-direction:column;}.drop-zone{min-width:100%;}}
 </style>
 </head>
@@ -194,18 +159,7 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
   <div id="writeDone" style="display:none;">
     <div class="card" style="background:#d4edda;border:2px solid #4caf50;text-align:center;">
       <p style="font-size:clamp(16px,2vw,20px);font-weight:700;color:#2e7d32;">Amazing work! You've written your own example of every type.</p>
-    </div>
-    <div class="share-section">
-      <h3>Share your work with your teacher</h3>
-      <p>Click the button below to send your work to Google Classroom.</p>
-      <div class="share-btns">
-        <button class="classroom-btn" onclick="shareToClassroom()">
-          <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
-          Share to Google Classroom
-        </button>
-        <button class="pdf-btn" onclick="savePDF()">Save as PDF</button>
-      </div>
-      <div class="share-done" id="shareDone">Shared! Your teacher can now see your work in Google Classroom.</div>
+      <button class="pdf-btn" onclick="savePDF()">Save all my work as PDF</button>
     </div>
   </div>
 </div>
@@ -305,7 +259,7 @@ function pickType(idx,chosen){
   }
 }
 
-// initPhase1() is called at the bottom after teacher-view check
+initPhase1();
 
 // ===== PHASE 2: BUILD A SENTENCE =====
 const stemSets=[
@@ -471,61 +425,6 @@ const writePrompts=[
   {type:'idiom',scenario:'Describe someone who is feeling nervous before a test.',hint:'Use a common expression where the meaning is different from the literal words.'}
 ];
 
-const commonIdioms=[
-  {idiom:'A blessing in disguise',meaning:'Something good that isn\'t recognised at first'},
-  {idiom:'A piece of cake',meaning:'Something very easy'},
-  {idiom:'A storm in a teacup',meaning:'Making a big fuss over something small'},
-  {idiom:'Actions speak louder than words',meaning:'What someone does is more important than what they say'},
-  {idiom:'Add insult to injury',meaning:'To make a bad situation worse'},
-  {idiom:'All ears',meaning:'Fully listening'},
-  {idiom:'Barking up the wrong tree',meaning:'Looking in the wrong place or blaming the wrong person'},
-  {idiom:'Beat around the bush',meaning:'Avoiding the main topic'},
-  {idiom:'Bite off more than you can chew',meaning:'Take on a task that is too big'},
-  {idiom:'Bite the bullet',meaning:'To face something difficult bravely'},
-  {idiom:'Break a leg',meaning:'Good luck'},
-  {idiom:'Break the ice',meaning:'Make people feel more comfortable'},
-  {idiom:'Butterflies in my stomach',meaning:'Feeling nervous or anxious'},
-  {idiom:'Cost an arm and a leg',meaning:'Very expensive'},
-  {idiom:'Cry over spilled milk',meaning:'Complain about a loss or mistake from the past'},
-  {idiom:'Cut to the chase',meaning:'Get to the point'},
-  {idiom:'Don\'t put all your eggs in one basket',meaning:'Don\'t risk everything on a single plan'},
-  {idiom:'Down to the wire',meaning:'Until the last moment'},
-  {idiom:'Easy does it',meaning:'Slow down'},
-  {idiom:'Face the music',meaning:'Accept the consequences'},
-  {idiom:'Fall on deaf ears',meaning:'Be ignored'},
-  {idiom:'Give the benefit of the doubt',meaning:'Trust what someone says'},
-  {idiom:'Go the extra mile',meaning:'Put in extra effort'},
-  {idiom:'Have a change of heart',meaning:'Change your opinion'},
-  {idiom:'Hit the books',meaning:'Study hard'},
-  {idiom:'Hit the nail on the head',meaning:'To be exactly right about something'},
-  {idiom:'In the heat of the moment',meaning:'Overwhelmed by emotions at the time'},
-  {idiom:'It\'s a small world',meaning:'Meeting someone unexpectedly in an unusual place'},
-  {idiom:'Keep your chin up',meaning:'Stay positive'},
-  {idiom:'Kill two birds with one stone',meaning:'Achieve two things at once'},
-  {idiom:'Leave no stone unturned',meaning:'Try every possible course of action'},
-  {idiom:'Let sleeping dogs lie',meaning:'Leave something alone if it might cause trouble'},
-  {idiom:'Let the cat out of the bag',meaning:'To reveal a secret by accident'},
-  {idiom:'Make a long story short',meaning:'Tell something briefly'},
-  {idiom:'Miss the boat',meaning:'Miss an opportunity'},
-  {idiom:'On cloud nine',meaning:'Extremely happy'},
-  {idiom:'On the ball',meaning:'Alert and efficient'},
-  {idiom:'On thin ice',meaning:'In a risky situation'},
-  {idiom:'Play it by ear',meaning:'Decide as you go along, rather than planning'},
-  {idiom:'Pull someone\'s leg',meaning:'To joke with someone or tease them'},
-  {idiom:'Rain on someone\'s parade',meaning:'Spoil someone\'s plans'},
-  {idiom:'Raining cats and dogs',meaning:'Raining very heavily'},
-  {idiom:'Read between the lines',meaning:'Find the hidden meaning'},
-  {idiom:'Shake a leg',meaning:'Hurry up'},
-  {idiom:'Spill the beans',meaning:'Reveal a secret'},
-  {idiom:'The ball is in your court',meaning:'It\'s your decision or responsibility'},
-  {idiom:'The cold shoulder',meaning:'To deliberately ignore someone'},
-  {idiom:'The last straw',meaning:'The final problem that makes someone lose patience'},
-  {idiom:'Under the weather',meaning:'Not feeling well'},
-  {idiom:'When pigs fly',meaning:'Something that will never happen'},
-  {idiom:'Wrap your head around',meaning:'Understand something complicated'},
-  {idiom:'Your guess is as good as mine',meaning:'I don\'t know either'}
-];
-
 let writeCompleted=new Set();
 const phase3Results={};
 
@@ -534,22 +433,11 @@ function initPhase3(){
   if(container.children.length>0)return;
   document.getElementById('writeTotal').textContent=writePrompts.length;
   writePrompts.forEach((p,i)=>{
-    let idiomHelper='';
-    if(p.type==='idiom'){
-      idiomHelper=`<div class="idiom-helper">
-        <button class="idiom-toggle" onclick="toggleIdiomList(this)">Show common idioms and their meanings</button>
-        <div class="idiom-list">`;
-      commonIdioms.forEach(id=>{
-        idiomHelper+=`<div class="idiom-list-item"><strong>${id.idiom}</strong> &ndash; ${id.meaning}</div>`;
-      });
-      idiomHelper+=`</div></div>`;
-    }
     container.innerHTML+=`
       <div class="write-prompt-card" id="wpc-${i}">
         <div class="write-type-badge" style="background:${typeColours[p.type]}">${typeNames[p.type]}</div>
         <div class="write-scenario">${p.scenario}</div>
         <p style="font-size:clamp(13px,1.5vw,16px);color:var(--ink-light);margin-bottom:10px;"><strong>Hint:</strong> ${p.hint}</p>
-        ${idiomHelper}
         <textarea class="write-input" id="wi-${i}" placeholder="Write your sentence here..." rows="2"></textarea>
         <div style="text-align:right;margin-top:8px;">
           <button class="btn btn-teal btn-sm" onclick="checkWrite(${i})">Check my sentence</button>
@@ -569,18 +457,18 @@ async function checkWrite(idx){
   try{
     const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:600,
-        messages:[{role:"user",content:`You are a warm but demanding Year 5 English teacher who pushes students to write with originality and flair. A student was asked to write a sentence using ${typeNames[p.type]}.
+        messages:[{role:"user",content:`You are an encouraging Year 5 English teacher who genuinely believes every student can write something brilliant. A student was asked to write a sentence using ${typeNames[p.type]}.
 
 Definition: ${getDefinition(p.type)}
 Scenario: "${p.scenario}"
 The student wrote: "${input}"
 
-In 3-5 sentences, using British English, no bullet points, no em-dashes:
-1. State whether this IS or IS NOT a correct example of ${typeNames[p.type]}. If correct, name the specific words that make it work.
-2. CRITICALLY assess the originality and complexity. Common, overused comparisons like "fast as a cheetah", "bright as the sun", "sweet as honey", "strong as a lion", "quiet as a mouse" etc. are technically correct but LAZY. If the student used a cliche or obvious comparison, acknowledge it works but firmly challenge them to be more creative and surprising. Say something like "This works, but it is a comparison we have all heard a thousand times. Can you surprise me with something unexpected?"
-3. If the sentence is short and simple, push for more complexity: can they extend it, add a second clause, set a scene, or combine techniques?
-4. If the sentence IS original and complex, praise that specifically and enthusiastically.
-5. Give one concrete suggestion for how to make it more vivid, unexpected, or detailed.`}]})});
+In 3-4 sentences, using British English, no bullet points, no em-dashes:
+1. Start by confirming whether this IS or IS NOT a correct example of ${typeNames[p.type]}. If correct, name the specific words that make it work and give genuine praise.
+2. If the comparison or phrase is a common one (like "fast as a cheetah", "bright as the sun", "quiet as a mouse"), say something like: "You've got the right idea here, and it works! Now here's a challenge for you: what comparison would nobody else in the class think of? That's where really exciting writing happens." Frame it as levelling up, not as criticism.
+3. If the sentence is quite short, gently encourage them to extend it: "What if you built a whole scene around this? You could add what the character sees or feels in that moment."
+4. If the sentence IS already original or detailed, be genuinely enthusiastic: "Now THAT is the kind of writing that makes a reader stop and pay attention!"
+5. Always end on an encouraging, forward-looking note. Never make them feel their work was bad.`}]})});
     const data=await r.json();
     const text=data.content.map(c=>c.text||'').join('');
     const isCorrect=!(/not a |not quite|isn't a|is not a|doesn't work as|not really/i.test(text));
@@ -619,7 +507,7 @@ function fallbackWriteCheck(input,type){
     case 'metaphor':correct=input.length>10&&!/\blike\b/.test(lower)&&!/\bas\s+\w+\s+as\b/.test(lower)&&/\bis\b|\bwas\b|\bare\b|\bwere\b/.test(lower);message=correct?'Nice metaphor! You\'ve said something IS something else, creating a vivid image.':'A metaphor says something IS something else directly, without "like" or "as".';break;
     case 'hyperbole':correct=/million|billion|thousand|forever|never|always|every|entire|world|ton|die|kill|explod|100|1000|endless|starv/i.test(lower);message=correct?'Brilliant exaggeration! That\'s clearly impossible, which is great hyperbole.':'Push the exaggeration further! Make it SO over the top that it obviously can\'t be true.';break;
     case 'personification':correct=/whisper|danc|sang|cried|groan|yell|shout|slept|woke|smile|laugh|scream|call|kiss|hug|reach|grab|ate|swallow|crept|ran|walked|scratch|howl|roar|beckon|moan|sigh/i.test(lower);message=correct?'Lovely personification! You\'ve given something non-human a human action.':'Give a non-living thing a human action. Try: "The [thing] [human action]."';break;
-    case 'idiom':correct=/cloud nine|raining cats|piece of cake|break a leg|spill the beans|hit the sack|under the weather|cost an arm|bite the bullet|ball is in|burning the midnight|let the cat|once in a blue|on thin ice|barking up|beat around|the last straw|a penny for|kick the bucket|out of the blue|add fuel|up the wall|give.*(shot|go)|cold shoulder|butterflies|nerves of steel|on edge|blessing in disguise|actions speak louder|add insult|all ears|bite off more|break the ice|cry over spill|cut to the chase|eggs in one basket|down to the wire|easy does it|face the music|deaf ears|benefit of the doubt|extra mile|change of heart|hit the books|hit the nail|heat of the moment|small world|chin up|kill two birds|no stone unturned|sleeping dogs|long story short|miss the boat|on the ball|play it by ear|pull.*(leg)|rain on.*parade|read between|shake a leg|steal.*thunder|last straw|when pigs fly|wrap.*head|your guess|storm in a teacup/i.test(lower);message=correct?'Well done! That\'s a recognised idiom.':'Try a well-known expression like "butterflies in my stomach" where the meaning differs from the words. Use the idiom list for ideas!';break;
+    case 'idiom':correct=/cloud nine|raining cats|piece of cake|break a leg|spill the beans|hit the sack|under the weather|cost an arm|bite the bullet|ball is in|burning the midnight|let the cat|once in a blue|on thin ice|barking up|beat around|the last straw|a penny for|kick the bucket|out of the blue|add fuel|up the wall|give.*(shot|go)|cold shoulder|butterflies|nerves of steel|on edge/i.test(lower);message=correct?'Well done! That\'s a recognised idiom.':'Try a well-known expression like "butterflies in my stomach" where the meaning differs from the words.';break;
     case 'onomatopoeia':correct=/buzz|hiss|crack|pop|bang|boom|sizzl|splash|crash|click|clack|crunch|fizz|whiz|zoom|thud|thump|whoosh|gurgle|rumbl|snap|tap|drip|pitter|clang|ring|beep|roar|screech|squeak|rustle|murmur|munch|chomp|crackl|slurp/i.test(lower);message=correct?'Fantastic! That word sounds just like the noise it describes.':'You need a word that sounds like the noise: "crunch", "splash", "sizzle".';break;
   }
   return{correct,message};
@@ -720,132 +608,7 @@ function addTouchDrag(container,chipSel,dropSel){
     if(tSource)tSource.style.opacity='1';tSource=null;
   });
 }
-
-function toggleIdiomList(btn){
-  const list=btn.nextElementSibling;
-  btn.classList.toggle('open');
-  list.classList.toggle('show');
-  btn.textContent=list.classList.contains('show')?'Hide idiom list':'Show common idioms and their meanings';
-}
-
-// ===== BEFOREUNLOAD WARNING =====
-let workShared=false;
-let workStarted=false;
-window.addEventListener('beforeunload',e=>{
-  if(workStarted&&!workShared){
-    e.preventDefault();
-    e.returnValue='You haven\'t shared your work with your teacher yet! Are you sure you want to leave?';
-    return e.returnValue;
-  }
-});
-// Track that work has started when student identifies anything or types
-document.addEventListener('click',()=>{if(spotCorrect>0||writeCompleted.size>0)workStarted=true;});
-
-// ===== SHARE TO GOOGLE CLASSROOM =====
-function collectWorkData(){
-  const data={
-    name:document.getElementById('studentName').value.trim()||'Unknown',
-    date:new Date().toISOString(),
-    phase1:{found:spotCorrect,total:spotTotalCount,items:phase1Results},
-    phase2:phase2Results,
-    phase3:{}
-  };
-  writePrompts.forEach((p,i)=>{
-    if(phase3Results[i]){
-      data.phase3[i]={type:typeNames[p.type],scenario:p.scenario,sentence:phase3Results[i].sentence,feedback:phase3Results[i].feedback,correct:phase3Results[i].correct};
-    }
-  });
-  return data;
-}
-
-function generateShareURL(){
-  const data=collectWorkData();
-  const json=JSON.stringify(data);
-  const compressed=LZString.compressToEncodedURIComponent(json);
-  const base=window.location.href.split('#')[0].split('?')[0];
-  return base+'?view='+compressed;
-}
-
-function shareToClassroom(){
-  const url=generateShareURL();
-  const shareURL='https://classroom.google.com/share?url='+encodeURIComponent(url)+'&title='+encodeURIComponent('Figurative Language in Action')+'&body='+encodeURIComponent((document.getElementById('studentName').value.trim()||'A student')+'\'s completed work');
-  window.open(shareURL,'_blank','width=600,height=500');
-  workShared=true;
-  document.getElementById('shareDone').classList.add('show');
-}
-
-// ===== TEACHER VIEW =====
-function checkForTeacherView(){
-  const params=new URLSearchParams(window.location.search);
-  const viewData=params.get('view');
-  if(!viewData)return false;
-  try{
-    const json=LZString.decompressFromEncodedURIComponent(viewData);
-    const data=JSON.parse(json);
-    renderTeacherView(data);
-    return true;
-  }catch(e){console.error('Could not load shared work:',e);return false;}
-}
-
-function renderTeacherView(data){
-  document.body.innerHTML='';
-  document.body.style.background='var(--bg)';
-  const bgShapes='<div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>';
-  const date=new Date(data.date).toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'});
-
-  let html=bgShapes+'<div class="teacher-view">';
-  html+='<div class="teacher-banner"><h2>'+data.name+'\'s Work</h2><p>Figurative Language in Action &middot; '+date+'</p></div>';
-
-  // Phase 1
-  if(data.phase1&&data.phase1.items&&data.phase1.items.length>0){
-    html+='<div class="teacher-card"><h3>Phase 1: Spot in Context</h3>';
-    html+='<p style="margin-bottom:12px;">Identified <strong>'+data.phase1.found+' / '+data.phase1.total+'</strong> pieces of figurative language.</p>';
-    data.phase1.items.forEach(item=>{
-      const colour=typeColours[item.type.toLowerCase()]||'#667eea';
-      html+='<div class="teacher-item"><span class="type-label" style="background:'+colour+'">'+item.type+'</span>"'+item.phrase+'"</div>';
-    });
-    html+='</div>';
-  }
-
-  // Phase 2
-  const p2keys=Object.keys(data.phase2||{});
-  if(p2keys.length>0){
-    html+='<div class="teacher-card"><h3>Phase 2: Build a Sentence</h3>';
-    p2keys.forEach(k=>{
-      const r=data.phase2[k];
-      const colour=typeColours[r.type.toLowerCase()]||'#667eea';
-      html+='<div class="teacher-item"><span class="type-label" style="background:'+colour+'">'+r.type+'</span><strong>'+r.stem+'</strong> '+r.ending+'</div>';
-    });
-    html+='</div>';
-  }
-
-  // Phase 3
-  const p3keys=Object.keys(data.phase3||{});
-  if(p3keys.length>0){
-    html+='<div class="teacher-card"><h3>Phase 3: Write Your Own</h3>';
-    p3keys.forEach(k=>{
-      const r=data.phase3[k];
-      const colour=typeColours[r.type.toLowerCase()]||'#667eea';
-      html+='<div class="teacher-item"><span class="type-label" style="background:'+colour+'">'+r.type+'</span>';
-      html+='<strong>Prompt:</strong> '+r.scenario+'<br>';
-      html+='<span class="student-sentence">"'+r.sentence+'"</span>';
-      if(r.feedback)html+='<div class="feedback-text">'+r.feedback+'</div>';
-      html+='</div>';
-    });
-    html+='</div>';
-  }
-
-  html+='<div style="text-align:center;margin-top:20px;"><button class="btn btn-primary" onclick="window.print()">Print this summary</button></div>';
-  html+='</div>';
-  document.body.innerHTML=html;
-}
-
-// Check on load
-if(checkForTeacherView()){
-  // Teacher view rendered, stop here
-}else{
-  initPhase1();
-}
 </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
