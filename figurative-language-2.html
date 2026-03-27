@@ -435,24 +435,58 @@ const writePrompts=[
 ];
 
 const commonIdioms=[
-  {idiom:'Butterflies in my stomach',meaning:'Feeling nervous or anxious'},
-  {idiom:'Break a leg',meaning:'Good luck'},
-  {idiom:'Hit the nail on the head',meaning:'To be exactly right about something'},
-  {idiom:'Under the weather',meaning:'Feeling unwell'},
-  {idiom:'Cost an arm and a leg',meaning:'Very expensive'},
-  {idiom:'Piece of cake',meaning:'Something very easy'},
-  {idiom:'Let the cat out of the bag',meaning:'To reveal a secret by accident'},
-  {idiom:'Once in a blue moon',meaning:'Very rarely'},
-  {idiom:'On thin ice',meaning:'In a risky or dangerous situation'},
-  {idiom:'Bite the bullet',meaning:'To face something difficult bravely'},
-  {idiom:'Barking up the wrong tree',meaning:'Looking in the wrong place or blaming the wrong person'},
-  {idiom:'Spill the beans',meaning:'To tell a secret'},
-  {idiom:'The last straw',meaning:'The final problem that makes someone lose patience'},
+  {idiom:'A blessing in disguise',meaning:'Something good that isn\'t recognised at first'},
+  {idiom:'A piece of cake',meaning:'Something very easy'},
   {idiom:'A storm in a teacup',meaning:'Making a big fuss over something small'},
-  {idiom:'Pull someone\'s leg',meaning:'To joke with someone or tease them'},
-  {idiom:'Cold shoulder',meaning:'To deliberately ignore someone'},
+  {idiom:'Actions speak louder than words',meaning:'What someone does is more important than what they say'},
+  {idiom:'Add insult to injury',meaning:'To make a bad situation worse'},
+  {idiom:'All ears',meaning:'Fully listening'},
+  {idiom:'Barking up the wrong tree',meaning:'Looking in the wrong place or blaming the wrong person'},
+  {idiom:'Beat around the bush',meaning:'Avoiding the main topic'},
+  {idiom:'Bite off more than you can chew',meaning:'Take on a task that is too big'},
+  {idiom:'Bite the bullet',meaning:'To face something difficult bravely'},
+  {idiom:'Break a leg',meaning:'Good luck'},
+  {idiom:'Break the ice',meaning:'Make people feel more comfortable'},
+  {idiom:'Butterflies in my stomach',meaning:'Feeling nervous or anxious'},
+  {idiom:'Cost an arm and a leg',meaning:'Very expensive'},
+  {idiom:'Cry over spilled milk',meaning:'Complain about a loss or mistake from the past'},
+  {idiom:'Cut to the chase',meaning:'Get to the point'},
+  {idiom:'Don\'t put all your eggs in one basket',meaning:'Don\'t risk everything on a single plan'},
+  {idiom:'Down to the wire',meaning:'Until the last moment'},
+  {idiom:'Easy does it',meaning:'Slow down'},
+  {idiom:'Face the music',meaning:'Accept the consequences'},
+  {idiom:'Fall on deaf ears',meaning:'Be ignored'},
+  {idiom:'Give the benefit of the doubt',meaning:'Trust what someone says'},
+  {idiom:'Go the extra mile',meaning:'Put in extra effort'},
+  {idiom:'Have a change of heart',meaning:'Change your opinion'},
+  {idiom:'Hit the books',meaning:'Study hard'},
+  {idiom:'Hit the nail on the head',meaning:'To be exactly right about something'},
+  {idiom:'In the heat of the moment',meaning:'Overwhelmed by emotions at the time'},
+  {idiom:'It\'s a small world',meaning:'Meeting someone unexpectedly in an unusual place'},
+  {idiom:'Keep your chin up',meaning:'Stay positive'},
+  {idiom:'Kill two birds with one stone',meaning:'Achieve two things at once'},
+  {idiom:'Leave no stone unturned',meaning:'Try every possible course of action'},
+  {idiom:'Let sleeping dogs lie',meaning:'Leave something alone if it might cause trouble'},
+  {idiom:'Let the cat out of the bag',meaning:'To reveal a secret by accident'},
+  {idiom:'Make a long story short',meaning:'Tell something briefly'},
+  {idiom:'Miss the boat',meaning:'Miss an opportunity'},
   {idiom:'On cloud nine',meaning:'Extremely happy'},
-  {idiom:'Raining cats and dogs',meaning:'Raining very heavily'}
+  {idiom:'On the ball',meaning:'Alert and efficient'},
+  {idiom:'On thin ice',meaning:'In a risky situation'},
+  {idiom:'Play it by ear',meaning:'Decide as you go along, rather than planning'},
+  {idiom:'Pull someone\'s leg',meaning:'To joke with someone or tease them'},
+  {idiom:'Rain on someone\'s parade',meaning:'Spoil someone\'s plans'},
+  {idiom:'Raining cats and dogs',meaning:'Raining very heavily'},
+  {idiom:'Read between the lines',meaning:'Find the hidden meaning'},
+  {idiom:'Shake a leg',meaning:'Hurry up'},
+  {idiom:'Spill the beans',meaning:'Reveal a secret'},
+  {idiom:'The ball is in your court',meaning:'It\'s your decision or responsibility'},
+  {idiom:'The cold shoulder',meaning:'To deliberately ignore someone'},
+  {idiom:'The last straw',meaning:'The final problem that makes someone lose patience'},
+  {idiom:'Under the weather',meaning:'Not feeling well'},
+  {idiom:'When pigs fly',meaning:'Something that will never happen'},
+  {idiom:'Wrap your head around',meaning:'Understand something complicated'},
+  {idiom:'Your guess is as good as mine',meaning:'I don\'t know either'}
 ];
 
 let writeCompleted=new Set();
@@ -548,7 +582,7 @@ function fallbackWriteCheck(input,type){
     case 'metaphor':correct=input.length>10&&!/\blike\b/.test(lower)&&!/\bas\s+\w+\s+as\b/.test(lower)&&/\bis\b|\bwas\b|\bare\b|\bwere\b/.test(lower);message=correct?'Nice metaphor! You\'ve said something IS something else, creating a vivid image.':'A metaphor says something IS something else directly, without "like" or "as".';break;
     case 'hyperbole':correct=/million|billion|thousand|forever|never|always|every|entire|world|ton|die|kill|explod|100|1000|endless|starv/i.test(lower);message=correct?'Brilliant exaggeration! That\'s clearly impossible, which is great hyperbole.':'Push the exaggeration further! Make it SO over the top that it obviously can\'t be true.';break;
     case 'personification':correct=/whisper|danc|sang|cried|groan|yell|shout|slept|woke|smile|laugh|scream|call|kiss|hug|reach|grab|ate|swallow|crept|ran|walked|scratch|howl|roar|beckon|moan|sigh/i.test(lower);message=correct?'Lovely personification! You\'ve given something non-human a human action.':'Give a non-living thing a human action. Try: "The [thing] [human action]."';break;
-    case 'idiom':correct=/cloud nine|raining cats|piece of cake|break a leg|spill the beans|hit the sack|under the weather|cost an arm|bite the bullet|ball is in|burning the midnight|let the cat|once in a blue|on thin ice|barking up|beat around|the last straw|a penny for|kick the bucket|out of the blue|add fuel|up the wall|give.*(shot|go)|cold shoulder|butterflies|nerves of steel|on edge/i.test(lower);message=correct?'Well done! That\'s a recognised idiom.':'Try a well-known expression like "butterflies in my stomach" where the meaning differs from the words.';break;
+    case 'idiom':correct=/cloud nine|raining cats|piece of cake|break a leg|spill the beans|hit the sack|under the weather|cost an arm|bite the bullet|ball is in|burning the midnight|let the cat|once in a blue|on thin ice|barking up|beat around|the last straw|a penny for|kick the bucket|out of the blue|add fuel|up the wall|give.*(shot|go)|cold shoulder|butterflies|nerves of steel|on edge|blessing in disguise|actions speak louder|add insult|all ears|bite off more|break the ice|cry over spill|cut to the chase|eggs in one basket|down to the wire|easy does it|face the music|deaf ears|benefit of the doubt|extra mile|change of heart|hit the books|hit the nail|heat of the moment|small world|chin up|kill two birds|no stone unturned|sleeping dogs|long story short|miss the boat|on the ball|play it by ear|pull.*(leg)|rain on.*parade|read between|shake a leg|steal.*thunder|last straw|when pigs fly|wrap.*head|your guess|storm in a teacup/i.test(lower);message=correct?'Well done! That\'s a recognised idiom.':'Try a well-known expression like "butterflies in my stomach" where the meaning differs from the words. Use the idiom list for ideas!';break;
     case 'onomatopoeia':correct=/buzz|hiss|crack|pop|bang|boom|sizzl|splash|crash|click|clack|crunch|fizz|whiz|zoom|thud|thump|whoosh|gurgle|rumbl|snap|tap|drip|pitter|clang|ring|beep|roar|screech|squeak|rustle|murmur|munch|chomp|crackl|slurp/i.test(lower);message=correct?'Fantastic! That word sounds just like the noise it describes.':'You need a word that sounds like the noise: "crunch", "splash", "sizzle".';break;
   }
   return{correct,message};
