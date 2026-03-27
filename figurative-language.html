@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Figurative Language Activity</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <style>
 :root {
   --bg: #f0f4ff;
@@ -330,6 +332,25 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
 @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
 .touch-dragging { position: fixed; z-index: 9999; pointer-events: none; opacity: 0.85; transform: scale(1.05); box-shadow: var(--shadow-hover); }
 
+.share-section{background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border:2px solid #4caf50;border-radius:16px;padding:28px;text-align:center;margin-top:16px;}
+.share-section h3{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.5vw,24px);color:#2e7d32;margin-bottom:8px;}
+.share-section p{font-size:clamp(14px,1.6vw,17px);color:#6b6b6b;margin-bottom:18px;line-height:1.5;}
+.share-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center;}
+.classroom-btn{display:inline-flex;align-items:center;gap:10px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 28px;border:none;border-radius:30px;cursor:pointer;background:#1a73e8;color:white;transition:all 0.2s;}
+.classroom-btn:hover{background:#1557b0;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.12);}
+.classroom-btn svg{width:22px;height:22px;fill:white;}
+.share-done{display:none;margin-top:14px;padding:14px;background:#c8e6c9;border-radius:12px;font-weight:700;color:#2e7d32;font-size:clamp(14px,1.6vw,17px);}
+.share-done.show{display:block;animation:fadeIn 0.4s ease;}
+.teacher-view{max-width:800px;margin:0 auto;padding:40px 24px;position:relative;z-index:1;}
+.teacher-banner{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:20px 28px;border-radius:16px;margin-bottom:24px;text-align:center;}
+.teacher-banner h2{font-family:'Fredoka',sans-serif;font-size:clamp(20px,3vw,28px);margin-bottom:4px;}
+.teacher-banner p{font-size:clamp(14px,1.6vw,18px);opacity:0.9;}
+.teacher-card{background:white;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:24px;margin-bottom:20px;}
+.teacher-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(16px,2vw,22px);margin-bottom:14px;color:#667eea;}
+.teacher-item{padding:10px 0;border-bottom:1px solid #eee;font-size:clamp(14px,1.6vw,17px);line-height:1.6;}
+.teacher-item:last-child{border-bottom:none;}
+.teacher-item .type-label{display:inline-block;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:white;padding:2px 10px;border-radius:10px;margin-right:8px;}
+
 @media (max-width: 768px) { .matching-grid { grid-template-columns: 1fr; } .check-columns { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 500px) { .check-columns { grid-template-columns: 1fr; } .phase-nav { gap: 6px; } .phase-btn { font-size: 13px; padding: 8px 14px; } .focus-card { padding: 32px 24px; } .focus-card .focus-badge { font-size: 22px; } }
 </style>
@@ -427,7 +448,18 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--te
     <h2>Learning Summary</h2>
     <div class="student-name" id="summaryName"></div>
     <div id="summaryContent"></div>
-    <div style="text-align:center;"><button class="print-btn" onclick="window.print()">Print / Save as PDF</button></div>
+    <div class="share-section">
+      <h3>Share your work with your teacher</h3>
+      <p>Click the button below to send your work to Google Classroom.</p>
+      <div class="share-btns">
+        <button class="classroom-btn" onclick="shareToClassroom()">
+          <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+          Share to Google Classroom
+        </button>
+        <button class="print-btn" onclick="window.print()">Save as PDF</button>
+      </div>
+      <div class="share-done" id="shareDone">Shared! Your teacher can now see your work in Google Classroom.</div>
+    </div>
   </div>
 </div>
 
@@ -959,7 +991,249 @@ async function showWriteExample(typeId) {
   }
 }
 
-initPhase1();
+// ===== GOOGLE CLASSROOM SHARING & TEACHER VIEW =====
+let workStarted = false;
+let workShared = false;
+
+// Track when work begins
+document.addEventListener('click', () => { workStarted = true; }, { once: true });
+document.addEventListener('input', () => { workStarted = true; }, { once: true });
+
+// beforeunload warning
+window.addEventListener('beforeunload', (e) => {
+  if (workStarted && !workShared) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+
+function collectWorkData() {
+  const name = document.getElementById('studentName').value.trim() || 'Student';
+
+  // Phase 1: Definition matching attempts and wrong guesses
+  const p1Data = {};
+  types.forEach(t => {
+    const d = tracker.phase1[t.id];
+    p1Data[t.id] = {
+      name: t.name,
+      attempts: d.attempts,
+      wrongGuesses: d.wrongGuesses.map(w => types.find(x => x.id === w)?.name || w)
+    };
+  });
+
+  // Phase 2: Hints used
+  const hintsUsed = Array.from(tracker.phase2.hintsUsed).sort((a,b) => a-b).map(num => {
+    const s = statements.find(st => st.num === num);
+    return { num, text: s.text, type: types.find(t => t.id === s.type)?.name || s.type };
+  });
+
+  // Phase 3: Sorting results
+  const p3Data = tracker.phase3.results.length > 0 ? {
+    score: tracker.phase3.score,
+    attempts: tracker.phase3.attempts,
+    incorrect: tracker.phase3.results.filter(r => !r.correct).sort((a,b) => a.num - b.num).map(r => ({
+      num: r.num,
+      text: r.text,
+      placedUnder: types.find(t => t.id === r.placed)?.name || r.placed,
+      correctAnswer: types.find(t => t.id === r.type)?.name || r.type
+    }))
+  } : null;
+
+  // Phase 4: Written examples
+  const p4Data = {};
+  types.forEach(t => {
+    if (tracker.phase4[t.id] && tracker.phase4[t.id].attempts > 0) {
+      p4Data[t.id] = {
+        name: t.name,
+        text: tracker.phase4[t.id].text,
+        attempts: tracker.phase4[t.id].attempts,
+        success: tracker.phase4[t.id].success
+      };
+    }
+  });
+
+  return {
+    name,
+    date: new Date().toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' }),
+    phase1: p1Data,
+    phase2: { hintsUsed },
+    phase3: p3Data,
+    phase4: Object.keys(p4Data).length > 0 ? p4Data : null
+  };
+}
+
+function generateShareURL() {
+  const data = collectWorkData();
+  const compressed = LZString.compressToBase64(JSON.stringify(data));
+  return window.location.origin + window.location.pathname + '?view=' + encodeURIComponent(compressed);
+}
+
+function shareToClassroom() {
+  const url = generateShareURL();
+  const shareText = `My Figurative Language Learning Summary - ${document.getElementById('studentName').value.trim() || 'Student'}`;
+
+  // Try to open Google Classroom share dialog
+  if (window.gapi && window.gapi.sharetoclassroom) {
+    window.gapi.sharetoclassroom.shareUrl(url);
+  } else {
+    // Fallback: copy to clipboard and show confirmation
+    navigator.clipboard.writeText(url).then(() => {
+      document.getElementById('shareDone').classList.add('show');
+      workShared = true;
+      setTimeout(() => {
+        alert('Link copied to clipboard! You can now paste it in Google Classroom.');
+      }, 300);
+    }).catch(() => {
+      alert('Share link: ' + url);
+      workShared = true;
+    });
+  }
+}
+
+function checkForTeacherView() {
+  const params = new URLSearchParams(window.location.search);
+  const viewData = params.get('view');
+
+  if (viewData) {
+    try {
+      const decompressed = LZString.decompressFromBase64(viewData);
+      const data = JSON.parse(decompressed);
+      renderTeacherView(data);
+      return true;
+    } catch (e) {
+      console.error('Failed to load teacher view:', e);
+    }
+  }
+  return false;
+}
+
+function renderTeacherView(data) {
+  // Hide normal UI, show teacher view
+  document.querySelector('.back-bar').style.display = 'none';
+  document.querySelector('.header').style.display = 'none';
+  document.querySelector('.name-bar').style.display = 'none';
+  document.querySelector('.phase-nav').style.display = 'none';
+  document.querySelectorAll('.phase').forEach(p => p.style.display = 'none');
+  document.getElementById('focusOverlay').style.display = 'none';
+  document.getElementById('summaryOverlay').style.display = 'none';
+
+  // Create teacher view container
+  const container = document.createElement('div');
+  container.className = 'teacher-view';
+  container.style.background = 'var(--bg)';
+  container.style.minHeight = '100vh';
+
+  let html = `
+    <div class="teacher-banner">
+      <h2>Learning Summary</h2>
+      <p>${data.name} • ${data.date}</p>
+    </div>
+  `;
+
+  // Phase 1
+  if (data.phase1) {
+    let firstTry = 0;
+    let totalAttempts = 0;
+    Object.values(data.phase1).forEach(p => {
+      totalAttempts += p.attempts;
+      if (p.attempts === 1) firstTry++;
+    });
+
+    html += `
+      <div class="teacher-card">
+        <h3>Phase 1: Definition Matching</h3>
+        <div class="summary-stats">
+          <div class="stat-box green"><div class="stat-num">${firstTry}/6</div><div class="stat-label">Correct first try</div></div>
+          <div class="stat-box amber"><div class="stat-num">${totalAttempts}</div><div class="stat-label">Total attempts</div></div>
+        </div>
+    `;
+
+    Object.entries(data.phase1).forEach(([key, p]) => {
+      const badge = p.attempts === 1 ? '<span style="background:#4caf50;color:white;padding:2px 8px;border-radius:8px;font-size:12px;">1st try</span>' : `<span style="background:#f39c12;color:white;padding:2px 8px;border-radius:8px;font-size:12px;">${p.attempts} tries</span>`;
+      const wrongs = p.wrongGuesses.length > 0 ? p.wrongGuesses.join(', ') : '—';
+      html += `<div class="teacher-item"><strong>${p.name}</strong> ${badge}<br><small style="color:#999;">Wrong guesses: ${wrongs}</small></div>`;
+    });
+
+    html += `</div>`;
+  }
+
+  // Phase 2
+  if (data.phase2 && data.phase2.hintsUsed) {
+    const hintsCount = data.phase2.hintsUsed.length;
+    html += `
+      <div class="teacher-card">
+        <h3>Phase 2: Hints Used</h3>
+        <div class="summary-stats">
+          <div class="stat-box ${hintsCount === 0 ? 'green' : hintsCount <= 5 ? 'amber' : 'red'}"><div class="stat-num">${hintsCount}/28</div><div class="stat-label">Hints used</div></div>
+          <div class="stat-box green"><div class="stat-num">${28 - hintsCount}</div><div class="stat-label">No hint needed</div></div>
+        </div>
+    `;
+
+    if (hintsCount > 0) {
+      data.phase2.hintsUsed.forEach(hint => {
+        html += `<div class="teacher-item">#${hint.num}: "${hint.text}" <span class="type-label" style="background:#667eea;">${hint.type}</span></div>`;
+      });
+    } else {
+      html += `<p style="color:#2e7d32;font-weight:700;">No hints needed! Sorted all 28 independently.</p>`;
+    }
+
+    html += `</div>`;
+  }
+
+  // Phase 3
+  if (data.phase3) {
+    html += `
+      <div class="teacher-card">
+        <h3>Phase 3: Statement Sorting</h3>
+        <div class="summary-stats">
+          <div class="stat-box green"><div class="stat-num">${data.phase3.score}/28</div><div class="stat-label">Correct</div></div>
+          <div class="stat-box ${data.phase3.incorrect.length > 5 ? 'red' : 'amber'}"><div class="stat-num">${data.phase3.incorrect.length}</div><div class="stat-label">Incorrect</div></div>
+          <div class="stat-box amber"><div class="stat-num">${data.phase3.attempts}</div><div class="stat-label">Check attempts</div></div>
+        </div>
+    `;
+
+    if (data.phase3.incorrect.length > 0) {
+      data.phase3.incorrect.forEach(r => {
+        html += `<div class="teacher-item">#${r.num}: "${r.text}"<br><small>Placed under: <strong style="color:#e74c3c;">${r.placedUnder}</strong> (Correct: <strong style="color:#4caf50;">${r.correctAnswer}</strong>)</small></div>`;
+      });
+    } else {
+      html += `<p style="color:#2e7d32;font-weight:700;">All 28 statements sorted correctly!</p>`;
+    }
+
+    html += `</div>`;
+  }
+
+  // Phase 4
+  if (data.phase4 && Object.keys(data.phase4).length > 0) {
+    let p4success = 0;
+    Object.values(data.phase4).forEach(p => { if (p.success) p4success++; });
+
+    html += `
+      <div class="teacher-card">
+        <h3>Phase 4: Write Your Own</h3>
+        <div class="summary-stats">
+          <div class="stat-box green"><div class="stat-num">${p4success}/${Object.keys(data.phase4).length}</div><div class="stat-label">Correct examples</div></div>
+          <div class="stat-box amber"><div class="stat-num">${Object.keys(data.phase4).length}</div><div class="stat-label">Types attempted</div></div>
+        </div>
+    `;
+
+    Object.entries(data.phase4).forEach(([key, p]) => {
+      const status = p.success ? '<span style="color:#4caf50;font-weight:700;">✓ Correct</span>' : '<span style="color:#e74c3c;font-weight:700;">Needs work</span>';
+      html += `<div class="teacher-item"><strong>${p.name}</strong> ${status}<br><em style="color:#999;">Student wrote: "${p.text}"</em><br><small>Attempts: ${p.attempts}</small></div>`;
+    });
+
+    html += `</div>`;
+  }
+
+  container.innerHTML = html;
+  document.body.innerHTML = '';
+  document.body.appendChild(container);
+}
+
+// Check for teacher view on page load
+if (!checkForTeacherView()) {
+  initPhase1();
+}
 
 // ===== KEYBOARD / CLICKER NAV =====
 document.addEventListener('keydown', e => {

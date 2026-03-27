@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Figurative Language Workshop</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <style>
 :root{--bg:#fefcf6;--card:#fff;--ink:#1e1e1e;--ink-light:#6b6b6b;--accent:#667eea;--accent-light:#f0f0ff;--teal:#4caf50;--teal-light:#d4edda;--gold:#f39c12;--gold-light:#fff3cd;--shadow:0 4px 20px rgba(0,0,0,0.06);--shadow-hover:0 8px 32px rgba(0,0,0,0.12);--radius:16px;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -91,6 +93,25 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 
 .print-btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:10px 24px;border:2px solid var(--accent);border-radius:30px;background:white;color:var(--accent);cursor:pointer;margin-top:16px;}
 .print-btn:hover{background:var(--accent);color:white;}
+
+.share-section{background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border:2px solid #4caf50;border-radius:16px;padding:28px;text-align:center;margin-top:16px;}
+.share-section h3{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.5vw,24px);color:#2e7d32;margin-bottom:8px;}
+.share-section p{font-size:clamp(14px,1.6vw,17px);color:#6b6b6b;margin-bottom:18px;line-height:1.5;}
+.share-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center;}
+.classroom-btn{display:inline-flex;align-items:center;gap:10px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 28px;border:none;border-radius:30px;cursor:pointer;background:#1a73e8;color:white;transition:all 0.2s;}
+.classroom-btn:hover{background:#1557b0;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.12);}
+.classroom-btn svg{width:22px;height:22px;fill:white;}
+.share-done{display:none;margin-top:14px;padding:14px;background:#c8e6c9;border-radius:12px;font-weight:700;color:#2e7d32;font-size:clamp(14px,1.6vw,17px);}
+.share-done.show{display:block;}
+.teacher-view{max-width:800px;margin:0 auto;padding:40px 24px;position:relative;z-index:1;}
+.teacher-banner{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:20px 28px;border-radius:16px;margin-bottom:24px;text-align:center;}
+.teacher-banner h2{font-family:'Fredoka',sans-serif;font-size:clamp(20px,3vw,28px);margin-bottom:4px;}
+.teacher-banner p{font-size:clamp(14px,1.6vw,18px);opacity:0.9;}
+.teacher-card{background:white;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:24px;margin-bottom:20px;}
+.teacher-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(16px,2vw,22px);margin-bottom:14px;color:#667eea;}
+.teacher-writing{font-family:'Lora',serif;font-size:clamp(15px,1.8vw,19px);line-height:1.8;color:#1e1e1e;white-space:pre-wrap;}
+.teacher-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.teacher-tag{font-size:12px;font-weight:700;color:white;padding:4px 12px;border-radius:20px;}
 
 @media print{body *{visibility:hidden;}.gallery-card,.gallery-card *{visibility:visible;}.gallery-card{position:absolute;left:0;top:0;width:100%;box-shadow:none;}.print-btn,.phase-nav,.header,.name-bar,.bg-shapes{display:none!important;}}
 
@@ -193,8 +214,17 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
     <div class="gallery-footer">Writer's Toolkit: Figurative Language Workshop</div>
   </div>
 
-  <div style="text-align:center;margin-top:20px;">
-    <button class="print-btn" onclick="window.print()">Print / Screenshot</button>
+  <div class="share-section">
+    <h3>Share your work with your teacher</h3>
+    <p>Click the button below to send your published writing to Google Classroom.</p>
+    <div class="share-btns">
+      <button class="classroom-btn" onclick="shareToClassroom()">
+        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+        Share to Google Classroom
+      </button>
+      <button class="print-btn" onclick="window.print()">Print / Screenshot</button>
+    </div>
+    <div class="share-done" id="shareDone">Shared! Your teacher can now see your work in Google Classroom.</div>
   </div>
 </div>
 
@@ -328,6 +358,7 @@ async function analyseFreeWrite(){
 }
 
 let lastAnalysedTypes=new Set();
+let workStarted=false;
 
 function publishToGallery(){
   const name=document.getElementById('studentName').value.trim()||'Anonymous';
@@ -347,6 +378,117 @@ function publishToGallery(){
   goPhase(3);
   document.querySelector('.nav-btn[data-phase="3"]').classList.add('done');
 }
+
+// ===== GOOGLE CLASSROOM SHARING & TEACHER VIEW =====
+window.addEventListener('beforeunload',function(e){
+  if(workStarted && document.getElementById('rewriteText').value.trim()){
+    e.preventDefault();
+    e.returnValue='';
+  }
+});
+
+document.getElementById('rewriteText').addEventListener('input',function(){
+  if(this.value.trim().length>5){workStarted=true;}
+});
+document.getElementById('freeWriteText').addEventListener('input',function(){
+  if(this.value.trim().length>5){workStarted=true;}
+});
+
+function collectWorkData(){
+  return {
+    studentName:document.getElementById('studentName').value.trim()||'Anonymous',
+    originalPassage:'The storm arrived quickly. The rain was heavy and the wind was strong. Lightning lit up the sky. Thunder was loud. The trees moved in the wind. Everyone ran inside. It was a bad storm and it lasted a long time.',
+    rewriteText:document.getElementById('rewriteText').value.trim(),
+    freeWriteText:document.getElementById('freeWriteText').value.trim(),
+    scenario:selectedScenario?selectedScenario.label:'Creative Writing',
+    galleryTitle:document.getElementById('galleryTitle').textContent,
+    galleryText:document.getElementById('galleryText').textContent,
+    galleryTags:Array.from(lastAnalysedTypes),
+    feedbackReceived:{
+      rewrite:document.getElementById('rewriteFB').textContent,
+      freeWrite:document.getElementById('freeWriteFB').textContent
+    }
+  };
+}
+
+function generateShareURL(){
+  const data=collectWorkData();
+  const json=JSON.stringify(data);
+  const compressed=LZString.compressToBase64(json);
+  const baseUrl=window.location.origin+window.location.pathname;
+  return baseUrl+'?view=teacher&data='+encodeURIComponent(compressed);
+}
+
+function shareToClassroom(){
+  const shareUrl=generateShareURL();
+  if(window.gapi && window.gapi.drive){
+    gapi.drive.share.openDialog({
+      resourceId:shareUrl,
+      onClose:function(){
+        document.getElementById('shareDone').classList.add('show');
+        setTimeout(()=>{document.getElementById('shareDone').classList.remove('show');},3000);
+      }
+    });
+  }else{
+    // Fallback: copy to clipboard
+    navigator.clipboard.writeText(shareUrl).then(()=>{
+      document.getElementById('shareDone').classList.add('show');
+      setTimeout(()=>{document.getElementById('shareDone').classList.remove('show');},3000);
+    });
+  }
+}
+
+function checkForTeacherView(){
+  const urlParams=new URLSearchParams(window.location.search);
+  const isTeacher=urlParams.get('view')==='teacher';
+  const dataParam=urlParams.get('data');
+
+  if(isTeacher && dataParam){
+    try{
+      const json=LZString.decompressFromBase64(dataParam);
+      const data=JSON.parse(json);
+      renderTeacherView(data);
+    }catch(e){
+      console.error('Failed to load teacher view:',e);
+    }
+  }
+}
+
+function renderTeacherView(data){
+  document.body.innerHTML='';
+  document.body.innerHTML=`<div class="teacher-view">
+    <div class="teacher-banner">
+      <h2>Student Writing: ${data.studentName}</h2>
+      <p>Figurative Language Workshop - Student's Writing Journey</p>
+    </div>
+    <div class="teacher-card">
+      <h3>Phase 1: Rewrite with Figurative Language</h3>
+      <div style="margin-bottom:12px;"><strong>Original passage:</strong></div>
+      <div style="font-family:'Lora',serif;color:#666;padding:12px;background:#f5f5f5;border-radius:8px;margin-bottom:12px;">${data.originalPassage}</div>
+      <div style="margin-bottom:8px;"><strong>Student's figurative rewrite:</strong></div>
+      <div class="teacher-writing">${data.rewriteText}</div>
+      ${data.feedbackReceived.rewrite?`<div style="margin-top:12px;padding:12px;background:#fef3cd;border-radius:8px;border-left:4px solid #f39c12;"><strong>Teacher feedback given:</strong> ${data.feedbackReceived.rewrite}</div>`:''}
+    </div>
+    <div class="teacher-card">
+      <h3>Phase 2: Free Write - ${data.scenario}</h3>
+      <div class="teacher-writing">${data.freeWriteText}</div>
+      <div class="teacher-tags">${data.galleryTags.map(t=>`<span class="teacher-tag" style="background:${typeColours[t]}">${typeNames[t]}</span>`).join('')}</div>
+      ${data.feedbackReceived.freeWrite?`<div style="margin-top:12px;padding:12px;background:#fef3cd;border-radius:8px;border-left:4px solid #f39c12;"><strong>Teacher feedback given:</strong> ${data.feedbackReceived.freeWrite}</div>`:''}
+    </div>
+    <div class="teacher-card">
+      <h3>Phase 3: Published Work</h3>
+      <div style="text-align:center;padding:24px;background:var(--accent-light);border-radius:12px;">
+        <div style="font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;color:var(--accent);margin-bottom:6px;">${data.galleryTitle}</div>
+        <div style="color:var(--ink-light);margin-bottom:14px;">By ${data.studentName}</div>
+        <div class="teacher-writing" style="text-align:left;">${data.galleryText}</div>
+        <div class="teacher-tags" style="justify-content:center;">${data.galleryTags.map(t=>`<span class="teacher-tag" style="background:${typeColours[t]}">${typeNames[t]}</span>`).join('')}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// Check for teacher view on page load
+checkForTeacherView();
 </script>
 </body>
 </html>

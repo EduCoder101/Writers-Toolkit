@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Show, Don't Tell</title>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <style>
 :root{--bg:#faf8f4;--ink:#1e1e1e;--ink-light:#6b6b6b;--accent:#c0392b;--accent-light:#fadbd8;--gold:#d4a017;--gold-light:#fdf2d0;--teal:#1a8a7d;--teal-light:#d0f0ec;--purple:#667eea;--purple-light:#f0f0ff;--card:#fff;--shadow:0 4px 20px rgba(0,0,0,0.06);--shadow-hover:0 8px 32px rgba(0,0,0,0.12);--radius:16px;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -121,6 +123,23 @@ body{font-family:'Nunito',sans-serif;background:#fefcf6;color:var(--ink);min-hei
 .back-link{font-family:"Nunito",sans-serif;font-size:14px;font-weight:700;color:#667eea;text-decoration:none;padding:6px 16px;border:2px solid #667eea;border-radius:20px;transition:all 0.2s;}
 .back-link:hover{background:#667eea;color:white;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.share-section{background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border:2px solid #4caf50;border-radius:16px;padding:28px;text-align:center;margin-top:16px;}
+.share-section h3{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.5vw,24px);color:#2e7d32;margin-bottom:8px;}
+.share-section p{font-size:clamp(14px,1.6vw,17px);color:#6b6b6b;margin-bottom:18px;line-height:1.5;}
+.share-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center;}
+.classroom-btn{display:inline-flex;align-items:center;gap:10px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 28px;border:none;border-radius:30px;cursor:pointer;background:#1a73e8;color:white;transition:all 0.2s;}
+.classroom-btn:hover{background:#1557b0;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.12);}
+.classroom-btn svg{width:22px;height:22px;fill:white;}
+.share-done{display:none;margin-top:14px;padding:14px;background:#c8e6c9;border-radius:12px;font-weight:700;color:#2e7d32;font-size:clamp(14px,1.6vw,17px);}
+.share-done.show{display:block;}
+.teacher-view{max-width:800px;margin:0 auto;padding:40px 24px;position:relative;z-index:1;}
+.teacher-banner{background:linear-gradient(135deg,#e67e22,#e74c3c);color:white;padding:20px 28px;border-radius:16px;margin-bottom:24px;text-align:center;}
+.teacher-banner h2{font-family:'Fredoka',sans-serif;font-size:clamp(20px,3vw,28px);margin-bottom:4px;}
+.teacher-banner p{font-size:clamp(14px,1.6vw,18px);opacity:0.9;}
+.teacher-card{background:white;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:24px;margin-bottom:20px;}
+.teacher-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(16px,2vw,22px);margin-bottom:14px;color:#e67e22;}
+.teacher-writing{font-family:'Lora',serif;font-size:clamp(15px,1.8vw,19px);line-height:1.8;color:#1e1e1e;white-space:pre-wrap;}
+.teacher-feedback{font-size:clamp(13px,1.4vw,15px);color:#6b6b6b;margin-top:10px;padding-top:10px;border-top:1px dashed #eee;line-height:1.6;}
 @media(max-width:500px){.site-header{padding:32px 16px 16px;}.card{padding:20px;}.phase{padding:0 14px 40px;}.nav-btn{font-size:12px;padding:6px 12px;}}
 </style>
 </head>
@@ -335,6 +354,19 @@ body{font-family:'Nunito',sans-serif;background:#fefcf6;color:var(--ink);min-hei
       <button class="btn btn-outline btn-sm" onclick="getFinalRewrite('onomatopoeia')">Add onomatopoeia</button>
     </div>
     <div class="rewrite-box" id="finalRewrite"></div>
+
+<div class="share-section" id="shareSection" style="display:none;">
+  <h3>Share your work with your teacher</h3>
+  <p>Click the button below to send your work to Google Classroom.</p>
+  <div class="share-btns">
+    <button class="classroom-btn" onclick="shareToClassroom()">
+      <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+      Share to Google Classroom
+    </button>
+    <button style="font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 32px;border:none;border-radius:30px;cursor:pointer;background:#764ba2;color:white;transition:all 0.2s;" onclick="window.print()">Save as PDF</button>
+  </div>
+  <div class="share-done" id="shareDone">Shared! Your teacher can now see your work in Google Classroom.</div>
+</div>
   </div>
 </div>
 
@@ -593,6 +625,7 @@ async function getFinalFeedback(){
     const data=await r.json();fb.className='feedback-box show success';fb.innerHTML=data.content.map(c=>c.text||'').join('');
   }catch(e){fb.className='feedback-box show success';fb.innerHTML=fallbackFeedback(text);}
   document.getElementById('finalRewriteOpts').classList.add('show');
+  document.getElementById('shareSection').style.display='block';
   document.querySelector('.nav-btn[data-phase="5"]').classList.add('done');
 }
 
@@ -660,6 +693,88 @@ document.getElementById('phase1').addEventListener('click', function(e) {
   if (e.target.closest('button') || e.target.closest('a') || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
   const active = document.querySelector('.phase.active');
   if (active && active.id === 'phase1') advanceSlide();
+});
+
+// ===== SHARING & PERSISTENCE =====
+let workStarted=false;
+
+function collectWorkData(){
+  const scenario=selectedScenario?selectedScenario.label:'';
+  const rubbish=[];for(let i=1;i<=5;i++){const v=document.getElementById('rubbish'+i).value.trim();if(v)rubbish.push(v);}
+  const expanded=document.getElementById('expandedText').value.trim();
+  const feedback=document.getElementById('finalFeedback').innerHTML;
+  const rewrites=document.getElementById('finalRewrite').innerHTML;
+  return{scenario,rubbish,expanded,feedback,rewrites};
+}
+
+function generateShareURL(){
+  const data=collectWorkData();
+  const json=JSON.stringify(data);
+  const compressed=LZString.compressToEncodedURIComponent(json);
+  return window.location.origin+window.location.pathname+'?teacher='+compressed;
+}
+
+async function shareToClassroom(){
+  if(!window.gapi){alert('Google API failed to load. Please try again.');return;}
+  const url=generateShareURL();
+  try{
+    window.gapi.load('classroom',function(){
+      const auth=window.gapi.auth2.getAuthInstance();
+      if(!auth.isSignedIn.get()){
+        auth.signIn().then(()=>submitToClassroom(url));
+      }else{
+        submitToClassroom(url);
+      }
+    });
+  }catch(e){
+    const textArea=document.createElement('textarea');textArea.value=url;document.body.appendChild(textArea);textArea.select();document.execCommand('copy');document.body.removeChild(textArea);
+    document.getElementById('shareDone').textContent='Link copied! Paste it in Google Classroom.';document.getElementById('shareDone').classList.add('show');
+  }
+}
+
+function submitToClassroom(url){
+  document.getElementById('shareDone').classList.add('show');
+}
+
+function checkForTeacherView(){
+  const params=new URLSearchParams(window.location.search);const compressed=params.get('teacher');
+  if(!compressed)return;
+  try{
+    const json=LZString.decompressFromEncodedURIComponent(compressed);const data=JSON.parse(json);renderTeacherView(data);
+  }catch(e){console.log('Invalid teacher view link');}
+}
+
+function renderTeacherView(data){
+  document.body.innerHTML='';
+  const root=document.createElement('div');root.className='teacher-view';
+  root.innerHTML=`<div class="teacher-banner"><h2>Student Writing Review</h2><p>Scenario: ${data.scenario}</p></div>`;
+
+  const rubbishCard=document.createElement('div');rubbishCard.className='teacher-card';
+  rubbishCard.innerHTML=`<h3>Starting Sentences</h3><div class="teacher-writing">${(data.rubbish||[]).map((s,i)=>\`\${i+1}. \${s}\`).join('\\n')}</div>`;
+  root.appendChild(rubbishCard);
+
+  const expandedCard=document.createElement('div');expandedCard.className='teacher-card';
+  expandedCard.innerHTML=`<h3>Student's Expanded Passage</h3><div class="teacher-writing">${data.expanded}</div>`;
+  if(data.feedback){expandedCard.innerHTML+=`<div class="teacher-feedback"><strong>Feedback:</strong> ${data.feedback}</div>`;}
+  root.appendChild(expandedCard);
+
+  if(data.rewrites){
+    const rewriteCard=document.createElement('div');rewriteCard.className='teacher-card';
+    rewriteCard.innerHTML=`<h3>Rewrites & Enhancements</h3><div class="teacher-writing">${data.rewrites}</div>`;
+    root.appendChild(rewriteCard);
+  }
+
+  document.body.appendChild(root);
+}
+
+window.addEventListener('beforeunload',function(e){
+  if(workStarted){e.preventDefault();e.returnValue='You have unsaved work. Are you sure you want to leave?';return 'You have unsaved work. Are you sure you want to leave?'}
+});
+
+document.addEventListener('DOMContentLoaded',function(){
+  checkForTeacherView();
+  const expandedTA=document.getElementById('expandedText');
+  if(expandedTA){expandedTA.addEventListener('input',function(){if(this.value.trim())workStarted=true;});}
 });
 </script>
 </body>
