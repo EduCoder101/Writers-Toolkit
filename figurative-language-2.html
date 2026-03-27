@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Figurative Language in Action</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <style>
 :root{--bg:#fefcf6;--card:#fff;--ink:#1e1e1e;--ink-light:#6b6b6b;--simile:#4caf50;--metaphor:#e67e22;--hyperbole:#e74c3c;--personification:#8e44ad;--idiom:#2980b9;--onomatopoeia:#f39c12;--shadow:0 4px 20px rgba(0,0,0,0.06);--shadow-hover:0 8px 32px rgba(0,0,0,0.12);--radius:16px;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -113,6 +115,30 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
 .touch-dragging{position:fixed;z-index:9999;pointer-events:none;opacity:0.85;transform:scale(1.05);box-shadow:var(--shadow-hover);}
+/* SHARE TO CLASSROOM */
+.share-section{background:linear-gradient(135deg,#e8f5e9,#e3f2fd);border:2px solid #4caf50;border-radius:var(--radius);padding:28px;text-align:center;margin-top:16px;}
+.share-section h3{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.5vw,24px);color:#2e7d32;margin-bottom:8px;}
+.share-section p{font-size:clamp(14px,1.6vw,17px);color:var(--ink-light);margin-bottom:18px;line-height:1.5;}
+.share-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center;}
+.classroom-btn{display:inline-flex;align-items:center;gap:10px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 28px;border:none;border-radius:30px;cursor:pointer;background:#1a73e8;color:white;transition:all 0.2s;}
+.classroom-btn:hover{background:#1557b0;transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.classroom-btn svg{width:22px;height:22px;fill:white;}
+.share-done{display:none;margin-top:14px;padding:14px;background:#c8e6c9;border-radius:12px;font-weight:700;color:#2e7d32;font-size:clamp(14px,1.6vw,17px);}
+.share-done.show{display:block;animation:fadeIn 0.4s ease;}
+
+/* TEACHER VIEW */
+.teacher-view{max-width:800px;margin:0 auto;padding:40px 24px;position:relative;z-index:1;}
+.teacher-banner{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:20px 28px;border-radius:var(--radius);margin-bottom:24px;text-align:center;}
+.teacher-banner h2{font-family:'Fredoka',sans-serif;font-size:clamp(20px,3vw,28px);margin-bottom:4px;}
+.teacher-banner p{font-size:clamp(14px,1.6vw,18px);opacity:0.9;}
+.teacher-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:20px;}
+.teacher-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(16px,2vw,22px);margin-bottom:14px;color:#667eea;}
+.teacher-item{padding:10px 0;border-bottom:1px solid #eee;font-size:clamp(14px,1.6vw,17px);line-height:1.6;}
+.teacher-item:last-child{border-bottom:none;}
+.teacher-item .type-label{display:inline-block;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:white;padding:2px 10px;border-radius:10px;margin-right:8px;}
+.teacher-item .student-sentence{font-style:italic;color:var(--ink);}
+.teacher-item .feedback-text{font-size:clamp(13px,1.4vw,15px);color:var(--ink-light);margin-top:6px;padding-top:6px;border-top:1px dashed #eee;}
+
 @media(max-width:500px){.phase{max-width:95%;}.card{padding:20px;}.stem-row{flex-direction:column;}.drop-zone{min-width:100%;}}
 </style>
 </head>
@@ -168,7 +194,18 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
   <div id="writeDone" style="display:none;">
     <div class="card" style="background:#d4edda;border:2px solid #4caf50;text-align:center;">
       <p style="font-size:clamp(16px,2vw,20px);font-weight:700;color:#2e7d32;">Amazing work! You've written your own example of every type.</p>
-      <button class="pdf-btn" onclick="savePDF()">Save all my work as PDF</button>
+    </div>
+    <div class="share-section">
+      <h3>Share your work with your teacher</h3>
+      <p>Click the button below to send your work to Google Classroom.</p>
+      <div class="share-btns">
+        <button class="classroom-btn" onclick="shareToClassroom()">
+          <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+          Share to Google Classroom
+        </button>
+        <button class="pdf-btn" onclick="savePDF()">Save as PDF</button>
+      </div>
+      <div class="share-done" id="shareDone">Shared! Your teacher can now see your work in Google Classroom.</div>
     </div>
   </div>
 </div>
@@ -268,7 +305,7 @@ function pickType(idx,chosen){
   }
 }
 
-initPhase1();
+// initPhase1() is called at the bottom after teacher-view check
 
 // ===== PHASE 2: BUILD A SENTENCE =====
 const stemSets=[
@@ -689,6 +726,125 @@ function toggleIdiomList(btn){
   btn.classList.toggle('open');
   list.classList.toggle('show');
   btn.textContent=list.classList.contains('show')?'Hide idiom list':'Show common idioms and their meanings';
+}
+
+// ===== BEFOREUNLOAD WARNING =====
+let workShared=false;
+let workStarted=false;
+window.addEventListener('beforeunload',e=>{
+  if(workStarted&&!workShared){
+    e.preventDefault();
+    e.returnValue='You haven\'t shared your work with your teacher yet! Are you sure you want to leave?';
+    return e.returnValue;
+  }
+});
+// Track that work has started when student identifies anything or types
+document.addEventListener('click',()=>{if(spotCorrect>0||writeCompleted.size>0)workStarted=true;});
+
+// ===== SHARE TO GOOGLE CLASSROOM =====
+function collectWorkData(){
+  const data={
+    name:document.getElementById('studentName').value.trim()||'Unknown',
+    date:new Date().toISOString(),
+    phase1:{found:spotCorrect,total:spotTotalCount,items:phase1Results},
+    phase2:phase2Results,
+    phase3:{}
+  };
+  writePrompts.forEach((p,i)=>{
+    if(phase3Results[i]){
+      data.phase3[i]={type:typeNames[p.type],scenario:p.scenario,sentence:phase3Results[i].sentence,feedback:phase3Results[i].feedback,correct:phase3Results[i].correct};
+    }
+  });
+  return data;
+}
+
+function generateShareURL(){
+  const data=collectWorkData();
+  const json=JSON.stringify(data);
+  const compressed=LZString.compressToEncodedURIComponent(json);
+  const base=window.location.href.split('#')[0].split('?')[0];
+  return base+'?view='+compressed;
+}
+
+function shareToClassroom(){
+  const url=generateShareURL();
+  const shareURL='https://classroom.google.com/share?url='+encodeURIComponent(url)+'&title='+encodeURIComponent('Figurative Language in Action')+'&body='+encodeURIComponent((document.getElementById('studentName').value.trim()||'A student')+'\'s completed work');
+  window.open(shareURL,'_blank','width=600,height=500');
+  workShared=true;
+  document.getElementById('shareDone').classList.add('show');
+}
+
+// ===== TEACHER VIEW =====
+function checkForTeacherView(){
+  const params=new URLSearchParams(window.location.search);
+  const viewData=params.get('view');
+  if(!viewData)return false;
+  try{
+    const json=LZString.decompressFromEncodedURIComponent(viewData);
+    const data=JSON.parse(json);
+    renderTeacherView(data);
+    return true;
+  }catch(e){console.error('Could not load shared work:',e);return false;}
+}
+
+function renderTeacherView(data){
+  document.body.innerHTML='';
+  document.body.style.background='var(--bg)';
+  const bgShapes='<div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>';
+  const date=new Date(data.date).toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'});
+
+  let html=bgShapes+'<div class="teacher-view">';
+  html+='<div class="teacher-banner"><h2>'+data.name+'\'s Work</h2><p>Figurative Language in Action &middot; '+date+'</p></div>';
+
+  // Phase 1
+  if(data.phase1&&data.phase1.items&&data.phase1.items.length>0){
+    html+='<div class="teacher-card"><h3>Phase 1: Spot in Context</h3>';
+    html+='<p style="margin-bottom:12px;">Identified <strong>'+data.phase1.found+' / '+data.phase1.total+'</strong> pieces of figurative language.</p>';
+    data.phase1.items.forEach(item=>{
+      const colour=typeColours[item.type.toLowerCase()]||'#667eea';
+      html+='<div class="teacher-item"><span class="type-label" style="background:'+colour+'">'+item.type+'</span>"'+item.phrase+'"</div>';
+    });
+    html+='</div>';
+  }
+
+  // Phase 2
+  const p2keys=Object.keys(data.phase2||{});
+  if(p2keys.length>0){
+    html+='<div class="teacher-card"><h3>Phase 2: Build a Sentence</h3>';
+    p2keys.forEach(k=>{
+      const r=data.phase2[k];
+      const colour=typeColours[r.type.toLowerCase()]||'#667eea';
+      html+='<div class="teacher-item"><span class="type-label" style="background:'+colour+'">'+r.type+'</span><strong>'+r.stem+'</strong> '+r.ending+'</div>';
+    });
+    html+='</div>';
+  }
+
+  // Phase 3
+  const p3keys=Object.keys(data.phase3||{});
+  if(p3keys.length>0){
+    html+='<div class="teacher-card"><h3>Phase 3: Write Your Own</h3>';
+    p3keys.forEach(k=>{
+      const r=data.phase3[k];
+      const colour=typeColours[r.type.toLowerCase()]||'#667eea';
+      html+='<div class="teacher-item"><span class="type-label" style="background:'+colour+'">'+r.type+'</span>';
+      html+='<strong>Prompt:</strong> '+r.scenario+'<br>';
+      html+='<span class="student-sentence">"'+r.sentence+'"</span>';
+      if(r.feedback)html+='<div class="feedback-text">'+r.feedback+'</div>';
+      html+='</div>';
+    });
+    html+='</div>';
+  }
+
+  html+='<div style="text-align:center;margin-top:20px;"><button class="btn btn-primary" onclick="window.print()">Print this summary</button></div>';
+  html+='</div>';
+  document.body.innerHTML=html;
+}
+
+// Check on load
+if(checkForTeacherView()){
+  // Teacher view rendered, stop here
+}else{
+  initPhase1();
 }
 </script>
 </body>
