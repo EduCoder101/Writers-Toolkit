@@ -1,37 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Figurative Language</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fefcf6;--ink:#1a1a2e;--ink-light:#6b6b6b;--coral:#ff6b6b;--teal:#4ecdc4;--gold:#ffd166;--lavender:#a78bfa;--shadow:0 4px 24px rgba(0,0,0,0.08);--shadow-card:0 8px 32px rgba(0,0,0,0.1);--radius:20px;}
+:root{--bg:#fefcf6;--ink:#1e1e1e;--ink-light:#6b6b6b;--card:#fff;--shadow:0 4px 20px rgba(0,0,0,0.06);--shadow-hover:0 8px 32px rgba(0,0,0,0.12);--radius:16px;--teal:#4ecdc4;--coral:#ff6b6b;--gold:#ffd166;--lavender:#a78bfa;--sky:#38bdf8;--sidebar-bg:#2D3436;--sidebar-w:240px;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
 .bg-shapes{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
-.bg-shape{position:absolute;border-radius:50%;opacity:0.1;animation:bfloat 20s ease-in-out infinite;}
+.bg-shape{position:absolute;border-radius:50%;opacity:0.1;animation:float 20s ease-in-out infinite;}
 .bg-shape:nth-child(1){width:300px;height:300px;background:var(--coral);top:-80px;left:-60px;}
 .bg-shape:nth-child(2){width:200px;height:200px;background:var(--teal);top:30%;right:-40px;animation-delay:-5s;animation-duration:25s;}
 .bg-shape:nth-child(3){width:250px;height:250px;background:var(--gold);bottom:10%;left:10%;animation-delay:-10s;animation-duration:22s;}
 .bg-shape:nth-child(4){width:180px;height:180px;background:var(--lavender);top:60%;right:15%;animation-delay:-15s;animation-duration:28s;}
-@keyframes bfloat{0%,100%{transform:translate(0,0) rotate(0deg);}25%{transform:translate(30px,-20px) rotate(5deg);}50%{transform:translate(-20px,30px) rotate(-3deg);}75%{transform:translate(15px,15px) rotate(4deg);}}
+.bg-shape:nth-child(5){width:140px;height:140px;background:var(--sky);top:15%;left:40%;animation-delay:-8s;animation-duration:18s;}
+@keyframes float{0%,100%{transform:translate(0,0) rotate(0deg);}25%{transform:translate(30px,-20px) rotate(5deg);}50%{transform:translate(-20px,30px) rotate(-3deg);}75%{transform:translate(15px,15px) rotate(4deg);}}
 
-.back-bar{padding:12px 20px;position:relative;z-index:1;}
-.back-link{font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:#667eea;text-decoration:none;padding:6px 16px;border:2px solid #667eea;border-radius:20px;transition:all 0.2s;}
-.back-link:hover{background:#667eea;color:white;}
+/* TOP BAR */
+.top-bar{background:var(--sidebar-bg);color:#fff;padding:0;position:sticky;top:0;z-index:200;display:flex;align-items:center;border-bottom:2px solid rgba(255,255,255,0.08);}
+.sidebar-toggle{background:none;border:none;border-right:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.top-bar-title{font-family:'Fredoka',sans-serif;font-size:1rem;font-weight:700;padding:0 20px;white-space:nowrap;}
+.top-bar-title span{color:var(--teal);}
+.top-bar .back-link{margin-left:auto;color:var(--teal);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.7;transition:opacity 0.2s;}
+.top-bar .back-link:hover{opacity:1;text-decoration:underline;}
 
-.hero{position:relative;z-index:1;text-align:center;padding:40px 24px 20px;}
+/* SIDEBAR */
+.sidebar{position:fixed;left:0;top:48px;width:var(--sidebar-w);height:calc(100vh - 48px);background:var(--sidebar-bg);color:#fff;z-index:100;overflow-y:auto;transition:width 0.3s ease;}
+.sidebar.collapsed{width:0;overflow:hidden;}
+.sidebar-content{padding:16px 0;}
+.sidebar-section{margin-bottom:12px;}
+.sidebar-section-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);padding:10px 18px 6px;}
+.sidebar-item{background:none;border:none;color:rgba(255,255,255,0.6);font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;padding:9px 18px;width:100%;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:10px;text-decoration:none;}
+.sidebar-item:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sidebar-divider{height:1px;background:rgba(255,255,255,0.08);margin:8px 18px;}
+
+/* MAIN */
+main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:40px 60px 80px;position:relative;z-index:1;}
+main.expanded{margin-left:0;}
+
+/* HERO */
+.hero{text-align:center;padding:40px 24px 20px;max-width:900px;margin:0 auto;}
 .hero h1{font-family:'Fredoka',sans-serif;font-size:clamp(32px,7vw,56px);font-weight:700;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
 .hero .tagline{font-size:clamp(16px,2.5vw,22px);color:var(--ink-light);font-weight:600;max-width:500px;margin:0 auto;line-height:1.5;}
 
-.activities{position:relative;z-index:1;max-width:900px;margin:40px auto 60px;padding:0 24px;display:flex;flex-direction:column;gap:20px;}
+/* ACTIVITY CARDS */
+.activities{max-width:900px;margin:40px auto 60px;display:flex;flex-direction:column;gap:20px;}
 
 .activity-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.3s;cursor:pointer;text-decoration:none;color:inherit;display:flex;align-items:stretch;border:3px solid transparent;opacity:0;transform:translateY(30px);animation:cardEnter 0.6s ease forwards;}
 .activity-card:nth-child(1){animation-delay:0.1s;}
 .activity-card:nth-child(2){animation-delay:0.25s;}
 .activity-card:nth-child(3){animation-delay:0.4s;}
-.activity-card:hover{transform:translateY(-4px) scale(1.01);box-shadow:var(--shadow-card);}
+.activity-card:hover{transform:translateY(-4px) scale(1.01);box-shadow:var(--shadow-hover);}
 @keyframes cardEnter{to{opacity:1;transform:translateY(0);}}
 
 .card-number{width:100px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -61,6 +84,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 .theme-gold{border-color:#fff0c0;}
 .theme-gold:hover{border-color:var(--gold);}
 
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:768px){.sidebar{width:0;}main{margin-left:0;padding:28px 20px 60px;}}
 @media(max-width:600px){
   .activity-card{flex-direction:column;}
   .card-number{width:100%;height:60px;}
@@ -70,47 +95,79 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-h
 </style>
 </head>
 <body>
-<div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>
+<div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>
 
-<div class="back-bar"><a href="index.html" class="back-link">&larr; Back to Writer's Toolkit</a></div>
-
-<div class="hero">
-  <h1>Figurative Language</h1>
-  <p class="tagline">Three activities that take you from sorting examples to writing your own. Work through them in order.</p>
+<div class="top-bar">
+  <button class="sidebar-toggle" onclick="toggleSidebar()">&#9776;</button>
+  <div class="top-bar-title"><span>Figurative Language</span></div>
+  <a href="../../index.html" class="back-link">&larr; Writer's Toolkit</a>
 </div>
 
-<div class="activities">
-
-  <a href="figurative-language.html" class="activity-card theme-coral">
-    <div class="card-number"><span>1</span></div>
-    <div class="card-body">
-      <span class="card-badge">Learn &amp; Sort</span>
-      <div class="card-title">Activity 1: Sort and Identify</div>
-      <p class="card-desc">Match definitions to the six types of figurative language, sort 28 example sentences into categories, then write your own examples with AI feedback.</p>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Activities</div>
+      <a href="figurative-language.html" class="sidebar-item"><span class="sidebar-dot" style="background:var(--coral);"></span>Activity 1: Sort and Identify</a>
+      <a href="figurative-language-2.html" class="sidebar-item"><span class="sidebar-dot" style="background:var(--lavender);"></span>Activity 2: In Action</a>
+      <a href="figurative-language-3.html" class="sidebar-item"><span class="sidebar-dot" style="background:var(--gold);"></span>Activity 3: The Workshop</a>
     </div>
-    <div class="card-arrow">&rarr;</div>
-  </a>
+  </div>
+</aside>
 
-  <a href="figurative-language-2.html" class="activity-card theme-lavender">
-    <div class="card-number"><span>2</span></div>
-    <div class="card-body">
-      <span class="card-badge">Spot &amp; Build</span>
-      <div class="card-title">Activity 2: In Action</div>
-      <p class="card-desc">Spot figurative language in a real passage, build sentences by dragging different endings onto stems, then write your own sentence for each type.</p>
-    </div>
-    <div class="card-arrow">&rarr;</div>
-  </a>
+<main id="mainContent">
 
-  <a href="figurative-language-3.html" class="activity-card theme-gold">
-    <div class="card-number"><span>3</span></div>
-    <div class="card-body">
-      <span class="card-badge">Write &amp; Publish</span>
-      <div class="card-title">Activity 3: The Workshop</div>
-      <p class="card-desc">Rewrite a plain paragraph using figurative language, free write your own piece packed with techniques, then publish it to a gallery card you can print.</p>
-    </div>
-    <div class="card-arrow">&rarr;</div>
-  </a>
+  <div class="hero">
+    <h1>Figurative Language</h1>
+    <p class="tagline">Three activities that take you from sorting examples to writing your own. Work through them in order.</p>
+  </div>
 
-</div>
+  <div class="activities">
+
+    <a href="figurative-language.html" class="activity-card theme-coral">
+      <div class="card-number"><span>1</span></div>
+      <div class="card-body">
+        <span class="card-badge">Learn &amp; Sort</span>
+        <div class="card-title">Activity 1: Sort and Identify</div>
+        <p class="card-desc">Match definitions to the six types of figurative language, sort 28 example sentences into categories, then write your own examples with AI feedback.</p>
+      </div>
+      <div class="card-arrow">&rarr;</div>
+    </a>
+
+    <a href="figurative-language-2.html" class="activity-card theme-lavender">
+      <div class="card-number"><span>2</span></div>
+      <div class="card-body">
+        <span class="card-badge">Spot &amp; Build</span>
+        <div class="card-title">Activity 2: In Action</div>
+        <p class="card-desc">Spot figurative language in a real passage, build sentences by dragging different endings onto stems, then write your own sentence for each type.</p>
+      </div>
+      <div class="card-arrow">&rarr;</div>
+    </a>
+
+    <a href="figurative-language-3.html" class="activity-card theme-gold">
+      <div class="card-number"><span>3</span></div>
+      <div class="card-body">
+        <span class="card-badge">Write &amp; Publish</span>
+        <div class="card-title">Activity 3: The Workshop</div>
+        <p class="card-desc">Rewrite a plain paragraph using figurative language, free write your own piece packed with techniques, then publish it to a gallery card you can print.</p>
+      </div>
+      <div class="card-arrow">&rarr;</div>
+    </a>
+
+  </div>
+
+</main>
+
+<script>
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('collapsed');
+  document.getElementById('mainContent').classList.toggle('expanded');
+}
+
+// Collapse sidebar on mobile by default
+if(window.innerWidth <= 768){
+  document.getElementById('sidebar').classList.add('collapsed');
+  document.getElementById('mainContent').classList.add('expanded');
+}
+</script>
 </body>
 </html>
