@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Word Class Identifier - Learn to identify nouns, verbs, adjectives, adverbs, pronouns and conjunctions. Writer's Toolkit interactive for Stage 3 English.">
+<title>Word Class Identifier | Writer's Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/*
+    NEW PATTERN: Verb gap-fill teacher check-in
+    WHAT: During the verb refresher slide, sentences with missing verbs are shown.
+          Students call out or write a verb that completes the sentence. Teacher clicks
+          to reveal a model answer. Quick, participatory, low-stakes.
+    WHY: Paddy's students already know verbs broadly. Rather than passively re-reading
+         a definition, this gets them actively producing verbs, confirming understanding
+         before moving on.
+    STATUS: experimental
+
+    NEW PATTERN: Abstract noun labelling
+    WHAT: Noun examples that refer to ideas/feelings are labelled "(abstract noun)" in
+          brackets after the highlight, distinguishing them from concrete nouns.
+    WHY: Paddy requested this to reinforce the abstract/concrete distinction within the
+         noun refresher without adding a full teaching section.
+    STATUS: experimental
+*/
+
+/* ===== CSS VARIABLES ===== */
+:root {
+    --bg: #fefcf6;
+    --ink: #1e1e1e;
+    --ink-light: #636E72;
+    --card-bg: rgba(255,255,255,0.85);
+    --card-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    --radius: 20px;
+    --correct: #27AE60;
+    --incorrect: #E74C3C;
+    --teal: #4ECDC4;
+    --coral: #FF6B6B;
+    --purple: #9B5DE5;
+    --gold: #FFD166;
+    --lavender: #A78BFA;
+    --sky: #38BDF8;
+    --highlight-yellow: #FFF3BF;
+    --highlight-blue: #D0EBFF;
+    --highlight-green: #D3F9D8;
+    --highlight-pink: #FFD6E0;
+    --highlight-orange: #FFE0CC;
+    --highlight-purple: #E8DFFE;
+
+    /* Word class colours */
+    --noun-color: #4ECDC4;
+    --verb-color: #FF6B6B;
+    --adj-color: #FFD166;
+    --adv-color: #9B5DE5;
+    --pron-color: #38BDF8;
+    --conj-color: #FF8C42;
+    --det-color: #B0B0B0;
+
+    --noun-bg: rgba(78,205,196,0.15);
+    --verb-bg: rgba(255,107,107,0.15);
+    --adj-bg: rgba(255,209,102,0.15);
+    --adv-bg: rgba(155,93,229,0.15);
+    --pron-bg: rgba(56,189,248,0.15);
+    --conj-bg: rgba(255,140,66,0.15);
+    --det-bg: rgba(176,176,176,0.12);
+
+    /* Layout */
+    --sidebar-bg: #2D3436;
+    --sidebar-w: 250px;
+    --topbar-h: 48px;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ===== BODY ===== */
+body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ===== FLOATING BACKGROUND ===== */
+.bg-shapes { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.bg-shape { position: absolute; border-radius: 50%; opacity: 0.1; animation: bfloat 20s ease-in-out infinite; }
+.bg-shape:nth-child(1) { width: 300px; height: 300px; background: var(--coral); top: -80px; left: -60px; }
+.bg-shape:nth-child(2) { width: 200px; height: 200px; background: var(--teal); top: 30%; right: -40px; animation-delay: -5s; animation-duration: 25s; }
+.bg-shape:nth-child(3) { width: 250px; height: 250px; background: var(--gold); bottom: 10%; left: 10%; animation-delay: -10s; animation-duration: 22s; }
+.bg-shape:nth-child(4) { width: 180px; height: 180px; background: var(--lavender); top: 60%; right: 15%; animation-delay: -15s; animation-duration: 28s; }
+.bg-shape:nth-child(5) { width: 140px; height: 140px; background: var(--sky); top: 15%; left: 40%; animation-delay: -8s; animation-duration: 18s; }
+@keyframes bfloat {
+    0%, 100% { transform: translate(0,0) rotate(0deg); }
+    25% { transform: translate(30px,-20px) rotate(5deg); }
+    50% { transform: translate(-20px,30px) rotate(-3deg); }
+    75% { transform: translate(15px,15px) rotate(4deg); }
+}
+
+/* ===== TOP BAR ===== */
+.top-bar {
+    position: fixed; top: 0; left: 0; right: 0; height: var(--topbar-h);
+    background: var(--sidebar-bg); color: #fff; z-index: 200;
+    display: flex; align-items: center; padding: 0 16px; gap: 12px;
+}
+.top-bar .hamburger {
+    background: none; border: none; color: #fff; font-size: 22px;
+    cursor: pointer; padding: 4px 8px; border-radius: 6px; transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+}
+.top-bar .hamburger:hover { background: rgba(255,255,255,0.1); }
+.top-bar .title {
+    font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: clamp(14px, 2vw, 18px);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;
+}
+.top-bar .back-link {
+    font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+    color: var(--lavender); text-decoration: none; padding: 5px 14px;
+    border: 2px solid var(--lavender); border-radius: 20px; transition: all 0.2s;
+    white-space: nowrap;
+}
+.top-bar .back-link:hover { background: var(--lavender); color: #fff; }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    position: fixed; left: 0; top: var(--topbar-h); width: var(--sidebar-w);
+    height: calc(100vh - var(--topbar-h)); background: var(--sidebar-bg);
+    color: #fff; z-index: 150; overflow-y: auto; transition: transform 0.3s ease;
+    display: flex; flex-direction: column;
+}
+.sidebar.collapsed { transform: translateX(-100%); }
+.sidebar-section-label {
+    font-family: 'Fredoka', sans-serif; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; color: #999;
+    padding: 16px 16px 6px; margin-top: 4px;
+}
+.sidebar-item {
+    display: flex; align-items: center; gap: 10px; width: 100%;
+    padding: 10px 16px; border: none; background: none;
+    font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600;
+    color: #ccc; cursor: pointer; transition: all 0.2s; text-align: left;
+}
+.sidebar-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.sidebar-item.active { background: rgba(255,255,255,0.1); color: #fff; }
+.sidebar-item .dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.sidebar-item.done .dot { position: relative; }
+.sidebar-item.done .dot::after {
+    content: '\2713'; position: absolute; top: -6px; left: -1px;
+    font-size: 12px; font-weight: 800; color: var(--correct);
+}
+.sidebar-export {
+    margin-top: auto; padding: 16px;
+}
+.sidebar-export button {
+    width: 100%; padding: 10px; border: 2px solid var(--teal); border-radius: 12px;
+    background: none; color: var(--teal); font-family: 'Fredoka', sans-serif;
+    font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+.sidebar-export button:hover { background: var(--teal); color: #fff; }
+
+/* ===== MAIN CONTENT ===== */
+main {
+    margin-left: var(--sidebar-w); margin-top: var(--topbar-h);
+    transition: margin-left 0.3s ease; min-height: calc(100vh - var(--topbar-h));
+    position: relative; z-index: 1;
+}
+main.expanded { margin-left: 0; }
+
+.slide {
+    display: none; max-width: 900px; width: clamp(320px, 90%, 900px);
+    margin: 0 auto; padding: 32px 16px 80px;
+    animation: fadeIn 0.3s ease;
+}
+.slide.active { display: block; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== CARDS ===== */
+.card {
+    background: var(--card-bg); backdrop-filter: blur(10px);
+    border-radius: var(--radius); box-shadow: var(--card-shadow);
+    padding: 32px; margin: 16px 0;
+}
+
+/* ===== TYPOGRAPHY ===== */
+h2 {
+    font-family: 'Fredoka', sans-serif; font-weight: 700;
+    font-size: clamp(22px, 3vw, 30px); margin-bottom: 16px;
+    color: var(--ink);
+}
+h3 {
+    font-family: 'Fredoka', sans-serif; font-weight: 600;
+    font-size: clamp(17px, 2.2vw, 22px); margin-bottom: 12px;
+}
+p, li { font-size: clamp(15px, 1.8vw, 18px); line-height: 1.7; }
+
+/* ===== REVEAL STEPS ===== */
+.reveal-step { display: none; margin: 12px 0; animation: fadeIn 0.4s ease; }
+.reveal-step.visible { display: block; }
+.click-hint {
+    text-align: center; color: var(--ink-light); font-size: 14px;
+    font-style: italic; margin-top: 16px; opacity: 0.7;
+}
+
+/* ===== WORD CLASS HIGHLIGHTS ===== */
+.wc-noun { background: var(--noun-bg); color: var(--noun-color); padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+.wc-verb { background: var(--verb-bg); color: var(--verb-color); padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+.wc-adj { background: var(--adj-bg); color: #b8860b; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+.wc-adv { background: var(--adv-bg); color: var(--adv-color); padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+.wc-pron { background: var(--pron-bg); color: #0284c7; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+.wc-conj { background: var(--conj-bg); color: #c2590a; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+.wc-det { background: var(--det-bg); color: #888; padding: 2px 6px; border-radius: 4px; font-weight: 600; font-style: italic; }
+.wc-label {
+    font-family: 'Fredoka', sans-serif; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-left: 4px;
+}
+.wc-arrow { color: var(--ink-light); font-size: 13px; margin: 0 4px; }
+
+/* ===== BOOK PROMPT ===== */
+.book-prompt {
+    background: linear-gradient(135deg, #f0f0ff, #e8f5e9);
+    border: 2px solid var(--lavender); border-radius: 14px;
+    padding: 18px 22px; margin: 16px 0; text-align: center;
+    font-size: clamp(15px, 1.8vw, 19px); font-weight: 600; line-height: 1.5;
+}
+.book-prompt .pencil-icon { font-size: 24px; display: block; margin-bottom: 6px; }
+
+/* ===== EXAMPLE SENTENCE DISPLAY ===== */
+.example-sentence {
+    background: rgba(255,255,255,0.9); border: 2px solid #E8E0D8;
+    border-radius: 16px; padding: 20px 24px;
+    font-size: clamp(16px, 2vw, 20px); line-height: 1.8;
+    margin: 12px 0; font-weight: 600;
+}
+
+/* ===== TEACHING POINT ===== */
+.teaching-point {
+    background: linear-gradient(135deg, rgba(78,205,196,0.08), rgba(78,205,196,0.03));
+    border-left: 4px solid var(--teal); border-radius: 0 12px 12px 0;
+    padding: 14px 18px; margin: 12px 0; font-size: clamp(14px, 1.6vw, 17px);
+    line-height: 1.6; font-weight: 600;
+}
+
+/* ===== VERB GAP-FILL (teacher check-in) ===== */
+.verb-gap-sentence {
+    background: rgba(255,255,255,0.9); border: 2px dashed var(--verb-color);
+    border-radius: 14px; padding: 16px 20px; margin: 10px 0;
+    font-size: clamp(16px, 2vw, 20px); line-height: 1.8; font-weight: 600;
+}
+.verb-gap {
+    display: inline-block; min-width: 100px; border-bottom: 3px solid var(--verb-color);
+    text-align: center; margin: 0 4px; color: var(--verb-color);
+    font-weight: 800; transition: all 0.3s;
+}
+.verb-gap.revealed { border-bottom-color: transparent; }
+.verb-reveal-btn {
+    display: inline-block; padding: 6px 16px; border: 2px solid var(--verb-color);
+    border-radius: 20px; background: none; color: var(--verb-color);
+    font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; margin: 4px;
+}
+.verb-reveal-btn:hover { background: var(--verb-color); color: #fff; }
+.verb-reveal-btn.revealed { background: var(--verb-color); color: #fff; opacity: 0.7; cursor: default; }
+
+/* ===== SUMMARY GRID ===== */
+.wc-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px; margin: 16px 0;
+}
+.wc-grid-item {
+    border-radius: 14px; padding: 16px; text-align: center;
+    border: 2px solid transparent;
+}
+.wc-grid-item h4 {
+    font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 4px;
+}
+.wc-grid-item p {
+    font-size: 13px; line-height: 1.4; color: var(--ink-light); margin-bottom: 6px;
+}
+.wc-grid-item .example {
+    font-size: 14px; font-weight: 700; font-style: italic;
+}
+
+/* ===== WE DO: word-by-word reveal ===== */
+.wedo-word {
+    display: inline-block; padding: 4px 8px; margin: 3px 2px;
+    border-radius: 8px; font-size: clamp(16px, 2vw, 20px); font-weight: 600;
+    cursor: pointer; transition: all 0.3s; border: 2px solid transparent;
+    position: relative;
+}
+.wedo-word:hover:not(.revealed) { background: rgba(0,0,0,0.04); }
+.wedo-word.revealed { cursor: default; }
+.wedo-word .wedo-label {
+    display: none; font-family: 'Fredoka', sans-serif; font-size: 10px;
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+    position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%);
+    white-space: nowrap;
+}
+.wedo-word.revealed .wedo-label { display: block; }
+
+/* ===== PRACTICE: LEVEL 1 ===== */
+.l1-sentence {
+    background: rgba(255,255,255,0.9); border: 2px solid #E8E0D8;
+    border-radius: 16px; padding: 24px; margin: 16px 0;
+    font-size: clamp(17px, 2.2vw, 22px); line-height: 1.8; font-weight: 600;
+    text-align: center;
+}
+.l1-target { text-decoration: underline; text-decoration-thickness: 3px; font-weight: 800; }
+.l1-options {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0;
+}
+.l1-btn {
+    padding: 10px 20px; border-radius: 14px; border: 2px solid #ddd;
+    background: #fff; font-family: 'Fredoka', sans-serif; font-size: 15px;
+    font-weight: 600; cursor: pointer; transition: all 0.2s; min-width: 100px;
+}
+.l1-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.l1-btn.correct { background: var(--correct); color: #fff; border-color: var(--correct); }
+.l1-btn.wrong { background: var(--incorrect); color: #fff; border-color: var(--incorrect); }
+.l1-btn:disabled { opacity: 0.6; cursor: default; }
+.l1-feedback {
+    padding: 16px; border-radius: 14px; margin: 12px 0;
+    font-size: clamp(14px, 1.6vw, 17px); line-height: 1.6;
+    animation: fadeIn 0.3s ease;
+}
+.l1-feedback.correct-fb { background: var(--highlight-green); border: 2px solid var(--correct); }
+.l1-feedback.incorrect-fb { background: var(--highlight-pink); border: 2px solid var(--incorrect); }
+.l1-hint-btn {
+    padding: 8px 18px; border: 2px solid var(--gold); border-radius: 20px;
+    background: none; color: #b8860b; font-family: 'Fredoka', sans-serif;
+    font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+.l1-hint-btn:hover { background: var(--gold); color: #fff; }
+.l1-hint {
+    background: var(--highlight-yellow); border-radius: 12px; padding: 12px 16px;
+    margin: 8px 0; font-size: 15px; line-height: 1.5; font-style: italic;
+    animation: fadeIn 0.3s ease;
+}
+.l1-progress {
+    font-family: 'Space Mono', monospace; font-size: 16px; font-weight: 700;
+    text-align: center; margin: 8px 0; color: var(--ink-light);
+}
+.l1-score {
+    font-family: 'Space Mono', monospace; font-size: 18px; font-weight: 700;
+    text-align: center; color: var(--teal);
+}
+
+/* ===== PRACTICE: LEVEL 2 ===== */
+.l2-sentence-area {
+    background: rgba(255,255,255,0.9); border: 2px solid #E8E0D8;
+    border-radius: 16px; padding: 20px; margin: 12px 0;
+    display: flex; flex-wrap: wrap; gap: 6px; align-items: flex-start;
+    min-height: 80px;
+}
+.l2-word {
+    display: inline-flex; flex-direction: column; align-items: center;
+    padding: 6px 10px; border-radius: 10px; cursor: pointer;
+    transition: all 0.2s; border: 2px solid transparent; position: relative;
+    gap: 4px;
+}
+.l2-word:hover:not(.locked) { background: rgba(0,0,0,0.04); }
+.l2-word .word-text { font-size: clamp(15px, 1.8vw, 19px); font-weight: 600; }
+.l2-word .word-label {
+    font-family: 'Fredoka', sans-serif; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.3px; padding: 2px 8px;
+    border-radius: 6px; min-width: 50px; text-align: center;
+    transition: all 0.2s;
+}
+.l2-word .word-label.empty { border: 2px dashed #ccc; color: transparent; }
+.l2-word .word-label.filled { color: #fff; }
+.l2-word.locked { cursor: default; }
+.l2-word.pre-labelled .word-label { background: var(--det-bg); color: #888; font-style: italic; }
+
+.l2-palette {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 12px 0;
+}
+.l2-palette-btn {
+    padding: 8px 16px; border-radius: 12px; border: 2px solid;
+    font-family: 'Fredoka', sans-serif; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+}
+.l2-palette-btn:hover { transform: translateY(-2px); }
+.l2-palette-btn.selected { box-shadow: 0 0 0 3px rgba(0,0,0,0.15); transform: translateY(-2px); }
+
+.l2-check-btn, .l2-next-btn {
+    padding: 10px 24px; border: none; border-radius: 14px;
+    font-family: 'Fredoka', sans-serif; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; color: #fff;
+}
+.l2-check-btn { background: var(--teal); }
+.l2-check-btn:hover { background: #3dbcb3; transform: translateY(-2px); }
+.l2-next-btn { background: var(--purple); }
+.l2-next-btn:hover { background: #8a4ad4; transform: translateY(-2px); }
+
+/* ===== PRACTICE: LEVEL 3 ===== */
+.l3-pair {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 12px 0;
+}
+@media (max-width: 600px) { .l3-pair { grid-template-columns: 1fr; } }
+.l3-sentence-card {
+    background: rgba(255,255,255,0.9); border: 2px solid #E8E0D8;
+    border-radius: 14px; padding: 16px; text-align: center;
+}
+.l3-sentence-card p { font-size: clamp(15px, 1.8vw, 18px); font-weight: 600; line-height: 1.7; }
+.l3-sentence-card .l3-word-highlight { font-weight: 800; text-decoration: underline; text-decoration-thickness: 3px; }
+.l3-select {
+    padding: 8px 16px; border: 2px solid #ddd; border-radius: 10px;
+    font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600;
+    background: #fff; margin-top: 10px; cursor: pointer;
+}
+.l3-explanation-area {
+    width: 100%; min-height: 80px; padding: 12px 16px;
+    border: 2px solid #E8E0D8; border-radius: 12px;
+    font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600;
+    line-height: 1.6; color: var(--ink); background: rgba(255,255,255,0.9);
+    resize: vertical; transition: border-color 0.3s;
+}
+.l3-explanation-area:focus { border-color: var(--purple); outline: none; box-shadow: 0 0 0 3px rgba(155,93,229,0.15); }
+.model-response {
+    background: linear-gradient(135deg, rgba(240,255,244,0.9) 0%, rgba(240,249,255,0.9) 100%);
+    border: 2px solid var(--correct); border-radius: 16px;
+    padding: 20px; margin-top: 12px; animation: fadeIn 0.4s ease;
+}
+.model-response .model-label {
+    font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 12px;
+    color: var(--correct); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* ===== GO DEEPER ===== */
+.gd-passage {
+    background: rgba(255,255,255,0.9); border: 2px solid #E8E0D8;
+    border-radius: 16px; padding: 24px 28px;
+    font-size: clamp(15px, 1.8vw, 18px); line-height: 2;
+    margin: 12px 0;
+}
+/* Every word in the passage is a clickable span so adverbs are not visually distinguishable */
+.gd-passage .gd-word {
+    padding: 2px 4px; border-radius: 4px;
+    cursor: pointer; transition: all 0.2s; border: 2px solid transparent;
+    display: inline; background: transparent;
+}
+.gd-passage .gd-word:hover { background: rgba(0,0,0,0.04); }
+.gd-passage .gd-word.selected { background: var(--adv-bg); border-color: var(--adv-color); }
+.gd-passage .gd-word.correct-hl { border-color: var(--correct); background: var(--highlight-green); }
+.gd-passage .gd-word.missed { border-color: var(--incorrect); background: var(--highlight-pink); }
+.gd-passage .gd-word.not-adverb-selected { border-color: var(--incorrect); background: var(--highlight-pink); }
+.gd-passage .gd-word.locked-correct { border-color: var(--correct); background: var(--highlight-green); cursor: default; }
+.gd-passage .gd-word.neutral-checked { opacity: 0.6; cursor: default; }
+
+.writing-input {
+    width: 100%; min-height: 120px; padding: 16px 20px;
+    border: 2px solid #E8E0D8; border-radius: 12px;
+    font-family: 'Nunito', sans-serif; font-size: clamp(15px, 1.8vw, 17px);
+    font-weight: 600; line-height: 1.6; color: var(--ink);
+    background: rgba(255,255,255,0.9); resize: vertical; transition: border-color 0.3s;
+}
+.writing-input:focus { border-color: var(--teal); outline: none; box-shadow: 0 0 0 3px rgba(78,205,196,0.15); }
+
+.ai-feedback {
+    background: linear-gradient(135deg, rgba(240,255,244,0.9), rgba(240,249,255,0.9));
+    border: 2px solid var(--teal); border-radius: 16px;
+    padding: 20px; margin-top: 12px; animation: fadeIn 0.4s ease;
+    font-size: clamp(14px, 1.6vw, 17px); line-height: 1.7;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+    padding: 12px 28px; border: none; border-radius: 14px;
+    background: var(--teal); color: #fff;
+    font-family: 'Fredoka', sans-serif; font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+}
+.btn-primary:hover { background: #3dbcb3; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(78,205,196,0.3); }
+.btn-primary:disabled { opacity: 0.5; cursor: default; transform: none; box-shadow: none; }
+.btn-secondary {
+    padding: 10px 22px; border: 2px solid var(--purple); border-radius: 14px;
+    background: none; color: var(--purple);
+    font-family: 'Fredoka', sans-serif; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+}
+.btn-secondary:hover { background: var(--purple); color: #fff; }
+
+/* ===== NAV BUTTONS ===== */
+.slide-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 24px; padding-top: 16px; border-top: 1px solid #eee;
+}
+.nav-btn {
+    padding: 10px 22px; border: 2px solid #ddd; border-radius: 14px;
+    background: #fff; font-family: 'Fredoka', sans-serif; font-size: 14px;
+    font-weight: 600; color: var(--ink); cursor: pointer; transition: all 0.2s;
+}
+.nav-btn:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+
+/* ===== EXPORT MODAL ===== */
+.modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    z-index: 500; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+    background: #fff; border-radius: var(--radius); padding: 32px;
+    max-width: 400px; width: 90%; box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+    text-align: center;
+}
+.modal-box input {
+    width: 100%; padding: 12px 16px; border: 2px solid #E8E0D8;
+    border-radius: 12px; font-family: 'Nunito', sans-serif; font-size: 16px;
+    font-weight: 600; margin: 16px 0; text-align: center;
+}
+.modal-box input:focus { border-color: var(--teal); outline: none; }
+
+/* ===== PRINT ===== */
+@media print {
+    .top-bar, .sidebar, .bg-shapes, .slide-nav, .modal-overlay { display: none !important; }
+    main { margin-left: 0 !important; margin-top: 0 !important; }
+    .slide { display: none !important; }
+    #printSummary { display: block !important; }
+    .card { box-shadow: none; border: 1px solid #ddd; backdrop-filter: none; background: #fff; }
+}
+#printSummary { display: none; }
+
+/* ===== LOADING SPINNER ===== */
+.spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid #ddd; border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); }
+    main { margin-left: 0; }
+    .slide { padding: 24px 14px 60px; }
+    .l3-pair { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+    <div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div>
+</div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+    <button class="hamburger" id="hamburgerBtn" tabindex="-1" onclick="toggleSidebar()" aria-label="Toggle navigation">&#9776;</button>
+    <span class="title">Word Class Identifier</span>
+    <a href="https://educoder101.github.io/Writers-Toolkit/" class="back-link">Writer's Toolkit</a>
+</div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-section-label">Introduction</div>
+    <button class="sidebar-item active" data-slide="0" onclick="goSlide(0)">
+        <span class="dot" style="background:var(--teal)"></span> Success Criteria
+    </button>
+
+    <div class="sidebar-section-label">Learn</div>
+    <button class="sidebar-item" data-slide="1" onclick="goSlide(1)">
+        <span class="dot" style="background:var(--teal)"></span> Hook
+    </button>
+    <button class="sidebar-item" data-slide="2" onclick="goSlide(2)">
+        <span class="dot" style="background:var(--noun-color)"></span> Nouns
+    </button>
+    <button class="sidebar-item" data-slide="3" onclick="goSlide(3)">
+        <span class="dot" style="background:var(--verb-color)"></span> Verbs
+    </button>
+    <button class="sidebar-item" data-slide="4" onclick="goSlide(4)">
+        <span class="dot" style="background:var(--adj-color)"></span> Adjectives
+    </button>
+    <button class="sidebar-item" data-slide="5" onclick="goSlide(5)">
+        <span class="dot" style="background:var(--pron-color)"></span> Pronouns
+    </button>
+    <button class="sidebar-item" data-slide="6" onclick="goSlide(6)">
+        <span class="dot" style="background:var(--conj-color)"></span> Conjunctions
+    </button>
+    <button class="sidebar-item" data-slide="7" onclick="goSlide(7)">
+        <span class="dot" style="background:var(--adv-color)"></span> Adverbs
+    </button>
+    <button class="sidebar-item" data-slide="8" onclick="goSlide(8)">
+        <span class="dot" style="background:var(--adv-color)"></span> Adverbs: Not Just -ly
+    </button>
+    <button class="sidebar-item" data-slide="9" onclick="goSlide(9)">
+        <span class="dot" style="background:var(--teal)"></span> Summary
+    </button>
+
+    <div class="sidebar-section-label">We Do</div>
+    <button class="sidebar-item" data-slide="10" onclick="goSlide(10)">
+        <span class="dot" style="background:var(--gold)"></span> Guided Practice
+    </button>
+
+    <div class="sidebar-section-label">Practice</div>
+    <button class="sidebar-item" data-slide="11" onclick="goSlide(11)">
+        <span class="dot" style="background:var(--teal)"></span> Level 1: Identify
+    </button>
+    <button class="sidebar-item" data-slide="12" onclick="goSlide(12)">
+        <span class="dot" style="background:var(--coral)"></span> Level 2: Label
+    </button>
+    <button class="sidebar-item" data-slide="13" onclick="goSlide(13)">
+        <span class="dot" style="background:var(--purple)"></span> Level 3: Tricky Cases
+    </button>
+
+    <div class="sidebar-section-label">Extension</div>
+    <button class="sidebar-item" data-slide="14" onclick="goSlide(14)">
+        <span class="dot" style="background:var(--gold)"></span> Go Deeper: Find Adverbs
+    </button>
+    <button class="sidebar-item" data-slide="15" onclick="goSlide(15)">
+        <span class="dot" style="background:var(--gold)"></span> Go Deeper: Add Adverbs
+    </button>
+
+    <div class="sidebar-export">
+        <button onclick="openExportModal()">Export Summary</button>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main id="mainContent">
+
+<!-- SLIDE 0: LISC -->
+<div class="slide active" id="slide0">
+    <div class="card">
+        <h2 style="color:var(--teal);">Success Criteria</h2>
+        <div class="teaching-point" style="border-left-color:var(--teal); margin-bottom:16px;">
+            <strong>Learning Intention:</strong> We are learning to identify and name the word class of words in sentences, with a focus on adverbs.
+        </div>
+        <div style="margin:12px 0;">
+            <p style="margin:10px 0;"><strong style="color:var(--teal);">I can</strong> name the six word classes: noun, verb, adjective, adverb, pronoun and conjunction.</p>
+            <p style="margin:10px 0;"><strong style="color:var(--teal);">I can</strong> identify which word class a word belongs to by looking at its job in a sentence.</p>
+            <p style="margin:10px 0;"><strong style="color:var(--teal);">I can</strong> identify adverbs and explain how they modify verbs, adjectives or other adverbs.</p>
+            <p style="margin:10px 0;"><strong style="color:var(--teal);">I can</strong> classify words in a sentence by their word class, even when a word could belong to more than one class.</p>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" disabled>Previous</button>
+        <button class="nav-btn" onclick="goSlide(1)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 1: HOOK -->
+<div class="slide" id="slide1">
+    <div class="card">
+        <h2>What Job Does This Word Do?</h2>
+        <div class="reveal-step visible" data-slide="1" data-step="0">
+            <div class="example-sentence" style="text-align:center;">
+                The quick brown fox jumped lazily over the sleeping dog yesterday.
+            </div>
+            <p style="margin-top:12px;">Every word in this sentence has a job. Some name things. Some describe actions. Some describe <em>how</em> or <em>when</em> or <em>where</em>.</p>
+            <p class="click-hint">Click anywhere or press any key to continue...</p>
+        </div>
+        <div class="reveal-step" data-slide="1" data-step="1">
+            <div class="example-sentence" style="text-align:center; line-height:2.2;">
+                <span class="wc-det">The</span>
+                <span class="wc-adj">quick</span>
+                <span class="wc-adj">brown</span>
+                <span class="wc-noun">fox</span>
+                <span class="wc-verb">jumped</span>
+                <span class="wc-adv">lazily</span>
+                <span style="font-weight:600;">over</span>
+                <span class="wc-det">the</span>
+                <span class="wc-adj">sleeping</span>
+                <span class="wc-noun">dog</span>
+                <span class="wc-adv">yesterday</span>.
+            </div>
+            <p style="margin-top:12px; font-style:italic; color:var(--ink-light);">Six different colours. Six different jobs. By the end of this lesson, you will be able to label every single one.</p>
+            <p class="click-hint">Click anywhere or press any key to continue...</p>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(0)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(2)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 2: NOUNS -->
+<div class="slide" id="slide2">
+    <div class="card">
+        <h2><span style="color:var(--noun-color);">Nouns</span></h2>
+        <div class="reveal-step visible" data-slide="2" data-step="0">
+            <p>A <strong>noun</strong> is a word that names a person, place, thing or idea.</p>
+            <p class="click-hint">Click to see examples...</p>
+        </div>
+        <div class="reveal-step" data-slide="2" data-step="1">
+            <div class="example-sentence">The <span class="wc-noun">dolphin</span> leapt through the waves. <span class="wc-label" style="color:var(--noun-color);">(thing)</span></div>
+        </div>
+        <div class="reveal-step" data-slide="2" data-step="2">
+            <div class="example-sentence"><span class="wc-noun">Courage</span> is hard to find. <span class="wc-label" style="color:var(--noun-color);">(abstract noun: an idea)</span></div>
+        </div>
+        <div class="reveal-step" data-slide="2" data-step="3">
+            <div class="example-sentence">We visited <span class="wc-noun">Sydney</span> last summer. <span class="wc-label" style="color:var(--noun-color);">(place)</span></div>
+        </div>
+        <div class="reveal-step" data-slide="2" data-step="4">
+            <div class="example-sentence">My <span class="wc-noun">sister</span> plays guitar. <span class="wc-label" style="color:var(--noun-color);">(person)</span></div>
+        </div>
+        <div class="reveal-step" data-slide="2" data-step="5">
+            <div class="example-sentence">She hid her <span class="wc-noun">sadness</span> behind a smile. <span class="wc-label" style="color:var(--noun-color);">(abstract noun: a feeling)</span></div>
+        </div>
+        <div class="reveal-step" data-slide="2" data-step="6">
+            <div class="teaching-point">Nouns include ideas and feelings (abstract nouns like <em>courage</em>, <em>sadness</em>, <em>freedom</em>), not just things you can touch.</div>
+            <div class="book-prompt">
+                <span class="pencil-icon">&#9997;</span>
+                Write this in your book:<br>
+                <strong>Nouns</strong> = a word that names a person, place, thing or idea.<br>
+                <em>Abstract nouns</em> name ideas or feelings you cannot touch (e.g. courage, sadness, freedom).<br>
+                Write one example of each: person, place, thing, abstract noun (idea), abstract noun (feeling).
+            </div>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(1)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(3)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 3: VERBS (with gap-fill check-in) -->
+<div class="slide" id="slide3">
+    <div class="card">
+        <h2><span style="color:var(--verb-color);">Verbs</span></h2>
+        <div class="reveal-step visible" data-slide="3" data-step="0">
+            <p>A <strong>verb</strong> is a word that shows an action, a state or an occurrence.</p>
+            <p class="click-hint">Click to see examples...</p>
+        </div>
+        <div class="reveal-step" data-slide="3" data-step="1">
+            <div class="example-sentence">The cheetah <span class="wc-verb">sprinted</span> across the plain. <span class="wc-label" style="color:var(--verb-color);">(action)</span></div>
+        </div>
+        <div class="reveal-step" data-slide="3" data-step="2">
+            <div class="example-sentence">She <span class="wc-verb">is</span> the fastest runner. <span class="wc-label" style="color:var(--verb-color);">(state of being)</span></div>
+        </div>
+        <div class="reveal-step" data-slide="3" data-step="3">
+            <div class="example-sentence">The earthquake <span class="wc-verb">happened</span> at dawn. <span class="wc-label" style="color:var(--verb-color);">(occurrence)</span></div>
+        </div>
+        <div class="reveal-step" data-slide="3" data-step="4">
+            <div class="teaching-point">Every sentence must have at least one verb. If there is no verb, it is not a sentence.</div>
+        </div>
+        <div class="reveal-step" data-slide="3" data-step="5">
+            <h3 style="color:var(--verb-color); margin-top:12px;">Quick Check: What verb is missing?</h3>
+            <p style="margin-bottom:8px;">Write down a verb that completes each sentence, then share with the class. Click to reveal a possible answer.</p>
+            <div class="verb-gap-sentence" id="vg1">
+                The dog <span class="verb-gap" id="vgap1">&nbsp;</span> across the park.
+                <button class="verb-reveal-btn" onclick="revealVerbGap('vgap1','raced')">Reveal</button>
+            </div>
+            <div class="verb-gap-sentence" id="vg2">
+                My best friend <span class="verb-gap" id="vgap2">&nbsp;</span> a strange noise.
+                <button class="verb-reveal-btn" onclick="revealVerbGap('vgap2','heard')">Reveal</button>
+            </div>
+            <div class="verb-gap-sentence" id="vg3">
+                The storm <span class="verb-gap" id="vgap3">&nbsp;</span> all night long.
+                <button class="verb-reveal-btn" onclick="revealVerbGap('vgap3','raged')">Reveal</button>
+            </div>
+            <div class="verb-gap-sentence" id="vg4">
+                Everyone in the class <span class="verb-gap" id="vgap4">&nbsp;</span> at the joke.
+                <button class="verb-reveal-btn" onclick="revealVerbGap('vgap4','laughed')">Reveal</button>
+            </div>
+            <p style="margin-top:10px; font-size:14px; color:var(--ink-light); font-style:italic;">There is no single correct answer. Any verb that makes the sentence make sense works.</p>
+        </div>
+        <div class="reveal-step" data-slide="3" data-step="6">
+            <div class="book-prompt">
+                <span class="pencil-icon">&#9997;</span>
+                Write this in your book:<br>
+                <strong>Verbs</strong> = a word that shows an action, a state or an occurrence.<br>
+                Every sentence needs at least one verb.<br>
+                Write the four gap-fill sentences with your chosen verbs.
+            </div>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(2)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(4)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 4: ADJECTIVES -->
+<div class="slide" id="slide4">
+    <div class="card">
+        <h2><span style="color:#b8860b;">Adjectives</span></h2>
+        <div class="reveal-step visible" data-slide="4" data-step="0">
+            <p>An <strong>adjective</strong> is a word that describes or modifies a noun. It tells you what kind, which one, or how many.</p>
+            <p class="click-hint">Click to see examples...</p>
+        </div>
+        <div class="reveal-step" data-slide="4" data-step="1">
+            <div class="example-sentence">
+                The <span class="wc-adj">enormous</span> <span class="wc-arrow">&rarr;</span> <span class="wc-noun">whale</span> surfaced beside our <span class="wc-adj">tiny</span> <span class="wc-arrow">&rarr;</span> <span class="wc-noun">boat</span>.
+            </div>
+            <p style="font-size:14px; color:var(--ink-light); margin-top:4px;">The arrows show which noun each adjective describes.</p>
+        </div>
+        <div class="reveal-step" data-slide="4" data-step="2">
+            <div class="example-sentence">
+                She wore a <span class="wc-adj">red</span> <span class="wc-arrow">&rarr;</span> <span class="wc-noun">jacket</span>.
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="4" data-step="3">
+            <div class="example-sentence">
+                <span class="wc-adj">Three</span> <span class="wc-arrow">&rarr;</span> <span class="wc-noun">koalas</span> sat in the tree.
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="4" data-step="4">
+            <div class="teaching-point">An adjective always connects to a noun. Ask yourself: <em>which noun is this word describing?</em></div>
+            <div class="book-prompt">
+                <span class="pencil-icon">&#9997;</span>
+                Write this in your book:<br>
+                <strong>Adjectives</strong> = a word that describes or modifies a noun. It tells you what kind, which one, or how many.<br>
+                Write three sentences, each with a different adjective. Underline the adjective and draw an arrow to the noun it describes.
+            </div>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(3)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(5)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 5: PRONOUNS -->
+<div class="slide" id="slide5">
+    <div class="card">
+        <h2><span style="color:#0284c7;">Pronouns</span></h2>
+        <div class="reveal-step visible" data-slide="5" data-step="0">
+            <p>A <strong>pronoun</strong> is a word that takes the place of a noun so you do not have to repeat it.</p>
+            <p class="click-hint">Click to see an example...</p>
+        </div>
+        <div class="reveal-step" data-slide="5" data-step="1">
+            <div class="example-sentence" style="border-color:var(--incorrect); opacity:0.7;">
+                <strong>Sarah</strong> picked up <strong>Sarah's</strong> bag and <strong>Sarah</strong> walked to <strong>Sarah's</strong> car.
+            </div>
+            <p style="text-align:center; font-size:20px; margin:8px 0;">&#8595;</p>
+            <div class="example-sentence" style="border-color:var(--correct);">
+                <strong>Sarah</strong> picked up <span class="wc-pron">her</span> bag and <span class="wc-pron">she</span> walked to <span class="wc-pron">her</span> car.
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="5" data-step="2">
+            <div style="background:var(--pron-bg); border-radius:14px; padding:16px; margin:12px 0; text-align:center; line-height:2;">
+                <span class="wc-pron">I</span> <span class="wc-pron">me</span> <span class="wc-pron">you</span> <span class="wc-pron">he</span> <span class="wc-pron">she</span> <span class="wc-pron">it</span> <span class="wc-pron">we</span> <span class="wc-pron">they</span> <span class="wc-pron">him</span> <span class="wc-pron">her</span> <span class="wc-pron">us</span> <span class="wc-pron">them</span> <span class="wc-pron">my</span> <span class="wc-pron">your</span> <span class="wc-pron">his</span> <span class="wc-pron">its</span> <span class="wc-pron">our</span> <span class="wc-pron">their</span>
+            </div>
+            <div class="book-prompt">
+                <span class="pencil-icon">&#9997;</span>
+                Write this in your book:<br>
+                <strong>Pronouns</strong> = a word that takes the place of a noun so you do not have to repeat it.<br>
+                Copy the common pronouns list above.<br>
+                Write one sentence using at least two pronouns.
+            </div>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(4)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(6)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 6: CONJUNCTIONS -->
+<div class="slide" id="slide6">
+    <div class="card">
+        <h2><span style="color:#c2590a;">Conjunctions</span></h2>
+        <div class="reveal-step visible" data-slide="6" data-step="0">
+            <p>A <strong>conjunction</strong> is a word that joins words, phrases or clauses together.</p>
+            <p class="click-hint">Click to see the two types...</p>
+        </div>
+        <div class="reveal-step" data-slide="6" data-step="1">
+            <h3 style="color:#c2590a;">Coordinating Conjunctions (FANBOYS)</h3>
+            <div style="background:var(--conj-bg); border-radius:14px; padding:16px; margin:8px 0; text-align:center; font-size:clamp(16px,2vw,20px); font-weight:700; letter-spacing:2px;">
+                <span class="wc-conj">F</span>or &nbsp;
+                <span class="wc-conj">A</span>nd &nbsp;
+                <span class="wc-conj">N</span>or &nbsp;
+                <span class="wc-conj">B</span>ut &nbsp;
+                <span class="wc-conj">O</span>r &nbsp;
+                <span class="wc-conj">Y</span>et &nbsp;
+                <span class="wc-conj">S</span>o
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="6" data-step="2">
+            <h3 style="color:#c2590a;">Subordinating Conjunctions</h3>
+            <div style="background:var(--conj-bg); border-radius:14px; padding:16px; margin:8px 0; text-align:center; line-height:2;">
+                <span class="wc-conj">because</span> &nbsp;
+                <span class="wc-conj">although</span> &nbsp;
+                <span class="wc-conj">when</span> &nbsp;
+                <span class="wc-conj">if</span> &nbsp;
+                <span class="wc-conj">while</span> &nbsp;
+                <span class="wc-conj">since</span> &nbsp;
+                <span class="wc-conj">until</span> &nbsp;
+                <span class="wc-conj">after</span> &nbsp;
+                <span class="wc-conj">before</span>
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="6" data-step="3">
+            <div class="example-sentence">I wanted to swim <span class="wc-conj">but</span> the water was freezing.</div>
+            <div class="example-sentence"><span class="wc-conj">Although</span> it rained, we still played outside.</div>
+            <div class="teaching-point">Conjunctions are the glue of sentences. They hold ideas together.</div>
+            <div class="book-prompt">
+                <span class="pencil-icon">&#9997;</span>
+                Write this in your book:<br>
+                <strong>Conjunctions</strong> = a word that joins words, phrases or clauses together.<br>
+                Copy the FANBOYS list.<br>
+                Write one sentence with a coordinating conjunction and one with a subordinating conjunction.
+            </div>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(5)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(7)">Next</button>
+    </div>
+</div>
+<!-- SLIDE 7: ADVERBS (core focus) -->
+<div class="slide" id="slide7">
+    <div class="card">
+        <h2><span style="color:var(--adv-color);">Adverbs</span></h2>
+        <div class="reveal-step visible" data-slide="7" data-step="0">
+            <p>An <strong>adverb</strong> is a word that modifies (gives more information about) a verb, an adjective or another adverb. It often tells you <strong>how</strong>, <strong>when</strong>, <strong>where</strong> or <strong>to what extent</strong>.</p>
+            <p class="click-hint">Click to explore the four types...</p>
+        </div>
+        <div class="reveal-step" data-slide="7" data-step="1">
+            <h3 style="color:var(--adv-color);">How (manner)</h3>
+            <div class="example-sentence">
+                The cat <span class="wc-verb">crept</span> <span class="wc-adv">silently</span><span class="wc-label" style="color:var(--adv-color);"> &larr; modifies the verb "crept"</span> across the room.
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="7" data-step="2">
+            <h3 style="color:var(--adv-color);">When (time)</h3>
+            <div class="example-sentence">
+                We will <span class="wc-verb">leave</span> <span class="wc-adv">tomorrow</span><span class="wc-label" style="color:var(--adv-color);"> &larr; modifies the verb "leave"</span>.
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="7" data-step="3">
+            <h3 style="color:var(--adv-color);">Where (place)</h3>
+            <div class="example-sentence">
+                Please <span class="wc-verb">sit</span> <span class="wc-adv">here</span><span class="wc-label" style="color:var(--adv-color);"> &larr; modifies the verb "sit"</span>.
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="7" data-step="4">
+            <h3 style="color:var(--adv-color);">To what extent (degree)</h3>
+            <div class="example-sentence">
+                She was <span class="wc-adv">extremely</span><span class="wc-label" style="color:var(--adv-color);"> &rarr; modifies the adjective "tired"</span> <span class="wc-adj">tired</span>.
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="7" data-step="5">
+            <div class="book-prompt">
+                <span class="pencil-icon">&#9997;</span>
+                Write this in your book:<br>
+                <strong>Adverbs</strong> = a word that modifies a verb, an adjective or another adverb. It tells you how, when, where or to what extent.<br>
+                <strong>Four types:</strong> How (manner), When (time), Where (place), To what extent (degree).<br>
+                Write one example sentence for each type. Underline the adverb and draw an arrow to the word it modifies.
+            </div>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(6)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(8)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 8: ADVERBS - Not just -ly -->
+<div class="slide" id="slide8">
+    <div class="card">
+        <h2><span style="color:var(--adv-color);">The Adverb Trap: Not All Adverbs End in -ly</span></h2>
+        <div class="reveal-step visible" data-slide="8" data-step="0">
+            <p>Many adverbs end in <strong>-ly</strong>: <em>quickly, carefully, silently</em>. But lots do not.</p>
+            <p class="click-hint">Click to see the list...</p>
+        </div>
+        <div class="reveal-step" data-slide="8" data-step="1">
+            <div style="background:var(--adv-bg); border-radius:14px; padding:16px; margin:12px 0; text-align:center; line-height:2.2; font-size:clamp(15px,1.8vw,18px); font-weight:600;">
+                <span class="wc-adv">soon</span> &nbsp;
+                <span class="wc-adv">very</span> &nbsp;
+                <span class="wc-adv">never</span> &nbsp;
+                <span class="wc-adv">always</span> &nbsp;
+                <span class="wc-adv">often</span> &nbsp;
+                <span class="wc-adv">here</span> &nbsp;
+                <span class="wc-adv">there</span> &nbsp;
+                <span class="wc-adv">now</span> &nbsp;
+                <span class="wc-adv">then</span> &nbsp;
+                <span class="wc-adv">almost</span> &nbsp;
+                <span class="wc-adv">already</span> &nbsp;
+                <span class="wc-adv">also</span> &nbsp;
+                <span class="wc-adv">just</span> &nbsp;
+                <span class="wc-adv">still</span> &nbsp;
+                <span class="wc-adv">quite</span> &nbsp;
+                <span class="wc-adv">too</span> &nbsp;
+                <span class="wc-adv">well</span> &nbsp;
+                <span class="wc-adv">fast</span> &nbsp;
+                <span class="wc-adv">hard</span> &nbsp;
+                <span class="wc-adv">late</span> &nbsp;
+                <span class="wc-adv">yesterday</span> &nbsp;
+                <span class="wc-adv">today</span>
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="8" data-step="2">
+            <h3 style="color:var(--adv-color);">Tricky: Same word, different class</h3>
+            <p>Some words can be adjectives OR adverbs depending on their job.</p>
+        </div>
+        <div class="reveal-step" data-slide="8" data-step="3">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;">
+                <div class="example-sentence" style="border-color:var(--adj-color);">
+                    She is a <span class="wc-adj">fast</span> <span class="wc-arrow">&rarr;</span> <span class="wc-noun">runner</span>.
+                    <div style="margin-top:6px; font-size:13px; color:#b8860b; font-weight:600;">ADJECTIVE: describes the noun "runner"</div>
+                </div>
+                <div class="example-sentence" style="border-color:var(--adv-color);">
+                    She <span class="wc-verb">runs</span> <span class="wc-adv">fast</span>.
+                    <div style="margin-top:6px; font-size:13px; color:var(--adv-color); font-weight:600;">ADVERB: modifies the verb "runs"</div>
+                </div>
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="8" data-step="4">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;">
+                <div class="example-sentence" style="border-color:var(--adj-color);">
+                    That was a <span class="wc-adj">hard</span> <span class="wc-arrow">&rarr;</span> <span class="wc-noun">question</span>.
+                    <div style="margin-top:6px; font-size:13px; color:#b8860b; font-weight:600;">ADJECTIVE: describes the noun "question"</div>
+                </div>
+                <div class="example-sentence" style="border-color:var(--adv-color);">
+                    She <span class="wc-verb">worked</span> <span class="wc-adv">hard</span>.
+                    <div style="margin-top:6px; font-size:13px; color:var(--adv-color); font-weight:600;">ADVERB: modifies the verb "worked"</div>
+                </div>
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="8" data-step="5">
+            <div class="teaching-point" style="border-left-color:var(--adv-color);">
+                <strong>To decide if a word is an adverb, do not look at the word. Look at its job.</strong><br>
+                Ask: is this word telling me more about a verb, an adjective or another adverb? If yes, it is an adverb.
+            </div>
+            <div class="book-prompt">
+                <span class="pencil-icon">&#9997;</span>
+                Write this in your book:<br>
+                <strong>Adverbs that do not end in -ly:</strong> soon, very, never, always, often, here, there, now, then, almost, already, also, just, still, quite, too, well, fast, hard, late, yesterday, today.<br>
+                Write two sentences where the same word is used first as an adjective and then as an adverb (like the "fast" example).
+            </div>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(7)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(9)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 9: SUMMARY -->
+<div class="slide" id="slide9">
+    <div class="card">
+        <h2>The Six Word Classes</h2>
+        <div class="wc-grid">
+            <div class="wc-grid-item" style="background:var(--noun-bg); border-color:var(--noun-color);">
+                <h4 style="color:var(--noun-color);">Noun</h4>
+                <p>Names a person, place, thing or idea.</p>
+                <span class="example" style="color:var(--noun-color);">dolphin, courage, Sydney</span>
+            </div>
+            <div class="wc-grid-item" style="background:var(--verb-bg); border-color:var(--verb-color);">
+                <h4 style="color:var(--verb-color);">Verb</h4>
+                <p>Shows an action, state or occurrence.</p>
+                <span class="example" style="color:var(--verb-color);">sprinted, is, happened</span>
+            </div>
+            <div class="wc-grid-item" style="background:var(--adj-bg); border-color:var(--adj-color);">
+                <h4 style="color:#b8860b;">Adjective</h4>
+                <p>Describes or modifies a noun.</p>
+                <span class="example" style="color:#b8860b;">enormous, red, three</span>
+            </div>
+            <div class="wc-grid-item" style="background:var(--adv-bg); border-color:var(--adv-color);">
+                <h4 style="color:var(--adv-color);">Adverb</h4>
+                <p>Modifies a verb, adjective or adverb.</p>
+                <span class="example" style="color:var(--adv-color);">silently, tomorrow, very</span>
+            </div>
+            <div class="wc-grid-item" style="background:var(--pron-bg); border-color:var(--pron-color);">
+                <h4 style="color:#0284c7;">Pronoun</h4>
+                <p>Takes the place of a noun.</p>
+                <span class="example" style="color:#0284c7;">she, them, our</span>
+            </div>
+            <div class="wc-grid-item" style="background:var(--conj-bg); border-color:var(--conj-color);">
+                <h4 style="color:#c2590a;">Conjunction</h4>
+                <p>Joins words, phrases or clauses.</p>
+                <span class="example" style="color:#c2590a;">but, because, although</span>
+            </div>
+        </div>
+        <div class="book-prompt">
+            <span class="pencil-icon">&#9997;</span>
+            Copy this table into your book as a reference card.
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(8)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(10)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 10: WE DO - Guided Practice -->
+<div class="slide" id="slide10">
+    <div class="card">
+        <h2 style="color:var(--gold);">We Do: Guided Practice</h2>
+        <p style="margin-bottom:12px;">Let us work through these sentences together. Click each word to reveal its word class. Try to predict before you click.</p>
+        <div id="wedoContainer"></div>
+        <div style="text-align:center; margin-top:12px;">
+            <button class="btn-secondary" id="wedoNextBtn" onclick="loadNextWedoSentence()" style="display:none;">Next Sentence</button>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(9)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(11)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 11: LEVEL 1 -->
+<div class="slide" id="slide11">
+    <div class="card">
+        <h2 style="color:var(--teal);">Level 1: Identify the Word Class</h2>
+        <p>Look at the underlined word. What word class does it belong to?</p>
+        <div class="l1-progress" id="l1Progress">1 / 10</div>
+        <div id="l1Container"></div>
+        <div id="l1Result" style="display:none; text-align:center; margin-top:16px;">
+            <h3>Level 1 Complete</h3>
+            <div class="l1-score" id="l1Score"></div>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(10)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(12)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 12: LEVEL 2 -->
+<div class="slide" id="slide12">
+    <div class="card">
+        <h2 style="color:var(--coral);">Level 2: Label Every Word</h2>
+        <p>Select a word class from the palette below, then click each word to label it. Determiners (the, a, an) are pre-labelled for you.</p>
+        <div class="l1-progress" id="l2Progress">Sentence 1 / 5</div>
+        <div class="l2-palette" id="l2Palette">
+            <button class="l2-palette-btn" style="border-color:var(--noun-color); color:var(--noun-color);" onclick="selectPalette('noun')" data-wc="noun">Noun</button>
+            <button class="l2-palette-btn" style="border-color:var(--verb-color); color:var(--verb-color);" onclick="selectPalette('verb')" data-wc="verb">Verb</button>
+            <button class="l2-palette-btn" style="border-color:var(--adj-color); color:#b8860b;" onclick="selectPalette('adj')" data-wc="adj">Adjective</button>
+            <button class="l2-palette-btn" style="border-color:var(--adv-color); color:var(--adv-color);" onclick="selectPalette('adv')" data-wc="adv">Adverb</button>
+            <button class="l2-palette-btn" style="border-color:var(--pron-color); color:#0284c7;" onclick="selectPalette('pron')" data-wc="pron">Pronoun</button>
+            <button class="l2-palette-btn" style="border-color:var(--conj-color); color:#c2590a;" onclick="selectPalette('conj')" data-wc="conj">Conjunction</button>
+        </div>
+        <div id="l2SentenceArea" class="l2-sentence-area"></div>
+        <div id="l2Feedback" style="margin-top:12px;"></div>
+        <div style="text-align:center; margin-top:12px; display:flex; gap:10px; justify-content:center;">
+            <button class="l2-check-btn" id="l2CheckBtn" onclick="checkL2()">Check</button>
+            <button class="l2-next-btn" id="l2NextBtn" onclick="nextL2Sentence()" style="display:none;">Next Sentence</button>
+        </div>
+        <div id="l2Result" style="display:none; text-align:center; margin-top:16px;">
+            <h3>Level 2 Complete</h3>
+            <div class="l1-score" id="l2Score"></div>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(11)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(13)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 13: LEVEL 3 -->
+<div class="slide" id="slide13">
+    <div class="card">
+        <h2 style="color:var(--purple);">Level 3: Tricky Cases</h2>
+        <p>The same word can belong to different word classes depending on its job. For each pair, identify the word class in each sentence and explain why it changes.</p>
+        <div class="l1-progress" id="l3Progress">Pair 1 / 6</div>
+        <div id="l3Container"></div>
+        <div id="l3Result" style="display:none; text-align:center; margin-top:16px;">
+            <h3>Level 3 Complete</h3>
+            <p>You have worked through all 6 tricky cases. Well done for explaining your reasoning.</p>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(12)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(14)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 14: GO DEEPER - Find Adverbs -->
+<div class="slide" id="slide14">
+    <div class="card">
+        <h2 style="color:var(--gold);">Go Deeper: Find the Adverbs</h2>
+        <p>Read the passage below. Click on every word you think is an adverb. Every word is clickable, but only some are adverbs. When you are ready, check your answers.</p>
+        <p style="font-size:14px; color:var(--ink-light); font-style:italic;">Remember: adverbs tell you how, when, where or to what extent. Not all adverbs end in -ly.</p>
+        <div class="gd-passage" id="gdPassage"></div>
+        <div style="text-align:center; margin:12px 0;">
+            <div id="gdAttemptsDisplay" class="l1-progress" style="margin-bottom:8px;">Attempt 1 of 5</div>
+            <button class="btn-primary" id="gdCheckBtn" onclick="checkGdAdverbs()">Check My Adverbs</button>
+        </div>
+        <div id="gdAdverbResult" style="display:none;"></div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(13)">Previous</button>
+        <button class="nav-btn" onclick="goSlide(15)">Next</button>
+    </div>
+</div>
+
+<!-- SLIDE 15: GO DEEPER - Add Adverbs -->
+<div class="slide" id="slide15">
+    <div class="card">
+        <h2 style="color:var(--gold);">Go Deeper: Add Adverbs</h2>
+        <p>Good writers use adverbs to add detail and precision. Read this plain passage, then see how adverbs bring it to life.</p>
+
+        <h3 style="margin-top:16px;">Worked Example</h3>
+        <div class="reveal-step visible" data-slide="15" data-step="0">
+            <div class="example-sentence" style="border-color:#ddd;">
+                <strong>Before:</strong> The dog sat on the mat. It looked at the door. The handle turned.
+            </div>
+            <p class="click-hint">Click to see the improved version...</p>
+        </div>
+        <div class="reveal-step" data-slide="15" data-step="1">
+            <div class="example-sentence" style="border-color:var(--correct);">
+                <strong>After:</strong> The dog sat <span class="wc-adv">patiently</span> on the mat. It looked <span class="wc-adv">hopefully</span> at the door. <span class="wc-adv">Slowly</span>, the handle turned.
+            </div>
+            <div class="teaching-point" style="border-left-color:var(--gold);">
+                Three adverbs were added: <span class="wc-adv">patiently</span> (how the dog sat), <span class="wc-adv">hopefully</span> (how it looked), and <span class="wc-adv">Slowly</span> (how the handle turned). Each one adds a detail the reader can picture.
+            </div>
+        </div>
+        <div class="reveal-step" data-slide="15" data-step="2">
+            <h3 style="margin-top:20px;">Your Turn</h3>
+            <p>Here is a plain passage. Rewrite it in the box below, adding adverbs to make it more vivid and interesting. Try to use at least <strong>four different adverbs</strong>, including at least one that does not end in -ly.</p>
+            <div class="example-sentence" style="border-color:var(--gold); margin-bottom:12px;">
+                The waves crashed on the rocks. A seagull flew over the water and landed on the sand. Two children ran across the beach. They laughed and splashed into the sea. The sun disappeared behind a cloud.
+            </div>
+            <textarea class="writing-input" id="gdAddAdverbs" rows="8"></textarea>
+            <div style="text-align:center; margin-top:12px;">
+                <button class="btn-primary" id="gdAddAdverbsBtn" onclick="submitGdAddAdverbs()">Get Feedback</button>
+            </div>
+            <div id="gdAddFeedback" style="display:none;"></div>
+            <div class="book-prompt" style="margin-top:16px;">
+                <span class="pencil-icon">&#9997;</span>
+                Copy your improved passage into your book. Underline each adverb you added and write in brackets whether it tells how, when, where or to what extent.
+            </div>
+        </div>
+    </div>
+    <div class="slide-nav">
+        <button class="nav-btn" onclick="goSlide(14)">Previous</button>
+        <button class="nav-btn" disabled>Next</button>
+    </div>
+</div>
+
+</main>
+
+<!-- EXPORT MODAL -->
+<div class="modal-overlay" id="exportModal">
+    <div class="modal-box">
+        <h3 style="font-family:'Fredoka',sans-serif;">Export Your Work</h3>
+        <p>Enter your name for the summary.</p>
+        <input type="text" id="exportName" placeholder="Your name">
+        <div style="display:flex; gap:10px; justify-content:center;">
+            <button class="btn-primary" onclick="doExport()">Export</button>
+            <button class="btn-secondary" onclick="closeExportModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<!-- PRINT SUMMARY (hidden, shown on print) -->
+<div id="printSummary"></div>
+<script>
+/* ===== GLOBALS ===== */
+const API_URL = 'https://writers-toolkit-proxy.patrick-ell2.workers.dev';
+let currentSlide = 0;
+const totalSlides = 16;
+const learnSlides = [0,1,2,3,4,5,6,7,8,9,10,15]; // slides where click/key advance works (includes Go Deeper worked example)
+const revealState = {}; // track reveal steps per slide
+
+// Tracking
+const tracker = { l1: { score:0, total:10, answers:[] }, l2: { correct:0, total:0, sentences:[] }, l3: { pairs:[] }, gd: { adverbsFound:0, rewrite:'' } };
+
+/* ===== NAVIGATION ===== */
+function goSlide(n) {
+    if (n < 0 || n >= totalSlides) return;
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    document.getElementById('slide' + n).classList.add('active');
+    currentSlide = n;
+    // Update sidebar
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+        item.classList.remove('active');
+        if (parseInt(item.dataset.slide) === n) item.classList.add('active');
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Init slide content if needed
+    if (n === 10 && !wedoLoaded) initWeDo();
+    if (n === 11 && !l1Loaded) initL1();
+    if (n === 12 && !l2Loaded) initL2();
+    if (n === 13 && !l3Loaded) initL3();
+    if (n === 14 && !gdLoaded) initGD();
+    if (n === 15 && !gd2Loaded) initGD2();
+}
+
+function toggleSidebar() {
+    const sb = document.getElementById('sidebar');
+    const main = document.getElementById('mainContent');
+    sb.classList.toggle('collapsed');
+    main.classList.toggle('expanded');
+}
+
+function markDone(slideIdx) {
+    const item = document.querySelector('.sidebar-item[data-slide="' + slideIdx + '"]');
+    if (item) item.classList.add('done');
+}
+
+// Click-to-advance and keyboard nav for learn slides
+document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+    if (!learnSlides.includes(currentSlide)) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        document.activeElement.blur();
+        advanceLearnSlide();
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        document.activeElement.blur();
+        if (currentSlide > 0) goSlide(currentSlide - 1);
+    }
+}, true);
+
+document.addEventListener('click', function(e) {
+    if (!learnSlides.includes(currentSlide)) return;
+    if (e.target.closest('button') || e.target.closest('a') || e.target.closest('textarea') || e.target.closest('input') || e.target.closest('select') || e.target.closest('.sidebar') || e.target.closest('.top-bar') || e.target.closest('.modal-overlay') || e.target.closest('.wedo-word') || e.target.closest('.verb-reveal-btn')) return;
+    advanceLearnSlide();
+});
+
+function advanceLearnSlide() {
+    const steps = document.querySelectorAll('.reveal-step[data-slide="' + currentSlide + '"]');
+    if (steps.length === 0) { if (currentSlide < totalSlides - 1) goSlide(currentSlide + 1); return; }
+    if (!revealState[currentSlide]) revealState[currentSlide] = 0;
+    let nextStep = -1;
+    for (let i = 0; i < steps.length; i++) {
+        if (!steps[i].classList.contains('visible')) { nextStep = i; break; }
+    }
+    if (nextStep >= 0) {
+        steps[nextStep].classList.add('visible');
+        revealState[currentSlide] = nextStep + 1;
+        // Hide click hint on previous step
+        if (nextStep > 0) {
+            const prevHint = steps[nextStep-1].querySelector('.click-hint');
+            if (prevHint) prevHint.style.display = 'none';
+        }
+        // Also hide click hint on the step we just revealed if it has further steps
+        const currentHint = steps[nextStep].querySelector('.click-hint');
+        // Keep hint visible only if there are more steps
+        if (currentHint && nextStep === steps.length - 1) currentHint.style.display = 'none';
+    } else {
+        // All revealed, advance to next slide
+        if (currentSlide < totalSlides - 1) goSlide(currentSlide + 1);
+    }
+}
+
+/* ===== VERB GAP-FILL ===== */
+function revealVerbGap(gapId, answer) {
+    const gap = document.getElementById(gapId);
+    gap.textContent = answer;
+    gap.classList.add('revealed');
+    gap.style.color = 'var(--verb-color)';
+    // Disable button
+    const btn = gap.parentElement.querySelector('.verb-reveal-btn');
+    btn.classList.add('revealed');
+    btn.disabled = true;
+}
+
+/* ===== WE DO ===== */
+let wedoLoaded = false;
+let wedoIdx = 0;
+const wedoSentences = [
+    {
+        words: [
+            { text:'Yesterday', wc:'adv', label:'Adverb (when)', color:'var(--adv-color)' },
+            { text:',', wc:'punct', label:'', color:'' },
+            { text:'the', wc:'det', label:'Determiner', color:'var(--det-color)' },
+            { text:'brave', wc:'adj', label:'Adjective', color:'#b8860b' },
+            { text:'firefighters', wc:'noun', label:'Noun', color:'var(--noun-color)' },
+            { text:'quickly', wc:'adv', label:'Adverb (how)', color:'var(--adv-color)' },
+            { text:'rescued', wc:'verb', label:'Verb', color:'var(--verb-color)' },
+            { text:'two', wc:'adj', label:'Adjective (how many)', color:'#b8860b' },
+            { text:'small', wc:'adj', label:'Adjective', color:'#b8860b' },
+            { text:'kittens', wc:'noun', label:'Noun', color:'var(--noun-color)' },
+            { text:'from', wc:'prep', label:'Preposition', color:'var(--det-color)' },
+            { text:'the', wc:'det', label:'Determiner', color:'var(--det-color)' },
+            { text:'tall', wc:'adj', label:'Adjective', color:'#b8860b' },
+            { text:'tree', wc:'noun', label:'Noun', color:'var(--noun-color)' },
+            { text:'nearby', wc:'adv', label:'Adverb (where)', color:'var(--adv-color)' },
+        ]
+    },
+    {
+        words: [
+            { text:'She', wc:'pron', label:'Pronoun', color:'#0284c7' },
+            { text:'carefully', wc:'adv', label:'Adverb (how)', color:'var(--adv-color)' },
+            { text:'opened', wc:'verb', label:'Verb', color:'var(--verb-color)' },
+            { text:'the', wc:'det', label:'Determiner', color:'var(--det-color)' },
+            { text:'mysterious', wc:'adj', label:'Adjective', color:'#b8860b' },
+            { text:'package', wc:'noun', label:'Noun', color:'var(--noun-color)' },
+            { text:'because', wc:'conj', label:'Conjunction', color:'#c2590a' },
+            { text:'it', wc:'pron', label:'Pronoun', color:'#0284c7' },
+            { text:'had', wc:'verb', label:'Verb', color:'var(--verb-color)' },
+            { text:'arrived', wc:'verb', label:'Verb', color:'var(--verb-color)' },
+            { text:'unexpectedly', wc:'adv', label:'Adverb (how)', color:'var(--adv-color)' },
+        ]
+    }
+];
+
+function initWeDo() {
+    wedoLoaded = true;
+    wedoIdx = 0;
+    renderWedoSentence();
+}
+
+function renderWedoSentence() {
+    const s = wedoSentences[wedoIdx];
+    const container = document.getElementById('wedoContainer');
+    let html = '<div class="l2-sentence-area" style="justify-content:center; padding:24px; line-height:3;">';
+    s.words.forEach((w, i) => {
+        if (w.text === ',') { html += '<span style="font-size:20px; font-weight:600; margin-right:4px;">,</span>'; return; }
+        html += '<span class="wedo-word" onclick="revealWedoWord('+i+')" id="ww'+wedoIdx+'_'+i+'">' + w.text + '<span class="wedo-label" style="color:'+w.color+';">'+w.label+'</span></span>';
+    });
+    html += '</div>';
+    container.innerHTML = html;
+    document.getElementById('wedoNextBtn').style.display = (wedoIdx < wedoSentences.length - 1) ? 'inline-block' : 'none';
+}
+
+function revealWedoWord(idx) {
+    const el = document.getElementById('ww'+wedoIdx+'_'+idx);
+    if (el.classList.contains('revealed')) return;
+    el.classList.add('revealed');
+    const w = wedoSentences[wedoIdx].words[idx];
+    // Apply background colour
+    const bgMap = { noun:'var(--noun-bg)', verb:'var(--verb-bg)', adj:'var(--adj-bg)', adv:'var(--adv-bg)', pron:'var(--pron-bg)', conj:'var(--conj-bg)', det:'var(--det-bg)', prep:'var(--det-bg)', punct:'' };
+    el.style.background = bgMap[w.wc] || '';
+}
+
+function loadNextWedoSentence() {
+    wedoIdx++;
+    renderWedoSentence();
+    if (wedoIdx >= wedoSentences.length - 1) {
+        document.getElementById('wedoNextBtn').style.display = 'none';
+        markDone(10);
+    }
+}
+
+/* ===== LEVEL 1 ===== */
+let l1Loaded = false;
+let l1Idx = 0;
+let l1Score = 0;
+const l1Data = [
+    { sentence:'The cat crept <u>silently</u> across the room.', target:'silently', answer:'adv', feedback_correct:'Correct. "Silently" is an adverb because it tells us how the cat crept. It modifies the verb "crept".', feedback_wrong:'Not quite. "Silently" is an adverb, not a {guess}. It modifies the verb "crept" by telling us how the cat crept.' },
+    { sentence:'The <u>enormous</u> whale surfaced beside our tiny boat.', target:'enormous', answer:'adj', feedback_correct:'Correct. "Enormous" is an adjective because it describes the noun "whale". It tells us what kind of whale.', feedback_wrong:'"Enormous" is an adjective, not a {guess}. It describes the noun "whale" by telling us its size.' },
+    { sentence:'<u>She</u> carefully opened the mysterious package.', target:'She', answer:'pron', feedback_correct:'Correct. "She" is a pronoun. It takes the place of a person\'s name so we do not have to repeat it.', feedback_wrong:'"She" is a pronoun, not a {guess}. Pronouns take the place of nouns. "She" replaces a person\'s name.' },
+    { sentence:'I wanted to swim <u>but</u> the water was freezing.', target:'but', answer:'conj', feedback_correct:'Correct. "But" is a conjunction. It joins two clauses together ("I wanted to swim" and "the water was freezing").', feedback_wrong:'"But" is a conjunction, not a {guess}. It joins two clauses together. It is one of the FANBOYS coordinating conjunctions.' },
+    { sentence:'The earthquake <u>happened</u> at dawn.', target:'happened', answer:'verb', feedback_correct:'Correct. "Happened" is a verb. It shows an occurrence. Not all verbs are physical actions.', feedback_wrong:'"Happened" is a verb, not a {guess}. It shows an occurrence. Remember, verbs include actions, states of being and occurrences.' },
+    { sentence:'We will leave <u>tomorrow</u>.', target:'tomorrow', answer:'adv', feedback_correct:'Correct. "Tomorrow" is an adverb of time. It tells us when we will leave. Remember, not all adverbs end in -ly.', feedback_wrong:'"Tomorrow" is an adverb, not a {guess}. It tells us when we will leave. It modifies the verb "leave". Many adverbs do not end in -ly.' },
+    { sentence:'The <u>determined</u> hikers reached the summit.', target:'determined', answer:'adj', feedback_correct:'Correct. "Determined" is an adjective here because it describes the noun "hikers". It tells us what kind of hikers they were.', feedback_wrong:'"Determined" is an adjective here, not a {guess}. It describes the noun "hikers". Although "determined" can be a verb in other contexts, here it is describing a noun.' },
+    { sentence:'She was <u>extremely</u> tired after the race.', target:'extremely', answer:'adv', feedback_correct:'Correct. "Extremely" is an adverb of degree. It modifies the adjective "tired" by telling us to what extent she was tired.', feedback_wrong:'"Extremely" is an adverb, not a {guess}. It modifies the adjective "tired". Adverbs can modify adjectives too, not just verbs.' },
+    { sentence:'<u>They</u> built a treehouse in the old oak.', target:'They', answer:'pron', feedback_correct:'Correct. "They" is a pronoun. It takes the place of a group of people\'s names.', feedback_wrong:'"They" is a pronoun, not a {guess}. Pronouns replace nouns. "They" stands in for a group of people.' },
+    { sentence:'The dog barked <u>loudly</u> at the postman.', target:'loudly', answer:'adv', feedback_correct:'Correct. "Loudly" is an adverb of manner. It tells us how the dog barked. It modifies the verb "barked".', feedback_wrong:'"Loudly" is an adverb, not a {guess}. It tells us how the dog barked. It modifies the verb "barked".' },
+];
+
+const wcNames = { noun:'Noun', verb:'Verb', adj:'Adjective', adv:'Adverb', pron:'Pronoun', conj:'Conjunction' };
+
+function initL1() {
+    l1Loaded = true; l1Idx = 0; l1Score = 0;
+    renderL1();
+}
+
+function renderL1() {
+    if (l1Idx >= l1Data.length) { finishL1(); return; }
+    const q = l1Data[l1Idx];
+    document.getElementById('l1Progress').textContent = (l1Idx + 1) + ' / ' + l1Data.length;
+    let html = '<div class="l1-sentence">' + q.sentence + '</div>';
+    html += '<div class="l1-options">';
+    ['noun','verb','adj','adv','pron','conj'].forEach(wc => {
+        html += '<button class="l1-btn" onclick="answerL1(\''+wc+'\')" data-wc="'+wc+'" style="border-color:var(--'+wc+'-color);">'+wcNames[wc]+'</button>';
+    });
+    html += '</div>';
+    html += '<div style="text-align:center;"><button class="l1-hint-btn" onclick="showL1Hint()">Hint</button></div>';
+    html += '<div id="l1Hint" style="display:none;"></div>';
+    html += '<div id="l1Fb"></div>';
+    document.getElementById('l1Container').innerHTML = html;
+}
+
+function showL1Hint() {
+    document.getElementById('l1Hint').innerHTML = '<div class="l1-hint">What job is this word doing in the sentence? Is it naming something (noun), showing an action (verb), describing a noun (adjective), telling you how/when/where (adverb), replacing a noun (pronoun), or joining ideas (conjunction)?</div>';
+    document.getElementById('l1Hint').style.display = 'block';
+}
+
+function answerL1(guess) {
+    const q = l1Data[l1Idx];
+    const btns = document.querySelectorAll('.l1-btn');
+    btns.forEach(b => { b.disabled = true; if (b.dataset.wc === q.answer) b.classList.add('correct'); if (b.dataset.wc === guess && guess !== q.answer) b.classList.add('wrong'); });
+    const isCorrect = guess === q.answer;
+    if (isCorrect) l1Score++;
+    tracker.l1.answers.push({ q: q.target, correct: isCorrect, guess: wcNames[guess], answer: wcNames[q.answer] });
+    const fb = isCorrect ? q.feedback_correct : q.feedback_wrong.replace('{guess}', wcNames[guess].toLowerCase());
+    const fbClass = isCorrect ? 'correct-fb' : 'incorrect-fb';
+    document.getElementById('l1Fb').innerHTML = '<div class="l1-feedback ' + fbClass + '">' + fb + '</div>' +
+        '<div style="text-align:center; margin-top:12px;"><button class="btn-primary" onclick="l1Idx++; renderL1();">Next</button></div>';
+}
+
+function finishL1() {
+    tracker.l1.score = l1Score;
+    document.getElementById('l1Container').innerHTML = '';
+    document.getElementById('l1Progress').style.display = 'none';
+    document.getElementById('l1Result').style.display = 'block';
+    document.getElementById('l1Score').textContent = l1Score + ' / ' + l1Data.length;
+    markDone(11);
+}
+
+/* ===== LEVEL 2 ===== */
+let l2Loaded = false;
+let l2Idx = 0;
+let l2Correct = 0;
+let l2Total = 0;
+let selectedPalette = null;
+
+const l2Data = [
+    { words: [
+        {t:'The',wc:'det'},{t:'young',wc:'adj'},{t:'scientist',wc:'noun'},{t:'carefully',wc:'adv'},{t:'measured',wc:'verb'},{t:'the',wc:'det'},{t:'clear',wc:'adj'},{t:'liquid',wc:'noun'}
+    ]},
+    { words: [
+        {t:'They',wc:'pron'},{t:'always',wc:'adv'},{t:'eat',wc:'verb'},{t:'fresh',wc:'adj'},{t:'fruit',wc:'noun'},{t:'after',wc:'conj'},{t:'they',wc:'pron'},{t:'finish',wc:'verb'},{t:'dinner',wc:'noun'}
+    ]},
+    { words: [
+        {t:'My',wc:'pron'},{t:'older',wc:'adj'},{t:'brother',wc:'noun'},{t:'ran',wc:'verb'},{t:'quickly',wc:'adv'},{t:'because',wc:'conj'},{t:'he',wc:'pron'},{t:'was',wc:'verb'},{t:'already',wc:'adv'},{t:'late',wc:'adj'}
+    ]},
+    { words: [
+        {t:'The',wc:'det'},{t:'enormous',wc:'adj'},{t:'crocodile',wc:'noun'},{t:'silently',wc:'adv'},{t:'approached',wc:'verb'},{t:'its',wc:'pron'},{t:'unsuspecting',wc:'adj'},{t:'prey',wc:'noun'},{t:'nearby',wc:'adv'}
+    ]},
+    { words: [
+        {t:'Although',wc:'conj'},{t:'she',wc:'pron'},{t:'felt',wc:'verb'},{t:'quite',wc:'adv'},{t:'nervous',wc:'adj'},{t:'the',wc:'det'},{t:'brave',wc:'adj'},{t:'girl',wc:'noun'},{t:'still',wc:'adv'},{t:'performed',wc:'verb'},{t:'beautifully',wc:'adv'}
+    ]}
+];
+
+function initL2() {
+    l2Loaded = true; l2Idx = 0; l2Correct = 0; l2Total = 0;
+    renderL2Sentence();
+}
+
+function selectPalette(wc) {
+    selectedPalette = wc;
+    document.querySelectorAll('.l2-palette-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelector('.l2-palette-btn[data-wc="'+wc+'"]').classList.add('selected');
+}
+
+function renderL2Sentence() {
+    if (l2Idx >= l2Data.length) { finishL2(); return; }
+    const s = l2Data[l2Idx];
+    document.getElementById('l2Progress').textContent = 'Sentence ' + (l2Idx+1) + ' / ' + l2Data.length;
+    const area = document.getElementById('l2SentenceArea');
+    area.innerHTML = '';
+    s.words.forEach((w, i) => {
+        const div = document.createElement('div');
+        div.className = 'l2-word';
+        div.id = 'l2w_' + i;
+        div.dataset.idx = i;
+        div.dataset.correct = w.wc;
+        div.dataset.assigned = '';
+        const wtext = document.createElement('span');
+        wtext.className = 'word-text';
+        wtext.textContent = w.t;
+        div.appendChild(wtext);
+        const lbl = document.createElement('span');
+        lbl.className = 'word-label empty';
+        lbl.id = 'l2lbl_' + i;
+        if (w.wc === 'det') {
+            lbl.textContent = 'DET';
+            lbl.className = 'word-label filled';
+            lbl.style.background = 'var(--det-bg)';
+            lbl.style.color = '#888';
+            div.classList.add('pre-labelled', 'locked');
+            div.dataset.assigned = 'det';
+        } else {
+            lbl.textContent = '\u00A0';
+            div.addEventListener('click', function() { assignLabel(i); });
+        }
+        div.appendChild(lbl);
+        area.appendChild(div);
+    });
+    document.getElementById('l2Feedback').innerHTML = '';
+    document.getElementById('l2CheckBtn').style.display = 'inline-block';
+    document.getElementById('l2NextBtn').style.display = 'none';
+    selectedPalette = null;
+    document.querySelectorAll('.l2-palette-btn').forEach(b => b.classList.remove('selected'));
+}
+
+function assignLabel(idx) {
+    if (!selectedPalette) return;
+    const div = document.getElementById('l2w_' + idx);
+    if (div.classList.contains('locked')) return;
+    const lbl = document.getElementById('l2lbl_' + idx);
+    div.dataset.assigned = selectedPalette;
+    const colorMap = { noun:'var(--noun-color)', verb:'var(--verb-color)', adj:'#b8860b', adv:'var(--adv-color)', pron:'#0284c7', conj:'#c2590a' };
+    const bgMap = { noun:'var(--noun-bg)', verb:'var(--verb-bg)', adj:'var(--adj-bg)', adv:'var(--adv-bg)', pron:'var(--pron-bg)', conj:'var(--conj-bg)' };
+    lbl.textContent = wcNames[selectedPalette].substring(0,3).toUpperCase();
+    lbl.className = 'word-label filled';
+    lbl.style.background = bgMap[selectedPalette];
+    lbl.style.color = colorMap[selectedPalette];
+}
+
+function checkL2() {
+    const s = l2Data[l2Idx];
+    let correct = 0; let total = 0;
+    s.words.forEach((w, i) => {
+        if (w.wc === 'det') return;
+        total++;
+        const div = document.getElementById('l2w_' + i);
+        const lbl = document.getElementById('l2lbl_' + i);
+        div.classList.add('locked');
+        if (div.dataset.assigned === w.wc) {
+            correct++;
+            lbl.style.border = '2px solid var(--correct)';
+        } else {
+            lbl.style.border = '2px solid var(--incorrect)';
+            // Show correct answer
+            const colorMap = { noun:'var(--noun-color)', verb:'var(--verb-color)', adj:'#b8860b', adv:'var(--adv-color)', pron:'#0284c7', conj:'#c2590a' };
+            const bgMap = { noun:'var(--noun-bg)', verb:'var(--verb-bg)', adj:'var(--adj-bg)', adv:'var(--adv-bg)', pron:'var(--pron-bg)', conj:'var(--conj-bg)' };
+            setTimeout(() => {
+                lbl.textContent = wcNames[w.wc].substring(0,3).toUpperCase();
+                lbl.style.background = bgMap[w.wc];
+                lbl.style.color = colorMap[w.wc];
+                lbl.style.border = '2px solid var(--correct)';
+            }, 1200);
+        }
+    });
+    l2Correct += correct;
+    l2Total += total;
+    tracker.l2.sentences.push({ correct, total });
+    document.getElementById('l2Feedback').innerHTML = '<div class="l1-feedback '+(correct===total?'correct-fb':'incorrect-fb')+'">' + correct + ' of ' + total + ' words labelled correctly.' + (correct < total ? ' Incorrect labels will update to show the correct word class.' : ' Perfect.') + '</div>';
+    document.getElementById('l2CheckBtn').style.display = 'none';
+    document.getElementById('l2NextBtn').style.display = 'inline-block';
+}
+
+function nextL2Sentence() {
+    l2Idx++;
+    renderL2Sentence();
+}
+
+function finishL2() {
+    tracker.l2.correct = l2Correct;
+    tracker.l2.total = l2Total;
+    const pct = Math.round((l2Correct / l2Total) * 100);
+    document.getElementById('l2SentenceArea').innerHTML = '';
+    document.getElementById('l2Palette').style.display = 'none';
+    document.getElementById('l2Progress').style.display = 'none';
+    document.getElementById('l2Feedback').innerHTML = '';
+    document.getElementById('l2CheckBtn').style.display = 'none';
+    document.getElementById('l2NextBtn').style.display = 'none';
+    document.getElementById('l2Result').style.display = 'block';
+    document.getElementById('l2Score').textContent = l2Correct + ' / ' + l2Total + ' (' + pct + '%)';
+    markDone(12);
+}
+/* ===== LEVEL 3 ===== */
+let l3Loaded = false;
+let l3Idx = 0;
+const l3Data = [
+    { word:'light', s1:'She gave a <span class="l3-word-highlight">light</span> tap on the door.', s2:'Please <span class="l3-word-highlight">light</span> the candle.', a1:'adj', a2:'verb', model:'In the first sentence, "light" is an adjective because it describes the noun "tap". It tells us what kind of tap (a gentle one). In the second sentence, "light" is a verb because it shows an action. You are being asked to do something to the candle.' },
+    { word:'hard', s1:'That was a <span class="l3-word-highlight">hard</span> test.', s2:'She studied <span class="l3-word-highlight">hard</span> all night.', a1:'adj', a2:'adv', model:'In the first sentence, "hard" is an adjective because it describes the noun "test". It tells us what kind of test. In the second sentence, "hard" is an adverb because it modifies the verb "studied". It tells us how she studied.' },
+    { word:'record', s1:'The <span class="l3-word-highlight">record</span> was broken.', s2:'Did you <span class="l3-word-highlight">record</span> the song?', a1:'noun', a2:'verb', model:'In the first sentence, "record" is a noun because it names a thing (a record, such as a world record or a vinyl record). In the second sentence, "record" is a verb because it shows an action. You are asking if someone captured the song.' },
+    { word:'water', s1:'I need some <span class="l3-word-highlight">water</span>.', s2:'Please <span class="l3-word-highlight">water</span> the plants.', a1:'noun', a2:'verb', model:'In the first sentence, "water" is a noun because it names a thing (the liquid). In the second sentence, "water" is a verb because it shows an action you are being asked to perform on the plants.' },
+    { word:'early', s1:'He took an <span class="l3-word-highlight">early</span> train.', s2:'She woke up <span class="l3-word-highlight">early</span>.', a1:'adj', a2:'adv', model:'In the first sentence, "early" is an adjective because it describes the noun "train". It tells us which train. In the second sentence, "early" is an adverb because it modifies the verb "woke up". It tells us when she woke up.' },
+    { word:'well', s1:'That is a <span class="l3-word-highlight">well</span> answer.', s2:'She sings <span class="l3-word-highlight">well</span>.', a1:'adj', a2:'adv', model:'In the first sentence, "well" is an adjective because it describes the noun "answer". It tells us it is a good answer. In the second sentence, "well" is an adverb because it modifies the verb "sings". It tells us how she sings.' },
+];
+
+function initL3() {
+    l3Loaded = true; l3Idx = 0;
+    renderL3();
+}
+
+function renderL3() {
+    if (l3Idx >= l3Data.length) { finishL3(); return; }
+    const q = l3Data[l3Idx];
+    document.getElementById('l3Progress').textContent = 'Pair ' + (l3Idx+1) + ' / ' + l3Data.length;
+    let html = '<div class="l3-pair">';
+    html += '<div class="l3-sentence-card"><p>Sentence A:</p><p>' + q.s1 + '</p><select class="l3-select" id="l3selA"><option value="">Choose word class...</option><option value="noun">Noun</option><option value="verb">Verb</option><option value="adj">Adjective</option><option value="adv">Adverb</option><option value="pron">Pronoun</option><option value="conj">Conjunction</option></select></div>';
+    html += '<div class="l3-sentence-card"><p>Sentence B:</p><p>' + q.s2 + '</p><select class="l3-select" id="l3selB"><option value="">Choose word class...</option><option value="noun">Noun</option><option value="verb">Verb</option><option value="adj">Adjective</option><option value="adv">Adverb</option><option value="pron">Pronoun</option><option value="conj">Conjunction</option></select></div>';
+    html += '</div>';
+    html += '<p style="margin-top:12px;"><strong>Explain</strong> why "' + q.word + '" belongs to a different word class in each sentence:</p>';
+    html += '<textarea class="l3-explanation-area" id="l3Explain" rows="3"></textarea>';
+    html += '<div style="text-align:center; margin-top:12px;"><button class="btn-primary" onclick="submitL3()">Submit</button></div>';
+    html += '<div id="l3Fb"></div>';
+    document.getElementById('l3Container').innerHTML = html;
+}
+
+function submitL3() {
+    const q = l3Data[l3Idx];
+    const selA = document.getElementById('l3selA').value;
+    const selB = document.getElementById('l3selB').value;
+    const explain = document.getElementById('l3Explain').value.trim();
+    if (!selA || !selB) { alert('Please select a word class for both sentences.'); return; }
+    if (explain.length < 10) { alert('Please write a short explanation of why the word class changes.'); return; }
+    const correctA = selA === q.a1;
+    const correctB = selB === q.a2;
+    tracker.l3.pairs.push({ word: q.word, correctA, correctB, explanation: explain });
+    let fbHtml = '';
+    if (correctA && correctB) {
+        fbHtml += '<div class="l1-feedback correct-fb" style="margin-top:12px;">Both correct. You identified "' + q.word + '" as a ' + wcNames[q.a1].toLowerCase() + ' in Sentence A and a ' + wcNames[q.a2].toLowerCase() + ' in Sentence B.</div>';
+    } else {
+        fbHtml += '<div class="l1-feedback incorrect-fb" style="margin-top:12px;">';
+        if (!correctA) fbHtml += 'In Sentence A, "' + q.word + '" is a ' + wcNames[q.a1].toLowerCase() + ', not a ' + wcNames[selA].toLowerCase() + '. ';
+        if (!correctB) fbHtml += 'In Sentence B, "' + q.word + '" is a ' + wcNames[q.a2].toLowerCase() + ', not a ' + wcNames[selB].toLowerCase() + '.';
+        fbHtml += '</div>';
+    }
+    fbHtml += '<div class="model-response"><div class="model-label">Model Explanation</div><p>' + q.model + '</p></div>';
+    fbHtml += '<div style="text-align:center; margin-top:12px;"><button class="btn-primary" onclick="l3Idx++; renderL3();">Next Pair</button></div>';
+    document.getElementById('l3Fb').innerHTML = fbHtml;
+    // Disable inputs
+    document.getElementById('l3selA').disabled = true;
+    document.getElementById('l3selB').disabled = true;
+    document.getElementById('l3Explain').disabled = true;
+}
+
+function finishL3() {
+    document.getElementById('l3Container').innerHTML = '';
+    document.getElementById('l3Progress').style.display = 'none';
+    document.getElementById('l3Result').style.display = 'block';
+    markDone(13);
+}
+
+/* ===== GO DEEPER: TASK 1 - Find Adverbs ===== */
+let gdLoaded = false;
+const gdPassageText = 'The old fisherman sat quietly on the wooden pier, watching the waves roll steadily towards the shore. Suddenly, a large pelican swooped down extremely close to the water and snatched a fish. The fisherman laughed softly and nodded approvingly. He had always loved coming here early, especially when the harbour was still almost completely empty. Tomorrow he would return again.';
+const gdAdverbs = ['quietly','steadily','Suddenly','extremely','softly','approvingly','always','here','early','still','almost','completely','Tomorrow','again'];
+const gdAdverbTypes = {
+    'quietly':'how','steadily':'how','Suddenly':'how','extremely':'to what extent','softly':'how','approvingly':'how','always':'when','here':'where','early':'when','still':'to what extent','almost':'to what extent','completely':'to what extent','Tomorrow':'when','again':'when'
+};
+
+function initGD() {
+    gdLoaded = true;
+    renderGdPassage();
+}
+
+function renderGdPassage() {
+    // Make EVERY word a clickable span so adverbs are not visually distinguishable
+    const tokens = gdPassageText.split(/(\s+)/);
+    let html = '';
+    tokens.forEach((token) => {
+        if (/^\s+$/.test(token)) { html += token; return; }
+        // Separate trailing punctuation
+        const match = token.match(/^([A-Za-z'-]+)([.,]?)$/);
+        if (match) {
+            const word = match[1];
+            const punct = match[2];
+            const isAdverb = gdAdverbs.includes(word);
+            html += '<span class="gd-word' + (isAdverb ? ' is-adverb' : '') + '" data-word="' + word + '" onclick="toggleGdWord(this)">' + word + '</span>' + punct;
+        } else {
+            html += token;
+        }
+    });
+    document.getElementById('gdPassage').innerHTML = html;
+}
+
+function toggleGdWord(el) {
+    el.classList.toggle('selected');
+}
+
+let gdAttempts = 0;
+const gdMaxAttempts = 5;
+
+function checkGdAdverbs() {
+    gdAttempts++;
+    let found = 0; let missed = 0; let falsePositives = 0;
+
+    // Count results without locking anything yet
+    document.querySelectorAll('.gd-word').forEach(el => {
+        const isAdverb = el.classList.contains('is-adverb');
+        const wasSelected = el.classList.contains('selected');
+        const alreadyLocked = el.classList.contains('locked-correct');
+        if (alreadyLocked) { found++; return; } // already found on a previous attempt
+        if (isAdverb && wasSelected) found++;
+        else if (isAdverb && !wasSelected) missed++;
+        if (!isAdverb && wasSelected) falsePositives++;
+    });
+
+    const allFound = missed === 0;
+    const isFinalAttempt = gdAttempts >= gdMaxAttempts;
+
+    // Lock correctly found adverbs (green) and clear false positives (flash red then reset)
+    document.querySelectorAll('.gd-word').forEach(el => {
+        if (el.classList.contains('locked-correct')) return; // skip already locked
+        const isAdverb = el.classList.contains('is-adverb');
+        const wasSelected = el.classList.contains('selected');
+        if (isAdverb && wasSelected) {
+            // Correct: lock it green
+            el.classList.remove('selected');
+            el.classList.add('correct-hl', 'locked-correct');
+            el.style.cursor = 'default';
+            el.onclick = null;
+        } else if (!isAdverb && wasSelected) {
+            // False positive: flash red then reset
+            el.classList.remove('selected');
+            el.classList.add('not-adverb-selected');
+            setTimeout(() => { el.classList.remove('not-adverb-selected'); }, 1500);
+        }
+        // Missed adverbs stay clickable for the next attempt (unless final)
+    });
+
+    tracker.gd.adverbsFound = found;
+
+    if (allFound) {
+        // All adverbs found: success
+        finishGdAdverbs(found, 0, false);
+        return;
+    }
+
+    if (isFinalAttempt) {
+        // Final attempt: reveal everything
+        document.querySelectorAll('.gd-word').forEach(el => {
+            if (el.classList.contains('locked-correct')) return;
+            const isAdverb = el.classList.contains('is-adverb');
+            el.classList.remove('selected');
+            el.style.cursor = 'default';
+            el.onclick = null;
+            if (isAdverb) el.classList.add('missed');
+        });
+        finishGdAdverbs(found, missed, true);
+        return;
+    }
+
+    // More attempts remaining: give feedback and let them keep going
+    let hint = '';
+    if (falsePositives > 0) hint += ' Some words you selected are not adverbs (shown briefly in pink). Remember: adverbs modify verbs, adjectives or other adverbs.';
+    if (missed <= 3) hint += ' You are very close. Look carefully at the last two sentences.';
+    else if (missed <= 6) hint += ' Try asking yourself for each word: does it tell me how, when, where or to what extent?';
+    else hint += ' Have another careful read. Remember that many adverbs do not end in -ly.';
+
+    const remaining = gdAdverbs.length - found;
+    let resultHtml = '<div class="l1-feedback incorrect-fb" style="margin-top:12px;">';
+    resultHtml += 'You have found ' + found + ' of ' + gdAdverbs.length + ' adverbs so far. There are still ' + remaining + ' left to find.' + hint;
+    resultHtml += '</div>';
+    document.getElementById('gdAdverbResult').innerHTML = resultHtml;
+    document.getElementById('gdAdverbResult').style.display = 'block';
+    document.getElementById('gdAttemptsDisplay').textContent = 'Attempt ' + (gdAttempts + 1) + ' of ' + gdMaxAttempts;
+    document.getElementById('gdCheckBtn').textContent = 'Check Again';
+}
+
+function finishGdAdverbs(found, missed, wasFinal) {
+    document.getElementById('gdCheckBtn').style.display = 'none';
+    document.getElementById('gdAttemptsDisplay').style.display = 'none';
+    let resultHtml = '<div class="l1-feedback ' + (missed === 0 ? 'correct-fb' : 'incorrect-fb') + '" style="margin-top:12px;">';
+    if (missed === 0) {
+        resultHtml += 'You found all ' + gdAdverbs.length + ' adverbs' + (gdAttempts === 1 ? ' on your first attempt. Brilliant.' : ' in ' + gdAttempts + ' attempts. Well done.') ;
+    } else {
+        resultHtml += 'You found ' + found + ' of ' + gdAdverbs.length + ' adverbs. The ones highlighted in pink are the ones you did not find.';
+    }
+    resultHtml += '</div>';
+    resultHtml += '<div style="margin-top:12px; font-size:14px; line-height:1.8;">';
+    resultHtml += '<strong>Adverb breakdown:</strong><br>';
+    gdAdverbs.forEach(a => {
+        resultHtml += '<span class="wc-adv">' + a + '</span> <span style="color:var(--ink-light);">(' + gdAdverbTypes[a] + ')</span> &nbsp; ';
+    });
+    resultHtml += '</div>';
+    document.getElementById('gdAdverbResult').innerHTML = resultHtml;
+    document.getElementById('gdAdverbResult').style.display = 'block';
+    markDone(14);
+}
+
+/* ===== GO DEEPER: TASK 2 - Add Adverbs ===== */
+let gd2Loaded = false;
+const gdPlainPassage = 'The waves crashed on the rocks. A seagull flew over the water and landed on the sand. Two children ran across the beach. They laughed and splashed into the sea. The sun disappeared behind a cloud.';
+
+function initGD2() {
+    gd2Loaded = true;
+    // Reveal steps handled by the learn-slide click advance system
+}
+
+async function submitGdAddAdverbs() {
+    const text = document.getElementById('gdAddAdverbs').value.trim();
+    if (text.length < 40) { alert('Please write a more complete version of the passage with adverbs added.'); return; }
+    tracker.gd.rewrite = text;
+    const btn = document.getElementById('gdAddAdverbsBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Getting feedback...';
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: 'claude-sonnet-4-20250514',
+                max_tokens: 1000,
+                system: 'You are a Year 5 English writing coach. Use British English. Do not use em-dashes. The student was given this plain passage:\n\n"' + gdPlainPassage + '"\n\nThey were asked to rewrite it by adding adverbs to make it more vivid. For each adverb they added, name it and say whether it tells how, when, where, or to what extent. Praise specific good choices. If any adverb feels forced or repetitive, gently suggest a better placement or alternative. Check whether they included at least one adverb that does not end in -ly (as instructed). End with one thing they did well and one "level up" challenge. Keep feedback under 150 words. Be warm and encouraging.',
+                messages: [{ role: 'user', content: 'Here is my rewrite with adverbs added:\n\n' + text }]
+            })
+        });
+        if (!response.ok) {
+            const errText = await response.text();
+            console.error('API error:', response.status, errText);
+            throw new Error('API returned ' + response.status);
+        }
+        const data = await response.json();
+        const feedback = data.content ? data.content.map(b => b.text || '').join('') : 'Could not generate feedback.';
+        document.getElementById('gdAddFeedback').innerHTML = '<div class="ai-feedback">' + feedback.replace(/\n/g, '<br>') + '</div>';
+        document.getElementById('gdAddFeedback').style.display = 'block';
+    } catch (err) {
+        console.error('Feedback error:', err);
+        document.getElementById('gdAddFeedback').innerHTML = '<div class="l1-feedback incorrect-fb">Could not get feedback right now. Your teacher can review your writing instead.</div>';
+        document.getElementById('gdAddFeedback').style.display = 'block';
+    }
+    btn.textContent = 'Feedback received';
+    markDone(15);
+}
+
+/* ===== EXPORT ===== */
+function openExportModal() { document.getElementById('exportModal').classList.add('open'); document.getElementById('exportName').focus(); }
+function closeExportModal() { document.getElementById('exportModal').classList.remove('open'); }
+
+function doExport() {
+    const name = document.getElementById('exportName').value.trim() || 'Student';
+    closeExportModal();
+    // Build print summary
+    let html = '<div style="max-width:800px; margin:0 auto; padding:24px; font-family:Nunito,sans-serif;">';
+    html += '<h1 style="font-family:Fredoka,sans-serif; color:var(--teal);">Word Class Identifier: Summary</h1>';
+    html += '<p><strong>Name:</strong> ' + name + ' &nbsp; | &nbsp; <strong>Date:</strong> ' + new Date().toLocaleDateString('en-GB') + '</p>';
+    // L1
+    html += '<h2 style="font-family:Fredoka,sans-serif; margin-top:20px;">Level 1: Identify</h2>';
+    html += '<p>Score: ' + tracker.l1.score + ' / ' + tracker.l1.total + '</p>';
+    if (tracker.l1.answers.length) {
+        html += '<table style="width:100%; border-collapse:collapse; margin:8px 0;">';
+        html += '<tr style="background:#f0f0f0;"><th style="padding:6px; text-align:left;">Word</th><th style="padding:6px;">Your Answer</th><th style="padding:6px;">Correct</th><th style="padding:6px;">Result</th></tr>';
+        tracker.l1.answers.forEach(a => {
+            html += '<tr><td style="padding:6px;">' + a.q + '</td><td style="padding:6px; text-align:center;">' + a.guess + '</td><td style="padding:6px; text-align:center;">' + a.answer + '</td><td style="padding:6px; text-align:center;">' + (a.correct ? '&#10003;' : '&#10007;') + '</td></tr>';
+        });
+        html += '</table>';
+    }
+    // L2
+    html += '<h2 style="font-family:Fredoka,sans-serif; margin-top:20px;">Level 2: Label</h2>';
+    html += '<p>Score: ' + tracker.l2.correct + ' / ' + tracker.l2.total + ' (' + (tracker.l2.total ? Math.round(tracker.l2.correct/tracker.l2.total*100) : 0) + '%)</p>';
+    // L3
+    html += '<h2 style="font-family:Fredoka,sans-serif; margin-top:20px;">Level 3: Tricky Cases</h2>';
+    if (tracker.l3.pairs.length) {
+        tracker.l3.pairs.forEach(p => {
+            html += '<p><strong>"' + p.word + '"</strong>: Sentence A ' + (p.correctA ? '&#10003;' : '&#10007;') + ', Sentence B ' + (p.correctB ? '&#10003;' : '&#10007;') + '</p>';
+            html += '<p style="font-size:14px; color:#666; margin-left:16px;"><em>Student explanation:</em> ' + p.explanation + '</p>';
+        });
+    }
+    // GD
+    html += '<h2 style="font-family:Fredoka,sans-serif; margin-top:20px;">Go Deeper</h2>';
+    html += '<p><strong>Find Adverbs:</strong> Found ' + tracker.gd.adverbsFound + ' / ' + gdAdverbs.length + '</p>';
+    if (tracker.gd.rewrite) {
+        html += '<p><strong>Add Adverbs (rewrite):</strong></p><p style="background:#f9f9f9; padding:12px; border-radius:8px; white-space:pre-wrap;">' + tracker.gd.rewrite + '</p>';
+    }
+    html += '</div>';
+    document.getElementById('printSummary').innerHTML = html;
+    setTimeout(() => window.print(), 300);
+}
+
+/* ===== INIT ===== */
+// Start with sidebar open on desktop, collapsed on mobile
+if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.add('collapsed');
+    document.getElementById('mainContent').classList.add('expanded');
+}
+</script>
+</body>
+</html>
