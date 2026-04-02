@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wild Robot — Book vs. Film Comparative Analysis</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap');
+
+  :root {
+    --forest-deep: #1a3a2a;
+    --forest-mid: #2d5a3f;
+    --forest-light: #4a8c6a;
+    --leaf-green: #6abf7b;
+    --leaf-bright: #8fd9a0;
+    --sky-blue: #7ec8e3;
+    --sky-light: #b8e4f0;
+    --sunset-orange: #e8945a;
+    --sunset-warm: #f0b87a;
+    --berry-pink: #d4687a;
+    --rock-grey: #8a9bae;
+    --sand: #f5eed6;
+    --cream: #faf8f0;
+    --white: #ffffff;
+    --text-dark: #1a2a1e;
+    --text-mid: #3a4a3e;
+    --text-light: #6a7a6e;
+    --book-colour: #5b8a72;
+    --film-colour: #6a8fc7;
+    --both-colour: #c4883d;
+    --card-shadow: 0 4px 20px rgba(26, 58, 42, 0.12);
+    --card-hover: 0 8px 32px rgba(26, 58, 42, 0.18);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, var(--forest-deep) 0%, var(--forest-mid) 50%, var(--forest-light) 100%);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(circle at 15% 80%, rgba(106, 191, 123, 0.2) 0%, transparent 50%),
+      radial-gradient(circle at 85% 20%, rgba(126, 200, 227, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .header-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+
+  .header h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.5px;
+  }
+
+  .header .subtitle {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--leaf-bright);
+    margin-bottom: 0.75rem;
+  }
+
+  .header .instructions {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .names-bar {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .names-bar label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--leaf-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .names-bar input {
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    padding: 0.4rem 0.75rem;
+    color: var(--white);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    width: 160px;
+    transition: border-color 0.2s;
+  }
+
+  .names-bar input::placeholder { color: rgba(255,255,255,0.4); }
+  .names-bar input:focus { outline: none; border-color: var(--leaf-bright); background: rgba(255,255,255,0.2); }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-container {
+    background: var(--white);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(26, 58, 42, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .progress-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .progress-label {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--forest-mid);
+    white-space: nowrap;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 10px;
+    background: var(--sand);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--forest-light), var(--leaf-green));
+    border-radius: 5px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  .progress-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-light);
+    white-space: nowrap;
+  }
+
+  /* ===== NAV TABS ===== */
+  .nav-tabs {
+    max-width: 860px;
+    margin: 1.5rem auto 0;
+    padding: 0 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav-tab {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    border: 2px solid transparent;
+    background: var(--white);
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .nav-tab:hover { transform: translateY(-1px); box-shadow: var(--card-shadow); }
+  .nav-tab.active { background: var(--forest-mid); color: var(--white); border-color: var(--forest-mid); }
+  .nav-tab .tab-icon { font-size: 1rem; }
+  .nav-tab .tab-check { display: none; font-size: 0.75rem; }
+  .nav-tab.completed .tab-check { display: inline; }
+
+  /* ===== MAIN CONTENT ===== */
+  .main-content {
+    max-width: 860px;
+    margin: 1.5rem auto 2rem;
+    padding: 0 1rem;
+  }
+
+  /* ===== SECTION PANELS ===== */
+  .section-panel {
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+
+  .section-panel.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--card-shadow);
+    border-left: 5px solid var(--forest-light);
+  }
+
+  .section-header h2 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--forest-deep);
+    margin-bottom: 0.25rem;
+  }
+
+  .section-header .section-desc {
+    font-size: 0.9rem;
+    color: var(--text-mid);
+  }
+
+  /* ===== FILM TERM BADGE ===== */
+  .film-term-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: linear-gradient(135deg, var(--film-colour), #5a7fb7);
+    color: var(--white);
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    margin: 0.25rem 0.15rem;
+    cursor: help;
+    position: relative;
+    transition: transform 0.15s;
+  }
+
+  .film-term-badge:hover { transform: scale(1.05); }
+
+  .film-term-badge .term-icon { font-size: 0.8rem; }
+
+  .term-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--forest-deep);
+    color: var(--white);
+    padding: 0.6rem 0.8rem;
+    border-radius: var(--radius-sm);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    width: 240px;
+    text-align: left;
+    z-index: 200;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    line-height: 1.4;
+  }
+
+  .term-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--forest-deep);
+  }
+
+  .film-term-badge:hover .term-tooltip { display: block; }
+
+  /* ===== ACTIVITY CARDS ===== */
+  .activity-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.25s;
+  }
+
+  .activity-card:hover { box-shadow: var(--card-hover); }
+
+  .activity-card h3 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--forest-deep);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .activity-card .prompt {
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    margin-bottom: 0.75rem;
+    padding: 0.6rem 0.8rem;
+    background: var(--sand);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--sunset-orange);
+  }
+
+  .activity-card .hint {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-style: italic;
+    margin-bottom: 0.6rem;
+  }
+
+  /* ===== TEXT AREAS ===== */
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.75rem;
+    border: 2px solid #e0e8e2;
+    border-radius: var(--radius-sm);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    resize: vertical;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    line-height: 1.5;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--forest-light);
+    box-shadow: 0 0 0 3px rgba(74, 140, 106, 0.15);
+  }
+
+  textarea::placeholder { color: #b0bab2; }
+
+  /* ===== SORTING ACTIVITY ===== */
+  .sort-zone {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .sort-column {
+    flex: 1;
+    min-width: 160px;
+    background: var(--sand);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem;
+    min-height: 120px;
+  }
+
+  .sort-column h4 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 0.4rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+  }
+
+  .sort-column.book-col h4 { background: var(--book-colour); }
+  .sort-column.film-col h4 { background: var(--film-colour); }
+  .sort-column.both-col h4 { background: var(--both-colour); }
+
+  .sort-items-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: var(--white);
+    border: 2px dashed #d0d8d2;
+    border-radius: var(--radius-sm);
+    min-height: 50px;
+  }
+
+  .sort-item {
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.7rem;
+    border-radius: 20px;
+    cursor: grab;
+    user-select: none;
+    transition: all 0.2s;
+    background: var(--white);
+    border: 2px solid #d0d8d2;
+    color: var(--text-dark);
+  }
+
+  .sort-item:hover { transform: scale(1.04); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .sort-item:active { cursor: grabbing; }
+  .sort-item.placed { opacity: 0.85; }
+  .sort-item.in-book { border-color: var(--book-colour); background: rgba(91,138,114,0.1); }
+  .sort-item.in-film { border-color: var(--film-colour); background: rgba(106,143,199,0.1); }
+  .sort-item.in-both { border-color: var(--both-colour); background: rgba(196,136,61,0.1); }
+
+  .drop-zone {
+    min-height: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .drop-zone.drag-over {
+    background: rgba(106, 191, 123, 0.15);
+    border-radius: 8px;
+  }
+
+  /* ===== DIRECTOR'S CHAIR ===== */
+  .director-choice {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .choice-btn {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    border: 2.5px solid #d0d8d2;
+    background: var(--white);
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .choice-btn:hover { border-color: var(--forest-light); color: var(--forest-deep); }
+
+  .choice-btn.selected {
+    border-color: var(--forest-mid);
+    background: var(--forest-mid);
+    color: var(--white);
+  }
+
+  /* ===== TERM COLLECTION ===== */
+  .terms-collected {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--card-shadow);
+    border-top: 4px solid var(--film-colour);
+  }
+
+  .terms-collected h3 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--film-colour);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .terms-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .term-collected {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 15px;
+    background: var(--sky-light);
+    color: var(--forest-deep);
+    opacity: 0.35;
+    transition: opacity 0.3s;
+  }
+
+  .term-collected.unlocked { opacity: 1; background: linear-gradient(135deg, var(--sky-light), var(--leaf-bright)); }
+
+  /* ===== NAVIGATION BUTTONS ===== */
+  .nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    gap: 1rem;
+  }
+
+  .nav-btn {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.65rem 1.5rem;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .nav-btn.prev {
+    background: var(--white);
+    color: var(--forest-mid);
+    border: 2.5px solid var(--forest-mid);
+  }
+
+  .nav-btn.prev:hover { background: var(--forest-mid); color: var(--white); }
+
+  .nav-btn.next {
+    background: var(--forest-mid);
+    color: var(--white);
+    margin-left: auto;
+  }
+
+  .nav-btn.next:hover { background: var(--forest-deep); transform: translateY(-1px); }
+
+  .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+  /* ===== PDF EXPORT ===== */
+  .export-btn {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    border: none;
+    background: linear-gradient(135deg, var(--sunset-orange), var(--berry-pink));
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 2rem auto;
+    box-shadow: 0 4px 16px rgba(232, 148, 90, 0.35);
+  }
+
+  .export-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(232, 148, 90, 0.45); }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.75rem;
+    color: var(--text-light);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.6rem; }
+    .names-bar { flex-direction: column; gap: 0.5rem; }
+    .names-bar input { width: 100%; }
+    .nav-tabs { gap: 0.35rem; }
+    .nav-tab { font-size: 0.75rem; padding: 0.4rem 0.75rem; }
+    .sort-zone { flex-direction: column; }
+    .activity-card { padding: 1rem; }
+  }
+
+  /* ===== PRINT STYLES ===== */
+  @media print {
+    body { background: white; font-size: 11pt; }
+    .progress-container, .nav-tabs, .nav-buttons, .export-btn, .footer, .film-term-badge .term-tooltip { display: none !important; }
+    .section-panel { display: block !important; page-break-inside: avoid; margin-bottom: 1rem; }
+    .activity-card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+    textarea { border: 1px solid #ccc; min-height: 60px; }
+    .header { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-content">
+    <h1>🤖 The Wild Robot</h1>
+    <div class="subtitle">Book vs. Film &mdash; Comparative Analysis</div>
+    <div class="instructions">
+      Work through each section with your partner. Discuss each question together before writing your responses. Hover over the blue badges to learn filmmaking terms!
+    </div>
+    <div class="names-bar">
+      <label>Partner 1</label>
+      <input type="text" id="name1" placeholder="First name">
+      <label>Partner 2</label>
+      <input type="text" id="name2" placeholder="First name">
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-container">
+  <div class="progress-inner">
+    <span class="progress-label">Progress</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-text" id="progressText">0 / 6 sections</span>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs" id="navTabs"></div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content" id="mainContent"></div>
+
+<!-- EXPORT BUTTON -->
+<button class="export-btn" onclick="exportPDF()">
+  📄 Save Our Work as PDF
+</button>
+
+<!-- FILM TERMS COLLECTION -->
+<div class="main-content">
+  <div class="terms-collected">
+    <h3>🎬 Film Terms Collected</h3>
+    <div class="terms-grid" id="termsGrid"></div>
+  </div>
+</div>
+
+<div class="footer">
+  The Wild Robot &mdash; Comparative Analysis Activity &bull; Year 5
+</div>
+
+<script>
+// ===== DATA =====
+const filmTerms = {
+  adaptation: { term: "Adaptation", def: "When a story is changed from one form (like a book) to another (like a film). The filmmakers must decide what to keep, change, or leave out." },
+  screenplay: { term: "Screenplay", def: "The written script for a film. A screenwriter takes the author's story and rewrites it with dialogue, action descriptions, and scene directions." },
+  voiceacting: { term: "Voice Acting", def: "When actors use only their voice to bring animated characters to life. They add personality, emotion, and feeling without being seen on screen." },
+  score: { term: "Score / Soundtrack", def: "The music created specially for a film. It sets the mood and helps the audience feel emotions like tension, joy, or sadness." },
+  montage: { term: "Montage", def: "A sequence of short scenes edited together quickly to show time passing or a series of events, often set to music." },
+  closeup: { term: "Close-up Shot", def: "When the camera zooms in very close to a character's face or an object. It helps the audience notice details or emotions." },
+  wideshot: { term: "Wide Shot", def: "A camera shot that shows the full setting or landscape. It helps the audience understand where the action is taking place." },
+  pacing: { term: "Pacing", def: "How fast or slow a story moves. Films often have faster pacing than books because they have a limited running time." },
+  artisticlicence: { term: "Artistic Licence", def: "When a creator deliberately changes facts or details from the original to make their version work better. It is a creative choice, not a mistake." },
+  characterisation: { term: "Characterisation", def: "How an author or filmmaker shows us what a character is like, through their words, actions, appearance, and choices." },
+  narrativearc: { term: "Narrative Arc", def: "The shape of a story from beginning to end, including the introduction, rising action, climax, falling action, and resolution." },
+  visualstorytelling: { term: "Visual Storytelling", def: "Telling a story through images, colours, lighting, and movement rather than through words. Films do this instead of description." }
+};
+
+const sections = [
+  {
+    id: "characters",
+    title: "Characters",
+    icon: "🦊",
+    desc: "How are the characters different in the book and the film? Think about who was added, who was changed, and how characters are shown.",
+    terms: ["voiceacting", "characterisation"],
+    activities: [
+      {
+        type: "sort",
+        title: "🔀 Character Sort",
+        prompt: "Drag each character detail into the correct column. Does it happen in the Book, the Film, or Both?",
+        items: [
+          { text: "Roz learns to speak animal languages one at a time", answer: "book" },
+          { text: "Brightbill is raised by Roz from an egg", answer: "both" },
+          { text: "Fink the fox is a main character and Roz's friend", answer: "film" },
+          { text: "Roz is feared by most animals at first", answer: "both" },
+          { text: "Brightbill feels embarrassed about having a robot mother", answer: "both" },
+          { text: "Fink starts as selfish but learns loyalty", answer: "film" },
+          { text: "Pinktail the mouse helps Roz learn about nature", answer: "film" },
+          { text: "Roz observes and copies animal behaviour to survive", answer: "book" },
+          { text: "Brightbill is taught to fly by other geese", answer: "both" },
+          { text: "Vontra is a villain robot sent to retrieve Roz", answer: "film" }
+        ]
+      },
+      {
+        type: "text",
+        title: "💬 Discuss and Write",
+        prompt: "In the book, Roz learns to fit in slowly by watching and copying. In the film, she has Fink to help her. How does adding Fink change the way Roz's story feels? Which approach did you prefer and why?",
+        hint: "Think about the film terms: voice acting helps bring Fink's humour to life, and characterisation is how we learn about who a character really is."
+      }
+    ]
+  },
+  {
+    id: "setting",
+    title: "Setting & Mood",
+    icon: "🏝️",
+    desc: "The island comes to life differently in words and on screen. How do the book and film create a sense of place?",
+    terms: ["wideshot", "score", "visualstorytelling"],
+    activities: [
+      {
+        type: "text",
+        title: "🎨 Painting the Island",
+        prompt: "In the book, Peter Brown uses short, simple descriptions and black-and-white illustrations. The film uses colour, light, music, and movement to show the island. Which version of the island felt more real or alive to you? Why?",
+        hint: "Think about wide shots (showing the whole landscape), the score (background music), and visual storytelling (showing instead of telling)."
+      },
+      {
+        type: "text",
+        title: "🌧️ Mood Moments",
+        prompt: "Choose one moment from the story (for example, the storm, Roz's first morning on the island, or the migration scene). How does the book create a mood for that moment using words? How does the film create a mood using visuals and music? Compare the two.",
+        hint: "Be specific! What do you see, hear, or feel in each version?"
+      }
+    ]
+  },
+  {
+    id: "plot",
+    title: "Plot Changes",
+    icon: "🔄",
+    desc: "The filmmakers changed some parts of the story when they adapted it. Let's investigate why.",
+    terms: ["adaptation", "screenplay", "pacing", "artisticlicence"],
+    activities: [
+      {
+        type: "sort",
+        title: "🔀 Plot Sort",
+        prompt: "Sort these plot points into Book Only, Film Only, or Both.",
+        items: [
+          { text: "Roz arrives on the island after her crate washes ashore", answer: "both" },
+          { text: "Roz accidentally crushes a goose nest saving one egg", answer: "both" },
+          { text: "A villain robot (Vontra) comes to bring Roz back", answer: "film" },
+          { text: "The animals must defend the island from RECO robots", answer: "both" },
+          { text: "Roz helps the animals prepare for a harsh winter", answer: "book" },
+          { text: "Roz and Fink go on a journey to find Brightbill", answer: "film" },
+          { text: "Roz is deactivated and shipped back to the factory", answer: "book" },
+          { text: "Roz chooses to leave the island to protect it", answer: "film" },
+          { text: "Brightbill migrates south with the geese", answer: "both" },
+          { text: "The film ends on a hopeful note suggesting a sequel", answer: "film" }
+        ]
+      },
+      {
+        type: "director",
+        title: "🎬 The Director's Chair",
+        prompt: "Imagine you are the director. The book has a sad ending where Roz is forcefully taken from the island. The film changes this so Roz chooses to leave to protect everyone. If you were making this film for families, which ending would you choose?",
+        choices: ["Keep the book's ending", "Use the film's ending", "Create a different ending"],
+        followup: "Explain your choice. Why would this work best for a family audience? What would be gained or lost?"
+      }
+    ]
+  },
+  {
+    id: "themes",
+    title: "Themes & Messages",
+    icon: "💡",
+    desc: "Both the book and film explore big ideas, but they sometimes focus on different things.",
+    terms: ["narrativearc"],
+    activities: [
+      {
+        type: "text",
+        title: "🌱 Big Ideas",
+        prompt: "Both versions explore the theme of belonging, but they do it differently. In the book, Roz slowly earns acceptance from the animals through patience and hard work. In the film, Roz forms close friendships more quickly (especially with Fink). Which version tells a more powerful story about belonging? Why?",
+        hint: "Think about the narrative arc: the shape of how the belonging story builds from start to finish."
+      },
+      {
+        type: "text",
+        title: "🤖 What Makes Us 'Alive'?",
+        prompt: "Both the book and film ask us to think about whether a robot can truly be alive. What moments in the book make you think about this? What moments in the film? Does the film or the book do a better job of making you care about this question?",
+        hint: "Think about specific scenes. Remember, the film can use facial expressions, music, and visual storytelling to show emotion."
+      }
+    ]
+  },
+  {
+    id: "storytelling",
+    title: "Storytelling Techniques",
+    icon: "📖",
+    desc: "Authors and filmmakers use different tools to tell stories. Let's compare their toolkits.",
+    terms: ["montage", "closeup"],
+    activities: [
+      {
+        type: "text",
+        title: "🔧 The Storyteller's Toolkit",
+        prompt: "An author uses words, sentences, chapters, and sometimes illustrations. A filmmaker uses camera angles, editing, voice acting, music, colour, and movement. Pick one scene that appears in both the book and the film. How does each storyteller use their tools to tell that scene? Which toolkit told it better for that particular moment?",
+        hint: "Think about montages (quick sequences showing time passing) and close-up shots (zooming in on faces for emotion)."
+      },
+      {
+        type: "text",
+        title: "⏱️ The Time Problem",
+        prompt: "The book has 279 pages spread across many short chapters. The film is about 100 minutes long. The filmmakers had to fit a whole book into less than two hours. What did they have to cut, combine, or speed up? Did this make the story better or worse? Give an example.",
+        hint: "This is called pacing. Films almost always move faster than books. Was anything important lost?"
+      }
+    ]
+  },
+  {
+    id: "verdict",
+    title: "Your Verdict",
+    icon: "⭐",
+    desc: "Time to share your final thoughts! There are no wrong answers here, just well-supported opinions.",
+    terms: [],
+    activities: [
+      {
+        type: "director",
+        title: "🏆 Book or Film?",
+        prompt: "Overall, which version of The Wild Robot did you enjoy more?",
+        choices: ["The Book", "The Film", "Both Equally"],
+        followup: "Give at least two reasons for your choice. Try to use some of the film terms you have learnt today!"
+      },
+      {
+        type: "text",
+        title: "💌 A Message to the Creators",
+        prompt: "Write a short message to either Peter Brown (the author) or Chris Sanders (the film director). Tell them one thing they did brilliantly in their version and one thing you think the other version did better. Be respectful and specific!",
+        hint: "Great critics are honest but kind. Explain your thinking."
+      }
+    ]
+  }
+];
+
+// ===== STATE =====
+let currentSection = 0;
+let responses = {};
+let sortStates = {};
+let unlockedTerms = new Set();
+
+// ===== INIT =====
+function init() {
+  buildNavTabs();
+  buildSections();
+  buildTermsGrid();
+  showSection(0);
+  updateProgress();
+}
+
+function buildNavTabs() {
+  const container = document.getElementById('navTabs');
+  container.innerHTML = sections.map((s, i) => `
+    <button class="nav-tab" data-idx="${i}" onclick="showSection(${i})">
+      <span class="tab-icon">${s.icon}</span>
+      ${s.title}
+      <span class="tab-check">✓</span>
+    </button>
+  `).join('');
+}
+
+function buildSections() {
+  const container = document.getElementById('mainContent');
+  container.innerHTML = sections.map((s, i) => {
+    const termsHTML = s.terms.map(t => {
+      const ft = filmTerms[t];
+      return `<span class="film-term-badge" data-term="${t}" onmouseenter="unlockTerm('${t}')">
+        <span class="term-icon">🎬</span> ${ft.term}
+        <span class="term-tooltip">${ft.def}</span>
+      </span>`;
+    }).join(' ');
+
+    const activitiesHTML = s.activities.map((a, ai) => {
+      const key = `${s.id}-${ai}`;
+      if (a.type === 'text') {
+        return buildTextActivity(a, key, termsHTML && ai === 0 ? termsHTML : '');
+      } else if (a.type === 'sort') {
+        return buildSortActivity(a, key, s.id, ai);
+      } else if (a.type === 'director') {
+        return buildDirectorActivity(a, key);
+      }
+      return '';
+    }).join('');
+
+    return `
+      <div class="section-panel" id="section-${i}">
+        <div class="section-header">
+          <h2>${s.icon} ${s.title}</h2>
+          <div class="section-desc">${s.desc}</div>
+          ${s.terms.length ? '<div style="margin-top: 0.5rem;">Film terms in this section: ' + s.terms.map(t => `<span class="film-term-badge" data-term="${t}" onmouseenter="unlockTerm('${t}')"><span class="term-icon">🎬</span> ${filmTerms[t].term}<span class="term-tooltip">${filmTerms[t].def}</span></span>`).join(' ') + '</div>' : ''}
+        </div>
+        ${activitiesHTML}
+        <div class="nav-buttons">
+          <button class="nav-btn prev" onclick="showSection(${i - 1})" ${i === 0 ? 'disabled' : ''}>← Previous</button>
+          <button class="nav-btn next" onclick="showSection(${i + 1})" ${i === sections.length - 1 ? 'disabled' : ''}>Next →</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function buildTextActivity(a, key) {
+  return `
+    <div class="activity-card">
+      <h3>${a.title}</h3>
+      <div class="prompt">${a.prompt}</div>
+      ${a.hint ? `<div class="hint">💡 ${a.hint}</div>` : ''}
+      <textarea id="${key}" placeholder="Write your response here..." oninput="saveResponse('${key}', this.value)">${responses[key] || ''}</textarea>
+    </div>
+  `;
+}
+
+function buildSortActivity(a, key, sectionId, actIdx) {
+  const stateKey = `sort-${sectionId}-${actIdx}`;
+  if (!sortStates[stateKey]) {
+    sortStates[stateKey] = {};
+    a.items.forEach((item, idx) => {
+      sortStates[stateKey][idx] = 'bank';
+    });
+  }
+
+  const bankItems = [];
+  const bookItems = [];
+  const filmItems = [];
+  const bothItems = [];
+
+  a.items.forEach((item, idx) => {
+    const placement = sortStates[stateKey][idx];
+    const el = `<div class="sort-item ${placement !== 'bank' ? 'placed in-' + placement : ''}" 
+      draggable="true" 
+      data-sort-key="${stateKey}" 
+      data-item-idx="${idx}"
+      ondragstart="onDragStart(event)">${item.text}</div>`;
+    if (placement === 'bank') bankItems.push(el);
+    else if (placement === 'book') bookItems.push(el);
+    else if (placement === 'film') filmItems.push(el);
+    else if (placement === 'both') bothItems.push(el);
+  });
+
+  return `
+    <div class="activity-card">
+      <h3>${a.title}</h3>
+      <div class="prompt">${a.prompt}</div>
+      <div class="sort-items-bank" data-sort-key="${stateKey}" data-col="bank"
+        ondragover="onDragOver(event)" ondrop="onDrop(event)" ondragleave="onDragLeave(event)">
+        ${bankItems.join('')}
+      </div>
+      <div class="sort-zone">
+        <div class="sort-column book-col">
+          <h4>📗 Book Only</h4>
+          <div class="drop-zone" data-sort-key="${stateKey}" data-col="book"
+            ondragover="onDragOver(event)" ondrop="onDrop(event)" ondragleave="onDragLeave(event)">
+            ${bookItems.join('')}
+          </div>
+        </div>
+        <div class="sort-column film-col">
+          <h4>🎬 Film Only</h4>
+          <div class="drop-zone" data-sort-key="${stateKey}" data-col="film"
+            ondragover="onDragOver(event)" ondrop="onDrop(event)" ondragleave="onDragLeave(event)">
+            ${filmItems.join('')}
+          </div>
+        </div>
+        <div class="sort-column both-col">
+          <h4>📗🎬 Both</h4>
+          <div class="drop-zone" data-sort-key="${stateKey}" data-col="both"
+            ondragover="onDragOver(event)" ondrop="onDrop(event)" ondragleave="onDragLeave(event)">
+            ${bothItems.join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function buildDirectorActivity(a, key) {
+  return `
+    <div class="activity-card">
+      <h3>${a.title}</h3>
+      <div class="prompt">${a.prompt}</div>
+      <div class="director-choice" id="choice-${key}">
+        ${a.choices.map((c, ci) => `
+          <button class="choice-btn" onclick="selectChoice('${key}', ${ci}, this)">${c}</button>
+        `).join('')}
+      </div>
+      <div class="hint">💡 ${a.followup}</div>
+      <textarea id="${key}" placeholder="Explain your choice..." oninput="saveResponse('${key}', this.value)">${responses[key] || ''}</textarea>
+    </div>
+  `;
+}
+
+function buildTermsGrid() {
+  const grid = document.getElementById('termsGrid');
+  grid.innerHTML = Object.keys(filmTerms).map(k => `
+    <span class="term-collected" id="tc-${k}">${filmTerms[k].term}</span>
+  `).join('');
+}
+
+// ===== INTERACTIONS =====
+function showSection(idx) {
+  if (idx < 0 || idx >= sections.length) return;
+  currentSection = idx;
+  document.querySelectorAll('.section-panel').forEach((p, i) => {
+    p.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.nav-tab').forEach((t, i) => {
+    t.classList.toggle('active', i === idx);
+  });
+  window.scrollTo({ top: 200, behavior: 'smooth' });
+}
+
+function saveResponse(key, value) {
+  responses[key] = value;
+  updateProgress();
+}
+
+function selectChoice(key, choiceIdx, btn) {
+  const container = btn.parentElement;
+  container.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  responses[key + '-choice'] = btn.textContent;
+  updateProgress();
+}
+
+function unlockTerm(termKey) {
+  unlockedTerms.add(termKey);
+  const el = document.getElementById('tc-' + termKey);
+  if (el) el.classList.add('unlocked');
+}
+
+// ===== DRAG AND DROP =====
+let dragData = null;
+
+function onDragStart(e) {
+  dragData = {
+    sortKey: e.target.dataset.sortKey,
+    itemIdx: parseInt(e.target.dataset.itemIdx)
+  };
+  e.target.style.opacity = '0.5';
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function onDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  const zone = e.currentTarget;
+  zone.classList.add('drag-over');
+}
+
+function onDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over');
+}
+
+function onDrop(e) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!dragData) return;
+  
+  const targetCol = e.currentTarget.dataset.col;
+  const sortKey = dragData.sortKey;
+  
+  if (e.currentTarget.dataset.sortKey !== sortKey) return;
+  
+  sortStates[sortKey][dragData.itemIdx] = targetCol;
+  dragData = null;
+  
+  rebuildSortUI(sortKey);
+  updateProgress();
+}
+
+function rebuildSortUI(sortKey) {
+  // Find the section and activity index from sortKey
+  const parts = sortKey.split('-');
+  const sectionId = parts[1];
+  const actIdx = parseInt(parts[2]);
+  
+  const sectionIdx = sections.findIndex(s => s.id === sectionId);
+  if (sectionIdx === -1) return;
+  
+  const a = sections[sectionIdx].activities[actIdx];
+  
+  // Rebuild bank
+  const bankEl = document.querySelector(`.sort-items-bank[data-sort-key="${sortKey}"]`);
+  const zones = document.querySelectorAll(`.drop-zone[data-sort-key="${sortKey}"]`);
+  
+  if (!bankEl) return;
+  
+  const cols = { bank: bankEl };
+  zones.forEach(z => { cols[z.dataset.col] = z; });
+  
+  Object.values(cols).forEach(c => { c.innerHTML = ''; });
+  
+  a.items.forEach((item, idx) => {
+    const placement = sortStates[sortKey][idx];
+    const div = document.createElement('div');
+    div.className = `sort-item ${placement !== 'bank' ? 'placed in-' + placement : ''}`;
+    div.draggable = true;
+    div.dataset.sortKey = sortKey;
+    div.dataset.itemIdx = idx;
+    div.textContent = item.text;
+    div.ondragstart = onDragStart;
+    
+    if (cols[placement]) {
+      cols[placement].appendChild(div);
+    }
+  });
+}
+
+// ===== PROGRESS =====
+function updateProgress() {
+  let totalFields = 0;
+  let filledFields = 0;
+  
+  const sectionCompletion = sections.map((s, si) => {
+    let sTotal = 0;
+    let sFilled = 0;
+    
+    s.activities.forEach((a, ai) => {
+      const key = `${s.id}-${ai}`;
+      if (a.type === 'text') {
+        sTotal++;
+        if (responses[key] && responses[key].trim().length > 10) sFilled++;
+      } else if (a.type === 'director') {
+        sTotal += 2;
+        if (responses[key + '-choice']) sFilled++;
+        if (responses[key] && responses[key].trim().length > 10) sFilled++;
+      } else if (a.type === 'sort') {
+        sTotal++;
+        const stateKey = `sort-${s.id}-${ai}`;
+        const state = sortStates[stateKey];
+        if (state) {
+          const placed = Object.values(state).filter(v => v !== 'bank').length;
+          if (placed === a.items.length) sFilled++;
+        }
+      }
+    });
+    
+    totalFields += sTotal;
+    filledFields += sFilled;
+    return sFilled >= sTotal;
+  });
+  
+  // Update progress bar
+  const pct = totalFields > 0 ? Math.round((filledFields / totalFields) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  
+  const completed = sectionCompletion.filter(Boolean).length;
+  document.getElementById('progressText').textContent = `${completed} / ${sections.length} sections`;
+  
+  // Update tab checkmarks
+  document.querySelectorAll('.nav-tab').forEach((tab, i) => {
+    tab.classList.toggle('completed', sectionCompletion[i]);
+  });
+}
+
+// ===== PDF EXPORT =====
+function exportPDF() {
+  const name1 = document.getElementById('name1').value || 'Partner 1';
+  const name2 = document.getElementById('name2').value || 'Partner 2';
+  
+  let html = `
+    <html><head><meta charset="UTF-8">
+    <style>
+      body { font-family: Georgia, 'Times New Roman', serif; font-size: 11pt; color: #1a2a1e; margin: 2cm; line-height: 1.6; }
+      h1 { font-size: 18pt; color: #1a3a2a; margin-bottom: 2px; }
+      h2 { font-size: 14pt; color: #2d5a3f; margin-top: 18pt; border-bottom: 2px solid #4a8c6a; padding-bottom: 4px; }
+      h3 { font-size: 11pt; color: #1a3a2a; margin-top: 12pt; }
+      .meta { font-size: 10pt; color: #6a7a6e; margin-bottom: 12pt; }
+      .prompt { background: #f5eed6; padding: 8px 10px; border-left: 3px solid #e8945a; margin: 6px 0; font-style: italic; font-size: 10pt; }
+      .response { padding: 6px 0; white-space: pre-wrap; }
+      .empty { color: #b0bab2; font-style: italic; }
+      .sort-result { margin: 4px 0; }
+      .sort-label { font-weight: bold; font-size: 10pt; }
+      .sort-items { font-size: 10pt; margin-left: 12px; }
+      .terms-section { margin-top: 18pt; padding: 10px; background: #f0f5ff; border-radius: 6px; }
+      .terms-section h2 { border-bottom-color: #6a8fc7; color: #6a8fc7; }
+      .term-def { font-size: 10pt; margin-bottom: 6px; }
+      .term-name { font-weight: bold; }
+      .choice { font-weight: bold; color: #2d5a3f; }
+      @media print { body { margin: 1.5cm; } }
+    </style></head><body>
+    <h1>🤖 The Wild Robot: Book vs. Film</h1>
+    <div class="meta">${name1} &amp; ${name2} | Comparative Analysis</div>
+  `;
+  
+  sections.forEach((s, si) => {
+    html += `<h2>${s.icon} ${s.title}</h2>`;
+    
+    s.activities.forEach((a, ai) => {
+      const key = `${s.id}-${ai}`;
+      html += `<h3>${a.title.replace(/[\u{1F000}-\u{1FFFF}]/gu, '').trim()}</h3>`;
+      html += `<div class="prompt">${a.prompt}</div>`;
+      
+      if (a.type === 'sort') {
+        const stateKey = `sort-${s.id}-${ai}`;
+        const state = sortStates[stateKey] || {};
+        const book = [], film = [], both = [], unplaced = [];
+        
+        a.items.forEach((item, idx) => {
+          const p = state[idx] || 'bank';
+          if (p === 'book') book.push(item.text);
+          else if (p === 'film') film.push(item.text);
+          else if (p === 'both') both.push(item.text);
+          else unplaced.push(item.text);
+        });
+        
+        if (book.length) html += `<div class="sort-result"><span class="sort-label">📗 Book Only:</span><div class="sort-items">${book.map(t => '• ' + t).join('<br>')}</div></div>`;
+        if (film.length) html += `<div class="sort-result"><span class="sort-label">🎬 Film Only:</span><div class="sort-items">${film.map(t => '• ' + t).join('<br>')}</div></div>`;
+        if (both.length) html += `<div class="sort-result"><span class="sort-label">📗🎬 Both:</span><div class="sort-items">${both.map(t => '• ' + t).join('<br>')}</div></div>`;
+        if (unplaced.length) html += `<div class="sort-result"><span class="sort-label">Not sorted:</span><div class="sort-items">${unplaced.map(t => '• ' + t).join('<br>')}</div></div>`;
+      }
+      
+      if (a.type === 'director') {
+        const choice = responses[key + '-choice'];
+        html += choice ? `<div class="choice">Choice: ${choice}</div>` : `<div class="empty">No choice selected</div>`;
+      }
+      
+      if (a.type === 'text' || a.type === 'director') {
+        const val = responses[key];
+        html += val && val.trim() ? `<div class="response">${val.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>` : `<div class="empty">No response written</div>`;
+      }
+    });
+  });
+  
+  // Film terms
+  html += `<div class="terms-section"><h2>🎬 Film Terms Learnt</h2>`;
+  Object.keys(filmTerms).forEach(k => {
+    if (unlockedTerms.has(k)) {
+      html += `<div class="term-def"><span class="term-name">${filmTerms[k].term}:</span> ${filmTerms[k].def}</div>`;
+    }
+  });
+  if (unlockedTerms.size === 0) html += `<div class="empty">No terms explored yet.</div>`;
+  html += `</div></body></html>`;
+  
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(html);
+  printWindow.document.close();
+  setTimeout(() => { printWindow.print(); }, 500);
+}
+
+// ===== TOUCH SUPPORT =====
+let touchDrag = null;
+let touchClone = null;
+
+document.addEventListener('touchstart', function(e) {
+  const item = e.target.closest('.sort-item');
+  if (!item) return;
+  
+  touchDrag = {
+    sortKey: item.dataset.sortKey,
+    itemIdx: parseInt(item.dataset.itemIdx),
+    el: item
+  };
+  
+  touchClone = item.cloneNode(true);
+  touchClone.style.position = 'fixed';
+  touchClone.style.zIndex = '1000';
+  touchClone.style.opacity = '0.8';
+  touchClone.style.pointerEvents = 'none';
+  touchClone.style.transform = 'scale(1.05)';
+  document.body.appendChild(touchClone);
+  
+  const touch = e.touches[0];
+  touchClone.style.left = (touch.clientX - 50) + 'px';
+  touchClone.style.top = (touch.clientY - 20) + 'px';
+  
+  item.style.opacity = '0.3';
+}, { passive: true });
+
+document.addEventListener('touchmove', function(e) {
+  if (!touchClone) return;
+  const touch = e.touches[0];
+  touchClone.style.left = (touch.clientX - 50) + 'px';
+  touchClone.style.top = (touch.clientY - 20) + 'px';
+}, { passive: true });
+
+document.addEventListener('touchend', function(e) {
+  if (!touchDrag || !touchClone) return;
+  
+  const touch = e.changedTouches[0];
+  document.body.removeChild(touchClone);
+  touchDrag.el.style.opacity = '1';
+  
+  const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+  const zone = dropTarget ? (dropTarget.closest('.drop-zone') || dropTarget.closest('.sort-items-bank')) : null;
+  
+  if (zone && zone.dataset.sortKey === touchDrag.sortKey) {
+    const col = zone.dataset.col;
+    sortStates[touchDrag.sortKey][touchDrag.itemIdx] = col;
+    rebuildSortUI(touchDrag.sortKey);
+    updateProgress();
+  }
+  
+  touchDrag = null;
+  touchClone = null;
+});
+
+// Start
+init();
+</script>
+</body>
+</html>
