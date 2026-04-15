@@ -1209,8 +1209,36 @@ p, li { font-size: clamp(15px, 1.8vw, 18px); line-height: 1.7; }
                 The waves crashed on the rocks. A seagull flew over the water and landed on the sand. Two children ran across the beach. They laughed and splashed into the sea. The sun disappeared behind a cloud.
             </div>
             <textarea class="writing-input" id="gdAddAdverbs" rows="8"></textarea>
+
+            <!-- Need help toggle -->
+            <div style="margin-top:16px;">
+                <button class="btn-secondary" onclick="toggleAdverbHelp()" style="font-family:Fredoka,sans-serif; width:100%;">Need help? Show example adverbs</button>
+                <div id="adverbHelpPanel" style="display:none; background:#f9f9f9; padding:16px; border-radius:8px; margin-top:12px; font-family:Fredoka,sans-serif;">
+                    <h4 style="margin-top:0; color:var(--teal);">Example Adverbs by Category</h4>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; font-size:14px;">
+                        <div>
+                            <strong style="color:var(--gold);">How (Manner)</strong>
+                            <p style="margin:8px 0; line-height:1.6;">quickly, slowly, carefully, gently, angrily, happily, nervously, bravely, gracefully, energetically</p>
+                        </div>
+                        <div>
+                            <strong style="color:var(--gold);">When (Time)</strong>
+                            <p style="margin:8px 0; line-height:1.6;">soon, already, finally, suddenly, yesterday, immediately, gradually, eventually, suddenly, always</p>
+                        </div>
+                        <div>
+                            <strong style="color:var(--gold);">Where (Place)</strong>
+                            <p style="margin:8px 0; line-height:1.6;">here, there, above, below, inside, outside, nearby, far, across, beneath</p>
+                        </div>
+                        <div>
+                            <strong style="color:var(--gold);">To What Extent</strong>
+                            <p style="margin:8px 0; line-height:1.6;">very, quite, rather, extremely, almost, completely, partly, barely, totally, absolutely</p>
+                        </div>
+                    </div>
+                    <p style="margin-top:12px; font-size:13px; color:var(--ink-light); font-style:italic;">Remember: not all adverbs end in -ly. Try looking for adverbial phrases too (e.g., "in a hurry", "at last").</p>
+                </div>
+            </div>
+
             <div style="text-align:center; margin-top:12px;">
-                <button class="btn-primary" id="gdAddAdverbsBtn" onclick="submitGdAddAdverbs()">Get Feedback</button>
+                <button class="btn-primary" id="gdAddAdverbsBtn" onclick="submitGdAddAdverbs()">Submit my rewrite</button>
             </div>
             <div id="gdAddFeedback" style="display:none;"></div>
             <div class="book-prompt" style="margin-top:16px;">
@@ -1244,7 +1272,6 @@ p, li { font-size: clamp(15px, 1.8vw, 18px); line-height: 1.7; }
 <div id="printSummary"></div>
 <script>
 /* ===== GLOBALS ===== */
-const API_URL = 'https://writers-toolkit-proxy.patrick-ell2.workers.dev';
 let currentSlide = 0;
 const totalSlides = 16;
 const learnSlides = [0,1,2,3,4,5,6,7,8,9,10,15]; // slides where click/key advance works (includes Go Deeper worked example)
@@ -1848,39 +1875,83 @@ function initGD2() {
     // Reveal steps handled by the learn-slide click advance system
 }
 
-async function submitGdAddAdverbs() {
+function toggleAdverbHelp() {
+    const panel = document.getElementById('adverbHelpPanel');
+    const btn = event.target;
+    if (panel.style.display === 'none') {
+        panel.style.display = 'block';
+        btn.textContent = 'Need help? Hide example adverbs';
+    } else {
+        panel.style.display = 'none';
+        btn.textContent = 'Need help? Show example adverbs';
+    }
+}
+
+function submitGdAddAdverbs() {
     const text = document.getElementById('gdAddAdverbs').value.trim();
     if (text.length < 40) { alert('Please write a more complete version of the passage with adverbs added.'); return; }
     tracker.gd.rewrite = text;
+
+    // Build the feedback display
+    let feedbackHtml = '<div style="margin-top:20px; font-family:Fredoka,sans-serif;">';
+
+    // Show model passage
+    feedbackHtml += '<div style="margin-bottom:24px;">';
+    feedbackHtml += '<h4 style="color:var(--teal); margin-bottom:8px;">Model Passage with Adverbs Added</h4>';
+    feedbackHtml += '<div class="example-sentence" style="border-color:var(--gold); margin-bottom:12px;">';
+    feedbackHtml += 'The waves <span class="wc-adv">fiercely</span> crashed on the rocks. A seagull <span class="wc-adv">gracefully</span> flew <span class="wc-adv">overhead</span> and landed <span class="wc-adv">softly</span> on the sand. Two children <span class="wc-adv">excitedly</span> ran <span class="wc-adv">across</span> the beach. They <span class="wc-adv">joyfully</span> laughed and <span class="wc-adv">energetically</span> splashed into the sea. The sun <span class="wc-adv">gradually</span> disappeared behind a cloud.';
+    feedbackHtml += '</div>';
+    feedbackHtml += '</div>';
+
+    // Show completed example table
+    feedbackHtml += '<div style="margin-bottom:24px;">';
+    feedbackHtml += '<h4 style="color:var(--teal); margin-bottom:8px;">Example: Adverbs Organised by Category</h4>';
+    feedbackHtml += '<table style="width:100%; border-collapse:collapse; margin:8px 0; font-family:Fredoka,sans-serif; font-size:14px;">';
+    feedbackHtml += '<tr style="background:var(--gold); color:white;"><th style="padding:8px; text-align:left;">How (Manner)</th><th style="padding:8px; text-align:left;">When (Time)</th><th style="padding:8px; text-align:left;">Where (Place)</th><th style="padding:8px; text-align:left;">To What Extent</th></tr>';
+    feedbackHtml += '<tr style="background:#f9f9f9;"><td style="padding:8px;"><span class="wc-adv">fiercely</span></td><td style="padding:8px;"></td><td style="padding:8px;"></td><td style="padding:8px;"></td></tr>';
+    feedbackHtml += '<tr style="background:#f9f9f9;"><td style="padding:8px;"><span class="wc-adv">gracefully</span></td><td style="padding:8px;"></td><td style="padding:8px;"></td><td style="padding:8px;"></td></tr>';
+    feedbackHtml += '<tr style="background:#f9f9f9;"><td style="padding:8px;"><span class="wc-adv">energetically</span></td><td style="padding:8px;"><span class="wc-adv">gradually</span></td><td style="padding:8px;"><span class="wc-adv">overhead</span></td><td style="padding:8px;"><span class="wc-adv">softly</span></td></tr>';
+    feedbackHtml += '<tr style="background:#f9f9f9;"><td style="padding:8px;"><span class="wc-adv">joyfully</span></td><td style="padding:8px;"></td><td style="padding:8px;"><span class="wc-adv">across</span></td><td style="padding:8px;"></td></tr>';
+    feedbackHtml += '</table>';
+    feedbackHtml += '</div>';
+
+    // Show student's writing
+    feedbackHtml += '<div style="margin-bottom:24px;">';
+    feedbackHtml += '<h4 style="color:var(--teal); margin-bottom:8px;">Your Rewrite</h4>';
+    feedbackHtml += '<div style="background:#f9f9f9; padding:12px; border-radius:8px; white-space:pre-wrap; font-family:Fredoka,sans-serif; line-height:1.6;">' + text + '</div>';
+    feedbackHtml += '</div>';
+
+    // Self-assessment table
+    feedbackHtml += '<div style="margin-bottom:24px;">';
+    feedbackHtml += '<h4 style="color:var(--teal); margin-bottom:8px;">Your Self-Assessment: Adverbs in Your Rewrite</h4>';
+    feedbackHtml += '<p style="font-size:14px; color:var(--ink-light); margin-bottom:12px;">Add the adverbs you used, one per row. Categorise each one.</p>';
+    feedbackHtml += '<table style="width:100%; border-collapse:collapse; margin:8px 0; font-family:Fredoka,sans-serif; font-size:14px;">';
+    feedbackHtml += '<tr style="background:var(--gold); color:white;"><th style="padding:8px; text-align:left;">Adverb</th><th style="padding:8px; text-align:left;">How (Manner)</th><th style="padding:8px; text-align:left;">When (Time)</th><th style="padding:8px; text-align:left;">Where (Place)</th><th style="padding:8px; text-align:left;">To What Extent</th></tr>';
+    feedbackHtml += '<tr style="background:#f9f9f9;"><td style="padding:8px;"><input type="text" placeholder="Adverb" style="width:100%; padding:4px; font-family:Fredoka,sans-serif;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td></tr>';
+    feedbackHtml += '<tr style="background:#f9f9f9;"><td style="padding:8px;"><input type="text" placeholder="Adverb" style="width:100%; padding:4px; font-family:Fredoka,sans-serif;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td></tr>';
+    feedbackHtml += '<tr style="background:#f9f9f9;"><td style="padding:8px;"><input type="text" placeholder="Adverb" style="width:100%; padding:4px; font-family:Fredoka,sans-serif;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td></tr>';
+    feedbackHtml += '<tr style="background:#f9f9f9;"><td style="padding:8px;"><input type="text" placeholder="Adverb" style="width:100%; padding:4px; font-family:Fredoka,sans-serif;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td><td style="padding:8px; text-align:center;"><input type="checkbox" style="cursor:pointer;"></td></tr>';
+    feedbackHtml += '</table>';
+    feedbackHtml += '</div>';
+
+    // Level up challenge
+    feedbackHtml += '<div style="background:var(--gold); padding:12px; border-radius:8px; margin-bottom:24px; font-family:Fredoka,sans-serif;">';
+    feedbackHtml += '<h4 style="margin-top:0; color:white;">Level Up Challenge</h4>';
+    feedbackHtml += '<p style="margin:8px 0; color:white;">Read your rewrite aloud. Does each adverb really add something? Could you replace any -ly adverbs with adverbial phrases (e.g., "in a frightened manner" instead of "frightened-like")? Try it!';
+    feedbackHtml += '</div>';
+
+    // Finish and export button
+    feedbackHtml += '<div style="text-align:center;">';
+    feedbackHtml += '<button class="btn-primary" onclick="openExportModal()" style="font-family:Fredoka,sans-serif;">Finish and Export</button>';
+    feedbackHtml += '</div>';
+
+    feedbackHtml += '</div>';
+
+    document.getElementById('gdAddFeedback').innerHTML = feedbackHtml;
+    document.getElementById('gdAddFeedback').style.display = 'block';
+
     const btn = document.getElementById('gdAddAdverbsBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span> Getting feedback...';
-    try {
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                model: 'claude-sonnet-4-20250514',
-                max_tokens: 1000,
-                system: 'You are a Year 5 English writing coach. Use British English. Do not use em-dashes. The student was given this plain passage:\n\n"' + gdPlainPassage + '"\n\nThey were asked to rewrite it by adding adverbs to make it more vivid. For each adverb they added, name it and say whether it tells how, when, where, or to what extent. Praise specific good choices. If any adverb feels forced or repetitive, gently suggest a better placement or alternative. Check whether they included at least one adverb that does not end in -ly (as instructed). End with one thing they did well and one "level up" challenge. Keep feedback under 150 words. Be warm and encouraging.',
-                messages: [{ role: 'user', content: 'Here is my rewrite with adverbs added:\n\n' + text }]
-            })
-        });
-        if (!response.ok) {
-            const errText = await response.text();
-            console.error('API error:', response.status, errText);
-            throw new Error('API returned ' + response.status);
-        }
-        const data = await response.json();
-        const feedback = data.content ? data.content.map(b => b.text || '').join('') : 'Could not generate feedback.';
-        document.getElementById('gdAddFeedback').innerHTML = '<div class="ai-feedback">' + feedback.replace(/\n/g, '<br>') + '</div>';
-        document.getElementById('gdAddFeedback').style.display = 'block';
-    } catch (err) {
-        console.error('Feedback error:', err);
-        document.getElementById('gdAddFeedback').innerHTML = '<div class="l1-feedback incorrect-fb">Could not get feedback right now. Your teacher can review your writing instead.</div>';
-        document.getElementById('gdAddFeedback').style.display = 'block';
-    }
-    btn.textContent = 'Feedback received';
+    btn.style.display = 'none';
     markDone(15);
 }
 
@@ -1937,3 +2008,4 @@ if (window.innerWidth <= 768) {
 </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  

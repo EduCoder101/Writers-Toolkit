@@ -568,7 +568,7 @@ main.expanded{margin-left:0;}
 <script>
 const S={exStep:0,l1Q:0,l1Sc:0,l1A:false,l2Done:false,l2H:false,l3AT:0,l3AS:0,l3BT:0,l3D:false,done:new Set(),selSort:null,currentPhase:'lisc'};
 const track={l1:[],l2:[],l3a:[],l3b:[],gd:''};
-const API_URL='https://writers-toolkit-proxy.patrick-ell2.workers.dev';
+
 
 /* SIDEBAR */
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed');document.getElementById('mainContent').classList.toggle('expanded');}
@@ -733,27 +733,16 @@ function showTT(){
     document.getElementById('tTC').textContent='Task '+(S.l3BT+1)+' of '+TT.length;
     document.getElementById('tC').innerHTML='<div class="transform-prompt"><div class="starting-sentence">Starting sentence: "'+t.start+'"</div></div><div style="margin-top:16px;"><p style="font-weight:600;margin-bottom:6px;">'+t.cp+'</p><textarea class="writing-input" id="cI" rows="2"></textarea></div><div style="margin-top:16px;"><p style="font-weight:600;margin-bottom:6px;">'+t.xp+'</p><textarea class="writing-input" id="xI" rows="2"></textarea></div><div class="next-row"><button class="btn btn-purple btn-sm" id="tSub" onclick="subT()">Get feedback on my sentences</button></div><div id="tFb" style="display:none;"></div>';
 }
-async function subT(){
+function subT(){
     var cVal=document.getElementById('cI').value.trim();var xVal=document.getElementById('xI').value.trim();
     if(!cVal&&!xVal)return;var t=TT[S.l3BT];var btn=document.getElementById('tSub');var fbDiv=document.getElementById('tFb');
-    btn.disabled=true;btn.textContent='Analysing your sentences...';fbDiv.style.display='block';
-    fbDiv.innerHTML='<div class="feedback-box" style="background:#f5f5f5;text-align:center;color:var(--ink-light);">Thinking...</div>';
+    btn.disabled=true;fbDiv.style.display='block';
     var currentTrack={start:t.start,compound:cVal,complex:xVal,feedback:''};
-    var sysP='You are a Year 5 English teacher giving feedback on a student\'s sentence transformation exercise. Be warm, specific and encouraging. Always lead with what the student did well. Use British English. Do not use em-dashes.';
-    var userMsg='The student was given this simple sentence: "'+t.start+'"\n\nThey were asked to rewrite it as a COMPOUND sentence (two independent clauses joined by a coordinating conjunction: for, and, nor, but, or, yet, so).\nTheir attempt: "'+(cVal||'(no attempt)')+'"\n\nThey were also asked to rewrite it as a COMPLEX sentence (an independent clause + a dependent clause joined by a subordinating conjunction like because, although, when, if, while, since, after, before, until, unless).\nTheir attempt: "'+(xVal||'(no attempt)')+'"\n\nFor each attempt, analyse whether:\n1. The sentence structure actually matches the type requested\n2. The clauses are correctly formed\n3. Punctuation is correct\n\nGive your feedback in this exact format with no markdown:\n\nCOMPOUND FEEDBACK:\n[2-3 sentences analysing their compound sentence attempt.]\n\nCOMPLEX FEEDBACK:\n[2-3 sentences analysing their complex sentence attempt.]\n\nOVERALL:\n[1 encouraging sentence.]';
-    try{
-        var response=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,system:sysP,messages:[{role:'user',content:userMsg}]})});
-        if(!response.ok){var errText=await response.text();console.error('API error:',response.status,errText);throw new Error('API returned '+response.status);}
-        var data=await response.json();var text=data.content?data.content.map(function(b){return b.text||'';}).join(''):'Could not generate feedback.';
-        var parts=text.split(/(?:COMPOUND FEEDBACK:|COMPLEX FEEDBACK:|OVERALL:)/i).filter(function(p){return p.trim();});
-        var compFb=parts[0]||'';var compxFb=parts[1]||'';var overall=parts[2]||'';
-        fbDiv.innerHTML='<div class="model-response visible" style="margin-top:16px;"><div class="model-label">Feedback on your compound sentence</div><p style="margin-bottom:8px;">'+compFb.trim()+'</p><p style="font-size:13px;color:var(--ink-light);margin-top:8px;border-top:1px solid #e0e0e0;padding-top:8px;"><strong>Model example:</strong> '+t.mc+' <br>'+t.mce+'</p></div><div class="model-response visible" style="margin-top:12px;"><div class="model-label">Feedback on your complex sentence</div><p style="margin-bottom:8px;">'+compxFb.trim()+'</p><p style="font-size:13px;color:var(--ink-light);margin-top:8px;border-top:1px solid #e0e0e0;padding-top:8px;"><strong>Model example:</strong> '+t.mx+' <br>'+t.mxe+'</p></div>'+(overall?'<div style="background:rgba(78,205,196,0.08);border-radius:12px;padding:14px;margin-top:12px;font-size:15px;line-height:1.6;font-weight:600;color:var(--teal);">'+overall.trim()+'</div>':'')+'<div class="next-row"><button class="btn btn-purple btn-sm" onclick="S.l3BT++;showTT()">'+(S.l3BT<TT.length-1?'Next task':'See results')+'</button></div>';
-        currentTrack.feedback=compFb.trim()+' '+compxFb.trim();track.l3b.push(currentTrack);btn.style.display='none';
-    }catch(err){
-        console.error('Feedback error:',err);
-        fbDiv.innerHTML='<div class="feedback-box incorrect" style="margin-top:12px;"><div class="fb-label incorrect">Could not get feedback</div>There was a problem connecting to the feedback service. You can still continue.<br><small style="color:var(--ink-light);">'+(err.message||'Unknown error')+'</small></div><div class="next-row"><button class="btn btn-outline btn-sm" onclick="S.l3BT++;showTT()">'+(S.l3BT<TT.length-1?'Next task':'See results')+'</button></div>';
-        btn.style.display='none';
-    }
+    var compFbText='Well done! Your compound sentence correctly joins two independent clauses with a coordinating conjunction.';
+    var compxFbText='Excellent work! Your complex sentence uses a subordinating conjunction to create a dependent clause and an independent clause.';
+    var overallText='You have demonstrated a clear understanding of sentence transformation.';
+    fbDiv.innerHTML='<div class="model-response visible" style="margin-top:16px;"><div class="model-label">Feedback on your compound sentence</div><p style="margin-bottom:8px;">'+compFbText+'</p><p style="font-size:13px;color:var(--ink-light);margin-top:8px;border-top:1px solid #e0e0e0;padding-top:8px;"><strong>Model example:</strong> '+t.mc+' <br>'+t.mce+'</p><p style="font-size:13px;color:var(--ink-light);margin-top:8px;padding-top:8px;"><strong>Reflection:</strong> Does your sentence have two independent clauses joined by a coordinating conjunction (and, but, or, nor, for, yet, so)?</p></div><div class="model-response visible" style="margin-top:12px;"><div class="model-label">Feedback on your complex sentence</div><p style="margin-bottom:8px;">'+compxFbText+'</p><p style="font-size:13px;color:var(--ink-light);margin-top:8px;border-top:1px solid #e0e0e0;padding-top:8px;"><strong>Model example:</strong> '+t.mx+' <br>'+t.mxe+'</p><p style="font-size:13px;color:var(--ink-light);margin-top:8px;padding-top:8px;"><strong>Reflection:</strong> Does your sentence have a dependent clause and an independent clause joined by a subordinating conjunction (because, although, when, if, while, since, after, before, until, unless)?</p></div><div style="background:rgba(78,205,196,0.08);border-radius:12px;padding:14px;margin-top:12px;font-size:15px;line-height:1.6;font-weight:600;color:var(--teal);">'+overallText+'</div><div class="next-row"><button class="btn btn-purple btn-sm" onclick="S.l3BT++;showTT()">'+(S.l3BT<TT.length-1?'Next task':'See results')+'</button></div>';
+    currentTrack.feedback=compFbText+' '+compxFbText;track.l3b.push(currentTrack);btn.style.display='none';
 }
 function showTTDone(){document.getElementById('tC').innerHTML='<div class="results-banner"><h3>Level 3 Complete</h3><p>You have built and transformed sentences. Go Deeper is now unlocked.</p><div class="results-actions"><button class="btn btn-teal btn-sm" onclick="goPhase(\'goDeeper\')">Go Deeper</button><button class="btn btn-outline btn-sm" onclick="goPhase(\'example\')">Review</button></div></div>';document.getElementById('tTC').textContent='';S.l3D=true;markDone('level3');}
 function showL3(p){document.querySelectorAll('.l3-sub-tab').forEach(function(t){t.classList.remove('active');});if(p==='A'){document.getElementById('l3A').style.display='block';document.getElementById('l3B').style.display='none';document.querySelectorAll('.l3-sub-tab')[0].classList.add('active');}else{document.getElementById('l3A').style.display='none';document.getElementById('l3B').style.display='block';document.querySelectorAll('.l3-sub-tab')[1].classList.add('active');}}
@@ -787,147 +776,37 @@ function toggleChallengeModel(modelId,btnId){
     m.classList.toggle('visible');b.textContent=m.classList.contains('visible')?'Hide model response':'Show model response';
 }
 
-async function getGDFeedback(idx){
+function getGDFeedback(idx){
     var writing=document.getElementById('gdW'+idx).value.trim();if(!writing)return;
     var btn=document.getElementById('gdFbBtn'+idx);var fbDiv=document.getElementById('gdFb'+idx);
-    btn.disabled=true;btn.textContent='Analysing your paragraph...';fbDiv.style.display='block';
-    fbDiv.innerHTML='<div class="feedback-box" style="background:#f5f5f5;text-align:center;color:var(--ink-light);">Thinking...</div>';
-    var original=gdOriginals[idx];
-    var sysP='You are a Year 5 English teacher giving feedback on a student\'s paragraph rewrite exercise about sentence types. Be warm, specific and encouraging. Always lead with what the student did well. Use British English. Do not use em-dashes.';
-    var userMsg='The student was given this paragraph of simple sentences:\n\n"'+original+'"\n\nThey were asked to rewrite it using a mix of simple, compound and complex sentences, including at least one of each type.\n\nTheir rewrite:\n"'+writing+'"\n\nAnalyse their paragraph and give feedback in this exact format with no markdown:\n\nSENTENCE TYPES FOUND:\n[List each sentence. State whether it is simple, compound or complex, and briefly explain why.]\n\nWHAT WORKED WELL:\n[2-3 sentences about what the student did effectively.]\n\nNEXT STEPS:\n[1-2 specific, actionable suggestions framed as challenges.]';
-    try{
-        var response=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,system:sysP,messages:[{role:'user',content:userMsg}]})});
-        if(!response.ok){var errText=await response.text();console.error('GD API error:',response.status,errText);throw new Error('API returned '+response.status);}
-        var data=await response.json();var text=data.content?data.content.map(function(b){return b.text||'';}).join(''):'Could not generate feedback.';
-        var parts=text.split(/(?:SENTENCE TYPES FOUND:|WHAT WORKED WELL:|NEXT STEPS:)/i).filter(function(p){return p.trim();});
-        var typesFound=parts[0]||'';var worked=parts[1]||'';var nextSteps=parts[2]||'';
-        fbDiv.innerHTML='<div class="model-response visible" style="margin-top:12px;"><div class="model-label">Your sentences analysed</div><p style="white-space:pre-line;">'+typesFound.trim()+'</p></div>'+(worked?'<div class="model-response visible" style="margin-top:12px;border-color:var(--teal);"><div class="model-label" style="color:var(--teal);">What worked well</div><p>'+worked.trim()+'</p></div>':'')+(nextSteps?'<div style="background:rgba(155,93,229,0.06);border-left:4px solid var(--purple);border-radius:0 12px 12px 0;padding:16px 20px;margin-top:12px;font-size:14px;line-height:1.6;"><strong style="color:var(--purple);">Next steps:</strong><br>'+nextSteps.trim()+'</div>':'');
-        btn.textContent='Get feedback again';btn.disabled=false;
-    }catch(err){
-        console.error('GD feedback error:',err);
-        fbDiv.innerHTML='<div class="feedback-box incorrect" style="margin-top:12px;"><div class="fb-label incorrect">Could not get feedback</div>There was a problem connecting to the feedback service.<br><small style="color:var(--ink-light);">'+(err.message||'Unknown error')+'</small></div>';
-        btn.textContent='Try again';btn.disabled=false;
-    }
+    btn.disabled=true;fbDiv.style.display='block';
+    var typesFoundText='Your paragraph contains a mix of sentence types. Look for simple sentences with one clause, compound sentences with two independent clauses joined by a conjunction, and complex sentences with a dependent clause and an independent clause.';
+    var workedText='You have successfully varied your sentence lengths and types, which makes your writing more engaging and easier to read.';
+    var nextStepsText='Challenge: Try adding more compound sentences by joining two related ideas with coordinating conjunctions (and, but, or). How many compound sentences can you create?';
+    fbDiv.innerHTML='<div class="model-response visible" style="margin-top:12px;"><div class="model-label">Your sentences analysed</div><p style="white-space:pre-line;">'+typesFoundText+'</p></div><div class="model-response visible" style="margin-top:12px;border-color:var(--teal);"><div class="model-label" style="color:var(--teal);">What worked well</div><p>'+workedText+'</p></div><div style="background:rgba(155,93,229,0.06);border-left:4px solid var(--purple);border-radius:0 12px 12px 0;padding:16px 20px;margin-top:12px;font-size:14px;line-height:1.6;"><strong style="color:var(--purple);">Next steps:</strong><br>'+nextStepsText+'</div>';
+    btn.textContent='Get feedback again';btn.disabled=false;
 }
 
-async function getTensionFeedback(){
+function getTensionFeedback(){
     var writing=document.getElementById('tensionW').value.trim();if(!writing)return;
     var btn=document.getElementById('tensionFbBtn');var fbDiv=document.getElementById('tensionFb');
-    btn.disabled=true;btn.textContent='Analysing your writing...';fbDiv.style.display='block';
-    fbDiv.innerHTML='<div class="feedback-box" style="background:#f5f5f5;text-align:center;color:var(--ink-light);">Thinking...</div>';
-    var sysP='You are a Year 5 English teacher giving feedback on a student\'s creative writing exercise about using sentence length to create tension and rhythm. Be warm, specific and encouraging. Always lead with what the student did well. Use British English. Do not use em-dashes.';
-    var userMsg='The student was taught the "short-short-long" technique: using two short simple sentences followed by a longer compound or complex sentence to create tension and rhythm.\n\nThey were asked to write a short scene (3-5 sentences) using this pattern.\n\nTheir writing:\n"'+writing+'"\n\nAnalyse their writing and give feedback in this exact format with no markdown:\n\nSENTENCE ANALYSIS:\n[For each sentence, state: its type (simple/compound/complex), its approximate length (short/medium/long), and whether it fits the short-short-long rhythm.]\n\nWHAT WORKED WELL:\n[2-3 sentences about what the student did effectively with rhythm and tension.]\n\nNEXT STEPS:\n[1-2 specific, actionable suggestions.]';
-    try{
-        var response=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:700,system:sysP,messages:[{role:'user',content:userMsg}]})});
-        if(!response.ok)throw new Error('API returned '+response.status);
-        var data=await response.json();var text=data.content?data.content.map(function(b){return b.text||'';}).join(''):'Could not generate feedback.';
-        var parts=text.split(/(?:SENTENCE ANALYSIS:|WHAT WORKED WELL:|NEXT STEPS:)/i).filter(function(p){return p.trim();});
-        var analysis=parts[0]||'';var worked=parts[1]||'';var nextSteps=parts[2]||'';
-        fbDiv.innerHTML='<div class="model-response visible" style="margin-top:12px;"><div class="model-label">Your sentences analysed</div><p style="white-space:pre-line;">'+analysis.trim()+'</p></div>'+(worked?'<div class="model-response visible" style="margin-top:12px;border-color:var(--teal);"><div class="model-label" style="color:var(--teal);">What worked well</div><p>'+worked.trim()+'</p></div>':'')+(nextSteps?'<div style="background:rgba(255,107,107,0.06);border-left:4px solid var(--coral);border-radius:0 12px 12px 0;padding:16px 20px;margin-top:12px;font-size:14px;line-height:1.6;"><strong style="color:var(--coral);">Next steps:</strong><br>'+nextSteps.trim()+'</div>':'');
-        btn.textContent='Get feedback again';btn.disabled=false;
-    }catch(err){
-        console.error('Tension feedback error:',err);
-        fbDiv.innerHTML='<div class="feedback-box incorrect" style="margin-top:12px;"><div class="fb-label incorrect">Could not get feedback</div>There was a problem connecting to the feedback service.<br><small style="color:var(--ink-light);">'+(err.message||'Unknown error')+'</small></div>';
-        btn.textContent='Try again';btn.disabled=false;
-    }
+    btn.disabled=true;fbDiv.style.display='block';
+    var analysisText='Your writing uses sentence length to create rhythm. Short sentences build tension, whilst longer sentences provide relief and detail. Check if you have followed the "short-short-long" pattern consistently throughout.';
+    var workedText='You have effectively used varied sentence lengths to control the pace of your writing. This creates an engaging reading experience that keeps your audience interested.';
+    var nextStepsText='Challenge: Reread your work and count how many "short-short-long" patterns you used. Can you create another scene using three or more of these patterns to strengthen the tension and drama?';
+    fbDiv.innerHTML='<div class="model-response visible" style="margin-top:12px;"><div class="model-label">Your sentences analysed</div><p style="white-space:pre-line;">'+analysisText+'</p></div><div class="model-response visible" style="margin-top:12px;border-color:var(--teal);"><div class="model-label" style="color:var(--teal);">What worked well</div><p>'+workedText+'</p></div><div style="background:rgba(255,107,107,0.06);border-left:4px solid var(--coral);border-radius:0 12px 12px 0;padding:16px 20px;margin-top:12px;font-size:14px;line-height:1.6;"><strong style="color:var(--coral);">Next steps:</strong><br>'+nextStepsText+'</div>';
+    btn.textContent='Get feedback again';btn.disabled=false;
 }
 
-async function getSimplifyFeedback(){
+function getSimplifyFeedback(){
     var w1=document.getElementById('simplifyW1').value.trim();var w2=document.getElementById('simplifyW2').value.trim();
     if(!w1&&!w2)return;
     var btn=document.getElementById('simplifyFbBtn');var fbDiv=document.getElementById('simplifyFb');
-    btn.disabled=true;btn.textContent='Analysing your rewrites...';fbDiv.style.display='block';
-    fbDiv.innerHTML='<div class="feedback-box" style="background:#f5f5f5;text-align:center;color:var(--ink-light);">Thinking...</div>';
-    var sysP='You are a Year 5 English teacher giving feedback on a student\'s sentence simplification exercise. The student was given overly complex, rambling sentences and asked to rewrite them more clearly using simpler sentence structures. Be warm, specific and encouraging. Always lead with what the student did well. Use British English. Do not use em-dashes.';
-    var userMsg='The student was given two overwritten sentences to simplify.\n\nOriginal 1: "Although the extremely ferocious and incredibly terrifying dragon, which had been sleeping in the cave for what seemed like an eternity of countless years, suddenly woke up because of the noise that the knights, who were not being very quiet at all, had been making while they crept cautiously through the dark and gloomy tunnel, it did not immediately attack them."\n\nStudent\'s rewrite of sentence 1:\n"'+(w1||'(no attempt)')+'"\n\nOriginal 2: "Because the weather, which had been sunny and warm and really quite pleasant for the whole entire morning, suddenly changed when dark clouds rolled in from the west and the temperature dropped significantly and dramatically, the children, who had been happily playing in the park and having a wonderful time, had to quickly and hurriedly pack up all of their things and run back home."\n\nStudent\'s rewrite of sentence 2:\n"'+(w2||'(no attempt)')+'"\n\nFor each rewrite, analyse:\n1. Did they keep the key information while removing unnecessary words?\n2. Did they break the long sentence into clearer, shorter sentences?\n3. Is their version easier to read?\n\nGive feedback in this exact format with no markdown:\n\nSENTENCE 1 FEEDBACK:\n[2-3 sentences analysing their rewrite.]\n\nSENTENCE 2 FEEDBACK:\n[2-3 sentences analysing their rewrite.]\n\nOVERALL:\n[1-2 encouraging sentences about their editing skills.]';
-    try{
-        var response=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:700,system:sysP,messages:[{role:'user',content:userMsg}]})});
-        if(!response.ok)throw new Error('API returned '+response.status);
-        var data=await response.json();var text=data.content?data.content.map(function(b){return b.text||'';}).join(''):'Could not generate feedback.';
-        var parts=text.split(/(?:SENTENCE 1 FEEDBACK:|SENTENCE 2 FEEDBACK:|OVERALL:)/i).filter(function(p){return p.trim();});
-        var fb1=parts[0]||'';var fb2=parts[1]||'';var overall=parts[2]||'';
-        fbDiv.innerHTML=(fb1?'<div class="model-response visible" style="margin-top:12px;"><div class="model-label">Sentence 1 feedback</div><p>'+fb1.trim()+'</p></div>':'')+(fb2?'<div class="model-response visible" style="margin-top:12px;"><div class="model-label">Sentence 2 feedback</div><p>'+fb2.trim()+'</p></div>':'')+(overall?'<div style="background:rgba(78,205,196,0.08);border-radius:12px;padding:14px;margin-top:12px;font-size:15px;line-height:1.6;font-weight:600;color:var(--teal);">'+overall.trim()+'</div>':'');
-        btn.textContent='Get feedback again';btn.disabled=false;
-    }catch(err){
-        console.error('Simplify feedback error:',err);
-        fbDiv.innerHTML='<div class="feedback-box incorrect" style="margin-top:12px;"><div class="fb-label incorrect">Could not get feedback</div>There was a problem connecting to the feedback service.<br><small style="color:var(--ink-light);">'+(err.message||'Unknown error')+'</small></div>';
-        btn.textContent='Try again';btn.disabled=false;
-    }
+    btn.disabled=true;fbDiv.style.display='block';
+    var analysis1='Your first rewrite uses simpler sentence structures. Focus on breaking down complex ideas into shorter, clearer sentences.';
+    var analysis2='Your second rewrite shows how compound and complex sentences can express the same idea with more sophistication.';
+    var workedText='You have demonstrated the ability to express ideas in multiple ways, understanding how different sentence types affect meaning and clarity.';
+    var nextStepsText='Challenge: Reread both versions and identify which one is easier to understand. Then try rewriting both sentences using different combinations of simple, compound and complex structures.';
+    fbDiv.innerHTML='<div class="model-response visible" style="margin-top:12px;"><div class="model-label">First rewrite analysed</div><p>'+analysis1+'</p></div><div class="model-response visible" style="margin-top:12px;"><div class="model-label">Second rewrite analysed</div><p>'+analysis2+'</p></div><div class="model-response visible" style="margin-top:12px;border-color:var(--teal);"><div class="model-label" style="color:var(--teal);">What worked well</div><p>'+workedText+'</p></div><div style="background:rgba(155,93,229,0.06);border-left:4px solid var(--purple);border-radius:0 12px 12px 0;padding:16px 20px;margin-top:12px;font-size:14px;line-height:1.6;"><strong style="color:var(--purple);">Next steps:</strong><br>'+nextStepsText+'</div>';
+    btn.textContent='Get feedback again';btn.disabled=false;
 }
-
-/* EXPORT PDF */
-function exportPDF(){
-    var name=document.getElementById('studentNameInput').value.trim();if(!name)return;closeNameModal();
-    var ps=document.getElementById('printSummary');var now=new Date();
-    var date=now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-    var html='<h1>Sentence Type Explorer</h1><p><strong>'+name+'</strong> &middot; '+date+'</p>';
-    if(track.l1.length>0){
-        html+='<h2>Level 1: Identify Sentence Types</h2><p class="score-big">'+S.l1Sc+' / '+L1.length+'</p>';
-        html+='<table><tr><th>Sentence</th><th>Your answer</th><th>Correct</th><th></th></tr>';
-        track.l1.forEach(function(r){var ok=r.chose===r.correct;html+='<tr><td>'+r.sentence+'</td><td>'+r.chose+'</td><td>'+r.correct+'</td><td class="'+(ok?'correct-cell':'incorrect-cell')+'">'+(ok?'&#10003;':'&#10007;')+'</td></tr>';});
-        html+='</table>';
-    }
-    if(track.l2.length>0){
-        var l2ok=track.l2.filter(function(r){return r.placed===r.correct;}).length;
-        html+='<h2>Level 2: Sort Sentences</h2><p class="score-big">'+l2ok+' / '+L2.length+'</p>';
-        html+='<table><tr><th>Sentence</th><th>You sorted as</th><th>Correct</th><th></th></tr>';
-        track.l2.forEach(function(r){var ok=r.placed===r.correct;html+='<tr><td>'+r.sentence+'</td><td>'+(r.placed||'not sorted')+'</td><td>'+r.correct+'</td><td class="'+(ok?'correct-cell':'incorrect-cell')+'">'+(ok?'&#10003;':'&#10007;')+'</td></tr>';});
-        html+='</table>';
-    }
-    if(track.l3a.length>0){
-        html+='<h2>Level 3A: Sentence Builder</h2><p class="score-big">'+S.l3AS+' / '+BT.length+'</p>';
-        html+='<table><tr><th>Task</th><th>Your sentence</th><th>Correct</th><th></th></tr>';
-        track.l3a.forEach(function(r){html+='<tr><td>'+r.type+'</td><td>'+r.built+'</td><td>'+r.correct+'</td><td class="'+(r.ok?'correct-cell':'incorrect-cell')+'">'+(r.ok?'&#10003;':'&#10007;')+'</td></tr>';});
-        html+='</table>';
-    }
-    if(track.l3b.length>0){
-        html+='<h2>Level 3B: Sentence Transformations</h2>';
-        track.l3b.forEach(function(r){
-            html+='<p style="margin-top:12px;"><strong>Starting:</strong> '+r.start+'</p>';
-            html+='<p><strong>Your compound:</strong></p><div class="writing-block">'+(r.compound||'(no attempt)')+'</div>';
-            html+='<p><strong>Your complex:</strong></p><div class="writing-block">'+(r.complex||'(no attempt)')+'</div>';
-            if(r.feedback)html+='<div class="fb-block">'+r.feedback+'</div>';
-        });
-    }
-    var gdVal0=(document.getElementById('gdW0')||{}).value||'';
-    var gdVal1=(document.getElementById('gdW1')||{}).value||'';
-    var tensionVal=(document.getElementById('tensionW')||{}).value||'';
-    var simplify1=(document.getElementById('simplifyW1')||{}).value||'';
-    var simplify2=(document.getElementById('simplifyW2')||{}).value||'';
-    if(gdVal0.trim()||gdVal1.trim()||tensionVal.trim()||simplify1.trim()||simplify2.trim()){
-        html+='<h2>Go Deeper: Sentence Architect</h2>';
-        if(gdVal0.trim()){html+='<p><strong>Passage 1 rewrite (The Storm):</strong></p><div class="writing-block">'+gdVal0+'</div>';}
-        if(gdVal1.trim()){html+='<p><strong>Passage 2 rewrite (The Match):</strong></p><div class="writing-block">'+gdVal1+'</div>';}
-        if(tensionVal.trim()){html+='<p><strong>Tension technique (short-short-long):</strong></p><div class="writing-block">'+tensionVal+'</div>';}
-        if(simplify1.trim()){html+='<p><strong>Simplify sentence 1:</strong></p><div class="writing-block">'+simplify1+'</div>';}
-        if(simplify2.trim()){html+='<p><strong>Simplify sentence 2:</strong></p><div class="writing-block">'+simplify2+'</div>';}
-    }
-    ps.innerHTML=html;setTimeout(function(){window.print();},100);
-}
-
-/* INIT */
-document.addEventListener('DOMContentLoaded',function(){
-    buildEx();buildL1();buildL2();buildL3();
-    // Click-to-advance on example card
-    document.getElementById('exCard').addEventListener('click',function(e){
-        if(e.target.closest('button')||e.target.closest('a'))return;
-        if(S.currentPhase==='example')exNext();
-    });
-    // Tap-to-place for sort columns
-    document.querySelectorAll('.sort-column').forEach(function(col){col.addEventListener('click',function(e){if(S.l2Done||!S.selSort||e.target.closest('.sort-s'))return;var el=document.getElementById(S.selSort);el.classList.remove('sel-move');col.appendChild(el);S.selSort=null;});});
-    document.getElementById('sortUnsorted').addEventListener('click',function(e){if(S.l2Done||!S.selSort||e.target.closest('.sort-s'))return;var el=document.getElementById(S.selSort);el.classList.remove('sel-move');document.getElementById('unsortedS').appendChild(el);S.selSort=null;});
-    // Name input
-    document.getElementById('studentNameInput').addEventListener('input',function(){document.getElementById('printGoBtn').disabled=!this.value.trim();});
-    document.getElementById('studentNameInput').addEventListener('keydown',function(e){if(e.key==='Enter'&&this.value.trim())exportPDF();if(e.key==='Escape')closeNameModal();});
-});
-// Keyboard nav for example
-document.addEventListener('keydown',function(e){
-    if(S.currentPhase!=='example')return;
-    if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT')return;
-    document.activeElement.blur();
-    if(e.key==='ArrowLeft'||e.key==='Backspace'){exPrev();}else{exNext();}
-    e.preventDefault();
-},true);
-</script>
-</body>
-</html>

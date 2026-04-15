@@ -471,7 +471,6 @@ main.expanded { margin-left: 0; }
 </main>
 
 <script>
-const API_URL = "https://writers-toolkit-proxy.patrick-ell2.workers.dev";
 const typeColours = {
   simile:'var(--simile-dark)',metaphor:'var(--metaphor-dark)',hyperbole:'var(--hyperbole-dark)',
   personification:'var(--personification-dark)',idiom:'var(--idiom-dark)',onomatopoeia:'var(--onomatopoeia-dark)'
@@ -790,69 +789,24 @@ function initPhase4() {
   });
 }
 
-async function checkWriteOwn(typeId) {
+function checkWriteOwn(typeId) {
   const input = document.getElementById('wot-' + typeId).value.trim();
   if (input.length < 5) { alert('Write a sentence first!'); return; }
 
   const fb = document.getElementById('wof-' + typeId);
-  fb.className = 'write-own-feedback show loading';
-  fb.textContent = 'Checking your sentence...';
+  fb.className = 'write-own-feedback show';
 
   const typeObj = types.find(t => t.id === typeId);
   tracker.phase4[typeId].text = input;
   tracker.phase4[typeId].attempts++;
 
-  try {
-    const r = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 600,
-        messages: [{
-          role: "user",
-          content: `You are an encouraging Year 5 English teacher who genuinely believes every student can write something brilliant. A student has been asked to write their own example of ${typeObj.name}.
-
-Definition: ${typeObj.definition}
-
-The student wrote: "${input}"
-
-Respond in 3-4 sentences using British English. No bullet points. No em-dashes.
-
-1. Start by confirming whether this IS or IS NOT a correct example of ${typeObj.name}. If correct, name the specific words that make it work and give genuine praise.
-2. If the comparison or phrase is a common one (like "fast as a cheetah", "bright as the sun", "quiet as a mouse"), say something like: "You've got the right idea here, and it works! Now here's a challenge: what comparison would nobody else in the class think of? That's where really exciting writing happens." Frame it as levelling up, not as criticism.
-3. If the sentence is quite short, gently encourage extending it: "What if you built a whole scene around this?"
-4. If the sentence IS already original or detailed, be genuinely enthusiastic about what makes it special.
-5. Always end on an encouraging, forward-looking note. Never make them feel their work was bad.`
-        }]
-      })
-    });
-    const data = await r.json();
-    const text = data.content.map(c => c.text || '').join('');
-    const isCorrect = isLikelyCorrect(input, typeId, text);
-    fb.className = 'write-own-feedback show ' + (isCorrect ? 'success' : 'needs-work');
-    fb.innerHTML = text;
-    tracker.phase4[typeId].feedback = text;
-    tracker.phase4[typeId].success = isCorrect;
-    if (isCorrect) markP4Done(typeId);
-    document.getElementById('woex-btn-' + typeId).style.display = 'inline-block';
-  } catch (e) {
-    const result = fallbackCheck(input, typeId);
-    fb.className = 'write-own-feedback show ' + (result.correct ? 'success' : 'needs-work');
-    fb.innerHTML = result.message;
-    tracker.phase4[typeId].feedback = result.message;
-    tracker.phase4[typeId].success = result.correct;
-    if (result.correct) markP4Done(typeId);
-    document.getElementById('woex-btn-' + typeId).style.display = 'inline-block';
-  }
-}
-
-function isLikelyCorrect(input, typeId, apiResponse) {
-  const lower = apiResponse.toLowerCase();
-  if (lower.includes('is a correct') || lower.includes('is a great') || lower.includes('is a strong') || lower.includes('is a lovely') || lower.includes('well done') || lower.includes('you\'ve nailed') || lower.includes('is indeed') || lower.includes('this is a')) {
-    if (!lower.includes('is not') && !lower.includes('isn\'t') && !lower.includes('not quite') && !lower.includes('not a correct')) return true;
-  }
-  return false;
+  const result = fallbackCheck(input, typeId);
+  fb.className = 'write-own-feedback show ' + (result.correct ? 'success' : 'needs-work');
+  fb.innerHTML = result.message;
+  tracker.phase4[typeId].feedback = result.message;
+  tracker.phase4[typeId].success = result.correct;
+  if (result.correct) markP4Done(typeId);
+  document.getElementById('woex-btn-' + typeId).style.display = 'inline-block';
 }
 
 function fallbackCheck(input, typeId) {
@@ -904,111 +858,4 @@ function fallbackCheck(input, typeId) {
 function markP4Done(typeId) {
   p4Completed.add(typeId);
   document.getElementById('p4Count').textContent = p4Completed.size;
-  document.getElementById('woc-' + typeId).style.borderLeft = '4px solid #4caf50';
-  if (p4Completed.size >= 6) {
-    const p4Item = document.querySelector('.sidebar-item[data-nav="phase4"]');
-    if (p4Item) p4Item.classList.add('done');
-  }
-}
-
-async function showWriteExample(typeId) {
-  const box = document.getElementById('woex-' + typeId);
-  const typeObj = types.find(t => t.id === typeId);
-  box.className = 'write-own-example show';
-  box.innerHTML = `<span class="example-label">Example ${typeObj.name}</span><p style="color:var(--text-light);">Generating...</p>`;
-
-  try {
-    const r = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 200,
-        messages: [{
-          role: "user",
-          content: `Write one creative, vivid example sentence that uses ${typeObj.name} (${typeObj.definition}). Write for a Year 5 student (age 10-11). Use British English. Just write the sentence, nothing else. Make it interesting and fun.`
-        }]
-      })
-    });
-    const data = await r.json();
-    const text = data.content.map(c => c.text || '').join('');
-    box.innerHTML = `<span class="example-label">Example ${typeObj.name}</span><p>${text}</p>`;
-  } catch (e) {
-    const fallbacks = {
-      simile: 'The thunder rumbled like an angry giant rolling boulders across the sky.',
-      metaphor: 'The city was a beehive, buzzing with energy from dawn to dusk.',
-      hyperbole: 'I have told you a million times to tidy your room!',
-      personification: 'The old house groaned and sighed as the wind pushed against its walls.',
-      idiom: 'When Mum found out about the broken vase, I knew I was in hot water.',
-      onomatopoeia: 'The fireworks crackled and whooshed as they painted the night sky with colour.'
-    };
-    box.innerHTML = `<span class="example-label">Example ${typeObj.name}</span><p>${fallbacks[typeId]}</p>`;
-  }
-}
-
-// ===== EXPORT PDF =====
-function exportPDF() {
-  const name = document.getElementById('studentName').value.trim();
-  if (!name) return;
-  closeNameModal();
-  const ps = document.getElementById('printSummary');
-  const now = new Date();
-  const date = now.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
-  let html = `<h1>Figurative Language &mdash; Activity 1</h1><p><strong>${name}</strong> &middot; ${date}</p>`;
-
-  // Phase 4 writing
-  if (tracker.phase4 && Object.keys(tracker.phase4).length > 0) {
-    html += '<h2>Write Your Own Examples</h2>';
-    let hasAny = false;
-    types.forEach(t => {
-      const entry = tracker.phase4[t.id];
-      if (entry && entry.text) {
-        hasAny = true;
-        html += `<p style="margin-top:12px;font-weight:700;">${t.name}</p>`;
-        html += `<div class="writing-block">${entry.text}</div>`;
-      }
-    });
-    if (!hasAny) {
-      html += '<p style="color:#999;font-style:italic;">No writing recorded yet.</p>';
-    }
-  }
-
-  ps.innerHTML = html;
-  setTimeout(() => window.print(), 100);
-}
-
-// ===== OVERLAY EVENT LISTENERS =====
-document.getElementById('focusOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeFocusOverlay(); });
-
-// Name modal input enable/disable print button
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('studentName').addEventListener('input', function () {
-    document.getElementById('printGoBtn').disabled = !this.value.trim();
-  });
-  document.getElementById('studentName').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' && this.value.trim()) exportPDF();
-    if (e.key === 'Escape') closeNameModal();
-  });
-  document.getElementById('nameModal').addEventListener('click', e => {
-    if (e.target === e.currentTarget) closeNameModal();
-  });
-  initPhase1();
-});
-
-// ===== KEYBOARD NAV (carousel) =====
-document.addEventListener('keydown', e => {
-  const key = e.key;
-  const isNext = key === 'ArrowRight' || key === 'PageDown';
-  const isPrev = key === 'ArrowLeft' || key === 'PageUp';
-  if (!isNext && !isPrev) return;
-  const activePhase = document.querySelector('.phase.active');
-  if (!activePhase) return;
-  if (activePhase.id === 'phase2') {
-    e.preventDefault();
-    if (isNext) { const nb = document.getElementById('nextBtn'); if (nb && !nb.disabled) nb.click(); }
-    if (isPrev) { const pb = document.getElementById('prevBtn'); if (pb && !pb.disabled) pb.click(); }
-  }
-});
-</script>
-</body>
-</html>
+  document.getElementById('woc-' + typeId).style.borderLeft = '4px solid #4caf

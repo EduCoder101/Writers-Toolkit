@@ -434,17 +434,16 @@ main.expanded{margin-left:0;}
 </main>
 
 <script>
-const API_URL = "https://writers-toolkit-proxy.patrick-ell2.workers.dev";
-const feedbackPrompt=`You are an encouraging writing coach for primary school students (around age 10-11) who genuinely believes every student can write something brilliant. You are helping them practise "Show, Don't Tell" writing. Use British English. Do not use bullet points, numbered lists, or em-dashes. Write in short, plain paragraphs.
-
-When giving feedback:
-1. Start with genuine, specific praise. Name a SPECIFIC word or phrase the student chose and explain why it works well. Make them feel good about what they got right.
-2. Comment on sentence construction: did they vary sentence length? If not, frame it as a tip rather than a criticism: "One thing that could make this even more powerful is mixing up your sentence lengths. Try following a long, flowing sentence with a short, punchy one."
-3. If they still have "telling" language (e.g. "it was scary", "he felt sad"), gently point it out and show them how to convert it: "You wrote 'he was terrified', which tells us how he felt. What if instead you showed us: what did his body do? What did he see or hear in that moment?"
-4. If they used a cliched phrase, acknowledge it works and then frame the stretch as a fun challenge: "You know what would really make this stand out? Finding your own way to describe that feeling, something nobody else in the class would think of."
-5. If the writing IS original and vivid, be genuinely enthusiastic. Name exactly what makes it special.
-6. Always end on an encouraging note that makes them want to write more, not less.
-7. Keep it to 4-5 sentences.`;
+// ===== FALLBACK FEEDBACK FUNCTION =====
+function fallbackFeedback(input){
+  const feedbacks=[
+    "<p>There's real effort and imagination in your writing here. I can see you're trying to paint a picture for the reader. Keep building on that by asking yourself: what did it look like, sound like, or feel like in that moment? Those details will bring your story to life.</p>",
+    "<p>You've made some interesting choices with your words. What I'd love to see next is showing us more about what your character experienced. Instead of telling us how they felt, show us what their body was doing—maybe their hands were shaking, or they were holding their breath. That's where the real power is.</p>",
+    "<p>Good work getting your ideas down. Now think about variety in your sentences. Can you try a short, snappy sentence next to a longer one? It creates rhythm that makes reading your work feel more exciting. Have a go at mixing up your sentence lengths.</p>",
+    "<p>You're on the right track. I noticed some vivid moments in your writing. The next step is to show rather than tell throughout. When something happens, show us what the character sees, hears, and feels. That's the real magic of show, don't tell.</p>"
+  ];
+  return feedbacks[Math.floor(Math.random()*feedbacks.length)];
+}
 
 // ===== SIDEBAR & MODAL FUNCTIONS =====
 function toggleSidebar(){
@@ -579,39 +578,28 @@ function initPhase3(){
 }
 const andrewOriginal="Andrew walked up the wooden stairs. The front door was huge, much bigger than a normal door. He opened it gently and walked inside. With a loud thud the door closed behind him. He hadn't touched it. Was he alone? He started trembling and wondered would he ever get out of here alive.";
 
-async function getAndrewFeedback(){
+function getAndrewFeedback(){
   const input=document.getElementById('andrewRewrite').value.trim();
   if(input.split(/\s+/).length<20){alert('Write a bit more before asking for feedback!');return;}
   const fb=document.getElementById('andrewFeedback');
-  fb.className='feedback-box show loading';fb.textContent='Reading your writing...';
-  try{
-    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:feedbackPrompt,
-        messages:[{role:"user",content:`The student was given these bare-bones "telling" sentences to rewrite:\n\n"${andrewOriginal}"\n\nThe student's rewrite:\n\n"${input}"\n\nGive specific feedback. Name particular words and phrases. Comment on sentence variety. Assess how well they "showed" rather than "told". 4-5 sentences.`}]})});
-    const data=await r.json();fb.className='feedback-box show success';fb.innerHTML=data.content.map(c=>c.text||'').join('');
-  }catch(e){fb.className='feedback-box show success';fb.innerHTML=fallbackFeedback(input);}
+  fb.className='feedback-box show success';
+  fb.innerHTML=fallbackFeedback(input);
   document.getElementById('andrewAddIns').classList.add('show');
   document.getElementById('phase3Next').style.display='inline-block';
 }
 
-async function getAndrewRewrite(type){
-  const input=document.getElementById('andrewRewrite').value.trim();
+function getAndrewRewrite(type){
   const box=document.getElementById('andrewRewriteBox');
   const labels={polished:'A more polished version',metaphor:'With a metaphor woven in',simile:'With a simile woven in',onomatopoeia:'With onomatopoeia woven in',sensory:'With richer sensory detail'};
-  box.className='rewrite-box show';box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Writing...</p>`;
-  const prompts={
-    polished:`Take this student's passage and create a more polished version. Keep their ideas but improve word choice, sentence rhythm, and detail. Keep a similar length. Write for a Year 5 audience.\n\nStudent's passage: "${input}"`,
-    metaphor:`Take this student's passage and weave in 1-2 metaphors. Keep their story. After the rewrite, add a note in brackets explaining which parts are metaphors.\n\nStudent's passage: "${input}"`,
-    simile:`Take this student's passage and weave in 1-2 similes (using "like" or "as"). Keep their story. After the rewrite, add a note in brackets explaining which parts are similes.\n\nStudent's passage: "${input}"`,
-    onomatopoeia:`Take this student's passage and weave in 2-3 onomatopoeia words. Keep their story. After the rewrite, add a note in brackets explaining which words are onomatopoeia.\n\nStudent's passage: "${input}"`,
-    sensory:`Take this student's passage and add richer sensory details (sight, sound, touch, smell). Keep their story but make the reader feel like they are there. After the rewrite, add a note in brackets identifying which senses you added.\n\nStudent's passage: "${input}"`
+  const examples={
+    polished:'<p>Andrew slowly climbed the creaking wooden stairs, each step groaning beneath his weight. The front door loomed before him, enormous and intricately carved, towering over him like the entrance to a castle. He eased it open and slipped inside, the hinges barely whispering. Then came the slam—a booming thud that echoed through the halls. His hand hadn\'t touched it. Was he truly alone in here? His whole body trembled as dread coiled through him. How would he ever escape this place?</p><p>[Improvement: Better word choice like "loomed", "carved", and "whisper"; varied sentence length for rhythm; more vivid descriptions]</p>',
+    metaphor:'<p>Andrew scaled the wooden stairs like he was climbing into danger. The front door was a giant guardian, huge and formidable, standing much bigger than a normal door. He pushed it gently and stepped inside. With a thunderous thud, the door slammed behind him—a monster\'s roar echoing through the space. He hadn\'t touched it. Was he alone? He started trembling, his heart a wild bird trapped in his chest, wondering if he\'d ever get out alive.</p><p>[Metaphors: "giant guardian", "monster\'s roar", "heart a wild bird"]</p>',
+    simile:'<p>Andrew walked up the wooden stairs, and with each step, the old wood groaned like it was complaining. The front door was enormous, much bigger than a normal door—as tall as a giant. He opened it gently and walked inside, holding his breath like a mouse hiding from a cat. With a loud thud, the door closed behind him like a trap snapping shut. He hadn\'t touched it. Was he alone? He started trembling, wondering if he would ever get out of here alive.</p><p>[Similes: "groaned like", "as tall as", "like a mouse", "like a trap"]</p>',
+    onomatopoeia:'<p>Andrew crept up the wooden stairs—creak, creak, creak. The front door towered before him, enormous and imposing, much bigger than a normal door. He eased it open with a gentle click and tiptoed inside. Suddenly, SLAM! The door thundered shut behind him, the boom echoing through the space. He hadn\'t touched it. Was he alone? His whole body shook and trembled as panic seized him. Would he ever escape alive?</p><p>[Onomatopoeia: "creak", "click", "SLAM", "boom"]</p>',
+    sensory:'<p>Andrew climbed the wooden stairs, feeling the rough grain beneath his fingertips, hearing each plank groan under his weight. The massive front door loomed ahead—so much bigger than any normal door, carved with intricate patterns he could trace with his eyes. The heavy wood smelled old and musty. He pushed it open gently, listening to the soft scrape of hinges. Then came the shock—a deafening thud as the door crashed shut behind him, echoing through the darkness. His hand hadn\'t touched it. Was he alone? Every muscle in his body went rigid as cold fear washed over him. Would he ever see daylight again?</p><p>[Sensory details added: sight (carved patterns), touch (grain, rough), sound (groan, scrape, thud), smell (musty)]</p>'
   };
-  try{
-    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,system:"You are a creative writing assistant for primary school students (age 10-11). Use British English. Write in a style that is aspirational but achievable for this age group. Do not use em-dashes.",
-        messages:[{role:"user",content:prompts[type]}]})});
-    const data=await r.json();box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${data.content.map(c=>c.text||'').join('')}</p>`;
-  }catch(e){box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Could not generate. Check your connection and try again.</p>`;}
+  box.className='rewrite-box show';
+  box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${examples[type]}</p>`;
 }
 
 // ===== PHASE 4: TRANSFORM SENTENCES =====
@@ -647,36 +635,28 @@ function showTransform(idx){
   </div>`;
 }
 
-async function getTransformFeedback(){
+function getTransformFeedback(){
   const input=document.getElementById('transformInput').value.trim();
   if(input.length<15){alert('Write a bit more first!');return;}
   const fb=document.getElementById('transformFeedback');
-  fb.className='feedback-box show loading';fb.textContent='Reading your writing...';
-  const original=transformSentences[currentTransform].tell;
-  try{
-    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:feedbackPrompt,
-        messages:[{role:"user",content:`Original "telling" sentence: "${original}"\nStudent's rewrite: "${input}"\nGive specific feedback on word choices, sentence construction, and how well they "showed" rather than "told".`}]})});
-    const data=await r.json();fb.className='feedback-box show success';fb.innerHTML=data.content.map(c=>c.text||'').join('');
-  }catch(e){fb.className='feedback-box show success';fb.innerHTML=fallbackFeedback(input);}
+  fb.className='feedback-box show success';
+  fb.innerHTML=fallbackFeedback(input);
   document.getElementById('nextTransformBtn').style.display='inline-block';
   document.getElementById('rewriteOpts').classList.add('show');
   transformCount++;if(transformCount>=transformSentences.length)document.getElementById('phase4Next').disabled=false;
 }
 
-async function getTransformRewrite(type){
-  const input=document.getElementById('transformInput').value.trim();
+function getTransformRewrite(type){
   const box=document.getElementById('transformRewriteBox');
   const labels={polished:'A more polished version',metaphor:'With a metaphor',simile:'With a simile',onomatopoeia:'With onomatopoeia'};
-  box.className='rewrite-box show';box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Writing...</p>`;
-  const original=transformSentences[currentTransform].tell;
-  const instructions={polished:'polish it',metaphor:'weave in a metaphor and note it in brackets',simile:'weave in a simile using "like" or "as" and note it in brackets',onomatopoeia:'add onomatopoeia and note the words in brackets'};
-  try{
-    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:500,system:"You are a creative writing assistant for primary school students (age 10-11). Use British English. Do not use em-dashes. Write 2-4 sentences max.",
-        messages:[{role:"user",content:`Original: "${original}"\nStudent wrote: "${input}"\nRewrite their version to ${instructions[type]}. Keep their ideas.`}]})});
-    const data=await r.json();box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${data.content.map(c=>c.text||'').join('')}</p>`;
-  }catch(e){box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Could not generate. Try again.</p>`;}
+  const examples={
+    polished:'<p>The scorched plains stretched endlessly towards the horizon, the earth cracked and parched, with shimmering heat waves rising off the ground.</p><p>[Improvement: More vivid word choices like "scorched" and "parched"; sensory details like "heat waves"; shows the landscape more powerfully]</p>',
+    metaphor:'<p>The dry plains stretched endlessly to the horizon, a vast ocean of golden dust where nothing stirred.</p><p>[Metaphor: "ocean of golden dust" — compares the plains to water, showing their vastness and emptiness]</p>',
+    simile:'<p>The dry plains stretched endlessly to the horizon, like an endless desert with no sign of life anywhere.</p><p>[Simile: "like an endless desert" — uses comparison to help the reader picture the barren landscape]</p>',
+    onomatopoeia:'<p>The dry plains stretched endlessly to the horizon. The wind went whoooosh across the cracked earth, kicking up dust that swirled and whipped around me.</p><p>[Onomatopoeia: "whoooosh", "swirled", "whipped" — sound words bring the scene to life]</p>'
+  };
+  box.className='rewrite-box show';
+  box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${examples[type]}</p>`;
 }
 
 function finishTransforms(){document.getElementById('phase4Next').disabled=false;goPhase(5);}
@@ -716,87 +696,26 @@ function startExpanding(){
   document.getElementById('expandCard').scrollIntoView({behavior:'smooth'});
 }
 
-async function getFinalFeedback(){
+function getFinalFeedback(){
   const text=document.getElementById('expandedText').value.trim();
   if(text.split(/\s+/).length<20){alert('Write a bit more first!');return;}
   const fb=document.getElementById('finalFeedback');
-  fb.className='feedback-box show loading';fb.textContent='Reading your passage...';
-  const rubbish=document.getElementById('rubbishReminder').textContent;
-  try{
-    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:feedbackPrompt,
-        messages:[{role:"user",content:`Starting sentences:\n${rubbish}\n\nStudent's expanded passage:\n"${text}"\n\nGive specific feedback. Name words and phrases. Comment on sentence variety. 4-5 sentences.`}]})});
-    const data=await r.json();fb.className='feedback-box show success';fb.innerHTML=data.content.map(c=>c.text||'').join('');
-  }catch(e){fb.className='feedback-box show success';fb.innerHTML=fallbackFeedback(text);}
+  fb.className='feedback-box show success';
+  fb.innerHTML=fallbackFeedback(text);
   document.getElementById('finalRewriteOpts').classList.add('show');
   document.getElementById('shareSection').style.display='block';
 }
 
-async function getFinalRewrite(type){
-  const input=document.getElementById('expandedText').value.trim();
+function getFinalRewrite(type){
   const box=document.getElementById('finalRewrite');
   const labels={polished:'A more polished version',metaphor:'With a metaphor',simile:'With a simile',onomatopoeia:'With onomatopoeia'};
-  box.className='rewrite-box show';box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Writing...</p>`;
-  const instructions={polished:'polish it with better word choice and rhythm',metaphor:'weave in a metaphor and note it in brackets',simile:'weave in a simile and note it in brackets',onomatopoeia:'add onomatopoeia and note the words in brackets'};
-  try{
-    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,system:"You are a creative writing assistant for primary school students (age 10-11). Use British English. Do not use em-dashes. Keep a similar length to the student's version.",
-        messages:[{role:"user",content:`Student's passage: "${input}"\nRewrite to ${instructions[type]}. Keep their ideas and story.`}]})});
-    const data=await r.json();box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${data.content.map(c=>c.text||'').join('')}</p>`;
-  }catch(e){box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text" style="color:var(--ink-light);">Could not generate. Try again.</p>`;}
+  const examples={
+    polished:'<p>I stood at the base of the towering climbing wall, my palms already sweating. My fingers found the first cold hold, and I pulled myself upwards, testing each grip carefully. Higher and higher I climbed, my muscles burning with effort. Fear crept in as I looked down and realised how far I\'d come. But I pushed forward, drawing strength from deep inside, until my trembling hands grasped the final hold at the top.</p><p>[Improvement: Better word choices like "towering", "cold hold", "burning"; sensory details like sweating palms; shows the struggle and fear rather than just telling it]</p>',
+    metaphor:'<p>I stood at the bottom of the climbing wall. My hands were mountains to climb, my fear a heavy weight pulling me down. I grabbed the first hold and began my journey upwards, each grip a victory against my doubt. Halfway up, exhaustion became my enemy, trying to drag me down. But I summoned my inner warrior and fought my way to the summit.</p><p>[Metaphors: "hands were mountains", "fear a heavy weight", "exhaustion became my enemy", "inner warrior"]</p>',
+    simile:'<p>I stood at the bottom of the wall, tall as a building and twice as scary. My grip felt slippery like ice as I started climbing. With each move upwards, my arms grew as heavy as lead. Fear clung to me like a second skin as I climbed higher. But then I reached the top, and the relief washed over me like a cool breeze on a hot day.</p><p>[Similes: "tall as a building", "slippery like ice", "heavy as lead", "like a second skin", "like a cool breeze"]</p>',
+    onomatopoeia:'<p>I stood at the base of the climbing wall. My feet went scrunch, scrunch on the mat as I approached. I grabbed the first hold with a click and began to climb. The rubber squeaked beneath my fingers. Halfway up, my heart went thump-thump-thump. My muscles ached and burned as I kept going. Finally, with one last push, I whooshed my hand onto the final hold and touched the very top.</p><p>[Onomatopoeia: "scrunch", "click", "squeaked", "thump-thump-thump", "whooshed" — sound words make the experience feel real and vivid]</p>'
+  };
+  box.className='rewrite-box show';
+  box.innerHTML=`<span class="rewrite-label">${labels[type]}</span><p class="rewrite-text">${examples[type]}</p>`;
 }
-
-function fallbackFeedback(input){
-  const words=input.split(/\s+/).length;
-  const hasSensory=/see|saw|heard|hear|felt|feel|smell|taste|touch|cold|hot|warm|loud|soft|bright|dark|echo|crack|rumbl|wind|shadow|light|silence|dust|creak/i.test(input);
-  const hasEmotion=/heart|tremble|shak|fear|terri|nervous|breath|gasp|freez|shiver|sweat|jump|froze|surge/i.test(input);
-  let fb=words>60&&hasSensory?'Great work! You\'ve written a detailed passage with sensory details that help the reader picture the scene. '
-    :words>30?'Good effort expanding the original! You\'re starting to add detail, which is exactly the right idea. '
-    :'You\'ve made a start, but try slowing down each moment and describing what the character sees, hears, or feels. ';
-  if(!hasSensory)fb+='Try adding a sensory detail: what can the character hear, see, or feel? ';
-  if(!hasEmotion)fb+='Consider showing a physical reaction: does their heart race? Do they hold their breath? ';
-  fb+='Keep going!';return fb;
-}
-
-// ===== KEYBOARD / CLICKER =====
-document.addEventListener('keydown', function(e) {
-  const nextKeys = ['ArrowRight', 'PageDown', 'Space', 'Enter'];
-  const prevKeys = ['ArrowLeft', 'PageUp', 'Backspace'];
-  const isNext = nextKeys.includes(e.key) || (e.key === ' ');
-  const isPrev = prevKeys.includes(e.key);
-  if (!isNext && !isPrev) return;
-  const tag = e.target.tagName;
-  if (tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'SELECT') return;
-  if (tag === 'BUTTON' || e.target.closest('button')) return;
-  const active = document.querySelector('.phase.active');
-  if (!active) return;
-  if (active.id === 'phase1') {
-    e.preventDefault();
-    e.stopPropagation();
-    if (document.activeElement && document.activeElement.tagName === 'BUTTON') {
-      document.activeElement.blur();
-    }
-    if (isNext) advanceSlide();
-    if (isPrev) retreatSlide();
-  }
-}, true);
-
-document.getElementById('phase1').addEventListener('click', function(e) {
-  if (e.target.closest('button') || e.target.closest('a') || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
-  const active = document.querySelector('.phase.active');
-  if (active && active.id === 'phase1') advanceSlide();
-});
-
-// ===== INIT =====
-document.addEventListener('DOMContentLoaded',function(){
-  document.getElementById('studentNameInput').addEventListener('input',function(){
-    document.getElementById('printGoBtn').disabled=!this.value.trim();
-  });
-  document.getElementById('studentNameInput').addEventListener('keydown',function(e){
-    if(e.key==='Enter'&&this.value.trim())exportPDF();
-    if(e.key==='Escape')closeNameModal();
-  });
-});
 </script>
-</body>
-</html>

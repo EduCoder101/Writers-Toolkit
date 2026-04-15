@@ -269,7 +269,6 @@ main.expanded{margin-left:0;}
 </main>
 
 <script>
-const API_URL = "https://writers-toolkit-proxy.patrick-ell2.workers.dev";
 const typeNames={simile:'Simile',metaphor:'Metaphor',hyperbole:'Hyperbole',personification:'Personification',idiom:'Idiom',onomatopoeia:'Onomatopoeia'};
 const typeColours={simile:'#4caf50',metaphor:'#e67e22',hyperbole:'#e74c3c',personification:'#8e44ad',idiom:'#2980b9',onomatopoeia:'#f39c12'};
 
@@ -611,42 +610,16 @@ function initPhase3(){
   });
 }
 
-async function checkWrite(idx){
+function checkWrite(idx){
   const input=document.getElementById('wi-'+idx).value.trim();
   if(input.length<5){alert('Write a sentence first!');return;}
   const p=writePrompts[idx];
   const fb=document.getElementById('wfb-'+idx);
-  fb.className='feedback-box show loading';fb.textContent='Checking...';
-
-  try{
-    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:600,
-        messages:[{role:"user",content:`You are an encouraging Year 5 English teacher who genuinely believes every student can write something brilliant. A student was asked to write a sentence using ${typeNames[p.type]}.
-
-Definition: ${getDefinition(p.type)}
-Scenario: "${p.scenario}"
-The student wrote: "${input}"
-
-In 3-4 sentences, using British English, no bullet points, no em-dashes:
-1. Start by confirming whether this IS or IS NOT a correct example of ${typeNames[p.type]}. If correct, name the specific words that make it work and give genuine praise.
-2. If the comparison or phrase is a common one (like "fast as a cheetah", "bright as the sun", "quiet as a mouse"), say something like: "You've got the right idea here, and it works! Now here's a challenge for you: what comparison would nobody else in the class think of? That's where really exciting writing happens." Frame it as levelling up, not as criticism.
-3. If the sentence is quite short, gently encourage them to extend it: "What if you built a whole scene around this? You could add what the character sees or feels in that moment."
-4. If the sentence IS already original or detailed, be genuinely enthusiastic: "Now THAT is the kind of writing that makes a reader stop and pay attention!"
-5. Always end on an encouraging, forward-looking note. Never make them feel their work was bad.`}]})});
-    const data=await r.json();
-    const text=data.content.map(c=>c.text||'').join('');
-    const isCorrect=!(/not a |not quite|isn't a|is not a|doesn't work as|not really/i.test(text));
-    fb.className='feedback-box show '+(isCorrect?'success':'needs-work');
-    fb.innerHTML=text;
-    phase3Results[idx]={type:typeNames[p.type],scenario:p.scenario,sentence:input,feedback:text,correct:isCorrect};
-    if(isCorrect)markWriteDone(idx);
-  }catch(e){
-    const result=fallbackWriteCheck(input,p.type);
-    fb.className='feedback-box show '+(result.correct?'success':'needs-work');
-    fb.innerHTML=result.message;
-    phase3Results[idx]={type:typeNames[p.type],scenario:p.scenario,sentence:input,feedback:result.message,correct:result.correct};
-    if(result.correct)markWriteDone(idx);
-  }
+  const result=fallbackWriteCheck(input,p.type);
+  fb.className='feedback-box show '+(result.correct?'success':'needs-work');
+  fb.innerHTML=result.message;
+  phase3Results[idx]={type:typeNames[p.type],scenario:p.scenario,sentence:input,feedback:result.message,correct:result.correct};
+  if(result.correct)markWriteDone(idx);
 }
 
 function markWriteDone(idx){

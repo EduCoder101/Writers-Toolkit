@@ -272,7 +272,6 @@ main.expanded{margin-left:0;}
 </main>
 
 <script>
-const API_URL = "https://writers-toolkit-proxy.patrick-ell2.workers.dev";
 const typeNames={simile:'Simile',metaphor:'Metaphor',hyperbole:'Hyperbole',personification:'Personification',idiom:'Idiom',onomatopoeia:'Onomatopoeia'};
 const typeColours={simile:'#4caf50',metaphor:'#e67e22',hyperbole:'#e74c3c',personification:'#8e44ad',idiom:'#2980b9',onomatopoeia:'#f39c12'};
 
@@ -347,45 +346,87 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('studentNameInput').addEventListener('keydown',function(e){if(e.key==='Enter'&&this.value.trim())exportPDF();if(e.key==='Escape')closeNameModal();});
 });
 
+/* TECHNIQUE DETECTION */
+function detectTechniques(text){
+  const found=new Set();
+  const lower=text.toLowerCase();
+
+  // Simile: using "like" or "as...as" patterns
+  if(/\blike\b.*\b(wind|rain|fire|stone|water|light|cloud|shadow|silk|ice|thunder|bolt|ocean|mountain|river|wall|stone|diamond|gold)\b/i.test(text)||
+     /\bas\s+\w+\s+as\s+\w+/i.test(text)){
+    found.add('simile');
+  }
+
+  // Metaphor: "is", "was", "were" followed by abstract/comparison
+  if(/\b(is|was|were)\s+(a|an)?\s*(fire|ocean|storm|wall|fortress|prison|jungle|desert|mountain|river|flood|inferno|avalanche|tornado|volcano)\b/i.test(text)||
+     /\b(breathed|danced|sang|screamed|roared|whispered|crashed|flooded|burned|froze)\b/i.test(text)){
+    found.add('metaphor');
+  }
+
+  // Hyperbole: number patterns and exaggeration words
+  if(/\b(million|billion|thousand|million times|forever|never|always|every|\d+\s*(hundred|thousand|million))\b/i.test(text)||
+     /\b(so\s+\w+|extremely|incredibly|absolutely|totally)\s+(cold|hot|fast|slow|big|small|loud|quiet|heavy|light)\b/i.test(text)){
+    found.add('hyperbole');
+  }
+
+  // Personification: human verbs/qualities applied to non-humans
+  if(/\b(wind|rain|storm|cloud|tree|forest|sea|ocean|sky|sun|moon|earth|light|shadow|wave|water)\b.*\b(sang|danced|wept|laughed|cried|whispered|screamed|roared|breathed|stretched|reached|crept|crawled|swallowed|embraced)\b/i.test(text)||
+     /\b(angry|sad|happy|lonely|tired|hungry|cruel|kind|jealous|proud)\s+(wind|rain|storm|cloud|sky|sea|ocean|sun|moon|fire|ice|wave)\b/i.test(text)){
+    found.add('personification');
+  }
+
+  // Onomatopoeia: sound words
+  if(/\b(crash|bang|boom|splash|whoosh|hiss|buzz|click|pop|snap|thunder|roar|growl|screech|crack|sizzle|slap|tap|ping|buzz|whack)\b/i.test(text)){
+    found.add('onomatopoeia');
+  }
+
+  // Idiom: common expressions
+  if(/\b(raining cats and dogs|under the weather|break the ice|save the day|lose my mind|piece of cake|heart of gold|storm cloud|beat around the bush|bite the dust|touch and go|over the moon|rock and roll)\b/i.test(text)){
+    found.add('idiom');
+  }
+
+  return found;
+}
+
 /* PHASE 1: REWRITE */
-const analysePrompt=`You are an encouraging Year 5 English teacher who genuinely believes every student can write something brilliant. You are analysing their writing for figurative language. Use British English. No bullet points. No em-dashes.
-
-Read the student's paragraph and:
-1. List every piece of figurative language you can find, naming the TYPE (simile, metaphor, personification, hyperbole, onomatopoeia, idiom) and quoting the specific words.
-2. Give genuine praise for what they included. Name specific words or phrases that work well and explain why.
-3. If any figurative language they used is a common or well-known phrase, acknowledge it works and then offer a fun challenge: "You've used [phrase] which is a great start. Here's a challenge: what comparison would be so surprising that it makes the reader stop and re-read it? That's the kind of writing that really stands out."
-4. If any type is missing, suggest specifically where in their writing they could add one, with a concrete example to inspire them.
-5. Comment on sentence variety. If it could be improved, frame it as a tip: "One trick that could make this even more powerful is..."
-6. If they HAVE written something genuinely original or surprising, be enthusiastic about it. Name exactly what makes it special.
-7. Always end on an encouraging note.
-
-Format: Start with "I found these techniques in your writing:" then list each one on a new line as "TYPE: quote". Then give your feedback in a paragraph.`;
-
-async function analyseRewrite(){
+function analyseRewrite(){
   const input=document.getElementById('rewriteText').value.trim();
   if(input.split(/\s+/).length<20){alert('Write a bit more first!');return;}
   const fb=document.getElementById('rewriteFB');
-  fb.className='feedback-box show loading';fb.textContent='Analysing your writing...';
   document.getElementById('rewriteTags').innerHTML='';
 
-  try{
-    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:analysePrompt,
-        messages:[{role:"user",content:`Original plain paragraph: "The storm arrived quickly. The rain was heavy and the wind was strong. Lightning lit up the sky. Thunder was loud. The trees moved in the wind. Everyone ran inside. It was a bad storm and it lasted a long time."\n\nStudent's figurative rewrite:\n"${input}"`}]})});
-    const data=await r.json();const text=data.content.map(c=>c.text||'').join('');
-    fb.className='feedback-box show success';fb.innerHTML=text.replace(/\n/g,'<br>');
-    const found=new Set();
-    Object.keys(typeNames).forEach(t=>{if(text.toLowerCase().includes(t))found.add(t);});
-    showTags('rewriteTags',found);
-  }catch(e){
-    fb.className='feedback-box show success';
-    fb.innerHTML='Great effort! Check your checklist to see which types of figurative language you included. Try reading your writing out loud to hear how it sounds. If any checklist items are unticked, challenge yourself to add one more technique.';
-    const checked=new Set();
-    ['simile','metaphor','personification','hyperbole','onomatopoeia','idiom'].forEach(t=>{
-      if(document.getElementById('ck-'+t).checked)checked.add(t);
-    });
-    showTags('rewriteTags',checked);
+  // Detect techniques from student's writing
+  const detected=detectTechniques(input);
+
+  // Get manually checked techniques
+  const checked=new Set();
+  ['simile','metaphor','personification','hyperbole','onomatopoeia','idiom'].forEach(t=>{
+    if(document.getElementById('ck-'+t).checked)checked.add(t);
+  });
+
+  // Combine detected and checked
+  const found=new Set([...detected,...checked]);
+
+  // Build feedback based on count
+  let feedback='';
+  const count=found.size;
+
+  if(count===0){
+    feedback='Good effort! I notice you\'re still getting started with figurative language. Look back at the checklist - which techniques have you included? Once you\'ve identified them, tick the boxes. Try reading your writing out loud to hear the figurative language you may have used without realising it.';
+  }else if(count===1){
+    feedback='Well done! I\'ve spotted that you\'ve used '+count+' type of figurative language. That\'s a great start. Can you challenge yourself to add another technique? Look at the checklist and see which other types you could include to make your writing even more powerful.';
+  }else if(count===2){
+    feedback='Excellent work! You\'ve successfully included '+count+' different types of figurative language in your writing. You\'re building your toolkit really well. Can you add one more technique to make it truly outstanding? Pick one type from the checklist you haven\'t used yet.';
+  }else if(count===3||count===4){
+    feedback='Outstanding! You\'ve woven '+count+' different types of figurative language into your rewrite. Your writing is genuinely creative and engaging. You\'ve really brought that storm to life! Keep building on this strength.';
+  }else{
+    feedback='Brilliant! You\'ve masterfully used '+count+' different types of figurative language. Your rewrite is vivid, imaginative, and a joy to read. You\'re showing real craft in your writing. Well done!';
   }
+
+  fb.className='feedback-box show success';
+  fb.textContent=feedback;
+  showTags('rewriteTags',found);
+
   document.getElementById('p1Next').style.display='inline-block';
   document.querySelector('.sidebar-item[data-nav="phase1"]').classList.add('done');
 }
@@ -429,27 +470,36 @@ function selectFreeScenario(idx,el){
   document.getElementById('freeWriteCard').scrollIntoView({behavior:'smooth'});
 }
 
-async function analyseFreeWrite(){
+function analyseFreeWrite(){
   const input=document.getElementById('freeWriteText').value.trim();
   if(input.split(/\s+/).length<20){alert('Write a bit more first!');return;}
   const fb=document.getElementById('freeWriteFB');
-  fb.className='feedback-box show loading';fb.textContent='Analysing your writing...';
   document.getElementById('freeWriteTags').innerHTML='';
 
-  try{
-    const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:analysePrompt,
-        messages:[{role:"user",content:`Scenario: "${selectedScenario.label}"\nBrief: "${selectedScenario.brief}"\n\nStudent's writing:\n"${input}"`}]})});
-    const data=await r.json();const text=data.content.map(c=>c.text||'').join('');
-    fb.className='feedback-box show success';fb.innerHTML=text.replace(/\n/g,'<br>');
-    const found=new Set();
-    Object.keys(typeNames).forEach(t=>{if(text.toLowerCase().includes(t))found.add(t);});
-    showTags('freeWriteTags',found);
-    lastAnalysedTypes=found;
-  }catch(e){
-    fb.className='feedback-box show success';
-    fb.innerHTML='Well done on completing your free write! Read it out loud and listen for the figurative language. Can you spot your own similes, metaphors, and other techniques?';
+  // Detect techniques from student's writing
+  const found=detectTechniques(input);
+
+  // Build feedback based on count
+  let feedback='';
+  const count=found.size;
+
+  if(count===0){
+    feedback='Well done on completing your free write! Read it out loud and listen for the figurative language. Can you spot your own similes, metaphors, and other techniques? Try adding one or two more to make it even more vivid.';
+  }else if(count===1||count===2){
+    feedback='Great effort! You\'ve included '+count+' types of figurative language in your free write. You\'re building your skills well. Can you challenge yourself to add '+(4-count)+' more type'+(4-count===1?'':'s')+' to reach that target of 4?';
+  }else if(count===3){
+    feedback='Excellent work! You\'ve woven '+count+' different types of figurative language into your paragraph. You\'re so close to your goal of 4. Can you add just one more technique to complete the challenge?';
+  }else if(count===4||count===5){
+    feedback='Outstanding! You\'ve successfully used '+count+' different types of figurative language in your free write. You\'ve met and exceeded the challenge brilliantly! Your writing is vivid, creative, and engaging. Fantastic work!';
+  }else{
+    feedback='Absolutely brilliant! You\'ve masterfully incorporated '+count+' different types of figurative language. Your paragraph is stunning - it\'s vivid, imaginative, and truly brings your scenario to life. You\'ve shown real craft and creativity. Superb!';
   }
+
+  fb.className='feedback-box show success';
+  fb.textContent=feedback;
+  showTags('freeWriteTags',found);
+  lastAnalysedTypes=found;
+
   document.getElementById('p2Next').style.display='inline-block';
   document.querySelector('.sidebar-item[data-nav="phase2"]').classList.add('done');
 }
@@ -472,13 +522,3 @@ function publishToGallery(){
 
   const tags=document.getElementById('galleryTags');
   tags.innerHTML='';
-  lastAnalysedTypes.forEach(t=>{
-    tags.innerHTML+=`<span class="technique-tag" style="background:${typeColours[t]}">${typeNames[t]}</span>`;
-  });
-
-  goPhase('phase3');
-  document.querySelector('.sidebar-item[data-nav="phase3"]').classList.add('done');
-}
-</script>
-</body>
-</html>
