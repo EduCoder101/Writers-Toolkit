@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Figurative Language Activity</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #fefcf6;
@@ -794,9 +793,6 @@ function checkWriteOwn(typeId) {
   if (input.length < 5) { alert('Write a sentence first!'); return; }
 
   const fb = document.getElementById('wof-' + typeId);
-  fb.className = 'write-own-feedback show';
-
-  const typeObj = types.find(t => t.id === typeId);
   tracker.phase4[typeId].text = input;
   tracker.phase4[typeId].attempts++;
 
@@ -858,4 +854,132 @@ function fallbackCheck(input, typeId) {
 function markP4Done(typeId) {
   p4Completed.add(typeId);
   document.getElementById('p4Count').textContent = p4Completed.size;
-  document.getElementById('woc-' + typeId).style.borderLeft = '4px solid #4caf
+  document.getElementById('woc-' + typeId).style.borderLeft = '4px solid #4caf50';
+  if (p4Completed.size >= 6) {
+    const p4Item = document.querySelector('.sidebar-item[data-nav="phase4"]');
+    if (p4Item) p4Item.classList.add('done');
+  }
+}
+
+const exampleBank = {
+  simile: [
+    'The thunder rumbled like an angry giant rolling boulders across the sky.',
+    'Her laughter was as bright as fireworks on a summer night.',
+    'The classroom was as quiet as a library at midnight.',
+    'The new puppy bounced around like a rubber ball on springs.',
+    'The cold wind bit my cheeks like tiny icy needles.'
+  ],
+  metaphor: [
+    'The city was a beehive, buzzing with energy from dawn to dusk.',
+    'My little brother is a tornado, leaving chaos wherever he goes.',
+    'The playground was a battlefield during the end of lunch bell.',
+    'Her words were daggers, sharp and impossible to forget.',
+    'The old library was a treasure chest of forgotten stories.'
+  ],
+  hyperbole: [
+    'I have told you a million times to tidy your room!',
+    'My school bag weighs more than a small elephant.',
+    'I waited forever and a day for the bus to finally arrive.',
+    'That homework took me a thousand years to finish.',
+    'I am so hungry I could eat the entire kitchen.'
+  ],
+  personification: [
+    'The old house groaned and sighed as the wind pushed against its walls.',
+    'The sun peeked shyly over the hills, stretching its golden arms.',
+    'My alarm clock screamed at me until I finally got out of bed.',
+    'The trees whispered gossip to each other in the gentle breeze.',
+    'The stubborn door refused to open, no matter how hard I pushed.'
+  ],
+  idiom: [
+    'When Mum found out about the broken vase, I knew I was in hot water.',
+    'Learning the new dance routine was a piece of cake for Maya.',
+    'Dad told me to bite the bullet and apologise to my sister.',
+    'When the test results came back, I was over the moon.',
+    'My brother spilled the beans about the surprise party.'
+  ],
+  onomatopoeia: [
+    'The fireworks crackled and whooshed as they painted the night sky with colour.',
+    'The bees buzzed lazily around the summer flowers.',
+    'Rain pattered softly on the tin roof all afternoon.',
+    'The old floorboards creaked with every careful step.',
+    'Cereal snapped, crackled and popped in my breakfast bowl.'
+  ]
+};
+const exampleIndex = {};
+function showWriteExample(typeId) {
+  const box = document.getElementById('woex-' + typeId);
+  const typeObj = types.find(t => t.id === typeId);
+  const bank = exampleBank[typeId];
+  const i = exampleIndex[typeId] || 0;
+  const text = bank[i % bank.length];
+  exampleIndex[typeId] = i + 1;
+  box.className = 'write-own-example show';
+  box.innerHTML = `<span class="example-label">Example ${typeObj.name}</span><p>${text}</p>`;
+}
+
+// ===== EXPORT PDF =====
+function exportPDF() {
+  const name = document.getElementById('studentName').value.trim();
+  if (!name) return;
+  closeNameModal();
+  const ps = document.getElementById('printSummary');
+  const now = new Date();
+  const date = now.toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' });
+  let html = `<h1>Figurative Language &mdash; Activity 1</h1><p><strong>${name}</strong> &middot; ${date}</p>`;
+
+  // Phase 4 writing
+  if (tracker.phase4 && Object.keys(tracker.phase4).length > 0) {
+    html += '<h2>Write Your Own Examples</h2>';
+    let hasAny = false;
+    types.forEach(t => {
+      const entry = tracker.phase4[t.id];
+      if (entry && entry.text) {
+        hasAny = true;
+        html += `<p style="margin-top:12px;font-weight:700;">${t.name}</p>`;
+        html += `<div class="writing-block">${entry.text}</div>`;
+      }
+    });
+    if (!hasAny) {
+      html += '<p style="color:#999;font-style:italic;">No writing recorded yet.</p>';
+    }
+  }
+
+  ps.innerHTML = html;
+  setTimeout(() => window.print(), 100);
+}
+
+// ===== OVERLAY EVENT LISTENERS =====
+document.getElementById('focusOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeFocusOverlay(); });
+
+// Name modal input enable/disable print button
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('studentName').addEventListener('input', function () {
+    document.getElementById('printGoBtn').disabled = !this.value.trim();
+  });
+  document.getElementById('studentName').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && this.value.trim()) exportPDF();
+    if (e.key === 'Escape') closeNameModal();
+  });
+  document.getElementById('nameModal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeNameModal();
+  });
+  initPhase1();
+});
+
+// ===== KEYBOARD NAV (carousel) =====
+document.addEventListener('keydown', e => {
+  const key = e.key;
+  const isNext = key === 'ArrowRight' || key === 'PageDown';
+  const isPrev = key === 'ArrowLeft' || key === 'PageUp';
+  if (!isNext && !isPrev) return;
+  const activePhase = document.querySelector('.phase.active');
+  if (!activePhase) return;
+  if (activePhase.id === 'phase2') {
+    e.preventDefault();
+    if (isNext) { const nb = document.getElementById('nextBtn'); if (nb && !nb.disabled) nb.click(); }
+    if (isPrev) { const pb = document.getElementById('prevBtn'); if (pb && !pb.disabled) pb.click(); }
+  }
+});
+</script>
+</body>
+</html>
