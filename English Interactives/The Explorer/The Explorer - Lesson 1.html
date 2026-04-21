@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Explorer | Lesson 1 | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF8F5;--ink:#2D3436;--ink-light:#636E72;
+  --teal:#4ECDC4;--teal-light:#d0f0ec;
+  --coral:#FF6B6B;--coral-light:#ffe0e0;
+  --gold:#FFD93D;--gold-light:#fdf2d0;
+  --purple:#9B5DE5;--purple-light:#f0e6ff;
+  --sky:#74B9FF;--sky-light:#e1f0ff;
+  --green:#27AE60;--green-light:#d3f9d8;
+  --pink:#FFD6E0;--orange:#FFE0CC;--yellow:#FFF3BF;
+  --card:#fff;
+  --shadow:0 4px 20px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.12);
+  --radius:16px;
+  --sidebar-bg:#2D3436;
+  --sidebar-w:240px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{font-family:'Fredoka',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* Floating background shapes */
+.bg-shapes{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;}
+.bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:var(--coral);}
+.bg-shape:nth-child(2){width:400px;height:400px;top:20%;right:-8%;background:var(--teal);}
+.bg-shape:nth-child(3){width:350px;height:350px;bottom:15%;left:10%;background:var(--gold);}
+.bg-shape:nth-child(4){width:450px;height:450px;bottom:-5%;right:15%;background:var(--purple);}
+.bg-shape:nth-child(5){width:300px;height:300px;top:50%;left:40%;background:var(--sky);}
+
+/* Top bar */
+.top-bar{background:var(--sidebar-bg);color:#fff;padding:0;position:sticky;top:0;z-index:200;display:flex;align-items:center;border-bottom:2px solid rgba(255,255,255,0.08);}
+.sidebar-toggle{background:none;border:none;border-right:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.top-bar-title{font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.95rem;padding:0 22px;letter-spacing:0.3px;}
+.top-bar-title span{color:var(--teal);}
+.top-bar .back-link{margin-left:auto;color:var(--teal);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.7;transition:opacity 0.2s;font-family:'Fredoka',sans-serif;}
+.top-bar .back-link:hover{opacity:1;}
+
+/* Sidebar */
+.sidebar{position:fixed;left:0;top:48px;width:var(--sidebar-w);height:calc(100vh - 48px);background:var(--sidebar-bg);color:#fff;z-index:100;overflow-y:auto;transition:width 0.3s ease;}
+.sidebar.collapsed{width:0;overflow:hidden;}
+.sidebar-content{padding:16px 0;}
+.sidebar-section{margin-bottom:12px;}
+.sidebar-section-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);padding:10px 18px 6px;}
+.sidebar-item{background:none;border:none;color:rgba(255,255,255,0.6);font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;padding:9px 18px;width:100%;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:10px;}
+.sidebar-item:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.sidebar-item.active{background:rgba(78,205,196,0.15);color:#fff;border-left:4px solid var(--teal);padding-left:14px;}
+.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* Main */
+main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 60px 80px;position:relative;z-index:1;}
+.sidebar.collapsed ~ main{margin-left:0;}
+
+.phase{display:none;max-width:1000px;margin:0 auto;animation:fadeIn 0.4s ease;}
+.phase.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+.phase-eyebrow{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--teal);text-align:center;margin-bottom:8px;font-weight:700;}
+.phase-title{font-family:'Fredoka',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:700;text-align:center;margin:0 0 10px;line-height:1.15;}
+.phase-sub{text-align:center;font-size:clamp(15px,1.8vw,19px);color:var(--ink-light);margin-bottom:28px;line-height:1.5;font-weight:400;}
+
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px;margin-bottom:22px;}
+.card.tight{padding:22px 26px;}
+
+/* LISC */
+.lisc{background:linear-gradient(135deg,#fff,#fdf6ff);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:26px;border-left:5px solid var(--purple);}
+.lisc-li{font-size:clamp(15px,1.8vw,18px);font-weight:600;margin:0 0 12px;color:var(--purple);}
+.lisc-li-text{color:var(--ink);font-weight:500;}
+.lisc-sc-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--purple);font-weight:700;margin:14px 0 8px;}
+.lisc ul{margin:0;padding-left:22px;}
+.lisc li{font-size:clamp(13px,1.5vw,16px);color:var(--ink);margin:6px 0;line-height:1.5;}
+
+/* Buttons */
+.btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:11px 26px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-coral{background:var(--coral);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-outline{background:#fff;color:var(--ink);border:2px solid #ddd;}
+.btn-outline:hover{border-color:var(--ink);}
+.btn-sm{font-size:13px;padding:8px 18px;}
+
+/* Phase footer nav */
+.phase-nav{display:flex;justify-content:space-between;align-items:center;margin-top:30px;padding-top:18px;border-top:1px solid #eee;gap:12px;}
+.phase-nav .step-info{font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--ink-light);letter-spacing:1.5px;}
+
+/* Sub-step tabs (for phase 3 and 5) */
+.step-tabs{display:flex;justify-content:center;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+.step-tab{font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:600;padding:8px 18px;border-radius:20px;background:#fff;color:var(--ink-light);border:2px solid #e5e5e5;cursor:pointer;transition:all 0.2s;}
+.step-tab.active{background:var(--coral);color:#fff;border-color:var(--coral);}
+.step-tab:hover:not(.active){border-color:var(--coral);color:var(--coral);}
+.step-panel{display:none;}
+.step-panel.active{display:block;animation:fadeIn 0.4s ease;}
+
+/* ============ PHASE 1: WORD ASSOCIATION ============ */
+.warm-card{text-align:center;}
+.warm-instruction{font-size:clamp(15px,1.8vw,18px);color:var(--ink-light);margin-bottom:18px;line-height:1.5;}
+.chain-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin:18px 0 8px;min-height:50px;}
+.chain-word{background:var(--teal-light);color:var(--ink);padding:9px 18px;border-radius:24px;font-weight:600;font-size:clamp(14px,1.7vw,17px);box-shadow:0 2px 6px rgba(78,205,196,0.25);animation:pop 0.3s ease;}
+.chain-word.start{background:var(--coral);color:#fff;}
+.chain-arrow{color:var(--ink-light);font-size:18px;}
+@keyframes pop{from{transform:scale(0.6);opacity:0;}to{transform:scale(1);opacity:1;}}
+.chain-input-row{display:flex;gap:10px;justify-content:center;align-items:center;margin-top:18px;flex-wrap:wrap;}
+.chain-input{font-family:'Fredoka',sans-serif;font-size:16px;padding:11px 20px;border:2px solid #ddd;border-radius:24px;width:240px;outline:none;transition:border-color 0.2s;}
+.chain-input:focus{border-color:var(--teal);}
+
+.timer-card{background:linear-gradient(135deg,var(--gold-light),#fff);border-left:5px solid var(--gold);}
+.timer-display{font-family:'Space Mono',monospace;font-size:clamp(40px,7vw,64px);font-weight:700;text-align:center;color:var(--ink);margin:8px 0 14px;letter-spacing:3px;}
+.timer-display.warning{color:var(--coral);}
+.timer-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+
+/* ============ PHASE 2: COVERS ============ */
+.covers-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:20px;}
+@media(max-width:760px){.covers-row{grid-template-columns:1fr;}}
+.cover{background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:14px;text-align:center;transition:transform 0.2s;}
+.cover:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);}
+.cover-img-wrap{width:100%;aspect-ratio:3/4;border-radius:8px;overflow:hidden;background:#f0f0f0;display:flex;align-items:center;justify-content:center;}
+.cover-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.cover-label{margin-top:10px;font-size:0.85rem;color:var(--ink-light);font-weight:500;}
+
+.prompt-deck{background:var(--sky-light);border-left:5px solid var(--sky);border-radius:var(--radius);padding:24px 28px;margin-top:8px;}
+.prompt-deck-title{font-family:'Fredoka',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--sky);margin-bottom:10px;}
+.prompt-counter{font-family:'Space Mono',monospace;font-size:0.78rem;color:var(--ink-light);margin-bottom:6px;letter-spacing:1.5px;}
+.prompt-text{font-size:clamp(17px,2.2vw,22px);font-weight:500;color:var(--ink);line-height:1.5;min-height:60px;display:flex;align-items:center;}
+.prompt-controls{display:flex;justify-content:space-between;align-items:center;margin-top:14px;}
+
+/* ============ PHASE 3: IMAGES / DEFINITION / DIRECTOR ============ */
+.image-grid-5{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+@media(max-width:760px){.image-grid-5{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:460px){.image-grid-5{grid-template-columns:1fr;}}
+.img-tile{background:#fff;border-radius:12px;box-shadow:var(--shadow);overflow:hidden;transition:transform 0.2s;}
+.img-tile:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);}
+.img-wrap{width:100%;aspect-ratio:4/3;background:#f0f0f0;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.img-caption{padding:10px 14px;font-size:0.82rem;color:var(--ink-light);font-weight:500;text-align:center;}
+
+.definition-big{text-align:center;padding:48px 36px;background:linear-gradient(135deg,var(--purple-light),#fff);border-left:5px solid var(--purple);}
+.definition-big .eyebrow{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--purple);font-weight:700;margin-bottom:14px;}
+.definition-big .word{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(36px,6vw,56px);color:var(--purple);margin-bottom:6px;line-height:1.1;}
+.definition-big .word-class{font-style:italic;color:var(--ink-light);font-size:clamp(15px,1.8vw,18px);margin-bottom:24px;}
+.definition-big .meaning{font-size:clamp(17px,2.2vw,22px);line-height:1.6;color:var(--ink);max-width:680px;margin:0 auto;font-weight:500;}
+
+.director-card{background:linear-gradient(135deg,var(--gold-light),#fff);border-left:5px solid var(--gold);padding:36px 40px;}
+.director-card .eyebrow{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:2.5px;text-transform:uppercase;color:#b8920e;font-weight:700;margin-bottom:10px;}
+.director-card h2{font-family:'Fredoka',sans-serif;font-weight:600;font-size:clamp(20px,2.6vw,26px);margin:0 0 18px;line-height:1.3;}
+.director-prompts{display:none;margin-top:14px;}
+.director-prompts.shown{display:block;animation:fadeIn 0.4s ease;}
+.director-prompts ul{margin:8px 0 18px;padding-left:24px;}
+.director-prompts li{font-size:clamp(15px,1.8vw,18px);margin:8px 0;line-height:1.5;}
+.director-instruction{background:#fff;border:2px dashed var(--gold);border-radius:12px;padding:16px 20px;margin-top:14px;font-size:clamp(15px,1.7vw,17px);color:var(--ink);font-weight:500;text-align:center;}
+.director-timer-row{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:16px;flex-wrap:wrap;}
+
+/* ============ PHASE 4: VOCAB ============ */
+.map-instruction{background:linear-gradient(135deg,var(--sky-light),#fff);border-left:5px solid var(--sky);border-radius:var(--radius);padding:22px 26px;margin-bottom:20px;display:flex;gap:16px;align-items:center;}
+.map-icon{font-family:'Fredoka',sans-serif;font-size:36px;color:var(--sky);font-weight:700;flex-shrink:0;}
+.map-text{flex:1;}
+.map-text strong{display:block;font-size:clamp(15px,1.8vw,18px);margin-bottom:4px;}
+.map-text span{font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);}
+
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:18px;}
+.vocab-tile{aspect-ratio:1/1;cursor:pointer;perspective:1000px;}
+.vocab-inner{position:relative;width:100%;height:100%;transition:transform 0.5s;transform-style:preserve-3d;}
+.vocab-tile.flipped .vocab-inner{transform:rotateY(180deg);}
+.vocab-front,.vocab-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;text-align:center;box-shadow:var(--shadow);}
+.vocab-front{background:linear-gradient(135deg,var(--teal),#3da89f);color:#fff;}
+.vocab-front .word{font-family:'Fredoka',sans-serif;font-weight:600;font-size:clamp(14px,1.7vw,18px);line-height:1.2;}
+.vocab-front .hint{font-size:0.7rem;margin-top:8px;opacity:0.8;letter-spacing:1.5px;font-family:'Space Mono',monospace;}
+.vocab-back{background:#fff;color:var(--ink);transform:rotateY(180deg);border:2px solid var(--teal);}
+.vocab-back .meaning{font-size:clamp(11px,1.3vw,13px);line-height:1.4;font-weight:500;}
+.vocab-back .example{font-size:clamp(10px,1.2vw,12px);font-style:italic;color:var(--ink-light);margin-top:6px;line-height:1.3;}
+
+.vocab-progress{text-align:center;font-family:'Space Mono',monospace;font-size:0.85rem;color:var(--ink-light);margin-bottom:14px;letter-spacing:1.5px;}
+.vocab-progress strong{color:var(--teal);}
+
+.audio-section{margin-top:24px;display:none;}
+.audio-section.shown{display:block;animation:fadeIn 0.5s ease;}
+.audio-card{background:linear-gradient(135deg,var(--coral-light),#fff);border-left:5px solid var(--coral);border-radius:var(--radius);padding:24px 26px;text-align:center;}
+.audio-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.3vw,22px);margin:0 0 6px;color:var(--coral);}
+.audio-card p{font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);margin:0 0 16px;}
+.video-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;background:#000;box-shadow:var(--shadow);}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+
+/* ============ PHASE 5: INNOVATE / TRANSFORM ============ */
+.intro-card{background:linear-gradient(135deg,var(--purple-light),#fff);border-left:5px solid var(--purple);padding:24px 28px;margin-bottom:20px;}
+.intro-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(17px,2.1vw,21px);margin:0 0 8px;color:var(--purple);}
+.intro-card p{font-size:clamp(14px,1.6vw,16px);line-height:1.55;margin:0 0 8px;color:var(--ink);}
+.intro-card .accent{color:var(--purple);font-weight:600;}
+.intro-card ul{font-size:clamp(13px,1.5vw,15px);line-height:1.6;color:var(--ink);margin:6px 0 0;padding-left:22px;}
+
+.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px;}
+@media(max-width:760px){.compare-row{grid-template-columns:1fr;}}
+.compare-box{background:#fff;border-radius:12px;padding:20px 24px;box-shadow:var(--shadow);}
+.compare-box.original{border-top:4px solid var(--ink-light);}
+.compare-box.innovated{border-top:4px solid var(--coral);}
+.compare-eyebrow{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;font-weight:700;margin-bottom:6px;}
+.compare-box.original .compare-eyebrow{color:var(--ink-light);}
+.compare-box.innovated .compare-eyebrow{color:var(--coral);}
+.compare-title{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(16px,2vw,20px);letter-spacing:2px;margin-bottom:10px;}
+.compare-text{font-size:clamp(15px,1.8vw,18px);line-height:1.6;font-weight:500;}
+
+.changed-word{background:var(--coral);color:#fff;padding:1px 8px;border-radius:6px;font-weight:600;display:inline-block;animation:swapIn 0.4s ease;}
+@keyframes swapIn{from{transform:scale(0.6);opacity:0;}to{transform:scale(1);opacity:1;}}
+
+.transform-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:18px 0 8px;}
+.transform-step-info{text-align:center;font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:1.5px;color:var(--ink-light);margin-bottom:10px;}
+.transform-step-info strong{color:var(--coral);}
+
+.annotation-list{background:#fff;border-radius:12px;padding:18px 22px;margin-top:14px;border-top:3px solid var(--coral);box-shadow:var(--shadow);}
+.annotation-list h4{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--ink-light);margin:0 0 10px;font-weight:700;}
+.annotation-item{padding:8px 0;border-bottom:1px dashed #eee;font-size:clamp(14px,1.6vw,17px);line-height:1.5;display:none;}
+.annotation-item.shown{display:block;animation:fadeIn 0.3s ease;}
+.annotation-item:last-child{border-bottom:none;}
+.annot-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;background:var(--coral);color:#fff;padding:2px 8px;border-radius:4px;margin-right:8px;font-weight:700;}
+.annot-tag.subject{background:var(--sky);}
+.annot-tag.adjective{background:var(--purple);}
+.annot-tag.verb{background:var(--orange);color:var(--ink);}
+.annot-tag.noun{background:var(--green);}
+
+.continue-block{background:#fff;border-radius:12px;padding:22px 26px;box-shadow:var(--shadow);border-top:4px solid var(--purple);}
+.continue-original{font-size:clamp(15px,1.8vw,18px);line-height:1.6;color:var(--ink);background:#f8f8f8;padding:14px 18px;border-radius:8px;border-left:3px solid var(--ink-light);margin-bottom:16px;font-weight:500;}
+.continue-starter{font-size:clamp(15px,1.8vw,18px);line-height:1.6;background:var(--purple-light);padding:14px 18px;border-radius:8px;border-left:3px solid var(--purple);margin-bottom:14px;font-weight:500;}
+.continue-starter strong{display:block;font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:4px;font-weight:700;}
+.continue-textarea{font-family:'Fredoka',sans-serif;font-size:clamp(15px,1.8vw,17px);padding:16px 20px;border:2px solid #ddd;border-radius:12px;width:100%;resize:vertical;min-height:120px;outline:none;transition:border-color 0.2s;font-weight:500;line-height:1.6;}
+.continue-textarea:focus{border-color:var(--purple);}
+
+.models-section{display:none;margin-top:18px;}
+.models-section.shown{display:block;animation:fadeIn 0.5s ease;}
+.models-section h3{font-family:'Fredoka',sans-serif;font-size:clamp(16px,2vw,20px);margin:0 0 12px;color:var(--purple);text-align:center;}
+.model-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
+.model-card{background:#fff;border-radius:12px;padding:18px 20px;box-shadow:var(--shadow);border-top:4px solid var(--purple);}
+.model-mood{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--purple);font-weight:700;margin-bottom:8px;}
+.model-text{font-family:'Fredoka',sans-serif;font-size:clamp(14px,1.6vw,16px);line-height:1.55;color:var(--ink);font-weight:500;font-style:italic;margin-bottom:10px;}
+.model-annot{font-size:clamp(12px,1.4vw,13px);color:var(--ink-light);line-height:1.45;border-top:1px dashed #eee;padding-top:8px;}
+.model-annot strong{color:var(--purple);}
+
+.checklist{background:linear-gradient(135deg,var(--green-light),#fff);border-left:4px solid var(--green);border-radius:12px;padding:18px 22px;margin-top:16px;}
+.checklist h4{font-family:'Fredoka',sans-serif;font-size:clamp(15px,1.8vw,17px);margin:0 0 10px;color:var(--green);}
+.checklist label{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:clamp(13px,1.5vw,15px);cursor:pointer;font-weight:500;}
+.checklist input[type=checkbox]{margin-top:3px;width:18px;height:18px;cursor:pointer;accent-color:var(--green);flex-shrink:0;}
+
+/* You do: 3 attempt grid */
+.ydo-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:18px;}
+.ydo-attempt{background:#fff;border-radius:12px;padding:18px 22px;box-shadow:var(--shadow);border-left:4px solid var(--purple);}
+.ydo-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.ydo-num{font-family:'Fredoka',sans-serif;font-weight:700;font-size:16px;color:#fff;background:var(--purple);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ydo-label{font-family:'Fredoka',sans-serif;font-weight:600;font-size:clamp(15px,1.7vw,17px);color:var(--purple);}
+.ydo-mood{font-family:'Fredoka',sans-serif;font-size:14px;padding:9px 14px;border:2px solid #ddd;border-radius:10px;width:100%;outline:none;margin-bottom:10px;font-weight:500;}
+.ydo-mood:focus{border-color:var(--purple);}
+
+/* ============ PHASE 6: SIMPLE EXIT ============ */
+.simple-instruction-card{background:#fff;border-radius:var(--radius);padding:36px 40px;box-shadow:var(--shadow);margin-bottom:18px;display:flex;gap:24px;align-items:flex-start;}
+.simple-instruction-card .step-num{font-family:'Fredoka',sans-serif;font-size:clamp(36px,5vw,52px);font-weight:700;color:#fff;background:var(--gold);width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.simple-instruction-card.teal .step-num{background:var(--teal);}
+.simple-instruction-card .body{flex:1;}
+.simple-instruction-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(20px,2.4vw,26px);margin:0 0 8px;}
+.simple-instruction-card p{font-size:clamp(15px,1.8vw,18px);color:var(--ink-light);line-height:1.55;margin:0 0 6px;}
+.simple-instruction-card p strong{color:var(--ink);font-weight:600;}
+@media(max-width:600px){.simple-instruction-card{flex-direction:column;}}
+
+/* Mobile */
+@media(max-width:768px){
+  .sidebar{width:0;}
+  main{margin-left:0;padding:24px 16px 60px;}
+  .card{padding:20px;}
+  :root{--sidebar-w:0px;}
+}
+
+/* Print */
+@media print{
+  body{background:#fff;}
+  .bg-shapes,.top-bar,.sidebar,.phase-nav,.btn,.step-tabs{display:none !important;}
+  main{margin-left:0;padding:20px;}
+  .phase{display:block !important;page-break-after:always;}
+  .card{box-shadow:none;border:1px solid #ddd;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+</div>
+
+<header class="top-bar">
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">&#9776;</button>
+  <div class="top-bar-title">The Explorer <span>&middot;</span> Lesson 1</div>
+  <a href="../index.html" class="back-link">&larr; Toolkit Home</a>
+</header>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Warm up</div>
+      <button class="sidebar-item active" data-nav="phase1" onclick="goPhase(1)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral);"></span>1. Word chains</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Predict</div>
+      <button class="sidebar-item" data-nav="phase2" onclick="goPhase(2)" tabindex="-1"><span class="sidebar-dot" style="background:var(--sky);"></span>2. Book covers</button>
+      <button class="sidebar-item" data-nav="phase3" onclick="goPhase(3)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple);"></span>3. Explorers</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Read</div>
+      <button class="sidebar-item" data-nav="phase4" onclick="goPhase(4)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal);"></span>4. Vocab &amp; chapter</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Write</div>
+      <button class="sidebar-item" data-nav="phase5" onclick="goPhase(5)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral);"></span>5. Innovate &amp; transform</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Reflect</div>
+      <button class="sidebar-item" data-nav="phase6" onclick="goPhase(6)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold);"></span>6. Reread &amp; exit slip</button>
+    </div>
+  </div>
+</aside>
+
+<main>
+
+<!-- ===================== PHASE 1: WARM UP ===================== -->
+<section class="phase active" id="phase1">
+  <div class="phase-eyebrow">Phase 1 of 6 &middot; 5 min</div>
+  <h1 class="phase-title">Word association warm up</h1>
+  <p class="phase-sub">Say a word. The next person says the first word it makes them think of.<br>Keep going.</p>
+
+  <div class="step-tabs">
+    <button class="step-tab active" data-p1="lisc" onclick="goP1('lisc')">1. Learning goals</button>
+    <button class="step-tab" data-p1="demo" onclick="goP1('demo')">2. Teacher demo</button>
+    <button class="step-tab" data-p1="pairs" onclick="goP1('pairs')">3. Your turn (pairs)</button>
+  </div>
+
+  <!-- 1a: LISC -->
+  <div class="step-panel active" id="p1-lisc">
+    <div class="lisc">
+      <p class="lisc-li">Learning intention: <span class="lisc-li-text">We are learning to build the background knowledge and vocabulary we need to understand a new novel, and to innovate on a writer's sentences by changing key words while keeping the structure.</span></p>
+      <div class="lisc-sc-title">Success criteria</div>
+      <ul>
+        <li>I can use clues from a book cover, images and vocabulary to make sensible predictions about a story.</li>
+        <li>I can explain what at least 6 new words from chapter 1 mean.</li>
+        <li>I can identify the key words a writer chose (subject, setting, verbs, adjectives) in a sentence.</li>
+        <li>I can innovate on one of Katherine Rundell's sentences by substituting key words while keeping her sentence structure.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1b: TEACHER DEMO -->
+  <div class="step-panel" id="p1-demo">
+    <div class="card warm-card">
+      <p class="warm-instruction"><strong>Demo with the class.</strong> Type a starting word, then add the words the class chains together.<br>Example chain: <strong>sand &rarr; crab &rarr; pinch &rarr; ouch</strong>.</p>
+      <div class="chain-row" id="chainRow">
+        <span class="chain-word start">explorer</span>
+      </div>
+      <div class="chain-input-row">
+        <input type="text" class="chain-input" id="chainInput" placeholder="Add the next word" onkeydown="handleChainKey(event)">
+        <button class="btn btn-teal btn-sm" onclick="addChainWord()">Add</button>
+        <button class="btn btn-outline btn-sm" onclick="resetChain()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1c: PAIRS WITH TIMER -->
+  <div class="step-panel" id="p1-pairs">
+    <div class="card timer-card">
+      <p class="warm-instruction"><strong>Pairs:</strong> alternate words starting with <em>explorer</em>. <br><strong>Extension:</strong> when the timer goes off, try to reverse the chain back to the start. Each round gives you more words to remember.</p>
+      <div style="text-align:center;font-family:'Space Mono',monospace;font-size:0.78rem;letter-spacing:2px;color:var(--ink-light);margin-bottom:4px;font-weight:700;">Round <span id="timerRound">1</span> of 3</div>
+      <div class="timer-display" id="timerDisplay">00:05</div>
+      <div class="timer-controls">
+        <button class="btn btn-coral btn-sm" id="timerStart" onclick="startTimer()">Start round 1 (5s)</button>
+        <button class="btn btn-outline btn-sm" onclick="resetTimer()">Reset rounds</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <span class="step-info">PHASE 1 / 6</span>
+    <button class="btn btn-coral" onclick="goPhase(2)">Next: book covers &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 2: COVERS ===================== -->
+<section class="phase" id="phase2">
+  <div class="phase-eyebrow">Phase 2 of 6 &middot; 8 min</div>
+  <h1 class="phase-title">What do these covers tell us?</h1>
+  <p class="phase-sub">Three covers, one novel. Look closely. Make predictions.</p>
+
+  <div class="covers-row">
+    <div class="cover">
+      <div class="cover-img-wrap"><img src="https://m.media-amazon.com/images/I/91X0y9MB2NL.jpg" alt="The Explorer hardcover edition"></div>
+      <div class="cover-label">Hardcover edition</div>
+    </div>
+    <div class="cover">
+      <div class="cover-img-wrap"><img src="https://m.media-amazon.com/images/I/71ffME5MmbL._AC_UF1000,1000_QL80_.jpg" alt="The Explorer audiobook"></div>
+      <div class="cover-label">Audiobook</div>
+    </div>
+    <div class="cover">
+      <div class="cover-img-wrap"><img src="https://m.media-amazon.com/images/I/71tgjltvlVL._AC_UF1000,1000_QL80_.jpg" alt="The Explorer paperback edition"></div>
+      <div class="cover-label">Paperback edition</div>
+    </div>
+  </div>
+
+  <div class="prompt-deck">
+    <div class="prompt-deck-title">Discussion prompt</div>
+    <div class="prompt-counter" id="coverCounter">Prompt 1 of 9</div>
+    <div class="prompt-text" id="coverPrompt">What do you notice about these covers?</div>
+    <div class="prompt-controls">
+      <button class="btn btn-outline btn-sm" id="coverPrev" onclick="coverPrev()" disabled>&larr; Previous</button>
+      <button class="btn btn-teal btn-sm" id="coverNext" onclick="coverNext()">Next prompt &rarr;</button>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(1)">&larr; Back</button>
+    <span class="step-info">PHASE 2 / 6</span>
+    <button class="btn btn-coral" onclick="goPhase(3)">Next: explorers &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 3: EXPLORERS ===================== -->
+<section class="phase" id="phase3">
+  <div class="phase-eyebrow">Phase 3 of 6 &middot; 8 min</div>
+  <h1 class="phase-title" id="p3Title">What does an explorer look like?</h1>
+  <p class="phase-sub" id="p3Sub">Discuss each image. Which feel like exploration to you, and why?</p>
+
+  <div class="step-tabs">
+    <button class="step-tab active" data-substep="images" onclick="goP3('images')">1. Images</button>
+    <button class="step-tab" data-substep="define" onclick="goP3('define')">2. Definition</button>
+    <button class="step-tab" data-substep="director" onclick="goP3('director')">3. Director prompt</button>
+  </div>
+
+  <!-- 3a: IMAGES -->
+  <div class="step-panel active" id="p3-images">
+    <div class="image-grid-5">
+      <div class="img-tile">
+        <div class="img-wrap"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJgxvynX77VMDk9PkgJeZYgqiAN_SOO7WH5Q&s" alt="An explorer"></div>
+        <div class="img-caption">Explorer 1</div>
+      </div>
+      <div class="img-tile">
+        <div class="img-wrap"><img src="https://bookunitsteacher.com/explorers/Christopher-Columbus-3.jpg" alt="An explorer"></div>
+        <div class="img-caption">Explorer 2</div>
+      </div>
+      <div class="img-tile">
+        <div class="img-wrap"><img src="https://assets.mundycruising.co.uk/cdn-cgi/image/fit=crop%2Cformat=auto%2Cquality=85%2Cwidth=600%2Cheight=375%2Ctrim=30%3B0%3B31%3B0/https://s3.eu-west-1.amazonaws.com/mundy.assets.d3r.com/images/original/19343-great-explorers-cruises-quark-expeditions-antarctica.jpg" alt="An explorer"></div>
+        <div class="img-caption">Explorer 3</div>
+      </div>
+      <div class="img-tile">
+        <div class="img-wrap"><img src="https://www.historyanswers.co.uk/wp-content/uploads/2019/03/ExplorersBanner.png" alt="An explorer"></div>
+        <div class="img-caption">Explorer 4</div>
+      </div>
+      <div class="img-tile">
+        <div class="img-wrap"><img src="https://hips.hearstapps.com/hmg-prod/images/copy-of-lucy-shepherd-portrait-673779b5f11f3.jpg?resize=980:*" alt="An explorer"></div>
+        <div class="img-caption">Explorer 5</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3b: DEFINITION -->
+  <div class="step-panel" id="p3-define">
+    <div class="card definition-big">
+      <div class="eyebrow">So what is an explorer?</div>
+      <div class="word">explorer</div>
+      <div class="word-class">(noun)</div>
+      <div class="meaning">Someone who travels to places no one has ever been in order to find out what is there.</div>
+    </div>
+  </div>
+
+  <!-- 3c: DIRECTOR PROMPT -->
+  <div class="step-panel" id="p3-director">
+    <div class="card director-card">
+      <div class="eyebrow">Bonus prompt</div>
+      <h2>Imagine you are a film director making a movie about an explorer.</h2>
+      <p style="font-size:clamp(14px,1.6vw,16px);color:var(--ink-light);margin:0 0 14px;line-height:1.5;">Picture every detail before we look at the questions.</p>
+      <div style="text-align:center;">
+        <button class="btn btn-gold" id="bonusReveal" onclick="revealBonus()">Show the questions</button>
+      </div>
+      <div class="director-prompts" id="bonusPrompts">
+        <ul>
+          <li>What <strong>genre</strong> would your film be? (Adventure, comedy, horror, fantasy, mystery?)</li>
+          <li>What <strong>time period</strong> would it be set in?</li>
+          <li>What <strong>climate and weather</strong>?</li>
+          <li>What <strong>mood</strong> would the audience feel?</li>
+          <li>What <strong>sounds and smells</strong> would the audience experience?</li>
+        </ul>
+        <div class="director-instruction">Take 3 minutes to write your director's notes in your book.</div>
+        <div class="director-timer-row">
+          <button class="btn btn-coral btn-sm" onclick="startBonusTimer()">Start 3-minute timer</button>
+          <span class="timer-display" id="bonusTimer" style="font-size:clamp(28px,4vw,40px);margin:0;">03:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(2)">&larr; Back</button>
+    <span class="step-info">PHASE 3 / 6</span>
+    <button class="btn btn-coral" onclick="goPhase(4)">Next: vocab &amp; chapter &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 4: VOCAB & CHAPTER ===================== -->
+<section class="phase" id="phase4">
+  <div class="phase-eyebrow">Phase 4 of 6 &middot; 8 min plus listening time</div>
+  <h1 class="phase-title">Vocabulary &amp; chapter 1</h1>
+  <p class="phase-sub">Tap each word to flip it. Know them all before we listen.</p>
+
+  <div class="map-instruction">
+    <div class="map-icon">&#9737;</div>
+    <div class="map-text">
+      <strong>Locate the setting on the board</strong>
+      <span>Switch to Google Earth or Maps and find <strong>Manaus</strong> on the <strong>Amazon River</strong> in <strong>Brazil</strong>. This is where chapter 1 begins.</span>
+    </div>
+  </div>
+
+  <div class="vocab-progress"><strong id="vocabFlipped">0</strong> of <strong>10</strong> words flipped</div>
+
+  <div class="vocab-grid" id="vocabGrid"></div>
+
+  <div style="text-align:center;margin-bottom:14px;">
+    <button class="btn btn-teal btn-sm" onclick="revealAudio()">We've reviewed them. Show the chapter</button>
+  </div>
+
+  <div class="audio-section" id="audioSection">
+    <div class="audio-card">
+      <h3>Chapter 1: Flight</h3>
+      <p>Read by Katherine Rundell herself.</p>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/G7lCzmS9GhI?cc_load_policy=1" title="The Explorer chapter 1 read by Katherine Rundell" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(3)">&larr; Back</button>
+    <span class="step-info">PHASE 4 / 6</span>
+    <button class="btn btn-coral" onclick="goPhase(5)">Next: innovate &amp; transform &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 5: INNOVATE / TRANSFORM ===================== -->
+<section class="phase" id="phase5">
+  <div class="phase-eyebrow">Phase 5 of 6 &middot; 20 min</div>
+  <h1 class="phase-title">Innovate &amp; transform</h1>
+  <p class="phase-sub">Start simple. Build up. Then make Katherine Rundell's writing your own.</p>
+
+  <div class="step-tabs">
+    <button class="step-tab active" data-step="explain" onclick="goStep('explain')">What is this?</button>
+    <button class="step-tab" data-step="l1" onclick="goStep('l1')">Level 1: Opposites</button>
+    <button class="step-tab" data-step="l2" onclick="goStep('l2')">Level 2: Substitutions</button>
+    <button class="step-tab" data-step="l3" onclick="goStep('l3')">Level 3: Katherine's</button>
+    <button class="step-tab" data-step="youdo" onclick="goStep('youdo')">You do</button>
+  </div>
+
+  <!-- EXPLAIN -->
+  <div class="step-panel active" id="step-explain">
+    <div class="intro-card">
+      <h3>What is innovating &amp; transforming?</h3>
+      <p>You take a sentence someone else wrote and you change parts of it to make it your own. The <span class="accent">structure</span> stays. The <span class="accent">words</span> change.</p>
+      <p>We'll build up in three levels: opposites first, then small substitutions, then Katherine Rundell's actual writing. Then it's your turn.</p>
+    </div>
+  </div>
+
+  <!-- LEVEL 1: OPPOSITES -->
+  <div class="step-panel" id="step-l1">
+    <div class="intro-card" style="border-left-color:var(--teal);background:linear-gradient(135deg,var(--teal-light),#fff);">
+      <h3 style="color:var(--teal);">Level 1: swap each word for its opposite</h3>
+      <p>Watch how a sentence flips meaning when we replace each key word with its opposite.</p>
+    </div>
+
+    <div class="compare-row">
+      <div class="compare-box original">
+        <div class="compare-eyebrow">Original</div>
+        <div class="compare-text">The <strong>big</strong> dog ran <strong>fast</strong>.</div>
+      </div>
+      <div class="compare-box innovated" style="border-top-color:var(--teal);">
+        <div class="compare-eyebrow" style="color:var(--teal);">Opposites</div>
+        <div class="compare-text" id="l1Text" style="color:var(--ink-light);font-style:italic;">Use the buttons below to flip each word.</div>
+      </div>
+    </div>
+
+    <div class="transform-step-info">Step <strong id="l1StepNum">0</strong> of <strong>2</strong></div>
+    <div class="transform-controls">
+      <button class="btn btn-outline btn-sm" id="l1Undo" onclick="l1Undo()" disabled>&larr; Undo</button>
+      <button class="btn btn-teal btn-sm" id="l1Redo" onclick="l1Redo()">Flip next word &rarr;</button>
+      <button class="btn btn-outline btn-sm" onclick="l1Reset()">Start over</button>
+    </div>
+  </div>
+
+  <!-- LEVEL 2: SMALL SUBSTITUTIONS -->
+  <div class="step-panel" id="step-l2">
+    <div class="intro-card" style="border-left-color:var(--gold);background:linear-gradient(135deg,var(--gold-light),#fff);">
+      <h3 style="color:#b8920e;">Level 2: keep the structure, swap the key words</h3>
+      <p>Now we don't flip to the opposite. We just choose <strong>different words</strong> that fit the same sentence shape.</p>
+    </div>
+
+    <div class="compare-row">
+      <div class="compare-box original">
+        <div class="compare-eyebrow">Original</div>
+        <div class="compare-text">The <strong>students</strong> had a <strong>fun-filled holiday</strong> where they <strong>played games</strong>.</div>
+      </div>
+      <div class="compare-box innovated" style="border-top-color:var(--gold);">
+        <div class="compare-eyebrow" style="color:#b8920e;">Substituted</div>
+        <div class="compare-text" id="l2Text" style="color:var(--ink-light);font-style:italic;">Use the buttons below to swap each part.</div>
+      </div>
+    </div>
+
+    <div class="transform-step-info">Step <strong id="l2StepNum">0</strong> of <strong>3</strong></div>
+    <div class="transform-controls">
+      <button class="btn btn-outline btn-sm" id="l2Undo" onclick="l2Undo()" disabled>&larr; Undo</button>
+      <button class="btn btn-gold btn-sm" id="l2Redo" onclick="l2Redo()">Swap next part &rarr;</button>
+      <button class="btn btn-outline btn-sm" onclick="l2Reset()">Start over</button>
+    </div>
+
+    <div class="annotation-list" id="l2Annotations" style="border-top-color:var(--gold);">
+      <h4>What we changed</h4>
+      <div class="annotation-item" id="l2Ann1"><span class="annot-tag subject">Subject</span> <strong>students</strong> &rarr; <strong>monkeys</strong>. The "who" of the sentence.</div>
+      <div class="annotation-item" id="l2Ann2"><span class="annot-tag noun">Setting</span> <strong>fun-filled holiday</strong> &rarr; <strong>stress-soaked time at the zoo</strong>. The "where" and the mood.</div>
+      <div class="annotation-item" id="l2Ann3"><span class="annot-tag verb">Action</span> <strong>played games</strong> &rarr; <strong>kids pointed at them</strong>. The "what happened".</div>
+    </div>
+  </div>
+
+  <!-- LEVEL 3: KATHERINE'S -->
+  <div class="step-panel" id="step-l3">
+    <div class="intro-card" style="border-left-color:var(--coral);background:linear-gradient(135deg,var(--coral-light),#fff);">
+      <h3 style="color:var(--coral);">Level 3: Katherine Rundell's writing</h3>
+      <p>Now the real thing. Watch how the opening line of <em>The Explorer</em> can become a completely different sentence with the same shape.</p>
+    </div>
+
+    <div class="compare-row">
+      <div class="compare-box original">
+        <div class="compare-eyebrow">Original</div>
+        <div class="compare-title">FLIGHT</div>
+        <div class="compare-text">Like a man-made magic wish, the aeroplane began to rise.</div>
+      </div>
+      <div class="compare-box innovated">
+        <div class="compare-eyebrow">Transformed</div>
+        <div class="compare-title" id="idoInnovTitle" style="color:var(--ink-light);">________</div>
+        <div class="compare-text" id="idoInnovText" style="color:var(--ink-light);font-style:italic;">Use the buttons below to transform it part by part.</div>
+      </div>
+    </div>
+
+    <div class="transform-step-info">Step <strong id="idoStepNum">0</strong> of <strong>5</strong></div>
+    <div class="transform-controls">
+      <button class="btn btn-outline btn-sm" id="idoUndo" onclick="idoUndo()" disabled>&larr; Undo</button>
+      <button class="btn btn-coral btn-sm" id="idoRedo" onclick="idoRedo()">Next change &rarr;</button>
+      <button class="btn btn-outline btn-sm" onclick="idoReset()">Start over</button>
+    </div>
+
+    <div class="annotation-list" id="idoAnnotations">
+      <h4>What changed</h4>
+      <div class="annotation-item" id="idoAnn1"><span class="annot-tag noun">Title</span> <strong>FLIGHT</strong> &rarr; <strong>DESCENT</strong>. The opposite kind of motion.</div>
+      <div class="annotation-item" id="idoAnn2"><span class="annot-tag adjective">Adjective phrase</span> <strong>man-made magic wish</strong> &rarr; <strong>silent stone</strong>. Same simile shape, different image.</div>
+      <div class="annotation-item" id="idoAnn3"><span class="annot-tag subject">Subject</span> <strong>aeroplane</strong> &rarr; <strong>diver</strong>. The "who or what".</div>
+      <div class="annotation-item" id="idoAnn4"><span class="annot-tag verb">Verb</span> <strong>began to rise</strong> &rarr; <strong>plummeted</strong>. The action is now downwards and dramatic.</div>
+      <div class="annotation-item" id="idoAnn5"><span class="annot-tag noun">Setting</span> Added <strong>"towards the ocean floor"</strong>. A new location grounds the new image.</div>
+    </div>
+  </div>
+
+  <!-- YOU DO: Three attempts on FLIGHT -->
+  <div class="step-panel" id="step-youdo">
+    <div class="intro-card" style="border-left-color:var(--purple);">
+      <h3>Your turn: innovate this sentence three ways</h3>
+      <p>Below is Katherine Rundell's opening line. Innovate on it <strong>three different times</strong>. Each version should have a different mood or world. Keep the structure: <em>"Like a [adjective] [noun], the [subject] [verb] [direction]."</em></p>
+    </div>
+
+    <div class="continue-block" style="border-top-color:var(--coral);">
+      <div style="font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;font-weight:700;">The original (Katherine Rundell, p1)</div>
+      <div class="continue-original" style="font-style:italic;font-size:clamp(16px,1.9vw,19px);"><strong style="font-style:normal;letter-spacing:2px;display:block;margin-bottom:4px;">FLIGHT</strong>Like a man-made magic wish, the aeroplane began to rise.</div>
+    </div>
+
+    <div class="ydo-grid">
+      <div class="ydo-attempt" data-n="1">
+        <div class="ydo-header"><span class="ydo-num">1</span><span class="ydo-label">Innovation 1</span></div>
+        <label for="ydInput1" style="display:block;font-size:0.8rem;font-weight:600;color:var(--ink-light);margin-bottom:6px;">Choose a mood (e.g. peaceful, comic, terrifying):</label>
+        <input type="text" class="ydo-mood" id="ydMood1" placeholder="My mood is...">
+        <textarea class="continue-textarea" id="ydInput1" placeholder="Like a..."></textarea>
+      </div>
+
+      <div class="ydo-attempt" data-n="2">
+        <div class="ydo-header"><span class="ydo-num">2</span><span class="ydo-label">Innovation 2</span></div>
+        <label for="ydInput2" style="display:block;font-size:0.8rem;font-weight:600;color:var(--ink-light);margin-bottom:6px;">Choose a different mood:</label>
+        <input type="text" class="ydo-mood" id="ydMood2" placeholder="My mood is...">
+        <textarea class="continue-textarea" id="ydInput2" placeholder="Like a..."></textarea>
+      </div>
+
+      <div class="ydo-attempt" data-n="3">
+        <div class="ydo-header"><span class="ydo-num">3</span><span class="ydo-label">Innovation 3</span></div>
+        <label for="ydInput3" style="display:block;font-size:0.8rem;font-weight:600;color:var(--ink-light);margin-bottom:6px;">Choose a third different mood:</label>
+        <input type="text" class="ydo-mood" id="ydMood3" placeholder="My mood is...">
+        <textarea class="continue-textarea" id="ydInput3" placeholder="Like a..."></textarea>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:18px;">
+      <button class="btn btn-purple btn-sm" id="ydShowModels" onclick="showYouDoModels()">See three model innovations</button>
+    </div>
+
+    <div class="models-section" id="ydModels">
+      <h3>Three different writers might innovate it like this</h3>
+      <div class="model-grid">
+        <div class="model-card">
+          <div class="model-mood">Mood: terrifying</div>
+          <div class="model-text">"Like a deep, swallowing nightmare, the submarine began to sink."</div>
+          <div class="model-annot"><strong>What changed:</strong> "magic wish" &rarr; "swallowing nightmare". "aeroplane" &rarr; "submarine". "rise" &rarr; "sink". The structure is identical.</div>
+        </div>
+        <div class="model-card">
+          <div class="model-mood">Mood: joyful</div>
+          <div class="model-text">"Like a brightly painted balloon, the kite began to dance."</div>
+          <div class="model-annot"><strong>What changed:</strong> "magic wish" &rarr; "brightly painted balloon". "aeroplane" &rarr; "kite". "rise" &rarr; "dance". Same lifting feeling, but lighter and more playful.</div>
+        </div>
+        <div class="model-card">
+          <div class="model-mood">Mood: peaceful</div>
+          <div class="model-text">"Like a long, slow breath, the hot-air balloon began to drift."</div>
+          <div class="model-annot"><strong>What changed:</strong> "magic wish" &rarr; "long, slow breath". "aeroplane" &rarr; "hot-air balloon". "rise" &rarr; "drift". The pace slows right down.</div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <h4>Self-assessment: check each of your three innovations</h4>
+        <label><input type="checkbox"> All three keep the original sentence structure</label>
+        <label><input type="checkbox"> Each one has a clearly different mood from the others</label>
+        <label><input type="checkbox"> I changed the descriptive simile (the "Like a ___" part)</label>
+        <label><input type="checkbox"> I changed the subject (what is moving)</label>
+        <label><input type="checkbox"> I changed the verb (how it moves)</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(4)">&larr; Back</button>
+    <span class="step-info">PHASE 5 / 6</span>
+    <button class="btn btn-coral" onclick="goPhase(6)">Next: reread &amp; exit slip &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 6: SIMPLE REREAD + EXIT SLIP ===================== -->
+<section class="phase" id="phase6">
+  <div class="phase-eyebrow">Phase 6 of 6 &middot; 5 min</div>
+  <h1 class="phase-title">Reread &amp; exit slip</h1>
+  <p class="phase-sub">Two final things to wrap up the lesson.</p>
+
+  <div class="simple-instruction-card">
+    <div class="step-num">1</div>
+    <div class="body">
+      <h3>Reread chapter 1 with a partner</h3>
+      <p>Take turns reading <strong>alternating paragraphs</strong>. Listen for any words from your vocab list and any sentences that stand out as great writing.</p>
+    </div>
+  </div>
+
+  <div class="simple-instruction-card teal">
+    <div class="step-num">2</div>
+    <div class="body">
+      <h3>Fill out your printed exit slip</h3>
+      <p>Write a <strong>one-sentence summary</strong> of chapter 1 on your printed exit slip. You'll be doing this every chapter, so keep it together with your novel.</p>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(5)">&larr; Back</button>
+    <span class="step-info">PHASE 6 / 6</span>
+    <button class="btn btn-coral" onclick="goPhase(1)">Restart lesson</button>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* ============== Sidebar ============== */
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed');}
+
+/* ============== Phase navigation ============== */
+function goPhase(n){
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
+  document.getElementById('phase'+n).classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(s=>s.classList.remove('active'));
+  var si=document.querySelector('.sidebar-item[data-nav="phase'+n+'"]');
+  if(si)si.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============== PHASE 1: Sub-step navigation ============== */
+function goP1(name){
+  document.querySelectorAll('#phase1 .step-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('#phase1 .step-tab[data-p1="'+name+'"]').classList.add('active');
+  document.querySelectorAll('#phase1 .step-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p1-'+name).classList.add('active');
+}
+
+/* ============== PHASE 1: Word chains ============== */
+function addChainWord(){
+  var input=document.getElementById('chainInput');
+  var word=input.value.trim();
+  if(!word)return;
+  var row=document.getElementById('chainRow');
+  var arrow=document.createElement('span');
+  arrow.className='chain-arrow';
+  arrow.innerHTML='&rarr;';
+  row.appendChild(arrow);
+  var span=document.createElement('span');
+  span.className='chain-word';
+  span.textContent=word;
+  row.appendChild(span);
+  input.value='';
+  input.focus();
+}
+function handleChainKey(e){if(e.key==='Enter'){e.preventDefault();addChainWord();}}
+function resetChain(){
+  document.getElementById('chainRow').innerHTML='<span class="chain-word start">explorer</span>';
+  document.getElementById('chainInput').value='';
+}
+
+/* ============== Timers ============== */
+var roundDurations=[5,10,20];
+var roundIdx=0;
+var timer1=null,timer1Remaining=roundDurations[0];
+function startTimer(){
+  if(timer1)return;
+  var btn=document.getElementById('timerStart');
+  btn.textContent='Running...';btn.disabled=true;
+  timer1=setInterval(function(){
+    timer1Remaining--;
+    updateTimer1();
+    if(timer1Remaining<=0){
+      clearInterval(timer1);timer1=null;
+      btn.textContent="Time! Now reverse the chain.";btn.disabled=false;
+      btn.onclick=advanceRound;
+    }
+  },1000);
+}
+function advanceRound(){
+  var btn=document.getElementById('timerStart');
+  if(roundIdx<roundDurations.length-1){
+    roundIdx++;
+    timer1Remaining=roundDurations[roundIdx];
+    document.getElementById('timerRound').textContent=(roundIdx+1);
+    updateTimer1();
+    btn.textContent='Start round '+(roundIdx+1)+' ('+roundDurations[roundIdx]+'s)';
+    btn.onclick=startTimer;
+  } else {
+    btn.textContent='All rounds done!';btn.disabled=true;
+  }
+}
+function updateTimer1(){
+  var d=document.getElementById('timerDisplay');
+  var m=Math.floor(timer1Remaining/60),s=timer1Remaining%60;
+  d.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  if(timer1Remaining<=3)d.classList.add('warning');else d.classList.remove('warning');
+}
+function resetTimer(){
+  if(timer1){clearInterval(timer1);timer1=null;}
+  roundIdx=0;
+  timer1Remaining=roundDurations[0];
+  document.getElementById('timerRound').textContent='1';
+  updateTimer1();
+  var btn=document.getElementById('timerStart');
+  btn.textContent='Start round 1 (5s)';btn.disabled=false;btn.onclick=startTimer;
+  document.getElementById('timerDisplay').classList.remove('warning');
+}
+
+var bonusT=null,bonusRem=180;
+function startBonusTimer(){
+  if(bonusT)return;
+  bonusT=setInterval(function(){
+    bonusRem--;
+    var d=document.getElementById('bonusTimer');
+    var m=Math.floor(bonusRem/60),s=bonusRem%60;
+    d.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    if(bonusRem<=15)d.style.color='var(--coral)';
+    if(bonusRem<=0){clearInterval(bonusT);bonusT=null;d.textContent='Time!';}
+  },1000);
+}
+
+/* ============== PHASE 2: Cover prompts ============== */
+var coverPrompts=[
+  "What do you notice about these covers?",
+  "Where do you think the story will be set?",
+  "Who is the explorer? Will they be a hero or an antagonist?",
+  "Where do you think the plane is flying to?",
+  "Who do you think is on the plane, and why?",
+  "Are explorers usually pale or dark skinned? Male or female? Young or old?",
+  "Are explorers usually armed or unarmed? Brave or fearful?",
+  "Will the explorer in this story be alone or in a group?",
+  "Based on everything we've noticed, what kind of story do you predict this will be?"
+];
+var coverIdx=0;
+function updateCover(){
+  document.getElementById('coverPrompt').textContent=coverPrompts[coverIdx];
+  document.getElementById('coverCounter').textContent='Prompt '+(coverIdx+1)+' of '+coverPrompts.length;
+  document.getElementById('coverPrev').disabled=(coverIdx===0);
+  document.getElementById('coverNext').disabled=(coverIdx===coverPrompts.length-1);
+}
+function coverNext(){if(coverIdx<coverPrompts.length-1){coverIdx++;updateCover();}}
+function coverPrev(){if(coverIdx>0){coverIdx--;updateCover();}}
+
+/* ============== PHASE 3: Sub-step navigation ============== */
+var p3Headings={
+  images:{title:'What does an explorer look like?',sub:'Discuss each image. Which feel like exploration to you, and why?'},
+  define:{title:"Here's the formal definition",sub:'Compare it with the predictions you made.'},
+  director:{title:'You are the film director',sub:'Imagine the movie before the questions are revealed.'}
+};
+function goP3(name){
+  document.querySelectorAll('#phase3 .step-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('#phase3 .step-tab[data-substep="'+name+'"]').classList.add('active');
+  document.querySelectorAll('#phase3 .step-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p3-'+name).classList.add('active');
+  document.getElementById('p3Title').textContent=p3Headings[name].title;
+  document.getElementById('p3Sub').textContent=p3Headings[name].sub;
+}
+function revealBonus(){
+  document.getElementById('bonusPrompts').classList.add('shown');
+  document.getElementById('bonusReveal').style.display='none';
+}
+
+/* ============== PHASE 4: Vocab tiles ============== */
+var vocabWords=[
+  {w:"cockpit",m:"The small space at the front of a plane where the pilot sits and controls it.",e:'"The pilot climbed into the cockpit."'},
+  {w:"joystick",m:"The lever a pilot pushes and pulls to steer the plane.",e:'"He gripped the joystick tightly."'},
+  {w:"throttle",m:"The control that makes a plane go faster or slower.",e:'"She eased the throttle forward."'},
+  {w:"Brazil",m:"A large country in South America with the world's biggest rainforest.",e:'"They were flying over Brazil."'},
+  {w:"Amazon River",m:"An enormous river running through the rainforest in South America.",e:'"The Amazon River winds for thousands of kilometres."'},
+  {w:"Manaus",m:"A city in the middle of the Amazon rainforest where the chapter begins.",e:'"The plane took off from Manaus."'},
+  {w:"belched",m:"Burped loudly, or pushed out smoke or fumes suddenly.",e:'"The old engine belched black smoke."'},
+  {w:"dipped",m:"Moved suddenly downwards.",e:'"The plane dipped towards the trees."'},
+  {w:"lurched",m:"Moved suddenly and unsteadily.",e:'"The bus lurched around the corner."'},
+  {w:"slumped",m:"Dropped down heavily and limply.",e:'"He slumped into his chair after the long run."'}
+];
+var flippedCount=0;
+function buildVocab(){
+  var grid=document.getElementById('vocabGrid');
+  vocabWords.forEach(function(v,i){
+    var tile=document.createElement('div');
+    tile.className='vocab-tile';
+    tile.tabIndex=0;
+    tile.setAttribute('role','button');
+    tile.setAttribute('aria-label','Flip card for '+v.w);
+    tile.innerHTML='<div class="vocab-inner"><div class="vocab-front"><div class="word">'+v.w+'</div><div class="hint">tap to flip</div></div><div class="vocab-back"><div class="meaning">'+v.m+'</div><div class="example">'+v.e+'</div></div></div>';
+    var handler=function(){
+      if(!tile.classList.contains('flipped')){
+        tile.classList.add('flipped');
+        flippedCount++;
+      } else {
+        tile.classList.remove('flipped');
+        flippedCount--;
+      }
+      document.getElementById('vocabFlipped').textContent=flippedCount;
+    };
+    tile.addEventListener('click',handler);
+    tile.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();handler();}});
+    grid.appendChild(tile);
+  });
+}
+buildVocab();
+
+function revealAudio(){
+  var s=document.getElementById('audioSection');
+  s.classList.add('shown');
+  setTimeout(function(){s.scrollIntoView({behavior:'smooth',block:'start'});},100);
+}
+
+/* ============== PHASE 5: I do / We do / You do ============== */
+function goStep(name){
+  document.querySelectorAll('#phase5 .step-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('#phase5 .step-tab[data-step="'+name+'"]').classList.add('active');
+  document.querySelectorAll('#phase5 .step-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('step-'+name).classList.add('active');
+}
+
+/* I do: progressive transformation with Undo / Redo */
+/* Each step transforms one part of FLIGHT into DESCENT.
+   Step 0 = nothing transformed. Step 5 = fully transformed. */
+
+/* Reusable progressive transform builder. Pass: stateArray, ids, onRender callback. */
+function makeTransformer(states, opts){
+  var step=0;
+  function render(){
+    var s=states[step];
+    var titleEl=opts.titleEl?document.getElementById(opts.titleEl):null;
+    var textEl=document.getElementById(opts.textEl);
+    if(titleEl){
+      titleEl.innerHTML=s.title||'';
+      titleEl.style.color=(step===0?'var(--ink-light)':'');
+    }
+    textEl.innerHTML=s.text;
+    textEl.style.color=(step===0?'var(--ink-light)':'');
+    textEl.style.fontStyle=(step===0?'italic':'');
+    document.getElementById(opts.stepNumEl).textContent=step;
+    document.getElementById(opts.undoBtn).disabled=(step===0);
+    document.getElementById(opts.redoBtn).disabled=(step===states.length-1);
+    if(step===states.length-1){document.getElementById(opts.redoBtn).textContent='Done';}
+    else{document.getElementById(opts.redoBtn).textContent=opts.redoLabel||'Next \u2192';}
+    /* Annotations */
+    if(opts.annContainer){
+      document.querySelectorAll('#'+opts.annContainer+' .annotation-item').forEach(function(item){item.classList.remove('shown');});
+      for(var i=1;i<=step;i++){
+        var ann=states[i].annId;
+        if(ann){var el=document.getElementById(ann);if(el)el.classList.add('shown');}
+      }
+    }
+  }
+  return {
+    redo:function(){if(step<states.length-1){step++;render();}},
+    undo:function(){if(step>0){step--;render();}},
+    reset:function(){step=0;render();},
+    render:render
+  };
+}
+
+/* LEVEL 1: opposites of "The big dog ran fast." */
+var l1States=[
+  {text:'Use the buttons below to flip each word.'},
+  {text:'The <span class="changed-word">small</span> dog ran fast.'},
+  {text:'The small <span class="changed-word">cat</span> walked <span class="changed-word">slowly</span>.'}
+];
+/* Note: step 1 only flips "big". Step 2 flips dog->cat AND fast->slowly together so the
+   sentence reads naturally. We could split further but two steps is enough at this level. */
+var l1=makeTransformer(l1States,{
+  textEl:'l1Text', stepNumEl:'l1StepNum',
+  undoBtn:'l1Undo', redoBtn:'l1Redo', redoLabel:'Flip next word \u2192'
+});
+function l1Redo(){l1.redo();}
+function l1Undo(){l1.undo();}
+function l1Reset(){l1.reset();}
+l1.render();
+
+/* LEVEL 2: substitute key parts of "The students had a fun-filled holiday where they played games." */
+var l2States=[
+  {text:'Use the buttons below to swap each part.'},
+  {text:'The <span class="changed-word">monkeys</span> had a fun-filled holiday where they played games.', annId:'l2Ann1'},
+  {text:'The monkeys had a <span class="changed-word">stress-soaked time at the zoo</span> where they played games.', annId:'l2Ann2'},
+  {text:'The monkeys had a stress-soaked time at the zoo where <span class="changed-word">kids pointed at them</span>.', annId:'l2Ann3'}
+];
+var l2=makeTransformer(l2States,{
+  textEl:'l2Text', stepNumEl:'l2StepNum',
+  undoBtn:'l2Undo', redoBtn:'l2Redo', redoLabel:'Swap next part \u2192',
+  annContainer:'l2Annotations'
+});
+function l2Redo(){l2.redo();}
+function l2Undo(){l2.undo();}
+function l2Reset(){l2.reset();}
+l2.render();
+
+/* LEVEL 3 (formerly I do): FLIGHT -> DESCENT */
+var idoStates=[
+  {title:'________', text:'Use the buttons below to transform it part by part.'},
+  {title:'<span class="changed-word">DESCENT</span>', text:'Like a man-made magic wish, the aeroplane began to rise.', annId:'idoAnn1'},
+  {title:'DESCENT', text:'Like <span class="changed-word">a silent stone</span>, the aeroplane began to rise.', annId:'idoAnn2'},
+  {title:'DESCENT', text:'Like a silent stone, <span class="changed-word">the diver</span> began to rise.', annId:'idoAnn3'},
+  {title:'DESCENT', text:'Like a silent stone, the diver <span class="changed-word">plummeted</span>.', annId:'idoAnn4'},
+  {title:'DESCENT', text:'Like a silent stone, the diver plummeted <span class="changed-word">towards the ocean floor</span>.', annId:'idoAnn5'}
+];
+var ido=makeTransformer(idoStates,{
+  titleEl:'idoInnovTitle', textEl:'idoInnovText', stepNumEl:'idoStepNum',
+  undoBtn:'idoUndo', redoBtn:'idoRedo', redoLabel:'Next change \u2192',
+  annContainer:'idoAnnotations'
+});
+function idoRedo(){ido.redo();}
+function idoUndo(){ido.undo();}
+function idoReset(){ido.reset();}
+ido.render();
+
+/* We do models reveal (kept for backward compatibility - no longer used in current panel structure but harmless) */
+function showWeDoModels(){var el=document.getElementById('wedoModels');if(el)el.classList.add('shown');}
+
+/* You do models reveal */
+function showYouDoModels(){
+  document.getElementById('ydModels').classList.add('shown');
+  document.getElementById('ydShowModels').disabled=true;
+  document.getElementById('ydShowModels').textContent='Models shown below';
+  setTimeout(function(){document.getElementById('ydModels').scrollIntoView({behavior:'smooth',block:'start'});},100);
+}
+
+/* ============== Clicker / arrow key navigation ============== */
+document.addEventListener('keydown',function(e){
+  if(document.activeElement && (document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='TEXTAREA')){return;}
+  if(document.activeElement && document.activeElement.blur)document.activeElement.blur();
+  var current=null;
+  document.querySelectorAll('.phase').forEach(function(p,i){if(p.classList.contains('active'))current=i+1;});
+  if(!current)return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){if(current<6){e.preventDefault();goPhase(current+1);}}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){if(current>1){e.preventDefault();goPhase(current-1);}}
+},true);
+</script>
+
+</body>
+</html>
