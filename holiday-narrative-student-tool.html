@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A Moment from the Holidays - Stage 3 narrative writing lesson. Writer's Toolkit interactive for Roseville College.">
+<title>A Moment from the Holidays</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAF8F5;--ink:#1e1e1e;--ink-light:#6b6b6b;--card:#fff;--shadow:0 4px 20px rgba(0,0,0,0.06);--shadow-hover:0 8px 32px rgba(0,0,0,0.12);--radius:16px;--correct:#27AE60;--incorrect:#E74C3C;--teal:#4ecdc4;--coral:#ff6b6b;--purple:#9B5DE5;--gold:#ffd166;--lavender:#a78bfa;--sky:#38bdf8;--hl-yellow:#FFF3BF;--hl-blue:#D0EBFF;--hl-green:#D3F9D8;--hl-pink:#FFD6E0;--sidebar-bg:#2D3436;--sidebar-w:240px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* BACKGROUND BLOBS */
+.bg-shapes{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;opacity:0.08;filter:blur(40px);animation:float 20s ease-in-out infinite;}
+.bg-shape:nth-child(1){width:400px;height:400px;background:var(--coral);top:-100px;left:-80px;}
+.bg-shape:nth-child(2){width:300px;height:300px;background:var(--teal);top:30%;right:-60px;animation-delay:-5s;animation-duration:25s;}
+.bg-shape:nth-child(3){width:350px;height:350px;background:var(--gold);bottom:10%;left:5%;animation-delay:-10s;animation-duration:22s;}
+.bg-shape:nth-child(4){width:250px;height:250px;background:var(--lavender);top:55%;right:20%;animation-delay:-15s;animation-duration:28s;}
+.bg-shape:nth-child(5){width:200px;height:200px;background:var(--sky);top:10%;left:45%;animation-delay:-8s;animation-duration:18s;}
+@keyframes float{0%,100%{transform:translate(0,0) rotate(0deg);}25%{transform:translate(30px,-20px) rotate(5deg);}50%{transform:translate(-20px,30px) rotate(-3deg);}75%{transform:translate(15px,15px) rotate(4deg);}}
+
+/* TOP BAR */
+.top-bar{background:var(--sidebar-bg);color:#fff;padding:0;position:sticky;top:0;z-index:200;display:flex;align-items:center;border-bottom:2px solid rgba(255,255,255,0.08);}
+.sidebar-toggle{background:none;border:none;border-right:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.top-bar-title{font-family:'Fredoka',sans-serif;font-size:1rem;font-weight:700;padding:0 20px;white-space:nowrap;}
+.top-bar-title span{color:var(--teal);}
+.top-bar .back-link{margin-left:auto;color:var(--teal);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.7;transition:opacity 0.2s;}
+.top-bar .back-link:hover{opacity:1;text-decoration:underline;}
+
+/* SIDEBAR */
+.sidebar{position:fixed;left:0;top:48px;width:var(--sidebar-w);height:calc(100vh - 48px);background:var(--sidebar-bg);color:#fff;z-index:100;overflow-y:auto;transition:width 0.3s ease;}
+.sidebar.collapsed{width:0;overflow:hidden;}
+.sidebar-content{padding:16px 0;}
+.sidebar-section{margin-bottom:12px;}
+.sidebar-section-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);padding:10px 18px 6px;}
+.sidebar-item{background:none;border:none;color:rgba(255,255,255,0.6);font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;padding:9px 18px;width:100%;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:10px;}
+.sidebar-item:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.sidebar-item.active{background:rgba(78,205,196,0.15);color:#fff;border-left:4px solid var(--teal);padding-left:14px;}
+.sidebar-item.done{color:rgba(255,255,255,0.8);}
+.sidebar-item.done::after{content:' \2713';color:var(--correct);font-weight:800;margin-left:auto;font-size:14px;}
+.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sidebar-divider{height:1px;background:rgba(255,255,255,0.08);margin:8px 18px;}
+
+/* MAIN */
+main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:40px 60px 80px;position:relative;z-index:1;}
+main.expanded{margin-left:0;}
+.phase{display:none;max-width:900px;margin:0 auto;animation:fadeIn 0.4s ease;}
+.phase.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:40px 48px;min-height:300px;display:flex;flex-direction:column;justify-content:center;margin-bottom:24px;}
+.card h2{font-family:'Fredoka',sans-serif;font-size:clamp(24px,4.5vw,38px);font-weight:700;margin-bottom:16px;line-height:1.15;}
+.card h3{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.8vw,24px);font-weight:600;margin-bottom:10px;color:var(--teal);}
+.card p,.card li{font-size:clamp(16px,2vw,20px);line-height:1.7;}
+.card.lisc-card{border-top:5px solid var(--teal);}
+.card.no-min{min-height:auto;}
+
+/* BUTTONS */
+.btn{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 32px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+.btn-teal{background:var(--teal);color:white;}
+.btn-coral{background:var(--coral);color:white;}
+.btn-purple{background:var(--purple);color:white;}
+.btn-outline{background:white;color:var(--ink);border:2px solid #ddd;}
+.btn-outline:hover{border-color:var(--ink);}
+.btn-sm{font-size:14px;padding:8px 20px;}
+.next-row{text-align:center;margin-top:24px;}
+.next-row .btn{margin:0 6px;}
+
+/* WELCOME */
+.welcome-card{text-align:center;background:linear-gradient(135deg,rgba(78,205,196,0.06) 0%,rgba(255,209,102,0.06) 100%);}
+.welcome-eyebrow{font-family:'Fredoka',sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
+.welcome-card h2{font-size:clamp(32px,6vw,52px);}
+.welcome-card p{font-size:clamp(17px,2.2vw,22px);color:var(--ink-light);max-width:640px;margin:0 auto 28px;}
+
+/* PROMPT CARDS (Part 1 - pair-share) */
+.prompt-stage{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:50px 60px;min-height:420px;display:flex;flex-direction:column;justify-content:center;text-align:center;border-top:6px solid var(--teal);}
+.prompt-stage.coral{border-top-color:var(--coral);}
+.prompt-stage.purple{border-top-color:var(--purple);}
+.prompt-stage.gold{border-top-color:var(--gold);}
+.prompt-counter{font-family:'Space Mono',monospace;font-size:0.9rem;color:var(--ink-light);margin-bottom:14px;letter-spacing:1.5px;}
+.prompt-eyebrow{font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:18px;}
+.prompt-stage.coral .prompt-eyebrow{color:var(--coral);}
+.prompt-stage.purple .prompt-eyebrow{color:var(--purple);}
+.prompt-stage.gold .prompt-eyebrow{color:#c8930e;}
+.prompt-question{font-family:'Fredoka',sans-serif;font-size:clamp(28px,4.5vw,42px);font-weight:600;line-height:1.3;margin-bottom:24px;max-width:780px;margin-left:auto;margin-right:auto;}
+.prompt-detail{font-size:clamp(17px,2.2vw,22px);color:var(--ink-light);line-height:1.65;max-width:680px;margin:0 auto;font-style:italic;}
+.prompt-instruction{font-family:'Fredoka',sans-serif;font-size:0.9rem;font-weight:600;color:var(--teal);margin-top:32px;padding-top:20px;border-top:1px dashed #e8e0d8;letter-spacing:1.5px;text-transform:uppercase;}
+.prompt-stage.coral .prompt-instruction{color:var(--coral);}
+.prompt-stage.purple .prompt-instruction{color:var(--purple);}
+.prompt-stage.gold .prompt-instruction{color:#c8930e;}
+
+/* HARVEST CARDS (Part 2) */
+.harvest-question{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:40px 50px;border-left:6px solid var(--coral);margin-bottom:18px;}
+.harvest-question .h-counter{font-family:'Space Mono',monospace;font-size:0.85rem;color:var(--ink-light);margin-bottom:10px;letter-spacing:1.5px;}
+.harvest-question h3{font-family:'Fredoka',sans-serif;font-size:clamp(22px,3.5vw,30px);font-weight:600;line-height:1.3;color:var(--ink);margin-bottom:12px;}
+.harvest-question p{font-size:clamp(15px,1.9vw,19px);color:var(--ink-light);line-height:1.6;}
+.cluster-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:24px;}
+.cluster{background:#fafafa;border:2px dashed #e0dcd6;border-radius:12px;padding:18px;text-align:center;}
+.cluster-label{font-family:'Fredoka',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.cluster:nth-child(1) .cluster-label{color:var(--teal);}
+.cluster:nth-child(2) .cluster-label{color:var(--coral);}
+.cluster:nth-child(3) .cluster-label{color:var(--purple);}
+.cluster:nth-child(4) .cluster-label{color:#c8930e;}
+.cluster-hint{font-size:0.85rem;color:var(--ink-light);font-style:italic;}
+
+/* MENTOR SENTENCE (Part 3) */
+.mentor-stage{text-align:center;}
+.mentor-question{font-family:'Fredoka',sans-serif;font-size:clamp(20px,2.8vw,26px);font-weight:600;color:var(--ink-light);margin-bottom:14px;}
+.mentor-sentence-display{background:linear-gradient(135deg,#fafafa 0%,#fff 100%);border:3px solid #e8e0d8;border-radius:var(--radius);padding:36px 40px;margin:18px 0 24px;font-family:'Fredoka',sans-serif;font-size:clamp(24px,4vw,36px);font-weight:600;line-height:1.4;}
+.mentor-discuss{background:var(--hl-blue);border-radius:12px;padding:18px 24px;margin:16px auto;max-width:680px;text-align:center;}
+.mentor-discuss-label{font-family:'Fredoka',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--sky);margin-bottom:6px;}
+.mentor-discuss p{font-size:clamp(15px,1.9vw,19px);font-style:italic;color:var(--ink);}
+
+/* FL TRANSFORMATIONS */
+.fl-step{display:none;animation:fadeIn 0.35s ease;}
+.fl-step.visible{display:block;}
+.fl-pill{display:inline-block;font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:700;padding:6px 18px;border-radius:20px;margin-bottom:12px;letter-spacing:1px;text-transform:uppercase;}
+.fl-pill.simile{background:var(--hl-green);color:#1a7a3a;}
+.fl-pill.metaphor{background:var(--hl-blue);color:#1864ab;}
+.fl-pill.personification{background:var(--hl-pink);color:#a61e4d;}
+.fl-pill.hyperbole{background:var(--hl-yellow);color:#8b6914;}
+.fl-pill.onomatopoeia{background:rgba(155,93,229,0.15);color:var(--purple);}
+.fl-pill.idiom{background:rgba(56,189,248,0.18);color:#0369a1;}
+.fl-transformed{background:#fafafa;border:2px solid #e8e0d8;border-radius:12px;padding:24px 28px;font-family:'Nunito',sans-serif;font-size:clamp(18px,2.4vw,24px);line-height:1.6;margin:14px 0;}
+.fl-transformed strong{background:var(--hl-yellow);padding:2px 6px;border-radius:4px;}
+.fl-explainer{background:rgba(78,205,196,0.06);border-left:4px solid var(--teal);border-radius:0 12px 12px 0;padding:14px 20px;margin-top:10px;font-size:clamp(14px,1.7vw,17px);line-height:1.6;color:var(--ink);}
+.fl-explainer strong{font-family:'Fredoka',sans-serif;color:var(--teal);}
+.fl-step-counter{font-family:'Space Mono',monospace;font-size:0.85rem;color:var(--ink-light);text-align:center;margin-bottom:8px;}
+.fl-watch-out{background:var(--hl-pink);border-left:4px solid var(--coral);border-radius:0 12px 12px 0;padding:14px 20px;margin-top:14px;font-size:clamp(14px,1.7vw,17px);line-height:1.6;}
+.fl-watch-out strong{font-family:'Fredoka',sans-serif;color:var(--coral);}
+.fl-final{display:none;background:linear-gradient(135deg,rgba(78,205,196,0.08) 0%,rgba(255,209,102,0.08) 100%);border-radius:var(--radius);padding:24px 28px;margin-top:18px;text-align:center;animation:fadeIn 0.4s ease;}
+.fl-final.visible{display:block;}
+.fl-final h4{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.5vw,22px);font-weight:600;margin-bottom:8px;}
+.fl-final p{font-size:clamp(15px,1.9vw,18px);color:var(--ink-light);line-height:1.6;}
+
+/* THE PIVOT (Part 4) */
+.pivot-card{background:linear-gradient(135deg,var(--hl-yellow) 0%,var(--hl-pink) 100%);border-radius:var(--radius);padding:48px 56px;box-shadow:var(--shadow);text-align:center;margin-bottom:24px;}
+.pivot-eyebrow{font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--coral);margin-bottom:18px;}
+.pivot-card h2{font-family:'Fredoka',sans-serif;font-size:clamp(28px,4.5vw,40px);font-weight:700;margin-bottom:18px;line-height:1.2;}
+.pivot-card p{font-size:clamp(17px,2.2vw,21px);line-height:1.7;max-width:720px;margin:0 auto 14px;}
+.pivot-emphasis{font-family:'Fredoka',sans-serif;font-weight:600;color:var(--coral);}
+
+.brief-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:36px 44px;margin-bottom:24px;border-top:5px solid var(--teal);}
+.brief-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(20px,3vw,26px);font-weight:700;color:var(--ink);margin-bottom:18px;}
+.brief-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:14px;}
+.brief-item{padding:18px 22px;background:#FAF8F5;border-radius:12px;border-left:4px solid var(--teal);}
+.brief-item:nth-child(2){border-left-color:var(--coral);}
+.brief-item:nth-child(3){border-left-color:var(--purple);}
+.brief-item:nth-child(4){border-left-color:var(--gold);}
+.brief-label{font-family:'Fredoka',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;}
+.brief-value{font-family:'Fredoka',sans-serif;font-size:1.05rem;font-weight:600;color:var(--ink);}
+
+/* LISC CARD STUDENT VERSION */
+.lisc-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px 40px;border-top:5px solid var(--gold);margin-bottom:24px;}
+.lisc-section h3{font-family:'Fredoka',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:8px;}
+.lisc-section h4{font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:600;color:var(--ink-light);text-transform:uppercase;letter-spacing:1.5px;margin-top:18px;margin-bottom:10px;}
+.lisc-section p{font-size:clamp(15px,2vw,18px);line-height:1.7;}
+.lisc-section ul{padding-left:24px;margin-top:8px;}
+.lisc-section li{margin-bottom:8px;font-size:clamp(15px,2vw,18px);line-height:1.6;}
+
+/* SELF-CHECK (Part 5) */
+.checklist{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:36px 44px;border-top:5px solid var(--purple);}
+.checklist h2{font-family:'Fredoka',sans-serif;font-size:clamp(22px,3.5vw,30px);font-weight:700;margin-bottom:8px;}
+.checklist > p{font-size:clamp(15px,1.9vw,18px);color:var(--ink-light);margin-bottom:20px;}
+.check-item{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;background:#FAF8F5;border-radius:10px;margin-bottom:10px;cursor:pointer;transition:all 0.2s;}
+.check-item:hover{background:#f4f0e8;}
+.check-box{width:28px;height:28px;border:2.5px solid #c4bdb4;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;background:#fff;font-size:18px;font-weight:700;color:#fff;}
+.check-item.checked .check-box{background:var(--correct);border-color:var(--correct);}
+.check-item.checked .check-box::before{content:'\2713';}
+.check-item.checked .check-text{text-decoration:line-through;color:var(--ink-light);}
+.check-text{font-size:clamp(15px,1.9vw,18px);line-height:1.55;}
+.check-text strong{font-family:'Fredoka',sans-serif;font-weight:700;color:var(--ink);}
+
+/* TOOLKIT PHASE (printable) */
+.toolkit-header{text-align:center;margin-bottom:28px;}
+.toolkit-header h2{font-family:'Fredoka',sans-serif;font-size:clamp(26px,4vw,36px);font-weight:700;margin-bottom:8px;}
+.toolkit-header p{font-size:clamp(15px,1.9vw,18px);color:var(--ink-light);}
+.print-btn-wrap{text-align:center;margin-bottom:20px;}
+.toolkit-section{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 36px;margin-bottom:20px;border-top:5px solid var(--teal);}
+.toolkit-section.coral{border-top-color:var(--coral);}
+.toolkit-section.purple{border-top-color:var(--purple);}
+.toolkit-section.gold{border-top-color:var(--gold);}
+.toolkit-section h3{font-family:'Fredoka',sans-serif;font-size:1.2rem;font-weight:700;margin-bottom:14px;}
+.toolkit-cat{margin-bottom:18px;}
+.toolkit-cat-label{font-family:'Fredoka',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;}
+.starters-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.starter{background:#FAF8F5;border:1px solid #e8e0d8;border-radius:8px;padding:6px 14px;font-size:0.95rem;font-family:'Nunito',sans-serif;color:var(--ink);}
+.starter.time{background:rgba(78,205,196,0.08);border-color:rgba(78,205,196,0.3);}
+.starter.complex{background:rgba(155,93,229,0.07);border-color:rgba(155,93,229,0.25);}
+.starter.focus{background:rgba(255,107,107,0.07);border-color:rgba(255,107,107,0.25);}
+.fl-mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+.fl-mini{background:#FAF8F5;border-radius:10px;padding:14px 18px;}
+.fl-mini-name{font-family:'Fredoka',sans-serif;font-size:0.95rem;font-weight:700;color:var(--purple);margin-bottom:4px;}
+.fl-mini-def{font-size:0.85rem;color:var(--ink-light);margin-bottom:6px;line-height:1.5;}
+.fl-mini-eg{font-size:0.9rem;font-style:italic;line-height:1.5;}
+.checkstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;}
+.checkstrip-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:#FAF8F5;border-radius:8px;}
+.checkstrip-box{width:20px;height:20px;border:2px solid #c4bdb4;border-radius:5px;flex-shrink:0;background:#fff;}
+.checkstrip-text{font-size:0.85rem;line-height:1.45;}
+
+/* PROGRESS DOTS */
+.progress-dots{display:flex;justify-content:center;gap:8px;margin-top:18px;}
+.dot{width:10px;height:10px;border-radius:50%;background:#e0dcd6;transition:all 0.2s;}
+.dot.active{background:var(--teal);transform:scale(1.3);}
+.dot.coral.active{background:var(--coral);}
+.dot.purple.active{background:var(--purple);}
+.dot.gold.active{background:var(--gold);}
+
+/* CLICK HINT */
+.click-hint{text-align:center;font-size:12px;color:#ccc;margin-top:8px;font-weight:600;font-family:'Fredoka',sans-serif;letter-spacing:1px;}
+
+/* PRINT */
+@media print{
+  body{background:#fff;}
+  .bg-shapes,.top-bar,.sidebar,.print-btn-wrap,.next-row{display:none!important;}
+  main{margin-left:0;padding:0;max-width:100%;}
+  .phase{display:none;}
+  .phase.print-target{display:block;page-break-inside:avoid;}
+  .toolkit-section{break-inside:avoid;box-shadow:none;border:1px solid #ddd;}
+}
+
+/* RESPONSIVE */
+@media (max-width:900px){
+  main{padding:24px 16px 60px;margin-left:0;}
+  .sidebar{transform:translateX(-100%);transition:transform 0.3s;}
+  .sidebar:not(.collapsed){transform:translateX(0);}
+  .card,.prompt-stage,.brief-card,.checklist,.lisc-section,.harvest-question,.toolkit-section{padding:24px 20px;}
+  .pivot-card{padding:32px 24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes" aria-hidden="true">
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+</div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <button class="sidebar-toggle" id="sbToggle" onclick="toggleSidebar()" tabindex="-1" aria-label="Toggle sidebar">&#9776;</button>
+  <div class="top-bar-title">Writer's <span>Toolkit</span></div>
+  <a href="index.html" class="back-link" tabindex="-1">&larr; Back to hub</a>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Lesson</div>
+      <button class="sidebar-item active" data-phase="welcome" onclick="goToPhase('welcome')" tabindex="-1">
+        <span class="sidebar-dot" style="background:var(--teal);"></span>Welcome
+      </button>
+      <button class="sidebar-item" data-phase="part1" onclick="goToPhase('part1')" tabindex="-1">
+        <span class="sidebar-dot" style="background:var(--teal);"></span>Part 1
+      </button>
+      <button class="sidebar-item" data-phase="part2" onclick="goToPhase('part2')" tabindex="-1">
+        <span class="sidebar-dot" style="background:var(--coral);"></span>Part 2
+      </button>
+      <button class="sidebar-item" data-phase="part3" onclick="goToPhase('part3')" tabindex="-1">
+        <span class="sidebar-dot" style="background:var(--purple);"></span>Part 3
+      </button>
+      <button class="sidebar-item" data-phase="part4" onclick="goToPhase('part4')" tabindex="-1">
+        <span class="sidebar-dot" style="background:var(--gold);"></span>Part 4
+      </button>
+      <button class="sidebar-item" data-phase="part5" onclick="goToPhase('part5')" tabindex="-1">
+        <span class="sidebar-dot" style="background:var(--purple);"></span>Part 5
+      </button>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Resource</div>
+      <button class="sidebar-item" data-phase="toolkit" onclick="goToPhase('toolkit')" tabindex="-1">
+        <span class="sidebar-dot" style="background:var(--gold);"></span>Toolkit
+      </button>
+    </div>
+
+  </div>
+</aside>
+
+<main id="mainContent">
+
+  <!-- ============ WELCOME ============ -->
+  <section class="phase active" id="phase-welcome">
+    <div class="card welcome-card">
+      <div class="welcome-eyebrow">English &middot; Stage 3</div>
+      <h2>A Moment from the Holidays</h2>
+      <p>Let's begin with a chat.</p>
+      <div class="next-row">
+        <button class="btn btn-teal" onclick="goToPhase('part1')">Begin</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PART 1: PAIR-SHARE PROMPTS ============ -->
+  <section class="phase" id="phase-part1">
+
+    <!-- Prompt 1: Setting -->
+    <div class="prompt-card-wrap" id="p1-card-1">
+      <div class="prompt-stage">
+        <div class="prompt-counter">Prompt 1 of 4</div>
+        <div class="prompt-eyebrow">Talk to your partner</div>
+        <div class="prompt-question">Tell your partner about a place you spent time in over the holidays.</div>
+        <div class="prompt-detail">Not a whole town. Just one place. A room, a corner of a beach, the back seat of a car. What did it look like? What could you smell?</div>
+        <div class="prompt-instruction">Both partners speak &middot; 90 seconds</div>
+      </div>
+    </div>
+
+    <!-- Prompt 2: Character -->
+    <div class="prompt-card-wrap" id="p1-card-2" style="display:none;">
+      <div class="prompt-stage coral">
+        <div class="prompt-counter">Prompt 2 of 4</div>
+        <div class="prompt-eyebrow">Talk to your partner</div>
+        <div class="prompt-question">Was there a person who said something that stuck in your head?</div>
+        <div class="prompt-detail">Or a stranger you noticed for some reason? Or a pet that did something funny? Tell your partner about them in detail.</div>
+        <div class="prompt-instruction">Both partners speak &middot; 90 seconds</div>
+      </div>
+    </div>
+
+    <!-- Prompt 3: Moment -->
+    <div class="prompt-card-wrap" id="p1-card-3" style="display:none;">
+      <div class="prompt-stage purple">
+        <div class="prompt-counter">Prompt 3 of 4</div>
+        <div class="prompt-eyebrow">Talk to your partner</div>
+        <div class="prompt-question">Think of a moment that lasted maybe ten seconds.</div>
+        <div class="prompt-detail">The moment something tipped over, or the cake came out, or you realised something, or the lights went off. Tell your partner what was happening just before, during and just after.</div>
+        <div class="prompt-instruction">Both partners speak &middot; 90 seconds</div>
+      </div>
+    </div>
+
+    <!-- Prompt 4: Mood -->
+    <div class="prompt-card-wrap" id="p1-card-4" style="display:none;">
+      <div class="prompt-stage gold">
+        <div class="prompt-counter">Prompt 4 of 4</div>
+        <div class="prompt-eyebrow">Talk to your partner</div>
+        <div class="prompt-question">How did the holidays <em>feel</em> overall? Pick one word.</div>
+        <div class="prompt-detail">Not "good" or "fun". Push for something more interesting: peaceful, restless, hot, slow, bright, lonely, full.</div>
+        <div class="prompt-instruction">Both partners speak &middot; 60 seconds</div>
+      </div>
+    </div>
+
+    <div class="progress-dots">
+      <div class="dot active" id="p1-dot-1"></div>
+      <div class="dot" id="p1-dot-2"></div>
+      <div class="dot" id="p1-dot-3"></div>
+      <div class="dot" id="p1-dot-4"></div>
+    </div>
+
+    <div class="next-row">
+      <button class="btn btn-outline btn-sm" id="p1-prev" onclick="p1Prev()" tabindex="-1" style="visibility:hidden;">Back</button>
+      <button class="btn btn-teal btn-sm" id="p1-next" onclick="p1Next()" tabindex="-1">Next prompt</button>
+    </div>
+    <div class="click-hint">use arrow keys or your clicker</div>
+
+  </section>
+
+  <!-- ============ PART 2: HARVEST ============ -->
+  <section class="phase" id="phase-part2">
+
+    <div class="harvest-question" id="p2-card-1">
+      <div class="h-counter">Question 1 of 3</div>
+      <h3>Hands up if your partner said something you thought was really specific or interesting.</h3>
+      <p>Two girls share their <strong>partner's</strong> moment, not their own.</p>
+    </div>
+
+    <div class="harvest-question" id="p2-card-2" style="display:none;border-left-color:var(--purple);">
+      <div class="h-counter">Question 2 of 3</div>
+      <h3>Did anyone's holiday have a really clear smell? A clear sound? A clear colour?</h3>
+      <p>Cycle through the senses. Catch one or two from each.</p>
+    </div>
+
+    <div class="harvest-question" id="p2-card-3" style="display:none;border-left-color:var(--gold);">
+      <div class="h-counter">Question 3 of 3</div>
+      <h3>Did anyone have a moment that felt slow when it happened? Or a moment where everything went quiet?</h3>
+      <p>The strange-time-feeling moments. The ones that stick.</p>
+    </div>
+
+    <div class="card no-min" style="margin-top:20px;">
+      <h3 style="text-align:center;color:var(--ink-light);font-size:0.95rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;">Capture ideas on the board</h3>
+      <div class="cluster-row">
+        <div class="cluster">
+          <div class="cluster-label">Settings</div>
+          <div class="cluster-hint">places, rooms, corners</div>
+        </div>
+        <div class="cluster">
+          <div class="cluster-label">People</div>
+          <div class="cluster-hint">family, strangers, pets</div>
+        </div>
+        <div class="cluster">
+          <div class="cluster-label">Moments</div>
+          <div class="cluster-hint">ten-second snippets</div>
+        </div>
+        <div class="cluster">
+          <div class="cluster-label">Moods</div>
+          <div class="cluster-hint">one-word feelings</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-dots">
+      <div class="dot coral active" id="p2-dot-1"></div>
+      <div class="dot coral" id="p2-dot-2"></div>
+      <div class="dot coral" id="p2-dot-3"></div>
+    </div>
+
+    <div class="next-row">
+      <button class="btn btn-outline btn-sm" id="p2-prev" onclick="p2Prev()" tabindex="-1" style="visibility:hidden;">Back</button>
+      <button class="btn btn-coral btn-sm" id="p2-next" onclick="p2Next()" tabindex="-1">Next question</button>
+    </div>
+    <div class="click-hint">use arrow keys or your clicker</div>
+
+  </section>
+
+  <!-- ============ PART 3: MENTOR SENTENCE + FL ============ -->
+  <section class="phase" id="phase-part3">
+
+    <!-- Step 0: the bare sentence -->
+    <div class="fl-step visible" id="fl-step-0" data-step="0">
+      <div class="card mentor-stage">
+        <div class="mentor-question">Read this sentence.</div>
+        <div class="mentor-sentence-display">A wave came in and crashed onto the beach.</div>
+        <div class="mentor-discuss">
+          <div class="mentor-discuss-label">Discuss</div>
+          <p>Is this sentence <strong>wrong</strong>? Is this sentence <strong>good</strong>?</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 1: Simile -->
+    <div class="fl-step" id="fl-step-1" data-step="1">
+      <div class="card no-min">
+        <div class="fl-step-counter">Lens 1 of 6</div>
+        <h3 style="text-align:center;color:var(--ink-light);font-weight:600;font-family:'Fredoka',sans-serif;font-size:0.9rem;letter-spacing:2px;text-transform:uppercase;">Same moment, different lens</h3>
+        <span class="fl-pill simile" style="align-self:center;">Simile</span>
+        <div class="fl-transformed">The wave rose up <strong>like a green wall</strong> and crashed onto the beach.</div>
+        <div class="fl-explainer"><strong>What the lens does:</strong> Compares using <em>like</em> or <em>as</em>. Lets the reader picture something familiar.</div>
+      </div>
+    </div>
+
+    <!-- Step 2: Metaphor -->
+    <div class="fl-step" id="fl-step-2" data-step="2">
+      <div class="card no-min">
+        <div class="fl-step-counter">Lens 2 of 6</div>
+        <span class="fl-pill metaphor" style="align-self:center;">Metaphor</span>
+        <div class="fl-transformed">The wave was <strong>a green wall</strong>, and it collapsed onto the beach.</div>
+        <div class="fl-explainer"><strong>What the lens does:</strong> Says one thing <em>is</em> another. Stronger and more direct than a simile.</div>
+      </div>
+    </div>
+
+    <!-- Step 3: Personification -->
+    <div class="fl-step" id="fl-step-3" data-step="3">
+      <div class="card no-min">
+        <div class="fl-step-counter">Lens 3 of 6</div>
+        <span class="fl-pill personification" style="align-self:center;">Personification</span>
+        <div class="fl-transformed">The wave <strong>reached for the beach</strong>, then <strong>let go of everything it had been carrying</strong>.</div>
+        <div class="fl-explainer"><strong>What the lens does:</strong> Gives a non-human thing human qualities. Makes the world feel alive.</div>
+      </div>
+    </div>
+
+    <!-- Step 4: Hyperbole -->
+    <div class="fl-step" id="fl-step-4" data-step="4">
+      <div class="card no-min">
+        <div class="fl-step-counter">Lens 4 of 6</div>
+        <span class="fl-pill hyperbole" style="align-self:center;">Hyperbole</span>
+        <div class="fl-transformed">The wave was <strong>taller than my house</strong>, and the crash <strong>shook the entire planet</strong>.</div>
+        <div class="fl-explainer"><strong>What the lens does:</strong> Deliberate exaggeration. Useful for emphasis or humour.</div>
+      </div>
+    </div>
+
+    <!-- Step 5: Onomatopoeia -->
+    <div class="fl-step" id="fl-step-5" data-step="5">
+      <div class="card no-min">
+        <div class="fl-step-counter">Lens 5 of 6</div>
+        <span class="fl-pill onomatopoeia" style="align-self:center;">Onomatopoeia</span>
+        <div class="fl-transformed">The wave reared up and <strong>WHOOOSH</strong> &mdash; <strong>crash, hiss, gurgle</strong> &mdash; onto the beach.</div>
+        <div class="fl-explainer"><strong>What the lens does:</strong> Words that imitate the sound. Pulls the reader's ears into the scene.</div>
+      </div>
+    </div>
+
+    <!-- Step 6: Idiom -->
+    <div class="fl-step" id="fl-step-6" data-step="6">
+      <div class="card no-min">
+        <div class="fl-step-counter">Lens 6 of 6</div>
+        <span class="fl-pill idiom" style="align-self:center;">Idiom</span>
+        <div class="fl-transformed">The wave came <strong>out of the blue</strong> and crashed onto the beach.</div>
+        <div class="fl-explainer"><strong>What the lens does:</strong> A familiar saying with a non-literal meaning. Use sparingly.</div>
+        <div class="fl-watch-out"><strong>Watch out:</strong> Idiom, hyperbole and onomatopoeia are easy to overdo. If every sentence is exaggerated, nothing feels exaggerated.</div>
+      </div>
+    </div>
+
+    <!-- Final synthesis -->
+    <div class="fl-step" id="fl-step-7" data-step="7">
+      <div class="card mentor-stage">
+        <h3 style="color:var(--ink-light);font-size:0.9rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;font-family:'Fredoka',sans-serif;">Discuss</h3>
+        <div class="mentor-question" style="font-size:clamp(20px,3vw,28px);font-weight:600;color:var(--ink);margin-top:12px;">If you could only use <em>two</em> of these in your own writing today, which two would do the most work for the kind of moment you have in mind?</div>
+      </div>
+    </div>
+
+    <div class="next-row">
+      <button class="btn btn-outline btn-sm" id="fl-prev" onclick="flPrev()" tabindex="-1" style="visibility:hidden;">Back</button>
+      <button class="btn btn-purple btn-sm" id="fl-next" onclick="flNext()" tabindex="-1">Next</button>
+    </div>
+    <div class="click-hint">use arrow keys or your clicker</div>
+
+  </section>
+
+  <!-- ============ PART 4: REVEAL + WRITING BRIEF ============ -->
+  <section class="phase" id="phase-part4">
+
+    <div class="pivot-card">
+      <div class="pivot-eyebrow">Here's the thing</div>
+      <h2>Everything we've just done was planning.</h2>
+      <p>The chat with your partner. The words on the board. The wave on the beach.</p>
+      <p>You didn't realise it, but you've already done the hardest part of writing a story: you've found a moment, you've thought about how it looked and sounded and felt, and you've reminded yourselves of six tools that good writers use.</p>
+      <p><span class="pivot-emphasis">So now write me a short narrative based on a moment from your holidays.</span></p>
+      <p>It can be true, or made-up, or true at the start and made-up at the end. What matters is that it's a <em>moment</em>, not a recount of the whole holiday. Show me ten seconds. Make me feel them.</p>
+    </div>
+
+    <div class="brief-card">
+      <h3>Your writing brief</h3>
+      <div class="brief-grid">
+        <div class="brief-item">
+          <div class="brief-label">Length</div>
+          <div class="brief-value">One full page, or 200&ndash;300 words</div>
+        </div>
+        <div class="brief-item">
+          <div class="brief-label">Time</div>
+          <div class="brief-value">35&ndash;40 minutes</div>
+        </div>
+        <div class="brief-item">
+          <div class="brief-label">Form</div>
+          <div class="brief-value">Narrative, not recount</div>
+        </div>
+        <div class="brief-item">
+          <div class="brief-label">Draft in</div>
+          <div class="brief-value">Pencil, cross-outs welcome</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lisc-section">
+      <h3>What we're learning</h3>
+      <h4>Learning Intention</h4>
+      <p>We are learning to craft a short narrative that captures a single vivid moment, using sensory detail, figurative language and varied sentence openers to draw a reader into the experience.</p>
+      <h4>Success Criteria</h4>
+      <ul>
+        <li>I have chosen <strong>one moment</strong> rather than retelling a whole event.</li>
+        <li>I have used at least <strong>two different types of figurative language</strong> on purpose.</li>
+        <li>I have varied my <strong>sentence openers</strong> so the writing does not begin every sentence with <em>I</em> or <em>Then</em>.</li>
+        <li>I have shown the reader the <strong>setting and mood</strong> through what I see, hear, smell or feel.</li>
+        <li>My writing has a clear <strong>beginning, middle and end</strong>, even though it is only a moment.</li>
+      </ul>
+    </div>
+
+    <div class="next-row">
+      <button class="btn btn-gold btn-sm" onclick="goToPhase('toolkit')" style="background:var(--gold);color:var(--ink);">Open the Toolkit</button>
+      <button class="btn btn-teal btn-sm" onclick="goToPhase('part5')">Self-check</button>
+    </div>
+
+  </section>
+
+  <!-- ============ PART 5: SELF-CHECK ============ -->
+  <section class="phase" id="phase-part5">
+
+    <div class="checklist">
+      <h2>Before you hand it in</h2>
+      <p>Tap each box once you've checked your writing for it.</p>
+
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-text">I wrote about <strong>one moment</strong>, not the whole holiday.</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-text">I used at least <strong>two types of figurative language</strong> on purpose.</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-text">My sentences don't all start with <strong>I</strong> or <strong>Then</strong>.</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-text">I showed at least <strong>two of the five senses</strong>.</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-text">My writing has a clear <strong>beginning, middle and ending</strong>.</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-text">I read it aloud quietly to <strong>catch any clumsy bits</strong>.</div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ============ TOOLKIT (PRINTABLE) ============ -->
+  <section class="phase" id="phase-toolkit">
+
+    <div class="toolkit-header">
+      <h2>Narrative Writer's Toolkit</h2>
+      <p>Sentence starters, figurative language reminders and a self-check, all in one place.</p>
+    </div>
+
+    <div class="print-btn-wrap">
+      <button class="btn btn-teal btn-sm" onclick="printToolkit()" tabindex="-1">&#128424; Print this page</button>
+    </div>
+
+    <!-- Sentence starters -->
+    <div class="toolkit-section">
+      <h3>Sentence Starters for Narratives</h3>
+
+      <div class="toolkit-cat">
+        <div class="toolkit-cat-label">Passage of time</div>
+        <div class="starters-grid">
+          <span class="starter time">Instantly</span>
+          <span class="starter time">Just at that moment</span>
+          <span class="starter time">Before long</span>
+          <span class="starter time">Presently</span>
+          <span class="starter time">Soon</span>
+          <span class="starter time">Later</span>
+          <span class="starter time">Afterwards</span>
+          <span class="starter time">Much later</span>
+          <span class="starter time">In a flash</span>
+          <span class="starter time">Within seconds</span>
+          <span class="starter time">Eventually</span>
+          <span class="starter time">Towards nightfall</span>
+          <span class="starter time">At dawn</span>
+          <span class="starter time">At dusk</span>
+          <span class="starter time">As the sun set</span>
+          <span class="starter time">Simultaneously</span>
+          <span class="starter time">Finally</span>
+        </div>
+      </div>
+
+      <div class="toolkit-cat">
+        <div class="toolkit-cat-label">Complex sentence openers</div>
+        <div class="starters-grid">
+          <span class="starter complex">Although</span>
+          <span class="starter complex">Even though</span>
+          <span class="starter complex">Despite the fact that</span>
+          <span class="starter complex">In spite of</span>
+          <span class="starter complex">Whilst</span>
+          <span class="starter complex">However</span>
+          <span class="starter complex">Nevertheless</span>
+          <span class="starter complex">Surprisingly</span>
+          <span class="starter complex">Strangely</span>
+          <span class="starter complex">Sometimes</span>
+          <span class="starter complex">Unusually</span>
+          <span class="starter complex">In contrast</span>
+          <span class="starter complex">Unknown to her</span>
+          <span class="starter complex">Unable to move</span>
+          <span class="starter complex">Without noticing that</span>
+          <span class="starter complex">Ironically</span>
+        </div>
+      </div>
+
+      <div class="toolkit-cat" style="margin-bottom:0;">
+        <div class="toolkit-cat-label">Changing focus</div>
+        <div class="starters-grid">
+          <span class="starter focus">Suddenly</span>
+          <span class="starter focus">Meanwhile</span>
+          <span class="starter focus">Not far away</span>
+          <span class="starter focus">Some distance away</span>
+          <span class="starter focus">While</span>
+          <span class="starter focus">During</span>
+          <span class="starter focus">Across the room</span>
+          <span class="starter focus">Outside</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Figurative language reminder -->
+    <div class="toolkit-section purple">
+      <h3>Figurative Language Reminder</h3>
+      <div class="fl-mini-grid">
+        <div class="fl-mini">
+          <div class="fl-mini-name">Simile</div>
+          <div class="fl-mini-def">Compares using <em>like</em> or <em>as</em>.</div>
+          <div class="fl-mini-eg">The wave rose up <strong>like a green wall</strong>.</div>
+        </div>
+        <div class="fl-mini">
+          <div class="fl-mini-name">Metaphor</div>
+          <div class="fl-mini-def">Says one thing <em>is</em> another.</div>
+          <div class="fl-mini-eg">The wave <strong>was a green wall</strong>.</div>
+        </div>
+        <div class="fl-mini">
+          <div class="fl-mini-name">Personification</div>
+          <div class="fl-mini-def">Gives a non-human thing human qualities.</div>
+          <div class="fl-mini-eg">The wave <strong>reached for the beach</strong>.</div>
+        </div>
+        <div class="fl-mini">
+          <div class="fl-mini-name">Hyperbole</div>
+          <div class="fl-mini-def">Deliberate exaggeration.</div>
+          <div class="fl-mini-eg">The wave was <strong>taller than my house</strong>.</div>
+        </div>
+        <div class="fl-mini">
+          <div class="fl-mini-name">Onomatopoeia</div>
+          <div class="fl-mini-def">Words that imitate sounds.</div>
+          <div class="fl-mini-eg"><strong>Crash, hiss, gurgle.</strong></div>
+        </div>
+        <div class="fl-mini">
+          <div class="fl-mini-name">Idiom</div>
+          <div class="fl-mini-def">A familiar saying with a non-literal meaning.</div>
+          <div class="fl-mini-eg">The wave came <strong>out of the blue</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Self-check strip -->
+    <div class="toolkit-section gold">
+      <h3>Self-Check</h3>
+      <div class="checkstrip">
+        <div class="checkstrip-item">
+          <div class="checkstrip-box"></div>
+          <div class="checkstrip-text">One moment, not the whole holiday.</div>
+        </div>
+        <div class="checkstrip-item">
+          <div class="checkstrip-box"></div>
+          <div class="checkstrip-text">Two types of figurative language used on purpose.</div>
+        </div>
+        <div class="checkstrip-item">
+          <div class="checkstrip-box"></div>
+          <div class="checkstrip-text">Sentence openers vary, not all <em>I</em> or <em>Then</em>.</div>
+        </div>
+        <div class="checkstrip-item">
+          <div class="checkstrip-box"></div>
+          <div class="checkstrip-text">At least two senses appear in the writing.</div>
+        </div>
+        <div class="checkstrip-item">
+          <div class="checkstrip-box"></div>
+          <div class="checkstrip-text">Clear beginning, middle and ending.</div>
+        </div>
+        <div class="checkstrip-item">
+          <div class="checkstrip-box"></div>
+          <div class="checkstrip-text">Read aloud quietly to catch clumsy bits.</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+// ===== STATE =====
+const State = {
+  currentPhase: 'welcome',
+  p1Card: 1,
+  p1Total: 4,
+  p2Card: 1,
+  p2Total: 3,
+  flStep: 0,
+  flTotal: 7
+};
+
+// ===== SIDEBAR =====
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('collapsed');
+  document.getElementById('mainContent').classList.toggle('expanded');
+}
+
+function goToPhase(phase){
+  State.currentPhase = phase;
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
+  document.getElementById('phase-'+phase).classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
+  const item = document.querySelector(`.sidebar-item[data-phase="${phase}"]`);
+  if(item) item.classList.add('active');
+  // mark prior items as done
+  const order = ['welcome','part1','part2','part3','part4','part5','toolkit'];
+  const idx = order.indexOf(phase);
+  document.querySelectorAll('.sidebar-item').forEach(i=>{
+    const ip = i.getAttribute('data-phase');
+    const ipIdx = order.indexOf(ip);
+    if(ipIdx>=0 && ipIdx<idx) i.classList.add('done');
+    else i.classList.remove('done');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ===== PART 1 =====
+function p1Show(n){
+  for(let i=1;i<=State.p1Total;i++){
+    const el = document.getElementById('p1-card-'+i);
+    if(el) el.style.display = (i===n) ? 'block' : 'none';
+    const dot = document.getElementById('p1-dot-'+i);
+    if(dot) dot.classList.toggle('active', i===n);
+  }
+  document.getElementById('p1-prev').style.visibility = (n>1) ? 'visible' : 'hidden';
+  const nextBtn = document.getElementById('p1-next');
+  if(n===State.p1Total){
+    nextBtn.textContent = 'On to Part 2';
+    nextBtn.classList.remove('btn-teal');
+    nextBtn.classList.add('btn-coral');
+  } else {
+    nextBtn.textContent = 'Next prompt';
+    nextBtn.classList.add('btn-teal');
+    nextBtn.classList.remove('btn-coral');
+  }
+}
+function p1Next(){
+  if(State.p1Card < State.p1Total){
+    State.p1Card++;
+    p1Show(State.p1Card);
+  } else {
+    goToPhase('part2');
+  }
+}
+function p1Prev(){
+  if(State.p1Card > 1){
+    State.p1Card--;
+    p1Show(State.p1Card);
+  }
+}
+
+// ===== PART 2 =====
+function p2Show(n){
+  for(let i=1;i<=State.p2Total;i++){
+    const el = document.getElementById('p2-card-'+i);
+    if(el) el.style.display = (i===n) ? 'block' : 'none';
+    const dot = document.getElementById('p2-dot-'+i);
+    if(dot) dot.classList.toggle('active', i===n);
+  }
+  document.getElementById('p2-prev').style.visibility = (n>1) ? 'visible' : 'hidden';
+  const nextBtn = document.getElementById('p2-next');
+  if(n===State.p2Total){
+    nextBtn.textContent = 'On to Part 3';
+    nextBtn.classList.remove('btn-coral');
+    nextBtn.classList.add('btn-purple');
+  } else {
+    nextBtn.textContent = 'Next question';
+    nextBtn.classList.add('btn-coral');
+    nextBtn.classList.remove('btn-purple');
+  }
+}
+function p2Next(){
+  if(State.p2Card < State.p2Total){
+    State.p2Card++;
+    p2Show(State.p2Card);
+  } else {
+    goToPhase('part3');
+  }
+}
+function p2Prev(){
+  if(State.p2Card > 1){
+    State.p2Card--;
+    p2Show(State.p2Card);
+  }
+}
+
+// ===== PART 3 (FL) =====
+function flShow(n){
+  document.querySelectorAll('.fl-step').forEach(s=>s.classList.remove('visible'));
+  const step = document.getElementById('fl-step-'+n);
+  if(step) step.classList.add('visible');
+  document.getElementById('fl-prev').style.visibility = (n>0) ? 'visible' : 'hidden';
+  const nextBtn = document.getElementById('fl-next');
+  if(n===State.flTotal){
+    nextBtn.textContent = 'On to Part 4';
+    nextBtn.classList.remove('btn-purple');
+    nextBtn.classList.add('btn-coral');
+    nextBtn.style.background = 'var(--coral)';
+    nextBtn.style.color = 'white';
+  } else {
+    nextBtn.textContent = 'Next';
+    nextBtn.classList.add('btn-purple');
+    nextBtn.classList.remove('btn-coral');
+    nextBtn.style.background = '';
+    nextBtn.style.color = '';
+  }
+}
+function flNext(){
+  if(State.flStep < State.flTotal){
+    State.flStep++;
+    flShow(State.flStep);
+  } else {
+    goToPhase('part4');
+  }
+}
+function flPrev(){
+  if(State.flStep > 0){
+    State.flStep--;
+    flShow(State.flStep);
+  }
+}
+
+// ===== SELF-CHECK =====
+function toggleCheck(el){
+  el.classList.toggle('checked');
+}
+
+// ===== PRINT =====
+function printToolkit(){
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('print-target'));
+  document.getElementById('phase-toolkit').classList.add('print-target');
+  window.print();
+}
+
+// ===== KEYBOARD / CLICKER NAV =====
+document.addEventListener('keydown', function(e){
+  // Ignore if typing
+  if(e.target.tagName==='TEXTAREA' || e.target.tagName==='INPUT') return;
+  // Blur any focused button so the clicker doesn't re-trigger it
+  if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
+
+  const isNext = (e.key==='ArrowRight' || e.key==='PageDown' || e.key===' ' || e.key==='Enter');
+  const isPrev = (e.key==='ArrowLeft' || e.key==='PageUp' || e.key==='Backspace');
+  if(!isNext && !isPrev) return;
+
+  e.preventDefault();
+
+  // Route based on current phase
+  switch(State.currentPhase){
+    case 'welcome':
+      if(isNext) goToPhase('part1');
+      break;
+    case 'part1':
+      if(isNext) p1Next(); else p1Prev();
+      break;
+    case 'part2':
+      if(isNext) p2Next(); else p2Prev();
+      break;
+    case 'part3':
+      if(isNext) flNext(); else flPrev();
+      break;
+    case 'part4':
+      if(isNext) goToPhase('part5');
+      else goToPhase('part3');
+      break;
+    case 'part5':
+      if(isNext) goToPhase('toolkit');
+      else goToPhase('part4');
+      break;
+    case 'toolkit':
+      if(isPrev) goToPhase('part5');
+      break;
+  }
+}, true);
+
+// Init
+p1Show(1);
+p2Show(1);
+flShow(0);
+</script>
+</body>
+</html>
