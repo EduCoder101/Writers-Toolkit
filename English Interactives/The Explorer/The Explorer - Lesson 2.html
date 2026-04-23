@@ -41,8 +41,25 @@ body{font-family:'Fredoka',sans-serif;background:var(--bg);color:var(--ink);min-
 .sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,0.08);}
 .top-bar-title{font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.95rem;padding:0 22px;letter-spacing:0.3px;}
 .top-bar-title span{color:var(--teal);}
-.top-bar .back-link{margin-left:auto;color:var(--teal);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.7;transition:opacity 0.2s;font-family:'Fredoka',sans-serif;}
+.top-bar .back-link{color:var(--teal);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.7;transition:opacity 0.2s;font-family:'Fredoka',sans-serif;}
 .top-bar .back-link:hover{opacity:1;}
+.top-bar .name-field{margin-left:auto;display:flex;align-items:center;gap:8px;padding:0 16px;}
+.top-bar .name-field label{font-family:'Fredoka',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.6);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;}
+.top-bar .name-field input{font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:500;padding:6px 12px;border-radius:16px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;outline:none;width:160px;transition:all 0.2s;}
+.top-bar .name-field input:focus{background:rgba(255,255,255,0.14);border-color:var(--teal);}
+.top-bar .name-field input::placeholder{color:rgba(255,255,255,0.4);}
+@media(max-width:600px){
+  .top-bar .name-field{padding:0 8px;}
+  .top-bar .name-field label{display:none;}
+  .top-bar .name-field input{width:110px;font-size:0.8rem;}
+  .top-bar .back-link{font-size:0.72rem;padding:0 10px;}
+}
+
+/* Export buttons */
+.export-row{display:flex;justify-content:center;margin-top:14px;}
+.btn-export{background:#fff;color:var(--ink);border:2px solid var(--ink-light);font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;padding:8px 18px;border-radius:30px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-export:hover{background:var(--ink);color:#fff;border-color:var(--ink);transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn-export::before{content:"\2B07";font-size:0.85em;}
 
 /* Sidebar */
 .sidebar{position:fixed;left:0;top:48px;width:var(--sidebar-w);height:calc(100vh - 48px);background:var(--sidebar-bg);color:#fff;z-index:100;overflow-y:auto;transition:width 0.3s ease;}
@@ -262,6 +279,8 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 
 .char-quotes{display:grid;grid-template-columns:1fr;gap:10px;}
 .char-quote-block{background:#f8f8f8;border-radius:10px;padding:12px 16px;border-left:3px solid var(--ink-light);}
 .char-quote-text{font-size:clamp(13px,1.5vw,15px);line-height:1.5;font-style:italic;color:var(--ink);margin-bottom:8px;}
+.char-interp-input{font-family:'Fredoka',sans-serif;font-size:clamp(13px,1.5vw,15px);padding:10px 14px;border:2px solid #ddd;border-radius:10px;width:100%;resize:vertical;min-height:60px;outline:none;margin-bottom:8px;font-weight:500;line-height:1.5;transition:border-color 0.2s;display:block;}
+.char-interp-input:focus{border-color:var(--green);}
 .char-reveal-btn{background:none;border:2px dashed #bbb;color:var(--ink-light);padding:6px 14px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.8rem;border-radius:16px;cursor:pointer;transition:all 0.2s;}
 .char-reveal-btn:hover{border-color:var(--green);color:var(--green);}
 .char-interp{display:none;margin-top:8px;padding:10px 14px;background:var(--green-light);border-radius:8px;border-left:3px solid var(--green);font-size:clamp(13px,1.5vw,15px);line-height:1.55;color:var(--ink);}
@@ -329,6 +348,10 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 
 <header class="top-bar">
   <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">&#9776;</button>
   <div class="top-bar-title">The Explorer <span>&middot;</span> Lesson 2</div>
+  <div class="name-field">
+    <label for="studentName">Your name</label>
+    <input type="text" id="studentName" placeholder="Type your name" autocomplete="off" aria-label="Your name (for printed work)">
+  </div>
   <a href="../index.html" class="back-link">&larr; Toolkit Home</a>
 </header>
 
@@ -410,6 +433,10 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 
       <button class="btn btn-gold btn-sm" onclick="showClozeHint()">Need a hint?</button>
       <button class="btn btn-teal btn-sm" onclick="showClozeOriginal()">Compare with the author's words</button>
       <button class="btn btn-outline btn-sm" onclick="clearCloze()">Clear all</button>
+    </div>
+
+    <div class="export-row">
+      <button class="btn-export" onclick="exportCloze()">Export my cloze as PDF</button>
     </div>
 
     <div class="cloze-hint" id="clozeHint">
@@ -509,94 +536,94 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 
 
     <div id="matchRows">
       <div class="match-row">
-        <div class="match-term">orientation</div>
-        <select class="match-select" data-correct="a">
+        <div class="match-term">coda</div>
+        <select class="match-select" data-correct="g">
           <option value="">Choose a definition...</option>
-          <option value="a">The characters and setting are introduced.</option>
-          <option value="b">A problem or complication appears.</option>
-          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
           <option value="d">The most exciting moment. Everything comes together.</option>
-          <option value="e">Things start to calm down after the big moment.</option>
-          <option value="f">The loose ends are tied up. The story ends.</option>
-          <option value="g">A final reflection on what the story was really about.</option>
-        </select>
-      </div>
-      <div class="match-row">
-        <div class="match-term">inciting incident</div>
-        <select class="match-select" data-correct="b">
-          <option value="">Choose a definition...</option>
           <option value="a">The characters and setting are introduced.</option>
-          <option value="b">A problem or complication appears.</option>
-          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
-          <option value="d">The most exciting moment. Everything comes together.</option>
-          <option value="e">Things start to calm down after the big moment.</option>
           <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
           <option value="g">A final reflection on what the story was really about.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
         </select>
       </div>
       <div class="match-row">
         <div class="match-term">rising action</div>
         <select class="match-select" data-correct="c">
           <option value="">Choose a definition...</option>
-          <option value="a">The characters and setting are introduced.</option>
-          <option value="b">A problem or complication appears.</option>
-          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
           <option value="d">The most exciting moment. Everything comes together.</option>
-          <option value="e">Things start to calm down after the big moment.</option>
+          <option value="a">The characters and setting are introduced.</option>
           <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
           <option value="g">A final reflection on what the story was really about.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
+        </select>
+      </div>
+      <div class="match-row">
+        <div class="match-term">orientation</div>
+        <select class="match-select" data-correct="a">
+          <option value="">Choose a definition...</option>
+          <option value="d">The most exciting moment. Everything comes together.</option>
+          <option value="a">The characters and setting are introduced.</option>
+          <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
+          <option value="g">A final reflection on what the story was really about.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
         </select>
       </div>
       <div class="match-row">
         <div class="match-term">climax</div>
         <select class="match-select" data-correct="d">
           <option value="">Choose a definition...</option>
-          <option value="a">The characters and setting are introduced.</option>
-          <option value="b">A problem or complication appears.</option>
-          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
           <option value="d">The most exciting moment. Everything comes together.</option>
-          <option value="e">Things start to calm down after the big moment.</option>
+          <option value="a">The characters and setting are introduced.</option>
           <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
           <option value="g">A final reflection on what the story was really about.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
         </select>
       </div>
       <div class="match-row">
-        <div class="match-term">falling action</div>
-        <select class="match-select" data-correct="e">
+        <div class="match-term">inciting incident</div>
+        <select class="match-select" data-correct="b">
           <option value="">Choose a definition...</option>
-          <option value="a">The characters and setting are introduced.</option>
-          <option value="b">A problem or complication appears.</option>
-          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
           <option value="d">The most exciting moment. Everything comes together.</option>
-          <option value="e">Things start to calm down after the big moment.</option>
+          <option value="a">The characters and setting are introduced.</option>
           <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
           <option value="g">A final reflection on what the story was really about.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
         </select>
       </div>
       <div class="match-row">
         <div class="match-term">resolution</div>
         <select class="match-select" data-correct="f">
           <option value="">Choose a definition...</option>
-          <option value="a">The characters and setting are introduced.</option>
-          <option value="b">A problem or complication appears.</option>
-          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
           <option value="d">The most exciting moment. Everything comes together.</option>
-          <option value="e">Things start to calm down after the big moment.</option>
+          <option value="a">The characters and setting are introduced.</option>
           <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
           <option value="g">A final reflection on what the story was really about.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
         </select>
       </div>
       <div class="match-row">
-        <div class="match-term">coda</div>
-        <select class="match-select" data-correct="g">
+        <div class="match-term">falling action</div>
+        <select class="match-select" data-correct="e">
           <option value="">Choose a definition...</option>
-          <option value="a">The characters and setting are introduced.</option>
-          <option value="b">A problem or complication appears.</option>
-          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
           <option value="d">The most exciting moment. Everything comes together.</option>
-          <option value="e">Things start to calm down after the big moment.</option>
+          <option value="a">The characters and setting are introduced.</option>
           <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
           <option value="g">A final reflection on what the story was really about.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
         </select>
       </div>
     </div>
@@ -605,6 +632,10 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 
       <button class="btn btn-teal btn-sm" onclick="checkMatch()">Check my answers</button>
       <button class="btn btn-outline btn-sm" onclick="resetMatch()">Reset</button>
       <span id="matchScore" style="font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:1.5px;color:var(--ink-light);align-self:center;"></span>
+    </div>
+
+    <div class="export-row">
+      <button class="btn-export" onclick="exportMatch()">Export my answers as PDF</button>
     </div>
   </div>
 
@@ -635,19 +666,23 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 
       </div>
 
       <div class="freytag-bank" id="freytagBank">
+        <button class="freytag-chip" data-term="resolution" onclick="selectChip(this)">resolution</button>
         <button class="freytag-chip" data-term="orientation" onclick="selectChip(this)">orientation</button>
         <button class="freytag-chip" data-term="inciting incident" onclick="selectChip(this)">inciting incident</button>
         <button class="freytag-chip" data-term="rising action" onclick="selectChip(this)">rising action</button>
-        <button class="freytag-chip" data-term="climax" onclick="selectChip(this)">climax</button>
-        <button class="freytag-chip" data-term="falling action" onclick="selectChip(this)">falling action</button>
-        <button class="freytag-chip" data-term="resolution" onclick="selectChip(this)">resolution</button>
         <button class="freytag-chip" data-term="coda" onclick="selectChip(this)">coda</button>
+        <button class="freytag-chip" data-term="falling action" onclick="selectChip(this)">falling action</button>
+        <button class="freytag-chip" data-term="climax" onclick="selectChip(this)">climax</button>
       </div>
 
       <div class="freytag-controls">
         <button class="btn btn-teal btn-sm" onclick="checkFreytag()">Check pyramid</button>
         <button class="btn btn-outline btn-sm" onclick="resetFreytag()">Reset</button>
         <span id="freytagScore" style="font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:1.5px;color:var(--ink-light);align-self:center;"></span>
+      </div>
+
+      <div class="export-row">
+        <button class="btn-export" onclick="exportFreytag()">Export my pyramid as PDF</button>
       </div>
     </div>
   </div>
@@ -755,12 +790,14 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 
       <div class="char-quotes">
         <div class="char-quote-block">
           <div class="char-quote-text">"He jabbed his finger into the back of his tongue to summon up spit."</div>
-          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <textarea class="char-interp-input" placeholder="What does this reveal about the character? Write your interpretation..."></textarea>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Show a sample interpretation</button>
           <div class="char-interp"><strong>Reveals:</strong> Fred is determined and practical under pressure. He does a strange, unpleasant thing because he <em>needs</em> to, not because he wants to. That is a sign of resilience.</div>
         </div>
         <div class="char-quote-block">
           <div class="char-quote-text">"He grabbed a rock from the ground and hurled it in the direction of the voice."</div>
-          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <textarea class="char-interp-input" placeholder="What does this reveal about the character? Write your interpretation..."></textarea>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Show a sample interpretation</button>
           <div class="char-interp"><strong>Reveals:</strong> Fred reacts first and thinks later. He is frightened but not passive. His instinct is to defend himself.</div>
         </div>
       </div>
@@ -774,12 +811,14 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 
       <div class="char-quotes">
         <div class="char-quote-block">
           <div class="char-quote-text">"For God's sake, don't throw things!"</div>
-          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <textarea class="char-interp-input" placeholder="What does this reveal about the character? Write your interpretation..."></textarea>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Show a sample interpretation</button>
           <div class="char-interp"><strong>Reveals:</strong> Con is direct and not easily pushed around. Even scared, she speaks up. The exclamation shows she is firm.</div>
         </div>
         <div class="char-quote-block">
           <div class="char-quote-text">"Please don't hurt us," said the bush.</div>
-          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <textarea class="char-interp-input" placeholder="What does this reveal about the character? Write your interpretation..."></textarea>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Show a sample interpretation</button>
           <div class="char-interp"><strong>Reveals:</strong> She is also cautious and protective. She says <em>"us"</em> not <em>"me"</em>, so she is thinking about someone else, not just herself.</div>
         </div>
       </div>
@@ -793,12 +832,14 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 
       <div class="char-quotes">
         <div class="char-quote-block">
           <div class="char-quote-text">"The accent wasn't British. It was something softer."</div>
-          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <textarea class="char-interp-input" placeholder="What does this reveal about the character? Write your interpretation..."></textarea>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Show a sample interpretation</button>
           <div class="char-interp"><strong>Reveals:</strong> Lila is not from the same place as Fred. The word "softer" hints at a gentler way of speaking and, perhaps, a gentler character.</div>
         </div>
         <div class="char-quote-block">
           <div class="char-quote-text">"Yes, we're hurt. We fell out of the sky."</div>
-          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <textarea class="char-interp-input" placeholder="What does this reveal about the character? Write your interpretation..."></textarea>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Show a sample interpretation</button>
           <div class="char-interp"><strong>Reveals:</strong> Lila tells the plain truth, even when the other voice is trying to hide how hurt they are. She is honest.</div>
         </div>
       </div>
@@ -812,7 +853,8 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 
       <div class="char-quotes">
         <div class="char-quote-block">
           <div class="char-quote-text">"No, not badly." (as the other said they were hurt)</div>
-          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <textarea class="char-interp-input" placeholder="What does this reveal about the character? Write your interpretation..."></textarea>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Show a sample interpretation</button>
           <div class="char-interp"><strong>Reveals:</strong> Max is brave or does not want to complain. He might also be too young to realise how hurt he is. Watch for more clues as the chapter goes on.</div>
         </div>
       </div>
@@ -824,6 +866,10 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 
     <strong>Record it</strong>
     Add today's notes to your <em>character development record</em>. Keep the record alongside your novel: we will add to it every chapter.
     <span style="display:block;margin-top:8px;font-size:0.85em;color:var(--ink-light);"><strong>Extension:</strong> track how a character is <em>changing</em>. A quote from chapter 2 may tell you something different from a quote in chapter 5.</span>
+  </div>
+
+  <div class="export-row">
+    <button class="btn-export" onclick="exportCharacters()">Export character notes as PDF</button>
   </div>
 
   <div class="phase-nav">
@@ -876,9 +922,12 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 
 
   <div class="exit-slip">
     <h3>3. Exit slip</h3>
-    <p>Record a <strong>one-sentence summary</strong> of chapter 2 on your printed exit slip. You will do this for every chapter, so keep it together with your novel.</p>
-    <p style="font-size:0.85em;color:var(--ink-light);margin-bottom:8px;">You can draft yours here first if you like:</p>
-    <textarea class="exit-textarea" placeholder="In chapter 2..."></textarea>
+    <p>Record a <strong>one-sentence summary</strong> of chapter 2. You can draft it here and export it as your exit slip.</p>
+    <textarea class="exit-textarea" id="exitSummary" placeholder="In chapter 2..."></textarea>
+
+    <div class="export-row">
+      <button class="btn-export" onclick="exportExitSlip()">Export my exit slip as PDF</button>
+    </div>
   </div>
 
   <div class="phase-nav">
@@ -1129,7 +1178,7 @@ function revealInterp(btn){
   var interp=btn.nextElementSibling;
   if(interp&&interp.classList.contains('char-interp')){
     interp.classList.toggle('shown');
-    btn.textContent=interp.classList.contains('shown')?'Hide':'Interpret this';
+    btn.textContent=interp.classList.contains('shown')?'Hide sample':'Show a sample interpretation';
   }
 }
 
@@ -1139,6 +1188,165 @@ function toggleParsed(){
   var btn=document.getElementById('parsedBtn');
   b.classList.toggle('shown');
   btn.textContent=b.classList.contains('shown')?'Hide parsed extract':'Show parsed extract';
+}
+
+/* ============== PDF export helpers ============== */
+function getStudentName(){
+  var inp=document.getElementById('studentName');
+  var name=(inp&&inp.value||'').trim();
+  if(!name){
+    name=prompt('Type your name so it appears on your printed work:','');
+    if(name){name=name.trim();if(inp)inp.value=name;}
+  }
+  return name||'';
+}
+function escapeHtml(s){
+  if(s===null||s===undefined)return '';
+  return String(s).replace(/[&<>"']/g,function(c){
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+  });
+}
+function todayString(){
+  var d=new Date();
+  var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
+}
+function openPrintWindow(title, bodyHtml){
+  var name=getStudentName();
+  if(name===''){return;}
+  var w=window.open('','_blank','width=900,height=1100');
+  if(!w){alert('Please allow pop-ups for this page so your PDF can open.');return;}
+  var css='body{font-family:Georgia,\'Times New Roman\',serif;color:#222;max-width:720px;margin:40px auto;padding:0 28px;line-height:1.55;}'
+    +'h1{font-family:Arial,sans-serif;font-size:22px;margin:0 0 4px;}'
+    +'h2{font-family:Arial,sans-serif;font-size:15px;margin:24px 0 6px;color:#444;letter-spacing:1px;text-transform:uppercase;}'
+    +'.meta{font-family:Arial,sans-serif;font-size:12px;color:#666;margin:0 0 24px;padding-bottom:10px;border-bottom:1px solid #ccc;}'
+    +'.meta strong{color:#222;}'
+    +'.passage{font-size:15px;line-height:2;margin:16px 0;}'
+    +'.answer{background:#f3f3f3;border-bottom:1px solid #888;padding:1px 6px;font-weight:600;}'
+    +'.blank{display:inline-block;min-width:80px;border-bottom:1px solid #888;padding:0 4px;color:#999;font-style:italic;}'
+    +'table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;}'
+    +'th,td{border:1px solid #ccc;padding:8px 10px;text-align:left;vertical-align:top;}'
+    +'th{background:#f0f0f0;font-family:Arial,sans-serif;font-size:12px;letter-spacing:0.5px;text-transform:uppercase;}'
+    +'.quote{font-style:italic;background:#f8f8f8;padding:8px 12px;border-left:3px solid #888;margin:6px 0;font-size:14px;}'
+    +'.resp{background:#fff;border:1px solid #bbb;padding:8px 12px;min-height:36px;margin-top:4px;font-size:14px;white-space:pre-wrap;}'
+    +'.resp.empty{color:#aaa;font-style:italic;}'
+    +'.correct{color:#1a7a1a;font-weight:600;}'
+    +'.incorrect{color:#c0392b;font-weight:600;}'
+    +'.pyramid-table td{padding:6px 10px;}'
+    +'.big-sentence{font-size:17px;margin:12px 0;}'
+    +'.footer{margin-top:40px;padding-top:10px;border-top:1px solid #ccc;font-family:Arial,sans-serif;font-size:11px;color:#888;}'
+    +'@media print{body{margin:20mm 18mm;}}';
+  var html='<!doctype html><html><head><meta charset="utf-8"><title>'+escapeHtml(title)+' - '+escapeHtml(name)+'</title><style>'+css+'</style></head><body>'
+    +'<h1>'+escapeHtml(title)+'</h1>'
+    +'<div class="meta"><strong>Name:</strong> '+escapeHtml(name)+' &nbsp;&middot;&nbsp; <strong>Date:</strong> '+escapeHtml(todayString())+' &nbsp;&middot;&nbsp; The Explorer, Lesson 2</div>'
+    +bodyHtml
+    +'<div class="footer">Printed from The Explorer, Lesson 2 &middot; Writer\'s Toolkit</div>'
+    +'<script>window.onload=function(){setTimeout(function(){window.print();},200);}<\/script>'
+    +'</body></html>';
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+}
+
+/* --- Cloze export --- */
+function exportCloze(){
+  var passage=document.querySelector('#p1-cloze .cloze-passage').cloneNode(true);
+  /* replace each input with the student's answer, or a blank placeholder */
+  passage.querySelectorAll('.cloze-input').forEach(function(inp){
+    var val=inp.value.trim();
+    var span=document.createElement('span');
+    if(val){span.className='answer';span.textContent=val;}
+    else{span.className='blank';span.textContent='_____';}
+    inp.replaceWith(span);
+  });
+  /* remove the title span and re-build with correct formatting */
+  var titleEl=passage.querySelector('.para-title');
+  var titleHtml=titleEl?'<h2 style="letter-spacing:3px;font-weight:700;margin-bottom:10px;">'+escapeHtml(titleEl.textContent)+'</h2>':'';
+  if(titleEl)titleEl.remove();
+  var body='<h2>Cloze passage</h2>'
+    +'<p style="font-size:13px;color:#666;">Fill in each blank so the passage still makes sense. Use context clues, grammar and what you remember about chapter 1.</p>'
+    +titleHtml
+    +'<div class="passage">'+passage.innerHTML+'</div>';
+  openPrintWindow('The Explorer - Cloze passage', body);
+}
+
+/* --- Match the Parts export --- */
+function exportMatch(){
+  var rows=document.querySelectorAll('#matchRows .match-row');
+  var body='<h2>Match the parts of a narrative</h2>'
+    +'<p style="font-size:13px;color:#666;">Match each narrative term with what it does in a story.</p>'
+    +'<table><thead><tr><th style="width:28%;">Term</th><th>My chosen definition</th></tr></thead><tbody>';
+  rows.forEach(function(r){
+    var term=r.querySelector('.match-term').textContent.trim();
+    var sel=r.querySelector('.match-select');
+    var chosenText='';
+    if(sel.value){
+      var opt=sel.querySelector('option[value="'+sel.value+'"]');
+      if(opt)chosenText=opt.textContent.trim();
+    }
+    var correct=(sel.value===sel.getAttribute('data-correct'));
+    var markClass='';
+    var mark='';
+    if(sel.value){
+      markClass=correct?'correct':'incorrect';
+      mark=correct?' &#10003;':' &#10007;';
+    }
+    body+='<tr><td><strong>'+escapeHtml(term)+'</strong></td><td class="'+markClass+'">'+(chosenText?escapeHtml(chosenText)+mark:'<span style="color:#aaa;font-style:italic;">(not answered)</span>')+'</td></tr>';
+  });
+  body+='</tbody></table>';
+  var scoreEl=document.getElementById('matchScore');
+  if(scoreEl&&scoreEl.textContent){body+='<p style="font-size:13px;margin-top:14px;"><strong>Score:</strong> '+escapeHtml(scoreEl.textContent)+'</p>';}
+  openPrintWindow('The Explorer - Match the parts', body);
+}
+
+/* --- Freytag pyramid export --- */
+function exportFreytag(){
+  var slots=document.querySelectorAll('.freytag-slot');
+  var body='<h2>Freytag\'s pyramid</h2>'
+    +'<p style="font-size:13px;color:#666;">The key parts of a narrative in the order I placed them.</p>'
+    +'<table class="pyramid-table"><thead><tr><th style="width:18%;">Slot</th><th>My placement</th><th style="width:18%;">Check</th></tr></thead><tbody>';
+  var positions=['Slot 1 (start)','Slot 2','Slot 3 (rising)','Slot 4 (peak)','Slot 5 (falling)','Slot 6','Slot 7 (end)'];
+  slots.forEach(function(slot,i){
+    var filled=slot.getAttribute('data-filled')||'';
+    var correct=slot.getAttribute('data-correct');
+    var isCorrect=(filled===correct);
+    var mark='';
+    if(filled){mark=isCorrect?'<span class="correct">&#10003; correct</span>':'<span class="incorrect">&#10007; try again</span>';}
+    body+='<tr><td><strong>'+escapeHtml(positions[i]||('Slot '+(i+1)))+'</strong></td><td>'+(filled?escapeHtml(filled):'<span style="color:#aaa;font-style:italic;">(empty)</span>')+'</td><td>'+mark+'</td></tr>';
+  });
+  body+='</tbody></table>';
+  var scoreEl=document.getElementById('freytagScore');
+  if(scoreEl&&scoreEl.textContent){body+='<p style="font-size:13px;margin-top:14px;"><strong>Score:</strong> '+escapeHtml(scoreEl.textContent)+'</p>';}
+  openPrintWindow('The Explorer - Freytag\'s pyramid', body);
+}
+
+/* --- Character notes export --- */
+function exportCharacters(){
+  var body='<h2>Character development notes - chapter 2</h2>'
+    +'<p style="font-size:13px;color:#666;">For each quote or action, my interpretation of what it reveals about the character.</p>';
+  document.querySelectorAll('#phase5 .char-row').forEach(function(row){
+    var name=row.querySelector('.char-name').textContent.trim();
+    var basic=row.querySelector('.char-basic');
+    body+='<h2 style="margin-top:18px;color:#222;">'+escapeHtml(name)+'</h2>';
+    if(basic)body+='<p style="font-size:12px;color:#666;font-style:italic;margin:0 0 8px;">'+escapeHtml(basic.textContent.trim())+'</p>';
+    row.querySelectorAll('.char-quote-block').forEach(function(q,i){
+      var quote=q.querySelector('.char-quote-text').textContent.trim();
+      var myText=q.querySelector('.char-interp-input');
+      var val=myText?myText.value.trim():'';
+      body+='<div class="quote">'+escapeHtml(quote)+'</div>';
+      body+='<div class="resp'+(val?'':' empty')+'"><strong style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#666;">My interpretation:</strong><br>'+(val?escapeHtml(val):'(no interpretation written)')+'</div>';
+    });
+  });
+  openPrintWindow('The Explorer - Character notes', body);
+}
+
+/* --- Exit slip export --- */
+function exportExitSlip(){
+  var txt=(document.getElementById('exitSummary').value||'').trim();
+  var body='<h2>Exit slip - chapter 2: The Green Dark</h2>'
+    +'<p style="font-size:13px;color:#666;">One-sentence summary of the chapter.</p>'
+    +'<div class="big-sentence resp'+(txt?'':' empty')+'">'+(txt?escapeHtml(txt):'(no summary written)')+'</div>';
+  openPrintWindow('The Explorer - Exit slip ch 2', body);
 }
 
 /* ============== Clicker / arrow key navigation ============== */
