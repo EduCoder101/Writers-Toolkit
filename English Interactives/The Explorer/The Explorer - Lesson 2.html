@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Explorer | Lesson 2 | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF8F5;--ink:#2D3436;--ink-light:#636E72;
+  --teal:#4ECDC4;--teal-light:#d0f0ec;
+  --coral:#FF6B6B;--coral-light:#ffe0e0;
+  --gold:#FFD93D;--gold-light:#fdf2d0;
+  --purple:#9B5DE5;--purple-light:#f0e6ff;
+  --sky:#74B9FF;--sky-light:#e1f0ff;
+  --green:#27AE60;--green-light:#d3f9d8;
+  --pink:#FFD6E0;--orange:#FFE0CC;--yellow:#FFF3BF;
+  --card:#fff;
+  --shadow:0 4px 20px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.12);
+  --radius:16px;
+  --sidebar-bg:#2D3436;
+  --sidebar-w:240px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{font-family:'Fredoka',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* Floating background shapes */
+.bg-shapes{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;}
+.bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:var(--coral);}
+.bg-shape:nth-child(2){width:400px;height:400px;top:20%;right:-8%;background:var(--teal);}
+.bg-shape:nth-child(3){width:350px;height:350px;bottom:15%;left:10%;background:var(--gold);}
+.bg-shape:nth-child(4){width:450px;height:450px;bottom:-5%;right:15%;background:var(--purple);}
+.bg-shape:nth-child(5){width:300px;height:300px;top:50%;left:40%;background:var(--sky);}
+
+/* Top bar */
+.top-bar{background:var(--sidebar-bg);color:#fff;padding:0;position:sticky;top:0;z-index:200;display:flex;align-items:center;border-bottom:2px solid rgba(255,255,255,0.08);}
+.sidebar-toggle{background:none;border:none;border-right:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.top-bar-title{font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.95rem;padding:0 22px;letter-spacing:0.3px;}
+.top-bar-title span{color:var(--teal);}
+.top-bar .back-link{margin-left:auto;color:var(--teal);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.7;transition:opacity 0.2s;font-family:'Fredoka',sans-serif;}
+.top-bar .back-link:hover{opacity:1;}
+
+/* Sidebar */
+.sidebar{position:fixed;left:0;top:48px;width:var(--sidebar-w);height:calc(100vh - 48px);background:var(--sidebar-bg);color:#fff;z-index:100;overflow-y:auto;transition:width 0.3s ease;}
+.sidebar.collapsed{width:0;overflow:hidden;}
+.sidebar-content{padding:16px 0;}
+.sidebar-section{margin-bottom:12px;}
+.sidebar-section-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);padding:10px 18px 6px;}
+.sidebar-item{background:none;border:none;color:rgba(255,255,255,0.6);font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;padding:9px 18px;width:100%;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:10px;}
+.sidebar-item:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.sidebar-item.active{background:rgba(78,205,196,0.15);color:#fff;border-left:4px solid var(--teal);padding-left:14px;}
+.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* Main */
+main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 60px 80px;position:relative;z-index:1;}
+.sidebar.collapsed ~ main{margin-left:0;}
+
+.phase{display:none;max-width:1000px;margin:0 auto;animation:fadeIn 0.4s ease;}
+.phase.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+.phase-eyebrow{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--teal);text-align:center;margin-bottom:8px;font-weight:700;}
+.phase-title{font-family:'Fredoka',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:700;text-align:center;margin:0 0 10px;line-height:1.15;}
+.phase-sub{text-align:center;font-size:clamp(15px,1.8vw,19px);color:var(--ink-light);margin-bottom:28px;line-height:1.5;font-weight:400;}
+
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px;margin-bottom:22px;}
+.card.tight{padding:22px 26px;}
+
+/* LISC */
+.lisc{background:linear-gradient(135deg,#fff,#fdf6ff);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:26px;border-left:5px solid var(--purple);}
+.lisc-li{font-size:clamp(15px,1.8vw,18px);font-weight:600;margin:0 0 12px;color:var(--purple);}
+.lisc-li-text{color:var(--ink);font-weight:500;}
+.lisc-sc-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--purple);font-weight:700;margin:14px 0 8px;}
+.lisc ul{margin:0;padding-left:22px;}
+.lisc li{font-size:clamp(13px,1.5vw,16px);color:var(--ink);margin:6px 0;line-height:1.5;}
+
+/* Buttons */
+.btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:11px 26px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-coral{background:var(--coral);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-outline{background:#fff;color:var(--ink);border:2px solid #ddd;}
+.btn-outline:hover{border-color:var(--ink);}
+.btn-sm{font-size:13px;padding:8px 18px;}
+
+/* Phase footer nav */
+.phase-nav{display:flex;justify-content:space-between;align-items:center;margin-top:30px;padding-top:18px;border-top:1px solid #eee;gap:12px;}
+.phase-nav .step-info{font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--ink-light);letter-spacing:1.5px;}
+
+/* Sub-step tabs */
+.step-tabs{display:flex;justify-content:center;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+.step-tab{font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:600;padding:8px 18px;border-radius:20px;background:#fff;color:var(--ink-light);border:2px solid #e5e5e5;cursor:pointer;transition:all 0.2s;}
+.step-tab.active{background:var(--coral);color:#fff;border-color:var(--coral);}
+.step-tab:hover:not(.active){border-color:var(--coral);color:var(--coral);}
+.step-panel{display:none;}
+.step-panel.active{display:block;animation:fadeIn 0.4s ease;}
+
+/* ============ PHASE 1: RECAP & CLOZE ============ */
+.recap-card{background:linear-gradient(135deg,var(--teal-light),#fff);border-left:5px solid var(--teal);padding:22px 28px;}
+.recap-card h3{font-family:'Fredoka',sans-serif;margin:0 0 8px;font-size:clamp(17px,2.1vw,21px);color:var(--teal);}
+.recap-card p{margin:0 0 10px;font-size:clamp(14px,1.6vw,16px);line-height:1.55;}
+
+.cloze-passage{background:#fff;border-radius:12px;padding:26px 30px;box-shadow:var(--shadow);border-top:4px solid var(--coral);font-size:clamp(16px,1.9vw,19px);line-height:2;color:var(--ink);font-weight:500;}
+.cloze-passage .para-title{font-family:'Fredoka',sans-serif;font-weight:700;letter-spacing:3px;display:block;margin-bottom:12px;color:var(--coral);font-size:clamp(14px,1.7vw,17px);}
+.cloze-input{font-family:'Fredoka',sans-serif;font-size:inherit;padding:3px 10px;border:none;border-bottom:2px dashed var(--coral);background:transparent;width:150px;outline:none;transition:all 0.2s;font-weight:600;color:var(--coral);margin:0 2px;}
+.cloze-input:focus{border-bottom-color:var(--teal);color:var(--teal);background:var(--teal-light);border-radius:6px;}
+.cloze-input.show-answer{color:var(--ink-light);border-bottom-color:var(--ink-light);font-style:italic;}
+
+.cloze-controls{display:flex;justify-content:center;gap:10px;margin-top:18px;flex-wrap:wrap;}
+.cloze-hint{margin-top:14px;padding:14px 18px;background:var(--gold-light);border-left:4px solid var(--gold);border-radius:10px;font-size:clamp(13px,1.5vw,15px);line-height:1.55;color:var(--ink);display:none;}
+.cloze-hint.shown{display:block;animation:fadeIn 0.3s ease;}
+.cloze-hint strong{display:block;font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:#b8920e;margin-bottom:6px;font-weight:700;}
+
+/* Challenge 2 */
+.challenge-card{background:linear-gradient(135deg,var(--purple-light),#fff);border-left:5px solid var(--purple);padding:22px 28px;margin-top:20px;}
+.challenge-card h3{margin:0 0 8px;color:var(--purple);font-size:clamp(16px,2vw,20px);}
+.challenge-card p{margin:0 0 10px;font-size:clamp(14px,1.6vw,16px);line-height:1.55;}
+
+/* ============ PHASE 2: OPENINGS & TONE ============ */
+.openings-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:20px;}
+.opening-card{background:#fff;border-radius:12px;padding:22px 26px;box-shadow:var(--shadow);border-left:5px solid var(--sky);transition:transform 0.2s;}
+.opening-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.opening-quote{font-family:'Fredoka',sans-serif;font-size:clamp(17px,2.1vw,21px);font-style:italic;line-height:1.5;color:var(--ink);margin:0 0 10px;}
+.opening-source{font-size:clamp(12px,1.4vw,14px);color:var(--ink-light);margin-bottom:14px;}
+.opening-tone-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.opening-tone-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink-light);font-weight:700;}
+.tone-pill{display:none;background:var(--coral);color:#fff;padding:5px 14px;border-radius:16px;font-size:0.85rem;font-weight:600;animation:pop 0.3s ease;}
+.tone-pill.shown{display:inline-block;}
+.tone-explain{display:none;margin-top:10px;font-size:clamp(13px,1.5vw,15px);color:var(--ink);line-height:1.5;background:var(--coral-light);padding:10px 14px;border-radius:10px;}
+.tone-explain.shown{display:block;animation:fadeIn 0.3s ease;}
+@keyframes pop{from{transform:scale(0.6);opacity:0;}to{transform:scale(1);opacity:1;}}
+
+.tone-discuss{background:linear-gradient(135deg,var(--teal-light),#fff);border-left:5px solid var(--teal);border-radius:var(--radius);padding:24px 28px;margin-top:8px;}
+.tone-discuss h3{margin:0 0 6px;font-size:clamp(17px,2.1vw,21px);color:var(--teal);}
+.tone-discuss p{font-size:clamp(15px,1.8vw,18px);line-height:1.6;margin:0 0 10px;}
+.tone-reveal{display:none;margin-top:12px;padding:14px 18px;background:#fff;border-radius:10px;border-left:3px solid var(--purple);font-size:clamp(14px,1.6vw,16px);line-height:1.6;}
+.tone-reveal.shown{display:block;animation:fadeIn 0.4s ease;}
+.tone-reveal strong{color:var(--purple);}
+
+/* ============ PHASE 3: NARRATIVE STRUCTURE ============ */
+.nar-intro{background:linear-gradient(135deg,var(--gold-light),#fff);border-left:5px solid var(--gold);padding:22px 28px;margin-bottom:18px;}
+.nar-intro h3{margin:0 0 6px;color:#b8920e;font-size:clamp(17px,2.1vw,21px);}
+.nar-intro p{margin:0;font-size:clamp(14px,1.6vw,16px);line-height:1.55;}
+
+.match-grid{display:grid;grid-template-columns:200px 1fr;gap:14px;margin-top:18px;}
+@media(max-width:640px){.match-grid{grid-template-columns:1fr;}}
+.match-term{background:#fff;border-radius:12px;padding:14px 18px;box-shadow:var(--shadow);border-left:4px solid var(--teal);font-family:'Fredoka',sans-serif;font-weight:600;font-size:clamp(15px,1.7vw,17px);display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.match-defs{display:flex;flex-direction:column;gap:10px;}
+.match-def{background:#fff;border-radius:12px;padding:12px 16px;box-shadow:var(--shadow);border:2px dashed #ddd;font-size:clamp(13px,1.5vw,15px);line-height:1.5;cursor:pointer;transition:all 0.2s;}
+.match-def:hover{border-color:var(--teal);}
+.match-def.correct{border:2px solid var(--green);background:var(--green-light);}
+.match-def.wrong{border:2px solid var(--coral);background:var(--coral-light);}
+.match-row{display:grid;grid-template-columns:200px 1fr;gap:14px;align-items:center;margin-bottom:10px;}
+@media(max-width:640px){.match-row{grid-template-columns:1fr;}}
+.match-select{font-family:'Fredoka',sans-serif;font-size:clamp(13px,1.5vw,15px);padding:10px 14px;border:2px solid #ddd;border-radius:10px;background:#fff;cursor:pointer;outline:none;width:100%;transition:border-color 0.2s;}
+.match-select:focus{border-color:var(--teal);}
+.match-select.correct{border-color:var(--green);background:var(--green-light);}
+.match-select.wrong{border-color:var(--coral);background:var(--coral-light);}
+.match-def-text{font-size:clamp(13px,1.5vw,15px);line-height:1.5;color:var(--ink);padding:12px 16px;background:#fff;border-radius:10px;box-shadow:var(--shadow);}
+
+.freytag-wrap{position:relative;margin:24px auto 10px;padding:40px 20px 20px;background:linear-gradient(180deg,var(--sky-light),#fff);border-radius:var(--radius);max-width:900px;}
+.freytag-svg{width:100%;height:auto;display:block;}
+.freytag-slot{background:#fff;border:2px dashed var(--teal);border-radius:24px;padding:6px 14px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:clamp(12px,1.4vw,14px);color:var(--ink-light);min-width:110px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.freytag-slot.filled{background:var(--teal);color:#fff;border-style:solid;border-color:var(--teal);}
+.freytag-slot.correct{background:var(--green);border-color:var(--green);color:#fff;}
+.freytag-slot.wrong{background:var(--coral);border-color:var(--coral);color:#fff;}
+.freytag-bank{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px;padding:14px;background:#fff;border-radius:12px;box-shadow:var(--shadow);}
+.freytag-chip{background:#fff;border:2px solid #ddd;border-radius:24px;padding:8px 16px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:clamp(13px,1.5vw,15px);cursor:pointer;transition:all 0.2s;}
+.freytag-chip:hover:not(.used){border-color:var(--teal);transform:translateY(-2px);}
+.freytag-chip.selected{background:var(--teal);color:#fff;border-color:var(--teal);}
+.freytag-chip.used{opacity:0.3;cursor:not-allowed;}
+.freytag-controls{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.freytag-instruction{text-align:center;font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);margin-bottom:10px;line-height:1.5;}
+.freytag-instruction strong{color:var(--teal);}
+
+/* ============ PHASE 4: VOCAB CH 2 ============ */
+.vocab-sort-instruction{background:linear-gradient(135deg,var(--teal-light),#fff);border-left:5px solid var(--teal);border-radius:var(--radius);padding:20px 26px;margin-bottom:18px;}
+.vocab-sort-instruction strong{display:block;margin-bottom:4px;font-size:clamp(15px,1.8vw,18px);}
+.vocab-sort-instruction span{font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);line-height:1.5;}
+
+.vocab-sort-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:14px 0;}
+.vocab-sort-tile{background:#fff;border-radius:12px;padding:14px;box-shadow:var(--shadow);text-align:center;border-top:3px solid var(--teal);cursor:pointer;transition:transform 0.2s;perspective:1000px;aspect-ratio:1/1;position:relative;}
+.vocab-sort-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.vocab-sort-inner{position:relative;width:100%;height:100%;transition:transform 0.5s;transform-style:preserve-3d;}
+.vocab-sort-tile.flipped .vocab-sort-inner{transform:rotateY(180deg);}
+.vocab-sort-front,.vocab-sort-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;text-align:center;}
+.vocab-sort-front{background:#fff;}
+.vocab-sort-back{background:var(--teal);color:#fff;transform:rotateY(180deg);}
+.vocab-sort-word{font-family:'Fredoka',sans-serif;font-weight:600;font-size:clamp(14px,1.6vw,17px);margin-bottom:8px;color:var(--ink);}
+.vocab-sort-meaning{font-size:clamp(10px,1.2vw,12px);line-height:1.35;font-weight:500;}
+.vocab-sort-status{display:flex;gap:4px;justify-content:center;margin-top:auto;}
+.vocab-sort-btn{background:#f0f0f0;border:none;border-radius:50%;width:22px;height:22px;font-size:11px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;color:var(--ink-light);font-family:'Fredoka',sans-serif;font-weight:700;}
+.vocab-sort-btn:hover{transform:scale(1.1);}
+.vocab-sort-btn.active.know{background:var(--green);color:#fff;}
+.vocab-sort-btn.active.unsure{background:var(--gold);color:var(--ink);}
+.vocab-sort-btn.active.dont{background:var(--coral);color:#fff;}
+
+.vocab-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+@media(max-width:600px){.vocab-summary{grid-template-columns:1fr;}}
+.vocab-summary-card{background:#fff;border-radius:12px;padding:14px 16px;box-shadow:var(--shadow);text-align:center;border-top:3px solid #ddd;}
+.vocab-summary-card.know{border-top-color:var(--green);}
+.vocab-summary-card.unsure{border-top-color:var(--gold);}
+.vocab-summary-card.dont{border-top-color:var(--coral);}
+.vocab-summary-count{font-family:'Space Mono',monospace;font-size:clamp(22px,3vw,32px);font-weight:700;}
+.vocab-summary-card.know .vocab-summary-count{color:var(--green);}
+.vocab-summary-card.unsure .vocab-summary-count{color:var(--gold);}
+.vocab-summary-card.dont .vocab-summary-count{color:var(--coral);}
+.vocab-summary-label{font-size:clamp(12px,1.4vw,14px);color:var(--ink-light);font-weight:500;}
+
+.audio-section{margin-top:24px;display:none;}
+.audio-section.shown{display:block;animation:fadeIn 0.5s ease;}
+.audio-card{background:linear-gradient(135deg,var(--coral-light),#fff);border-left:5px solid var(--coral);border-radius:var(--radius);padding:24px 26px;text-align:center;}
+.audio-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(18px,2.3vw,22px);margin:0 0 6px;color:var(--coral);}
+.audio-card p{font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);margin:0 0 16px;}
+.video-wrap{position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden;background:#000;box-shadow:var(--shadow);}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+
+.chapter-title-card{background:linear-gradient(135deg,var(--purple-light),#fff);border-left:5px solid var(--purple);padding:22px 28px;margin-top:18px;}
+.chapter-title-card h3{margin:0 0 8px;color:var(--purple);font-size:clamp(16px,2vw,20px);}
+.chapter-title-card p{margin:0 0 10px;font-size:clamp(14px,1.6vw,16px);line-height:1.55;}
+.chapter-title-reveal{display:none;margin-top:10px;padding:12px 16px;background:#fff;border-radius:10px;font-size:clamp(13px,1.5vw,15px);line-height:1.55;color:var(--ink);border-left:3px solid var(--purple);}
+.chapter-title-reveal.shown{display:block;animation:fadeIn 0.3s ease;}
+.chapter-title-reveal strong{color:var(--purple);}
+
+/* ============ PHASE 5: CHARACTER DEVELOPMENT ============ */
+.char-intro{background:linear-gradient(135deg,var(--sky-light),#fff);border-left:5px solid var(--sky);padding:22px 28px;margin-bottom:20px;}
+.char-intro h3{margin:0 0 8px;color:var(--sky);font-size:clamp(17px,2.1vw,21px);}
+.char-intro p{margin:0 0 8px;font-size:clamp(14px,1.6vw,16px);line-height:1.55;}
+.char-intro ul{font-size:clamp(13px,1.5vw,15px);line-height:1.55;color:var(--ink);margin:6px 0 0;padding-left:22px;}
+
+.worked-example{background:#fff;border-radius:12px;box-shadow:var(--shadow);border-top:4px solid var(--gold);padding:22px 26px;margin-bottom:22px;}
+.worked-example h4{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;color:#b8920e;margin:0 0 12px;font-weight:700;}
+.worked-cols{display:grid;grid-template-columns:1fr 2fr 2fr;gap:12px;margin-bottom:8px;}
+@media(max-width:760px){.worked-cols{grid-template-columns:1fr;}}
+.worked-col{padding:12px 14px;border-radius:10px;font-size:clamp(13px,1.5vw,15px);line-height:1.5;}
+.worked-col.name{background:var(--gold-light);font-weight:600;}
+.worked-col.quote{background:#f8f8f8;font-style:italic;}
+.worked-col.interp{background:var(--green-light);}
+.worked-col .label{display:block;font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;font-weight:700;}
+
+.char-rows{display:grid;grid-template-columns:1fr;gap:14px;}
+.char-row{background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:20px 24px;border-left:4px solid var(--coral);}
+.char-row.con{border-left-color:var(--teal);}
+.char-row.lila{border-left-color:var(--purple);}
+.char-row.max{border-left-color:var(--gold);}
+.char-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.char-name{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(18px,2.2vw,22px);}
+.char-row.fred .char-name{color:var(--coral);}
+.char-row.con .char-name{color:var(--teal);}
+.char-row.lila .char-name{color:var(--purple);}
+.char-row.max .char-name{color:#b8920e;}
+.char-basic{font-size:clamp(12px,1.4vw,14px);color:var(--ink-light);font-weight:500;font-style:italic;}
+
+.char-quotes{display:grid;grid-template-columns:1fr;gap:10px;}
+.char-quote-block{background:#f8f8f8;border-radius:10px;padding:12px 16px;border-left:3px solid var(--ink-light);}
+.char-quote-text{font-size:clamp(13px,1.5vw,15px);line-height:1.5;font-style:italic;color:var(--ink);margin-bottom:8px;}
+.char-reveal-btn{background:none;border:2px dashed #bbb;color:var(--ink-light);padding:6px 14px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.8rem;border-radius:16px;cursor:pointer;transition:all 0.2s;}
+.char-reveal-btn:hover{border-color:var(--green);color:var(--green);}
+.char-interp{display:none;margin-top:8px;padding:10px 14px;background:var(--green-light);border-radius:8px;border-left:3px solid var(--green);font-size:clamp(13px,1.5vw,15px);line-height:1.55;color:var(--ink);}
+.char-interp.shown{display:block;animation:fadeIn 0.3s ease;}
+.char-interp strong{color:var(--green);}
+
+.char-record-note{background:linear-gradient(135deg,var(--purple-light),#fff);border-left:5px solid var(--purple);border-radius:12px;padding:18px 22px;margin-top:18px;font-size:clamp(14px,1.6vw,16px);line-height:1.55;}
+.char-record-note strong{display:block;margin-bottom:4px;color:var(--purple);}
+
+/* ============ PHASE 6: REREAD & EXIT SLIP ============ */
+.simple-instruction-card{background:#fff;border-radius:var(--radius);padding:36px 40px;box-shadow:var(--shadow);margin-bottom:18px;display:flex;gap:24px;align-items:flex-start;}
+.simple-instruction-card .step-num{font-family:'Fredoka',sans-serif;font-size:clamp(36px,5vw,52px);font-weight:700;color:#fff;background:var(--gold);width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.simple-instruction-card.teal .step-num{background:var(--teal);}
+.simple-instruction-card.coral .step-num{background:var(--coral);}
+.simple-instruction-card .body{flex:1;}
+.simple-instruction-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(20px,2.4vw,26px);margin:0 0 8px;}
+.simple-instruction-card p{font-size:clamp(15px,1.8vw,18px);color:var(--ink-light);line-height:1.55;margin:0 0 6px;}
+.simple-instruction-card p strong{color:var(--ink);font-weight:600;}
+@media(max-width:600px){.simple-instruction-card{flex-direction:column;}}
+
+.parsed-box{background:#fff;border-radius:12px;padding:22px 26px;box-shadow:var(--shadow);border-top:4px solid var(--teal);margin-top:12px;display:none;}
+.parsed-box.shown{display:block;animation:fadeIn 0.4s ease;}
+.parsed-box h4{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin:0 0 12px;font-weight:700;}
+.parsed-text{font-size:clamp(14px,1.6vw,17px);line-height:2.1;font-weight:500;}
+.parsed-text .pause{color:var(--coral);font-weight:700;margin:0 3px;}
+
+.share-card{background:linear-gradient(135deg,var(--sky-light),#fff);border-left:5px solid var(--sky);border-radius:var(--radius);padding:22px 28px;margin-bottom:18px;}
+.share-card h3{margin:0 0 8px;color:var(--sky);font-size:clamp(17px,2.1vw,21px);}
+.share-card ul{font-size:clamp(15px,1.8vw,18px);line-height:1.7;margin:0;padding-left:22px;}
+
+.exit-slip{background:linear-gradient(135deg,var(--coral-light),#fff);border-left:5px solid var(--coral);border-radius:var(--radius);padding:22px 28px;}
+.exit-slip h3{margin:0 0 6px;color:var(--coral);font-size:clamp(17px,2.1vw,21px);}
+.exit-slip p{margin:0 0 12px;font-size:clamp(14px,1.6vw,16px);line-height:1.55;}
+.exit-textarea{font-family:'Fredoka',sans-serif;font-size:clamp(15px,1.8vw,17px);padding:14px 18px;border:2px solid #ddd;border-radius:12px;width:100%;resize:vertical;min-height:80px;outline:none;transition:border-color 0.2s;font-weight:500;line-height:1.6;}
+.exit-textarea:focus{border-color:var(--coral);}
+
+/* Mobile */
+@media(max-width:768px){
+  .sidebar{width:0;}
+  main{margin-left:0;padding:24px 16px 60px;}
+  .card{padding:20px;}
+  :root{--sidebar-w:0px;}
+}
+
+/* Print */
+@media print{
+  body{background:#fff;}
+  .bg-shapes,.top-bar,.sidebar,.phase-nav,.btn,.step-tabs{display:none !important;}
+  main{margin-left:0;padding:20px;}
+  .phase{display:block !important;page-break-after:always;}
+  .card{box-shadow:none;border:1px solid #ddd;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+</div>
+
+<header class="top-bar">
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">&#9776;</button>
+  <div class="top-bar-title">The Explorer <span>&middot;</span> Lesson 2</div>
+  <a href="../index.html" class="back-link">&larr; Toolkit Home</a>
+</header>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Warm up</div>
+      <button class="sidebar-item active" data-nav="phase1" onclick="goPhase(1)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral);"></span>1. Recap &amp; cloze</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Learn</div>
+      <button class="sidebar-item" data-nav="phase2" onclick="goPhase(2)" tabindex="-1"><span class="sidebar-dot" style="background:var(--sky);"></span>2. Story openings &amp; tone</button>
+      <button class="sidebar-item" data-nav="phase3" onclick="goPhase(3)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold);"></span>3. Narrative structure</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Read</div>
+      <button class="sidebar-item" data-nav="phase4" onclick="goPhase(4)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal);"></span>4. Vocabulary &amp; ch 2</button>
+      <button class="sidebar-item" data-nav="phase5" onclick="goPhase(5)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple);"></span>5. Character development</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Reflect</div>
+      <button class="sidebar-item" data-nav="phase6" onclick="goPhase(6)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold);"></span>6. Reread &amp; exit slip</button>
+    </div>
+  </div>
+</aside>
+
+<main>
+
+<!-- ===================== PHASE 1: RECAP & CLOZE ===================== -->
+<section class="phase active" id="phase1">
+  <div class="phase-eyebrow">Phase 1 of 6 &middot; 10 min</div>
+  <h1 class="phase-title">Recap &amp; cloze</h1>
+  <p class="phase-sub">We explored the opening last lesson. Now make it your own by choosing new words that still make sense.</p>
+
+  <div class="step-tabs">
+    <button class="step-tab active" data-p1="lisc" onclick="goP1('lisc')">1. Learning goals</button>
+    <button class="step-tab" data-p1="recap" onclick="goP1('recap')">2. What is a cloze?</button>
+    <button class="step-tab" data-p1="cloze" onclick="goP1('cloze')">3. Your cloze</button>
+  </div>
+
+  <!-- 1a: LISC -->
+  <div class="step-panel active" id="p1-lisc">
+    <div class="lisc">
+      <p class="lisc-li">Learning intention A: <span class="lisc-li-text">We are learning to make textual predictions and substitute words carefully so a passage still makes sense.</span></p>
+      <p class="lisc-li">Learning intention B: <span class="lisc-li-text">We are learning to review narrative structure and to identify the tone a writer sets in the opening of a story.</span></p>
+      <div class="lisc-sc-title">Success criteria</div>
+      <ul>
+        <li>I can complete a cloze passage using context clues, grammar and my understanding of the text.</li>
+        <li>I can identify the tone a writer sets in the opening of a story.</li>
+        <li>I can name the key parts of a narrative and put them in order on Freytag's pyramid.</li>
+        <li>I can record the meaning of new words from chapter 2 and sort them by how well I know them.</li>
+        <li>I can notice what a character says or does and interpret what this reveals about them.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1b: RECAP -->
+  <div class="step-panel" id="p1-recap">
+    <div class="card recap-card">
+      <h3>What is a cloze?</h3>
+      <p>A cloze passage uses the skeleton of the original text but asks you to substitute words. Your choices need to make sense in the sentence and in the story.</p>
+      <p>You are not creating something wildly different. For example, Katherine Rundell's title, <em>The Explorer</em>, could become <strong>The Adventurer</strong>. It would not become <strong>The Unicorn Rider</strong> because that is wildly different from the story.</p>
+      <p style="margin-top:14px;"><strong>Your job:</strong> complete the cloze <em>without</em> referring to the novel. Use context clues, grammar and your understanding of chapter 1.</p>
+    </div>
+  </div>
+
+  <!-- 1c: CLOZE -->
+  <div class="step-panel" id="p1-cloze">
+    <div class="cloze-passage">
+      <span class="para-title">FLIGHT</span>
+      Like a <input type="text" class="cloze-input" data-answer="man-made" placeholder="adjective" size="12"> magic wish, the aeroplane began to <input type="text" class="cloze-input" data-answer="rise" placeholder="verb" size="8">.
+      The boy sitting in the cockpit <input type="text" class="cloze-input" data-answer="gripped" placeholder="verb" size="10"> his seat and held his breath as the plane <input type="text" class="cloze-input" data-answer="lifted" placeholder="verb" size="10"> into the <input type="text" class="cloze-input" data-answer="belly" placeholder="noun" size="8"> of the sky.
+      Fred's jaw was <input type="text" class="cloze-input" data-answer="tight" placeholder="adjective" size="10">, and his <input type="text" class="cloze-input" data-answer="fingers" placeholder="noun" size="10"> twitched, <input type="text" class="cloze-input" data-answer="following" placeholder="verb-ing" size="12"> the movements of the pilot beside him: joystick, throttle.
+
+      The aeroplane <input type="text" class="cloze-input" data-answer="climbed" placeholder="verb" size="10"> as it <input type="text" class="cloze-input" data-answer="sped" placeholder="verb" size="8"> faster into the <input type="text" class="cloze-input" data-answer="setting" placeholder="adjective" size="10"> sun, following the <input type="text" class="cloze-input" data-answer="curve" placeholder="noun" size="10"> of the Amazon River <input type="text" class="cloze-input" data-answer="beneath" placeholder="preposition" size="10"> them. Fred could see the reflection of the six-seater plane, a <input type="text" class="cloze-input" data-answer="speck" placeholder="noun" size="10"> of black on the <input type="text" class="cloze-input" data-answer="golden" placeholder="adjective" size="10"> sweep of <input type="text" class="cloze-input" data-answer="water" placeholder="noun" size="8">, as it sped towards Manaus, the city on the water. He <input type="text" class="cloze-input" data-answer="pushed" placeholder="verb" size="10"> his hair out of his eyes and <input type="text" class="cloze-input" data-answer="pressed" placeholder="verb" size="10"> his <input type="text" class="cloze-input" data-answer="forehead" placeholder="noun" size="10"> against the window.
+    </div>
+
+    <div class="cloze-controls">
+      <button class="btn btn-gold btn-sm" onclick="showClozeHint()">Need a hint?</button>
+      <button class="btn btn-teal btn-sm" onclick="showClozeOriginal()">Compare with the author's words</button>
+      <button class="btn btn-outline btn-sm" onclick="clearCloze()">Clear all</button>
+    </div>
+
+    <div class="cloze-hint" id="clozeHint">
+      <strong>Guiding questions</strong>
+      Does each word match the word-class shown in grey? Does each sentence still make sense when you read it aloud? Does it still feel like a plane taking off?
+    </div>
+
+    <div class="challenge-card">
+      <h3>Challenge 2: make your own</h3>
+      <p>Once you have completed the cloze, choose the <strong>next paragraph</strong> of chapter 1 and create your own cloze. Blank out the words you think matter most. Swap with a friend and try to fill each other's in.</p>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <span class="step-info">PHASE 1 / 6</span>
+    <button class="btn btn-coral" onclick="goPhase(2)">Next: story openings &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 2: STORY OPENINGS & TONE ===================== -->
+<section class="phase" id="phase2">
+  <div class="phase-eyebrow">Phase 2 of 6 &middot; 8 min</div>
+  <h1 class="phase-title">Story openings &amp; tone</h1>
+  <p class="phase-sub">Opening sentences orient the reader. They set the mood, the setting and the writer's attitude: the <em>tone</em>.</p>
+
+  <div class="openings-grid">
+    <div class="opening-card" data-open="1">
+      <p class="opening-quote">"Where's Papa going with that axe?"</p>
+      <div class="opening-source">Charlotte's Web, by E. B. White</div>
+      <div class="opening-tone-row">
+        <span class="opening-tone-label">Tone:</span>
+        <button class="btn btn-outline btn-sm" onclick="revealTone(1)" id="toneBtn1">Reveal the tone</button>
+        <span class="tone-pill" id="tonePill1">Alarming, ominous</span>
+      </div>
+      <div class="tone-explain" id="toneExplain1">Starts with a question about violence (an axe). We are immediately worried. The writer pulls us in with a tiny shock.</div>
+    </div>
+
+    <div class="opening-card" data-open="2">
+      <p class="opening-quote">"If you are interested in stories with happy endings, you would be better off reading some other book."</p>
+      <div class="opening-source">The Bad Beginning, by Lemony Snicket</div>
+      <div class="opening-tone-row">
+        <span class="opening-tone-label">Tone:</span>
+        <button class="btn btn-outline btn-sm" onclick="revealTone(2)" id="toneBtn2">Reveal the tone</button>
+        <span class="tone-pill" id="tonePill2" style="background:var(--purple);">Dry, warning, playful</span>
+      </div>
+      <div class="tone-explain" id="toneExplain2" style="background:var(--purple-light);">The narrator speaks directly to us in a serious voice about unhappy things. That contrast is funny and unsettling at the same time.</div>
+    </div>
+
+    <div class="opening-card" data-open="3">
+      <p class="opening-quote">"Our story begins on the ocean, with wind and rain and thunder and lightning and waves."</p>
+      <div class="opening-source">The Wild Robot, by Peter Brown</div>
+      <div class="opening-tone-row">
+        <span class="opening-tone-label">Tone:</span>
+        <button class="btn btn-outline btn-sm" onclick="revealTone(3)" id="toneBtn3">Reveal the tone</button>
+        <span class="tone-pill" id="tonePill3" style="background:var(--sky);">Dramatic, epic</span>
+      </div>
+      <div class="tone-explain" id="toneExplain3" style="background:var(--sky-light);">The repeated "and...and...and..." builds up like waves crashing. The scale feels huge. Something serious is about to happen.</div>
+    </div>
+  </div>
+
+  <div class="tone-discuss">
+    <h3>What tone does The Explorer set?</h3>
+    <p>Look again at Katherine Rundell's opening: <em>"Like a man-made magic wish, the aeroplane began to rise."</em></p>
+    <p>What tone has the writer set? How does it make you feel as a reader?</p>
+    <div style="text-align:center;margin-top:14px;">
+      <button class="btn btn-purple btn-sm" onclick="revealExplorerTone()" id="expToneBtn">Discuss, then reveal</button>
+    </div>
+    <div class="tone-reveal" id="expToneReveal">
+      The writer sets an <strong>admiring, optimistic, slightly awed</strong> tone. "Magic wish" treats the plane as something wonderful. "Began to rise" is gentle and hopeful. We feel uplifted. Katherine Rundell wants us to love this aeroplane <em>before</em> anything bad happens to it.
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(1)">&larr; Back</button>
+    <span class="step-info">PHASE 2 / 6</span>
+    <button class="btn btn-coral" onclick="goPhase(3)">Next: narrative structure &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 3: NARRATIVE STRUCTURE ===================== -->
+<section class="phase" id="phase3">
+  <div class="phase-eyebrow">Phase 3 of 6 &middot; 10 min</div>
+  <h1 class="phase-title">Narrative structure</h1>
+  <p class="phase-sub">Every story has a shape. Match the parts. Then put them in order on Freytag's pyramid.</p>
+
+  <div class="step-tabs">
+    <button class="step-tab active" data-p3="match" onclick="goP3('match')">1. Match the parts</button>
+    <button class="step-tab" data-p3="pyramid" onclick="goP3('pyramid')">2. Freytag's pyramid</button>
+  </div>
+
+  <!-- 3a: MATCH -->
+  <div class="step-panel active" id="p3-match">
+    <div class="nar-intro">
+      <h3>Match each part of a narrative to what it does</h3>
+      <p>For each term, choose the definition that fits best. Click <em>Check</em> to mark your answers.</p>
+    </div>
+
+    <div id="matchRows">
+      <div class="match-row">
+        <div class="match-term">orientation</div>
+        <select class="match-select" data-correct="a">
+          <option value="">Choose a definition...</option>
+          <option value="a">The characters and setting are introduced.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
+          <option value="d">The most exciting moment. Everything comes together.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
+          <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="g">A final reflection on what the story was really about.</option>
+        </select>
+      </div>
+      <div class="match-row">
+        <div class="match-term">inciting incident</div>
+        <select class="match-select" data-correct="b">
+          <option value="">Choose a definition...</option>
+          <option value="a">The characters and setting are introduced.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
+          <option value="d">The most exciting moment. Everything comes together.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
+          <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="g">A final reflection on what the story was really about.</option>
+        </select>
+      </div>
+      <div class="match-row">
+        <div class="match-term">rising action</div>
+        <select class="match-select" data-correct="c">
+          <option value="">Choose a definition...</option>
+          <option value="a">The characters and setting are introduced.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
+          <option value="d">The most exciting moment. Everything comes together.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
+          <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="g">A final reflection on what the story was really about.</option>
+        </select>
+      </div>
+      <div class="match-row">
+        <div class="match-term">climax</div>
+        <select class="match-select" data-correct="d">
+          <option value="">Choose a definition...</option>
+          <option value="a">The characters and setting are introduced.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
+          <option value="d">The most exciting moment. Everything comes together.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
+          <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="g">A final reflection on what the story was really about.</option>
+        </select>
+      </div>
+      <div class="match-row">
+        <div class="match-term">falling action</div>
+        <select class="match-select" data-correct="e">
+          <option value="">Choose a definition...</option>
+          <option value="a">The characters and setting are introduced.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
+          <option value="d">The most exciting moment. Everything comes together.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
+          <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="g">A final reflection on what the story was really about.</option>
+        </select>
+      </div>
+      <div class="match-row">
+        <div class="match-term">resolution</div>
+        <select class="match-select" data-correct="f">
+          <option value="">Choose a definition...</option>
+          <option value="a">The characters and setting are introduced.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
+          <option value="d">The most exciting moment. Everything comes together.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
+          <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="g">A final reflection on what the story was really about.</option>
+        </select>
+      </div>
+      <div class="match-row">
+        <div class="match-term">coda</div>
+        <select class="match-select" data-correct="g">
+          <option value="">Choose a definition...</option>
+          <option value="a">The characters and setting are introduced.</option>
+          <option value="b">A problem or complication appears.</option>
+          <option value="c">Tension is building. Events happen that try to resolve the problem.</option>
+          <option value="d">The most exciting moment. Everything comes together.</option>
+          <option value="e">Things start to calm down after the big moment.</option>
+          <option value="f">The loose ends are tied up. The story ends.</option>
+          <option value="g">A final reflection on what the story was really about.</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="freytag-controls">
+      <button class="btn btn-teal btn-sm" onclick="checkMatch()">Check my answers</button>
+      <button class="btn btn-outline btn-sm" onclick="resetMatch()">Reset</button>
+      <span id="matchScore" style="font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:1.5px;color:var(--ink-light);align-self:center;"></span>
+    </div>
+  </div>
+
+  <!-- 3b: FREYTAG -->
+  <div class="step-panel" id="p3-pyramid">
+    <div class="nar-intro" style="background:linear-gradient(135deg,var(--teal-light),#fff);border-left-color:var(--teal);">
+      <h3 style="color:var(--teal);">Put the parts in order on Freytag's pyramid</h3>
+      <p>Click a slot on the pyramid, then click the part of the narrative that belongs there. Build the shape from start to finish.</p>
+    </div>
+
+    <div class="freytag-wrap">
+      <div class="freytag-instruction">The line rises towards the <strong>climax</strong>, then falls to the end.</div>
+      <svg class="freytag-svg" viewBox="0 0 900 360" preserveAspectRatio="xMidYMid meet">
+        <!-- Pyramid line: horizontal, up to peak, horizontal, down, horizontal -->
+        <polyline points="40,300 200,300 450,60 700,300 860,300" fill="none" stroke="#4ECDC4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- star marker at beginning -->
+        <circle cx="40" cy="300" r="10" fill="#FFD93D" stroke="#2D3436" stroke-width="2"/>
+      </svg>
+      <!-- Slot buttons absolutely positioned over svg -->
+      <div style="position:relative;margin-top:-320px;height:300px;pointer-events:none;">
+        <div style="position:absolute;left:3%;top:78%;pointer-events:auto;"><button class="freytag-slot" data-correct="orientation" data-slot="1" onclick="selectSlot(this)">Slot 1</button></div>
+        <div style="position:absolute;left:22%;top:78%;pointer-events:auto;"><button class="freytag-slot" data-correct="inciting incident" data-slot="2" onclick="selectSlot(this)">Slot 2</button></div>
+        <div style="position:absolute;left:34%;top:42%;pointer-events:auto;"><button class="freytag-slot" data-correct="rising action" data-slot="3" onclick="selectSlot(this)">Slot 3</button></div>
+        <div style="position:absolute;left:44%;top:5%;pointer-events:auto;"><button class="freytag-slot" data-correct="climax" data-slot="4" onclick="selectSlot(this)">Slot 4</button></div>
+        <div style="position:absolute;left:58%;top:42%;pointer-events:auto;"><button class="freytag-slot" data-correct="falling action" data-slot="5" onclick="selectSlot(this)">Slot 5</button></div>
+        <div style="position:absolute;left:74%;top:78%;pointer-events:auto;"><button class="freytag-slot" data-correct="resolution" data-slot="6" onclick="selectSlot(this)">Slot 6</button></div>
+        <div style="position:absolute;left:87%;top:78%;pointer-events:auto;"><button class="freytag-slot" data-correct="coda" data-slot="7" onclick="selectSlot(this)">Slot 7</button></div>
+      </div>
+
+      <div class="freytag-bank" id="freytagBank">
+        <button class="freytag-chip" data-term="orientation" onclick="selectChip(this)">orientation</button>
+        <button class="freytag-chip" data-term="inciting incident" onclick="selectChip(this)">inciting incident</button>
+        <button class="freytag-chip" data-term="rising action" onclick="selectChip(this)">rising action</button>
+        <button class="freytag-chip" data-term="climax" onclick="selectChip(this)">climax</button>
+        <button class="freytag-chip" data-term="falling action" onclick="selectChip(this)">falling action</button>
+        <button class="freytag-chip" data-term="resolution" onclick="selectChip(this)">resolution</button>
+        <button class="freytag-chip" data-term="coda" onclick="selectChip(this)">coda</button>
+      </div>
+
+      <div class="freytag-controls">
+        <button class="btn btn-teal btn-sm" onclick="checkFreytag()">Check pyramid</button>
+        <button class="btn btn-outline btn-sm" onclick="resetFreytag()">Reset</button>
+        <span id="freytagScore" style="font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:1.5px;color:var(--ink-light);align-self:center;"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(2)">&larr; Back</button>
+    <span class="step-info">PHASE 3 / 6</span>
+    <button class="btn btn-coral" onclick="goPhase(4)">Next: vocabulary &amp; ch 2 &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 4: VOCAB CH 2 ===================== -->
+<section class="phase" id="phase4">
+  <div class="phase-eyebrow">Phase 4 of 6 &middot; 10 min plus listening time</div>
+  <h1 class="phase-title">Vocabulary &amp; chapter 2</h1>
+  <p class="phase-sub">Sort each word as you go. Tap to flip the card for the meaning.</p>
+
+  <div class="vocab-sort-instruction">
+    <strong>How this works</strong>
+    <span>Click a word to flip it and see its meaning. Then use the buttons on each card to mark it <strong style="color:var(--green);">Know</strong>, <strong style="color:var(--gold);">Unsure</strong> or <strong style="color:var(--coral);">Don't know</strong>. Your counts update below. Work in pairs and use a dictionary or the context of the novel to help.</span>
+  </div>
+
+  <div class="vocab-summary">
+    <div class="vocab-summary-card know">
+      <div class="vocab-summary-count" id="countKnow">0</div>
+      <div class="vocab-summary-label">Know</div>
+    </div>
+    <div class="vocab-summary-card unsure">
+      <div class="vocab-summary-count" id="countUnsure">0</div>
+      <div class="vocab-summary-label">Unsure</div>
+    </div>
+    <div class="vocab-summary-card dont">
+      <div class="vocab-summary-count" id="countDont">0</div>
+      <div class="vocab-summary-label">Don't know</div>
+    </div>
+  </div>
+
+  <div class="vocab-sort-grid" id="vocabSortGrid"></div>
+
+  <div class="chapter-title-card">
+    <h3>Why "The Green Dark"?</h3>
+    <p>Look at the chapter heading. Why do you think the author, Katherine Rundell, chose those three words for this chapter? Discuss in pairs.</p>
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn btn-purple btn-sm" onclick="revealChapterTitle()" id="chTitleBtn">Reveal one idea</button>
+    </div>
+    <div class="chapter-title-reveal" id="chTitleReveal">
+      <strong>"Green"</strong> is the colour of the thick jungle canopy. <strong>"Dark"</strong> tells us danger is coming. Put together, the two words make the jungle feel both beautiful and frightening at once.
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:18px;">
+    <button class="btn btn-teal btn-sm" onclick="revealAudio()">We've reviewed them. Show the chapter</button>
+  </div>
+
+  <div class="audio-section" id="audioSection">
+    <div class="audio-card">
+      <h3>Chapter 2: The Green Dark</h3>
+      <p>Listen, then follow along in your book. Notebooks or mini whiteboards can be useful to jot quick notes about characters as you listen.</p>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/NRtWXS-wVmA?cc_load_policy=1" title="The Explorer chapter 2 read aloud" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(3)">&larr; Back</button>
+    <span class="step-info">PHASE 4 / 6</span>
+    <button class="btn btn-coral" onclick="goPhase(5)">Next: character development &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 5: CHARACTER DEVELOPMENT ===================== -->
+<section class="phase" id="phase5">
+  <div class="phase-eyebrow">Phase 5 of 6 &middot; 12 min</div>
+  <h1 class="phase-title">Character development</h1>
+  <p class="phase-sub">A character's words and actions show us who they are. Watch for the clues.</p>
+
+  <div class="char-intro">
+    <h3>How do writers reveal a character?</h3>
+    <p>As you listen to chapter 2, notice clues about the four children. A clue might be:</p>
+    <ul>
+      <li>something a character <strong>says</strong>,</li>
+      <li>something a character <strong>does</strong>,</li>
+      <li>or something <strong>another character</strong> says about them.</li>
+    </ul>
+  </div>
+
+  <div class="worked-example">
+    <h4>Worked example</h4>
+    <div class="worked-cols">
+      <div class="worked-col name"><span class="label">Character</span>Con<br><em style="font-size:0.85em;color:var(--ink-light);">(Constanza)</em></div>
+      <div class="worked-col quote"><span class="label">Says / does</span>"Left at the tree that was covered in mushrooms, and then right at the bush with green thorns." (p41)</div>
+      <div class="worked-col interp"><span class="label">What this reveals</span>Con has a photographic memory. She notices tiny details and can remember the route she has walked.</div>
+    </div>
+    <p style="margin:12px 0 0;font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);line-height:1.5;">The pattern: <strong>quote or action</strong> &rarr; <strong>interpretation</strong>. What does this behaviour <em>tell us</em> about who the character is?</p>
+  </div>
+
+  <div class="char-rows">
+
+    <div class="char-row fred">
+      <div class="char-header">
+        <span class="char-name">Fred</span>
+        <span class="char-basic">English, around 11, on his way back to boarding school</span>
+      </div>
+      <div class="char-quotes">
+        <div class="char-quote-block">
+          <div class="char-quote-text">"He jabbed his finger into the back of his tongue to summon up spit."</div>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <div class="char-interp"><strong>Reveals:</strong> Fred is determined and practical under pressure. He does a strange, unpleasant thing because he <em>needs</em> to, not because he wants to. That is a sign of resilience.</div>
+        </div>
+        <div class="char-quote-block">
+          <div class="char-quote-text">"He grabbed a rock from the ground and hurled it in the direction of the voice."</div>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <div class="char-interp"><strong>Reveals:</strong> Fred reacts first and thinks later. He is frightened but not passive. His instinct is to defend himself.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="char-row con">
+      <div class="char-header">
+        <span class="char-name">Con (Constanza)</span>
+        <span class="char-basic">Was on the aeroplane with Fred</span>
+      </div>
+      <div class="char-quotes">
+        <div class="char-quote-block">
+          <div class="char-quote-text">"For God's sake, don't throw things!"</div>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <div class="char-interp"><strong>Reveals:</strong> Con is direct and not easily pushed around. Even scared, she speaks up. The exclamation shows she is firm.</div>
+        </div>
+        <div class="char-quote-block">
+          <div class="char-quote-text">"Please don't hurt us," said the bush.</div>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <div class="char-interp"><strong>Reveals:</strong> She is also cautious and protective. She says <em>"us"</em> not <em>"me"</em>, so she is thinking about someone else, not just herself.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="char-row lila">
+      <div class="char-header">
+        <span class="char-name">Lila</span>
+        <span class="char-basic">Another child from the plane</span>
+      </div>
+      <div class="char-quotes">
+        <div class="char-quote-block">
+          <div class="char-quote-text">"The accent wasn't British. It was something softer."</div>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <div class="char-interp"><strong>Reveals:</strong> Lila is not from the same place as Fred. The word "softer" hints at a gentler way of speaking and, perhaps, a gentler character.</div>
+        </div>
+        <div class="char-quote-block">
+          <div class="char-quote-text">"Yes, we're hurt. We fell out of the sky."</div>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <div class="char-interp"><strong>Reveals:</strong> Lila tells the plain truth, even when the other voice is trying to hide how hurt they are. She is honest.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="char-row max">
+      <div class="char-header">
+        <span class="char-name">Max</span>
+        <span class="char-basic">The youngest of the group</span>
+      </div>
+      <div class="char-quotes">
+        <div class="char-quote-block">
+          <div class="char-quote-text">"No, not badly." (as the other said they were hurt)</div>
+          <button class="char-reveal-btn" onclick="revealInterp(this)">Interpret this</button>
+          <div class="char-interp"><strong>Reveals:</strong> Max is brave or does not want to complain. He might also be too young to realise how hurt he is. Watch for more clues as the chapter goes on.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="char-record-note">
+    <strong>Record it</strong>
+    Add today's notes to your <em>character development record</em>. Keep the record alongside your novel: we will add to it every chapter.
+    <span style="display:block;margin-top:8px;font-size:0.85em;color:var(--ink-light);"><strong>Extension:</strong> track how a character is <em>changing</em>. A quote from chapter 2 may tell you something different from a quote in chapter 5.</span>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(4)">&larr; Back</button>
+    <span class="step-info">PHASE 5 / 6</span>
+    <button class="btn btn-coral" onclick="goPhase(6)">Next: reread &amp; exit slip &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 6: REREAD & EXIT SLIP ===================== -->
+<section class="phase" id="phase6">
+  <div class="phase-eyebrow">Phase 6 of 6 &middot; 10 min</div>
+  <h1 class="phase-title">Reread &amp; exit slip</h1>
+  <p class="phase-sub">Partner read for prosody. Share your thinking. Leave a one-sentence summary.</p>
+
+  <div class="simple-instruction-card">
+    <div class="step-num">1</div>
+    <div class="body">
+      <h3>Reread chapter 2 with a partner</h3>
+      <p>Alternate pages. Focus on <strong>prosody</strong>: read with expression that matches the mood. Use the pauses in the punctuation.</p>
+      <p style="margin-top:6px;"><em>Support:</em> use the parsed text below to help you pause in the right places.</p>
+      <div style="margin-top:10px;">
+        <button class="btn btn-teal btn-sm" onclick="toggleParsed()" id="parsedBtn">Show parsed extract</button>
+      </div>
+      <div class="parsed-box" id="parsedBox">
+        <h4>Parsed extract &middot; read aloud with these pauses</h4>
+        <div class="parsed-text">
+          Fred wondered <span class="pause">/</span> as he ran <span class="pause">/</span> if he was dead,<br>
+          but he thought <span class="pause">/</span> death would surely be quieter.<br>
+          The roar of the flames <span class="pause">/</span> and his own blood <span class="pause">/</span> vibrated <span class="pause">/</span> through his hands and feet.<br>
+          The night was black.<br>
+          He tried <span class="pause">/</span> to heave in breath <span class="pause">/</span> to shout for help <span class="pause">/</span> as he ran,<br>
+          but his throat was too dry and ashy <span class="pause">/</span> to yell.<br>
+          He jabbed his finger <span class="pause">/</span> into the back of his tongue <span class="pause">/</span> to summon up spit.<br>
+          "Is anybody there? <span class="pause">/</span> Help! <span class="pause">/</span> Fire!" <span class="pause">/</span> he shouted.<br>
+          The fire called back <span class="pause">/</span> in response.<br>
+          A tree behind him <span class="pause">/</span> sent up <span class="pause">/</span> a fountain of flames.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="share-card">
+    <h3>2. Share with your pair</h3>
+    <ul>
+      <li>Who is your <strong>favourite</strong> character so far and why?</li>
+      <li>Who is your <strong>least favourite</strong> and what makes you say that?</li>
+    </ul>
+  </div>
+
+  <div class="exit-slip">
+    <h3>3. Exit slip</h3>
+    <p>Record a <strong>one-sentence summary</strong> of chapter 2 on your printed exit slip. You will do this for every chapter, so keep it together with your novel.</p>
+    <p style="font-size:0.85em;color:var(--ink-light);margin-bottom:8px;">You can draft yours here first if you like:</p>
+    <textarea class="exit-textarea" placeholder="In chapter 2..."></textarea>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(5)">&larr; Back</button>
+    <span class="step-info">PHASE 6 / 6</span>
+    <button class="btn btn-coral" onclick="goPhase(1)">Restart lesson</button>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* ============== Sidebar ============== */
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed');}
+
+/* ============== Phase navigation ============== */
+function goPhase(n){
+  document.querySelectorAll('.phase').forEach(p=>p.classList.remove('active'));
+  document.getElementById('phase'+n).classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(s=>s.classList.remove('active'));
+  var si=document.querySelector('.sidebar-item[data-nav="phase'+n+'"]');
+  if(si)si.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============== Phase 1 sub-step nav ============== */
+function goP1(name){
+  document.querySelectorAll('#phase1 .step-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('#phase1 .step-tab[data-p1="'+name+'"]').classList.add('active');
+  document.querySelectorAll('#phase1 .step-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p1-'+name).classList.add('active');
+}
+
+/* ============== Phase 1 cloze ============== */
+function showClozeHint(){document.getElementById('clozeHint').classList.toggle('shown');}
+function showClozeOriginal(){
+  document.querySelectorAll('.cloze-input').forEach(function(inp){
+    if(!inp.value.trim()){
+      inp.value=inp.getAttribute('data-answer');
+      inp.classList.add('show-answer');
+    }
+  });
+}
+function clearCloze(){
+  document.querySelectorAll('.cloze-input').forEach(function(inp){
+    inp.value='';
+    inp.classList.remove('show-answer');
+  });
+}
+
+/* ============== Phase 2 tone ============== */
+function revealTone(n){
+  document.getElementById('tonePill'+n).classList.add('shown');
+  document.getElementById('toneExplain'+n).classList.add('shown');
+  var btn=document.getElementById('toneBtn'+n);
+  btn.disabled=true;btn.textContent='Revealed';
+}
+function revealExplorerTone(){
+  document.getElementById('expToneReveal').classList.add('shown');
+  var b=document.getElementById('expToneBtn');
+  b.disabled=true;b.textContent='Revealed';
+}
+
+/* ============== Phase 3 match & Freytag ============== */
+function goP3(name){
+  document.querySelectorAll('#phase3 .step-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('#phase3 .step-tab[data-p3="'+name+'"]').classList.add('active');
+  document.querySelectorAll('#phase3 .step-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p3-'+name).classList.add('active');
+}
+
+function checkMatch(){
+  var correctCount=0, total=0;
+  document.querySelectorAll('#matchRows .match-select').forEach(function(sel){
+    total++;
+    sel.classList.remove('correct','wrong');
+    if(sel.value===sel.getAttribute('data-correct')){
+      sel.classList.add('correct');correctCount++;
+    } else if(sel.value){
+      sel.classList.add('wrong');
+    }
+  });
+  var s=document.getElementById('matchScore');
+  s.textContent=correctCount+' / '+total+' correct';
+  s.style.color=(correctCount===total?'var(--green)':'var(--ink-light)');
+}
+function resetMatch(){
+  document.querySelectorAll('#matchRows .match-select').forEach(function(sel){
+    sel.value='';sel.classList.remove('correct','wrong');
+  });
+  document.getElementById('matchScore').textContent='';
+}
+
+/* Freytag drag-free place: click slot then click chip */
+var selectedSlot=null, selectedChip=null;
+function selectSlot(btn){
+  selectedSlot=btn;
+  document.querySelectorAll('.freytag-slot').forEach(function(s){if(s!==btn)s.style.outline='';});
+  btn.style.outline='3px solid var(--coral)';
+  if(selectedChip){applyFreytag();}
+}
+function selectChip(btn){
+  if(btn.classList.contains('used'))return;
+  selectedChip=btn;
+  document.querySelectorAll('.freytag-chip').forEach(function(c){if(c!==btn)c.classList.remove('selected');});
+  btn.classList.add('selected');
+  if(selectedSlot){applyFreytag();}
+}
+function applyFreytag(){
+  var term=selectedChip.getAttribute('data-term');
+  // if slot already filled, release its old chip
+  var previous=selectedSlot.getAttribute('data-filled');
+  if(previous){
+    var oldChip=document.querySelector('.freytag-chip[data-term="'+previous+'"]');
+    if(oldChip)oldChip.classList.remove('used');
+  }
+  selectedSlot.textContent=term;
+  selectedSlot.setAttribute('data-filled',term);
+  selectedSlot.classList.add('filled');
+  selectedSlot.classList.remove('correct','wrong');
+  selectedSlot.style.outline='';
+  selectedChip.classList.add('used');
+  selectedChip.classList.remove('selected');
+  selectedSlot=null;selectedChip=null;
+}
+function checkFreytag(){
+  var correct=0,total=0;
+  document.querySelectorAll('.freytag-slot').forEach(function(slot){
+    total++;
+    slot.classList.remove('correct','wrong');
+    if(slot.getAttribute('data-filled')===slot.getAttribute('data-correct')){
+      slot.classList.add('correct');correct++;
+    } else if(slot.getAttribute('data-filled')){
+      slot.classList.add('wrong');
+    }
+  });
+  var s=document.getElementById('freytagScore');
+  s.textContent=correct+' / '+total+' in the right place';
+  s.style.color=(correct===total?'var(--green)':'var(--ink-light)');
+}
+function resetFreytag(){
+  document.querySelectorAll('.freytag-slot').forEach(function(slot,i){
+    slot.textContent='Slot '+(i+1);
+    slot.removeAttribute('data-filled');
+    slot.classList.remove('filled','correct','wrong');
+    slot.style.outline='';
+  });
+  document.querySelectorAll('.freytag-chip').forEach(function(c){
+    c.classList.remove('used','selected');
+  });
+  selectedSlot=null;selectedChip=null;
+  document.getElementById('freytagScore').textContent='';
+}
+
+/* ============== Phase 4 vocab ============== */
+var vocabCh2=[
+  {w:"dipped",m:"Moved suddenly downwards."},
+  {w:"canopy",m:"The thick layer of leaves and branches high in a rainforest."},
+  {w:"flint",m:"A hard, grey stone that can be struck to make sparks."},
+  {w:"heave",m:"To lift or pull something heavy with a big effort."},
+  {w:"summon",m:"To call something up, or to call a person to come."},
+  {w:"jabbed",m:"Pushed something sharp in quickly."},
+  {w:"bile",m:"A bitter, yellow-green liquid from the stomach; what rises when you are sick."},
+  {w:"tar",m:"A thick, sticky, black liquid used for road surfaces."},
+  {w:"quench",m:"To put out a fire, or to stop feeling thirsty."},
+  {w:"banish",m:"To send away; to get rid of something completely."},
+  {w:"foreign",m:"Belonging to somewhere else; unfamiliar or strange."},
+  {w:"haunches",m:"The tops of the legs and bottom: to crouch on your haunches is to squat low."},
+  {w:"fossilised",m:"Turned to stone over a very long time."},
+  {w:"dung",m:"The waste droppings of an animal."},
+  {w:"filtered",m:"Passed through something, so only part of it came out the other side."},
+  {w:"accustomed",m:"Used to something; no longer finding it strange."},
+  {w:"cast",m:"Threw; or made a shape of something, like a shadow."},
+  {w:"singed",m:"Slightly burnt at the edges by a quick flash of fire."},
+  {w:"charred",m:"Burnt black on the outside."},
+  {w:"pell-mell",m:"In a rushed, disorderly, panicky way."}
+];
+function buildVocabSort(){
+  var grid=document.getElementById('vocabSortGrid');
+  vocabCh2.forEach(function(v,i){
+    var tile=document.createElement('div');
+    tile.className='vocab-sort-tile';
+    tile.tabIndex=0;
+    tile.setAttribute('role','button');
+    tile.setAttribute('aria-label','Flip card for '+v.w);
+    tile.innerHTML=
+      '<div class="vocab-sort-inner">'+
+        '<div class="vocab-sort-front">'+
+          '<div class="vocab-sort-word">'+v.w+'</div>'+
+          '<div class="vocab-sort-status">'+
+            '<button class="vocab-sort-btn know" data-status="know" title="Know">&#10003;</button>'+
+            '<button class="vocab-sort-btn unsure" data-status="unsure" title="Unsure">?</button>'+
+            '<button class="vocab-sort-btn dont" data-status="dont" title="Don\'t know">&#10007;</button>'+
+          '</div>'+
+        '</div>'+
+        '<div class="vocab-sort-back">'+
+          '<div class="vocab-sort-meaning">'+v.m+'</div>'+
+        '</div>'+
+      '</div>';
+    /* flip on click to anywhere except the status buttons */
+    tile.addEventListener('click',function(e){
+      if(e.target.classList.contains('vocab-sort-btn'))return;
+      tile.classList.toggle('flipped');
+    });
+    tile.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();tile.classList.toggle('flipped');}
+    });
+    /* status buttons */
+    tile.querySelectorAll('.vocab-sort-btn').forEach(function(b){
+      b.addEventListener('click',function(ev){
+        ev.stopPropagation();
+        var status=b.getAttribute('data-status');
+        var already=b.classList.contains('active');
+        tile.querySelectorAll('.vocab-sort-btn').forEach(function(o){o.classList.remove('active');});
+        if(!already){b.classList.add('active');tile.setAttribute('data-status',status);}
+        else {tile.removeAttribute('data-status');}
+        updateVocabCounts();
+      });
+    });
+    grid.appendChild(tile);
+  });
+}
+function updateVocabCounts(){
+  var counts={know:0,unsure:0,dont:0};
+  document.querySelectorAll('.vocab-sort-tile').forEach(function(t){
+    var s=t.getAttribute('data-status');
+    if(s&&counts.hasOwnProperty(s))counts[s]++;
+  });
+  document.getElementById('countKnow').textContent=counts.know;
+  document.getElementById('countUnsure').textContent=counts.unsure;
+  document.getElementById('countDont').textContent=counts.dont;
+}
+buildVocabSort();
+
+function revealChapterTitle(){
+  document.getElementById('chTitleReveal').classList.add('shown');
+  var b=document.getElementById('chTitleBtn');
+  b.disabled=true;b.textContent='Revealed';
+}
+function revealAudio(){
+  var s=document.getElementById('audioSection');
+  s.classList.add('shown');
+  setTimeout(function(){s.scrollIntoView({behavior:'smooth',block:'start'});},100);
+}
+
+/* ============== Phase 5 character reveals ============== */
+function revealInterp(btn){
+  var interp=btn.nextElementSibling;
+  if(interp&&interp.classList.contains('char-interp')){
+    interp.classList.toggle('shown');
+    btn.textContent=interp.classList.contains('shown')?'Hide':'Interpret this';
+  }
+}
+
+/* ============== Phase 6 parsed extract toggle ============== */
+function toggleParsed(){
+  var b=document.getElementById('parsedBox');
+  var btn=document.getElementById('parsedBtn');
+  b.classList.toggle('shown');
+  btn.textContent=b.classList.contains('shown')?'Hide parsed extract':'Show parsed extract';
+}
+
+/* ============== Clicker / arrow key navigation ============== */
+document.addEventListener('keydown',function(e){
+  if(document.activeElement && (document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='TEXTAREA'||document.activeElement.tagName==='SELECT')){return;}
+  var current=null;
+  document.querySelectorAll('.phase').forEach(function(p,i){if(p.classList.contains('active'))current=i+1;});
+  if(!current)return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){if(current<6){e.preventDefault();goPhase(current+1);}}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){if(current>1){e.preventDefault();goPhase(current-1);}}
+},true);
+</script>
+
+</body>
+</html>
