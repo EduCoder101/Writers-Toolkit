@@ -1,0 +1,1017 @@
+<!--
+    NOVEL STUDY LESSON: The Explorer, Week 8B, Lesson 1
+    TOPIC: Dialogue punctuation, action beats, character through speech
+    PATTERN NOTES (for skill file extraction):
+    - 5 phases: Hook > I Do > We Do > You Do > Plenary
+    - Phase 3 (We Do) has two sub-activities: interactive board exercise + books exercise
+    - Phase 4 (You Do) has collapsible reference card (NEW PATTERN)
+    - Readers Theatre element integrated into Phase 3
+    - Progressive reveal used for punctuation rule teaching (Phase 2)
+    - Tap-to-place interactive for whole-class board work (Phase 3a)
+    STATUS: canonical reference file #3
+-->
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Explorer | Week 8B Lesson 1 | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF8F5;--ink:#2D3436;--ink-light:#636E72;
+  --teal:#4ECDC4;--teal-light:#d0f0ec;
+  --coral:#FF6B6B;--coral-light:#ffe0e0;
+  --gold:#FFD93D;--gold-light:#fdf2d0;
+  --purple:#9B5DE5;--purple-light:#f0e6ff;
+  --sky:#74B9FF;--sky-light:#e1f0ff;
+  --green:#27AE60;--green-light:#d3f9d8;
+  --pink:#FFD6E0;--orange:#FFE0CC;--yellow:#FFF3BF;
+  --card:#fff;
+  --shadow:0 4px 20px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.12);
+  --radius:16px;
+  --sidebar-bg:#2D3436;
+  --sidebar-w:240px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{font-family:'Fredoka',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* Floating background shapes */
+.bg-shapes{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;}
+.bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:var(--coral);}
+.bg-shape:nth-child(2){width:400px;height:400px;top:20%;right:-8%;background:var(--teal);}
+.bg-shape:nth-child(3){width:350px;height:350px;bottom:15%;left:10%;background:var(--gold);}
+.bg-shape:nth-child(4){width:450px;height:450px;bottom:-5%;right:15%;background:var(--purple);}
+.bg-shape:nth-child(5){width:300px;height:300px;top:50%;left:40%;background:var(--sky);}
+
+/* Top bar */
+.top-bar{background:var(--sidebar-bg);color:#fff;padding:0;position:sticky;top:0;z-index:200;display:flex;align-items:center;border-bottom:2px solid rgba(255,255,255,0.08);}
+.sidebar-toggle{background:none;border:none;border-right:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.top-bar-title{font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.95rem;padding:0 22px;letter-spacing:0.3px;}
+.top-bar-title span{color:var(--teal);}
+.top-bar .back-link{margin-left:auto;color:var(--teal);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.7;transition:opacity 0.2s;font-family:'Fredoka',sans-serif;}
+.top-bar .back-link:hover{opacity:1;}
+
+/* Sidebar */
+.sidebar{position:fixed;left:0;top:48px;width:var(--sidebar-w);height:calc(100vh - 48px);background:var(--sidebar-bg);color:#fff;z-index:100;overflow-y:auto;transition:width 0.3s ease;}
+.sidebar.collapsed{width:0;overflow:hidden;}
+.sidebar-content{padding:16px 0;}
+.sidebar-section{margin-bottom:12px;}
+.sidebar-section-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);padding:10px 18px 6px;}
+.sidebar-item{background:none;border:none;color:rgba(255,255,255,0.6);font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;padding:9px 18px;width:100%;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:10px;}
+.sidebar-item:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.sidebar-item.active{background:rgba(78,205,196,0.15);color:#fff;border-left:4px solid var(--teal);padding-left:14px;}
+.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sidebar-divider{height:1px;background:rgba(255,255,255,0.08);margin:8px 18px;}
+.sidebar-export{padding:12px 18px;}
+.sidebar-export-btn{width:100%;font-family:'Fredoka',sans-serif;font-size:0.8rem;font-weight:600;padding:8px 16px;border:1px solid rgba(255,255,255,0.2);border-radius:8px;background:none;color:rgba(255,255,255,0.6);cursor:pointer;transition:all 0.2s;}
+.sidebar-export-btn:hover{background:rgba(255,255,255,0.08);color:#fff;border-color:rgba(255,255,255,0.4);}
+
+/* Main */
+main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 60px 80px;position:relative;z-index:1;}
+.sidebar.collapsed ~ main{margin-left:0;}
+
+.phase{display:none;max-width:1000px;margin:0 auto;animation:fadeIn 0.4s ease;}
+.phase.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+.phase-eyebrow{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--teal);text-align:center;margin-bottom:8px;font-weight:700;}
+.phase-title{font-family:'Fredoka',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:700;text-align:center;margin:0 0 10px;line-height:1.15;}
+.phase-sub{text-align:center;font-size:clamp(15px,1.8vw,19px);color:var(--ink-light);margin-bottom:28px;line-height:1.5;font-weight:400;}
+
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px;margin-bottom:22px;}
+
+/* Buttons */
+.btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:11px 26px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-coral{background:var(--coral);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-outline{background:#fff;color:var(--ink);border:2px solid #ddd;}
+.btn-outline:hover{border-color:var(--ink);}
+.btn-sm{font-size:13px;padding:8px 18px;}
+
+/* Phase footer nav */
+.phase-nav{display:flex;justify-content:space-between;align-items:center;margin-top:30px;padding-top:18px;border-top:1px solid #eee;gap:12px;}
+.phase-nav .step-info{font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--ink-light);letter-spacing:1.5px;}
+
+/* LISC */
+.lisc{background:linear-gradient(135deg,#fff,#fdf6ff);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:26px;border-left:5px solid var(--purple);}
+.lisc-li{font-size:clamp(15px,1.8vw,18px);font-weight:600;margin:0 0 12px;color:var(--purple);}
+.lisc-li-text{color:var(--ink);font-weight:500;}
+.lisc-sc-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--purple);font-weight:700;margin:14px 0 8px;}
+.lisc ul{margin:0;padding-left:22px;}
+.lisc li{font-size:clamp(13px,1.5vw,16px);color:var(--ink);margin:6px 0;line-height:1.5;}
+
+/* ============ PHASE 1: HOOK ============ */
+.messy-text{background:#fff;border:2px dashed var(--coral);border-radius:var(--radius);padding:28px 32px;font-size:clamp(16px,2vw,20px);line-height:2;color:var(--ink);font-weight:500;margin-bottom:20px;}
+.hook-prompt{background:linear-gradient(135deg,var(--coral-light),#fff);border-left:5px solid var(--coral);border-radius:var(--radius);padding:22px 28px;}
+.hook-prompt h3{margin:0 0 8px;color:var(--coral);font-size:clamp(17px,2.1vw,21px);}
+.hook-prompt p{margin:0;font-size:clamp(14px,1.6vw,17px);line-height:1.6;}
+
+/* ============ PHASE 2: I DO ============ */
+.dialogue-display{background:#fff;border-radius:var(--radius);padding:28px 32px;box-shadow:var(--shadow);margin-bottom:18px;border-top:4px solid var(--teal);}
+.dialogue-line{font-size:clamp(16px,2vw,20px);line-height:1.8;margin:8px 0;font-weight:500;min-height:32px;}
+.dialogue-line .speech-mark{color:var(--coral);font-weight:700;}
+.dialogue-line .comma-mark{color:var(--gold);font-weight:700;}
+.dialogue-line .reporting{color:var(--purple);font-weight:600;}
+.dialogue-line .action-beat{color:var(--teal);font-weight:600;font-style:italic;}
+.dialogue-line .new-line-indicator{display:inline-block;font-family:'Space Mono',monospace;font-size:0.65rem;background:var(--sky);color:#fff;padding:2px 6px;border-radius:4px;margin-right:6px;vertical-align:middle;letter-spacing:1px;}
+
+.rule-card{background:linear-gradient(135deg,var(--gold-light),#fff);border-left:5px solid var(--gold);border-radius:var(--radius);padding:18px 24px;margin-top:14px;display:none;}
+.rule-card.shown{display:block;animation:fadeIn 0.3s ease;}
+.rule-card .rule-num{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:#b8920e;font-weight:700;margin-bottom:4px;}
+.rule-card .rule-text{font-size:clamp(14px,1.7vw,17px);line-height:1.5;font-weight:500;}
+
+.step-counter{text-align:center;font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--ink-light);letter-spacing:1.5px;margin-bottom:12px;}
+.step-counter strong{color:var(--teal);}
+.step-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+
+/* Character reveal card */
+.character-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 28px;margin-top:18px;border-top:4px solid var(--purple);}
+.character-card h3{margin:0 0 14px;font-size:clamp(17px,2.1vw,21px);color:var(--purple);}
+.char-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+@media(max-width:640px){.char-compare{grid-template-columns:1fr;}}
+.char-version{background:#f9f9f9;border-radius:12px;padding:18px 20px;border-left:4px solid var(--ink-light);}
+.char-version.alt{border-left-color:var(--coral);}
+.char-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:8px;color:var(--ink-light);}
+.char-version.alt .char-label{color:var(--coral);}
+.char-dialogue{font-size:clamp(15px,1.8vw,18px);line-height:1.6;font-weight:500;}
+.char-analysis{font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);margin-top:8px;line-height:1.5;display:none;}
+.char-analysis.shown{display:block;animation:fadeIn 0.3s ease;}
+.prosody-prompt{background:linear-gradient(135deg,var(--purple-light),#fff);border-left:5px solid var(--purple);border-radius:var(--radius);padding:18px 24px;margin-top:14px;}
+.prosody-prompt h4{margin:0 0 6px;color:var(--purple);font-size:clamp(15px,1.8vw,17px);}
+.prosody-prompt p{margin:0;font-size:clamp(13px,1.5vw,15px);line-height:1.5;color:var(--ink);}
+
+/* ============ PHASE 3: WE DO ============ */
+.sub-tabs{display:flex;justify-content:center;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+.sub-tab{font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:600;padding:8px 18px;border-radius:20px;background:#fff;color:var(--ink-light);border:2px solid #e5e5e5;cursor:pointer;transition:all 0.2s;}
+.sub-tab.active{background:var(--gold);color:var(--ink);border-color:var(--gold);}
+.sub-tab:hover:not(.active){border-color:var(--gold);color:var(--ink);}
+.sub-panel{display:none;}
+.sub-panel.active{display:block;animation:fadeIn 0.4s ease;}
+
+/* Interactive punctuation exercise */
+.punct-exercise{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 32px;border-top:4px solid var(--gold);}
+.punct-raw{font-size:clamp(17px,2.2vw,22px);line-height:2.2;font-weight:500;margin-bottom:20px;background:#fafafa;border-radius:12px;padding:20px 24px;border:2px solid #eee;}
+.punct-slot{display:inline-block;min-width:28px;min-height:28px;border:2px dashed var(--gold);border-radius:6px;margin:0 2px;padding:2px 6px;cursor:pointer;transition:all 0.2s;vertical-align:baseline;text-align:center;font-weight:700;color:var(--coral);}
+.punct-slot:hover{background:var(--gold-light);border-color:var(--gold);}
+.punct-slot.filled{border-style:solid;border-color:var(--green);background:var(--green-light);color:var(--green);}
+.punct-slot.wrong{border-color:var(--coral);background:var(--coral-light);}
+
+.punct-palette{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;}
+.punct-btn{font-family:'Fredoka',sans-serif;font-size:18px;font-weight:700;width:48px;height:48px;border-radius:12px;border:2px solid #ddd;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;color:var(--ink);}
+.punct-btn:hover{border-color:var(--gold);background:var(--gold-light);transform:translateY(-2px);}
+.punct-btn.selected{border-color:var(--coral);background:var(--coral-light);color:var(--coral);}
+
+.punct-feedback{margin-top:14px;padding:16px 20px;border-radius:12px;display:none;font-size:clamp(14px,1.6vw,16px);line-height:1.5;font-weight:500;}
+.punct-feedback.correct{display:block;background:var(--green-light);border-left:4px solid var(--green);color:var(--ink);animation:fadeIn 0.3s ease;}
+.punct-feedback.incorrect{display:block;background:var(--coral-light);border-left:4px solid var(--coral);color:var(--ink);animation:fadeIn 0.3s ease;}
+
+/* Books exercise */
+.books-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 32px;border-top:4px solid var(--sky);}
+.books-raw{font-size:clamp(16px,2vw,20px);line-height:2;font-weight:500;background:#fafafa;border-radius:12px;padding:20px 24px;border:2px solid #eee;margin-bottom:16px;}
+.books-corrected{display:none;margin-top:16px;}
+.books-corrected.shown{display:block;animation:fadeIn 0.4s ease;}
+.corrected-text{font-size:clamp(16px,2vw,20px);line-height:2;font-weight:500;background:var(--green-light);border-radius:12px;padding:20px 24px;border:2px solid var(--green);}
+.corrected-text .fix{color:var(--coral);font-weight:700;}
+
+/* Action beats section */
+.action-beat-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 28px;margin-top:18px;border-top:4px solid var(--coral);}
+.ab-before{background:#f9f9f9;border-radius:12px;padding:16px 20px;border-left:4px solid var(--ink-light);margin-bottom:14px;font-size:clamp(15px,1.8vw,18px);line-height:1.7;font-weight:500;}
+.ab-after{background:var(--coral-light);border-radius:12px;padding:16px 20px;border-left:4px solid var(--coral);margin-bottom:14px;font-size:clamp(15px,1.8vw,18px);line-height:1.7;font-weight:500;display:none;}
+.ab-after.shown{display:block;animation:fadeIn 0.4s ease;}
+.ab-annotation{font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);line-height:1.5;display:none;margin-top:8px;}
+.ab-annotation.shown{display:block;animation:fadeIn 0.3s ease;}
+
+/* ============ PHASE 4: YOU DO ============ */
+.task-brief{background:linear-gradient(135deg,var(--purple-light),#fff);border-left:5px solid var(--purple);border-radius:var(--radius);padding:24px 28px;margin-bottom:20px;}
+.task-brief h3{margin:0 0 10px;color:var(--purple);font-size:clamp(17px,2.1vw,21px);}
+.task-brief p{margin:0 0 8px;font-size:clamp(14px,1.6vw,17px);line-height:1.6;}
+.task-brief ul{font-size:clamp(13px,1.5vw,16px);line-height:1.6;margin:8px 0 0;padding-left:22px;}
+
+/* Collapsible reference card */
+.ref-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden;}
+.ref-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;cursor:pointer;transition:background 0.2s;}
+.ref-header:hover{background:#f9f9f9;}
+.ref-header h4{margin:0;font-size:clamp(14px,1.6vw,16px);color:var(--teal);display:flex;align-items:center;gap:8px;}
+.ref-toggle{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;color:var(--ink-light);transition:transform 0.3s;}
+.ref-body{max-height:0;overflow:hidden;transition:max-height 0.4s ease;}
+.ref-body.open{max-height:800px;}
+.ref-body-inner{padding:0 24px 20px;}
+.ref-rule{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed #eee;font-size:clamp(13px,1.5vw,15px);line-height:1.5;}
+.ref-rule:last-child{border-bottom:none;}
+.ref-icon{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;color:#fff;padding:3px 8px;border-radius:4px;flex-shrink:0;margin-top:2px;}
+
+/* Writing area */
+.writing-area{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 28px;margin-bottom:20px;}
+.writing-area h3{margin:0 0 14px;font-size:clamp(16px,2vw,19px);}
+.writing-textarea{font-family:'Fredoka',sans-serif;font-size:clamp(15px,1.8vw,17px);padding:16px 20px;border:2px solid #ddd;border-radius:12px;width:100%;resize:vertical;min-height:200px;outline:none;transition:border-color 0.2s;font-weight:500;line-height:1.8;white-space:pre-wrap;}
+.writing-textarea:focus{border-color:var(--purple);}
+
+.challenge-box{background:linear-gradient(135deg,var(--gold-light),#fff);border-left:5px solid var(--gold);border-radius:var(--radius);padding:18px 24px;margin-top:14px;}
+.challenge-box h4{margin:0 0 6px;color:#b8920e;font-size:clamp(14px,1.6vw,16px);}
+.challenge-box p{margin:0;font-size:clamp(13px,1.5vw,15px);line-height:1.5;}
+
+/* Model response */
+.model-reveal{display:none;margin-top:20px;}
+.model-reveal.shown{display:block;animation:fadeIn 0.5s ease;}
+.model-response{background:linear-gradient(135deg,rgba(240,255,244,0.9) 0%,rgba(240,249,255,0.9) 100%);border:2px solid var(--green);border-radius:var(--radius);padding:24px 28px;}
+.model-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:14px;}
+.model-text{font-size:clamp(15px,1.8vw,18px);line-height:2;font-weight:500;white-space:pre-line;}
+.model-text .annot{background:var(--yellow);padding:1px 4px;border-radius:3px;cursor:help;}
+.model-annotations{margin-top:14px;padding-top:14px;border-top:1px dashed var(--green);}
+.model-annot-item{font-size:clamp(12px,1.4vw,14px);color:var(--ink-light);line-height:1.5;padding:4px 0;}
+.model-annot-item strong{color:var(--green);}
+
+/* Self-assessment checklist */
+.checklist{background:linear-gradient(135deg,var(--green-light),#fff);border-left:4px solid var(--green);border-radius:12px;padding:18px 22px;margin-top:16px;}
+.checklist h4{font-family:'Fredoka',sans-serif;font-size:clamp(15px,1.8vw,17px);margin:0 0 10px;color:var(--green);}
+.checklist label{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:clamp(13px,1.5vw,15px);cursor:pointer;font-weight:500;}
+.checklist input[type=checkbox]{margin-top:3px;width:18px;height:18px;cursor:pointer;accent-color:var(--green);flex-shrink:0;}
+
+/* ============ PHASE 5: PLENARY ============ */
+.simple-instruction-card{background:#fff;border-radius:var(--radius);padding:36px 40px;box-shadow:var(--shadow);margin-bottom:18px;display:flex;gap:24px;align-items:flex-start;}
+.simple-instruction-card .step-num{font-family:'Fredoka',sans-serif;font-size:clamp(36px,5vw,52px);font-weight:700;color:#fff;background:var(--gold);width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.simple-instruction-card.teal .step-num{background:var(--teal);}
+.simple-instruction-card.coral .step-num{background:var(--coral);}
+.simple-instruction-card .body{flex:1;}
+.simple-instruction-card h3{font-family:'Fredoka',sans-serif;font-size:clamp(20px,2.4vw,26px);margin:0 0 8px;}
+.simple-instruction-card p{font-size:clamp(15px,1.8vw,18px);color:var(--ink-light);line-height:1.55;margin:0 0 6px;}
+.simple-instruction-card p strong{color:var(--ink);font-weight:600;}
+@media(max-width:600px){.simple-instruction-card{flex-direction:column;}}
+
+.exit-slip{background:linear-gradient(135deg,var(--coral-light),#fff);border-left:5px solid var(--coral);border-radius:var(--radius);padding:22px 28px;margin-bottom:18px;}
+.exit-slip h3{margin:0 0 6px;color:var(--coral);font-size:clamp(17px,2.1vw,21px);}
+.exit-slip p{margin:0 0 12px;font-size:clamp(14px,1.6vw,16px);line-height:1.55;}
+.exit-textarea{font-family:'Fredoka',sans-serif;font-size:clamp(15px,1.8vw,17px);padding:14px 18px;border:2px solid #ddd;border-radius:12px;width:100%;resize:vertical;min-height:80px;outline:none;transition:border-color 0.2s;font-weight:500;line-height:1.6;}
+.exit-textarea:focus{border-color:var(--coral);}
+
+/* NAME MODAL */
+.name-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.name-modal-overlay.show{opacity:1;pointer-events:auto;}
+.name-modal{background:white;border-radius:20px;padding:32px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.25);transform:scale(0.9);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);text-align:center;}
+.name-modal-overlay.show .name-modal{transform:scale(1);}
+.name-modal h3{font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;}
+.name-modal p{font-size:14px;color:var(--ink-light);margin-bottom:16px;line-height:1.5;}
+.name-modal input{width:100%;padding:12px 16px;border:2px solid #e0e0e0;border-radius:12px;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;outline:none;transition:border-color 0.2s;text-align:center;}
+.name-modal input:focus{border-color:var(--teal);}
+.name-modal-actions{display:flex;gap:10px;justify-content:center;margin-top:16px;}
+.nm-cancel{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;padding:10px 24px;border:2px solid #ddd;border-radius:30px;background:white;color:var(--ink-light);cursor:pointer;}
+.nm-print{font-family:'Fredoka',sans-serif;font-size:14px;font-weight:600;padding:10px 24px;border:none;border-radius:30px;background:var(--purple);color:white;cursor:pointer;}
+.nm-print:disabled{opacity:0.4;cursor:not-allowed;}
+
+/* PRINT */
+.print-summary{display:none;}
+@media print{
+  body *{visibility:hidden;}
+  .print-summary,.print-summary *{visibility:visible;}
+  .print-summary{display:block;position:absolute;left:0;top:0;width:100%;padding:24px;font-family:'Fredoka',sans-serif;font-size:13px;color:#1e1e1e;}
+  .print-summary h1{font-family:'Fredoka',sans-serif;font-size:22px;margin-bottom:4px;}
+  .print-summary h2{font-family:'Fredoka',sans-serif;font-size:16px;margin-top:18px;margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid #eee;}
+  .print-summary .ps-text{background:#f0f0f0;border-radius:8px;padding:12px;margin:6px 0;line-height:1.8;font-size:13px;white-space:pre-wrap;}
+}
+
+/* Mobile */
+@media(max-width:768px){
+  .sidebar{width:0;}
+  main{margin-left:0;padding:24px 16px 60px;}
+  .card{padding:20px;}
+  :root{--sidebar-w:0px;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+</div>
+
+<header class="top-bar">
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">&#9776;</button>
+  <div class="top-bar-title">The Explorer <span>&middot;</span> Week 8B Lesson 1</div>
+  <a href="../../../index.html" class="back-link">&larr; Toolkit Home</a>
+</header>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Hook</div>
+      <button class="sidebar-item active" data-nav="phase1" onclick="goPhase(1)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral);"></span>1. What's wrong here?</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">I Do</div>
+      <button class="sidebar-item" data-nav="phase2" onclick="goPhase(2)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal);"></span>2. Punctuating dialogue</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">We Do</div>
+      <button class="sidebar-item" data-nav="phase3" onclick="goPhase(3)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold);"></span>3. Fix it together</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">You Do</div>
+      <button class="sidebar-item" data-nav="phase4" onclick="goPhase(4)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple);"></span>4. Write your dialogue</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Reflect</div>
+      <button class="sidebar-item" data-nav="phase5" onclick="goPhase(5)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold);"></span>5. Perform and reflect</button>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-export">
+      <button class="sidebar-export-btn" onclick="showNameModal()">Export my work as PDF</button>
+    </div>
+  </div>
+</aside>
+
+<div class="name-modal-overlay" id="nameModal">
+  <div class="name-modal">
+    <h3>Save your work</h3>
+    <p>Enter your name so it appears on your PDF. Your name is not stored or sent anywhere.</p>
+    <input type="text" id="studentNameInput" placeholder="Your name" autocomplete="off">
+    <div class="name-modal-actions">
+      <button class="nm-cancel" onclick="closeNameModal()">Cancel</button>
+      <button class="nm-print" id="printGoBtn" onclick="exportPDF()" disabled>Save as PDF</button>
+    </div>
+  </div>
+</div>
+<div class="print-summary" id="printSummary"></div>
+
+<main>
+
+<!-- ===================== PHASE 1: HOOK ===================== -->
+<section class="phase active" id="phase1">
+  <div class="phase-eyebrow">Phase 1 of 5 &middot; 3 min</div>
+  <h1 class="phase-title">What's wrong with this?</h1>
+  <p class="phase-sub">Try to read this. Something is making it very hard.</p>
+
+  <div class="lisc">
+    <p class="lisc-li">Learning intention: <span class="lisc-li-text">We are learning to use correct punctuation and structure to write effective dialogue that shows character relationships.</span></p>
+    <div class="lisc-sc-title">Success criteria</div>
+    <ul>
+      <li>I can punctuate speech correctly (speech marks, commas, capitals, new line for new speaker).</li>
+      <li>I can use dialogue to show tension between characters.</li>
+      <li>I can include action beats and reporting clauses.</li>
+    </ul>
+  </div>
+
+  <div class="messy-text" id="messyText">
+    thats stupid con said were not eating insects fred looked at her then youll starve he said lila put her hand on cons arm just try one she whispered con shook her head no way
+  </div>
+
+  <div class="hook-prompt">
+    <h3>Discussion</h3>
+    <p>What makes this so hard to read? How many people are talking? Where does one person stop and the next begin? What's missing?</p>
+  </div>
+
+  <div class="phase-nav">
+    <span class="step-info">PHASE 1 / 5</span>
+    <button class="btn btn-coral" onclick="goPhase(2)">Next: punctuating dialogue &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 2: I DO ===================== -->
+<section class="phase" id="phase2">
+  <div class="phase-eyebrow">Phase 2 of 5 &middot; 8 min</div>
+  <h1 class="phase-title">How to punctuate dialogue</h1>
+  <p class="phase-sub">Watch how a messy exchange becomes clear, rule by rule.</p>
+
+  <div class="dialogue-display" id="dialogueDisplay">
+    <div class="dialogue-line" id="dLine1">"That's stupid," Con snapped. "We're not eating insects."</div>
+    <div class="dialogue-line" id="dLine2">Fred glared at her. "Then you'll starve."</div>
+  </div>
+
+  <div class="step-counter">Rule <strong id="ruleStepNum">0</strong> of <strong>6</strong></div>
+  <div class="step-controls">
+    <button class="btn btn-outline btn-sm" id="ruleUndo" onclick="ruleUndo()" disabled>&larr; Back</button>
+    <button class="btn btn-teal btn-sm" id="ruleNext" onclick="ruleNext()">Show next rule &rarr;</button>
+    <button class="btn btn-outline btn-sm" onclick="ruleReset()">Start over</button>
+  </div>
+
+  <!-- Rules appear one at a time -->
+  <div class="rule-card" id="rule1"><div class="rule-num">Rule 1: Speech marks</div><div class="rule-text">Put opening and closing speech marks around the exact words someone says. Everything inside the marks is spoken aloud.</div></div>
+  <div class="rule-card" id="rule2"><div class="rule-num">Rule 2: Capital letter</div><div class="rule-text">The first word inside speech marks always starts with a capital letter, just like the start of any sentence.</div></div>
+  <div class="rule-card" id="rule3"><div class="rule-num">Rule 3: Comma before closing</div><div class="rule-text">If the speech is followed by a reporting clause (like "Con snapped"), put a comma before the closing speech mark instead of a full stop.</div></div>
+  <div class="rule-card" id="rule4"><div class="rule-num">Rule 4: Reporting clause</div><div class="rule-text">The reporting clause tells us who is speaking and how. "Con snapped" tells us it is Con and she is angry. Other examples: whispered, muttered, shouted, replied.</div></div>
+  <div class="rule-card" id="rule5"><div class="rule-num">Rule 5: New speaker, new line</div><div class="rule-text">Every time a different character speaks, start a new line. This helps the reader keep track of who is talking.</div></div>
+  <div class="rule-card" id="rule6"><div class="rule-num">Rule 6: Action beat</div><div class="rule-text">An action beat is a short description of what a character does, placed near their dialogue. "Fred glared at her" is an action beat. It shows us Fred's reaction without using a reporting verb.</div></div>
+
+  <!-- Character through dialogue section -->
+  <div class="character-card" id="charCard" style="display:none;">
+    <h3>How dialogue reveals character</h3>
+    <p style="font-size:clamp(14px,1.6vw,16px);color:var(--ink-light);margin:0 0 14px;line-height:1.5;">The same words feel completely different depending on the reporting clause and action beat. Read both versions aloud.</p>
+
+    <div class="char-compare">
+      <div class="char-version">
+        <div class="char-label">Version A</div>
+        <div class="char-dialogue">"That's stupid," Con <strong>snapped</strong>.</div>
+      </div>
+      <div class="char-version alt">
+        <div class="char-label">Version B</div>
+        <div class="char-dialogue">"That's stupid," Con <strong>whispered</strong>.</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="btn btn-purple btn-sm" onclick="revealCharAnalysis()">What's the difference?</button>
+    </div>
+
+    <div class="char-analysis" id="charAnalysis">
+      <p style="margin:0 0 8px;font-size:clamp(14px,1.6vw,16px);line-height:1.6;"><strong>"Snapped"</strong> shows Con as stubborn, dismissive, confrontational. She is challenging Fred openly.</p>
+      <p style="margin:0;font-size:clamp(14px,1.6vw,16px);line-height:1.6;"><strong>"Whispered"</strong> shows Con as scared, unsure, vulnerable. The same words feel like a plea instead of a fight.</p>
+    </div>
+
+    <div class="prosody-prompt">
+      <h4>Readers Theatre</h4>
+      <p>Ask two students to read Version A aloud, then Version B. How does their voice change? Which version creates more tension? Which creates more sympathy for Con?</p>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(1)">&larr; Back</button>
+    <span class="step-info">PHASE 2 / 5</span>
+    <button class="btn btn-coral" onclick="goPhase(3)">Next: fix it together &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 3: WE DO ===================== -->
+<section class="phase" id="phase3">
+  <div class="phase-eyebrow">Phase 3 of 5 &middot; 10 min</div>
+  <h1 class="phase-title">Fix it together</h1>
+  <p class="phase-sub">Two exercises. First on the board, then in your books.</p>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" data-sub="board" onclick="goSub('board')">1. Board exercise</button>
+    <button class="sub-tab" data-sub="books" onclick="goSub('books')">2. Books exercise</button>
+    <button class="sub-tab" data-sub="action" onclick="goSub('action')">3. Adding action beats</button>
+  </div>
+
+  <!-- 3a: BOARD EXERCISE (interactive) -->
+  <div class="sub-panel active" id="sub-board">
+    <div class="punct-exercise">
+      <p style="font-size:clamp(14px,1.6vw,16px);color:var(--ink-light);margin:0 0 14px;line-height:1.5;"><strong>Instruction:</strong> Select a punctuation mark from the palette, then tap a slot in the text to place it. Students can come to the board to place the marks.</p>
+
+      <div class="punct-palette" id="punctPalette">
+        <button class="punct-btn" data-mark="&ldquo;" onclick="selectMark(this)">&ldquo;</button>
+        <button class="punct-btn" data-mark="&rdquo;" onclick="selectMark(this)">&rdquo;</button>
+        <button class="punct-btn" data-mark="," onclick="selectMark(this)">,</button>
+        <button class="punct-btn" data-mark="." onclick="selectMark(this)">.</button>
+        <button class="punct-btn" data-mark="!" onclick="selectMark(this)">!</button>
+        <button class="punct-btn" data-mark="?" onclick="selectMark(this)">?</button>
+      </div>
+
+      <div class="punct-raw" id="punctText"></div>
+
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-teal btn-sm" onclick="checkPunct()">Check our work</button>
+        <button class="btn btn-outline btn-sm" onclick="resetPunct()">Start over</button>
+        <button class="btn btn-gold btn-sm" onclick="showPunctAnswer()">Show the answer</button>
+      </div>
+
+      <div class="punct-feedback" id="punctFeedback"></div>
+    </div>
+  </div>
+
+  <!-- 3b: BOOKS EXERCISE -->
+  <div class="sub-panel" id="sub-books">
+    <div class="books-card">
+      <p style="font-size:clamp(14px,1.6vw,16px);color:var(--ink-light);margin:0 0 14px;line-height:1.5;"><strong>In your books:</strong> Copy this passage and add the correct punctuation. When you are done, the teacher will reveal the answer.</p>
+
+      <div class="books-raw">
+        i cant believe we have to sleep here lila said looking around the den its better than outside fred replied at least its dry con rolled her eyes dry she muttered theres a hole in the roof
+      </div>
+
+      <div style="text-align:center;">
+        <button class="btn btn-teal btn-sm" onclick="revealBooksAnswer()">Reveal the answer</button>
+      </div>
+
+      <div class="books-corrected" id="booksAnswer">
+        <div style="font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:8px;">Corrected version</div>
+        <div class="corrected-text">
+          <fix>"I</fix> can't believe we have to sleep here<fix>,"</fix> Lila said<fix>,</fix> looking around the den<fix>.</fix><br><br>
+          <fix>"I</fix>t's better than outside<fix>,"</fix> Fred replied<fix>.</fix> <fix>"A</fix>t least it's dry<fix>."</fix><br><br>
+          Con rolled her eyes<fix>.</fix> <fix>"D</fix>ry<fix>,"</fix> she muttered<fix>.</fix> <fix>"T</fix>here's a hole in the roof<fix>."</fix>
+        </div>
+        <div style="margin-top:12px;font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);line-height:1.6;">
+          <strong>Check yours:</strong> Did you start a new line for each speaker? Did you put commas before reporting clauses? Did you capitalise the first word after opening speech marks? Count how many of the 6 rules you applied correctly.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3c: ACTION BEATS -->
+  <div class="sub-panel" id="sub-action">
+    <div class="action-beat-card">
+      <h3 style="margin:0 0 6px;color:var(--coral);font-size:clamp(17px,2.1vw,21px);">Adding action beats</h3>
+      <p style="font-size:clamp(14px,1.6vw,16px);color:var(--ink-light);margin:0 0 16px;line-height:1.5;">Action beats show what a character <em>does</em> instead of (or alongside) telling us how they spoke. Watch how the dialogue transforms.</p>
+
+      <div style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink-light);margin-bottom:4px;font-weight:700;">Before: just words</div>
+      <div class="ab-before">
+        "That's disgusting," Con said. "I'm not eating that."<br>
+        "You'll have to," Fred replied.
+      </div>
+
+      <div style="text-align:center;">
+        <button class="btn btn-coral btn-sm" id="abRevealBtn" onclick="revealActionBeat()">Add the action beats &rarr;</button>
+      </div>
+
+      <div style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--coral);margin-bottom:4px;margin-top:14px;font-weight:700;">After: action beats added</div>
+      <div class="ab-after" id="abAfter">
+        <em style="color:var(--teal);">Con folded his arms.</em> "That's disgusting." <em style="color:var(--teal);">He turned away from the fire.</em> "I'm not eating that."<br><br>
+        <em style="color:var(--teal);">Fred stepped closer, holding out the skewer.</em> "You'll have to."
+      </div>
+
+      <div class="ab-annotation" id="abAnnotation">
+        <p style="margin:0 0 6px;font-size:clamp(14px,1.6vw,16px);line-height:1.6;"><strong style="color:var(--teal);">What changed:</strong> The reporting clauses ("Con said", "Fred replied") have been replaced with action beats. We can <em>see</em> what the characters are doing. The tension is visual now, not just verbal.</p>
+        <p style="margin:0;font-size:clamp(14px,1.6vw,16px);line-height:1.6;"><strong style="color:var(--teal);">Notice:</strong> When you use an action beat instead of a reporting clause, the dialogue ends with a full stop (not a comma), because the action beat is its own sentence.</p>
+      </div>
+
+      <div class="prosody-prompt" style="margin-top:16px;">
+        <h4>Readers Theatre</h4>
+        <p>Three students: one reads the "before" version aloud, then two others perform the "after" version (one as Con, one as Fred) with the actions. How does it feel different to listen to? Which version makes you feel the tension more?</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(2)">&larr; Back</button>
+    <span class="step-info">PHASE 3 / 5</span>
+    <button class="btn btn-coral" onclick="goPhase(4)">Next: write your dialogue &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 4: YOU DO ===================== -->
+<section class="phase" id="phase4">
+  <div class="phase-eyebrow">Phase 4 of 5 &middot; 15 min</div>
+  <h1 class="phase-title">Write your own dialogue</h1>
+  <p class="phase-sub">Con and Fred are arguing about eating insects in the jungle. Write what they say.</p>
+
+  <div class="task-brief">
+    <h3>Your task</h3>
+    <p>Write a <strong>short dialogue (8 to 10 lines)</strong> between Con and Fred during the argument about food in the jungle.</p>
+    <p>Your dialogue must include:</p>
+    <ul>
+      <li>Correct punctuation (speech marks, commas, capitals, new line per speaker)</li>
+      <li>At least <strong>two</strong> action beats</li>
+      <li>Clear tension between the characters</li>
+    </ul>
+  </div>
+
+  <!-- Collapsible reference card -->
+  <div class="ref-card">
+    <div class="ref-header" onclick="toggleRef()">
+      <h4><span style="font-size:18px;">&#128221;</span> Punctuation rules (tap to open)</h4>
+      <span class="ref-toggle" id="refToggle">&#9660;</span>
+    </div>
+    <div class="ref-body" id="refBody">
+      <div class="ref-body-inner">
+        <div class="ref-rule"><span class="ref-icon" style="background:var(--coral);">1</span> Speech marks around the exact words spoken.</div>
+        <div class="ref-rule"><span class="ref-icon" style="background:var(--teal);">2</span> Capital letter at the start of speech.</div>
+        <div class="ref-rule"><span class="ref-icon" style="background:var(--gold);">3</span> Comma before the closing speech mark if a reporting clause follows.</div>
+        <div class="ref-rule"><span class="ref-icon" style="background:var(--purple);">4</span> Reporting clause tells us who spoke and how (e.g. "Con snapped").</div>
+        <div class="ref-rule"><span class="ref-icon" style="background:var(--sky);">5</span> New speaker = new line.</div>
+        <div class="ref-rule"><span class="ref-icon" style="background:var(--green);">6</span> Action beats show what the character does. They are separate sentences.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="writing-area">
+    <h3>Your dialogue</h3>
+    <textarea class="writing-textarea" id="studentDialogue" placeholder="Start writing here. Remember: new line for each new speaker."></textarea>
+  </div>
+
+  <div class="challenge-box">
+    <h4>Challenge: add a third character</h4>
+    <p>Add Lila as a third character who interrupts or reacts to the argument. How does she change the dynamic? Does she take a side, or try to calm things down?</p>
+  </div>
+
+  <div style="text-align:center;margin-top:18px;">
+    <button class="btn btn-green btn-sm" id="showModelBtn" onclick="showModel()">I'm done. Show me a model response.</button>
+  </div>
+
+  <div class="model-reveal" id="modelReveal">
+    <div class="model-response">
+      <div class="model-label">Model response</div>
+      <div class="model-text">Con stared at the skewer in Fred's hand. <span class="annot" title="Action beat: shows Con's disgust physically">"That is disgusting."</span>
+
+<span class="annot" title="Action beat: shows Fred's determination">"It's protein,"</span> Fred said, turning the grub slowly over the flame. "We haven't eaten in two days."
+
+<span class="annot" title="Reporting verb 'hissed' shows quiet anger">"I don't care,"</span> Con hissed. She stepped back from the fire. "I'm not putting that in my mouth."
+
+Fred held the skewer out towards her. <span class="annot" title="Short sentence for impact">"Then don't."</span>
+
+Lila appeared between them. <span class="annot" title="Action beat introduces third character">"I'll try one,"</span> she said quietly, taking the skewer from Fred.
+
+Con watched Lila chew and swallow. Her stomach growled.
+
+<span class="annot" title="Dialogue without reporting clause; action beat carries the speaker identity">"Fine."</span> Con snatched a grub from the leaf. "But if I'm sick, it's your fault."
+
+Fred almost smiled. <span class="annot" title="Final action beat shows resolution of tension">"Deal."</span></div>
+
+      <div class="model-annotations">
+        <div class="model-annot-item"><strong>Action beats used:</strong> "Con stared at the skewer", "She stepped back from the fire", "Lila appeared between them", "Fred almost smiled". Each shows character without a reporting verb.</div>
+        <div class="model-annot-item"><strong>Tension shown through:</strong> Short sentences ("Then don't."), physical reactions (stepping back, stomach growling), and the shift from refusal to reluctant acceptance.</div>
+        <div class="model-annot-item"><strong>Character revealed:</strong> Con is stubborn but hungry. Fred is practical and patient. Lila is the peacemaker who leads by example.</div>
+      </div>
+    </div>
+
+    <div class="checklist" style="margin-top:16px;">
+      <h4>Self-assessment</h4>
+      <label><input type="checkbox"> I used speech marks around every spoken word.</label>
+      <label><input type="checkbox"> I started a new line for each new speaker.</label>
+      <label><input type="checkbox"> I used commas before reporting clauses.</label>
+      <label><input type="checkbox"> I capitalised the first word of each piece of speech.</label>
+      <label><input type="checkbox"> I included at least two action beats.</label>
+      <label><input type="checkbox"> My dialogue shows tension between the characters.</label>
+      <label><input type="checkbox"> My reporting verbs are precise (not just "said" every time).</label>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(3)">&larr; Back</button>
+    <span class="step-info">PHASE 4 / 5</span>
+    <button class="btn btn-coral" onclick="goPhase(5)">Next: perform and reflect &rarr;</button>
+  </div>
+</section>
+
+<!-- ===================== PHASE 5: PLENARY ===================== -->
+<section class="phase" id="phase5">
+  <div class="phase-eyebrow">Phase 5 of 5 &middot; 5 min</div>
+  <h1 class="phase-title">Perform and reflect</h1>
+  <p class="phase-sub">Bring your dialogue to life.</p>
+
+  <div class="simple-instruction-card">
+    <div class="step-num">1</div>
+    <div class="body">
+      <h3>Readers Theatre</h3>
+      <p>Find a partner. <strong>Perform your dialogue aloud.</strong> One person reads Con's lines, the other reads Fred's. Use your action beats to guide how you move and speak.</p>
+      <p>After performing, discuss: <strong>Which lines showed the most tension? Why?</strong></p>
+    </div>
+  </div>
+
+  <div class="simple-instruction-card teal">
+    <div class="step-num">2</div>
+    <div class="body">
+      <h3>Swap and improve</h3>
+      <p>Read your partner's dialogue. Find <strong>one action beat</strong> they used well and tell them why it works. Suggest <strong>one place</strong> where they could add or improve an action beat.</p>
+    </div>
+  </div>
+
+  <div class="exit-slip">
+    <h3>Exit ticket</h3>
+    <p>"One rule of dialogue I will remember is..."</p>
+    <textarea class="exit-textarea" id="exitTicket" placeholder="Write your answer here..."></textarea>
+  </div>
+
+  <div class="simple-instruction-card coral">
+    <div class="step-num">3</div>
+    <div class="body">
+      <h3>Chapter summary</h3>
+      <p>Record a <strong>one-sentence summary</strong> of the chapter on your printed exit slip template.</p>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(4)">&larr; Back</button>
+    <span class="step-info">PHASE 5 / 5</span>
+    <button class="btn btn-coral" onclick="goPhase(1)">Restart lesson</button>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* ============== Sidebar ============== */
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed');}
+
+/* ============== Phase navigation ============== */
+var totalPhases=5;
+function goPhase(n){
+  document.querySelectorAll('.phase').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('phase'+n).classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(function(s){s.classList.remove('active');});
+  var si=document.querySelector('.sidebar-item[data-nav="phase'+n+'"]');
+  if(si)si.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ============== PHASE 2: Progressive rule reveal ============== */
+/*
+  PATTERN NOTE: Single-card progressive reveal.
+  Step 0 = plain text (no highlighting). Steps 1-6 each highlight a rule in the
+  dialogue display and show the corresponding rule card below.
+  This is simpler than the sub-tab pattern used in Lesson 1 Phase 5.
+*/
+var ruleStep=0;
+var maxRuleSteps=6;
+
+/* The dialogue display starts plain. Each step adds colour-coded markup. */
+var dialogueStates=[
+  /* Step 0: plain */
+  {
+    l1:'"That\'s stupid," Con snapped. "We\'re not eating insects."',
+    l2:'Fred glared at her. "Then you\'ll starve."'
+  },
+  /* Step 1: speech marks highlighted */
+  {
+    l1:'<span class="speech-mark">\u201c</span>That\'s stupid,\u201d Con snapped. <span class="speech-mark">\u201c</span>We\'re not eating insects.<span class="speech-mark">\u201d</span>',
+    l2:'Fred glared at her. <span class="speech-mark">\u201c</span>Then you\'ll starve.<span class="speech-mark">\u201d</span>'
+  },
+  /* Step 2: capitals highlighted */
+  {
+    l1:'<span class="speech-mark">\u201c</span><strong style="color:var(--sky);text-decoration:underline;">T</strong>hat\'s stupid,\u201d Con snapped. <span class="speech-mark">\u201c</span><strong style="color:var(--sky);text-decoration:underline;">W</strong>e\'re not eating insects.\u201d',
+    l2:'Fred glared at her. <span class="speech-mark">\u201c</span><strong style="color:var(--sky);text-decoration:underline;">T</strong>hen you\'ll starve.\u201d'
+  },
+  /* Step 3: comma before closing highlighted */
+  {
+    l1:'\u201cThat\'s stupid<span class="comma-mark">,</span>\u201d Con snapped. \u201cWe\'re not eating insects.\u201d',
+    l2:'Fred glared at her. \u201cThen you\'ll starve.\u201d'
+  },
+  /* Step 4: reporting clause highlighted */
+  {
+    l1:'\u201cThat\'s stupid,\u201d <span class="reporting">Con snapped</span>. \u201cWe\'re not eating insects.\u201d',
+    l2:'Fred glared at her. \u201cThen you\'ll starve.\u201d'
+  },
+  /* Step 5: new line indicator */
+  {
+    l1:'\u201cThat\'s stupid,\u201d Con snapped. \u201cWe\'re not eating insects.\u201d',
+    l2:'<span class="new-line-indicator">NEW LINE</span>Fred glared at her. \u201cThen you\'ll starve.\u201d'
+  },
+  /* Step 6: action beat highlighted */
+  {
+    l1:'\u201cThat\'s stupid,\u201d Con snapped. \u201cWe\'re not eating insects.\u201d',
+    l2:'<span class="new-line-indicator">NEW LINE</span><span class="action-beat">Fred glared at her.</span> \u201cThen you\'ll starve.\u201d'
+  }
+];
+
+function renderRule(){
+  var state=dialogueStates[ruleStep];
+  document.getElementById('dLine1').innerHTML=state.l1;
+  document.getElementById('dLine2').innerHTML=state.l2;
+  document.getElementById('ruleStepNum').textContent=ruleStep;
+  document.getElementById('ruleUndo').disabled=(ruleStep===0);
+  if(ruleStep===maxRuleSteps){
+    document.getElementById('ruleNext').textContent='All rules shown';
+    document.getElementById('ruleNext').disabled=true;
+  } else {
+    document.getElementById('ruleNext').textContent='Show next rule \u2192';
+    document.getElementById('ruleNext').disabled=false;
+  }
+  /* Show/hide rule cards */
+  for(var i=1;i<=maxRuleSteps;i++){
+    var el=document.getElementById('rule'+i);
+    if(i<=ruleStep){el.classList.add('shown');}
+    else{el.classList.remove('shown');}
+  }
+  /* Show character card after all rules */
+  document.getElementById('charCard').style.display=(ruleStep===maxRuleSteps)?'block':'none';
+}
+function ruleNext(){if(ruleStep<maxRuleSteps){ruleStep++;renderRule();}}
+function ruleUndo(){if(ruleStep>0){ruleStep--;renderRule();}}
+function ruleReset(){ruleStep=0;renderRule();}
+renderRule();
+
+function revealCharAnalysis(){
+  document.getElementById('charAnalysis').classList.add('shown');
+}
+
+/* ============== PHASE 3: Sub-panel navigation ============== */
+function goSub(name){
+  document.querySelectorAll('#phase3 .sub-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelector('#phase3 .sub-tab[data-sub="'+name+'"]').classList.add('active');
+  document.querySelectorAll('#phase3 .sub-panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('sub-'+name).classList.add('active');
+}
+
+/* ============== PHASE 3a: Interactive punctuation ============== */
+/*
+  PATTERN NOTE: Tap-to-place punctuation exercise.
+  NEW PATTERN for novel study lessons. Students select a punctuation mark from a
+  palette, then tap slots in the text to place it. Designed for IWB interaction
+  where students come to the board.
+*/
+var punctSentence=[
+  {type:'text',val:''},
+  {type:'slot',answer:'\u201c',id:'s1'},
+  {type:'text',val:'T'},
+  {type:'text',val:'hats disgusting'},
+  {type:'slot',answer:',',id:'s2'},
+  {type:'slot',answer:'\u201d',id:'s3'},
+  {type:'text',val:' Con said'},
+  {type:'slot',answer:'.',id:'s4'},
+  {type:'text',val:' '},
+  {type:'slot',answer:'\u201c',id:'s5'},
+  {type:'text',val:'I'},
+  {type:'text',val:'m not eating that'},
+  {type:'slot',answer:'.',id:'s6'},
+  {type:'slot',answer:'\u201d',id:'s7'},
+  {type:'text',val:'<br><br>'},
+  {type:'slot',answer:'\u201c',id:'s8'},
+  {type:'text',val:'Y'},
+  {type:'text',val:'ou'},
+  {type:'text',val:'ll have to'},
+  {type:'slot',answer:',',id:'s9'},
+  {type:'slot',answer:'\u201d',id:'s10'},
+  {type:'text',val:' Fred replied'},
+  {type:'slot',answer:'.',id:'s11'}
+];
+
+var selectedMark=null;
+var slotValues={};
+
+function buildPunctExercise(){
+  var container=document.getElementById('punctText');
+  var html='';
+  punctSentence.forEach(function(item){
+    if(item.type==='text'){
+      html+=item.val;
+    } else {
+      slotValues[item.id]='';
+      html+='<span class="punct-slot" id="'+item.id+'" onclick="placeInSlot(\''+item.id+'\')" title="Tap to place punctuation"></span>';
+    }
+  });
+  container.innerHTML=html;
+}
+
+function selectMark(btn){
+  document.querySelectorAll('.punct-btn').forEach(function(b){b.classList.remove('selected');});
+  btn.classList.add('selected');
+  selectedMark=btn.getAttribute('data-mark');
+}
+
+function placeInSlot(slotId){
+  if(!selectedMark)return;
+  var el=document.getElementById(slotId);
+  el.textContent=selectedMark;
+  el.classList.add('filled');
+  el.classList.remove('wrong');
+  slotValues[slotId]=selectedMark;
+}
+
+function checkPunct(){
+  var correct=0;var total=0;
+  punctSentence.forEach(function(item){
+    if(item.type!=='slot')return;
+    total++;
+    var el=document.getElementById(item.id);
+    if(slotValues[item.id]===item.answer){
+      el.classList.add('filled');
+      el.classList.remove('wrong');
+      correct++;
+    } else {
+      el.classList.add('wrong');
+      el.classList.remove('filled');
+    }
+  });
+  var fb=document.getElementById('punctFeedback');
+  if(correct===total){
+    fb.className='punct-feedback correct';
+    fb.innerHTML='<strong>All correct!</strong> Every punctuation mark is in the right place. Well done.';
+  } else {
+    fb.className='punct-feedback incorrect';
+    fb.innerHTML='<strong>'+correct+' of '+total+' correct.</strong> The marks highlighted in red need another look. Remember: speech marks go around the exact words spoken, commas go before reporting clauses, and full stops end sentences.';
+  }
+}
+
+function resetPunct(){
+  selectedMark=null;
+  document.querySelectorAll('.punct-btn').forEach(function(b){b.classList.remove('selected');});
+  document.getElementById('punctFeedback').className='punct-feedback';
+  slotValues={};
+  buildPunctExercise();
+}
+
+function showPunctAnswer(){
+  punctSentence.forEach(function(item){
+    if(item.type!=='slot')return;
+    var el=document.getElementById(item.id);
+    el.textContent=item.answer;
+    el.classList.add('filled');
+    el.classList.remove('wrong');
+    slotValues[item.id]=item.answer;
+  });
+  var fb=document.getElementById('punctFeedback');
+  fb.className='punct-feedback correct';
+  fb.innerHTML='<strong>Here is the correct punctuation.</strong> Check each mark against the six rules from Phase 2.';
+}
+
+buildPunctExercise();
+
+/* ============== PHASE 3b: Books answer reveal ============== */
+function revealBooksAnswer(){
+  document.getElementById('booksAnswer').classList.add('shown');
+}
+
+/* ============== PHASE 3c: Action beat reveal ============== */
+function revealActionBeat(){
+  document.getElementById('abAfter').classList.add('shown');
+  document.getElementById('abAnnotation').classList.add('shown');
+  var btn=document.getElementById('abRevealBtn');
+  btn.textContent='Action beats shown';
+  btn.disabled=true;
+}
+
+/* ============== PHASE 4: Collapsible reference card ============== */
+/*
+  PATTERN NOTE: Collapsible reference card.
+  NEW PATTERN. A card with a clickable header that toggles open/closed.
+  Used when students need to refer to rules while writing but the rules
+  shouldn't dominate the screen. Uses max-height transition for smooth animation.
+*/
+function toggleRef(){
+  var body=document.getElementById('refBody');
+  var toggle=document.getElementById('refToggle');
+  if(body.classList.contains('open')){
+    body.classList.remove('open');
+    toggle.innerHTML='&#9660;';
+  } else {
+    body.classList.add('open');
+    toggle.innerHTML='&#9650;';
+  }
+}
+
+/* ============== PHASE 4: Model response reveal ============== */
+function showModel(){
+  document.getElementById('modelReveal').classList.add('shown');
+  var btn=document.getElementById('showModelBtn');
+  btn.textContent='Model shown below';
+  btn.disabled=true;
+  setTimeout(function(){document.getElementById('modelReveal').scrollIntoView({behavior:'smooth',block:'start'});},100);
+}
+
+/* ============== Name modal & PDF export ============== */
+function showNameModal(){
+  document.getElementById('nameModal').classList.add('show');
+  var i=document.getElementById('studentNameInput');
+  i.value='';
+  document.getElementById('printGoBtn').disabled=true;
+  setTimeout(function(){i.focus();},100);
+}
+function closeNameModal(){document.getElementById('nameModal').classList.remove('show');}
+function escapeHtml(s){return (s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+document.getElementById('studentNameInput').addEventListener('input',function(){
+  document.getElementById('printGoBtn').disabled=!this.value.trim();
+});
+document.getElementById('studentNameInput').addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&this.value.trim())exportPDF();
+  if(e.key==='Escape')closeNameModal();
+});
+
+function exportPDF(){
+  var name=document.getElementById('studentNameInput').value.trim();
+  if(!name)return;
+  closeNameModal();
+
+  var ps=document.getElementById('printSummary');
+  var now=new Date();
+  var date=now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+  var html='<h1>The Explorer &middot; Week 8B Lesson 1</h1>';
+  html+='<p><strong>'+escapeHtml(name)+'</strong> &middot; '+date+'</p>';
+
+  /* Dialogue */
+  var dialogue=(document.getElementById('studentDialogue')||{}).value||'';
+  if(dialogue.trim()){
+    html+='<h2>My Dialogue</h2>';
+    html+='<div class="ps-text">'+escapeHtml(dialogue)+'</div>';
+  }
+
+  /* Exit ticket */
+  var exit=(document.getElementById('exitTicket')||{}).value||'';
+  if(exit.trim()){
+    html+='<h2>Exit Ticket</h2>';
+    html+='<div class="ps-text">'+escapeHtml(exit)+'</div>';
+  }
+
+  if(!dialogue.trim()&&!exit.trim()){
+    html+='<p style="color:#636e72;font-style:italic;margin-top:14px;">No writing recorded yet. Go to Phase 4 to write your dialogue.</p>';
+  }
+
+  ps.innerHTML=html;
+  setTimeout(function(){window.print();},100);
+}
+
+/* ============== Clicker / arrow key navigation ============== */
+document.addEventListener('keydown',function(e){
+  if(document.activeElement && (document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='TEXTAREA')){return;}
+  if(document.activeElement && document.activeElement.blur)document.activeElement.blur();
+  var current=null;
+  document.querySelectorAll('.phase').forEach(function(p,i){if(p.classList.contains('active'))current=i+1;});
+  if(!current)return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){if(current<totalPhases){e.preventDefault();goPhase(current+1);}}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){if(current>1){e.preventDefault();goPhase(current-1);}}
+},true);
+</script>
+
+</body>
+</html>
