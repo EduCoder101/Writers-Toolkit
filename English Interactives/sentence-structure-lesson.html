@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Sentence Structure Lesson - Explore simple, compound, complex and fragment sentences using Alfred's War. Writer's Toolkit interactive for Stage 3 English.">
+<title>Sentence Structure | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF8F5;--ink:#2D3436;--ink-light:#636E72;
+  --teal:#4ECDC4;--teal-light:#d0f0ec;
+  --coral:#FF6B6B;--coral-light:#ffe0e0;
+  --gold:#FFD93D;--gold-light:#fdf2d0;
+  --purple:#9B5DE5;--purple-light:#f0e6ff;
+  --sky:#74B9FF;--sky-light:#e1f0ff;
+  --green:#27AE60;--green-light:#d3f9d8;
+  --pink:#FFD6E0;--orange:#FFE0CC;--yellow:#FFF3BF;
+  --card:#fff;
+  --shadow:0 4px 20px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.12);
+  --radius:16px;
+  --correct:#27AE60;--incorrect:#E74C3C;
+  --sidebar-bg:#2D3436;--sidebar-w:240px;
+  /* Sentence type colours */
+  --simple-col:#4ECDC4;--compound-col:#FF6B6B;--complex-col:#9B5DE5;--fragment-col:#FFD93D;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Fredoka',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+.bg-shapes{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;}
+.bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:var(--coral);}
+.bg-shape:nth-child(2){width:400px;height:400px;top:20%;right:-8%;background:var(--teal);}
+.bg-shape:nth-child(3){width:350px;height:350px;bottom:15%;left:10%;background:var(--gold);}
+.bg-shape:nth-child(4){width:450px;height:450px;bottom:-5%;right:15%;background:var(--purple);}
+.bg-shape:nth-child(5){width:300px;height:300px;top:50%;left:40%;background:var(--sky);}
+
+.top-bar{background:var(--sidebar-bg);color:#fff;padding:0;position:sticky;top:0;z-index:200;display:flex;align-items:center;border-bottom:2px solid rgba(255,255,255,0.08);}
+.sidebar-toggle{background:none;border:none;border-right:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.top-bar-title{font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.95rem;padding:0 22px;letter-spacing:0.3px;}
+.top-bar-title span{color:var(--teal);}
+.top-bar .back-link{margin-left:auto;color:var(--teal);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.7;transition:opacity 0.2s;font-family:'Fredoka',sans-serif;}
+.top-bar .back-link:hover{opacity:1;}
+
+.sidebar{position:fixed;left:0;top:48px;width:var(--sidebar-w);height:calc(100vh - 48px);background:var(--sidebar-bg);color:#fff;z-index:100;overflow-y:auto;transition:width 0.3s ease;}
+.sidebar.collapsed{width:0;overflow:hidden;}
+.sidebar-content{padding:16px 0;}
+.sidebar-section{margin-bottom:12px;}
+.sidebar-section-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);padding:10px 18px 6px;}
+.sidebar-item{background:none;border:none;color:rgba(255,255,255,0.6);font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;padding:9px 18px;width:100%;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:10px;}
+.sidebar-item:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.sidebar-item.active{background:rgba(78,205,196,0.15);color:#fff;border-left:4px solid var(--teal);padding-left:14px;}
+.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 60px 80px;position:relative;z-index:1;}
+.sidebar.collapsed~main{margin-left:0;}
+.slide{display:none;max-width:900px;margin:0 auto;animation:fadeIn 0.4s ease;}
+.slide.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:40px 48px;margin-bottom:22px;}
+.card h2{font-family:'Fredoka',sans-serif;font-size:clamp(22px,4vw,32px);font-weight:700;margin-bottom:16px;line-height:1.2;}
+.card h3{font-family:'Fredoka',sans-serif;font-size:clamp(16px,2.5vw,22px);font-weight:600;margin-bottom:10px;color:var(--teal);}
+.card p,.card li{font-size:clamp(15px,2vw,19px);line-height:1.7;}
+
+.lisc{background:linear-gradient(135deg,#fff,#f0fffe);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:26px;border-left:5px solid var(--teal);}
+.lisc-li{font-size:clamp(17px,2.2vw,22px);font-weight:600;margin:0 0 12px;color:var(--teal);}
+.lisc-li-text{color:var(--ink);font-weight:500;}
+.lisc-sc-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);font-weight:700;margin:14px 0 8px;}
+.lisc ul{margin:0;padding-left:22px;}
+.lisc li{font-size:clamp(13px,1.5vw,16px);color:var(--ink);margin:6px 0;line-height:1.5;}
+
+.slide-nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:16px;border-top:1px solid #eee;}
+.nav-btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:11px 28px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;background:var(--teal);color:#fff;tabindex:-1;}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.nav-btn:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none;}
+.slide-counter{font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--ink-light);letter-spacing:1.5px;}
+
+.btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:11px 26px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-coral{background:var(--coral);color:#fff;}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-outline{background:#fff;color:var(--ink);border:2px solid #ddd;}
+
+.reveal-step{opacity:0;max-height:0;overflow:hidden;transition:opacity 0.4s ease,max-height 0.5s ease,margin 0.4s ease;margin-top:0;}
+.reveal-step.visible{opacity:1;max-height:800px;margin-top:16px;}
+
+/* Sentence type cards */
+.type-card{border-radius:12px;padding:22px 26px;margin:12px 0;opacity:0;transform:translateY(10px);transition:all 0.4s ease;}
+.type-card.visible{opacity:1;transform:none;}
+.type-card .type-name{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(18px,2.3vw,24px);margin-bottom:6px;}
+.type-card .type-def{font-size:clamp(14px,1.6vw,17px);line-height:1.6;margin-bottom:10px;}
+.type-card .type-example{font-size:clamp(15px,1.8vw,19px);font-style:italic;line-height:1.6;background:rgba(255,255,255,0.7);padding:10px 16px;border-radius:8px;font-weight:500;}
+.type-card .type-key{font-size:clamp(13px,1.4vw,15px);color:rgba(0,0,0,0.5);margin-top:8px;font-weight:500;}
+.type-simple{background:var(--teal-light);border-left:5px solid var(--simple-col);}
+.type-simple .type-name{color:var(--simple-col);}
+.type-compound{background:var(--coral-light);border-left:5px solid var(--compound-col);}
+.type-compound .type-name{color:var(--compound-col);}
+.type-complex{background:var(--purple-light);border-left:5px solid var(--complex-col);}
+.type-complex .type-name{color:var(--complex-col);}
+.type-fragment{background:var(--gold-light);border-left:5px solid var(--fragment-col);}
+.type-fragment .type-name{color:#b8920e;}
+
+/* Clause highlights */
+.hl-ind{background:var(--teal-light);padding:2px 6px;border-radius:4px;}
+.hl-dep{background:var(--purple-light);padding:2px 6px;border-radius:4px;}
+.hl-conj{background:var(--yellow);padding:2px 8px;border-radius:6px;font-weight:700;}
+
+/* Type tags */
+.st-tag{display:inline-block;font-family:'Fredoka',sans-serif;font-size:0.75rem;font-weight:700;padding:4px 12px;border-radius:20px;color:#fff;letter-spacing:0.5px;}
+.st-tag.simple{background:var(--simple-col);}
+.st-tag.compound{background:var(--compound-col);}
+.st-tag.complex{background:var(--complex-col);}
+.st-tag.fragment{background:var(--fragment-col);color:var(--ink);}
+
+/* Quote card for sorting */
+.quote-card{background:#fff;border:2px solid #e0e0e0;border-radius:12px;padding:16px 22px;margin:10px 0;cursor:pointer;transition:all 0.25s ease;position:relative;}
+.quote-card:hover:not(.answered){border-color:var(--teal);box-shadow:var(--shadow);}
+.quote-card .quote-text{font-size:clamp(15px,1.8vw,18px);line-height:1.6;font-style:italic;font-weight:500;}
+.quote-card .quote-num{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:1.5px;color:var(--ink-light);margin-bottom:6px;}
+.quote-card .quote-answer{display:none;margin-top:10px;font-size:clamp(13px,1.5vw,16px);line-height:1.5;padding-top:10px;border-top:1px dashed #ddd;}
+.quote-card.answered .quote-answer{display:block;animation:fadeIn 0.4s ease;}
+.quote-card.answered{pointer-events:none;}
+.type-btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.type-btns .type-btn{font-family:'Fredoka',sans-serif;font-size:0.8rem;font-weight:600;padding:6px 14px;border:2px solid #ddd;border-radius:20px;background:#fff;cursor:pointer;transition:all 0.2s;}
+.type-btns .type-btn:hover{transform:translateY(-1px);}
+.type-btn.s{border-color:var(--simple-col);color:var(--simple-col);}
+.type-btn.co{border-color:var(--compound-col);color:var(--compound-col);}
+.type-btn.cx{border-color:var(--complex-col);color:var(--complex-col);}
+.type-btn.f{border-color:var(--fragment-col);color:#b8920e;}
+.type-btn.selected-correct{background:var(--green-light);border-color:var(--correct);color:var(--correct);}
+.type-btn.selected-incorrect{background:var(--coral-light);border-color:var(--incorrect);color:var(--incorrect);}
+
+/* Rewrite area */
+.rewrite-card{background:#f8f9fa;border:2px solid #e8e0d8;border-radius:var(--radius);padding:24px;margin:14px 0;}
+.rewrite-original{font-size:clamp(16px,1.9vw,20px);font-style:italic;line-height:1.6;font-weight:500;margin-bottom:14px;padding:12px 18px;background:#fff;border-left:4px solid var(--ink-light);border-radius:0 8px 8px 0;}
+.writing-input{width:100%;min-height:100px;padding:16px 20px;border:2px solid #e8e0d8;border-radius:12px;font-family:'Fredoka',sans-serif;font-size:clamp(15px,1.8vw,17px);font-weight:400;line-height:1.7;color:var(--ink);background:rgba(255,255,255,0.9);resize:vertical;transition:border-color 0.3s ease;}
+.writing-input:focus{border-color:var(--teal);outline:none;box-shadow:0 0 0 3px rgba(78,205,196,0.15);}
+.model-response{background:linear-gradient(135deg,rgba(240,255,244,0.9) 0%,rgba(240,249,255,0.9) 100%);border:2px solid var(--correct);border-radius:16px;padding:24px;margin-top:16px;animation:fadeIn 0.4s ease;display:none;}
+.model-response.shown{display:block;}
+.model-label{font-weight:600;font-size:0.85rem;color:var(--correct);margin-bottom:14px;text-transform:uppercase;letter-spacing:1px;}
+
+/* Score tracker */
+.score-bar{display:flex;align-items:center;gap:12px;margin:16px 0;padding:10px 16px;background:#f8f9fa;border-radius:10px;}
+.score-bar .score-label{font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--ink-light);letter-spacing:1px;}
+.score-bar .score-num{font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--teal);}
+.score-fill{flex:1;height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden;}
+.score-fill-inner{height:100%;background:var(--teal);border-radius:4px;transition:width 0.4s ease;width:0%;}
+
+/* Creative writing checklist */
+.checklist{background:linear-gradient(135deg,var(--green-light),#fff);border-left:4px solid var(--green);border-radius:12px;padding:18px 22px;margin-top:16px;}
+.checklist h4{font-family:'Fredoka',sans-serif;font-size:clamp(15px,1.8vw,17px);margin:0 0 10px;color:var(--green);}
+.checklist label{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:clamp(13px,1.5vw,15px);cursor:pointer;font-weight:500;line-height:1.5;}
+.checklist input[type=checkbox]{margin-top:3px;width:18px;height:18px;cursor:pointer;accent-color:var(--green);flex-shrink:0;}
+
+/* Reflect */
+.reflect-item{background:#f8f9fa;border-radius:12px;padding:16px 22px;margin:10px 0;font-size:clamp(16px,2vw,20px);font-weight:500;line-height:1.5;opacity:0;transform:translateY(8px);transition:all 0.4s ease;}
+.reflect-item.visible{opacity:1;transform:none;}
+
+/* Compare row */
+.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0;}
+@media(max-width:700px){.compare-row{grid-template-columns:1fr;}}
+.compare-box{background:#fff;border-radius:12px;padding:24px 28px;box-shadow:var(--shadow);}
+.compare-eyebrow{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:8px;}
+.compare-text{font-size:clamp(16px,2vw,20px);line-height:1.6;font-weight:500;}
+
+.example-sentence{background:#fafafa;border:2px solid #e8e0d8;border-radius:var(--radius);padding:20px 24px;font-size:clamp(16px,1.9vw,20px);line-height:1.8;margin:12px 0;font-weight:500;}
+
+@media(max-width:768px){
+  main{padding:20px 16px 60px;}
+  .card{padding:24px 20px;}
+  .type-btns{gap:6px;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+  <div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div>
+</div>
+
+<div class="top-bar">
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">&#9776;</button>
+  <div class="top-bar-title"><span>Writer's Toolkit</span> &middot; Sentence Structure</div>
+  <a href="https://educoder101.github.io/Writers-Toolkit" class="back-link">&larr; Back to Toolkit</a>
+</div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Learning</div>
+      <button class="sidebar-item active" onclick="goToSlide(0)"><span class="sidebar-dot" style="background:var(--teal)"></span>LISC</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Hook</div>
+      <button class="sidebar-item" onclick="goToSlide(1)"><span class="sidebar-dot" style="background:var(--coral)"></span>Same story, different feel</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">I Do</div>
+      <button class="sidebar-item" onclick="goToSlide(2)"><span class="sidebar-dot" style="background:var(--purple)"></span>Simple sentences</button>
+      <button class="sidebar-item" onclick="goToSlide(3)"><span class="sidebar-dot" style="background:var(--purple)"></span>Compound sentences</button>
+      <button class="sidebar-item" onclick="goToSlide(4)"><span class="sidebar-dot" style="background:var(--purple)"></span>Complex sentences</button>
+      <button class="sidebar-item" onclick="goToSlide(5)"><span class="sidebar-dot" style="background:var(--purple)"></span>Fragments</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">We Do</div>
+      <button class="sidebar-item" onclick="goToSlide(6)"><span class="sidebar-dot" style="background:var(--gold)"></span>Sort the quotes</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">You Do</div>
+      <button class="sidebar-item" onclick="goToSlide(7)"><span class="sidebar-dot" style="background:var(--sky)"></span>Rewrite challenge</button>
+      <button class="sidebar-item" onclick="goToSlide(8)"><span class="sidebar-dot" style="background:var(--sky)"></span>Creative writing</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Reflect</div>
+      <button class="sidebar-item" onclick="goToSlide(9)"><span class="sidebar-dot" style="background:var(--green)"></span>Reflection</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- SLIDE 0: LISC -->
+<div class="slide active" id="slide-0">
+  <div class="lisc">
+    <div class="lisc-li">Learning Intention</div>
+    <p class="lisc-li-text" style="font-size:clamp(15px,1.8vw,18px);line-height:1.6;">We are learning to identify and use simple, compound, complex and fragment sentences, and to understand how sentence structure affects the tone and meaning of our writing.</p>
+    <div class="lisc-sc-title">Success Criteria</div>
+    <ul>
+      <li>I can identify the four sentence types (simple, compound, complex, fragment) and explain the structure of each.</li>
+      <li>I can classify sentences from a text by their structure and explain my reasoning.</li>
+      <li>I can rewrite a sentence by changing its structure and explain how the meaning or tone shifts.</li>
+      <li>I can use a deliberate mix of sentence types in my own writing for effect.</li>
+    </ul>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" onclick="prevSlide()" disabled tabindex="-1">Previous</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" onclick="nextSlide()" tabindex="-1">Next</button>
+  </div>
+</div>
+
+<!-- SLIDE 1: HOOK -->
+<div class="slide" id="slide-1">
+  <div class="card">
+    <h2>Same story, different feel</h2>
+    <p style="margin-bottom:16px;">Read these two versions of the same moment. What feels different?</p>
+    <div class="compare-row">
+      <div class="compare-box" style="border-top:4px solid var(--ink-light);">
+        <div class="compare-eyebrow" style="color:var(--ink-light);">Version A</div>
+        <div class="compare-text">Alfred walked along the track. He had a swag on his back. He had fought in a war. Nobody remembered him. He did not get a parade. He did not get a medal. He kept walking.</div>
+      </div>
+      <div class="compare-box reveal-step" id="hookV2" style="border-top:4px solid var(--coral);">
+        <div class="compare-eyebrow" style="color:var(--coral);">Version B</div>
+        <div class="compare-text">Although no one had asked him to, Alfred kept walking. He walked the tracks, and his swag bit into his shoulders with every step. No one remembered him. Not really. Old boots. A battered hat. A folded photo he never showed anyone. He had fought for a country that did not fight for him.</div>
+      </div>
+    </div>
+    <div class="reveal-step" id="hookQ">
+      <div style="background:var(--gold-light);border-left:5px solid var(--gold);border-radius:0 12px 12px 0;padding:16px 22px;">
+        <p style="font-size:clamp(15px,1.8vw,18px);font-weight:500;margin-bottom:10px;">Version A uses only <span class="st-tag simple" style="font-size:0.7rem;vertical-align:middle;">simple</span> sentences. Every sentence follows the same pattern: subject, verb, done. It reads like a list of facts.</p>
+        <p style="font-size:clamp(15px,1.8vw,18px);font-weight:500;margin-bottom:10px;">Version B mixes all four types: <span class="st-tag complex" style="font-size:0.7rem;vertical-align:middle;">complex</span> ("Although no one had asked him to, Alfred kept walking"), <span class="st-tag compound" style="font-size:0.7rem;vertical-align:middle;">compound</span> ("He walked the tracks, and his swag bit into his shoulders"), <span class="st-tag simple" style="font-size:0.7rem;vertical-align:middle;">simple</span> ("No one remembered him"), and <span class="st-tag fragment" style="font-size:0.7rem;vertical-align:middle;">fragment</span> ("Old boots. A battered hat.").</p>
+        <p style="font-size:clamp(15px,1.8vw,18px);font-weight:500;">The variety controls the rhythm. The fragments force the reader to slow down. The complex sentence at the end carries the emotional weight. That is what sentence structure can do.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-coral" onclick="revealHookStep()">Reveal</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" onclick="prevSlide()" tabindex="-1">Previous</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" onclick="nextSlide()" tabindex="-1">Next</button>
+  </div>
+</div>
+
+<!-- SLIDE 2: I DO - Simple -->
+<div class="slide" id="slide-2">
+  <div class="card">
+    <h2>Simple Sentence</h2>
+    <div class="type-card type-simple visible">
+      <div class="type-name">One independent clause</div>
+      <div class="type-def">A sentence with one complete idea. It has a subject and a verb, and it makes sense on its own.</div>
+      <div class="type-example"><span class="hl-ind">The sun was shining</span>.</div>
+      <div class="type-key">One subject + one verb = one complete idea.</div>
+    </div>
+    <div class="reveal-step" id="simple-more">
+      <p style="font-size:clamp(15px,1.8vw,18px);line-height:1.6;margin-top:8px;">Simple does not mean short or boring. This is also a simple sentence:</p>
+      <div class="example-sentence"><span class="hl-ind">The tall, grey-haired soldier walked slowly along the empty, dusty road</span>.</div>
+      <p style="font-size:clamp(14px,1.5vw,16px);color:var(--ink-light);margin-top:8px;">It is still one idea with one subject (the soldier) and one verb (walked). The extra detail comes from adjectives and adverbial phrases, not from additional clauses.</p>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-teal" onclick="revealEl('simple-more',this)">Show more</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" onclick="prevSlide()" tabindex="-1">Previous</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" onclick="nextSlide()" tabindex="-1">Next</button>
+  </div>
+</div>
+
+<!-- SLIDE 3: I DO - Compound -->
+<div class="slide" id="slide-3">
+  <div class="card">
+    <h2>Compound Sentence</h2>
+    <div class="type-card type-compound visible">
+      <div class="type-name">Two independent clauses joined by a conjunction</div>
+      <div class="type-def">Two complete ideas connected by a coordinating conjunction (for, and, nor, but, or, yet, so). Each clause could be its own sentence.</div>
+      <div class="type-example"><span class="hl-ind">It was raining</span>, <span class="hl-conj">but</span> <span class="hl-ind">we went outside</span>.</div>
+      <div class="type-key">Remember FANBOYS: For, And, Nor, But, Or, Yet, So.</div>
+    </div>
+    <div class="reveal-step" id="compound-test">
+      <div style="background:var(--coral-light);border-left:5px solid var(--coral);border-radius:0 12px 12px 0;padding:16px 22px;">
+        <p style="font-size:clamp(15px,1.8vw,18px);font-weight:500;"><strong>Quick test:</strong> cover one clause. Does the other still make sense as a complete sentence? If yes, it is a compound sentence.</p>
+        <p style="font-size:clamp(14px,1.5vw,16px);color:var(--ink-light);margin-top:6px;">"It was raining." Complete. "We went outside." Complete. Both are independent clauses.</p>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-coral" onclick="revealEl('compound-test',this)">Show the test</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" onclick="prevSlide()" tabindex="-1">Previous</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" onclick="nextSlide()" tabindex="-1">Next</button>
+  </div>
+</div>
+
+<!-- SLIDE 4: I DO - Complex -->
+<div class="slide" id="slide-4">
+  <div class="card">
+    <h2>Complex Sentence</h2>
+    <div class="type-card type-complex visible">
+      <div class="type-name">Independent clause + dependent clause</div>
+      <div class="type-def">One main clause that makes sense on its own, combined with a dependent clause that cannot stand alone. They are joined by a subordinating conjunction (although, because, when, if, since, while, after, before, until).</div>
+      <div class="type-example"><span class="hl-dep">Although it was late</span>, <span class="hl-ind">she kept working</span>.</div>
+      <div class="type-key"><span style="background:var(--purple-light);padding:2px 6px;border-radius:4px;">Dependent clause</span> = cannot stand alone. <span style="background:var(--teal-light);padding:2px 6px;border-radius:4px;">Independent clause</span> = makes sense on its own.</div>
+    </div>
+    <div class="reveal-step" id="complex-flip">
+      <p style="font-size:clamp(15px,1.8vw,18px);line-height:1.6;">The dependent clause can go at the start or the end:</p>
+      <div class="example-sentence"><span class="hl-ind">She kept working</span> <span class="hl-dep">although it was late</span>.</div>
+      <p style="font-size:clamp(14px,1.5vw,16px);color:var(--ink-light);margin-top:8px;">When the dependent clause comes first, we use a comma after it. When it comes second, no comma is needed.</p>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-purple" onclick="revealEl('complex-flip',this)">Show the flip</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" onclick="prevSlide()" tabindex="-1">Previous</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" onclick="nextSlide()" tabindex="-1">Next</button>
+  </div>
+</div>
+
+<!-- SLIDE 5: I DO - Fragment -->
+<div class="slide" id="slide-5">
+  <div class="card">
+    <h2>Fragment</h2>
+    <div class="type-card type-fragment visible">
+      <div class="type-name">An incomplete sentence, used for effect</div>
+      <div class="type-def">A fragment is missing a subject, a verb, or both. In everyday writing, this is an error. But in narrative and creative writing, authors use fragments deliberately for emphasis, rhythm, or emotion.</div>
+      <div class="type-example">Too tired to continue.</div>
+      <div class="type-key">Missing a subject. Who was too tired? The author leaves it unsaid.</div>
+    </div>
+    <div class="reveal-step" id="frag-examples">
+      <p style="font-size:clamp(15px,1.8vw,18px);line-height:1.6;margin-bottom:10px;">Fragments create impact through what they leave out:</p>
+      <div class="example-sentence" style="border-color:var(--gold);">
+        "Old boots. A battered hat. A folded photo."
+        <div style="font-size:clamp(13px,1.4vw,15px);color:var(--ink-light);margin-top:8px;">Three fragments in a row. No verbs. No actions. Just objects. The stillness forces the reader to pause and feel the weight of each item.</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-gold" onclick="revealEl('frag-examples',this)">See it in action</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" onclick="prevSlide()" tabindex="-1">Previous</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" onclick="nextSlide()" tabindex="-1">Next</button>
+  </div>
+</div>
+
+<!-- SLIDE 6: WE DO - Sort Quotes -->
+<div class="slide" id="slide-6">
+  <div class="card">
+    <h2>Sort the quotes from Alfred's War</h2>
+    <p style="margin-bottom:8px;">For each quote, decide the sentence type and tap your answer.</p>
+    <div class="score-bar">
+      <span class="score-label">Score</span>
+      <span class="score-num" id="sortScore">0</span><span class="score-label">/ 6</span>
+      <div class="score-fill"><div class="score-fill-inner" id="sortFill"></div></div>
+    </div>
+    <div id="quoteList"></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" onclick="prevSlide()" tabindex="-1">Previous</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" onclick="nextSlide()" tabindex="-1">Next</button>
+  </div>
+</div>
+
+<!-- SLIDE 7: YOU DO - Rewrite Challenge -->
+<div class="slide" id="slide-7">
+  <div class="card">
+    <h2>Rewrite challenge</h2>
+    <p style="margin-bottom:8px;">Take this simple sentence and transform it three different ways. After each rewrite, reveal the model to compare.</p>
+    <div class="example-sentence" style="text-align:center;margin-bottom:24px;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">Original (simple)</div>
+      <span style="font-size:clamp(18px,2.2vw,24px);font-weight:600;">"He walked the tracks, his swag on his back."</span>
+    </div>
+
+    <!-- Rewrite 1: Compound -->
+    <div class="rewrite-block" style="margin-bottom:20px;">
+      <div class="rewrite-prompt" style="background:var(--coral-light);border-left:5px solid var(--coral);border-radius:0 12px 12px 0;padding:14px 20px;margin-bottom:10px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+          <span class="st-tag compound">Compound</span>
+          <strong style="font-size:clamp(15px,1.8vw,18px);">Join two independent clauses with a FANBOYS conjunction</strong>
+        </div>
+        <p style="font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);">Both halves must be able to stand alone as complete sentences.</p>
+      </div>
+      <textarea class="writing-input" id="rewrite1" rows="2" placeholder="Write your compound version here..."></textarea>
+      <div style="margin-top:8px;">
+        <button class="btn btn-outline" style="font-size:13px;" onclick="revealEl('rw-model-1',this)">Reveal model</button>
+      </div>
+      <div class="reveal-step" id="rw-model-1">
+        <div style="background:#fff;border:2px solid var(--coral);border-radius:12px;padding:16px 20px;">
+          <div class="example-sentence" style="margin:0 0 8px;border:none;padding:0;background:transparent;"><span class="hl-ind">He walked the tracks</span>, <span class="hl-conj">and</span> <span class="hl-ind">his swag bit deeper into his shoulders with every step</span>.</div>
+          <p style="font-size:clamp(13px,1.4vw,15px);color:var(--ink-light);margin:0;">Two complete ideas joined by "and". Each clause could be its own sentence. The compound structure gives the sentence an even, steady rhythm, as though one fact follows the other without emotion.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rewrite 2: Complex -->
+    <div class="rewrite-block" style="margin-bottom:20px;">
+      <div class="rewrite-prompt" style="background:var(--purple-light);border-left:5px solid var(--purple);border-radius:0 12px 12px 0;padding:14px 20px;margin-bottom:10px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+          <span class="st-tag complex">Complex</span>
+          <strong style="font-size:clamp(15px,1.8vw,18px);">Add a dependent clause using a subordinating conjunction</strong>
+        </div>
+        <p style="font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);">Try starting with although, because, even though, while, or when. The dependent clause cannot stand alone.</p>
+      </div>
+      <textarea class="writing-input" id="rewrite2" rows="2" placeholder="Write your complex version here..."></textarea>
+      <div style="margin-top:8px;">
+        <button class="btn btn-outline" style="font-size:13px;" onclick="revealEl('rw-model-2',this)">Reveal model</button>
+      </div>
+      <div class="reveal-step" id="rw-model-2">
+        <div style="background:#fff;border:2px solid var(--purple);border-radius:12px;padding:16px 20px;">
+          <div class="example-sentence" style="margin:0 0 8px;border:none;padding:0;background:transparent;"><span class="hl-dep">Although his legs ached and the sun pressed down on him</span>, <span class="hl-ind">he kept walking the tracks with his swag on his back</span>.</div>
+          <p style="font-size:clamp(13px,1.4vw,15px);color:var(--ink-light);margin:0;">The dependent clause ("Although his legs ached...") adds context and builds empathy. It tells us he is suffering, which makes the simple act of walking feel like determination. The reader now understands <em>why</em> this matters.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rewrite 3: Fragment -->
+    <div class="rewrite-block">
+      <div class="rewrite-prompt" style="background:var(--gold-light);border-left:5px solid var(--gold);border-radius:0 12px 12px 0;padding:14px 20px;margin-bottom:10px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+          <span class="st-tag fragment">Fragment</span>
+          <strong style="font-size:clamp(15px,1.8vw,18px);">Break it into fragments. Remove the subject, the verb, or both.</strong>
+        </div>
+        <p style="font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);">Fragments are incomplete on purpose. Think about what you leave out and what that makes the reader feel.</p>
+      </div>
+      <textarea class="writing-input" id="rewrite3" rows="2" placeholder="Write your fragment version here..."></textarea>
+      <div style="margin-top:8px;">
+        <button class="btn btn-outline" style="font-size:13px;" onclick="revealEl('rw-model-3',this)">Reveal model</button>
+      </div>
+      <div class="reveal-step" id="rw-model-3">
+        <div style="background:#fff;border:2px solid #c9a800;border-radius:12px;padding:16px 20px;">
+          <div class="example-sentence" style="margin:0 0 8px;border:none;padding:0;background:transparent;">Walking. Always walking. Swag on his back, dust in his boots, sun on his neck.</div>
+          <p style="font-size:clamp(13px,1.4vw,15px);color:var(--ink-light);margin:0;">No subject. No main verb. Just images stacked together. The repetition of "walking" creates a sense of endless monotony, and the list of details ("dust in his boots, sun on his neck") puts the reader right inside the moment. Fragments slow the reader down and force them to feel each detail separately.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" onclick="prevSlide()" tabindex="-1">Previous</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" onclick="nextSlide()" tabindex="-1">Next</button>
+  </div>
+</div>
+
+<!-- SLIDE 8: YOU DO - Creative Writing -->
+<div class="slide" id="slide-8">
+  <div class="card">
+    <h2>Creative writing</h2>
+    <p style="margin-bottom:16px;">Write a short narrative (8 to 12 sentences) using a deliberate mix of sentence types. Your writing must include at least:</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+      <span class="st-tag simple">3 simple</span>
+      <span class="st-tag compound">3 compound</span>
+      <span class="st-tag complex">3 complex</span>
+      <span class="st-tag fragment">1 fragment for effect</span>
+    </div>
+    <p style="font-size:clamp(14px,1.5vw,16px);color:var(--ink-light);margin-bottom:14px;">Choose any topic you like, or use one of these starters: a character arriving somewhere new, a moment of danger, or discovering something unexpected.</p>
+    <textarea class="writing-input" id="creativeInput" rows="10"></textarea>
+    <div class="checklist" style="margin-top:20px;">
+      <h4>Self-assessment checklist</h4>
+      <label><input type="checkbox"> I have at least 3 simple sentences (one clause, one idea).</label>
+      <label><input type="checkbox"> I have at least 3 compound sentences joined by FANBOYS conjunctions.</label>
+      <label><input type="checkbox"> I have at least 3 complex sentences with a dependent clause.</label>
+      <label><input type="checkbox"> I have at least 1 fragment used deliberately for effect.</label>
+      <label><input type="checkbox"> My sentence types are varied, not grouped together in blocks.</label>
+      <label><input type="checkbox"> I can explain why I chose each sentence type in at least two places.</label>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" onclick="prevSlide()" tabindex="-1">Previous</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" onclick="nextSlide()" tabindex="-1">Next</button>
+  </div>
+</div>
+
+<!-- SLIDE 9: REFLECT -->
+<div class="slide" id="slide-9">
+  <div class="card" style="text-align:center;">
+    <h2>Reflect</h2>
+    <div style="max-width:640px;margin:0 auto;">
+      <div class="reflect-item" id="ref1">How can sentence structure change the way a story feels?</div>
+      <div class="reflect-item" id="ref2">Why might an author choose a fragment instead of a full sentence?</div>
+      <div class="reflect-item" id="ref3">Can you find examples of each sentence type in your own writing from today?</div>
+    </div>
+    <div style="margin-top:20px;">
+      <button class="btn btn-teal" onclick="revealReflect()">Reveal next</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" onclick="prevSlide()" tabindex="-1">Previous</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" onclick="nextSlide()" disabled tabindex="-1">Next</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+/* ============ NAVIGATION ============ */
+var slides=document.querySelectorAll('.slide');
+var sidebarItems=document.querySelectorAll('.sidebar-item');
+var currentSlide=0;
+var totalSlides=slides.length;
+
+function goToSlide(n){
+  if(n<0||n>=totalSlides)return;
+  slides[currentSlide].classList.remove('active');
+  sidebarItems[currentSlide].classList.remove('active');
+  currentSlide=n;
+  slides[currentSlide].classList.add('active');
+  sidebarItems[currentSlide].classList.add('active');
+  updateCounter();
+  document.activeElement.blur();
+  window.scrollTo(0,0);
+}
+function nextSlide(){goToSlide(currentSlide+1);}
+function prevSlide(){goToSlide(currentSlide-1);}
+function updateCounter(){
+  document.querySelectorAll('.slide-counter').forEach(function(el){
+    el.textContent='Card '+(currentSlide+1)+' of '+totalSlides;
+  });
+  document.querySelectorAll('.slide').forEach(function(s,i){
+    var btns=s.querySelectorAll('.nav-btn');
+    if(btns[0])btns[0].disabled=(i===0);
+    if(btns[1])btns[1].disabled=(i===totalSlides-1);
+  });
+}
+updateCounter();
+
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed');}
+
+document.addEventListener('keydown',function(e){
+  var tag=document.activeElement.tagName;
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;
+  document.activeElement.blur();
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){
+    e.preventDefault();nextSlide();
+  }else if(e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='PageUp'){
+    e.preventDefault();prevSlide();
+  }
+},true);
+
+/* ============ GENERIC REVEAL ============ */
+function revealEl(id,btn){
+  var el=document.getElementById(id);
+  if(el)el.classList.add('visible');
+  if(btn)btn.style.display='none';
+}
+
+/* ============ HOOK ============ */
+var hookStep=0;
+function revealHookStep(){
+  hookStep++;
+  if(hookStep===1){document.getElementById('hookV2').classList.add('visible');}
+  if(hookStep===2){document.getElementById('hookQ').classList.add('visible');}
+}
+
+/* ============ SORT QUOTES (Slide 6) ============ */
+var quotes=[
+  {num:1,text:'"He walked the tracks, his swag on his back."',answer:'simple',explain:'One independent clause. "His swag on his back" is an absolute phrase adding detail, not a second clause with its own verb.'},
+  {num:2,text:'"No one remembered Alfred. Not really."',answer:'fragment',explain:'The first sentence is simple. "Not really." is a fragment. It has no subject or verb. The author uses it for emphasis, making the reader pause and feel the weight of being forgotten.'},
+  {num:3,text:'"He marched to war, but never in a parade."',answer:'compound',explain:'Two ideas joined by the conjunction "but". The first clause is "He marched to war" and the second is an implied "he never marched in a parade". The contrast between the two ideas is the point.'},
+  {num:4,text:'"Although his name wasn\'t written anywhere, Alfred remembered."',answer:'complex',explain:'The dependent clause "Although his name wasn\'t written anywhere" cannot stand alone. The independent clause "Alfred remembered" completes the thought. "Although" is the subordinating conjunction.'},
+  {num:5,text:'"Old boots. A battered hat. A folded photo."',answer:'fragment',explain:'Three fragments in a row. No verbs at all. The author lists objects to create a snapshot, forcing the reader to slow down and picture each one.'},
+  {num:6,text:'"He fought for a country that didn\'t fight for him."',answer:'complex',explain:'The main clause is "He fought for a country". The dependent clause "that didn\'t fight for him" is a relative clause modifying "country". The word "that" signals the dependent clause.'}
+];
+var sortScore=0;
+function buildQuotes(){
+  var list=document.getElementById('quoteList');
+  quotes.forEach(function(q,i){
+    var card=document.createElement('div');
+    card.className='quote-card';
+    card.id='qc'+i;
+    var numDiv=document.createElement('div');
+    numDiv.className='quote-num';
+    numDiv.textContent='Quote '+q.num;
+    card.appendChild(numDiv);
+    var textDiv=document.createElement('div');
+    textDiv.className='quote-text';
+    textDiv.textContent=q.text;
+    card.appendChild(textDiv);
+    var btnsDiv=document.createElement('div');
+    btnsDiv.className='type-btns';
+    var types=[{cls:'s',label:'Simple',val:'simple'},{cls:'co',label:'Compound',val:'compound'},{cls:'cx',label:'Complex',val:'complex'},{cls:'f',label:'Fragment',val:'fragment'}];
+    types.forEach(function(t){
+      var b=document.createElement('button');
+      b.className='type-btn '+t.cls;
+      b.textContent=t.label;
+      b.addEventListener('click',function(){checkSort(i,t.val);});
+      btnsDiv.appendChild(b);
+    });
+    card.appendChild(btnsDiv);
+    var ansDiv=document.createElement('div');
+    ansDiv.className='quote-answer';
+    card.appendChild(ansDiv);
+    list.appendChild(card);
+  });
+}
+buildQuotes();
+
+function checkSort(idx,chosen){
+  var card=document.getElementById('qc'+idx);
+  if(card.classList.contains('answered'))return;
+  card.classList.add('answered');
+  var q=quotes[idx];
+  var correct=chosen===q.answer;
+  var btns=card.querySelectorAll('.type-btn');
+  btns.forEach(function(b){
+    b.style.pointerEvents='none';
+    if(b.textContent.toLowerCase()===chosen){
+      b.classList.add(correct?'selected-correct':'selected-incorrect');
+    }
+    if(b.textContent.toLowerCase()===q.answer){
+      b.classList.add('selected-correct');
+    }
+  });
+  var ansDiv=card.querySelector('.quote-answer');
+  if(correct){
+    sortScore++;
+    ansDiv.innerHTML='<strong style="color:var(--correct);">Correct.</strong> '+q.explain;
+  }else{
+    ansDiv.innerHTML='<strong style="color:var(--incorrect);">Not quite.</strong> '+q.explain;
+  }
+  document.getElementById('sortScore').textContent=sortScore;
+  document.getElementById('sortFill').style.width=(sortScore/6*100)+'%';
+}
+
+/* ============ REFLECT (Slide 9) ============ */
+var refStep=0;
+function revealReflect(){
+  refStep++;
+  if(refStep<=3){document.getElementById('ref'+refStep).classList.add('visible');}
+}
+</script>
+</body>
+</html>
