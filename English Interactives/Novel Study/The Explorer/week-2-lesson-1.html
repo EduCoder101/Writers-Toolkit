@@ -108,6 +108,12 @@ main{margin-left:var(--sidebar-w);margin-top:56px;padding:40px 48px 80px;positio
 .vocab-def{font-size:clamp(14px,1.7vw,16px);line-height:1.55;display:none;}
 .vocab-def.shown{display:block;animation:fadeIn 0.3s ease;}
 
+/* Vocabulary word wall (chip layout) */
+.vocab-wall{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);border-left:6px solid var(--coral);margin-bottom:22px;}
+.vocab-wall h3{font-size:clamp(18px,2.2vw,22px);margin-bottom:14px;}
+.vocab-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.vocab-chip{background:var(--coral-light);border-radius:20px;padding:6px 16px;font-size:clamp(13px,1.5vw,15px);font-weight:500;color:var(--ink);}
+
 /* Reveal cards */
 .reveal-card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:20px;}
 .reveal-card h3{font-size:clamp(17px,2.1vw,21px);margin-bottom:10px;}
@@ -257,7 +263,7 @@ main{margin-left:var(--sidebar-w);margin-top:56px;padding:40px 48px 80px;positio
 <section class="phase" id="phase2">
   <div class="phase-eyebrow">Phase <span class="num">2</span> of <span class="num">7</span> &middot; Whole Class</div>
   <h1 class="phase-title">Vocabulary</h1>
-  <p class="phase-sub">Three words to learn before we read</p>
+  <p class="phase-sub">Words to learn before and during our reading of The Den</p>
 
   <div class="vocab-grid">
     <div class="vocab-card">
@@ -282,7 +288,29 @@ main{margin-left:var(--sidebar-w);margin-top:56px;padding:40px 48px 80px;positio
 
   <div class="card coral">
     <h3>Mime challenge</h3>
-    <p>Volunteers: choose one of the three words and mime it for the class to guess. No speaking allowed.</p>
+    <p>Volunteers: choose one of the words above and mime it for the class to guess. No speaking allowed.</p>
+  </div>
+
+  <div class="vocab-wall">
+    <h3>More words from the chapter</h3>
+    <div class="vocab-chips">
+      <span class="vocab-chip">den</span>
+      <span class="vocab-chip">marinating</span>
+      <span class="vocab-chip">wincing</span>
+      <span class="vocab-chip">grimacing</span>
+      <span class="vocab-chip">furrowed</span>
+      <span class="vocab-chip">jaguar</span>
+      <span class="vocab-chip">riddled</span>
+      <span class="vocab-chip">squelched</span>
+      <span class="vocab-chip">cascade</span>
+      <span class="vocab-chip">arrowheads</span>
+      <span class="vocab-chip">squat</span>
+    </div>
+  </div>
+
+  <div class="card coral">
+    <h3>Teacher explains</h3>
+    <p>Your teacher will go through each of these words, explaining its meaning and part of speech. Listen carefully. You will meet these words in the chapter as we read.</p>
   </div>
 
   <div class="phase-nav">
