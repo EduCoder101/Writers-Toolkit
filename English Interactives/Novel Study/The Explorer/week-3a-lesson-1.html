@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Explorer | Week 3A Lesson 1 | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF8F5;--ink:#2D3436;--ink-light:#636E72;
+  --teal:#4ECDC4;--teal-light:#d0f0ec;
+  --coral:#FF6B6B;--coral-light:#ffe0e0;
+  --gold:#FFD93D;--gold-light:#fdf2d0;
+  --purple:#9B5DE5;--purple-light:#f0e6ff;
+  --sky:#74B9FF;--sky-light:#e1f0ff;
+  --green:#27AE60;--green-light:#d3f9d8;
+  --card:#fff;
+  --shadow:0 4px 20px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.12);
+  --radius:16px;
+  --sidebar-bg:#2D3436;
+  --sidebar-w:240px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--ink);font-family:'Fredoka',sans-serif;line-height:1.6;}
+.bg-shapes{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;}
+.bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:var(--coral);}
+.bg-shape:nth-child(2){width:400px;height:400px;top:20%;right:-8%;background:var(--teal);}
+.bg-shape:nth-child(3){width:350px;height:350px;bottom:15%;left:10%;background:var(--gold);}
+.bg-shape:nth-child(4){width:450px;height:450px;bottom:-5%;right:15%;background:var(--purple);}
+.bg-shape:nth-child(5){width:300px;height:300px;top:50%;left:40%;background:var(--sky);}
+
+.top-bar{position:fixed;top:0;left:0;right:0;height:56px;background:#fff;border-bottom:1px solid #eee;z-index:100;display:flex;align-items:center;padding:0 20px;gap:16px;box-shadow:0 2px 10px rgba(0,0,0,0.04);}
+.sidebar-toggle{background:none;border:none;font-size:24px;cursor:pointer;color:var(--ink);padding:4px 8px;}
+.top-bar-title{font-weight:600;font-size:clamp(14px,1.6vw,17px);color:var(--ink);}
+.top-bar-title span{color:var(--ink-light);margin:0 4px;}
+.back-link{margin-left:auto;text-decoration:none;color:var(--ink-light);font-size:14px;font-weight:500;}
+.back-link:hover{color:var(--coral);}
+
+.sidebar{position:fixed;top:56px;left:0;width:var(--sidebar-w);bottom:0;background:var(--sidebar-bg);color:#fff;overflow-y:auto;transition:width 0.25s;z-index:50;}
+.sidebar.collapsed{width:0;}
+.sidebar-content{padding:20px 0;}
+.sidebar-section{margin-bottom:18px;}
+.sidebar-section-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#888;padding:6px 20px;}
+.sidebar-item{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;color:#ddd;text-align:left;padding:10px 20px;cursor:pointer;font-family:'Fredoka',sans-serif;font-size:14px;border-left:3px solid transparent;}
+.sidebar-item:hover{background:rgba(255,255,255,0.06);color:#fff;}
+.sidebar-item.active{background:rgba(255,255,255,0.08);color:#fff;border-left-color:var(--coral);}
+.sidebar-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:12px 20px;}
+.sidebar-export{padding:12px 20px;}
+.sidebar-export-btn{width:100%;padding:10px;background:var(--coral);color:#fff;border:none;border-radius:8px;font-family:'Fredoka',sans-serif;font-weight:600;cursor:pointer;font-size:13px;}
+.sidebar-export-btn:hover{background:#ff5252;}
+
+main{margin-left:var(--sidebar-w);margin-top:56px;padding:40px 48px 80px;position:relative;z-index:1;transition:margin-left 0.25s;}
+.sidebar.collapsed ~ main{margin-left:0;}
+
+.phase{display:none;max-width:980px;margin:0 auto;animation:fadeIn 0.4s ease;}
+.phase.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* Phase header: Fredoka for words, Space Mono only for the numbers */
+.phase-eyebrow{font-family:'Fredoka',sans-serif;font-size:clamp(11px,1.2vw,13px);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink-light);margin-bottom:8px;}
+.phase-eyebrow .num{font-family:'Space Mono',monospace;}
+.phase-title{font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.15;margin-bottom:8px;color:var(--ink);}
+.phase-sub{font-size:clamp(15px,1.8vw,19px);color:var(--ink-light);margin-bottom:32px;}
+
+.phase-nav{display:flex;align-items:center;justify-content:space-between;margin-top:40px;padding-top:24px;border-top:1px solid #eee;gap:16px;flex-wrap:wrap;}
+.step-info{font-family:'Fredoka',sans-serif;font-size:clamp(11px,1.2vw,13px);font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--ink-light);}
+.step-info .num{font-family:'Space Mono',monospace;}
+
+.btn{padding:12px 22px;border:none;border-radius:10px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;cursor:pointer;transition:all 0.2s;display:inline-block;text-decoration:none;}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-hover);}
+.btn-coral{background:var(--coral);color:#fff;}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-sky{background:var(--sky);color:#fff;}
+.btn-outline{background:#fff;color:var(--ink);border:2px solid #ddd;}
+.btn-outline:hover{border-color:var(--coral);color:var(--coral);}
+.btn-sm{padding:8px 16px;font-size:13px;}
+.btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* ============ CARD SYSTEM ============ */
+.card{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:22px;border-left:6px solid transparent;}
+.card h3{font-size:clamp(18px,2.2vw,22px);margin-bottom:10px;}
+.card p{font-size:clamp(15px,1.8vw,17px);line-height:1.6;}
+.card ul{padding-left:24px;margin-top:8px;}
+.card li{margin-bottom:8px;font-size:clamp(14px,1.7vw,16px);line-height:1.55;}
+.card.purple{border-left-color:var(--purple);}
+.card.coral{border-left-color:var(--coral);}
+.card.teal{border-left-color:var(--teal);}
+.card.gold{border-left-color:var(--gold);}
+.card.sky{border-left-color:var(--sky);}
+
+/* ============ LISC ============ */
+.lisc{background:var(--card);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow);border-left:6px solid var(--purple);}
+.lisc-li{font-size:clamp(16px,2vw,19px);margin-bottom:16px;}
+.lisc-li-text{font-weight:500;color:var(--purple);}
+.lisc-sc-title{font-family:'Fredoka',sans-serif;font-size:clamp(11px,1.2vw,13px);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink-light);margin:20px 0 12px;}
+.lisc ul{padding-left:24px;}
+.lisc li{margin-bottom:10px;font-size:clamp(15px,1.8vw,17px);}
+
+/* ============ EXEMPLAR CARDS ============ */
+.exemplar{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:18px;border-left:5px solid var(--coral);display:none;}
+.exemplar.shown{display:block;animation:fadeIn 0.3s ease;}
+.exemplar-label{font-family:'Fredoka',sans-serif;font-size:clamp(12px,1.3vw,14px);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--coral);margin-bottom:8px;}
+.exemplar-text{font-size:clamp(15px,1.8vw,17px);font-weight:500;margin-bottom:12px;}
+.exemplar-reveal{display:none;background:var(--coral-light);border-radius:10px;padding:16px;margin-top:14px;}
+.exemplar-reveal.shown{display:block;animation:fadeIn 0.3s ease;}
+.exemplar-reveal-row{margin-bottom:10px;}
+.exemplar-reveal-row:last-child{margin-bottom:0;}
+.exemplar-reveal-label{font-family:'Fredoka',sans-serif;font-size:clamp(11px,1.2vw,13px);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--coral);margin-bottom:4px;}
+.exemplar-reveal-text{font-size:clamp(14px,1.6vw,16px);}
+
+/* ============ CHARACTER COMPARE ============ */
+.char-card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:20px;border-left:5px solid var(--teal);}
+.char-card-label{font-family:'Fredoka',sans-serif;font-size:clamp(12px,1.3vw,14px);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--teal);margin-bottom:12px;}
+.char-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.char-version{background:var(--teal-light);border-radius:12px;padding:18px;}
+.char-version.alt{background:var(--purple-light);}
+.char-label{font-family:'Fredoka',sans-serif;font-size:clamp(11px,1.2vw,13px);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink-light);margin-bottom:8px;}
+.char-dialogue{font-size:clamp(14px,1.7vw,16px);font-style:italic;}
+.char-reveal{display:none;background:var(--gold-light);border-radius:10px;padding:16px;margin-top:14px;font-size:clamp(14px,1.6vw,16px);}
+.char-reveal.shown{display:block;animation:fadeIn 0.3s ease;}
+
+/* ============ PROSODY ============ */
+.prosody-prompt{background:var(--teal-light);border-radius:var(--radius);padding:20px;margin-top:24px;border-left:5px solid var(--teal);}
+.prosody-prompt h4{font-family:'Fredoka',sans-serif;font-size:clamp(12px,1.3vw,14px);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--teal);margin-bottom:8px;}
+.prosody-prompt p{font-size:clamp(14px,1.7vw,16px);}
+
+/* ============ TASK BRIEF ============ */
+.task-brief{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:24px;border-left:6px solid var(--gold);}
+.task-brief h3{font-size:clamp(18px,2.2vw,22px);margin-bottom:10px;}
+.task-brief p{font-size:clamp(15px,1.8vw,17px);margin-bottom:12px;}
+.task-brief ul{padding-left:24px;}
+.task-brief li{margin-bottom:8px;font-size:clamp(14px,1.7vw,16px);}
+
+/* ============ COLLAPSIBLE SCAFFOLD ============ */
+.ref-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden;}
+.ref-header{padding:18px 22px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--gold-light);}
+.ref-header h4{font-size:clamp(16px,1.9vw,19px);}
+.ref-toggle{font-size:14px;color:var(--ink-light);}
+.ref-body{max-height:0;overflow:hidden;transition:max-height 0.3s ease;}
+.ref-body.open{max-height:1200px;}
+.ref-body-inner{padding:22px;}
+.ref-body-inner ol{padding-left:24px;}
+.ref-body-inner li{margin-bottom:8px;font-size:clamp(14px,1.7vw,16px);}
+
+/* ============ WRITING AREAS ============ */
+.writing-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden;border-left:6px solid var(--gold);}
+.writing-header{padding:18px 22px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--gold-light);}
+.writing-header h4{font-size:clamp(16px,1.9vw,19px);}
+.writing-body{max-height:2000px;overflow:hidden;transition:max-height 0.3s ease;}
+.writing-body.collapsed{max-height:0;}
+.writing-body-inner{padding:22px;}
+.writing-textarea{width:100%;min-height:240px;padding:16px;border:2px solid #eee;border-radius:10px;font-family:'Fredoka',sans-serif;font-size:15px;line-height:1.6;resize:vertical;}
+.writing-textarea:focus{outline:none;border-color:var(--gold);}
+
+/* ============ EXTENSION ============ */
+.challenge-box{background:var(--gold-light);border-radius:var(--radius);padding:22px;margin-top:18px;border-left:5px solid var(--gold);}
+.challenge-box h4{font-family:'Fredoka',sans-serif;font-size:clamp(12px,1.3vw,14px);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:#9c6b00;margin-bottom:8px;}
+.challenge-box p{font-size:clamp(14px,1.7vw,16px);}
+
+/* ============ SIMPLE INSTRUCTION ============ */
+.simple-instruction-card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:18px;display:flex;gap:18px;align-items:flex-start;border-left:5px solid var(--sky);}
+.step-num{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Space Mono',monospace;font-weight:700;font-size:18px;flex-shrink:0;background:var(--sky);}
+.simple-instruction-card .body h3{font-size:clamp(17px,2.1vw,21px);margin-bottom:6px;}
+.simple-instruction-card .body p{font-size:clamp(14px,1.7vw,16px);color:var(--ink);}
+
+/* ============ PLENARY / DISCUSSION ============ */
+.plenary-card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:20px;border-left:5px solid var(--purple);}
+.plenary-card h3{font-size:clamp(17px,2.1vw,21px);margin-bottom:10px;}
+.plenary-card .prompt{font-size:clamp(14px,1.7vw,16px);color:var(--ink-light);margin-bottom:12px;}
+.plenary-reveal{display:none;background:var(--purple-light);border-radius:10px;padding:16px;margin-top:12px;}
+.plenary-reveal.shown{display:block;animation:fadeIn 0.3s ease;}
+.plenary-reveal ul{padding-left:22px;margin:0;}
+.plenary-reveal li{margin-bottom:8px;font-size:clamp(14px,1.6vw,16px);}
+
+/* ============ EXIT SLIP ============ */
+.exit-slip{background:linear-gradient(135deg,var(--coral-light),#fff);border-radius:var(--radius);padding:24px;border-left:5px solid var(--coral);}
+.exit-slip h3{font-size:clamp(17px,2.1vw,21px);margin-bottom:10px;color:var(--coral);}
+.exit-slip p{font-size:clamp(15px,1.8vw,17px);font-style:italic;margin-bottom:12px;}
+.exit-textarea{width:100%;min-height:100px;padding:14px;border:2px solid #fff;border-radius:10px;font-family:'Fredoka',sans-serif;font-size:15px;resize:vertical;}
+.exit-textarea:focus{outline:none;border-color:var(--coral);}
+
+/* ============ MODAL ============ */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:200;}
+.modal-overlay.shown{display:flex;}
+.modal{background:#fff;border-radius:var(--radius);padding:32px;max-width:480px;width:90%;}
+.modal h3{font-size:22px;margin-bottom:10px;}
+.modal p{font-size:15px;color:var(--ink-light);margin-bottom:18px;}
+.modal input{width:100%;padding:12px;border:2px solid #eee;border-radius:10px;font-family:'Fredoka',sans-serif;font-size:15px;margin-bottom:16px;}
+.modal input:focus{outline:none;border-color:var(--coral);}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;}
+
+/* ============ PRINT ============ */
+#printSummary{display:none;}
+@media print{
+  .top-bar,.sidebar,.phase-nav,.bg-shapes,.sidebar-toggle,.back-link{display:none !important;}
+  main{margin:0;padding:20px;}
+  .phase{display:none !important;}
+  #printSummary{display:block !important;padding:20px;}
+  #printSummary h1{font-size:24px;margin-bottom:8px;}
+  #printSummary h2{font-size:18px;margin:18px 0 6px;color:#444;border-bottom:1px solid #ddd;padding-bottom:4px;}
+  #printSummary p{font-size:14px;margin-bottom:8px;}
+  #printSummary .meta{color:#666;margin-bottom:18px;}
+  #printSummary .field{white-space:pre-wrap;background:#f8f8f8;padding:10px;border-radius:6px;margin-bottom:8px;}
+  #printSummary ul{padding-left:20px;}
+  #printSummary li{margin-bottom:4px;font-size:14px;}
+}
+
+@media(max-width:768px){
+  .sidebar{width:0;}
+  .sidebar.shown-mobile{width:var(--sidebar-w);}
+  main{margin-left:0;padding:24px 16px 60px;}
+}
+@media(max-width:600px){
+  .simple-instruction-card{flex-direction:column;}
+  .char-compare{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="bg-shapes">
+  <div class="bg-shape"></div><div class="bg-shape"></div>
+  <div class="bg-shape"></div><div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+</div>
+
+<header class="top-bar">
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">&#9776;</button>
+  <div class="top-bar-title">The Explorer <span>&middot;</span> Week 3A Lesson 1</div>
+  <a href="../../../index.html" class="back-link">&larr; Toolkit Home</a>
+</header>
+
+<aside class="sidebar" id="sidebar"><div class="sidebar-content">
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Start</div>
+    <button class="sidebar-item active" data-nav="phase1" onclick="goPhase(1)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--purple);"></span>
+      1. Learning Intention
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Hook</div>
+    <button class="sidebar-item" data-nav="phase2" onclick="goPhase(2)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--coral);"></span>
+      2. Labels vs People
+    </button>
+    <button class="sidebar-item" data-nav="phase3" onclick="goPhase(3)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--coral);"></span>
+      3. Spotting the Pattern
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">I Do</div>
+    <button class="sidebar-item" data-nav="phase4" onclick="goPhase(4)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--teal);"></span>
+      4. Fred: Surface vs Depth
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">You Do</div>
+    <button class="sidebar-item" data-nav="phase5" onclick="goPhase(5)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--gold);"></span>
+      5. Your Own Report
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Field Knowledge</div>
+    <button class="sidebar-item" data-nav="phase6" onclick="goPhase(6)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--sky);"></span>
+      6. Piranhas
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Reflect</div>
+    <button class="sidebar-item" data-nav="phase7" onclick="goPhase(7)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--purple);"></span>
+      7. Analyse the Line
+    </button>
+    <button class="sidebar-item" data-nav="phase8" onclick="goPhase(8)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--coral);"></span>
+      8. Record and Reflect
+    </button>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-export">
+    <button class="sidebar-export-btn" onclick="showNameModal()">Export my work as PDF</button>
+  </div>
+</div></aside>
+
+<main>
+
+<!-- ============ PHASE 1: LISC ============ -->
+<section class="phase active" id="phase1">
+  <div class="phase-eyebrow">Phase <span class="num">1</span> of <span class="num">8</span></div>
+  <h1 class="phase-title">Learning Intention and Success Criteria</h1>
+  <p class="phase-sub">What we are learning today and how we will know we have got there</p>
+
+  <div class="lisc">
+    <p class="lisc-li">Learning intention: <span class="lisc-li-text">We are learning to <strong>build field knowledge and use it to deepen our comprehension</strong> of a text.</span></p>
+    <div class="lisc-sc-title">Success criteria</div>
+    <ul>
+      <li>I can notice the difference between how a character is labelled on the surface and what the text actually shows about them.</li>
+      <li>I can use facts about the real world (like piranhas) to read a story scene with sharper understanding.</li>
+      <li>I can identify a writer's technique in a single line and explain its effect on the reader.</li>
+    </ul>
+  </div>
+
+  <div class="phase-nav">
+    <span></span>
+    <span class="step-info">Phase <span class="num">1</span> / <span class="num">8</span></span>
+    <button class="btn btn-coral" onclick="goPhase(2)">Next: Hook &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 2: HOOK — Intro + First Two Exemplars ============ -->
+<section class="phase" id="phase2">
+  <div class="phase-eyebrow">Phase <span class="num">2</span> of <span class="num">8</span> &middot; <span class="num">5</span> min</div>
+  <h1 class="phase-title">The Person on the Page vs the Person Inside</h1>
+  <p class="phase-sub">How a single label rarely captures who someone really is</p>
+
+  <div class="card coral">
+    <h3>Before we begin</h3>
+    <p>Turn to a partner. What words have your school reports or teachers used to describe you? If you were writing your own report, would you choose the same words, or different ones? Why?</p>
+  </div>
+
+  <div class="card coral">
+    <h3>The label vs the person</h3>
+    <p>A description, a label, or a first impression rarely captures the whole person. Authors know this. They often give us a surface description (what others say) and then a deeper one (what the character actually feels, wants, or is).</p>
+    <p style="margin-top:12px;">We are going to look at four characters you already know and notice the gap between the label they are given and who they really are.</p>
+  </div>
+
+  <div class="exemplar shown" id="ex1">
+    <div class="exemplar-label">Harry Potter</div>
+    <div class="exemplar-text">The Dursleys describe Harry as 'a nasty, troublesome boy'. What does the rest of the story show us about who Harry actually is?</div>
+    <button class="btn btn-outline btn-sm" onclick="revealExemplar(1)">Reveal the gap</button>
+    <div class="exemplar-reveal" id="exr1">
+      <div class="exemplar-reveal-row">
+        <div class="exemplar-reveal-label">Surface label</div>
+        <div class="exemplar-reveal-text">A nuisance. A burden. 'Just like his good-for-nothing parents.'</div>
+      </div>
+      <div class="exemplar-reveal-row">
+        <div class="exemplar-reveal-label">Deeper truth</div>
+        <div class="exemplar-reveal-text">A loyal, brave boy who carries a story bigger than the cupboard under the stairs. The label tells us about the Dursleys, not about Harry.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exemplar" id="ex2">
+    <div class="exemplar-label">Matilda</div>
+    <div class="exemplar-text">Matilda's parents call her 'a noisy chatterbox' and 'a nuisance'. What does Roald Dahl show us instead?</div>
+    <button class="btn btn-outline btn-sm" onclick="revealExemplar(2)">Reveal the gap</button>
+    <div class="exemplar-reveal" id="exr2">
+      <div class="exemplar-reveal-row">
+        <div class="exemplar-reveal-label">Surface label</div>
+        <div class="exemplar-reveal-text">A nuisance child who reads too much and asks too many questions.</div>
+      </div>
+      <div class="exemplar-reveal-row">
+        <div class="exemplar-reveal-label">Deeper truth</div>
+        <div class="exemplar-reveal-text">A brilliant, sharp, kind girl whose mind is years ahead of the adults around her. The label says more about her parents' smallness than about Matilda.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(1)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">2</span> / <span class="num">8</span></span>
+    <button class="btn btn-coral" onclick="goPhase(3)">Next: More Examples &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 3: HOOK — Last Two Exemplars + Pattern ============ -->
+<section class="phase" id="phase3">
+  <div class="phase-eyebrow">Phase <span class="num">3</span> of <span class="num">8</span> &middot; <span class="num">5</span> min</div>
+  <h1 class="phase-title">Spotting the Pattern</h1>
+  <p class="phase-sub">Two more characters, then the rule that connects them all</p>
+
+  <div class="exemplar shown" id="ex3">
+    <div class="exemplar-label">Wonder (Auggie)</div>
+    <div class="exemplar-text">Strangers describe Auggie by his face before they describe anything else. What does R. J. Palacio show us about who he really is?</div>
+    <button class="btn btn-outline btn-sm" onclick="revealExemplar(3)">Reveal the gap</button>
+    <div class="exemplar-reveal" id="exr3">
+      <div class="exemplar-reveal-row">
+        <div class="exemplar-reveal-label">Surface label</div>
+        <div class="exemplar-reveal-text">A face people stare at. A boy judged before he speaks.</div>
+      </div>
+      <div class="exemplar-reveal-row">
+        <div class="exemplar-reveal-label">Deeper truth</div>
+        <div class="exemplar-reveal-text">Funny, clever, loyal, ordinary in all the ways that matter. The label is everyone else's first reaction, not Auggie.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exemplar shown" id="ex4">
+    <div class="exemplar-label">The Wild Robot (Roz)</div>
+    <div class="exemplar-text">The animals first call Roz 'a monster' and 'just a machine'. What does Peter Brown show us underneath?</div>
+    <button class="btn btn-outline btn-sm" onclick="revealExemplar(4)">Reveal the gap</button>
+    <div class="exemplar-reveal" id="exr4">
+      <div class="exemplar-reveal-row">
+        <div class="exemplar-reveal-label">Surface label</div>
+        <div class="exemplar-reveal-text">A cold, dangerous machine that does not belong on the island.</div>
+      </div>
+      <div class="exemplar-reveal-row">
+        <div class="exemplar-reveal-label">Deeper truth</div>
+        <div class="exemplar-reveal-text">A character who learns, protects, and loves. The label is about fear of what is unfamiliar, not about who Roz becomes.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card coral">
+    <h3>The pattern to notice</h3>
+    <p>Every one of these characters has a gap between the label they are given and who they really are. Good readers learn to spot that gap. Today, we are going to look for the same gap in someone in our novel: Fred.</p>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(2)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">3</span> / <span class="num">8</span></span>
+    <button class="btn btn-coral" onclick="goPhase(4)">Next: I Do &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 4: CHARACTER COMPARE (I Do) ============ -->
+<section class="phase" id="phase4">
+  <div class="phase-eyebrow">Phase <span class="num">4</span> of <span class="num">8</span> &middot; <span class="num">10</span> min</div>
+  <h1 class="phase-title">Surface vs Depth: Looking Closely at Fred</h1>
+  <p class="phase-sub">Compare the labels Fred is given with what the text actually shows us</p>
+
+  <div class="card teal">
+    <h3>Three revealing moments</h3>
+    <p>We are going to look at three moments where what Fred is called, or what Con first thinks, does not match what the text actually shows. Each pair reveals a small but important truth about who Fred really is.</p>
+  </div>
+
+  <div class="char-card">
+    <div class="char-card-label">Pair 1: The report vs the narrator</div>
+    <div class="char-compare">
+      <div class="char-version"><div class="char-label">What the report says</div>
+        <div class="char-dialogue">Fred is described in his school report as 'sensible'.</div></div>
+      <div class="char-version alt"><div class="char-label">What the narrator shows us</div>
+        <div class="char-dialogue">'... hunger and hope and wire ... Fred's mind was quick, with sharp edges. He wanted more from the world than it had yet given.'</div></div>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn btn-teal btn-sm" onclick="revealChar(1)">What is the difference?</button>
+    </div>
+    <div class="char-reveal" id="cr1">The report uses one tidy word: <strong>sensible</strong>. The narrator gives us three: <em>hunger</em>, <em>hope</em>, <em>wire</em>. The report flattens Fred. The narrator shows a boy who is restless, hungry for more, and a little dangerous in his sharpness. A 'sensible' boy does not usually end up in a plane crash over the Amazon. The author is hinting that Fred is exactly the kind of person who would.</div>
+  </div>
+
+  <div class="char-card">
+    <div class="char-card-label">Pair 2: First impression vs reality</div>
+    <div class="char-compare">
+      <div class="char-version"><div class="char-label">Con's first impression</div>
+        <div class="char-dialogue">Con assumes Fred is older, almost an adult, someone who can take charge and get them out of this.</div></div>
+      <div class="char-version alt"><div class="char-label">The reality Con realises</div>
+        <div class="char-dialogue">Fred is not older. He is just tall for his age. He is a child like she is.</div></div>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn btn-teal btn-sm" onclick="revealChar(2)">What is the difference?</button>
+    </div>
+    <div class="char-reveal" id="cr2">This is the moment the safety net disappears. Con had been quietly leaning on the idea that there was an <em>adult</em> in the situation. Realising Fred is just tall, not old, makes her feel more alone, more exposed, more in danger. The author uses a small, physical fact (height) to deliver a huge emotional shift (no one is coming to save us).</div>
+  </div>
+
+  <div class="char-card">
+    <div class="char-card-label">Pair 3: Outward calm vs inner hunger</div>
+    <div class="char-compare">
+      <div class="char-version"><div class="char-label">What Fred shows on the outside</div>
+        <div class="char-dialogue">Fred appears calm, capable, organised. The kind of boy a teacher would write 'sensible' about.</div></div>
+      <div class="char-version alt"><div class="char-label">What Fred wants on the inside</div>
+        <div class="char-dialogue">He 'wanted more from the world than it had yet given.'</div></div>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn btn-teal btn-sm" onclick="revealChar(3)">What is the difference?</button>
+    </div>
+    <div class="char-reveal" id="cr3">Underneath the calm is a quiet, burning ambition. Fred is not sensible at all in the deepest part of himself. He is hungry. The river, the jungle, the crash, this whole impossible situation, may turn out to be the very thing that finally gives Fred 'more'. The author is setting Fred up to <strong>become</strong> something the report could never have predicted.</div>
+  </div>
+
+  <div class="prosody-prompt">
+    <h4>Readers Theatre</h4>
+    <p>In pairs, read the line 'hunger and hope and wire' three different ways. Once as a whisper, once as a warning, once as a promise. Which reading best matches the Fred you are starting to see?</p>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(3)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">4</span> / <span class="num">8</span></span>
+    <button class="btn btn-coral" onclick="goPhase(5)">Next: You Do &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 5: WRITING TASK (You Do) ============ -->
+<section class="phase" id="phase5">
+  <div class="phase-eyebrow">Phase <span class="num">5</span> of <span class="num">8</span> &middot; <span class="num">12</span> min</div>
+  <h1 class="phase-title">Write Your Own Semester 1 General Comment</h1>
+  <p class="phase-sub">If you wrote your own report, what would it say?</p>
+
+  <div class="task-brief">
+    <h3>Your task</h3>
+    <p>Write your own General Comment for Semester 1, exactly as a teacher might write it on a school report. Use full sentences. Try to be honest, not just kind to yourself, and not just hard on yourself. Aim for the version of you the report rarely captures.</p>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-header" onclick="togglePanel('scaffoldBody','scaffoldToggle')">
+      <h4>Scaffold (open if you need a structure)</h4>
+      <span class="ref-toggle" id="scaffoldToggle">&#9660;</span>
+    </div>
+    <div class="ref-body" id="scaffoldBody">
+      <div class="ref-body-inner">
+        <ol>
+          <li>Open with one sentence that names the kind of student you are.</li>
+          <li>Give two specific examples from this term that back that up.</li>
+          <li>End with one sentence about what you are working towards next.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="writing-card">
+    <div class="writing-header" onclick="toggleWriting()">
+      <h4>Write your General Comment</h4>
+      <span class="ref-toggle" id="writingToggle">&#9650;</span>
+    </div>
+    <div class="writing-body" id="writingBody">
+      <div class="writing-body-inner">
+        <textarea class="writing-textarea" id="studentComment"></textarea>
+        <div class="challenge-box">
+          <h4>Extension</h4>
+          <p>Now write a second general comment, this time as if your parent or carer were writing it about you. How is their angle different from yours? What do they notice that a teacher would not? What do they miss that a teacher would see?</p>
+          <textarea class="writing-textarea" id="parentComment" style="margin-top:12px;min-height:160px;"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(4)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">5</span> / <span class="num">8</span></span>
+    <button class="btn btn-coral" onclick="goPhase(6)">Next: Field Work &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 6: FIELD KNOWLEDGE ============ -->
+<section class="phase" id="phase6">
+  <div class="phase-eyebrow">Phase <span class="num">6</span> of <span class="num">8</span> &middot; <span class="num">12</span> min</div>
+  <h1 class="phase-title">Building Field Knowledge: Red-Bellied Piranhas</h1>
+  <p class="phase-sub">Get the facts before we feel the threat in the river</p>
+
+  <div class="card sky">
+    <h3>Why we are stopping for facts</h3>
+    <p>In a moment, the word 'Piranhas!' is going to land in the middle of our chapter. If we do not know what a piranha actually is, the moment passes us by. Real-world knowledge makes the fiction hit harder. This is what 'building field knowledge' means.</p>
+  </div>
+
+  <div class="simple-instruction-card">
+    <div class="step-num">1</div>
+    <div class="body">
+      <h3>Watch the clip</h3>
+      <p>Watch the Red-Bellied Piranhas video together. As you watch, listen for: how they hunt, how big they get, and what they actually do (and do not do) to humans.</p>
+    </div>
+  </div>
+
+  <div class="simple-instruction-card">
+    <div class="step-num">2</div>
+    <div class="body">
+      <h3>Read the article</h3>
+      <p>Open the National Geographic Kids article on Red-Bellied Piranhas (posted to GCR). Read it carefully.</p>
+    </div>
+  </div>
+
+  <div class="simple-instruction-card">
+    <div class="step-num">3</div>
+    <div class="body">
+      <h3>Record 5 key points</h3>
+      <p>In your books, record 5 key points about red-bellied piranhas. Write each as a full sentence. These are the facts you will carry into the next part of the chapter.</p>
+    </div>
+  </div>
+
+  <div class="card sky" style="margin-top:24px;">
+    <h3>Carry it back to the page</h3>
+    <p>Now, when we return to page 47 and read 'Piranhas!', you will not just hear a scary word. You will hear a real animal, in a real river, doing exactly what you have just learned it does. That is field knowledge deepening comprehension.</p>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(5)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">6</span> / <span class="num">8</span></span>
+    <button class="btn btn-coral" onclick="goPhase(7)">Next: Analyse the Line &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 7: PLENARY — Analysis ============ -->
+<section class="phase" id="phase7">
+  <div class="phase-eyebrow">Phase <span class="num">7</span> of <span class="num">8</span> &middot; <span class="num">5</span> min</div>
+  <h1 class="phase-title">'Hope. Either That, or Concussion.'</h1>
+  <p class="phase-sub">Analyse Fred's final thought from the chapter</p>
+
+  <div class="plenary-card">
+    <h3>'It felt like hope. Either that, or concussion.'</h3>
+    <p class="prompt">Read Fred's final thought of the chapter. What does it mean? What technique is the writer using, and what does it do for us as readers?</p>
+    <button class="btn btn-purple btn-sm" onclick="revealPlenary(1)">Reveal discussion points</button>
+    <div class="plenary-reveal" id="plr1">
+      <ul>
+        <li><strong>Understatement.</strong> Fred has just survived a plane crash. To compare hope to concussion is to make a huge feeling small, almost a joke.</li>
+        <li><strong>Humour.</strong> The line is funny. It tells us Fred copes by making light of terrible things. That is character.</li>
+        <li><strong>Abstract noun.</strong> 'Hope' is the abstract noun. The author pairs it with a concrete, physical word ('concussion') to make hope feel almost touchable.</li>
+        <li><strong>Simile-like comparison.</strong> 'Felt like' invites us to weigh one feeling against another. We finish the chapter not sure which it is, and that uncertainty is exactly the point.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(6)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">7</span> / <span class="num">8</span></span>
+    <button class="btn btn-coral" onclick="goPhase(8)">Next: Record and Reflect &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 8: RECORD + EXIT TICKET ============ -->
+<section class="phase" id="phase8">
+  <div class="phase-eyebrow">Phase <span class="num">8</span> of <span class="num">8</span> &middot; <span class="num">5</span> min</div>
+  <h1 class="phase-title">Record and Reflect</h1>
+  <p class="phase-sub">Capture what you have learned about Fred and about reading</p>
+
+  <div class="card teal">
+    <h3>Update your Character Development Record</h3>
+    <p>Add a new row for Fred. Record: the surface label ('sensible'), the deeper truth ('hunger and hope and wire'), and one line of evidence from this chapter. We will keep adding to this as Fred changes.</p>
+  </div>
+  <textarea class="writing-textarea" id="characterRecord" style="min-height:140px;margin-bottom:22px;border-color:#eee;"></textarea>
+
+  <div class="card teal">
+    <h3>One-sentence chapter summary</h3>
+    <p>Open the summary template and record one sentence that captures Chapter 3. Use the template format. One sentence only.</p>
+  </div>
+  <textarea class="writing-textarea" id="chapterSummary" style="min-height:80px;margin-bottom:22px;border-color:#eee;"></textarea>
+
+  <div class="exit-slip">
+    <h3>Exit ticket</h3>
+    <p>"Today I learned that the label a character is given is not the same as..."</p>
+    <textarea class="exit-textarea" id="exitTicket"></textarea>
+  </div>
+
+  <div style="text-align:center;margin-top:24px;">
+    <button class="btn btn-coral" onclick="showNameModal()">Export my work as PDF</button>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(7)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">8</span> / <span class="num">8</span></span>
+    <button class="btn btn-outline" onclick="goPhase(1)">Restart lesson</button>
+  </div>
+</section>
+
+</main>
+
+<!-- NAME MODAL -->
+<div class="modal-overlay" id="nameModal">
+  <div class="modal">
+    <h3>Export your work as PDF</h3>
+    <p>Enter your name so it appears on your printed work. Your name is not stored or sent anywhere.</p>
+    <input type="text" id="studentName" placeholder="Your name" />
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeNameModal()">Cancel</button>
+      <button class="btn btn-coral" onclick="exportPDF()">Print my work</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRINT SUMMARY -->
+<div id="printSummary"></div>
+
+<script>
+var totalPhases=8;
+
+function toggleSidebar(){
+  var sb=document.getElementById('sidebar');
+  sb.classList.toggle('collapsed');
+}
+
+function goPhase(n){
+  if(n<1||n>totalPhases)return;
+  document.querySelectorAll('.phase').forEach(function(p){p.classList.remove('active');});
+  var target=document.getElementById('phase'+n);
+  if(target)target.classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(function(b){b.classList.remove('active');});
+  var btn=document.querySelector('.sidebar-item[data-nav="phase'+n+'"]');
+  if(btn)btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function revealExemplar(i){
+  var el=document.getElementById('exr'+i);
+  if(el)el.classList.add('shown');
+}
+
+function revealChar(n){
+  var el=document.getElementById('cr'+n);
+  if(el)el.classList.add('shown');
+}
+
+function revealPlenary(n){
+  var el=document.getElementById('plr'+n);
+  if(el)el.classList.add('shown');
+}
+
+function togglePanel(bodyId,toggleId){
+  var body=document.getElementById(bodyId);
+  var toggle=document.getElementById(toggleId);
+  if(!body)return;
+  if(body.classList.contains('open')){body.classList.remove('open');if(toggle)toggle.innerHTML='&#9660;';}
+  else{body.classList.add('open');if(toggle)toggle.innerHTML='&#9650;';}
+}
+
+function toggleWriting(){
+  var body=document.getElementById('writingBody');
+  var toggle=document.getElementById('writingToggle');
+  if(!body)return;
+  if(body.classList.contains('collapsed')){body.classList.remove('collapsed');if(toggle)toggle.innerHTML='&#9650;';}
+  else{body.classList.add('collapsed');if(toggle)toggle.innerHTML='&#9660;';}
+}
+
+function showNameModal(){
+  document.getElementById('nameModal').classList.add('shown');
+  setTimeout(function(){var n=document.getElementById('studentName');if(n)n.focus();},100);
+}
+
+function closeNameModal(){
+  document.getElementById('nameModal').classList.remove('shown');
+}
+
+function escapeHtml(s){
+  if(s==null)return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function exportPDF(){
+  var name=document.getElementById('studentName').value||'Student';
+  var today=new Date();
+  var dd=String(today.getDate()).padStart(2,'0');
+  var mm=String(today.getMonth()+1).padStart(2,'0');
+  var yyyy=today.getFullYear();
+  var dateStr=dd+'/'+mm+'/'+yyyy;
+
+  var html='';
+  html+='<h1>The Explorer - Week 3A Lesson 1</h1>';
+  html+='<p class="meta">Name: '+escapeHtml(name)+' &middot; Date: '+dateStr+'</p>';
+
+  var ownComment=document.getElementById('studentComment');
+  if(ownComment&&ownComment.value.trim()){
+    html+='<h2>My Semester 1 General Comment</h2>';
+    html+='<div class="field">'+escapeHtml(ownComment.value)+'</div>';
+  }
+
+  var parentComment=document.getElementById('parentComment');
+  if(parentComment&&parentComment.value.trim()){
+    html+='<h2>Extension: Parent/Carer General Comment</h2>';
+    html+='<div class="field">'+escapeHtml(parentComment.value)+'</div>';
+  }
+
+  var charRecord=document.getElementById('characterRecord');
+  if(charRecord&&charRecord.value.trim()){
+    html+='<h2>Character Development Record (Fred, Ch 3)</h2>';
+    html+='<div class="field">'+escapeHtml(charRecord.value)+'</div>';
+  }
+
+  var summary=document.getElementById('chapterSummary');
+  if(summary&&summary.value.trim()){
+    html+='<h2>One-sentence Chapter 3 Summary</h2>';
+    html+='<div class="field">'+escapeHtml(summary.value)+'</div>';
+  }
+
+  var exit=document.getElementById('exitTicket');
+  if(exit&&exit.value.trim()){
+    html+='<h2>Exit Ticket</h2>';
+    html+='<p><em>"Today I learned that the label a character is given is not the same as..."</em></p>';
+    html+='<div class="field">'+escapeHtml(exit.value)+'</div>';
+  }
+
+  document.getElementById('printSummary').innerHTML=html;
+  closeNameModal();
+  setTimeout(function(){window.print();},150);
+}
+
+document.addEventListener('keydown',function(e){
+  if(document.activeElement&&(document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='TEXTAREA'))return;
+  if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
+  var current=null;
+  document.querySelectorAll('.phase').forEach(function(p){if(p.classList.contains('active'))current=parseInt(p.id.replace('phase',''),10);});
+  if(!current)return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){if(current<totalPhases){e.preventDefault();goPhase(current+1);}}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){if(current>1){e.preventDefault();goPhase(current-1);}}
+},true);
+
+document.getElementById('nameModal').addEventListener('click',function(e){
+  if(e.target===this)closeNameModal();
+});
+
+document.getElementById('studentName').addEventListener('keydown',function(e){
+  if(e.key==='Enter'){e.preventDefault();exportPDF();}
+});
+</script>
+</body>
+</html>

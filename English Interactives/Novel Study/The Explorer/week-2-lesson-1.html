@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Explorer | Week 2 Lesson 1 | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF8F5;--ink:#2D3436;--ink-light:#636E72;
+  --teal:#4ECDC4;--teal-light:#d0f0ec;
+  --coral:#FF6B6B;--coral-light:#ffe0e0;
+  --gold:#FFD93D;--gold-light:#fdf2d0;
+  --purple:#9B5DE5;--purple-light:#f0e6ff;
+  --sky:#74B9FF;--sky-light:#e1f0ff;
+  --green:#27AE60;--green-light:#d3f9d8;
+  --card:#fff;
+  --shadow:0 4px 20px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.12);
+  --radius:16px;
+  --sidebar-bg:#2D3436;
+  --sidebar-w:240px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--ink);font-family:'Fredoka',sans-serif;line-height:1.6;}
+.bg-shapes{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;}
+.bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:var(--coral);}
+.bg-shape:nth-child(2){width:400px;height:400px;top:20%;right:-8%;background:var(--teal);}
+.bg-shape:nth-child(3){width:350px;height:350px;bottom:15%;left:10%;background:var(--gold);}
+.bg-shape:nth-child(4){width:450px;height:450px;bottom:-5%;right:15%;background:var(--purple);}
+.bg-shape:nth-child(5){width:300px;height:300px;top:50%;left:40%;background:var(--sky);}
+
+.top-bar{position:fixed;top:0;left:0;right:0;height:56px;background:#fff;border-bottom:1px solid #eee;z-index:100;display:flex;align-items:center;padding:0 20px;gap:16px;box-shadow:0 2px 10px rgba(0,0,0,0.04);}
+.sidebar-toggle{background:none;border:none;font-size:24px;cursor:pointer;color:var(--ink);padding:4px 8px;}
+.top-bar-title{font-weight:600;font-size:clamp(14px,1.6vw,17px);color:var(--ink);}
+.top-bar-title span{color:var(--ink-light);margin:0 4px;}
+.back-link{margin-left:auto;text-decoration:none;color:var(--ink-light);font-size:14px;font-weight:500;}
+.back-link:hover{color:var(--coral);}
+
+.sidebar{position:fixed;top:56px;left:0;width:var(--sidebar-w);bottom:0;background:var(--sidebar-bg);color:#fff;overflow-y:auto;transition:width 0.25s;z-index:50;}
+.sidebar.collapsed{width:0;}
+.sidebar-content{padding:20px 0;}
+.sidebar-section{margin-bottom:18px;}
+.sidebar-section-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#888;padding:6px 20px;}
+.sidebar-item{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;color:#ddd;text-align:left;padding:10px 20px;cursor:pointer;font-family:'Fredoka',sans-serif;font-size:14px;border-left:3px solid transparent;}
+.sidebar-item:hover{background:rgba(255,255,255,0.06);color:#fff;}
+.sidebar-item.active{background:rgba(255,255,255,0.08);color:#fff;border-left-color:var(--coral);}
+.sidebar-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:12px 20px;}
+.sidebar-export{padding:12px 20px;}
+.sidebar-export-btn{width:100%;padding:10px;background:var(--coral);color:#fff;border:none;border-radius:8px;font-family:'Fredoka',sans-serif;font-weight:600;cursor:pointer;font-size:13px;}
+.sidebar-export-btn:hover{background:#ff5252;}
+
+main{margin-left:var(--sidebar-w);margin-top:56px;padding:40px 48px 80px;position:relative;z-index:1;transition:margin-left 0.25s;}
+.sidebar.collapsed ~ main{margin-left:0;}
+
+.phase{display:none;max-width:980px;margin:0 auto;animation:fadeIn 0.4s ease;}
+.phase.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.phase-eyebrow{font-family:'Fredoka',sans-serif;font-size:clamp(11px,1.2vw,13px);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink-light);margin-bottom:8px;}
+.phase-eyebrow .num{font-family:'Space Mono',monospace;}
+.phase-title{font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.15;margin-bottom:8px;color:var(--ink);}
+.phase-sub{font-size:clamp(15px,1.8vw,19px);color:var(--ink-light);margin-bottom:32px;}
+
+.phase-nav{display:flex;align-items:center;justify-content:space-between;margin-top:40px;padding-top:24px;border-top:1px solid #eee;gap:16px;flex-wrap:wrap;}
+.step-info{font-family:'Fredoka',sans-serif;font-size:clamp(11px,1.2vw,13px);font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--ink-light);}
+.step-info .num{font-family:'Space Mono',monospace;}
+
+.btn{padding:12px 22px;border:none;border-radius:10px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;cursor:pointer;transition:all 0.2s;display:inline-block;text-decoration:none;}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-hover);}
+.btn-coral{background:var(--coral);color:#fff;}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-sky{background:var(--sky);color:#fff;}
+.btn-outline{background:#fff;color:var(--ink);border:2px solid #ddd;}
+.btn-outline:hover{border-color:var(--coral);color:var(--coral);}
+.btn-sm{padding:8px 16px;font-size:13px;}
+.btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none;}
+
+.card{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:22px;border-left:6px solid transparent;}
+.card h3{font-size:clamp(18px,2.2vw,22px);margin-bottom:10px;}
+.card p{font-size:clamp(15px,1.8vw,17px);line-height:1.6;}
+.card p+p{margin-top:12px;}
+.card ul,.card ol{padding-left:24px;margin-top:8px;}
+.card li{margin-bottom:8px;font-size:clamp(14px,1.7vw,16px);line-height:1.55;}
+.card.purple{border-left-color:var(--purple);}
+.card.coral{border-left-color:var(--coral);}
+.card.teal{border-left-color:var(--teal);}
+.card.gold{border-left-color:var(--gold);}
+.card.sky{border-left-color:var(--sky);}
+
+/* LISC */
+.lisc{background:var(--card);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow);border-left:6px solid var(--purple);}
+.lisc-li{font-size:clamp(16px,2vw,19px);margin-bottom:16px;}
+.lisc-li-text{font-weight:500;color:var(--purple);}
+.lisc-sc-title{font-family:'Fredoka',sans-serif;font-size:clamp(11px,1.2vw,13px);font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink-light);margin:20px 0 12px;}
+.lisc ul{padding-left:24px;}
+.lisc li{margin-bottom:10px;font-size:clamp(15px,1.8vw,17px);}
+
+/* Vocabulary display */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:22px;}
+.vocab-card{background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);border-top:4px solid var(--coral);}
+.vocab-word{font-size:clamp(20px,2.5vw,26px);font-weight:700;color:var(--coral);margin-bottom:4px;}
+.vocab-pos{font-size:clamp(12px,1.3vw,14px);font-weight:600;color:var(--ink-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.vocab-def{font-size:clamp(14px,1.7vw,16px);line-height:1.55;display:none;}
+.vocab-def.shown{display:block;animation:fadeIn 0.3s ease;}
+
+/* Reveal cards */
+.reveal-card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:20px;}
+.reveal-card h3{font-size:clamp(17px,2.1vw,21px);margin-bottom:10px;}
+.reveal-card .prompt{font-size:clamp(14px,1.7vw,16px);color:var(--ink-light);margin-bottom:12px;}
+.reveal-content{display:none;border-radius:10px;padding:16px;margin-top:12px;font-size:clamp(14px,1.6vw,16px);line-height:1.6;}
+.reveal-content.shown{display:block;animation:fadeIn 0.3s ease;}
+
+/* Simple instruction */
+.simple-instruction-card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:18px;display:flex;gap:18px;align-items:flex-start;border-left:5px solid var(--teal);}
+.step-num{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Space Mono',monospace;font-weight:700;font-size:18px;flex-shrink:0;background:var(--teal);}
+.simple-instruction-card .body h3{font-size:clamp(17px,2.1vw,21px);margin-bottom:6px;}
+.simple-instruction-card .body p{font-size:clamp(14px,1.7vw,16px);color:var(--ink);}
+
+/* Writing areas */
+.writing-textarea{width:100%;min-height:140px;padding:16px;border:2px solid #eee;border-radius:10px;font-family:'Fredoka',sans-serif;font-size:15px;line-height:1.6;resize:vertical;}
+.writing-textarea:focus{outline:none;border-color:var(--teal);}
+
+/* Exit slip */
+.exit-slip{background:linear-gradient(135deg,var(--coral-light),#fff);border-radius:var(--radius);padding:24px;border-left:5px solid var(--coral);}
+.exit-slip h3{font-size:clamp(17px,2.1vw,21px);margin-bottom:10px;color:var(--coral);}
+.exit-slip p{font-size:clamp(15px,1.8vw,17px);font-style:italic;margin-bottom:12px;}
+.exit-textarea{width:100%;min-height:100px;padding:14px;border:2px solid #fff;border-radius:10px;font-family:'Fredoka',sans-serif;font-size:15px;resize:vertical;}
+.exit-textarea:focus{outline:none;border-color:var(--coral);}
+
+/* Modal */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:200;}
+.modal-overlay.shown{display:flex;}
+.modal{background:#fff;border-radius:var(--radius);padding:32px;max-width:480px;width:90%;}
+.modal h3{font-size:22px;margin-bottom:10px;}
+.modal p{font-size:15px;color:var(--ink-light);margin-bottom:18px;}
+.modal input{width:100%;padding:12px;border:2px solid #eee;border-radius:10px;font-family:'Fredoka',sans-serif;font-size:15px;margin-bottom:16px;}
+.modal input:focus{outline:none;border-color:var(--coral);}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;}
+
+#printSummary{display:none;}
+@media print{
+  .top-bar,.sidebar,.phase-nav,.bg-shapes,.sidebar-toggle,.back-link{display:none !important;}
+  main{margin:0;padding:20px;}
+  .phase{display:none !important;}
+  #printSummary{display:block !important;padding:20px;}
+  #printSummary h1{font-size:24px;margin-bottom:8px;}
+  #printSummary h2{font-size:18px;margin:18px 0 6px;color:#444;border-bottom:1px solid #ddd;padding-bottom:4px;}
+  #printSummary p{font-size:14px;margin-bottom:8px;}
+  #printSummary .meta{color:#666;margin-bottom:18px;}
+  #printSummary .field{white-space:pre-wrap;background:#f8f8f8;padding:10px;border-radius:6px;margin-bottom:8px;}
+}
+
+@media(max-width:768px){
+  .sidebar{width:0;}
+  main{margin-left:0;padding:24px 16px 60px;}
+}
+@media(max-width:600px){
+  .simple-instruction-card{flex-direction:column;}
+  .vocab-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="bg-shapes">
+  <div class="bg-shape"></div><div class="bg-shape"></div>
+  <div class="bg-shape"></div><div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+</div>
+
+<header class="top-bar">
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">&#9776;</button>
+  <div class="top-bar-title">The Explorer <span>&middot;</span> Week 2 Lesson 1</div>
+  <a href="../../../index.html" class="back-link">&larr; Toolkit Home</a>
+</header>
+
+<aside class="sidebar" id="sidebar"><div class="sidebar-content">
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Start</div>
+    <button class="sidebar-item active" data-nav="phase1" onclick="goPhase(1)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--purple);"></span>
+      1. Learning Intention
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Whole Class</div>
+    <button class="sidebar-item" data-nav="phase2" onclick="goPhase(2)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--coral);"></span>
+      2. Vocabulary
+    </button>
+    <button class="sidebar-item" data-nav="phase3" onclick="goPhase(3)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--coral);"></span>
+      3. Read Aloud
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Independent</div>
+    <button class="sidebar-item" data-nav="phase4" onclick="goPhase(4)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--teal);"></span>
+      4. Read and Sketch
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Small Groups</div>
+    <button class="sidebar-item" data-nav="phase5" onclick="goPhase(5)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--gold);"></span>
+      5. Readers Theatre
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Reflect</div>
+    <button class="sidebar-item" data-nav="phase6" onclick="goPhase(6)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--sky);"></span>
+      6. Record and Predict
+    </button>
+    <button class="sidebar-item" data-nav="phase7" onclick="goPhase(7)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--coral);"></span>
+      7. Exit Slip
+    </button>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-export">
+    <button class="sidebar-export-btn" onclick="showNameModal()">Export my work as PDF</button>
+  </div>
+</div></aside>
+
+<main>
+
+<!-- ============ PHASE 1: LISC ============ -->
+<section class="phase active" id="phase1">
+  <div class="phase-eyebrow">Phase <span class="num">1</span> of <span class="num">7</span></div>
+  <h1 class="phase-title">Learning Intention and Success Criteria</h1>
+  <p class="phase-sub">Chapter 3: The Den</p>
+
+  <div class="lisc">
+    <p class="lisc-li">Learning intention: <span class="lisc-li-text">We are learning to <strong>read closely, build vocabulary, and notice what an author reveals about a character through small details</strong>.</span></p>
+    <div class="lisc-sc-title">Success criteria</div>
+    <ul>
+      <li>I can explain the meaning of new vocabulary from the chapter and identify each word's part of speech.</li>
+      <li>I can find details in the text that reveal something about a character beyond what is directly stated.</li>
+      <li>I can create an annotated sketch that shows my understanding of a key setting.</li>
+    </ul>
+  </div>
+
+  <div class="phase-nav">
+    <span></span>
+    <span class="step-info">Phase <span class="num">1</span> / <span class="num">7</span></span>
+    <button class="btn btn-coral" onclick="goPhase(2)">Next: Vocabulary &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 2: VOCABULARY ============ -->
+<section class="phase" id="phase2">
+  <div class="phase-eyebrow">Phase <span class="num">2</span> of <span class="num">7</span> &middot; Whole Class</div>
+  <h1 class="phase-title">Vocabulary</h1>
+  <p class="phase-sub">Three words to learn before we read</p>
+
+  <div class="vocab-grid">
+    <div class="vocab-card">
+      <div class="vocab-word">trespassing</div>
+      <div class="vocab-pos">Verb (present participle)</div>
+      <button class="btn btn-outline btn-sm" onclick="revealDef(0)" style="margin-bottom:10px;">Show definition</button>
+      <div class="vocab-def" id="vd0">Entering someone's land or property without permission. In the novel, the children are in a place where they do not belong and have no right to be.</div>
+    </div>
+    <div class="vocab-card">
+      <div class="vocab-word">botanist</div>
+      <div class="vocab-pos">Noun</div>
+      <button class="btn btn-outline btn-sm" onclick="revealDef(1)" style="margin-bottom:10px;">Show definition</button>
+      <div class="vocab-def" id="vd1">A scientist who studies plants. Understanding this word helps us see why a character might know so much about the jungle and what grows there.</div>
+    </div>
+    <div class="vocab-card">
+      <div class="vocab-word">grudgingly</div>
+      <div class="vocab-pos">Adverb</div>
+      <button class="btn btn-outline btn-sm" onclick="revealDef(2)" style="margin-bottom:10px;">Show definition</button>
+      <div class="vocab-def" id="vd2">Doing something reluctantly, without wanting to. When a character acts grudgingly, the author is showing us that they disagree with what they are doing but do it anyway.</div>
+    </div>
+  </div>
+
+  <div class="card coral">
+    <h3>Mime challenge</h3>
+    <p>Volunteers: choose one of the three words and mime it for the class to guess. No speaking allowed.</p>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(1)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">2</span> / <span class="num">7</span></span>
+    <button class="btn btn-coral" onclick="goPhase(3)">Next: Read Aloud &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 3: READ ALOUD + DISCUSSION ============ -->
+<section class="phase" id="phase3">
+  <div class="phase-eyebrow">Phase <span class="num">3</span> of <span class="num">7</span> &middot; Whole Class</div>
+  <h1 class="phase-title">Read Aloud: The Den</h1>
+  <p class="phase-sub">Teacher reads Chapter 3, stopping at the end of page 24</p>
+
+  <div class="card coral">
+    <h3>Read together</h3>
+    <p>Listen carefully as we read Chapter 3 (The Den) aloud, stopping at the end of page 24.</p>
+  </div>
+
+  <div class="reveal-card" style="border-left:5px solid var(--purple);">
+    <h3>Discussion: 'Con had her thumb in her mouth'</h3>
+    <p class="prompt">What does this single detail tell you about Con as a character? Think about what it reveals without the author having to explain it directly.</p>
+    <button class="btn btn-purple btn-sm" onclick="reveal('discuss1')">Reveal discussion points</button>
+    <div class="reveal-content" id="discuss1" style="background:var(--purple-light);">
+      <p>This is a small, physical detail that does a lot of work. Thumb-sucking is something we associate with very young children who need comfort. Con is not a baby, so the fact that she is doing this tells us she is deeply frightened, overwhelmed, or seeking comfort in a situation where there is none. The author does not write 'Con was scared'. Instead, she shows us a gesture and lets us figure it out. This is a strong example of <strong>show, don't tell</strong>.</p>
+    </div>
+  </div>
+
+  <div class="reveal-card" style="border-left:5px solid var(--gold);">
+    <h3>Typo hunt (page 24)</h3>
+    <p class="prompt">There is a tense error on page 24. Can you spot it? The text uses 'does not' when it should say something else.</p>
+    <button class="btn btn-gold btn-sm" onclick="reveal('typo1')">Reveal the answer</button>
+    <div class="reveal-content" id="typo1" style="background:var(--gold-light);">
+      <p>The text says <strong>'does not'</strong> but it should say <strong>'did not'</strong>. The rest of the passage is written in past tense, so 'does not' breaks the pattern. Even published books have errors. Good readers notice when something does not sound right.</p>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(2)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">3</span> / <span class="num">7</span></span>
+    <button class="btn btn-coral" onclick="goPhase(4)">Next: Read and Sketch &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 4: INDEPENDENT READING + SKETCH ============ -->
+<section class="phase" id="phase4">
+  <div class="phase-eyebrow">Phase <span class="num">4</span> of <span class="num">7</span> &middot; Independent</div>
+  <h1 class="phase-title">Read and Sketch the Den</h1>
+  <p class="phase-sub">Read pages 25 to 28, then draw what you see</p>
+
+  <div class="simple-instruction-card">
+    <div class="step-num">1</div>
+    <div class="body">
+      <h3>Read pages 25 to 28</h3>
+      <p>Read independently. Pay close attention to the description of the den. Notice every detail the author gives you about what it looks like, what is in it, and how it feels.</p>
+    </div>
+  </div>
+
+  <div class="simple-instruction-card">
+    <div class="step-num">2</div>
+    <div class="body">
+      <h3>Create an annotated sketch</h3>
+      <p>In your book, draw the den as you picture it from the text. Around the outside of your sketch, add labels and short quotes from the text that support what you have drawn. Your sketch should show that you have read carefully, not that you are a brilliant artist.</p>
+    </div>
+  </div>
+
+  <div class="simple-instruction-card">
+    <div class="step-num">3</div>
+    <div class="body">
+      <h3>Finish the chapter</h3>
+      <p>Once your sketch is complete, continue reading to the end of Chapter 3.</p>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(3)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">4</span> / <span class="num">7</span></span>
+    <button class="btn btn-coral" onclick="goPhase(5)">Next: Readers Theatre &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 5: READERS THEATRE ============ -->
+<section class="phase" id="phase5">
+  <div class="phase-eyebrow">Phase <span class="num">5</span> of <span class="num">7</span> &middot; Small Groups</div>
+  <h1 class="phase-title">Readers Theatre</h1>
+  <p class="phase-sub">Bring The Den to life in small groups</p>
+
+  <div class="card gold">
+    <h3>What to do</h3>
+    <p>In groups of 4 to 5, use the Readers Theatre scripts for The Den. Each person takes a role. Read the script aloud together, focusing on expression and meaning.</p>
+    <p>Think about how each character would sound. What are they feeling? How does their voice change as the scene develops?</p>
+  </div>
+
+  <div class="card gold">
+    <h3>Where to find the script</h3>
+    <p>Your teacher will share the Readers Theatre script for this chapter. Follow along and mark any words or lines you want to discuss afterwards.</p>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(4)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">5</span> / <span class="num">7</span></span>
+    <button class="btn btn-coral" onclick="goPhase(6)">Next: Record and Predict &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 6: CHARACTER RECORD + PREDICTIONS ============ -->
+<section class="phase" id="phase6">
+  <div class="phase-eyebrow">Phase <span class="num">6</span> of <span class="num">7</span> &middot; Independent</div>
+  <h1 class="phase-title">Record and Predict</h1>
+  <p class="phase-sub">Update your records and look ahead</p>
+
+  <div class="card sky">
+    <h3>Update your Character Development Record</h3>
+    <p>Add any new observations from Chapter 3. What have you learned about the characters from this chapter? Think about what they say, what they do, and what small details the author uses to reveal who they are.</p>
+  </div>
+  <textarea class="writing-textarea" id="charRecord" style="margin-bottom:22px;"></textarea>
+
+  <div class="card sky">
+    <h3>Predict what comes next</h3>
+    <p>The next two chapters are called 'The River' and 'Food (Almost)'. Before you read on, predict what each chapter might contain. What challenges might the children face? What does 'almost' suggest about the food situation?</p>
+  </div>
+  <textarea class="writing-textarea" id="predictions" style="min-height:120px;margin-bottom:22px;"></textarea>
+
+  <div class="card sky">
+    <h3>Silent reading: Chapter 4, The River</h3>
+    <p>Begin reading Chapter 4 silently (from page 34). You will continue this chapter in our next lesson.</p>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(5)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">6</span> / <span class="num">7</span></span>
+    <button class="btn btn-coral" onclick="goPhase(7)">Next: Exit Slip &rarr;</button>
+  </div>
+</section>
+
+<!-- ============ PHASE 7: EXIT SLIP ============ -->
+<section class="phase" id="phase7">
+  <div class="phase-eyebrow">Phase <span class="num">7</span> of <span class="num">7</span></div>
+  <h1 class="phase-title">Exit Slip</h1>
+  <p class="phase-sub">One sentence to capture Chapter 3</p>
+
+  <div class="card coral">
+    <h3>Chapter summary</h3>
+    <p>Record a one-sentence summary of Chapter 3 (The Den). Use the summary template your teacher has provided. One sentence only.</p>
+  </div>
+
+  <div class="exit-slip">
+    <h3>My one-sentence summary</h3>
+    <p>"In Chapter 3..."</p>
+    <textarea class="exit-textarea" id="exitTicket"></textarea>
+  </div>
+
+  <div style="text-align:center;margin-top:24px;">
+    <button class="btn btn-coral" onclick="showNameModal()">Export my work as PDF</button>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(6)">&larr; Back</button>
+    <span class="step-info">Phase <span class="num">7</span> / <span class="num">7</span></span>
+    <button class="btn btn-outline" onclick="goPhase(1)">Restart lesson</button>
+  </div>
+</section>
+
+</main>
+
+<!-- NAME MODAL -->
+<div class="modal-overlay" id="nameModal">
+  <div class="modal">
+    <h3>Export your work as PDF</h3>
+    <p>Enter your name so it appears on your printed work. Your name is not stored or sent anywhere.</p>
+    <input type="text" id="studentName" placeholder="Your name" />
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeNameModal()">Cancel</button>
+      <button class="btn btn-coral" onclick="exportPDF()">Print my work</button>
+    </div>
+  </div>
+</div>
+
+<div id="printSummary"></div>
+
+<script>
+var totalPhases=7;
+
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed');}
+
+function goPhase(n){
+  if(n<1||n>totalPhases)return;
+  document.querySelectorAll('.phase').forEach(function(p){p.classList.remove('active');});
+  var target=document.getElementById('phase'+n);
+  if(target)target.classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(function(b){b.classList.remove('active');});
+  var btn=document.querySelector('.sidebar-item[data-nav="phase'+n+'"]');
+  if(btn)btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function revealDef(i){var el=document.getElementById('vd'+i);if(el)el.classList.add('shown');}
+function reveal(id){var el=document.getElementById(id);if(el)el.classList.add('shown');}
+
+function showNameModal(){
+  document.getElementById('nameModal').classList.add('shown');
+  setTimeout(function(){var n=document.getElementById('studentName');if(n)n.focus();},100);
+}
+function closeNameModal(){document.getElementById('nameModal').classList.remove('shown');}
+
+function escapeHtml(s){
+  if(s==null)return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function exportPDF(){
+  var name=document.getElementById('studentName').value||'Student';
+  var today=new Date();
+  var dd=String(today.getDate()).padStart(2,'0');
+  var mm=String(today.getMonth()+1).padStart(2,'0');
+  var yyyy=today.getFullYear();
+  var dateStr=dd+'/'+mm+'/'+yyyy;
+  var html='<h1>The Explorer - Week 2 Lesson 1: The Den</h1>';
+  html+='<p class="meta">Name: '+escapeHtml(name)+' &middot; Date: '+dateStr+'</p>';
+
+  var cr=document.getElementById('charRecord');
+  if(cr&&cr.value.trim()){html+='<h2>Character Development Record</h2><div class="field">'+escapeHtml(cr.value)+'</div>';}
+  var pr=document.getElementById('predictions');
+  if(pr&&pr.value.trim()){html+='<h2>Predictions</h2><div class="field">'+escapeHtml(pr.value)+'</div>';}
+  var ex=document.getElementById('exitTicket');
+  if(ex&&ex.value.trim()){html+='<h2>Chapter 3 Summary</h2><div class="field">'+escapeHtml(ex.value)+'</div>';}
+
+  document.getElementById('printSummary').innerHTML=html;
+  closeNameModal();
+  setTimeout(function(){window.print();},150);
+}
+
+document.addEventListener('keydown',function(e){
+  if(document.activeElement&&(document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='TEXTAREA'))return;
+  if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
+  var current=null;
+  document.querySelectorAll('.phase').forEach(function(p){if(p.classList.contains('active'))current=parseInt(p.id.replace('phase',''),10);});
+  if(!current)return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){if(current<totalPhases){e.preventDefault();goPhase(current+1);}}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){if(current>1){e.preventDefault();goPhase(current-1);}}
+},true);
+
+document.getElementById('nameModal').addEventListener('click',function(e){if(e.target===this)closeNameModal();});
+document.getElementById('studentName').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();exportPDF();}});
+</script>
+</body>
+</html>
