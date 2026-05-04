@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Explorer | Week 4B Lesson 1 | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF8F5;--ink:#2D3436;--ink-light:#636E72;
+  --teal:#4ECDC4;--teal-light:#d0f0ec;
+  --coral:#FF6B6B;--coral-light:#ffe0e0;
+  --gold:#FFD93D;--gold-light:#fdf2d0;
+  --purple:#9B5DE5;--purple-light:#f0e6ff;
+  --sky:#74B9FF;--sky-light:#e1f0ff;
+  --green:#27AE60;--green-light:#d3f9d8;
+  --pink:#FFD6E0;--orange:#FFE0CC;--yellow:#FFF3BF;
+  --card:#fff;
+  --shadow:0 4px 20px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.12);
+  --radius:16px;
+  --sidebar-bg:#2D3436;
+  --sidebar-w:240px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--ink);font-family:'Fredoka',sans-serif;font-weight:400;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+.bg-shapes{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;}
+.bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:var(--coral);}
+.bg-shape:nth-child(2){width:400px;height:400px;top:20%;right:-8%;background:var(--teal);}
+.bg-shape:nth-child(3){width:350px;height:350px;bottom:15%;left:10%;background:var(--gold);}
+.bg-shape:nth-child(4){width:450px;height:450px;bottom:-5%;right:15%;background:var(--purple);}
+.bg-shape:nth-child(5){width:300px;height:300px;top:50%;left:40%;background:var(--sky);}
+
+.top-bar{position:fixed;top:0;left:0;right:0;height:56px;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,0.06);z-index:100;display:flex;align-items:center;padding:0 24px;gap:16px;}
+.sidebar-toggle{background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink);padding:6px 10px;border-radius:8px;}
+.sidebar-toggle:hover{background:rgba(0,0,0,0.05);}
+.top-bar-title{font-weight:600;font-size:15px;color:var(--ink);flex:1;}
+.top-bar-title span{color:var(--ink-light);margin:0 6px;}
+.back-link{color:var(--ink-light);text-decoration:none;font-size:14px;font-weight:500;}
+.back-link:hover{color:var(--coral);}
+
+.sidebar{position:fixed;top:56px;left:0;width:var(--sidebar-w);bottom:0;background:var(--sidebar-bg);overflow-y:auto;transition:width 0.3s ease;z-index:50;}
+.sidebar.collapsed{width:0;}
+.sidebar-content{padding:20px 0;width:var(--sidebar-w);}
+.sidebar-section{margin-bottom:18px;}
+.sidebar-section-title{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;color:rgba(255,255,255,0.4);text-transform:uppercase;padding:4px 20px 8px;}
+.sidebar-item{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;color:rgba(255,255,255,0.75);padding:9px 20px;text-align:left;font-family:inherit;font-size:13.5px;font-weight:500;cursor:pointer;transition:all 0.15s;}
+.sidebar-item:hover{background:rgba(255,255,255,0.06);color:#fff;}
+.sidebar-item.active{background:rgba(255,255,255,0.1);color:#fff;border-left:3px solid var(--coral);padding-left:17px;}
+.sidebar-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.sidebar-divider{height:1px;background:rgba(255,255,255,0.08);margin:14px 20px;}
+.sidebar-export{padding:0 20px;}
+.sidebar-export-btn{width:100%;background:var(--coral);color:#fff;border:none;padding:11px;border-radius:10px;font-family:inherit;font-weight:600;font-size:13px;cursor:pointer;transition:transform 0.15s;}
+.sidebar-export-btn:hover{transform:translateY(-1px);}
+
+main{margin-left:var(--sidebar-w);margin-top:56px;padding:48px 56px 80px;position:relative;z-index:1;transition:margin-left 0.3s ease;max-width:1100px;}
+.sidebar.collapsed ~ main{margin-left:0;}
+
+.phase{display:none;animation:fadeIn 0.4s ease;}
+.phase.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.phase-eyebrow{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.16em;color:var(--ink-light);text-transform:uppercase;margin-bottom:14px;}
+.phase-title{font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.15;margin-bottom:10px;color:var(--ink);}
+.phase-sub{font-size:clamp(15px,1.8vw,19px);color:var(--ink-light);margin-bottom:32px;max-width:780px;}
+
+.card{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:20px;}
+
+.btn{font-family:inherit;font-weight:600;border:none;border-radius:10px;padding:11px 22px;cursor:pointer;font-size:14px;transition:transform 0.15s,box-shadow 0.15s;}
+.btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-hover);}
+.btn-coral{background:var(--coral);color:#fff;}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-sky{background:var(--sky);color:#fff;}
+.btn-outline{background:transparent;color:var(--ink);border:2px solid rgba(0,0,0,0.12);}
+.btn-outline:hover{border-color:var(--ink);}
+.btn-sm{padding:8px 16px;font-size:13px;}
+.btn:disabled{opacity:0.55;cursor:not-allowed;transform:none;}
+
+.phase-nav{display:flex;justify-content:space-between;align-items:center;margin-top:36px;padding-top:24px;border-top:1px solid rgba(0,0,0,0.08);}
+.step-info{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;color:var(--ink-light);}
+
+/* LISC */
+.lisc{background:linear-gradient(135deg,var(--purple-light) 0%,var(--sky-light) 100%);border-radius:var(--radius);padding:32px;}
+.lisc-li{font-size:clamp(17px,2.1vw,21px);font-weight:600;margin-bottom:18px;color:var(--ink);}
+.lisc-li-text{font-weight:400;}
+.lisc-sc-title{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.12em;color:var(--ink-light);text-transform:uppercase;margin-bottom:12px;margin-top:10px;}
+.lisc ul{list-style:none;padding:0;}
+.lisc ul li{padding:10px 0 10px 32px;position:relative;font-size:clamp(15px,1.8vw,17px);}
+.lisc ul li::before{content:"✓";position:absolute;left:0;top:8px;width:22px;height:22px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;}
+
+/* Activation card */
+.activation-card{background:var(--gold-light);border-left:5px solid var(--gold);border-radius:var(--radius);padding:24px;margin-bottom:20px;}
+.activation-card h3{font-size:clamp(17px,2.1vw,21px);margin-bottom:8px;}
+
+/* Concept cards */
+.concept-card{background:#fff;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-bottom:16px;border-left:5px solid var(--purple);}
+.concept-card.sky{border-left-color:var(--sky);}
+.concept-card.purple{border-left-color:var(--purple);}
+.concept-card h3{font-size:clamp(17px,2.1vw,21px);margin-bottom:8px;}
+
+/* Exemplar cards (hook discussion) */
+.exemplar{background:#fff;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-bottom:16px;border-left:5px solid var(--coral);display:none;}
+.exemplar.shown{display:block;}
+.exemplar-label{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;margin-bottom:8px;}
+.exemplar-text{font-size:clamp(15px,1.8vw,17px);margin-bottom:10px;font-weight:500;}
+.exemplar-prompt{font-size:clamp(14px,1.6vw,16px);color:var(--ink-light);font-style:italic;margin-bottom:12px;}
+.exemplar-reveal{display:none;background:var(--bg);border-radius:10px;padding:14px 16px;margin-top:12px;}
+.exemplar-reveal.shown{display:block;}
+.exemplar-reveal-row{margin-bottom:8px;font-size:clamp(14px,1.6vw,16px);}
+.exemplar-reveal-row strong{color:var(--coral);}
+
+/* Summary card */
+.summary-card{background:linear-gradient(135deg,var(--teal-light) 0%,var(--sky-light) 100%);border-radius:var(--radius);padding:24px;margin-top:20px;}
+.summary-card h3{font-size:clamp(17px,2.1vw,21px);margin-bottom:8px;}
+
+/* Novel application */
+.novel-app{background:var(--coral-light);border-radius:var(--radius);padding:22px;margin-top:20px;}
+.novel-app h4{font-size:clamp(15px,1.8vw,17px);margin-bottom:10px;color:var(--coral);}
+.novel-app .reveal-btn{margin-top:12px;}
+.novel-app-answer{display:none;background:#fff;border-radius:10px;padding:14px;margin-top:12px;font-weight:500;}
+.novel-app-answer.shown{display:block;}
+
+/* Simple instruction cards */
+.simple-instruction-card{display:flex;gap:18px;background:#fff;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-bottom:16px;align-items:flex-start;}
+.simple-instruction-card .step-num{flex-shrink:0;width:44px;height:44px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Space Mono',monospace;font-size:18px;}
+.simple-instruction-card .body{flex:1;}
+.simple-instruction-card h3{font-size:clamp(17px,2.1vw,20px);margin-bottom:6px;}
+.simple-instruction-card p{font-size:clamp(14px,1.6vw,16px);color:var(--ink-light);}
+
+/* Scaffold visual */
+.scaffold-visual{background:var(--bg);border:2px dashed rgba(0,0,0,0.12);border-radius:var(--radius);padding:24px;margin-top:18px;text-align:center;}
+.scaffold-visual-note{font-style:italic;color:var(--ink-light);font-size:14px;}
+.tension-graph{display:block;margin:0 auto 12px;max-width:480px;width:100%;}
+
+/* Rule worksheet */
+.rule-progress{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.rule-counter{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;color:var(--ink-light);}
+.rule-card{display:none;background:#fff;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:16px;}
+.rule-card.active-rule{display:block;}
+.rule-num{font-family:'Space Mono',monospace;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;margin-bottom:10px;}
+.rule-name-text{font-size:clamp(18px,2.2vw,22px);font-weight:600;margin-bottom:8px;}
+.rule-text{font-size:clamp(15px,1.8vw,17px);margin-bottom:8px;}
+.rule-examples{font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);font-style:italic;margin-bottom:14px;}
+.rule-try{background:var(--bg);border-radius:10px;padding:16px;margin-bottom:14px;}
+.rule-try-label{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;}
+.rule-try-text{font-size:clamp(15px,1.8vw,17px);}
+.rule-answer{display:none;background:var(--gold-light);border-radius:10px;padding:16px;margin-top:14px;}
+.rule-answer.shown{display:block;}
+.rule-answer-label{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;}
+.rule-answer-text{font-size:clamp(15px,1.8vw,17px);}
+.rule-nav{display:flex;justify-content:space-between;gap:12px;margin-top:8px;}
+
+/* Verb highlight spans */
+.hl{padding:1px 5px;border-radius:5px;font-weight:600;}
+.hl-purple{background:var(--purple-light);color:#5d3499;}
+.hl-coral{background:var(--coral-light);color:#c93535;}
+.hl-sky{background:var(--sky-light);color:#2c6ab0;}
+.hl-gold{background:var(--gold-light);color:#8a6d00;}
+
+/* I-do modelling card */
+.modelling-card{background:#fff;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-top:20px;border-left:5px solid var(--teal);}
+.modelling-card h4{font-size:clamp(15px,1.8vw,17px);margin-bottom:10px;color:var(--teal);font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;}
+.modelling-passage{background:var(--bg);border-radius:10px;padding:16px;margin-bottom:12px;font-size:clamp(15px,1.8vw,17px);line-height:1.7;}
+.teacher-note{background:var(--teal-light);border-radius:10px;padding:14px;font-size:14px;font-style:italic;}
+.teacher-note strong{font-style:normal;}
+
+/* Annotation task (We Do) */
+.annotation-task .verb-key{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
+.verb-key-item{padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;font-family:'Space Mono',monospace;}
+.verb-key-item.physical{background:var(--coral-light);color:#c93535;}
+.verb-key-item.mental{background:var(--purple-light);color:#5d3499;}
+.verb-key-item.verbal{background:var(--sky-light);color:#2c6ab0;}
+.verb-key-item.behavioural{background:var(--gold-light);color:#8a6d00;}
+
+.passage-card{background:#fff;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-bottom:16px;}
+.passage-card .passage-text{font-size:clamp(15px,1.8vw,18px);line-height:1.8;background:var(--bg);border-radius:10px;padding:18px;margin-bottom:14px;}
+.passage-card .annotated{display:none;font-size:clamp(15px,1.8vw,18px);line-height:1.9;background:var(--bg);border-radius:10px;padding:18px;}
+.passage-card .annotated.shown{display:block;}
+
+.classification-card{background:#fff;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin-bottom:12px;border-left:5px solid var(--ink-light);}
+.classification-card.physical{border-left-color:var(--coral);}
+.classification-card.mental{border-left-color:var(--purple);}
+.classification-card.verbal{border-left-color:var(--sky);}
+.classification-card.behavioural{border-left-color:var(--gold);}
+.classification-verb{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;margin-bottom:4px;}
+.classification-cat{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;}
+.classification-reveal{display:none;background:var(--bg);border-radius:8px;padding:12px;margin-top:10px;font-size:14px;}
+.classification-reveal.shown{display:block;}
+
+.discussion-insight{background:linear-gradient(135deg,var(--purple-light) 0%,var(--coral-light) 100%);border-radius:var(--radius);padding:22px;margin-top:18px;}
+.discussion-insight h4{font-size:clamp(15px,1.8vw,18px);margin-bottom:8px;}
+
+.follow-up-questions{background:#fff;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-top:18px;}
+.follow-up-questions h4{font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:12px;}
+.follow-up-questions ol{padding-left:22px;}
+.follow-up-questions li{margin-bottom:10px;}
+
+/* Writing task */
+.task-brief{background:linear-gradient(135deg,var(--gold-light) 0%,var(--coral-light) 100%);border-radius:var(--radius);padding:24px;margin-bottom:18px;}
+.task-brief h3{font-size:clamp(17px,2.1vw,21px);margin-bottom:8px;}
+.task-brief ul{padding-left:22px;margin-top:10px;}
+.task-brief li{margin-bottom:6px;}
+
+.ref-card,.writing-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden;}
+.ref-header{padding:18px 22px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;}
+.ref-header h4{font-size:clamp(15px,1.8vw,18px);}
+.ref-toggle{font-size:14px;color:var(--ink-light);transition:transform 0.2s;}
+.ref-body{max-height:0;overflow:hidden;transition:max-height 0.3s ease;}
+.ref-body.open{max-height:800px;}
+.ref-body-inner{padding:0 22px 22px;}
+.writing-body{max-height:0;overflow:hidden;transition:max-height 0.3s ease;}
+.writing-body.open{max-height:2000px;}
+
+.tip-list{padding-left:20px;margin-top:8px;}
+.tip-list li{margin-bottom:6px;font-size:14px;}
+
+.sort-categories{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+.sort-cat-card{background:var(--bg);border-radius:10px;padding:14px;}
+.sort-cat-card h5{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
+.sort-cat-card.calm h5{color:var(--sky);}
+.sort-cat-card.tense h5{color:var(--coral);}
+.sort-cat-card ul{list-style:none;padding:0;}
+.sort-cat-card li{padding:4px 0;font-family:'Space Mono',monospace;font-size:13px;}
+
+.writing-textarea{width:100%;min-height:200px;border:2px solid rgba(0,0,0,0.1);border-radius:10px;padding:14px;font-family:'Fredoka',sans-serif;font-size:15px;resize:vertical;line-height:1.6;}
+.writing-textarea:focus{outline:none;border-color:var(--coral);}
+.verb-input{width:100%;border:2px solid rgba(0,0,0,0.1);border-radius:10px;padding:10px 14px;font-family:'Fredoka',sans-serif;font-size:15px;margin-bottom:10px;}
+.verb-input:focus{outline:none;border-color:var(--coral);}
+
+.tension-framing{background:var(--purple-light);border-left:5px solid var(--purple);border-radius:10px;padding:16px;margin:16px 0;font-size:14px;}
+
+.model-reveal{display:none;}
+.model-reveal.shown{display:block;}
+.model-response{background:#fff;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border-left:5px solid var(--green);}
+.model-label{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-bottom:10px;font-weight:700;}
+.model-text{font-size:clamp(15px,1.8vw,17px);line-height:1.7;background:var(--bg);border-radius:10px;padding:16px;margin-bottom:14px;}
+.model-annotations{display:flex;flex-direction:column;gap:10px;}
+.model-annot-item{background:var(--green-light);border-radius:8px;padding:12px 14px;font-size:14px;}
+.model-annot-item strong{display:block;margin-bottom:4px;color:var(--green);}
+.model-annot-quote{font-style:italic;background:#fff;padding:6px 10px;border-radius:6px;margin:6px 0;font-size:13px;}
+
+.checklist{background:#fff;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-top:18px;}
+.checklist h4{font-size:clamp(15px,1.8vw,18px);margin-bottom:14px;}
+.checklist label{display:block;padding:8px 0;cursor:pointer;font-size:14px;}
+.checklist input{margin-right:10px;}
+
+.challenge-box{background:linear-gradient(135deg,var(--purple-light) 0%,var(--gold-light) 100%);border-radius:var(--radius);padding:22px;margin-top:18px;border-left:5px solid var(--purple);}
+.challenge-box h4{font-size:clamp(15px,1.8vw,18px);margin-bottom:10px;}
+.challenge-option{background:rgba(255,255,255,0.6);border-radius:10px;padding:14px;margin-top:12px;}
+.challenge-option strong{display:block;margin-bottom:6px;color:var(--purple);}
+
+.check-results{margin-top:16px;}
+.check-item{padding:10px 14px;border-radius:8px;margin-bottom:8px;font-size:14px;}
+.check-item.pass{background:var(--green-light);}
+.check-item.warn{background:var(--gold-light);}
+.check-item.fail{background:var(--coral-light);}
+.check-icon{font-weight:700;margin-right:8px;}
+
+/* Plenary */
+.thermometer-card{background:#fff;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-bottom:16px;border-left:5px solid var(--coral);}
+.thermometer-card h4{font-size:clamp(15px,1.8vw,18px);margin-bottom:8px;}
+.thermometer-prompt{font-size:14px;color:var(--ink-light);margin-bottom:12px;}
+.thermometer-scale{display:flex;gap:8px;margin-top:10px;}
+.thermometer-btn{flex:1;padding:14px 0;border:2px solid rgba(0,0,0,0.08);background:var(--bg);border-radius:10px;cursor:pointer;font-family:'Space Mono',monospace;font-weight:700;font-size:18px;transition:all 0.15s;}
+.thermometer-btn:hover{border-color:var(--coral);}
+.thermometer-btn.selected{background:var(--coral);color:#fff;border-color:var(--coral);}
+.thermometer-scale-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);text-align:center;margin-top:6px;}
+
+.exit-slip{background:linear-gradient(135deg,var(--gold-light) 0%,var(--coral-light) 100%);border-radius:var(--radius);padding:24px;margin-top:18px;}
+.exit-slip h3{font-size:clamp(17px,2.1vw,21px);margin-bottom:10px;}
+.exit-slip p{font-style:italic;margin-bottom:12px;font-size:clamp(14px,1.6vw,16px);}
+.exit-textarea{width:100%;min-height:120px;border:2px solid rgba(0,0,0,0.1);border-radius:10px;padding:14px;font-family:'Fredoka',sans-serif;font-size:15px;resize:vertical;background:#fff;}
+.exit-textarea:focus{outline:none;border-color:var(--coral);}
+
+.quiz-card{background:#fff;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-bottom:16px;}
+.quiz-card h4{font-size:clamp(15px,1.8vw,18px);margin-bottom:10px;}
+.quiz-character{margin-bottom:18px;}
+.quiz-character-name{font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--coral);font-weight:700;margin-bottom:8px;}
+.quiz-options label{display:block;padding:10px 14px;background:var(--bg);border-radius:8px;margin-bottom:6px;cursor:pointer;font-size:14px;transition:background 0.15s;}
+.quiz-options label:hover{background:var(--coral-light);}
+.quiz-options input{margin-right:10px;}
+
+/* Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.shown{display:flex;}
+.modal{background:#fff;border-radius:var(--radius);padding:28px;max-width:440px;width:100%;}
+.modal h3{margin-bottom:10px;font-size:clamp(17px,2.1vw,20px);}
+.modal p{color:var(--ink-light);margin-bottom:16px;font-size:14px;}
+.modal input{width:100%;padding:12px;border:2px solid rgba(0,0,0,0.1);border-radius:10px;font-family:inherit;font-size:15px;margin-bottom:16px;}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;}
+
+/* Print */
+#printSummary{display:none;}
+@media print{
+  body *{visibility:hidden;}
+  #printSummary,#printSummary *{visibility:visible;}
+  #printSummary{display:block;position:absolute;left:0;top:0;width:100%;padding:40px;}
+  .top-bar,.sidebar,.phase-nav,.bg-shapes{display:none !important;}
+}
+#printSummary{font-family:'Fredoka',sans-serif;}
+#printSummary h1{margin-bottom:20px;}
+#printSummary h2{margin-top:24px;margin-bottom:10px;color:var(--coral);font-size:18px;border-bottom:2px solid var(--coral);padding-bottom:4px;}
+#printSummary .ps-item{margin-bottom:14px;}
+#printSummary .ps-label{font-weight:600;margin-bottom:4px;}
+#printSummary .ps-value{background:#f5f5f5;padding:10px;border-radius:6px;white-space:pre-wrap;}
+
+@media(max-width:768px){
+  .sidebar{width:0;}
+  main{margin-left:0;padding:24px 16px 60px;}
+  .card{padding:20px;}
+  :root{--sidebar-w:0px;}
+}
+@media(max-width:600px){
+  .simple-instruction-card{flex-direction:column;}
+  .sort-categories{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="bg-shapes">
+  <div class="bg-shape"></div><div class="bg-shape"></div>
+  <div class="bg-shape"></div><div class="bg-shape"></div>
+  <div class="bg-shape"></div>
+</div>
+
+<header class="top-bar">
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">&#9776;</button>
+  <div class="top-bar-title">The Explorer <span>&middot;</span> Week 4B Lesson 1</div>
+  <a href="../../../index.html" class="back-link">&larr; Toolkit Home</a>
+</header>
+
+<aside class="sidebar" id="sidebar"><div class="sidebar-content">
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Start</div>
+    <button class="sidebar-item active" data-nav="phase1" onclick="goPhase(1)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--purple);"></span>
+      1. Start
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Hook</div>
+    <button class="sidebar-item" data-nav="phase2" onclick="goPhase(2)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--coral);"></span>
+      2. Hook
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">I Do</div>
+    <button class="sidebar-item" data-nav="phase3" onclick="goPhase(3)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--teal);"></span>
+      3. I Do
+    </button>
+    <button class="sidebar-item" data-nav="phase4" onclick="goPhase(4)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--gold);"></span>
+      4. I Do
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">We Do</div>
+    <button class="sidebar-item" data-nav="phase5" onclick="goPhase(5)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--sky);"></span>
+      5. We Do
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">You Do</div>
+    <button class="sidebar-item" data-nav="phase6" onclick="goPhase(6)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--purple);"></span>
+      6. You Do
+    </button>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title">Reflect</div>
+    <button class="sidebar-item" data-nav="phase7" onclick="goPhase(7)" tabindex="-1">
+      <span class="sidebar-dot" style="background:var(--coral);"></span>
+      7. Reflect
+    </button>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-export">
+    <button class="sidebar-export-btn" onclick="showNameModal()">Export my work as PDF</button>
+  </div>
+</div></aside>
+
+<main>
+
+<section class="phase active" id="phase1">
+  <div class="phase-eyebrow">Phase 1 of 7</div>
+  <h1 class="phase-title">Learning Intention &amp; Success Criteria</h1>
+  <p class="phase-sub">What we are learning today and how we will know we've got there</p>
+
+  <div class="lisc">
+    <p class="lisc-li">Learning intention: <span class="lisc-li-text">We are learning to understand how authors create <strong>tension through physical verbs</strong>.</span></p>
+    <div class="lisc-sc-title">Success criteria</div>
+    <ul>
+      <li>I can skim a passage to locate verbs</li>
+      <li>I can explain how physical verbs create tension</li>
+      <li>I can justify my thinking using evidence from the text in my own words</li>
+    </ul>
+  </div>
+
+  <div class="phase-nav">
+    <span></span>
+    <span class="step-info">PHASE 1 / 7</span>
+    <button class="btn btn-coral" onclick="goPhase(2)">Next: Hook &rarr;</button>
+  </div>
+</section>
+
+<section class="phase" id="phase2">
+  <div class="phase-eyebrow">Phase 2 of 7 &middot; 5 min</div>
+  <h1 class="phase-title">Complications &amp; Rising Action</h1>
+  <p class="phase-sub">What problem must a hero overcome and how does tension build?</p>
+
+  <div class="activation-card">
+    <h3>Think first</h3>
+    <p>Think about a story you know well. What is the BIG problem the main character has to overcome?</p>
+  </div>
+
+  <div class="concept-card purple">
+    <h3>Complication</h3>
+    <p>The complication is the central problem a character faces in a story. It is the reason the story exists.</p>
+  </div>
+  <div class="concept-card sky">
+    <h3>Rising action</h3>
+    <p>Rising action is the part of the narrative where tension builds. A series of events happens as the character tries to resolve the problem. This is what keeps us reading.</p>
+  </div>
+
+  <div class="exemplar shown" id="ex1" style="border-left-color:var(--coral);">
+    <div class="exemplar-label" style="color:var(--coral);">The Three Little Pigs</div>
+    <div class="exemplar-prompt">Three little pigs are building houses. What is the central complication that drives the whole story?</div>
+    <button class="btn btn-coral btn-sm" onclick="revealExemplar(1)">Reveal answer</button>
+    <div class="exemplar-reveal" id="exr1">
+      <div class="exemplar-reveal-row"><strong>Complication:</strong> The wolf wants to eat the pigs.</div>
+      <div class="exemplar-reveal-row"><strong>Rising action:</strong> Each pig builds a house from different materials. The wolf huffs and puffs, blowing two houses down, before failing at the brick house.</div>
+    </div>
+  </div>
+
+  <div class="exemplar" id="ex2" style="border-left-color:var(--sky);">
+    <div class="exemplar-label" style="color:var(--sky);">Harry Potter and the Philosopher's Stone</div>
+    <div class="exemplar-prompt">Harry arrives at Hogwarts and discovers a magical world. What is the BIG problem he must face?</div>
+    <button class="btn btn-coral btn-sm" onclick="revealExemplar(2)">Reveal answer</button>
+    <div class="exemplar-reveal" id="exr2">
+      <div class="exemplar-reveal-row"><strong>Complication:</strong> Voldemort is trying to return to power by stealing the Philosopher's Stone.</div>
+      <div class="exemplar-reveal-row"><strong>Rising action:</strong> Harry, Ron and Hermione uncover clues, pass through trapdoors and obstacles, and finally confront Quirrell hiding Voldemort.</div>
+    </div>
+  </div>
+
+  <div class="exemplar" id="ex3" style="border-left-color:var(--gold);">
+    <div class="exemplar-label" style="color:var(--gold);">The Lion King</div>
+    <div class="exemplar-prompt">Simba is born a prince. What complication tears his world apart?</div>
+    <button class="btn btn-coral btn-sm" onclick="revealExemplar(3)">Reveal answer</button>
+    <div class="exemplar-reveal" id="exr3">
+      <div class="exemplar-reveal-row"><strong>Complication:</strong> Scar murders Mufasa and tricks Simba into believing it was his fault, forcing Simba into exile.</div>
+      <div class="exemplar-reveal-row"><strong>Rising action:</strong> Simba grows up in hiding, meets Nala, learns the truth from Rafiki, and must decide whether to return and reclaim Pride Rock.</div>
+    </div>
+  </div>
+
+  <div class="exemplar" id="ex4" style="border-left-color:var(--purple);">
+    <div class="exemplar-label" style="color:var(--purple);">Finding Nemo</div>
+    <div class="exemplar-prompt">Marlin is a careful father with one little son. What complication sets the whole journey in motion?</div>
+    <button class="btn btn-coral btn-sm" onclick="revealExemplar(4)">Reveal answer</button>
+    <div class="exemplar-reveal" id="exr4">
+      <div class="exemplar-reveal-row"><strong>Complication:</strong> Nemo is captured by a diver and Marlin must travel across the ocean to find him.</div>
+      <div class="exemplar-reveal-row"><strong>Rising action:</strong> Marlin meets Dory, escapes sharks, survives jellyfish, rides currents, and pieces together where Nemo has been taken.</div>
+    </div>
+  </div>
+
+  <div class="exemplar" id="ex5" style="border-left-color:var(--teal);">
+    <div class="exemplar-label" style="color:var(--teal);">The Wild Robot</div>
+    <div class="exemplar-prompt">A robot called Roz washes up on a wild island. What is the central problem she has to solve?</div>
+    <button class="btn btn-coral btn-sm" onclick="revealExemplar(5)">Reveal answer</button>
+    <div class="exemplar-reveal" id="exr5">
+      <div class="exemplar-reveal-row"><strong>Complication:</strong> Roz must learn how to survive on the island and care for an orphaned gosling, Brightbill.</div>
+      <div class="exemplar-reveal-row"><strong>Rising action:</strong> Roz studies the animals, builds a shelter, raises Brightbill, faces a brutal winter, and is hunted by RECO robots sent to retrieve her.</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin:18px 0;">
+    <button class="btn btn-coral btn-sm" id="hookNextBtn" onclick="hookNext()">Show next story &rarr;</button>
+  </div>
+
+  <div class="novel-app">
+    <h4>Apply to The Explorer</h4>
+    <p><strong>What is the key complication the characters in The Explorer must overcome?</strong></p>
+    <p style="font-style:italic;color:var(--ink-light);margin-top:6px;">Discuss with your partner first.</p>
+    <button class="btn btn-coral btn-sm reveal-btn" onclick="revealNovelApp()">Reveal answer</button>
+    <div class="novel-app-answer" id="novelAppAnswer">
+      <p>Surviving the jungle after the plane crash, with no adults to help them.</p>
+      <p style="margin-top:10px;font-style:italic;">Follow-up: What events so far have built the rising action? List two.</p>
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <h3>The pattern</h3>
+    <p>Every great story has a central complication and a rising action that builds tension. Today we will look at one of the tools authors use to make that tension feel real on the page: physical verbs.</p>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(1)">&larr; Back</button>
+    <span class="step-info">PHASE 2 / 7</span>
+    <button class="btn btn-coral" onclick="goPhase(3)">Next: I Do &rarr;</button>
+  </div>
+</section>
+
+<section class="phase" id="phase3">
+  <div class="phase-eyebrow">Phase 3 of 7 &middot; 8 min</div>
+  <h1 class="phase-title">Map the Tension Curve</h1>
+  <p class="phase-sub">Sketch how tension rises and falls across the last 5 chapters</p>
+
+  <div class="task-brief">
+    <h3>Task</h3>
+    <p>Sketch a line graph that shows how tension rises and falls across the last five chapters of The Explorer.</p>
+  </div>
+
+  <div class="simple-instruction-card" style="border-left:5px solid var(--teal);">
+    <div class="step-num" style="background:var(--teal);">1</div>
+    <div class="body">
+      <h3>Set up your axes</h3>
+      <p>Draw an x-axis (horizontal) and a y-axis (vertical). Label the y-axis 'Tension'. Split the x-axis into five equal sections, one for each of the last five chapters.</p>
+    </div>
+  </div>
+
+  <div class="simple-instruction-card" style="border-left:5px solid var(--gold);">
+    <div class="step-num" style="background:var(--gold);">2</div>
+    <div class="body">
+      <h3>Plot the events</h3>
+      <p>Think about the key events in each chapter. Plot a point that shows how high or low the tension was at that moment. Higher up the y-axis means more tension.</p>
+    </div>
+  </div>
+
+  <div class="simple-instruction-card" style="border-left:5px solid var(--coral);">
+    <div class="step-num" style="background:var(--coral);">3</div>
+    <div class="body">
+      <h3>Connect the curve</h3>
+      <p>Join your points with a smooth line so you can see how tension rises and falls. Where are the peaks? Where are the troughs? Be ready to explain one peak to a partner.</p>
+    </div>
+  </div>
+
+  <div class="scaffold-visual">
+    <svg class="tension-graph" viewBox="0 0 480 240" xmlns="http://www.w3.org/2000/svg">
+      <line x1="50" y1="20" x2="50" y2="200" stroke="#2D3436" stroke-width="2"/>
+      <line x1="50" y1="200" x2="460" y2="200" stroke="#2D3436" stroke-width="2"/>
+      <text x="20" y="110" font-family="Space Mono" font-size="11" transform="rotate(-90 20 110)">TENSION</text>
+      <text x="240" y="225" font-family="Space Mono" font-size="11" text-anchor="middle">CHAPTER</text>
+      <path d="M 50 160 Q 130 80 180 110 T 280 50 T 380 130 T 460 90" stroke="#FF6B6B" stroke-width="3" fill="none"/>
+      <circle cx="50" cy="160" r="5" fill="#FF6B6B"/>
+      <circle cx="180" cy="110" r="5" fill="#FF6B6B"/>
+      <circle cx="280" cy="50" r="5" fill="#FF6B6B"/>
+      <circle cx="380" cy="130" r="5" fill="#FF6B6B"/>
+      <circle cx="460" cy="90" r="5" fill="#FF6B6B"/>
+      <text x="280" y="40" font-family="Fredoka" font-size="10" text-anchor="middle" fill="#9B5DE5">peak</text>
+      <text x="380" y="148" font-family="Fredoka" font-size="10" text-anchor="middle" fill="#74B9FF">trough</text>
+    </svg>
+    <div class="scaffold-visual-note">Sample tension curve: one clear peak (a dramatic event) and one trough (a quiet moment).</div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(2)">&larr; Back</button>
+    <span class="step-info">PHASE 3 / 7</span>
+    <button class="btn btn-coral" onclick="goPhase(4)">Next: Verb Types &rarr;</button>
+  </div>
+</section>
+
+<section class="phase" id="phase4">
+  <div class="phase-eyebrow">Phase 4 of 7 &middot; 10 min</div>
+  <h1 class="phase-title">Verb Types &amp; Modelling on 'Flight'</h1>
+  <p class="phase-sub">Recall the four verb types, then watch me highlight them in Chapter 1</p>
+
+  <div class="task-brief">
+    <h3>Recall</h3>
+    <p>Last term we sorted verbs into four families. Today we will use that same skill to notice how authors choose verbs deliberately to build tension. Watch as I highlight the verbs in Chapter 1, 'Flight'.</p>
+  </div>
+
+  <div class="rule-progress">
+    <span class="rule-counter" id="ruleCounter">RULE 1 / 4</span>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-outline btn-sm" onclick="rulePrev()">&larr; Prev</button>
+      <button class="btn btn-coral btn-sm" onclick="ruleNext()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <div class="rule-card active-rule" id="rule1" style="border-left:5px solid var(--purple);">
+    <div class="rule-num" style="color:var(--purple);">Rule 1</div>
+    <div class="rule-name-text">Mental verbs (thinking)</div>
+    <div class="rule-text">Mental verbs describe what is happening inside a character's head. They show thought, feeling or knowing.</div>
+    <div class="rule-examples">Examples: wondered, remembered, believed, worried, knew</div>
+    <div class="rule-try">
+      <div class="rule-try-label">Try it: highlight the mental verbs</div>
+      <div class="rule-try-text">Fred wondered whether the pilot was unwell. He thought about his mother and remembered her warm kitchen.</div>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn btn-outline btn-sm" onclick="ruleReveal(1)">Reveal answer</button>
+    </div>
+    <div class="rule-answer" id="ruleAns1">
+      <div class="rule-answer-label">Answer</div>
+      <div class="rule-answer-text">Fred <span class="hl hl-purple">wondered</span> whether the pilot was unwell. He <span class="hl hl-purple">thought</span> about his mother and <span class="hl hl-purple">remembered</span> her warm kitchen.</div>
+    </div>
+  </div>
+
+  <div class="rule-card" id="rule2" style="border-left:5px solid var(--coral);">
+    <div class="rule-num" style="color:var(--coral);">Rule 2</div>
+    <div class="rule-name-text">Physical verbs (action)</div>
+    <div class="rule-text">Physical verbs describe a movement of the body or an object. The reader can picture the action happening.</div>
+    <div class="rule-examples">Examples: pushed, soared, jerked, gripped, ran, lurched</div>
+    <div class="rule-try">
+      <div class="rule-try-label">Try it: highlight the physical verbs</div>
+      <div class="rule-try-text">He touched the throttle and the plane soared upwards, higher into the clouds.</div>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn btn-outline btn-sm" onclick="ruleReveal(2)">Reveal answer</button>
+    </div>
+    <div class="rule-answer" id="ruleAns2">
+      <div class="rule-answer-label">Answer</div>
+      <div class="rule-answer-text">He <span class="hl hl-coral">touched</span> the throttle and the plane <span class="hl hl-coral">soared</span> upwards, higher into the clouds.</div>
+    </div>
+  </div>
+
+  <div class="rule-card" id="rule3" style="border-left:5px solid var(--sky);">
+    <div class="rule-num" style="color:var(--sky);">Rule 3</div>
+    <div class="rule-name-text">Verbal verbs (speaking)</div>
+    <div class="rule-text">Verbal verbs describe an utterance, a sound that comes from the mouth to communicate.</div>
+    <div class="rule-examples">Examples: whispered, screamed, gasped, grunted, muttered</div>
+    <div class="rule-try">
+      <div class="rule-try-label">Try it: highlight the verbal verbs</div>
+      <div class="rule-try-text">Someone screamed behind Fred. The pilot grunted and gasped as he fought with the controls.</div>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn btn-outline btn-sm" onclick="ruleReveal(3)">Reveal answer</button>
+    </div>
+    <div class="rule-answer" id="ruleAns3">
+      <div class="rule-answer-label">Answer</div>
+      <div class="rule-answer-text">Someone <span class="hl hl-sky">screamed</span> behind Fred. The pilot <span class="hl hl-sky">grunted</span> and <span class="hl hl-sky">gasped</span> as he fought with the controls.</div>
+    </div>
+  </div>
+
+  <div class="rule-card" id="rule4" style="border-left:5px solid var(--gold);">
+    <div class="rule-num" style="color:var(--gold);">Rule 4</div>
+    <div class="rule-name-text">Behavioural verbs (in between)</div>
+    <div class="rule-text">Behavioural verbs sit between physical and mental. They are bodily actions that show what is going on inside, like laughing, watching, or frowning.</div>
+    <div class="rule-examples">Examples: frowned, laughed, watched, stared, belched</div>
+    <div class="rule-try">
+      <div class="rule-try-label">Try it: highlight the behavioural verbs (and any physical ones)</div>
+      <div class="rule-try-text">The pilot frowned and tapped the joystick. Fred stared at him while the plane shook.</div>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn btn-outline btn-sm" onclick="ruleReveal(4)">Reveal answer</button>
+    </div>
+    <div class="rule-answer" id="ruleAns4">
+      <div class="rule-answer-label">Answer</div>
+      <div class="rule-answer-text">The pilot <span class="hl hl-gold">frowned</span> and <span class="hl hl-coral">tapped</span> the joystick. Fred <span class="hl hl-gold">stared</span> at him while the plane shook.</div>
+    </div>
+  </div>
+
+  <div class="modelling-card">
+    <h4>I do: modelling on 'Flight'</h4>
+    <div class="modelling-passage" id="modellingPlain">The pilot frowned and tapped the joystick. He touched the throttle and the plane soared upwards, higher into the clouds. It was almost dark when Fred began to worry.</div>
+    <div style="text-align:center;margin-bottom:12px;">
+      <button class="btn btn-teal btn-sm" onclick="revealModelling()">Show my annotations &rarr;</button>
+    </div>
+    <div class="modelling-passage" id="modellingAnnotated" style="display:none;">The pilot <span class="hl hl-gold">frowned</span> and <span class="hl hl-coral">tapped</span> the joystick. He <span class="hl hl-coral">touched</span> the throttle and the plane <span class="hl hl-coral">soared</span> upwards, higher into the clouds. It was almost dark when Fred began to <span class="hl hl-purple">worry</span>.</div>
+    <div class="teacher-note" id="teacherNote" style="display:none;"><strong>Notice:</strong> there are mostly physical verbs in this passage because flying a plane is a physical act. The plane is moving and so is the pilot. The single mental verb at the end (worry) plants the seed of trouble to come.</div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(3)">&larr; Back</button>
+    <span class="step-info">PHASE 4 / 7</span>
+    <button class="btn btn-coral" onclick="goPhase(5)">Next: We Do &rarr;</button>
+  </div>
+</section>
+
+<section class="phase" id="phase5">
+  <div class="phase-eyebrow">Phase 5 of 7 &middot; 10 min</div>
+  <h1 class="phase-title">The Pilot's Collapse: Verb Analysis</h1>
+  <p class="phase-sub">Together: classify every verb in the crash passage</p>
+
+  <div class="task-brief">
+    <p>Now we will analyse the moment the pilot collapses. Together we will classify every verb and notice what shifts as the pilot weakens.</p>
+  </div>
+
+  <div class="annotation-task">
+    <div class="verb-key">
+      <div class="verb-key-item physical">PHYSICAL</div>
+      <div class="verb-key-item mental">MENTAL</div>
+      <div class="verb-key-item verbal">VERBAL</div>
+      <div class="verb-key-item behavioural">BEHAVIOURAL</div>
+    </div>
+
+    <div class="passage-card">
+      <div class="passage-text" id="weDoPlain">The pilot began to belch. His hand jerked, and the plane dipped. Someone screamed behind Fred. The plane lurched away from the river and over the canopy. The pilot grunted, gasped and wound back the throttle, slowing the engine. He gave a cough that sounded like a choke. Fred stared.</div>
+      <div style="text-align:center;margin:12px 0;">
+        <button class="btn btn-sky btn-sm" onclick="revealAnnotated()">Reveal annotations &rarr;</button>
+      </div>
+      <div class="annotated" id="weDoAnnotated">The pilot began to <span class="hl hl-gold">belch</span>. His hand <span class="hl hl-coral">jerked</span>, and the plane <span class="hl hl-coral">dipped</span>. Someone <span class="hl hl-sky">screamed</span> behind Fred. The plane <span class="hl hl-coral">lurched</span> away from the river and over the canopy. The pilot <span class="hl hl-sky">grunted</span>, <span class="hl hl-sky">gasped</span> and <span class="hl hl-coral">wound</span> back the throttle, slowing the engine. He gave a cough that sounded like a <span class="hl hl-gold">choke</span>. Fred <span class="hl hl-gold">stared</span>.</div>
+    </div>
+
+    <h4 style="font-family:'Space Mono',monospace;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin:18px 0 12px;">Click each verb to reveal its category</h4>
+
+    <div class="classification-card behavioural">
+      <div class="classification-verb">belch</div>
+      <button class="btn btn-outline btn-sm" onclick="revealClassification(1)">Reveal category</button>
+      <div class="classification-reveal" id="cls1"><div class="classification-cat">Behavioural</div>Belching is a bodily action that hints at illness.</div>
+    </div>
+    <div class="classification-card physical">
+      <div class="classification-verb">jerked</div>
+      <button class="btn btn-outline btn-sm" onclick="revealClassification(2)">Reveal category</button>
+      <div class="classification-reveal" id="cls2"><div class="classification-cat">Physical</div>A sudden, uncontrolled movement of the hand.</div>
+    </div>
+    <div class="classification-card physical">
+      <div class="classification-verb">dipped</div>
+      <button class="btn btn-outline btn-sm" onclick="revealClassification(3)">Reveal category</button>
+      <div class="classification-reveal" id="cls3"><div class="classification-cat">Physical</div>Movement of the plane following the pilot's jerk.</div>
+    </div>
+    <div class="classification-card verbal">
+      <div class="classification-verb">screamed</div>
+      <button class="btn btn-outline btn-sm" onclick="revealClassification(4)">Reveal category</button>
+      <div class="classification-reveal" id="cls4"><div class="classification-cat">Verbal</div>An unseen passenger uses sound to react.</div>
+    </div>
+    <div class="classification-card physical">
+      <div class="classification-verb">lurched</div>
+      <button class="btn btn-outline btn-sm" onclick="revealClassification(5)">Reveal category</button>
+      <div class="classification-reveal" id="cls5"><div class="classification-cat">Physical</div>A violent, unsteady physical movement of the plane.</div>
+    </div>
+    <div class="classification-card verbal">
+      <div class="classification-verb">grunted</div>
+      <button class="btn btn-outline btn-sm" onclick="revealClassification(6)">Reveal category</button>
+      <div class="classification-reveal" id="cls6"><div class="classification-cat">Verbal</div>A small involuntary sound from the pilot.</div>
+    </div>
+    <div class="classification-card verbal">
+      <div class="classification-verb">gasped</div>
+      <button class="btn btn-outline btn-sm" onclick="revealClassification(7)">Reveal category</button>
+      <div class="classification-reveal" id="cls7"><div class="classification-cat">Verbal</div>A short, sharp intake of breath made into sound.</div>
+    </div>
+    <div class="classification-card physical">
+      <div class="classification-verb">wound</div>
+      <button class="btn btn-outline btn-sm" onclick="revealClassification(8)">Reveal category</button>
+      <div class="classification-reveal" id="cls8"><div class="classification-cat">Physical</div>The pilot's last deliberate physical action.</div>
+    </div>
+    <div class="classification-card behavioural">
+      <div class="classification-verb">choke</div>
+      <button class="btn btn-outline btn-sm" onclick="revealClassification(9)">Reveal category</button>
+      <div class="classification-reveal" id="cls9"><div class="classification-cat">Behavioural</div>A bodily sound that shows the pilot is failing.</div>
+    </div>
+    <div class="classification-card behavioural">
+      <div class="classification-verb">stared</div>
+      <button class="btn btn-outline btn-sm" onclick="revealClassification(10)">Reveal category</button>
+      <div class="classification-reveal" id="cls10"><div class="classification-cat">Behavioural</div>Fred can only watch; he is locked in.</div>
+    </div>
+
+    <div class="discussion-insight">
+      <h4>What did you notice?</h4>
+      <p>As the pilot is dying he moves less and less. The children cannot move because they are strapped into their seats. Verbal and behavioural verbs (screams, grunts, gasps, stares) come to the front. The author is using verb choice to show us that the world has shrunk to sound and watching, which is terrifying.</p>
+    </div>
+
+    <div class="follow-up-questions">
+      <h4>Discussion</h4>
+      <ol>
+        <li>Which category of verb appears most often near the start of the passage? Which appears most often by the end?</li>
+        <li>What does the shift from physical verbs to verbal and behavioural verbs tell us about who has control?</li>
+        <li>If you removed the verb 'lurched' and replaced it with 'moved', what would be lost?</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(4)">&larr; Back</button>
+    <span class="step-info">PHASE 5 / 7</span>
+    <button class="btn btn-coral" onclick="goPhase(6)">Next: You Do &rarr;</button>
+  </div>
+</section>
+
+<section class="phase" id="phase6">
+  <div class="phase-eyebrow">Phase 6 of 7 &middot; 15 min</div>
+  <h1 class="phase-title">Skim, Sort &amp; Justify: 'The Raft' (p75)</h1>
+  <p class="phase-sub">Skim for physical verbs, sort calm vs tense, then justify one choice</p>
+
+  <div class="task-brief">
+    <h3>Your task</h3>
+    <p>Turn to page 75. Fred has woken with pain in his stomach and decides to build a raft. Tension does not need to be hugely dramatic. There is tension in this scene because building the raft is a significant event for the children's survival.</p>
+    <ul>
+      <li>Find the passage on p75</li>
+      <li>Skim for physical verbs (do not read every word)</li>
+      <li>Sort verbs into calm/neutral and tension/danger groups</li>
+      <li>Justify one tense verb in writing</li>
+    </ul>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-header" onclick="togglePanel('skimBody','skimToggle')">
+      <h4>How to skim &mdash; reference card</h4>
+      <span class="ref-toggle" id="skimToggle">&#9660;</span>
+    </div>
+    <div class="ref-body" id="skimBody">
+      <div class="ref-body-inner">
+        <p>Skimming means letting your eyes move quickly across the page. You do not read every word. You scan for one type of word, in this case physical verbs (action words you can picture).</p>
+        <ul class="tip-list">
+          <li>Drag your finger or a pencil down the page to keep your eyes moving</li>
+          <li>Look for the verb after each character or pronoun (he, she, Fred, Con, Lila)</li>
+          <li>Ignore description and dialogue tags for now</li>
+          <li>Write each verb you find in your books as you go</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="simple-instruction-card" style="border-left:5px solid var(--teal);">
+    <div class="step-num" style="background:var(--teal);">1</div>
+    <div class="body">
+      <h3>Find the passage</h3>
+      <p>Open your novel to page 75. Fred has woken with stomach pain and has decided to build a raft.</p>
+    </div>
+  </div>
+  <div class="simple-instruction-card" style="border-left:5px solid var(--gold);">
+    <div class="step-num" style="background:var(--gold);">2</div>
+    <div class="body">
+      <h3>Skim for physical verbs</h3>
+      <p>Let your eyes move quickly across the page. Record every physical verb you find.</p>
+    </div>
+  </div>
+  <div class="simple-instruction-card" style="border-left:5px solid var(--sky);">
+    <div class="step-num" style="background:var(--sky);">3</div>
+    <div class="body">
+      <h3>Sort into two groups</h3>
+      <p>Sort your verbs into (a) calm or neutral actions and (b) verbs that suggest tension or danger.</p>
+    </div>
+  </div>
+  <div class="simple-instruction-card" style="border-left:5px solid var(--coral);">
+    <div class="step-num" style="background:var(--coral);">4</div>
+    <div class="body">
+      <h3>Justify one choice</h3>
+      <p>Choose one verb that suggests tension. Write what it means, how it contributes to tension, and what it suggests about Fred's situation.</p>
+    </div>
+  </div>
+
+  <div class="tension-framing">
+    <strong>Remember:</strong> tension does not have to be life-or-death. Even a quiet, careful action can carry tension if the stakes are high. Building the raft matters because the children need it to survive.
+  </div>
+
+  <div class="writing-card">
+    <div class="ref-header" onclick="togglePanel('writingBody','writingToggle')" style="background:var(--coral-light);">
+      <h4>Your written response</h4>
+      <span class="ref-toggle" id="writingToggle">&#9660;</span>
+    </div>
+    <div class="writing-body open" id="writingBody">
+      <div class="ref-body-inner">
+        <h5 style="font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;">Verbs you found</h5>
+        <textarea class="writing-textarea" id="verbsFound" placeholder="List every physical verb you skimmed from p75..." style="min-height:100px;"></textarea>
+
+        <h5 style="font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin:14px 0 8px;">Sort your verbs</h5>
+        <div class="sort-categories">
+          <div class="sort-cat-card calm">
+            <h5>Calm / neutral actions</h5>
+            <textarea class="writing-textarea" id="sortCalm" placeholder="One verb per line..." style="min-height:80px;background:#fff;"></textarea>
+          </div>
+          <div class="sort-cat-card tense">
+            <h5>Tension / danger</h5>
+            <textarea class="writing-textarea" id="sortTense" placeholder="One verb per line..." style="min-height:80px;background:#fff;"></textarea>
+          </div>
+        </div>
+
+        <h5 style="font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-light);margin:14px 0 8px;">Justify one tense verb</h5>
+        <input type="text" class="verb-input" id="chosenVerb" placeholder="The verb you chose..."/>
+        <textarea class="writing-textarea" id="studentJustification" placeholder="Write what it means, how it contributes to tension, and what it suggests about Fred's situation..."></textarea>
+
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+          <button class="btn btn-coral btn-sm" onclick="checkDialogueRules()">Check my response</button>
+          <button class="btn btn-outline btn-sm" onclick="showNameModal()">Export my work as PDF</button>
+          <button class="btn btn-outline btn-sm" onclick="toggleModelResponse()">Show model response</button>
+        </div>
+        <div class="check-results" id="checkResults"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ref-card">
+    <div class="ref-header" onclick="togglePanel('checkerBody','checkerToggle')">
+      <h4>Stuck? Verb examples to check against</h4>
+      <span class="ref-toggle" id="checkerToggle">&#9660;</span>
+    </div>
+    <div class="ref-body" id="checkerBody">
+      <div class="ref-body-inner">
+        <p style="font-size:14px;margin-bottom:10px;">If you are stuck, here are some verb examples sorted into the two groups. Use them as a check, not as the answers.</p>
+        <div class="sort-categories">
+          <div class="sort-cat-card calm">
+            <h5>Calm / neutral actions</h5>
+            <ul>
+              <li>sat</li><li>walked</li><li>looked</li><li>carried</li><li>tied</li><li>placed</li>
+            </ul>
+          </div>
+          <div class="sort-cat-card tense">
+            <h5>Tension / danger</h5>
+            <ul>
+              <li>wrenched</li><li>stumbled</li><li>gripped</li><li>shoved</li><li>hauled</li><li>snapped</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="model-reveal" id="modelReveal">
+    <div class="model-response">
+      <div class="model-label">Model response</div>
+      <p style="font-size:14px;color:var(--ink-light);margin-bottom:10px;">Here is a model that uses the verb 'wrenched' from p75. Notice how every part of the success criteria is covered.</p>
+      <div class="model-text">The verb I chose is wrenched, when Fred wrenches a vine free from the tree. Wrenched means to pull something violently with a sharp, twisting force. It contributes to tension because it is much harsher than a gentle word like pulled or untied; the reader feels the strain in Fred's arms and senses that the jungle is not giving up its materials easily. This suggests Fred's situation is urgent and physically demanding. He is a child doing the work of an adult, alone, with stomach pain, and even the simple act of gathering vines is a battle.</div>
+      <div class="model-annotations">
+        <div class="model-annot-item">
+          <strong>Names the verb and gives the meaning</strong>
+          <div class="model-annot-quote">"wrenched means to pull something violently with a sharp, twisting force"</div>
+          The success criteria ask the writer to explain what the verb means. A precise definition shows the reader has thought carefully about word choice.
+        </div>
+        <div class="model-annot-item">
+          <strong>Explains how the verb creates tension</strong>
+          <div class="model-annot-quote">"much harsher than a gentle word like pulled or untied; the reader feels the strain in Fred's arms"</div>
+          Comparing the chosen verb to a calmer alternative makes the tension visible. The writer shows they understand that authors choose between options.
+        </div>
+        <div class="model-annot-item">
+          <strong>Connects to Fred's situation in the novel</strong>
+          <div class="model-annot-quote">"He is a child doing the work of an adult, alone, with stomach pain"</div>
+          Linking the language to the wider story is the highest level of analysis. It proves the writer is reading like a thinker, not just a verb-spotter.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="challenge-box">
+    <h4>Extension challenges</h4>
+    <div class="challenge-option">
+      <strong>Extension 1: Transform the mood</strong>
+      Rewrite a calm moment in the chapter using tense physical verbs to transform the mood. Try the opening of 'The Raft' on p66: 'They were sitting in a clearing in the morning sun&hellip;'. Replace the calm verbs with tense ones and see how the mood changes.
+    </div>
+    <div class="challenge-option">
+      <strong>Extension 2: Write your own simile</strong>
+      On p62 the fire is lit: 'the fire made a noise like an idea being born / a crackle that sounded like hope'. Create your own similes for this chapter. Then discuss why this is a pivotal moment in the novel: the children have achieved something without adults, fire, grub pancakes, and now the raft.
+    </div>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(5)">&larr; Back</button>
+    <span class="step-info">PHASE 6 / 7</span>
+    <button class="btn btn-coral" onclick="goPhase(7)">Next: Reflect &rarr;</button>
+  </div>
+</section>
+
+<section class="phase" id="phase7">
+  <div class="phase-eyebrow">Phase 7 of 7 &middot; 5 min</div>
+  <h1 class="phase-title">Tension Thermometer &amp; Exit Slip</h1>
+  <p class="phase-sub">Rate the tension, update your character record, and capture the chapter in a sentence</p>
+
+  <div class="task-brief">
+    <p>Let us reflect on the tension in The Raft and capture today's chapter before we close.</p>
+  </div>
+
+  <div class="thermometer-card">
+    <h4>Building of the raft</h4>
+    <p class="thermometer-prompt">Rate the tension during the building of the raft on p75.</p>
+    <div class="thermometer-scale" data-thermometer="raft">
+      <button class="thermometer-btn" onclick="setThermometer('raft',1)">1</button>
+      <button class="thermometer-btn" onclick="setThermometer('raft',2)">2</button>
+      <button class="thermometer-btn" onclick="setThermometer('raft',3)">3</button>
+      <button class="thermometer-btn" onclick="setThermometer('raft',4)">4</button>
+      <button class="thermometer-btn" onclick="setThermometer('raft',5)">5</button>
+    </div>
+    <div class="thermometer-scale-label">1 (calm) &mdash; 5 (high tension)</div>
+  </div>
+
+  <div class="thermometer-card">
+    <h4>The plane crash</h4>
+    <p class="thermometer-prompt">Rate the tension in the moment the plane crashed in Chapter 1, 'Flight'.</p>
+    <div class="thermometer-scale" data-thermometer="crash">
+      <button class="thermometer-btn" onclick="setThermometer('crash',1)">1</button>
+      <button class="thermometer-btn" onclick="setThermometer('crash',2)">2</button>
+      <button class="thermometer-btn" onclick="setThermometer('crash',3)">3</button>
+      <button class="thermometer-btn" onclick="setThermometer('crash',4)">4</button>
+      <button class="thermometer-btn" onclick="setThermometer('crash',5)">5</button>
+    </div>
+    <div class="thermometer-scale-label">1 (calm) &mdash; 5 (high tension)</div>
+  </div>
+
+  <div class="thermometer-card" style="border-left-color:var(--purple);">
+    <h4>Why the higher rating?</h4>
+    <p class="thermometer-prompt">Why did you give the higher rating? Which verbs in the passage helped you decide?</p>
+    <textarea class="exit-textarea" id="thermometerJustify" placeholder="Write your reasoning..." style="min-height:80px;"></textarea>
+  </div>
+
+  <div class="simple-instruction-card" style="border-left:5px solid var(--gold);">
+    <div class="step-num" style="background:var(--gold);">&#9999;</div>
+    <div class="body">
+      <h3>Character development record</h3>
+      <p>Add today's insights to your character development record. What did Fred's actions on p75 reveal about him? Choose one verb the author used to describe him and explain what it suggests about his character at this point in the story.</p>
+      <textarea class="exit-textarea" id="characterRecord" placeholder="Add to your character record..." style="min-height:80px;margin-top:10px;"></textarea>
+    </div>
+  </div>
+
+  <div class="quiz-card">
+    <h4>Character statements quiz</h4>
+    <p style="font-size:14px;color:var(--ink-light);margin-bottom:14px;">Tick the statement you most agree with for each character in this chapter. Be ready to defend your choice with one piece of evidence from the text.</p>
+
+    <div class="quiz-character">
+      <div class="quiz-character-name">Fred</div>
+      <div class="quiz-options">
+        <label><input type="radio" name="quizFred" value="A"> A: Fred is acting as a leader, taking responsibility for the group's survival.</label>
+        <label><input type="radio" name="quizFred" value="B"> B: Fred is struggling with his own pain but pushes through to help the others.</label>
+        <label><input type="radio" name="quizFred" value="C"> C: Fred is finding strength in himself that he did not know he had.</label>
+      </div>
+    </div>
+
+    <div class="quiz-character">
+      <div class="quiz-character-name">Con</div>
+      <div class="quiz-options">
+        <label><input type="radio" name="quizCon" value="A"> A: Con is supportive and works alongside Fred.</label>
+        <label><input type="radio" name="quizCon" value="B"> B: Con is becoming more confident in the jungle.</label>
+        <label><input type="radio" name="quizCon" value="C"> C: Con's role in the group is shifting as the children adapt.</label>
+      </div>
+    </div>
+
+    <div class="quiz-character">
+      <div class="quiz-character-name">Lila</div>
+      <div class="quiz-options">
+        <label><input type="radio" name="quizLila" value="A"> A: Lila is showing care for the others through small actions.</label>
+        <label><input type="radio" name="quizLila" value="B"> B: Lila is observing and learning quietly.</label>
+        <label><input type="radio" name="quizLila" value="C"> C: Lila is more capable than she first appeared.</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="exit-slip">
+    <h3>One-sentence chapter summary</h3>
+    <p>"In this chapter, ___ because ___, which shows ___."</p>
+    <p style="font-size:14px;font-style:normal;">Record a one-sentence summary of 'The Raft' on the exit slip template. We will repeat this for every chapter, so the slips build into a record of the whole novel.</p>
+    <textarea class="exit-textarea" id="exitTicket" placeholder="In this chapter, ..."></textarea>
+    <div style="margin-top:12px;">
+      <button class="btn btn-outline btn-sm" onclick="window.print()">Print exit slip template</button>
+    </div>
+  </div>
+
+  <div class="checklist" id="selfAssessment">
+    <h4>Self-assessment</h4>
+    <label><input type="checkbox"> I skimmed the passage on p75 without reading every word</label>
+    <label><input type="checkbox"> I recorded physical verbs in my book</label>
+    <label><input type="checkbox"> I sorted my verbs into calm and tense groups</label>
+    <label><input type="checkbox"> I chose one tense verb and explained what it means</label>
+    <label><input type="checkbox"> I explained how my chosen verb creates tension</label>
+    <label><input type="checkbox"> I linked my verb to Fred's situation in the chapter</label>
+    <label><input type="checkbox"> I rated tension on the thermometer and could justify my rating</label>
+  </div>
+
+  <div style="text-align:center;margin-top:24px;">
+    <button class="btn btn-coral" onclick="showNameModal()">Export my full lesson as PDF</button>
+  </div>
+
+  <div class="phase-nav">
+    <button class="btn btn-outline" onclick="goPhase(6)">&larr; Back</button>
+    <span class="step-info">PHASE 7 / 7</span>
+    <button class="btn btn-outline" onclick="goPhase(1)">&#x21bb; Restart lesson</button>
+  </div>
+</section>
+
+</main>
+
+<div class="modal-overlay" id="nameModal">
+  <div class="modal">
+    <h3>Export your work</h3>
+    <p>Enter your name. We will not save or send it. It just goes onto your printed sheet.</p>
+    <input type="text" id="studentName" placeholder="Your name" autocomplete="off"/>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeNameModal()">Cancel</button>
+      <button class="btn btn-coral" onclick="exportPDF()">Print / Save as PDF</button>
+    </div>
+  </div>
+</div>
+
+<div id="printSummary"></div>
+
+<script>
+var totalPhases=7;
+var hookStep=1;
+var hookExemplarCount=5;
+var ruleStep=1;
+var ruleCount=4;
+var thermometerValues={raft:null,crash:null};
+
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed');}
+
+function goPhase(n){
+  if(n<1||n>totalPhases)return;
+  document.querySelectorAll('.phase').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('phase'+n).classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(function(b){b.classList.remove('active');});
+  var btn=document.querySelector('.sidebar-item[data-nav="phase'+n+'"]');
+  if(btn)btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function revealExemplar(i){
+  document.getElementById('exr'+i).classList.add('shown');
+}
+
+function hookNext(){
+  hookStep++;
+  if(hookStep<=hookExemplarCount){
+    var el=document.getElementById('ex'+hookStep);
+    el.classList.add('shown');
+    el.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  if(hookStep>=hookExemplarCount){
+    var b=document.getElementById('hookNextBtn');
+    b.textContent='All stories shown';
+    b.disabled=true;
+  }
+}
+
+function revealNovelApp(){
+  document.getElementById('novelAppAnswer').classList.add('shown');
+}
+
+function renderRule(){
+  document.querySelectorAll('.rule-card').forEach(function(c){c.classList.remove('active-rule');});
+  document.getElementById('rule'+ruleStep).classList.add('active-rule');
+  document.getElementById('ruleCounter').textContent='RULE '+ruleStep+' / '+ruleCount;
+}
+function ruleNext(){if(ruleStep<ruleCount){ruleStep++;renderRule();}}
+function rulePrev(){if(ruleStep>1){ruleStep--;renderRule();}}
+function ruleReveal(n){document.getElementById('ruleAns'+n).classList.add('shown');}
+
+function revealModelling(){
+  document.getElementById('modellingPlain').style.display='none';
+  document.getElementById('modellingAnnotated').style.display='block';
+  document.getElementById('teacherNote').style.display='block';
+}
+
+function revealAnnotated(){
+  document.getElementById('weDoAnnotated').classList.add('shown');
+}
+
+function revealClassification(n){
+  document.getElementById('cls'+n).classList.add('shown');
+}
+
+function togglePanel(bodyId,toggleId){
+  var body=document.getElementById(bodyId);
+  var toggle=document.getElementById(toggleId);
+  if(body.classList.contains('open')){body.classList.remove('open');toggle.innerHTML='&#9660;';}
+  else{body.classList.add('open');toggle.innerHTML='&#9650;';}
+}
+
+function toggleModelResponse(){
+  document.getElementById('modelReveal').classList.toggle('shown');
+}
+
+function setThermometer(key,val){
+  thermometerValues[key]=val;
+  document.querySelectorAll('[data-thermometer="'+key+'"] .thermometer-btn').forEach(function(b,i){
+    if(i+1===val)b.classList.add('selected');else b.classList.remove('selected');
+  });
+}
+
+function checkDialogueRules(){
+  var verbs=(document.getElementById('verbsFound').value||'').trim();
+  var calm=(document.getElementById('sortCalm').value||'').trim();
+  var tense=(document.getElementById('sortTense').value||'').trim();
+  var chosen=(document.getElementById('chosenVerb').value||'').trim();
+  var just=(document.getElementById('studentJustification').value||'').trim();
+  var out=document.getElementById('checkResults');
+  var html='';
+
+  if(verbs.length>0){
+    var n=verbs.split(/[\s,\n]+/).filter(function(s){return s.length>0;}).length;
+    html+='<div class="check-item pass"><span class="check-icon">&#10003;</span>You have recorded '+n+' physical verb'+(n===1?'':'s')+'.</div>';
+  }else{
+    html+='<div class="check-item warn"><span class="check-icon">!</span>List the physical verbs you skimmed from p75.</div>';
+  }
+
+  if(calm.length>0&&tense.length>0){
+    html+='<div class="check-item pass"><span class="check-icon">&#10003;</span>You have sorted verbs into both groups.</div>';
+  }else{
+    html+='<div class="check-item warn"><span class="check-icon">!</span>Sort verbs into both calm/neutral and tension/danger groups.</div>';
+  }
+
+  if(chosen.length>0){
+    html+='<div class="check-item pass"><span class="check-icon">&#10003;</span>You chose the verb: '+escapeHtml(chosen)+'.</div>';
+  }else{
+    html+='<div class="check-item warn"><span class="check-icon">!</span>Name the tense verb you are analysing.</div>';
+  }
+
+  if(just.length>=80){
+    html+='<div class="check-item pass"><span class="check-icon">&#10003;</span>Your justification is a good length.</div>';
+  }else if(just.length>0){
+    html+='<div class="check-item warn"><span class="check-icon">!</span>Your justification is short. Try to cover meaning, tension and Fred\u2019s situation.</div>';
+  }else{
+    html+='<div class="check-item fail"><span class="check-icon">&#10007;</span>Write your justification.</div>';
+  }
+
+  var lower=just.toLowerCase();
+  if(lower.indexOf('mean')>-1||lower.indexOf('definition')>-1){
+    html+='<div class="check-item pass"><span class="check-icon">&#10003;</span>You have explained what the verb means.</div>';
+  }else if(just.length>0){
+    html+='<div class="check-item warn"><span class="check-icon">!</span>Have you explained what the verb means?</div>';
+  }
+  if(lower.indexOf('tension')>-1||lower.indexOf('tense')>-1){
+    html+='<div class="check-item pass"><span class="check-icon">&#10003;</span>You have linked the verb to tension.</div>';
+  }else if(just.length>0){
+    html+='<div class="check-item warn"><span class="check-icon">!</span>Make sure you explain how the verb creates tension.</div>';
+  }
+  if(lower.indexOf('fred')>-1){
+    html+='<div class="check-item pass"><span class="check-icon">&#10003;</span>You have linked it to Fred.</div>';
+  }else if(just.length>0){
+    html+='<div class="check-item warn"><span class="check-icon">!</span>Connect the verb to Fred\u2019s situation in the chapter.</div>';
+  }
+
+  out.innerHTML=html;
+}
+
+function escapeHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function showNameModal(){document.getElementById('nameModal').classList.add('shown');setTimeout(function(){var i=document.getElementById('studentName');if(i)i.focus();},50);}
+function closeNameModal(){document.getElementById('nameModal').classList.remove('shown');}
+
+function exportPDF(){
+  var name=(document.getElementById('studentName').value||'').trim()||'Student';
+  var d=new Date();
+  var date=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+  var verbs=(document.getElementById('verbsFound').value||'').trim();
+  var calm=(document.getElementById('sortCalm').value||'').trim();
+  var tense=(document.getElementById('sortTense').value||'').trim();
+  var chosen=(document.getElementById('chosenVerb').value||'').trim();
+  var just=(document.getElementById('studentJustification').value||'').trim();
+  var thermJustify=(document.getElementById('thermometerJustify').value||'').trim();
+  var charRecord=(document.getElementById('characterRecord').value||'').trim();
+  var exitText=(document.getElementById('exitTicket').value||'').trim();
+
+  var quizFred=document.querySelector('input[name="quizFred"]:checked');
+  var quizCon=document.querySelector('input[name="quizCon"]:checked');
+  var quizLila=document.querySelector('input[name="quizLila"]:checked');
+
+  var checks=document.querySelectorAll('#selfAssessment input[type="checkbox"]');
+  var checkLines='';
+  checks.forEach(function(c){
+    var lbl=c.parentNode.textContent.trim();
+    checkLines+='<div>'+(c.checked?'&#10003;':'&#9744;')+' '+escapeHtml(lbl)+'</div>';
+  });
+
+  var html='<h1>The Explorer &mdash; Week 4B Lesson 1: Tension Through Physical Verbs</h1>';
+  html+='<div class="ps-item"><strong>Name:</strong> '+escapeHtml(name)+' &nbsp; &middot; &nbsp; <strong>Date:</strong> '+date+'</div>';
+
+  html+='<h2>Phase 6: Skim, Sort &amp; Justify (p75)</h2>';
+  html+='<div class="ps-item"><div class="ps-label">Physical verbs found:</div><div class="ps-value">'+escapeHtml(verbs||'(no entry)')+'</div></div>';
+  html+='<div class="ps-item"><div class="ps-label">Calm / neutral actions:</div><div class="ps-value">'+escapeHtml(calm||'(no entry)')+'</div></div>';
+  html+='<div class="ps-item"><div class="ps-label">Tension / danger:</div><div class="ps-value">'+escapeHtml(tense||'(no entry)')+'</div></div>';
+  html+='<div class="ps-item"><div class="ps-label">Chosen tense verb:</div><div class="ps-value">'+escapeHtml(chosen||'(no entry)')+'</div></div>';
+  html+='<div class="ps-item"><div class="ps-label">Justification:</div><div class="ps-value">'+escapeHtml(just||'(no entry)')+'</div></div>';
+
+  html+='<h2>Phase 7: Tension Thermometer</h2>';
+  html+='<div class="ps-item"><div class="ps-label">Building of the raft (1 calm &mdash; 5 high tension):</div><div class="ps-value">'+(thermometerValues.raft||'(not rated)')+'</div></div>';
+  html+='<div class="ps-item"><div class="ps-label">The plane crash (1 calm &mdash; 5 high tension):</div><div class="ps-value">'+(thermometerValues.crash||'(not rated)')+'</div></div>';
+  html+='<div class="ps-item"><div class="ps-label">Reasoning:</div><div class="ps-value">'+escapeHtml(thermJustify||'(no entry)')+'</div></div>';
+
+  html+='<h2>Phase 7: Character Development Record</h2>';
+  html+='<div class="ps-item"><div class="ps-value">'+escapeHtml(charRecord||'(no entry)')+'</div></div>';
+
+  html+='<h2>Phase 7: Character Statements Quiz</h2>';
+  html+='<div class="ps-item"><strong>Fred:</strong> '+(quizFred?escapeHtml(quizFred.value)+' \u2014 '+escapeHtml(quizFred.parentNode.textContent.trim()):'(no answer)')+'</div>';
+  html+='<div class="ps-item"><strong>Con:</strong> '+(quizCon?escapeHtml(quizCon.value)+' \u2014 '+escapeHtml(quizCon.parentNode.textContent.trim()):'(no answer)')+'</div>';
+  html+='<div class="ps-item"><strong>Lila:</strong> '+(quizLila?escapeHtml(quizLila.value)+' \u2014 '+escapeHtml(quizLila.parentNode.textContent.trim()):'(no answer)')+'</div>';
+
+  html+='<h2>Phase 7: One-sentence Chapter Summary</h2>';
+  html+='<div class="ps-item"><div class="ps-value">'+escapeHtml(exitText||'(no entry)')+'</div></div>';
+
+  html+='<h2>Self-assessment</h2>';
+  html+='<div class="ps-item">'+checkLines+'</div>';
+
+  document.getElementById('printSummary').innerHTML=html;
+  closeNameModal();
+  setTimeout(function(){window.print();},150);
+}
+
+document.addEventListener('keydown',function(e){
+  if(document.activeElement&&(document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='TEXTAREA'))return;
+  if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
+  var current=null;
+  document.querySelectorAll('.phase').forEach(function(p,i){if(p.classList.contains('active'))current=i+1;});
+  if(!current)return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){if(current<totalPhases){e.preventDefault();goPhase(current+1);}}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){if(current>1){e.preventDefault();goPhase(current-1);}}
+},true);
+
+document.getElementById('nameModal').addEventListener('click',function(e){if(e.target===this)closeNameModal();});
+</script>
+</body>
+</html>
