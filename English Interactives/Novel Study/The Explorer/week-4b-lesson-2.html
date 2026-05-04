@@ -22,8 +22,8 @@
   --sidebar-bg:#2D3436;
   --sidebar-w:240px;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-html,body{background:var(--bg);color:var(--ink);font-family:'Fredoka',sans-serif;line-height:1.6;min-height:100%;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Fredoka',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
 .bg-shapes{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden;}
 .bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;}
 .bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:var(--coral);}
@@ -31,919 +31,353 @@ html,body{background:var(--bg);color:var(--ink);font-family:'Fredoka',sans-serif
 .bg-shape:nth-child(3){width:350px;height:350px;bottom:15%;left:10%;background:var(--gold);}
 .bg-shape:nth-child(4){width:450px;height:450px;bottom:-5%;right:15%;background:var(--purple);}
 .bg-shape:nth-child(5){width:300px;height:300px;top:50%;left:40%;background:var(--sky);}
-
-.top-bar{position:fixed;top:0;left:0;right:0;height:54px;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,0.06);display:flex;align-items:center;padding:0 24px;z-index:100;gap:18px;}
-.sidebar-toggle{background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink);padding:6px 10px;border-radius:8px;}
-.sidebar-toggle:hover{background:rgba(0,0,0,0.06);}
-.top-bar-title{font-weight:600;font-size:15px;letter-spacing:0.2px;flex:1;}
-.top-bar-title span{color:var(--ink-light);margin:0 6px;}
-.back-link{color:var(--ink-light);text-decoration:none;font-size:14px;}
-.back-link:hover{color:var(--coral);}
-
-.sidebar{position:fixed;top:54px;left:0;bottom:0;width:var(--sidebar-w);background:var(--sidebar-bg);color:#fff;overflow-y:auto;z-index:90;transition:width 0.3s;}
-.sidebar.collapsed{width:0;}
-.sidebar-content{padding:20px 0;width:var(--sidebar-w);}
-.sidebar-section{margin-bottom:18px;}
-.sidebar-section-title{font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.5);padding:0 22px 6px;}
-.sidebar-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 22px;background:none;border:none;color:rgba(255,255,255,0.78);text-align:left;cursor:pointer;font-family:'Fredoka',sans-serif;font-size:14px;border-left:3px solid transparent;transition:all 0.2s;}
-.sidebar-item:hover{background:rgba(255,255,255,0.06);color:#fff;}
-.sidebar-item.active{background:rgba(255,255,255,0.1);color:#fff;border-left-color:var(--coral);}
-.sidebar-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
-.sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:14px 22px;}
-.sidebar-export{padding:0 22px 24px;}
-.sidebar-export-btn{width:100%;background:var(--coral);color:#fff;border:none;padding:11px 14px;border-radius:10px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:transform 0.15s;}
-.sidebar-export-btn:hover{transform:translateY(-1px);}
-
-main{margin-left:var(--sidebar-w);margin-top:54px;padding:40px 48px 80px;position:relative;z-index:1;transition:margin-left 0.3s;max-width:none;}
+.top-bar{background:var(--sidebar-bg);color:#fff;position:sticky;top:0;z-index:200;display:flex;align-items:center;border-bottom:2px solid rgba(255,255,255,0.08);}
+.sidebar-toggle{background:none;border:none;border-right:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.top-bar-title{font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.95rem;padding:0 22px;letter-spacing:0.3px;}
+.top-bar-title span{color:var(--teal);}
+.top-bar .back-link{margin-left:auto;color:var(--teal);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.7;transition:opacity 0.2s;font-family:'Fredoka',sans-serif;}
+.top-bar .back-link:hover{opacity:1;}
+.sidebar{position:fixed;left:0;top:48px;width:var(--sidebar-w);height:calc(100vh - 48px);background:var(--sidebar-bg);color:#fff;z-index:100;overflow-y:auto;transition:width 0.3s ease;}
+.sidebar.collapsed{width:0;overflow:hidden;}
+.sidebar-content{padding:16px 0;}
+.sidebar-section{margin-bottom:12px;}
+.sidebar-section-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);padding:10px 18px 6px;}
+.sidebar-item{background:none;border:none;color:rgba(255,255,255,0.6);font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;padding:9px 18px;width:100%;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:10px;}
+.sidebar-item:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.sidebar-item.active{background:rgba(78,205,196,0.15);color:#fff;border-left:4px solid var(--teal);padding-left:14px;}
+.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sidebar-divider{height:1px;background:rgba(255,255,255,0.1);margin:14px 18px;}
+.sidebar-export{padding:0 18px;margin-top:8px;}
+.sidebar-export-btn{width:100%;background:var(--coral);color:#fff;border:none;border-radius:10px;padding:12px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;}
+.sidebar-export-btn:hover{background:#ff5252;transform:translateY(-1px);}
+main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 60px 80px;position:relative;z-index:1;}
 .sidebar.collapsed ~ main{margin-left:0;}
-
-.phase{display:none;animation:fadeIn 0.4s;}
+.phase{display:none;max-width:960px;margin:0 auto;animation:fadeIn 0.4s ease;}
 .phase.active{display:block;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-.phase-eyebrow{font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--ink-light);margin-bottom:8px;}
-.phase-title{font-size:clamp(28px,4vw,42px);font-weight:700;margin-bottom:10px;line-height:1.15;letter-spacing:-0.5px;}
-.phase-sub{font-size:clamp(15px,1.8vw,19px);color:var(--ink-light);margin-bottom:28px;max-width:820px;}
-
-.card{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:20px;}
-.card h3{font-size:clamp(17px,2.1vw,21px);font-weight:600;margin-bottom:10px;}
-.card p{font-size:clamp(15px,1.8vw,18px);}
-
-.lisc{background:var(--card);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow);border-left:6px solid var(--purple);}
-.lisc-li{font-size:clamp(16px,1.9vw,19px);margin-bottom:18px;}
-.lisc-li-text{font-weight:600;}
-.lisc-sc-title{font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--purple);margin-bottom:10px;}
-.lisc ul{list-style:none;padding:0;}
-.lisc ul li{padding:8px 0 8px 28px;position:relative;font-size:clamp(15px,1.8vw,18px);}
-.lisc ul li:before{content:"✓";position:absolute;left:0;color:var(--purple);font-weight:700;}
-
-.activation-card{background:linear-gradient(135deg,var(--coral-light),var(--gold-light));border-radius:var(--radius);padding:26px;margin-bottom:22px;border-left:6px solid var(--coral);}
-.activation-card .label{font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--coral);margin-bottom:8px;}
-.activation-card h3{font-size:clamp(18px,2.2vw,22px);margin-bottom:8px;}
-.activation-card p{font-size:clamp(15px,1.8vw,18px);}
-
-.def-card{background:var(--card);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);margin-bottom:22px;border-left:5px solid var(--teal);}
-.def-card h3{color:var(--teal);font-size:clamp(17px,2.1vw,21px);margin-bottom:10px;}
-
-.exemplar-card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:18px;border-left:5px solid var(--coral);}
-.exemplar-card.hidden{display:none;}
-.exemplar-card .label{font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
-.exemplar-card h4{font-size:clamp(17px,2vw,20px);margin-bottom:10px;}
-.exemplar-card .prompt{font-style:italic;color:var(--ink-light);margin-bottom:14px;font-size:clamp(14px,1.6vw,17px);}
-.exemplar-versions{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
-.exemplar-version{padding:14px;border-radius:10px;background:#f7f5f1;}
-.exemplar-version.alt{background:#fff5f5;}
-.exemplar-version .v-label{font-family:'Space Mono',monospace;font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--ink-light);margin-bottom:6px;}
-.exemplar-effect{background:var(--purple-light);padding:14px 16px;border-radius:10px;font-size:clamp(14px,1.6vw,16px);display:none;}
-.exemplar-effect.shown{display:block;}
-.exemplar-card .reveal-btn-wrap{text-align:center;margin-top:6px;}
-
-.summary-card{background:linear-gradient(135deg,var(--purple-light),var(--sky-light));border-radius:var(--radius);padding:26px;margin-top:22px;border-left:6px solid var(--purple);}
-.summary-card h3{color:var(--purple);}
-
-.rule-step-info{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:1.5px;color:var(--ink-light);text-align:center;margin-bottom:14px;text-transform:uppercase;}
-.rule-card{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:20px;display:none;}
-.rule-card.active-rule{display:block;}
-.rule-num{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;font-weight:700;}
-.rule-text{font-size:clamp(15px,1.8vw,18px);margin-bottom:18px;}
-.rule-try{background:#f7f5f1;padding:18px;border-radius:12px;margin-bottom:16px;}
-.rule-try-label{font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink-light);margin-bottom:8px;}
-.rule-try-text{font-size:clamp(15px,1.8vw,18px);}
-.rule-answer{display:none;margin-top:14px;background:var(--green-light);padding:18px;border-radius:12px;border-left:4px solid var(--green);}
-.rule-answer.shown{display:block;}
-.rule-answer-label{font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);margin-bottom:6px;}
-.rule-answer-text{font-size:clamp(15px,1.8vw,18px);}
-.hl{padding:2px 8px;border-radius:6px;font-weight:700;}
-.hl-coral{background:var(--coral-light);color:var(--coral);}
-.hl-sky{background:var(--sky-light);color:var(--sky);}
-.hl-gold{background:var(--gold-light);color:#b8860b;}
-.hl-teal{background:var(--teal-light);color:var(--teal);}
-.hl-purple{background:var(--purple-light);color:var(--purple);}
-.rule-nav{display:flex;justify-content:space-between;align-items:center;margin-top:14px;}
-
-.cline-card{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:20px;}
-.cline-stage{display:none;}
-.cline-stage.active{display:block;}
-.cline-stage-label{font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);margin-bottom:8px;}
-.cline-stage h3{font-size:clamp(18px,2.2vw,22px);margin-bottom:10px;}
-.cline-prompt{font-size:clamp(15px,1.8vw,18px);margin-bottom:14px;}
-.cline-sentence-box{background:#f7f5f1;padding:18px 20px;border-radius:12px;border-left:4px solid var(--gold);font-size:clamp(16px,1.9vw,19px);margin-bottom:14px;}
-.cline-context{background:var(--gold-light);padding:14px 18px;border-radius:10px;margin-bottom:14px;font-size:clamp(14px,1.6vw,17px);}
-.cline-bank{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
-.cline-word{padding:8px 16px;background:var(--sky-light);color:var(--sky);border-radius:20px;font-weight:600;font-size:clamp(13px,1.5vw,16px);}
-.cline-scale{display:flex;align-items:center;gap:6px;background:#f7f5f1;padding:18px;border-radius:12px;margin-bottom:14px;flex-wrap:wrap;}
-.cline-anchor{padding:10px 14px;border-radius:10px;font-weight:700;background:var(--coral-light);color:var(--coral);font-size:clamp(13px,1.5vw,15px);}
-.cline-anchor.high{background:var(--green-light);color:var(--green);}
-.cline-arrow{flex:1;height:3px;background:linear-gradient(90deg,var(--coral),var(--gold),var(--green));border-radius:2px;min-width:40px;}
-.cline-positions{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:14px;}
-.cline-pos{background:#f7f5f1;padding:12px 8px;border-radius:10px;text-align:center;font-size:clamp(12px,1.4vw,15px);font-weight:600;border:2px dashed transparent;}
-.cline-pos.revealed{border-color:var(--gold);background:var(--gold-light);}
-.cline-pos .pos-num{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--ink-light);display:block;margin-bottom:4px;}
-.cline-teacher-note{background:var(--teal-light);padding:14px 18px;border-radius:10px;margin-top:12px;font-size:clamp(14px,1.6vw,16px);border-left:4px solid var(--teal);}
-.cline-teacher-note .label{font-family:'Space Mono',monospace;font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--teal);margin-bottom:6px;}
-.cline-stage-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px;}
-.cline-step-info{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:1.5px;color:var(--ink-light);}
-.cline-final{background:var(--green-light);padding:16px 18px;border-radius:10px;border-left:4px solid var(--green);font-size:clamp(15px,1.8vw,18px);font-weight:600;margin-top:10px;display:none;}
-.cline-final.shown{display:block;}
-
-.task-brief{background:linear-gradient(135deg,var(--sky-light),var(--teal-light));border-radius:var(--radius);padding:28px;margin-bottom:22px;border-left:6px solid var(--sky);}
-.task-brief h3{font-size:clamp(18px,2.2vw,22px);margin-bottom:10px;color:var(--sky);}
-.task-brief p{font-size:clamp(15px,1.8vw,18px);margin-bottom:12px;}
-.task-brief ul{padding-left:22px;}
-.task-brief li{margin-bottom:6px;font-size:clamp(15px,1.8vw,18px);}
-
-.ref-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden;}
-.ref-header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;cursor:pointer;background:var(--gold-light);}
-.ref-header h4{font-size:clamp(15px,1.7vw,18px);color:#b8860b;}
-.ref-toggle{font-size:14px;color:#b8860b;}
-.ref-body{max-height:0;overflow:hidden;transition:max-height 0.35s ease;}
-.ref-body.open{max-height:1500px;}
-.ref-body-inner{padding:22px 24px;}
-
-.task-group-card{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:16px;border-left:5px solid var(--sky);}
-.task-group-num{font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--sky);margin-bottom:8px;}
-.task-group-words{font-size:clamp(16px,1.9vw,20px);font-weight:600;margin-bottom:14px;}
-.task-group-area{margin-top:12px;}
-.task-group-area label{display:block;font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink-light);margin-bottom:6px;}
-.task-group-area textarea{width:100%;min-height:70px;padding:12px;border:2px solid #e8e6e2;border-radius:10px;font-family:'Fredoka',sans-serif;font-size:15px;resize:vertical;}
-.task-group-area textarea:focus{outline:none;border-color:var(--sky);}
-
-.writing-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden;}
-.writing-header{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;cursor:pointer;background:var(--sky-light);}
-.writing-header h4{font-size:clamp(16px,1.9vw,19px);color:var(--sky);}
-.writing-body{max-height:0;overflow:hidden;transition:max-height 0.35s ease;}
-.writing-body.open{max-height:2000px;}
-.writing-body-inner{padding:22px 24px;}
-
-.model-reveal{display:none;}
-.model-reveal.shown{display:block;}
-.model-response{background:var(--card);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);border-left:5px solid var(--purple);}
-.model-label{font-family:'Space Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--purple);margin-bottom:10px;}
-.model-text{font-size:clamp(15px,1.8vw,18px);margin-bottom:16px;}
-.model-text p{margin-bottom:10px;}
-.model-annotations{background:var(--purple-light);padding:18px;border-radius:12px;}
-.model-annot-item{padding:8px 0;font-size:clamp(14px,1.6vw,16px);border-bottom:1px solid rgba(155,93,229,0.2);}
-.model-annot-item:last-child{border-bottom:none;}
-
-.challenge-box{background:linear-gradient(135deg,var(--gold-light),var(--coral-light));border-radius:var(--radius);padding:24px;border-left:6px solid var(--gold);margin-bottom:20px;}
-.challenge-box h4{font-size:clamp(17px,2vw,20px);color:#b8860b;margin-bottom:8px;}
-.challenge-box p{font-size:clamp(14px,1.7vw,17px);}
-
-.support-note{background:var(--teal-light);padding:14px 18px;border-radius:10px;margin-bottom:18px;font-size:clamp(14px,1.6vw,16px);border-left:4px solid var(--teal);}
-
-.simple-instruction-card{background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-bottom:16px;display:flex;gap:18px;align-items:flex-start;}
-.simple-instruction-card .step-num{flex-shrink:0;width:42px;height:42px;border-radius:50%;color:#fff;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center;}
-.simple-instruction-card .body h3{font-size:clamp(17px,2vw,20px);margin-bottom:6px;}
-.simple-instruction-card .body p{font-size:clamp(14px,1.7vw,17px);}
-
-.exit-slip{background:linear-gradient(135deg,var(--purple-light),var(--pink));border-radius:var(--radius);padding:26px;border-left:6px solid var(--purple);margin-top:20px;}
-.exit-slip h3{color:var(--purple);font-size:clamp(18px,2.2vw,22px);margin-bottom:12px;}
-.exit-slip p{font-style:italic;font-size:clamp(15px,1.8vw,18px);margin-bottom:14px;}
-.exit-textarea{width:100%;min-height:90px;padding:14px;border:2px solid rgba(155,93,229,0.3);border-radius:12px;font-family:'Fredoka',sans-serif;font-size:15px;background:rgba(255,255,255,0.7);resize:vertical;}
-.exit-textarea:focus{outline:none;border-color:var(--purple);background:#fff;}
-
-.btn{display:inline-block;padding:11px 22px;border-radius:10px;border:none;font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;cursor:pointer;text-decoration:none;transition:all 0.2s;}
-.btn-coral{background:var(--coral);color:#fff;}
-.btn-coral:hover{background:#ff5757;transform:translateY(-1px);}
-.btn-purple{background:var(--purple);color:#fff;}
-.btn-purple:hover{background:#8a4fd1;transform:translateY(-1px);}
-.btn-gold{background:var(--gold);color:#5a4500;}
-.btn-gold:hover{background:#fcd024;transform:translateY(-1px);}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.phase-eyebrow{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--teal);text-align:center;margin-bottom:8px;font-weight:700;}
+.phase-title{font-family:'Fredoka',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:700;text-align:center;margin:0 0 10px;line-height:1.15;}
+.phase-sub{text-align:center;font-size:clamp(15px,1.8vw,19px);color:var(--ink-light);margin-bottom:28px;line-height:1.5;font-weight:400;}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:32px;margin-bottom:22px;}
+.btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:11px 26px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;box-shadow:none;}
 .btn-teal{background:var(--teal);color:#fff;}
-.btn-teal:hover{background:#3bc0b7;transform:translateY(-1px);}
+.btn-coral{background:var(--coral);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-purple{background:var(--purple);color:#fff;}
 .btn-sky{background:var(--sky);color:#fff;}
-.btn-sky:hover{background:#5da8ff;transform:translateY(-1px);}
-.btn-outline{background:#fff;color:var(--ink);border:2px solid #e8e6e2;}
-.btn-outline:hover{border-color:var(--coral);color:var(--coral);}
-.btn-sm{padding:8px 16px;font-size:13px;}
-.btn:disabled{opacity:0.5;cursor:not-allowed;}
-
-.phase-nav{display:flex;justify-content:space-between;align-items:center;margin-top:36px;padding-top:22px;border-top:1px solid rgba(0,0,0,0.08);gap:12px;flex-wrap:wrap;}
-.step-info{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:1.5px;color:var(--ink-light);}
-
-.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:20px;}
-.modal.shown{display:flex;}
-.modal-content{background:#fff;border-radius:var(--radius);padding:30px;max-width:420px;width:100%;}
-.modal-content h3{font-size:20px;margin-bottom:10px;}
-.modal-content p{color:var(--ink-light);margin-bottom:16px;font-size:14px;}
-.modal-content input{width:100%;padding:12px;border:2px solid #e8e6e2;border-radius:10px;font-family:'Fredoka',sans-serif;font-size:15px;margin-bottom:16px;}
-.modal-content input:focus{outline:none;border-color:var(--coral);}
+.btn-green{background:var(--green);color:#fff;}
+.btn-outline{background:#fff;color:var(--ink);border:2px solid #ddd;}
+.btn-outline:hover{border-color:var(--ink);}
+.btn-sm{font-size:13px;padding:8px 18px;}
+.phase-nav{display:flex;justify-content:space-between;align-items:center;margin-top:30px;padding-top:18px;border-top:1px solid #eee;gap:12px;}
+.phase-nav .step-info{font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--ink-light);letter-spacing:1.5px;}
+.lisc{background:linear-gradient(135deg,#fff,#fdf6ff);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:26px;border-left:5px solid var(--purple);}
+.lisc-heading{font-size:clamp(15px,1.8vw,18px);font-weight:600;color:var(--purple);margin-bottom:12px;}
+.lisc-text{font-size:clamp(15px,1.8vw,18px);color:var(--ink);font-weight:500;margin-bottom:16px;}
+.lisc-sc-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--purple);font-weight:700;margin:14px 0 8px;}
+.lisc ul{margin:0;padding-left:22px;}
+.lisc li{font-size:clamp(13px,1.5vw,16px);color:var(--ink);margin:8px 0;line-height:1.5;}
+.hl{padding:2px 6px;border-radius:4px;font-weight:600;}
+.hl-coral{background:var(--coral-light);color:#c43838;}
+.hl-sky{background:var(--sky-light);color:#2c6fc7;}
+.hl-gold{background:var(--gold-light);color:#a07e00;}
+.hl-purple{background:var(--purple-light);color:#6e36c4;}
+.hl-teal{background:var(--teal-light);color:#1e8e85;}
+.hl-green{background:var(--green-light);color:#1b7a3e;}
+.exemplar-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:40px 44px;margin-bottom:22px;border-left:5px solid var(--coral);text-align:center;}
+.exemplar-counter{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:2px;color:var(--ink-light);margin-bottom:12px;}
+.exemplar-source{font-size:clamp(14px,1.6vw,16px);color:var(--ink-light);font-style:italic;margin-bottom:28px;}
+.exemplar-sentence{font-size:clamp(19px,2.5vw,26px);font-weight:500;line-height:1.9;margin-bottom:32px;color:var(--ink);}
+.exemplar-sentence .blank{display:inline-block;min-width:130px;border-bottom:3px dashed var(--coral);margin:0 6px;padding:0 8px;}
+.exemplar-predict{margin-bottom:28px;}
+.exemplar-predict p{font-size:clamp(15px,1.8vw,17px);color:var(--ink-light);line-height:1.6;}
+.reveal-area{display:none;animation:fadeIn 0.4s ease;margin-top:28px;}
+.reveal-area.shown{display:block;}
+.reveal-word{font-size:clamp(26px,4vw,38px);font-weight:700;margin-bottom:20px;}
+.reveal-effect{font-size:clamp(15px,1.8vw,17px);color:var(--ink);line-height:1.7;max-width:640px;margin:0 auto;text-align:left;background:var(--bg);border-radius:12px;padding:20px 24px;}
+.exemplar-controls{display:flex;gap:10px;justify-content:center;margin-top:28px;}
+.summary-card{background:linear-gradient(135deg,var(--teal-light),var(--sky-light));border-radius:var(--radius);padding:24px 28px;border-left:5px solid var(--teal);margin-bottom:22px;}
+.summary-card p{font-size:clamp(15px,1.8vw,17px);line-height:1.6;}
+.ido-step{display:none;animation:fadeIn 0.4s ease;}
+.ido-step.active{display:block;}
+.ido-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 32px;margin-bottom:18px;}
+.ido-step-label{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;}
+.ido-heading{font-size:clamp(18px,2.4vw,24px);font-weight:700;margin-bottom:12px;}
+.ido-text{font-size:clamp(15px,1.8vw,17px);line-height:1.6;margin-bottom:14px;}
+.ido-sentence{font-size:clamp(18px,2.4vw,24px);font-weight:500;text-align:center;padding:20px;background:var(--bg);border-radius:12px;margin-bottom:16px;line-height:1.5;}
+.ido-sentence .blank{display:inline-block;min-width:100px;border-bottom:3px dashed var(--teal);margin:0 4px;padding:0 6px;}
+.ido-cline-visual{display:flex;align-items:center;gap:0;margin:20px 0;overflow-x:auto;padding:8px 0;}
+.cline-arrow{flex:1;height:4px;background:linear-gradient(90deg,var(--sky),var(--coral));min-width:40px;position:relative;}
+.cline-word{background:#fff;border:2px solid var(--teal);border-radius:20px;padding:7px 16px;font-weight:600;font-size:clamp(13px,1.5vw,15px);white-space:nowrap;position:relative;z-index:1;box-shadow:var(--shadow);}
+.cline-end-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-light);white-space:nowrap;}
+.ido-controls{display:flex;gap:10px;justify-content:center;margin-top:16px;align-items:center;}
+.wedo-sentence-box{font-size:clamp(20px,3vw,28px);font-weight:500;text-align:center;padding:24px;background:linear-gradient(135deg,var(--gold-light),#fff);border-radius:var(--radius);border-left:5px solid var(--gold);margin-bottom:20px;line-height:1.5;}
+.wedo-sentence-box .blank{display:inline-block;min-width:120px;border-bottom:3px dashed var(--gold);margin:0 4px;padding:0 6px;}
+.wedo-context{display:none;animation:fadeIn 0.4s ease;margin-bottom:20px;}
+.wedo-context.shown{display:block;}
+.context-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 26px;border-left:5px solid var(--sky);font-size:clamp(15px,1.8vw,17px);line-height:1.6;}
+.wedo-bank{display:none;animation:fadeIn 0.4s ease;margin-bottom:20px;}
+.wedo-bank.shown{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.wedo-chip{background:#fff;border:2px solid #ddd;border-radius:24px;padding:9px 20px;font-weight:600;font-size:clamp(14px,1.7vw,17px);cursor:pointer;transition:all 0.2s;user-select:none;}
+.wedo-chip:hover{border-color:var(--gold);background:var(--gold-light);}
+.wedo-chip.placed{opacity:0.4;cursor:not-allowed;}
+.wedo-cline-zone{display:none;animation:fadeIn 0.4s ease;margin-bottom:20px;}
+.wedo-cline-zone.shown{display:block;}
+.cline-track{display:flex;align-items:center;gap:0;margin:20px 0;padding:10px 0;position:relative;}
+.cline-slot{width:100px;min-height:44px;border:2px dashed #ccc;border-radius:20px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:clamp(12px,1.4vw,14px);background:#fff;transition:all 0.2s;cursor:pointer;flex-shrink:0;padding:6px 8px;text-align:center;}
+.cline-slot.filled{border-color:var(--gold);background:var(--gold-light);cursor:pointer;}
+.cline-connector{flex:1;height:3px;background:linear-gradient(90deg,var(--sky-light),var(--coral-light));min-width:12px;}
+.wedo-reveal{display:none;animation:fadeIn 0.4s ease;margin-bottom:20px;}
+.wedo-reveal.shown{display:block;}
+.ydo-group-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px;}
+.ydo-tab{font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:600;padding:8px 18px;border-radius:20px;background:#fff;color:var(--ink-light);border:2px solid #e5e5e5;cursor:pointer;transition:all 0.2s;}
+.ydo-tab.active{background:var(--sky);color:#fff;border-color:var(--sky);}
+.ydo-tab:hover:not(.active){border-color:var(--sky);color:var(--sky);}
+.ydo-group{display:none;animation:fadeIn 0.4s ease;}
+.ydo-group.active{display:block;}
+.ydo-group-title{font-size:clamp(18px,2.2vw,22px);font-weight:700;margin-bottom:6px;text-align:center;}
+.ydo-group-sub{font-size:clamp(14px,1.6vw,16px);color:var(--ink-light);text-align:center;margin-bottom:18px;line-height:1.5;}
+.drag-source{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:22px;min-height:50px;}
+.drag-word{background:#fff;border:2px solid var(--sky);border-radius:24px;padding:9px 20px;font-weight:600;font-size:clamp(14px,1.7vw,16px);cursor:grab;transition:all 0.2s;user-select:none;touch-action:none;}
+.drag-word:active{cursor:grabbing;transform:scale(1.05);}
+.drag-word.placed{opacity:0.3;cursor:default;}
+.rank-track{display:flex;align-items:center;gap:0;margin:0 auto 18px;max-width:100%;overflow-x:auto;padding:10px 0;}
+.rank-slot{min-width:90px;min-height:46px;border:2px dashed #ccc;border-radius:20px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:clamp(12px,1.4vw,14px);background:#fff;transition:all 0.2s;cursor:pointer;flex-shrink:0;padding:6px 10px;text-align:center;}
+.rank-slot.filled{border-color:var(--sky);background:var(--sky-light);}
+.rank-connector{flex:1;height:3px;background:linear-gradient(90deg,var(--sky-light),var(--coral-light));min-width:10px;}
+.rank-labels{display:flex;justify-content:space-between;max-width:100%;margin-bottom:18px;padding:0 4px;}
+.rank-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-light);}
+.rank-actions{display:flex;gap:10px;justify-content:center;margin-bottom:18px;flex-wrap:wrap;}
+.rank-feedback{display:none;animation:fadeIn 0.4s ease;margin-bottom:18px;}
+.rank-feedback.shown{display:block;}
+.rank-feedback-inner{padding:16px 20px;border-radius:12px;font-size:clamp(14px,1.7vw,16px);line-height:1.6;}
+.rank-feedback-inner.success{background:var(--green-light);border-left:4px solid var(--green);}
+.rank-feedback-inner.partial{background:var(--gold-light);border-left:4px solid var(--gold);}
+.sentence-task{margin-top:22px;}
+.sentence-task-label{font-size:clamp(15px,1.8vw,17px);font-weight:600;margin-bottom:10px;}
+.writing-textarea{width:100%;min-height:100px;border:2px solid #E8E0D8;border-radius:12px;padding:14px 18px;font-family:'Fredoka',sans-serif;font-size:1rem;line-height:1.6;color:var(--ink);background:rgba(255,255,255,0.9);resize:vertical;transition:border-color 0.3s;}
+.writing-textarea:focus{border-color:var(--teal);outline:none;box-shadow:0 0 0 3px rgba(78,205,196,0.15);}
+.model-reveal-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 28px;border-left:5px solid var(--green);margin-bottom:22px;}
+.model-response-content{display:none;animation:fadeIn 0.4s ease;margin-top:14px;}
+.model-response-content.shown{display:block;}
+.model-inner{background:linear-gradient(135deg,var(--green-light),#f0fff4);border-radius:12px;padding:18px 22px;font-size:clamp(14px,1.7vw,16px);line-height:1.7;}
+.challenge-box{background:linear-gradient(135deg,var(--purple-light),var(--sky-light));border-radius:var(--radius);padding:24px 28px;border-left:5px solid var(--purple);margin-bottom:22px;}
+.challenge-box h4{font-size:clamp(16px,2vw,19px);color:var(--purple);font-weight:700;margin-bottom:10px;}
+.challenge-box p{font-size:clamp(14px,1.7vw,16px);line-height:1.5;}
+.level-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:22px;}
+.level-tab{font-family:'Fredoka',sans-serif;font-size:0.9rem;font-weight:600;padding:10px 24px;border-radius:20px;background:#fff;color:var(--ink-light);border:2px solid #e5e5e5;cursor:pointer;transition:all 0.2s;}
+.level-tab.active{color:#fff;border-color:transparent;}
+.level-tab.active.l1{background:var(--teal);}
+.level-tab.active.l2{background:var(--coral);}
+.level-tab:hover:not(.active){border-color:var(--ink-light);}
+.level-panel{display:none;animation:fadeIn 0.4s ease;}
+.level-panel.active{display:block;}
+.cloze-passage{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 32px;border-left:5px solid var(--teal);margin-bottom:22px;font-size:clamp(16px,2vw,19px);line-height:2.2;}
+.cloze-gap{display:inline-block;min-width:110px;border-bottom:3px solid var(--teal);text-align:center;padding:0 4px;cursor:pointer;transition:all 0.2s;font-weight:600;vertical-align:baseline;}
+.cloze-gap.filled{border-color:var(--green);color:var(--green);background:var(--green-light);border-radius:6px;padding:2px 8px;border-bottom:none;}
+.cloze-gap:hover:not(.filled){background:var(--teal-light);border-radius:6px;padding:2px 8px;border-bottom:none;}
+.cloze-bank{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:22px;padding:18px;background:var(--bg);border-radius:12px;flex-direction:column;align-items:center;}
+.cloze-bank-title{font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);font-weight:600;margin-bottom:10px;letter-spacing:1px;text-transform:uppercase;}
+.cloze-word{background:#fff;border:2px solid var(--teal);border-radius:24px;padding:8px 18px;font-weight:600;font-size:clamp(14px,1.7vw,16px);cursor:pointer;transition:all 0.2s;user-select:none;}
+.cloze-word:hover:not(.used){background:var(--teal-light);}
+.cloze-word.used{opacity:0.3;cursor:default;}
+.cloze-word.selected{background:var(--teal);color:#fff;border-color:var(--teal);}
+.verb-bank-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 26px;border-left:5px solid var(--coral);margin-bottom:18px;}
+.verb-bank-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.verb-pill{background:var(--coral-light);color:#c43838;padding:6px 14px;border-radius:20px;font-weight:600;font-size:clamp(13px,1.5vw,15px);}
+.reflect-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 32px;margin-bottom:22px;}
+.reflect-prompt{font-size:clamp(15px,1.8vw,17px);line-height:1.6;margin-bottom:14px;}
+.exit-slip{background:linear-gradient(135deg,var(--coral-light),var(--gold-light));border-radius:var(--radius);padding:26px 28px;border-left:5px solid var(--coral);margin-bottom:22px;}
+.exit-slip h3{font-size:clamp(17px,2.1vw,20px);color:var(--coral);margin-bottom:10px;}
+.exit-slip p{font-size:clamp(14px,1.7vw,16px);color:var(--ink-light);margin-bottom:12px;}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:300;}
+.modal-overlay.shown{display:flex;}
+.modal{background:#fff;border-radius:var(--radius);padding:32px;max-width:420px;width:90%;}
+.modal-title{font-size:clamp(18px,2.4vw,22px);font-weight:700;margin-bottom:8px;}
+.modal-text{font-size:14px;color:var(--ink-light);margin-bottom:16px;}
+.modal-input{width:100%;border:2px solid #E8E0D8;border-radius:10px;padding:12px 14px;font-family:inherit;font-size:16px;margin-bottom:16px;}
+.modal-input:focus{outline:none;border-color:var(--teal);}
 .modal-actions{display:flex;gap:10px;justify-content:flex-end;}
-
 #printSummary{display:none;}
-@media print{
-  body *{visibility:hidden;}
-  #printSummary,#printSummary *{visibility:visible;}
-  #printSummary{display:block;position:absolute;top:0;left:0;width:100%;padding:30px;font-size:12pt;}
-  #printSummary h1{font-size:20pt;margin-bottom:10px;}
-  #printSummary h2{font-size:14pt;margin-top:20px;margin-bottom:8px;color:#333;}
-  #printSummary .meta{font-size:10pt;color:#666;margin-bottom:18px;}
-  #printSummary .block{margin-bottom:14px;padding:10px;border:1px solid #ccc;border-radius:6px;}
-  #printSummary .field-label{font-weight:700;font-size:10pt;text-transform:uppercase;color:#555;margin-bottom:4px;}
-  #printSummary ul{padding-left:20px;}
-}
-
-@media(max-width:900px){
-  .exemplar-versions{grid-template-columns:1fr;}
-  .cline-positions{grid-template-columns:repeat(4,1fr);}
-}
-@media(max-width:768px){
-  .sidebar{width:0;}
-  main{margin-left:0;padding:24px 16px 60px;}
-  .card{padding:20px;}
-  :root{--sidebar-w:0px;}
-}
-@media(max-width:600px){
-  .simple-instruction-card{flex-direction:column;}
-  .cline-positions{grid-template-columns:repeat(2,1fr);}
-  .cline-scale{flex-direction:column;align-items:stretch;}
-  .cline-arrow{height:30px;width:3px;background:linear-gradient(180deg,var(--coral),var(--gold),var(--green));}
-}
+@media print{body *{visibility:hidden;}#printSummary,#printSummary *{visibility:visible;}#printSummary{display:block !important;position:absolute;left:0;top:0;width:100%;padding:24px;font-family:'Fredoka',sans-serif;}#printSummary h1{font-size:22px;margin-bottom:12px;}#printSummary h2{font-size:16px;margin-top:18px;margin-bottom:8px;border-bottom:1px solid #ccc;padding-bottom:4px;}#printSummary p,#printSummary li{font-size:13px;line-height:1.6;}#printSummary .meta{color:#666;font-size:12px;margin-bottom:18px;}#printSummary .answer-block{background:#f7f7f7;padding:10px 14px;border-radius:8px;margin-bottom:8px;white-space:pre-wrap;}}
+@media(max-width:768px){.sidebar{width:0;overflow:hidden;}.sidebar:not(.collapsed){width:var(--sidebar-w);}main{margin-left:0;padding:30px 16px 60px;}.ido-cline-visual,.cline-track,.rank-track{flex-wrap:wrap;justify-content:center;}.cline-arrow,.cline-connector,.rank-connector{display:none;}}
 </style>
 </head>
 <body>
-
-<div class="bg-shapes">
-  <div class="bg-shape"></div><div class="bg-shape"></div>
-  <div class="bg-shape"></div><div class="bg-shape"></div>
-  <div class="bg-shape"></div>
-</div>
-
+<div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>
 <header class="top-bar">
   <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle navigation">&#9776;</button>
-  <div class="top-bar-title">The Explorer <span>&middot;</span> Week 4B Lesson 2: Word Clines</div>
-  <a href="../../../index.html" class="back-link">&larr; Toolkit Home</a>
+  <div class="top-bar-title">The Explorer <span>&#183;</span> Week 4B Lesson 2: Choosing Powerful Words</div>
+  <a href="../index.html" class="back-link">&#8592; Toolkit Home</a>
 </header>
-
 <aside class="sidebar" id="sidebar"><div class="sidebar-content">
-  <div class="sidebar-section">
-    <div class="sidebar-section-title">Start</div>
-    <button class="sidebar-item active" data-nav="phase1" onclick="goPhase(1)" tabindex="-1">
-      <span class="sidebar-dot" style="background:var(--purple);"></span>
-      1. Start
-    </button>
-  </div>
-  <div class="sidebar-section">
-    <div class="sidebar-section-title">Hook</div>
-    <button class="sidebar-item" data-nav="phase2" onclick="goPhase(2)" tabindex="-1">
-      <span class="sidebar-dot" style="background:var(--coral);"></span>
-      2. Hook
-    </button>
-  </div>
-  <div class="sidebar-section">
-    <div class="sidebar-section-title">I Do</div>
-    <button class="sidebar-item" data-nav="phase3" onclick="goPhase(3)" tabindex="-1">
-      <span class="sidebar-dot" style="background:var(--teal);"></span>
-      3. I Do
-    </button>
-  </div>
-  <div class="sidebar-section">
-    <div class="sidebar-section-title">We Do</div>
-    <button class="sidebar-item" data-nav="phase4" onclick="goPhase(4)" tabindex="-1">
-      <span class="sidebar-dot" style="background:var(--gold);"></span>
-      4. We Do
-    </button>
-  </div>
-  <div class="sidebar-section">
-    <div class="sidebar-section-title">You Do</div>
-    <button class="sidebar-item" data-nav="phase5" onclick="goPhase(5)" tabindex="-1">
-      <span class="sidebar-dot" style="background:var(--sky);"></span>
-      5. You Do
-    </button>
-  </div>
-  <div class="sidebar-section">
-    <div class="sidebar-section-title">Reflect</div>
-    <button class="sidebar-item" data-nav="phase6" onclick="goPhase(6)" tabindex="-1">
-      <span class="sidebar-dot" style="background:var(--purple);"></span>
-      6. Reflect
-    </button>
-  </div>
+  <div class="sidebar-section"><div class="sidebar-section-title">Start</div>
+    <button class="sidebar-item active" data-phase="1" onclick="goPhase(1)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple);"></span>1. Learning Intention</button></div>
+  <div class="sidebar-section"><div class="sidebar-section-title">Hook</div>
+    <button class="sidebar-item" data-phase="2" onclick="goPhase(2)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral);"></span>2. Predict the Verb</button></div>
+  <div class="sidebar-section"><div class="sidebar-section-title">I Do</div>
+    <button class="sidebar-item" data-phase="3" onclick="goPhase(3)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal);"></span>3. Worked Example</button></div>
+  <div class="sidebar-section"><div class="sidebar-section-title">We Do</div>
+    <button class="sidebar-item" data-phase="4" onclick="goPhase(4)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold);"></span>4. Class Word Sort</button></div>
+  <div class="sidebar-section"><div class="sidebar-section-title">You Do</div>
+    <button class="sidebar-item" data-phase="5" onclick="goPhase(5)" tabindex="-1"><span class="sidebar-dot" style="background:var(--sky);"></span>5. Rank and Write</button>
+    <button class="sidebar-item" data-phase="6" onclick="goPhase(6)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral);"></span>6. Writing Task</button></div>
+  <div class="sidebar-section"><div class="sidebar-section-title">Reflect</div>
+    <button class="sidebar-item" data-phase="7" onclick="goPhase(7)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple);"></span>7. Reflect</button></div>
   <div class="sidebar-divider"></div>
-  <div class="sidebar-export">
-    <button class="sidebar-export-btn" onclick="showNameModal()">Export my work as PDF</button>
-  </div>
+  <div class="sidebar-export"><button class="sidebar-export-btn" onclick="openPdfModal()">Export my work as PDF</button></div>
 </div></aside>
-
 <main>
+  <div id="phase1" class="phase active"><div class="phase-eyebrow">Phase 1</div><div class="phase-title">What Are We Learning Today?</div>
+    <div class="lisc"><div class="lisc-heading">Learning Intention</div><div class="lisc-text">We are learning to choose precise, powerful verbs that match the context and mood of a sentence.</div><div class="lisc-sc-title">Success Criteria</div><ul><li>I can explain why context matters when choosing the best word for a sentence.</li><li>I can rank a group of related verbs from weakest to strongest.</li><li>I can select the verb that best fits the meaning and mood of a given sentence.</li><li>I can write a paragraph using precise verbs from The Explorer.</li></ul></div>
+    <div class="phase-nav"><button class="btn btn-outline" disabled tabindex="-1">Back</button><span class="step-info">Phase 1 of 7</span><button class="btn btn-purple" onclick="goPhase(2)" tabindex="-1">Next: Hook</button></div></div>
 
-<section class="phase active" id="phase1">
-  <div class="phase-eyebrow">Phase 1 of 6</div>
-  <h1 class="phase-title">Learning Intention &amp; Success Criteria</h1>
-  <p class="phase-sub">What we are learning and how we will know we have learned it.</p>
-  <div class="lisc">
-    <p class="lisc-li">Learning intention: <span class="lisc-li-text">We are learning to use <strong>context clues and word knowledge</strong> to choose powerful, precise vocabulary that brings writing to life.</span></p>
-    <div class="lisc-sc-title">Success criteria</div>
-    <ul>
-      <li>I can explain why context matters when choosing the best word for a sentence.</li>
-      <li>I can place a group of related words on a cline from weakest to strongest.</li>
-      <li>I can select a precise verb that fits the meaning and mood of a sentence.</li>
-      <li>I can find and organise powerful vocabulary from 'The Raft'.</li>
-    </ul>
-  </div>
-  <div class="phase-nav">
-    <span></span>
-    <span class="step-info">PHASE 1 / 6</span>
-    <button class="btn btn-coral" onclick="goPhase(2)">Next: Hook &rarr;</button>
-  </div>
-</section>
+  <div id="phase2" class="phase"><div class="phase-eyebrow">Phase 2: Hook</div><div class="phase-title">Predict the Verb</div><div class="phase-sub">A weak verb tells us what happened. A powerful verb tells us how it happened and what the character was feeling.</div>
+    <div class="exemplar-card" id="exemplarCard"><div class="exemplar-counter" id="exemplarCounter">Example 1 of 3</div><div class="exemplar-source" id="exemplarSource">Harry Potter and the Philosopher's Stone</div><div class="exemplar-sentence" id="exemplarSentence">"Be quiet!" Harry <span class="blank">???</span>. He was terrified of being caught.</div><div class="exemplar-predict" id="exemplarPredict"><p>Talk to your partner: what verb could go in the gap? Think about what the character is feeling.</p></div><button class="btn btn-coral" id="exemplarRevealBtn" onclick="revealExemplar()">Reveal the Author's Choice</button><div class="reveal-area" id="exemplarReveal"><div class="reveal-word" id="revealWord"><span class="hl hl-coral">hissed</span></div><div class="reveal-effect" id="revealEffect"></div></div><div class="exemplar-controls" id="exemplarControls"><button class="btn btn-outline btn-sm" onclick="prevExemplar()" id="exemplarPrev" disabled tabindex="-1">Previous</button><button class="btn btn-coral btn-sm" onclick="nextExemplar()" id="exemplarNext" tabindex="-1">Next Example</button></div></div>
+    <div class="summary-card" id="hookSummary" style="display:none;"><p>In every example, the writer could have used a flat, generic verb. Instead they chose one that did extra work: revealing emotion, mood, or character. Today we are going to build the skill of choosing those stronger words on purpose.</p></div>
+    <div class="phase-nav"><button class="btn btn-outline" onclick="goPhase(1)" tabindex="-1">Back</button><span class="step-info">Phase 2 of 7</span><button class="btn btn-coral" onclick="goPhase(3)" tabindex="-1">Next: I Do</button></div></div>
 
-<section class="phase" id="phase2">
-  <div class="phase-eyebrow">Phase 2 of 6 &middot; 5 min</div>
-  <h1 class="phase-title">Shut or Slammed? Why Word Choice Matters</h1>
-  <p class="phase-sub">Discuss how a single verb can transform a character's state of mind, then explore familiar examples.</p>
+  <div id="phase3" class="phase"><div class="phase-eyebrow">Phase 3: I Do</div><div class="phase-title">Choosing the Right Verb</div><div class="phase-sub">Watch how I pick the best verb for this sentence, step by step.</div>
+    <div class="ido-step active" id="idoStep1"><div class="ido-card" style="border-left:5px solid var(--coral);"><div class="ido-step-label">Step 1 of 4</div><div class="ido-heading">Start with the sentence</div><div class="ido-sentence">Tom <span class="blank">???</span> back.</div><div class="ido-text">Right now, many verbs could fit here. Walked? Ran? Crawled? Stumbled? We cannot choose yet because we do not have enough information. We need <strong>context</strong>.</div></div></div>
+    <div class="ido-step" id="idoStep2"><div class="ido-card" style="border-left:5px solid var(--sky);"><div class="ido-step-label">Step 2 of 4</div><div class="ido-heading">Add the context</div><div class="ido-sentence">Tom <span class="blank">???</span> back. <span style="color:var(--coral);font-weight:600;">"Snake!"</span></div><div class="ido-text">Now we know Tom is reacting to danger. The context of a snake tells us he moved quickly, in fear. This narrows our choices dramatically. We need a verb that shows speed and fright.</div></div></div>
+    <div class="ido-step" id="idoStep3"><div class="ido-card" style="border-left:5px solid var(--gold);"><div class="ido-step-label">Step 3 of 4</div><div class="ido-heading">Compare the options</div><div class="ido-text">Here are five verbs that could describe Tom's movement. I am going to arrange them from weakest to strongest, thinking about how much fear and speed each one shows.</div><div class="ido-cline-visual"><div class="cline-end-label">Weakest</div><div class="cline-arrow"></div><div class="cline-word">stepped</div><div class="cline-arrow"></div><div class="cline-word">stumbled</div><div class="cline-arrow"></div><div class="cline-word">jumped</div><div class="cline-arrow"></div><div class="cline-word">leapt</div><div class="cline-arrow"></div><div class="cline-word" style="border-color:var(--coral);background:var(--coral-light);">recoiled</div><div class="cline-arrow"></div><div class="cline-end-label">Strongest</div></div><div class="ido-text">"Stepped" barely shows any urgency. "Jumped" shows speed but not fear. "Recoiled" is the most powerful because it means to pull back sharply in horror or disgust.</div></div></div>
+    <div class="ido-step" id="idoStep4"><div class="ido-card" style="border-left:5px solid var(--green);"><div class="ido-step-label">Step 4 of 4</div><div class="ido-heading">Make the choice</div><div class="ido-sentence">Tom <span class="hl hl-coral">recoiled</span>. "Snake!"</div><div class="ido-text" style="margin-top:16px;">"Recoiled" is the best fit because it matches both the context (sudden danger) and the mood (fear and disgust). The verb does three jobs at once: it tells us Tom moved, it tells us he moved quickly, and it tells us he was horrified.</div><div class="summary-card" style="margin-top:18px;"><p><strong>The strategy:</strong> Read the context. Brainstorm options. Rank them from weakest to strongest. Then pick the verb that best matches the moment.</p></div></div></div>
+    <div class="ido-controls"><button class="btn btn-outline btn-sm" id="idoPrev" onclick="prevIdoStep()" disabled tabindex="-1">Back</button><span class="step-info" id="idoCounter">Step 1 of 4</span><button class="btn btn-teal btn-sm" id="idoNext" onclick="nextIdoStep()" tabindex="-1">Next Step</button></div>
+    <div class="phase-nav"><button class="btn btn-outline" onclick="goPhase(2)" tabindex="-1">Back</button><span class="step-info">Phase 3 of 7</span><button class="btn btn-teal" onclick="goPhase(4)" tabindex="-1">Next: We Do</button></div></div>
 
-  <div class="activation-card">
-    <div class="label">Think first</div>
-    <h3>Think first</h3>
-    <p>What does the difference between 'shut the door' and 'slammed the door' tell us about a character's state of mind? Talk to the person next to you.</p>
-  </div>
+  <div id="phase4" class="phase"><div class="phase-eyebrow">Phase 4: We Do</div><div class="phase-title">Class Word Sort</div><div class="phase-sub">Let us build a word ranking together. Follow each step with your teacher.</div>
+    <div class="wedo-sentence-box">Ella <span class="blank">???</span> home.</div>
+    <div class="wedo-context" id="wedoContext"><div class="context-card">She could not wait to see the new puppy. Her heart was pounding with excitement.</div></div>
+    <div class="wedo-bank" id="wedoBank"><div class="wedo-chip" data-word="sprinted" onclick="placeWedoWord(this)">sprinted</div><div class="wedo-chip" data-word="walked" onclick="placeWedoWord(this)">walked</div><div class="wedo-chip" data-word="raced" onclick="placeWedoWord(this)">raced</div><div class="wedo-chip" data-word="trudged" onclick="placeWedoWord(this)">trudged</div><div class="wedo-chip" data-word="hurried" onclick="placeWedoWord(this)">hurried</div></div>
+    <div class="wedo-cline-zone" id="wedoClineZone"><div class="rank-labels"><div class="rank-label">Slowest / Weakest</div><div class="rank-label">Fastest / Strongest</div></div><div class="cline-track" id="wedoClineTrack"></div><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px;"><button class="btn btn-outline btn-sm" onclick="resetWedoCline()" tabindex="-1">Reset</button></div></div>
+    <div class="wedo-reveal" id="wedoReveal"><div class="card" style="border-left:5px solid var(--green);"><div style="font-size:clamp(15px,1.8vw,17px);line-height:1.6;"><p style="margin-bottom:12px;"><strong>Suggested order:</strong> trudged, walked, hurried, raced, sprinted</p><p style="margin-bottom:12px;">Now, which verb fits our context best? Ella is excited about the puppy. She would not trudge or walk. She would move fast. But "sprinted" might be too extreme for going home from school. <strong>"Raced"</strong> captures her excitement without being overdramatic.</p><div class="ido-sentence" style="margin-top:16px;">Ella <span class="hl hl-gold">raced</span> home. She could not wait to see the new puppy.</div></div></div></div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-bottom:18px;"><button class="btn btn-gold" id="wedoStepBtn" onclick="advanceWeDo()" tabindex="-1">Show Context</button></div>
+    <div class="phase-nav"><button class="btn btn-outline" onclick="goPhase(3)" tabindex="-1">Back</button><span class="step-info">Phase 4 of 7</span><button class="btn btn-gold" onclick="goPhase(5)" tabindex="-1">Next: You Do</button></div></div>
 
-  <div class="def-card">
-    <h3>Why word choice matters</h3>
-    <p>Writers choose interesting, more complex vocabulary for a purpose. The right word engages the reader, reveals character, and makes meaning clearer. A weak word like 'shut' tells us what happened. A stronger word like 'slammed' tells us how it happened, and what the character was feeling.</p>
-  </div>
+  <div id="phase5" class="phase"><div class="phase-eyebrow">Phase 5: You Do</div><div class="phase-title">Rank and Write</div><div class="phase-sub">For each word group from The Explorer, tap the words into order from weakest to strongest. Then write a sentence using the verb you think fits best.</div>
+    <div class="ydo-group-tabs" id="ydoTabs"><button class="ydo-tab active" onclick="showYdoGroup(0)" tabindex="-1">Eating</button><button class="ydo-tab" onclick="showYdoGroup(1)" tabindex="-1">Water</button><button class="ydo-tab" onclick="showYdoGroup(2)" tabindex="-1">Touch</button><button class="ydo-tab" onclick="showYdoGroup(3)" tabindex="-1">Taking</button></div>
+    <div id="ydoGroupContainer"></div>
+    <div class="model-reveal-card"><div style="font-size:clamp(15px,1.8vw,17px);font-weight:600;margin-bottom:6px;">Need a worked example?</div><button class="btn btn-outline btn-sm" id="modelToggleBtn" onclick="toggleModel()" tabindex="-1">Show Model Response</button><div class="model-response-content" id="modelContent"><div class="model-inner"><p style="margin-bottom:10px;"><strong>Word group: Water (trickled, poured, cascaded)</strong></p><p style="margin-bottom:10px;"><strong>Ranking:</strong> trickled (weakest), poured, cascaded (strongest). "Trickled" shows a small, gentle flow. "Poured" is a bigger flow with more force. "Cascaded" suggests a powerful, rushing torrent tumbling down.</p><p style="margin-bottom:10px;"><strong>Sentence:</strong> "Water cascaded from the rocks above, soaking the children on the raft."</p><p><strong>Why this fits:</strong> "Cascaded" matches the urgency of being caught in a sudden storm.</p></div></div></div>
+    <div class="phase-nav"><button class="btn btn-outline" onclick="goPhase(4)" tabindex="-1">Back</button><span class="step-info">Phase 5 of 7</span><button class="btn btn-sky" onclick="goPhase(6)" tabindex="-1">Next: Writing Task</button></div></div>
 
-  <div class="exemplar-card" id="ex1" style="border-left-color:var(--coral);">
-    <div class="label" style="color:var(--coral);">Exemplar 1 &middot; Harry Potter</div>
-    <h4>Harry Potter</h4>
-    <div class="prompt">Hermione is whispering a warning while the trio sneak through Hogwarts at night. Why does J.K. Rowling write 'hissed' instead of 'said'?</div>
-    <div class="exemplar-versions">
-      <div class="exemplar-version"><div class="v-label">Weak</div>'Be quiet!' Hermione said.</div>
-      <div class="exemplar-version alt"><div class="v-label">Strong</div>'Be quiet!' Hermione <strong>hissed</strong>.</div>
+  <div id="phase6" class="phase"><div class="phase-eyebrow">Phase 6: You Do</div><div class="phase-title">Put Your Verbs to Work</div><div class="phase-sub">Now practise choosing powerful verbs in your own writing. Pick your level.</div>
+    <div class="level-tabs"><button class="level-tab active l1" onclick="showWritingLevel(1)" tabindex="-1">Level 1: Cloze Passage</button><button class="level-tab l2" onclick="showWritingLevel(2)" tabindex="-1">Level 2: Free Write</button></div>
+    <div class="level-panel active" id="writingLevel1">
+      <div style="font-size:clamp(15px,1.8vw,17px);color:var(--ink-light);margin-bottom:18px;text-align:center;line-height:1.5;">Tap a word from the bank, then tap the gap where it belongs. Choose the verb that best fits each moment.</div>
+      <div class="cloze-bank"><div class="cloze-bank-title">Verb Bank</div><div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;" id="clozeBank"></div></div>
+      <div class="cloze-passage" id="clozePassage"></div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px;"><button class="btn btn-outline btn-sm" onclick="resetCloze()" tabindex="-1">Reset</button><button class="btn btn-teal btn-sm" onclick="checkCloze()" tabindex="-1">Check My Choices</button></div>
+      <div class="rank-feedback" id="clozeFeedback"></div>
+      <div class="model-reveal-card" style="border-left-color:var(--teal);"><div style="font-size:clamp(15px,1.8vw,17px);font-weight:600;margin-bottom:6px;">See the model answer</div><button class="btn btn-outline btn-sm" id="clozeModelBtn" onclick="toggleClozeModel()" tabindex="-1">Show Model</button><div class="model-response-content" id="clozeModelContent"><div class="model-inner" id="clozeModelInner"></div></div></div>
     </div>
-    <div class="reveal-btn-wrap"><button class="btn btn-purple btn-sm" onclick="revealExemplar(1)">Reveal the effect</button></div>
-    <div class="exemplar-effect" id="ee1"><em>Hissed</em> turns up the urgency. It tells us Hermione is tense, frightened of being caught, and trying to stay silent. <em>Said</em> is flat, it gives us none of that.</div>
-  </div>
-
-  <div class="exemplar-card hidden" id="ex2" style="border-left-color:var(--sky);">
-    <div class="label" style="color:var(--sky);">Exemplar 2 &middot; The Lion King</div>
-    <h4>The Lion King</h4>
-    <div class="prompt">Watch Scar as he approaches Mufasa near the gorge. Which verb does the storyteller choose, and what does it reveal about his plan?</div>
-    <div class="exemplar-versions">
-      <div class="exemplar-version"><div class="v-label">Weak</div>Scar walked towards Mufasa.</div>
-      <div class="exemplar-version alt"><div class="v-label">Strong</div>Scar <strong>slunk</strong> towards Mufasa.</div>
+    <div class="level-panel" id="writingLevel2">
+      <div class="verb-bank-card"><div style="font-size:clamp(15px,1.8vw,17px);font-weight:600;margin-bottom:6px;">Your Verb Bank</div><div style="font-size:clamp(14px,1.6vw,15px);color:var(--ink-light);margin-bottom:12px;">Use at least three of these powerful verbs in your paragraph. Each one should match the mood of the moment you are describing.</div><div class="verb-bank-grid"><span class="verb-pill">devoured</span><span class="verb-pill">cascaded</span><span class="verb-pill">wrenched</span><span class="verb-pill">crept</span><span class="verb-pill">gasped</span><span class="verb-pill">lunged</span><span class="verb-pill">shuddered</span><span class="verb-pill">scrambled</span></div></div>
+      <div class="card" style="border-left:5px solid var(--coral);"><div style="font-size:clamp(15px,1.8vw,17px);font-weight:600;margin-bottom:6px;">Your Writing Prompt</div><div style="font-size:clamp(15px,1.8vw,17px);color:var(--ink);line-height:1.6;margin-bottom:18px;">Write a paragraph describing a moment from The Explorer where the children face danger or discover something new. Focus on choosing the most powerful verb for each action.</div><textarea class="writing-textarea" id="freeWriteText" style="min-height:180px;" placeholder=""></textarea></div>
+      <div style="font-size:clamp(13px,1.5vw,15px);color:var(--ink-light);margin-bottom:18px;line-height:1.5;text-align:center;">After writing, check: did you use at least three verbs from the bank? Does each verb match the mood of the moment?</div>
+      <div class="model-reveal-card" style="border-left-color:var(--coral);"><div style="font-size:clamp(15px,1.8vw,17px);font-weight:600;margin-bottom:6px;">See a model paragraph</div><button class="btn btn-outline btn-sm" id="freeModelBtn" onclick="toggleFreeModel()" tabindex="-1">Show Model</button><div class="model-response-content" id="freeModelContent"><div class="model-inner"><p style="margin-bottom:12px;font-style:italic;">"The water cascaded through the canopy, drenching everything below. Lila gasped and scrambled backwards, but the ground was slippery. Fred lunged for a branch and wrenched it free to build a shelter. They crept under it, shuddering, and devoured the last of the fruit in silence."</p><p><strong>Why these verbs work:</strong> Each verb matches the mood of its moment. "Cascaded" shows the power of the rain. "Gasped" and "scrambled" show panic. "Lunged" and "wrenched" show urgency and physical effort. "Crept" shows caution. "Shuddering" shows cold and fear. "Devoured" shows hunger.</p></div></div></div>
     </div>
-    <div class="reveal-btn-wrap"><button class="btn btn-purple btn-sm" onclick="revealExemplar(2)">Reveal the effect</button></div>
-    <div class="exemplar-effect" id="ee2"><em>Slunk</em> shows us a predator. It is sneaky, low to the ground, and full of bad intent. <em>Walked</em> would tell us nothing about who Scar really is.</div>
-  </div>
+    <div class="challenge-box" style="margin-top:22px;"><h4>Challenge: Find Your Own Verbs</h4><p>Look through the next chapter of The Explorer. Find three interesting verbs the author has used. For each one, write down the weak verb the author could have used instead, and explain why the author's choice is more powerful.</p></div>
+    <div class="phase-nav"><button class="btn btn-outline" onclick="goPhase(5)" tabindex="-1">Back</button><span class="step-info">Phase 6 of 7</span><button class="btn btn-coral" onclick="goPhase(7)" tabindex="-1">Next: Reflect</button></div></div>
 
-  <div class="exemplar-card hidden" id="ex3" style="border-left-color:var(--gold);">
-    <div class="label" style="color:#b8860b;">Exemplar 3 &middot; Matilda</div>
-    <h4>Matilda</h4>
-    <div class="prompt">Miss Trunchbull is furious that a child has spoken back to her. Why does Roald Dahl write 'bellowed' rather than 'shouted'?</div>
-    <div class="exemplar-versions">
-      <div class="exemplar-version"><div class="v-label">Weak</div>'Get out!' shouted Miss Trunchbull.</div>
-      <div class="exemplar-version alt"><div class="v-label">Strong</div>'Get out!' <strong>bellowed</strong> Miss Trunchbull.</div>
-    </div>
-    <div class="reveal-btn-wrap"><button class="btn btn-purple btn-sm" onclick="revealExemplar(3)">Reveal the effect</button></div>
-    <div class="exemplar-effect" id="ee3"><em>Bellowed</em> makes her sound monstrous, like a charging bull. It matches the character Dahl is building, a giant, terrifying, almost inhuman headmistress.</div>
-  </div>
-
-  <div class="exemplar-card hidden" id="ex4" style="border-left-color:var(--purple);">
-    <div class="label" style="color:var(--purple);">Exemplar 4 &middot; The Wild Robot</div>
-    <h4>The Wild Robot</h4>
-    <div class="prompt">Roz is still learning that the forest is dangerous. Why does Peter Brown choose 'crept' instead of 'moved'?</div>
-    <div class="exemplar-versions">
-      <div class="exemplar-version"><div class="v-label">Weak</div>Roz moved through the forest.</div>
-      <div class="exemplar-version alt"><div class="v-label">Strong</div>Roz <strong>crept</strong> through the forest.</div>
-    </div>
-    <div class="reveal-btn-wrap"><button class="btn btn-purple btn-sm" onclick="revealExemplar(4)">Reveal the effect</button></div>
-    <div class="exemplar-effect" id="ee4"><em>Crept</em> shows us Roz is learning, becoming careful and aware. It signals that she now understands the wild animals around her are watching. <em>Moved</em> would lose all of that growth.</div>
-  </div>
-
-  <div class="exemplar-card hidden" id="ex5" style="border-left-color:var(--teal);">
-    <div class="label" style="color:var(--teal);">Exemplar 5 &middot; Wonder</div>
-    <h4>Wonder</h4>
-    <div class="prompt">Auggie has just been asked if he is okay after a hard day at school. Why does R.J. Palacio choose 'mumbled' over 'said'?</div>
-    <div class="exemplar-versions">
-      <div class="exemplar-version"><div class="v-label">Weak</div>'I'm fine,' said Auggie.</div>
-      <div class="exemplar-version alt"><div class="v-label">Strong</div>'I'm fine,' <strong>mumbled</strong> Auggie.</div>
-    </div>
-    <div class="reveal-btn-wrap"><button class="btn btn-purple btn-sm" onclick="revealExemplar(5)">Reveal the effect</button></div>
-    <div class="exemplar-effect" id="ee5"><em>Mumbled</em> tells us the opposite of his words. He is not fine at all. The verb does the emotional work, showing his hurt without him having to say it.</div>
-  </div>
-
-  <div style="text-align:center;margin:18px 0;">
-    <button class="btn btn-coral btn-sm" id="hookNextBtn" onclick="hookNext()">Show next exemplar &rarr;</button>
-  </div>
-
-  <div class="summary-card">
-    <h3>Notice the pattern</h3>
-    <p>In every example, the writer could have used a flat verb. Instead they chose one that did extra work: revealing emotion, mood, or character. Today we are going to build the skill of choosing those stronger words on purpose.</p>
-  </div>
-
-  <div class="phase-nav">
-    <button class="btn btn-outline" onclick="goPhase(1)">&larr; Back</button>
-    <span class="step-info">PHASE 2 / 6</span>
-    <button class="btn btn-coral" onclick="goPhase(3)">Next: I Do &rarr;</button>
-  </div>
-</section>
-
-<section class="phase" id="phase3">
-  <div class="phase-eyebrow">Phase 3 of 6 &middot; 10 min</div>
-  <h1 class="phase-title">How a Word Cline Works</h1>
-  <p class="phase-sub">Watch how context shapes word choice, then place words on a scale from weakest to strongest.</p>
-
-  <div class="rule-step-info" id="ruleStepInfo">Rule 1 of 3</div>
-
-  <div class="rule-card active-rule" id="rule1" style="border-left:5px solid var(--coral);">
-    <div class="rule-num" style="color:var(--coral);">Rule 1: Without context, the 'best' word can't be chosen</div>
-    <div class="rule-text">When a sentence stands alone, many different words could fit. Without more information, there is no way to know which one is right.</div>
-    <div class="rule-try">
-      <div class="rule-try-label">Try it</div>
-      <div class="rule-try-text">Tom ________ back. Which word is best: walked, moved, stepped, jumped, leapt, ran?</div>
-    </div>
-    <div style="text-align:center;">
-      <button class="btn btn-outline btn-sm" onclick="showRuleAnswer(1)">Reveal answer</button>
-    </div>
-    <div class="rule-answer" id="ruleAns1">
-      <div class="rule-answer-label">Answer</div>
-      <div class="rule-answer-text">Tom <span class="hl hl-coral">?</span> back. We cannot decide yet, every option could fit. We need more context before we can choose.</div>
-    </div>
-  </div>
-
-  <div class="rule-card" id="rule2" style="border-left:5px solid var(--sky);">
-    <div class="rule-num" style="color:var(--sky);">Rule 2: Context tells us which word fits the meaning</div>
-    <div class="rule-text">Once a sentence gives us a reason or a trigger, the right word becomes clear. The context narrows our choice to the verb that carries the right meaning and emotion.</div>
-    <div class="rule-try">
-      <div class="rule-try-label">Try it</div>
-      <div class="rule-try-text">Tom ________ back. 'Snake!' Now choose from: walked, moved, stepped, jumped, leapt.</div>
-    </div>
-    <div style="text-align:center;">
-      <button class="btn btn-outline btn-sm" onclick="showRuleAnswer(2)">Reveal answer</button>
-    </div>
-    <div class="rule-answer" id="ruleAns2">
-      <div class="rule-answer-label">Answer</div>
-      <div class="rule-answer-text">Tom <span class="hl hl-sky">leapt</span> back. 'Snake!' The danger context tells us Tom moved suddenly and far, so 'leapt' fits the meaning.</div>
-    </div>
-  </div>
-
-  <div class="rule-card" id="rule3" style="border-left:5px solid var(--gold);">
-    <div class="rule-num" style="color:#b8860b;">Rule 3: A word cline is a scale from weakest to strongest</div>
-    <div class="rule-text">A word cline organises related words on a scale. Weaker, gentler words sit at one end; stronger, more intense words sit at the other. Opinions may differ on the middle, and that is fine.</div>
-    <div class="rule-try">
-      <div class="rule-try-label">Try it</div>
-      <div class="rule-try-text">Order these verbs about the air from weakest to strongest: chilly, arctic, cool, icy, nippy, freezing, cold.</div>
-    </div>
-    <div style="text-align:center;">
-      <button class="btn btn-outline btn-sm" onclick="showRuleAnswer(3)">Reveal answer</button>
-    </div>
-    <div class="rule-answer" id="ruleAns3">
-      <div class="rule-answer-label">Answer</div>
-      <div class="rule-answer-text"><span class="hl hl-gold">cool &rarr; chilly &rarr; nippy &rarr; cold &rarr; icy &rarr; freezing &rarr; arctic</span> (a reasonable order, though students may justify small variations).</div>
-    </div>
-  </div>
-
-  <div class="rule-nav">
-    <button class="btn btn-outline btn-sm" id="rulePrevBtn" onclick="rulePrev()" disabled>&larr; Previous rule</button>
-    <button class="btn btn-teal btn-sm" id="ruleNextBtn" onclick="ruleNext()">Next rule &rarr;</button>
-  </div>
-
-  <div class="phase-nav">
-    <button class="btn btn-outline" onclick="goPhase(2)">&larr; Back</button>
-    <span class="step-info">PHASE 3 / 6</span>
-    <button class="btn btn-coral" onclick="goPhase(4)">Next: We Do &rarr;</button>
-  </div>
-</section>
-
-<section class="phase" id="phase4">
-  <div class="phase-eyebrow">Phase 4 of 6 &middot; 12 min</div>
-  <h1 class="phase-title">Ella's Word Cline</h1>
-  <p class="phase-sub">Together, brainstorm word options, add context, then place words on the cline as a class.</p>
-
-  <div class="cline-card">
-    <div class="rule-step-info" id="clineStepInfo">Step 1 of 5</div>
-
-    <div class="cline-stage active" id="cstage1">
-      <div class="cline-stage-label">Step 1 &middot; Brainstorm without context</div>
-      <h3>Brainstorm without context</h3>
-      <div class="cline-prompt">Which verbs could fill the gap in 'Ella ____ home.'? Why can't we pick the best one yet?</div>
-      <div class="cline-sentence-box">Ella ________ home.</div>
-      <div class="cline-teacher-note">
-        <div class="label">Teacher note</div>
-        Accept any reasonable verb (walked, ran, hurried, drove, cycled, dawdled). Draw out the point that without context every option is equally plausible, so no choice is more 'correct' than another.
-      </div>
-    </div>
-
-    <div class="cline-stage" id="cstage2">
-      <div class="cline-stage-label">Step 2 &middot; Add context</div>
-      <h3>Add context</h3>
-      <div class="cline-prompt">Read the enriched sentence. What does the second sentence tell us about Ella's state of mind?</div>
-      <div class="cline-sentence-box">Ella ________ home. <span style="color:var(--gold);font-weight:600;">She couldn't wait to see the new puppy.</span></div>
-      <div class="cline-teacher-note">
-        <div class="label">Teacher note</div>
-        Lead students to notice that 'couldn't wait' signals excitement and urgency, which rules out slow or reluctant verbs and points to a fast, eager one.
-      </div>
-    </div>
-
-    <div class="cline-stage" id="cstage3">
-      <div class="cline-stage-label">Step 3 &middot; Order the word bank</div>
-      <h3>Order the word bank</h3>
-      <div class="cline-prompt">Order these verbs from weakest (slowest, most reluctant) to strongest (fastest, most eager).</div>
-      <div class="cline-bank">
-        <span class="cline-word">trudged</span>
-        <span class="cline-word">dawdled</span>
-        <span class="cline-word">hobbled</span>
-        <span class="cline-word">walked</span>
-        <span class="cline-word">hurried</span>
-        <span class="cline-word">raced</span>
-        <span class="cline-word">sprinted</span>
-      </div>
-      <div class="cline-teacher-note">
-        <div class="label">Teacher note</div>
-        Some pairs are debatable (dawdled vs hobbled). Accept reasoned alternatives but agree on a class order before moving on.
-      </div>
-    </div>
-
-    <div class="cline-stage" id="cstage4">
-      <div class="cline-stage-label">Step 4 &middot; Place words on the cline</div>
-      <h3>Place words on the cline</h3>
-      <div class="cline-prompt">Place each bank word between the anchors 'trudged' and 'sprinted' on the cline.</div>
-      <div class="cline-scale">
-        <span class="cline-anchor">trudged</span>
-        <span class="cline-arrow"></span>
-        <span class="cline-anchor high">sprinted</span>
-      </div>
-      <div class="cline-positions" id="clinePositions">
-        <div class="cline-pos" id="pos1"><span class="pos-num">1 (weakest)</span><span class="pos-word">?</span></div>
-        <div class="cline-pos" id="pos2"><span class="pos-num">2</span><span class="pos-word">?</span></div>
-        <div class="cline-pos" id="pos3"><span class="pos-num">3</span><span class="pos-word">?</span></div>
-        <div class="cline-pos" id="pos4"><span class="pos-num">4</span><span class="pos-word">?</span></div>
-        <div class="cline-pos" id="pos5"><span class="pos-num">5</span><span class="pos-word">?</span></div>
-        <div class="cline-pos" id="pos6"><span class="pos-num">6</span><span class="pos-word">?</span></div>
-        <div class="cline-pos" id="pos7"><span class="pos-num">7 (strongest)</span><span class="pos-word">?</span></div>
-      </div>
-      <div style="text-align:center;margin-top:6px;">
-        <button class="btn btn-gold btn-sm" onclick="revealClinePlacement()">Reveal class placement</button>
-        <button class="btn btn-outline btn-sm" onclick="resetClinePlacement()">Reset</button>
-      </div>
-    </div>
-
-    <div class="cline-stage" id="cstage5">
-      <div class="cline-stage-label">Step 5 &middot; Read the complete sentence</div>
-      <h3>Read the complete sentence</h3>
-      <div class="cline-prompt">Read the complete sentence aloud using the verb you think fits the context best.</div>
-      <div class="cline-sentence-box">Ella ________ home. She couldn't wait to see the new puppy.</div>
-      <div style="text-align:center;margin:14px 0;">
-        <button class="btn btn-gold btn-sm" onclick="revealClineFinal()">Reveal model completion</button>
-      </div>
-      <div class="cline-final" id="clineFinal">Ella <span class="hl hl-gold">raced</span> home. She couldn't wait to see the new puppy.</div>
-      <div class="cline-teacher-note">
-        <div class="label">Teacher note</div>
-        Either 'raced' or 'sprinted' is defensible. 'Hurried' is a softer alternative. Slow verbs (trudged, dawdled, hobbled) clash with 'couldn't wait' and should be ruled out.
-      </div>
-    </div>
-
-    <div class="cline-stage-nav">
-      <button class="btn btn-outline btn-sm" id="clinePrevBtn" onclick="clinePrev()" disabled>&larr; Previous step</button>
-      <span class="cline-step-info" id="clineStepText">Step 1 / 5</span>
-      <button class="btn btn-gold btn-sm" id="clineNextBtn" onclick="clineNext()">Next step &rarr;</button>
-    </div>
-  </div>
-
-  <div class="phase-nav">
-    <button class="btn btn-outline" onclick="goPhase(3)">&larr; Back</button>
-    <span class="step-info">PHASE 4 / 6</span>
-    <button class="btn btn-coral" onclick="goPhase(5)">Next: You Do &rarr;</button>
-  </div>
-</section>
-
-<section class="phase" id="phase5">
-  <div class="phase-eyebrow">Phase 5 of 6 &middot; 15 min</div>
-  <h1 class="phase-title">Build Your Own Word Clines</h1>
-  <p class="phase-sub">Create semantic gradients for four word groups taken from 'The Raft'.</p>
-
-  <div class="task-brief">
-    <h3>Your task</h3>
-    <p>Use the four word groups from 'The Raft' below. For each group, place the words on a cline from weakest to strongest. Then write one sentence using the word you think fits best with a clear context.</p>
-    <ul>
-      <li>Order each group from weakest to strongest.</li>
-      <li>Write one sentence with context for the verb you choose.</li>
-      <li>Be ready to justify your placement.</li>
-    </ul>
-  </div>
-
-  <div class="support-note"><strong>Support:</strong> your teacher will give you the lowest and highest anchor words for each cline. Place the rest in between.</div>
-
-  <div class="task-group-card">
-    <div class="task-group-num">Group 1</div>
-    <div class="task-group-words">Chewed / nibbled / pecked / devoured / gobbled</div>
-    <div class="task-group-area">
-      <label>Your cline (weakest &rarr; strongest)</label>
-      <textarea id="taskCline1" placeholder="e.g. nibbled &rarr; pecked &rarr; chewed &rarr; gobbled &rarr; devoured"></textarea>
-    </div>
-    <div class="task-group-area">
-      <label>Your sentence in context</label>
-      <textarea id="taskSentence1" placeholder="Write one sentence using the verb you think fits best."></textarea>
-    </div>
-  </div>
-
-  <div class="task-group-card">
-    <div class="task-group-num">Group 2</div>
-    <div class="task-group-words">Cascaded / poured / trickled</div>
-    <div class="task-group-area">
-      <label>Your cline (weakest &rarr; strongest)</label>
-      <textarea id="taskCline2" placeholder="Order the three verbs."></textarea>
-    </div>
-    <div class="task-group-area">
-      <label>Your sentence in context</label>
-      <textarea id="taskSentence2" placeholder="Write one sentence using the verb you think fits best."></textarea>
-    </div>
-  </div>
-
-  <div class="task-group-card">
-    <div class="task-group-num">Group 3</div>
-    <div class="task-group-words">Rubbed / scoured / dabbed / patted / erased</div>
-    <div class="task-group-area">
-      <label>Your cline (weakest &rarr; strongest)</label>
-      <textarea id="taskCline3" placeholder="Order the five verbs."></textarea>
-    </div>
-    <div class="task-group-area">
-      <label>Your sentence in context</label>
-      <textarea id="taskSentence3" placeholder="Write one sentence using the verb you think fits best."></textarea>
-    </div>
-  </div>
-
-  <div class="task-group-card">
-    <div class="task-group-num">Group 4</div>
-    <div class="task-group-words">Pulling / yanking / stretching / removing / taking</div>
-    <div class="task-group-area">
-      <label>Your cline (weakest &rarr; strongest)</label>
-      <textarea id="taskCline4" placeholder="Order the five verbs."></textarea>
-    </div>
-    <div class="task-group-area">
-      <label>Your sentence in context</label>
-      <textarea id="taskSentence4" placeholder="Write one sentence using the verb you think fits best."></textarea>
-    </div>
-  </div>
-
-  <div class="ref-card">
-    <div class="ref-header" onclick="togglePanel('modelBody','modelToggle')">
-      <h4>Need a model? See one student's worked example</h4>
-      <span class="ref-toggle" id="modelToggle">&#9660;</span>
-    </div>
-    <div class="ref-body" id="modelBody">
-      <div class="ref-body-inner">
-        <p style="margin-bottom:14px;font-size:clamp(14px,1.7vw,17px);">Here is one student's worked example for the cline: cascaded / poured / trickled.</p>
-        <div style="text-align:center;margin-bottom:14px;">
-          <button class="btn btn-purple btn-sm" onclick="revealModel()">Reveal model response</button>
-        </div>
-        <div class="model-reveal" id="modelReveal">
-          <div class="model-response">
-            <div class="model-label">Model response</div>
-            <div class="model-text">
-              <p><strong>Cline (weakest &rarr; strongest):</strong></p>
-              <p>trickled &rarr; poured &rarr; cascaded</p>
-              <p><strong>Sentence in context:</strong></p>
-              <p>After the storm, fresh water <span class="hl hl-teal">cascaded</span> down the rocks, drumming onto the leaves Fred had stretched across the raft.</p>
-            </div>
-            <div class="model-annotations">
-              <div class="model-annot-item"><strong>Anchored the ends first:</strong> I started by placing 'trickled' at the weakest end and 'cascaded' at the strongest. Anchors make the middle easier to judge.</div>
-              <div class="model-annot-item"><strong>Picked the middle by force:</strong> 'Poured' sits between because it is faster than a trickle but does not have the dramatic surge that 'cascaded' suggests.</div>
-              <div class="model-annot-item"><strong>Matched the verb to the moment:</strong> I used 'cascaded' in my sentence because the storm provides the context. A trickle would feel wrong after heavy rain in the rainforest.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="challenge-box">
-    <h4>Challenge</h4>
-    <p>Create your own word cline using verbs you find in 'The Raft' chapter. Then, write a procedural text giving instructions for how to construct a raft, including materials and sequenced steps.</p>
-    <textarea id="challengeResponse" style="width:100%;min-height:120px;margin-top:10px;padding:12px;border:2px solid rgba(255,217,61,0.4);border-radius:10px;font-family:'Fredoka',sans-serif;font-size:15px;background:rgba(255,255,255,0.7);resize:vertical;" placeholder="Write your own cline and procedural text here..."></textarea>
-  </div>
-
-  <div style="text-align:center;margin:24px 0;">
-    <button class="btn btn-sky" onclick="showNameModal()">Export my work as PDF</button>
-  </div>
-
-  <div class="phase-nav">
-    <button class="btn btn-outline" onclick="goPhase(4)">&larr; Back</button>
-    <span class="step-info">PHASE 5 / 6</span>
-    <button class="btn btn-coral" onclick="goPhase(6)">Next: Reflect &rarr;</button>
-  </div>
-</section>
-
-<section class="phase" id="phase6">
-  <div class="phase-eyebrow">Phase 6 of 6 &middot; 5 min</div>
-  <h1 class="phase-title">Reflect &amp; Record</h1>
-  <p class="phase-sub">Update the character development record and complete today's exit slip.</p>
-
-  <div class="simple-instruction-card" style="border-left:5px solid var(--purple);">
-    <div class="step-num" style="background:var(--purple);">1</div>
-    <div class="body">
-      <h3>Character Development Record</h3>
-      <p>Open your character development record. Add today's observations: which words on your cline best describe Fred, Con, Lila or Max in this chapter? What does the writer's verb choice reveal about them?</p>
-      <textarea id="characterRecord" style="width:100%;min-height:80px;margin-top:10px;padding:12px;border:2px solid #e8e6e2;border-radius:10px;font-family:'Fredoka',sans-serif;font-size:15px;resize:vertical;" placeholder="Add today's observations to your character development record..."></textarea>
-    </div>
-  </div>
-
-  <div class="exit-slip">
-    <h3>Chapter Summary Exit Slip</h3>
-    <p>On the chapter summary template, record a one-sentence summary of 'The Raft'. Aim to use one powerful verb from today's lesson.</p>
-    <p>&ldquo;In this chapter, ________________________________________.&rdquo;</p>
-    <textarea class="exit-textarea" id="exitTicket" placeholder="In this chapter, ..."></textarea>
-  </div>
-
-  <div style="text-align:center;margin:28px 0 10px;">
-    <button class="btn btn-coral" onclick="showNameModal()">Export my work as PDF</button>
-  </div>
-
-  <div class="phase-nav">
-    <button class="btn btn-outline" onclick="goPhase(5)">&larr; Back</button>
-    <span class="step-info">PHASE 6 / 6</span>
-    <button class="btn btn-purple" onclick="goPhase(1)">Restart lesson &#8635;</button>
-  </div>
-</section>
-
+  <div id="phase7" class="phase"><div class="phase-eyebrow">Phase 7: Reflect</div><div class="phase-title">What Did We Learn?</div><div class="phase-sub">Think about the strategy we used today and how you can use it in your own writing.</div>
+    <div class="reflect-card" style="border-left:5px solid var(--teal);"><div class="reflect-prompt" style="margin-bottom:18px;">Today we learned a four-step strategy for choosing powerful verbs:</div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;"><span class="hl hl-coral" style="font-size:clamp(14px,1.7vw,16px);">1. Read the context</span><span class="hl hl-sky" style="font-size:clamp(14px,1.7vw,16px);">2. Brainstorm options</span><span class="hl hl-gold" style="font-size:clamp(14px,1.7vw,16px);">3. Rank weak to strong</span><span class="hl hl-green" style="font-size:clamp(14px,1.7vw,16px);">4. Pick the best fit</span></div><div class="reflect-prompt">Discuss with your partner: when you are writing your own stories, at which point in the drafting process would this strategy be most useful?</div></div>
+    <div class="exit-slip"><h3>Exit Slip</h3><p>Complete this sentence using one powerful verb from today's lesson.</p><div style="font-size:clamp(15px,1.8vw,17px);font-weight:500;color:var(--ink);margin-bottom:12px;">In the chapter we read, the most interesting verb the author used was __________ because...</div><textarea class="writing-textarea" id="exitSlipText" placeholder=""></textarea></div>
+    <button class="btn btn-purple" style="width:100%;margin-top:14px;margin-bottom:14px;" onclick="openPdfModal()" tabindex="-1">Export as PDF</button>
+    <div class="phase-nav"><button class="btn btn-outline" onclick="goPhase(6)" tabindex="-1">Back</button><span class="step-info">Phase 7 of 7</span><button class="btn btn-coral" disabled tabindex="-1">End of Lesson</button></div></div>
 </main>
-
-<div class="modal" id="nameModal">
-  <div class="modal-content">
-    <h3>Export your work</h3>
-    <p>Enter your name to add it to the PDF. Your name is not stored or sent anywhere.</p>
-    <input type="text" id="studentName" placeholder="Your name" />
-    <div class="modal-actions">
-      <button class="btn btn-outline btn-sm" onclick="closeNameModal()">Cancel</button>
-      <button class="btn btn-coral btn-sm" onclick="exportPDF()">Export PDF</button>
-    </div>
-  </div>
-</div>
-
-<div id="printSummary"></div>
-
+<div id="pdfModal" class="modal-overlay"><div class="modal"><div class="modal-title">Save Your Work</div><div class="modal-text">Enter your name to include on the PDF export.</div><input type="text" id="studentName" class="modal-input" placeholder="Your name"><div class="modal-actions"><button class="btn btn-outline" onclick="closePdfModal()" tabindex="-1">Cancel</button><button class="btn btn-purple" onclick="exportPdf()" tabindex="-1">Export PDF</button></div></div></div>
+<div id="printSummary"><h1>Week 4B Lesson 2: Choosing Powerful Words</h1><p class="meta">Student: <span id="printStudentName"></span> | Date: <span id="printDate"></span></p><div id="printContent"></div></div>
 <script>
-var totalPhases=6;
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+var totalPhases=7,currentPhase=1;
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed');}
+function goPhase(n){if(n<1||n>totalPhases)return;document.querySelectorAll('.phase').forEach(function(p){p.classList.remove('active');});document.getElementById('phase'+n).classList.add('active');document.querySelectorAll('.sidebar-item').forEach(function(b){b.classList.remove('active');});var nb=document.querySelector('.sidebar-item[data-phase="'+n+'"]');if(nb)nb.classList.add('active');currentPhase=n;window.scrollTo({top:0,behavior:'smooth'});}
+document.addEventListener('keydown',function(e){if(document.activeElement&&(document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='TEXTAREA'))return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();if(currentPhase<totalPhases)goPhase(currentPhase+1);}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();if(currentPhase>1)goPhase(currentPhase-1);}if(e.key==='Escape')closePdfModal();},true);
 
-function toggleSidebar(){
-  document.getElementById('sidebar').classList.toggle('collapsed');
-}
+/* PHASE 2: HOOK */
+var exemplars=[
+  {source:'Harry Potter and the Philosopher\'s Stone',sentence:'"Be quiet!" Harry <span class="blank">???</span>. He was terrified of being caught.',word:'hissed',hlClass:'hl-coral',borderColor:'var(--coral)',effect:'"Hissed" creates urgency and secrecy. It tells us Harry is frightened and trying to keep his voice hidden. The writer could have used "said" or "whispered", but "hissed" does more work because it carries the fear and tension of the moment.'},
+  {source:'Matilda by Roald Dahl',sentence:'"Sit down!" the Trunchbowl <span class="blank">???</span> at the trembling children.',word:'bellowed',hlClass:'hl-gold',borderColor:'var(--gold)',effect:'"Bellowed" makes the Trunchbowl sound monstrous and overwhelming. It shows raw power and fury in a way that makes us fear her. "Shouted" would tell us she was loud, but "bellowed" tells us she is terrifying.'},
+  {source:'Wonder by R.J. Palacio',sentence:'"I\'m fine," Auggie <span class="blank">???</span>, staring at the floor.',word:'mumbled',hlClass:'hl-teal',borderColor:'var(--teal)',effect:'"Mumbled" reveals that Auggie is not fine at all. It shows he is uncertain, uncomfortable and withdrawn. If the author had written "said", we would lose the contradiction between his words and his true feelings.'}
+];
+var currentExemplar=0,exemplarRevealed=false;
+function renderExemplar(){var e=exemplars[currentExemplar];document.getElementById('exemplarCounter').textContent='Example '+(currentExemplar+1)+' of '+exemplars.length;document.getElementById('exemplarSource').textContent=e.source;document.getElementById('exemplarSentence').innerHTML=e.sentence;document.getElementById('exemplarCard').style.borderLeftColor=e.borderColor;document.getElementById('revealWord').innerHTML='<span class="hl '+e.hlClass+'">'+e.word+'</span>';document.getElementById('revealEffect').textContent=e.effect;document.getElementById('exemplarReveal').classList.remove('shown');document.getElementById('exemplarRevealBtn').style.display='';document.getElementById('exemplarPredict').style.display='';exemplarRevealed=false;document.getElementById('exemplarPrev').disabled=(currentExemplar===0);document.getElementById('exemplarNext').disabled=(currentExemplar===exemplars.length-1);}
+function revealExemplar(){document.getElementById('exemplarReveal').classList.add('shown');document.getElementById('exemplarRevealBtn').style.display='none';document.getElementById('exemplarPredict').style.display='none';exemplarRevealed=true;if(currentExemplar===exemplars.length-1)document.getElementById('hookSummary').style.display='';}
+function nextExemplar(){if(currentExemplar<exemplars.length-1){currentExemplar++;renderExemplar();}}
+function prevExemplar(){if(currentExemplar>0){currentExemplar--;renderExemplar();}}
 
-function goPhase(n){
-  if(n<1||n>totalPhases)return;
-  document.querySelectorAll('.phase').forEach(function(p){p.classList.remove('active');});
-  document.getElementById('phase'+n).classList.add('active');
-  document.querySelectorAll('.sidebar-item').forEach(function(b){b.classList.remove('active');});
-  var btn=document.querySelector('.sidebar-item[data-nav="phase'+n+'"]');
-  if(btn)btn.classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+/* PHASE 3: I DO */
+var totalIdoSteps=4,currentIdoStep=1;
+function renderIdoStep(){for(var i=1;i<=totalIdoSteps;i++){var el=document.getElementById('idoStep'+i);if(el)el.classList.toggle('active',i===currentIdoStep);}document.getElementById('idoCounter').textContent='Step '+currentIdoStep+' of '+totalIdoSteps;document.getElementById('idoPrev').disabled=(currentIdoStep===1);document.getElementById('idoNext').disabled=(currentIdoStep===totalIdoSteps);}
+function nextIdoStep(){if(currentIdoStep<totalIdoSteps){currentIdoStep++;renderIdoStep();}}
+function prevIdoStep(){if(currentIdoStep>1){currentIdoStep--;renderIdoStep();}}
 
-var hookStep=1;
-var hookTotal=5;
-function hookNext(){
-  hookStep++;
-  if(hookStep<=hookTotal){
-    var card=document.getElementById('ex'+hookStep);
-    card.classList.remove('hidden');
-    card.scrollIntoView({behavior:'smooth',block:'center'});
-  }
-  if(hookStep>=hookTotal){
-    var btn=document.getElementById('hookNextBtn');
-    btn.textContent='All exemplars shown';
-    btn.disabled=true;
-  }
-}
+/* PHASE 4: WE DO */
+var wedoStep=0,wedoWords=['trudged','walked','hurried','raced','sprinted'],wedoPlaced=[];
+function advanceWeDo(){wedoStep++;var btn=document.getElementById('wedoStepBtn');if(wedoStep===1){document.getElementById('wedoContext').classList.add('shown');btn.textContent='Show Word Bank';}else if(wedoStep===2){document.getElementById('wedoBank').classList.add('shown');btn.textContent='Show Ranking Track';}else if(wedoStep===3){document.getElementById('wedoClineZone').classList.add('shown');buildWedoCline();btn.textContent='Reveal Answer';}else if(wedoStep===4){document.getElementById('wedoReveal').classList.add('shown');btn.disabled=true;btn.textContent='Complete';}}
+function buildWedoCline(){var t=document.getElementById('wedoClineTrack');t.innerHTML='';for(var i=0;i<wedoWords.length;i++){if(i>0){var c=document.createElement('div');c.className='cline-connector';t.appendChild(c);}var s=document.createElement('div');s.className='cline-slot';s.setAttribute('data-index',i);s.onclick=(function(idx){return function(){removeWedoWord(idx);};})(i);t.appendChild(s);}}
+function placeWedoWord(chip){if(chip.classList.contains('placed'))return;var w=chip.getAttribute('data-word');var slots=document.querySelectorAll('#wedoClineTrack .cline-slot');for(var i=0;i<slots.length;i++){if(!slots[i].classList.contains('filled')){slots[i].textContent=w;slots[i].classList.add('filled');slots[i].setAttribute('data-word',w);chip.classList.add('placed');wedoPlaced.push(w);break;}}}
+function removeWedoWord(idx){var slot=document.querySelectorAll('#wedoClineTrack .cline-slot')[idx];if(!slot||!slot.classList.contains('filled'))return;var w=slot.getAttribute('data-word');slot.textContent='';slot.classList.remove('filled');slot.removeAttribute('data-word');wedoPlaced=wedoPlaced.filter(function(x){return x!==w;});var chips=document.querySelectorAll('#wedoBank .wedo-chip');for(var i=0;i<chips.length;i++){if(chips[i].getAttribute('data-word')===w)chips[i].classList.remove('placed');}}
+function resetWedoCline(){wedoPlaced=[];var s=document.querySelectorAll('#wedoClineTrack .cline-slot');for(var i=0;i<s.length;i++){s[i].textContent='';s[i].classList.remove('filled');s[i].removeAttribute('data-word');}var c=document.querySelectorAll('#wedoBank .wedo-chip');for(var i=0;i<c.length;i++)c[i].classList.remove('placed');}
 
-function revealExemplar(n){
-  document.getElementById('ee'+n).classList.add('shown');
-}
+/* PHASE 5: YOU DO RANKING */
+var ydoGroups=[
+  {title:'Eating',context:'The children had not eaten for days. When they finally found fruit, they...',words:['nibbled','pecked','chewed','gobbled','devoured'],correctOrder:['pecked','nibbled','chewed','gobbled','devoured'],explanation:'"Pecked" is the weakest, suggesting tiny, hesitant bites. "Devoured" is the strongest, meaning to eat hungrily and completely. Given the context of starving children, "devoured" or "gobbled" would best capture their desperation.'},
+  {title:'Water',context:'The rain began to fall on the canopy above them...',words:['trickled','poured','cascaded'],correctOrder:['trickled','poured','cascaded'],explanation:'"Trickled" is the gentlest flow. "Cascaded" is the most powerful, suggesting a rushing torrent.'},
+  {title:'Touch',context:'She reached out and __________ the surface of the strange plant...',words:['patted','dabbed','rubbed','scoured'],correctOrder:['dabbed','patted','rubbed','scoured'],explanation:'"Dabbed" is the lightest, most tentative touch. "Scoured" is the most aggressive, suggesting hard scrubbing.'},
+  {title:'Taking',context:'The vine was tangled around the raft. He grabbed it and...',words:['pulled','tugged','yanked','wrenched'],correctOrder:['pulled','tugged','yanked','wrenched'],explanation:'"Pulled" is the most neutral. "Wrenched" is the most forceful, suggesting a violent twisting motion.'}
+];
+var currentYdoGroup=0,ydoState=[],ydoSentences=[];
+function initYdo(){for(var i=0;i<ydoGroups.length;i++){ydoState.push([]);ydoSentences.push('');}showYdoGroup(0);}
+function showYdoGroup(idx){var ct=document.querySelector('#ydoGroupContainer .writing-textarea');if(ct)ydoSentences[currentYdoGroup]=ct.value;currentYdoGroup=idx;var tabs=document.querySelectorAll('.ydo-tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.toggle('active',i===idx);var g=ydoGroups[idx],shuffled=shuffle(g.words),container=document.getElementById('ydoGroupContainer');
+var h='<div class="ydo-group active"><div class="ydo-group-title">'+g.title+'</div><div class="ydo-group-sub">'+g.context+'</div><div class="drag-source" id="ydoDragSource">';
+for(var i=0;i<shuffled.length;i++){var ip=ydoState[idx].indexOf(shuffled[i])>-1;h+='<div class="drag-word'+(ip?' placed':'')+'" data-word="'+shuffled[i]+'" onclick="placeYdoWord(this)">'+shuffled[i]+'</div>';}
+h+='</div><div class="rank-labels"><div class="rank-label">Weakest</div><div class="rank-label">Strongest</div></div><div class="rank-track" id="ydoRankTrack">';
+for(var i=0;i<g.words.length;i++){if(i>0)h+='<div class="rank-connector"></div>';var pw=ydoState[idx][i]||'';h+='<div class="rank-slot'+(pw?' filled':'')+'" data-index="'+i+'"'+(pw?' data-word="'+pw+'"':'')+' onclick="removeYdoWord('+i+')">'+pw+'</div>';}
+h+='</div><div class="rank-actions"><button class="btn btn-outline btn-sm" onclick="resetYdoGroup()" tabindex="-1">Reset</button><button class="btn btn-sky btn-sm" onclick="checkYdoGroup()" tabindex="-1">Check My Ranking</button></div><div class="rank-feedback" id="ydoFeedback"></div><div class="sentence-task"><div class="sentence-task-label">Now write a sentence using the verb you think fits the context best:</div><textarea class="writing-textarea" placeholder="">'+(ydoSentences[idx]||'')+'</textarea></div></div>';
+container.innerHTML=h;}
+function placeYdoWord(el){if(el.classList.contains('placed'))return;var w=el.getAttribute('data-word');var slots=document.querySelectorAll('#ydoRankTrack .rank-slot');for(var i=0;i<slots.length;i++){if(!slots[i].classList.contains('filled')){slots[i].textContent=w;slots[i].classList.add('filled');slots[i].setAttribute('data-word',w);el.classList.add('placed');ydoState[currentYdoGroup][i]=w;break;}}}
+function removeYdoWord(idx){var slot=document.querySelectorAll('#ydoRankTrack .rank-slot')[idx];if(!slot||!slot.classList.contains('filled'))return;var w=slot.getAttribute('data-word');slot.textContent='';slot.classList.remove('filled');slot.removeAttribute('data-word');ydoState[currentYdoGroup][idx]=undefined;var words=document.querySelectorAll('#ydoDragSource .drag-word');for(var i=0;i<words.length;i++){if(words[i].getAttribute('data-word')===w)words[i].classList.remove('placed');}document.getElementById('ydoFeedback').classList.remove('shown');}
+function resetYdoGroup(){ydoState[currentYdoGroup]=[];showYdoGroup(currentYdoGroup);}
+function checkYdoGroup(){var g=ydoGroups[currentYdoGroup];var slots=document.querySelectorAll('#ydoRankTrack .rank-slot');var placed=[];for(var i=0;i<slots.length;i++){if(slots[i].classList.contains('filled'))placed.push(slots[i].getAttribute('data-word'));}if(placed.length<g.words.length){var fb=document.getElementById('ydoFeedback');fb.innerHTML='<div class="rank-feedback-inner partial">Place all '+g.words.length+' words before checking.</div>';fb.classList.add('shown');return;}var correct=0;for(var i=0;i<placed.length;i++){if(placed[i]===g.correctOrder[i])correct++;}var fb=document.getElementById('ydoFeedback');if(correct===placed.length){fb.innerHTML='<div class="rank-feedback-inner success"><strong>Excellent!</strong> '+g.explanation+'</div>';}else{fb.innerHTML='<div class="rank-feedback-inner partial"><strong>Close!</strong> You got '+correct+' of '+placed.length+' in the right position. The suggested order is: '+g.correctOrder.join(', ')+'. '+g.explanation+'</div>';}fb.classList.add('shown');}
+function toggleModel(){var c=document.getElementById('modelContent'),b=document.getElementById('modelToggleBtn');c.classList.toggle('shown');b.textContent=c.classList.contains('shown')?'Hide Model Response':'Show Model Response';}
 
-var ruleStep=1;
-var ruleTotal=3;
-function renderRule(){
-  document.querySelectorAll('.rule-card').forEach(function(c){c.classList.remove('active-rule');});
-  document.getElementById('rule'+ruleStep).classList.add('active-rule');
-  document.getElementById('ruleStepInfo').textContent='Rule '+ruleStep+' of '+ruleTotal;
-  document.getElementById('rulePrevBtn').disabled=(ruleStep===1);
-  var nb=document.getElementById('ruleNextBtn');
-  if(ruleStep===ruleTotal){nb.disabled=true;nb.textContent='All rules shown';}
-  else{nb.disabled=false;nb.innerHTML='Next rule &rarr;';}
-}
-function ruleNext(){if(ruleStep<ruleTotal){ruleStep++;renderRule();}}
-function rulePrev(){if(ruleStep>1){ruleStep--;renderRule();}}
-function showRuleAnswer(n){document.getElementById('ruleAns'+n).classList.add('shown');}
+/* PHASE 6: WRITING TASK */
+function showWritingLevel(n){document.querySelectorAll('.level-panel').forEach(function(p){p.classList.remove('active');});document.getElementById('writingLevel'+n).classList.add('active');document.querySelectorAll('.level-tab').forEach(function(t){t.classList.remove('active');});var tabs=document.querySelectorAll('.level-tab');tabs[n-1].classList.add('active');}
 
-var clineStep=1;
-var clineTotal=5;
-function renderClineStage(){
-  document.querySelectorAll('.cline-stage').forEach(function(s){s.classList.remove('active');});
-  document.getElementById('cstage'+clineStep).classList.add('active');
-  document.getElementById('clineStepInfo').textContent='Step '+clineStep+' of '+clineTotal;
-  document.getElementById('clineStepText').textContent='Step '+clineStep+' / '+clineTotal;
-  document.getElementById('clinePrevBtn').disabled=(clineStep===1);
-  var nb=document.getElementById('clineNextBtn');
-  if(clineStep===clineTotal){nb.disabled=true;nb.textContent='Last step';}
-  else{nb.disabled=false;nb.innerHTML='Next step &rarr;';}
-}
-function clineNext(){if(clineStep<clineTotal){clineStep++;renderClineStage();}}
-function clinePrev(){if(clineStep>1){clineStep--;renderClineStage();}}
+var clozeData={
+  passage:[
+    {text:'The rain '},{gap:true,id:0,accept:['hammered','pounded']},
+    {text:' against the leaves above them. Lila '},{gap:true,id:1,accept:['flinched']},
+    {text:' as a crack of thunder split the sky. Fred '},{gap:true,id:2,accept:['seized']},
+    {text:' a thick branch and '},{gap:true,id:3,accept:['dragged']},
+    {text:' it over their heads. Con '},{gap:true,id:4,accept:['huddled']},
+    {text:' against the tree trunk, teeth chattering. Max '},{gap:true,id:5,accept:['peered']},
+    {text:' through the darkness, searching for shelter.'}
+  ],
+  bank:['hammered','flinched','seized','dragged','huddled','peered','glanced','leaned'],
+  modelAnswer:'"Hammered" shows the violent force of the rain. "Flinched" shows Lila\'s instinctive fear. "Seized" shows Fred acting quickly and decisively. "Dragged" shows physical effort. "Huddled" shows Con\'s fear and cold. "Peered" shows Max straining to see. The two unused words ("glanced" and "leaned") are weaker because "glanced" is too casual for a storm, and "leaned" does not carry the fear that "huddled" does.'
+};
+var clozeSelected=null,clozeFills={};
+function initCloze(){var bankEl=document.querySelector('#clozeBank');var shuffledBank=shuffle(clozeData.bank);var bh='';for(var i=0;i<shuffledBank.length;i++){bh+='<div class="cloze-word" data-word="'+shuffledBank[i]+'" onclick="selectClozeWord(this)">'+shuffledBank[i]+'</div>';}bankEl.innerHTML=bh;var passageEl=document.getElementById('clozePassage');var ph='';for(var i=0;i<clozeData.passage.length;i++){var seg=clozeData.passage[i];if(seg.gap){ph+='<span class="cloze-gap" data-gap="'+seg.id+'" onclick="fillClozeGap('+seg.id+')"></span>';}else{ph+=seg.text;}}passageEl.innerHTML=ph;document.getElementById('clozeModelInner').innerHTML='<p>'+clozeData.modelAnswer+'</p>';}
+function selectClozeWord(el){if(el.classList.contains('used'))return;document.querySelectorAll('.cloze-word').forEach(function(w){w.classList.remove('selected');});el.classList.add('selected');clozeSelected=el.getAttribute('data-word');}
+function fillClozeGap(gapId){if(!clozeSelected)return;var gap=document.querySelector('.cloze-gap[data-gap="'+gapId+'"]');if(gap.classList.contains('filled')){var old=gap.textContent;gap.textContent='';gap.classList.remove('filled');delete clozeFills[gapId];var bw=document.querySelectorAll('.cloze-word');for(var i=0;i<bw.length;i++){if(bw[i].getAttribute('data-word')===old)bw[i].classList.remove('used');}}gap.textContent=clozeSelected;gap.classList.add('filled');clozeFills[gapId]=clozeSelected;var bw=document.querySelectorAll('.cloze-word');for(var i=0;i<bw.length;i++){if(bw[i].getAttribute('data-word')===clozeSelected){bw[i].classList.add('used');bw[i].classList.remove('selected');}}clozeSelected=null;}
+function resetCloze(){clozeFills={};clozeSelected=null;document.querySelectorAll('.cloze-gap').forEach(function(g){g.textContent='';g.classList.remove('filled');});document.querySelectorAll('.cloze-word').forEach(function(w){w.classList.remove('used','selected');});document.getElementById('clozeFeedback').classList.remove('shown');}
+function checkCloze(){var total=0,correct=0;for(var i=0;i<clozeData.passage.length;i++){var seg=clozeData.passage[i];if(seg.gap){total++;if(clozeFills[seg.id]&&seg.accept.indexOf(clozeFills[seg.id])>-1)correct++;}}var filled=Object.keys(clozeFills).length;var fb=document.getElementById('clozeFeedback');if(filled<total){fb.innerHTML='<div class="rank-feedback-inner partial">Fill all the gaps before checking. You have filled '+filled+' of '+total+'.</div>';}else if(correct===total){fb.innerHTML='<div class="rank-feedback-inner success"><strong>Excellent!</strong> Every verb matches the context perfectly. Notice how the two unused words ("glanced" and "leaned") could fit grammatically but do not carry the same power.</div>';}else{fb.innerHTML='<div class="rank-feedback-inner partial"><strong>Good effort!</strong> You matched '+correct+' of '+total+' correctly. Check the model answer below to see which verbs fit each moment best.</div>';}fb.classList.add('shown');}
+function toggleClozeModel(){var c=document.getElementById('clozeModelContent'),b=document.getElementById('clozeModelBtn');c.classList.toggle('shown');b.textContent=c.classList.contains('shown')?'Hide Model':'Show Model';}
+function toggleFreeModel(){var c=document.getElementById('freeModelContent'),b=document.getElementById('freeModelBtn');c.classList.toggle('shown');b.textContent=c.classList.contains('shown')?'Hide Model':'Show Model';}
 
-var clinePlacement=['trudged','dawdled','hobbled','walked','hurried','raced','sprinted'];
-function revealClinePlacement(){
-  for(var i=0;i<clinePlacement.length;i++){
-    var pos=document.getElementById('pos'+(i+1));
-    pos.classList.add('revealed');
-    var wordSpan=pos.querySelector('.pos-word');
-    if(wordSpan)wordSpan.textContent=clinePlacement[i];
-  }
-}
-function resetClinePlacement(){
-  for(var i=0;i<clinePlacement.length;i++){
-    var pos=document.getElementById('pos'+(i+1));
-    pos.classList.remove('revealed');
-    var wordSpan=pos.querySelector('.pos-word');
-    if(wordSpan)wordSpan.textContent='?';
-  }
-}
-function revealClineFinal(){
-  document.getElementById('clineFinal').classList.add('shown');
-}
+/* PDF EXPORT */
+function openPdfModal(){document.getElementById('pdfModal').classList.add('shown');}
+function closePdfModal(){document.getElementById('pdfModal').classList.remove('shown');}
+function exportPdf(){var name=document.getElementById('studentName').value||'Student';document.getElementById('printStudentName').textContent=name;document.getElementById('printDate').textContent=new Date().toLocaleDateString('en-GB');var ct=document.querySelector('#ydoGroupContainer .writing-textarea');if(ct)ydoSentences[currentYdoGroup]=ct.value;var content='';for(var i=0;i<ydoGroups.length;i++){content+='<h2>'+ydoGroups[i].title+' Ranking</h2>';var r=(ydoState[i]||[]).filter(function(w){return w;}).join(', ');content+='<div class="answer-block">'+(r||'Not completed')+'</div>';content+='<p><strong>Sentence:</strong></p>';content+='<div class="answer-block">'+(ydoSentences[i]||'Not completed')+'</div>';}content+='<h2>Cloze Passage</h2>';var ct2='';for(var i=0;i<clozeData.passage.length;i++){var seg=clozeData.passage[i];if(seg.gap){ct2+='['+(clozeFills[seg.id]||'___')+']';}else{ct2+=seg.text;}}content+='<div class="answer-block">'+ct2+'</div>';var ft=document.getElementById('freeWriteText').value;content+='<h2>Free Write</h2>';content+='<div class="answer-block">'+(ft||'Not completed')+'</div>';var et=document.getElementById('exitSlipText').value;content+='<h2>Exit Slip</h2>';content+='<div class="answer-block">'+(et||'Not completed')+'</div>';document.getElementById('printContent').innerHTML=content;closePdfModal();window.print();}
 
-function togglePanel(bodyId,toggleId){
-  var body=document.getElementById(bodyId);
-  var toggle=document.getElementById(toggleId);
-  if(body.classList.contains('open')){body.classList.remove('open');toggle.innerHTML='&#9660;';}
-  else{body.classList.add('open');toggle.innerHTML='&#9650;';}
-}
-
-function revealModel(){
-  document.getElementById('modelReveal').classList.add('shown');
-}
-
-function showNameModal(){
-  document.getElementById('nameModal').classList.add('shown');
-  setTimeout(function(){document.getElementById('studentName').focus();},100);
-}
-function closeNameModal(){
-  document.getElementById('nameModal').classList.remove('shown');
-}
-
-function escapeHtml(s){
-  if(!s)return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-
-function exportPDF(){
-  var name=document.getElementById('studentName').value||'Student';
-  var date=new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  var html='<h1>The Explorer: Word Clines: Choosing Powerful Vocabulary</h1>';
-  html+='<div class="meta"><strong>Name:</strong> '+escapeHtml(name)+' &middot; <strong>Date:</strong> '+escapeHtml(date)+' &middot; <strong>Lesson:</strong> Week 4B Lesson 2</div>';
-
-  html+='<h2>Phase 5: Build Your Own Word Clines</h2>';
-  for(var i=1;i<=4;i++){
-    var clineEl=document.getElementById('taskCline'+i);
-    var sentEl=document.getElementById('taskSentence'+i);
-    var groupNames=['Chewed / nibbled / pecked / devoured / gobbled','Cascaded / poured / trickled','Rubbed / scoured / dabbed / patted / erased','Pulling / yanking / stretching / removing / taking'];
-    html+='<div class="block">';
-    html+='<div class="field-label">Group '+i+': '+escapeHtml(groupNames[i-1])+'</div>';
-    html+='<div><strong>Cline:</strong> '+escapeHtml(clineEl?clineEl.value:'')+'</div>';
-    html+='<div><strong>Sentence:</strong> '+escapeHtml(sentEl?sentEl.value:'')+'</div>';
-    html+='</div>';
-  }
-
-  var ch=document.getElementById('challengeResponse');
-  if(ch&&ch.value.trim()){
-    html+='<h2>Challenge: Own cline + procedural text</h2>';
-    html+='<div class="block">'+escapeHtml(ch.value).replace(/\n/g,'<br>')+'</div>';
-  }
-
-  html+='<h2>Phase 6: Reflect &amp; Record</h2>';
-  var charRec=document.getElementById('characterRecord');
-  if(charRec){
-    html+='<div class="block"><div class="field-label">Character Development Record</div>';
-    html+=escapeHtml(charRec.value).replace(/\n/g,'<br>')||'<em>(no entry)</em>';
-    html+='</div>';
-  }
-  var exit=document.getElementById('exitTicket');
-  if(exit){
-    html+='<div class="block"><div class="field-label">Chapter Summary Exit Slip</div>';
-    html+='&ldquo;In this chapter, '+(escapeHtml(exit.value)||'________________')+'.&rdquo;';
-    html+='</div>';
-  }
-
-  document.getElementById('printSummary').innerHTML=html;
-  closeNameModal();
-  setTimeout(function(){window.print();},150);
-}
-
-document.addEventListener('keydown',function(e){
-  if(document.activeElement&&(document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='TEXTAREA'))return;
-  if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
-  var current=null;
-  document.querySelectorAll('.phase').forEach(function(p,i){if(p.classList.contains('active'))current=i+1;});
-  if(!current)return;
-  if(e.key==='ArrowRight'||e.key==='PageDown'){if(current<totalPhases){e.preventDefault();goPhase(current+1);}}
-  if(e.key==='ArrowLeft'||e.key==='PageUp'){if(current>1){e.preventDefault();goPhase(current-1);}}
-},true);
-
-document.getElementById('nameModal').addEventListener('click',function(e){
-  if(e.target===this)closeNameModal();
-});
-document.getElementById('studentName').addEventListener('keydown',function(e){
-  if(e.key==='Enter')exportPDF();
-});
+/* INIT */
+initYdo();
+initCloze();
 </script>
-
 </body>
 </html>
