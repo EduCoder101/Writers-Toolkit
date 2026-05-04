@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Appositives Lesson - Learn to use appositives to add depth and detail to your writing. Writer's Toolkit interactive for Stage 3 English.">
+<title>Appositives | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF8F5;--ink:#2D3436;--ink-light:#636E72;
+  --teal:#4ECDC4;--teal-light:#d0f0ec;
+  --coral:#FF6B6B;--coral-light:#ffe0e0;
+  --gold:#FFD93D;--gold-light:#fdf2d0;
+  --purple:#9B5DE5;--purple-light:#f0e6ff;
+  --sky:#74B9FF;--sky-light:#e1f0ff;
+  --green:#27AE60;--green-light:#d3f9d8;
+  --pink:#FFD6E0;--orange:#FFE0CC;--yellow:#FFF3BF;
+  --card:#fff;
+  --shadow:0 4px 20px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.12);
+  --radius:16px;
+  --correct:#27AE60;--incorrect:#E74C3C;
+  --sidebar-bg:#2D3436;--sidebar-w:240px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Fredoka',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* Floating background shapes */
+.bg-shapes{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;}
+.bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:var(--coral);}
+.bg-shape:nth-child(2){width:400px;height:400px;top:20%;right:-8%;background:var(--teal);}
+.bg-shape:nth-child(3){width:350px;height:350px;bottom:15%;left:10%;background:var(--gold);}
+.bg-shape:nth-child(4){width:450px;height:450px;bottom:-5%;right:15%;background:var(--purple);}
+.bg-shape:nth-child(5){width:300px;height:300px;top:50%;left:40%;background:var(--sky);}
+
+/* Top bar */
+.top-bar{background:var(--sidebar-bg);color:#fff;padding:0;position:sticky;top:0;z-index:200;display:flex;align-items:center;border-bottom:2px solid rgba(255,255,255,0.08);}
+.sidebar-toggle{background:none;border:none;border-right:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.top-bar-title{font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.95rem;padding:0 22px;letter-spacing:0.3px;}
+.top-bar-title span{color:var(--teal);}
+.top-bar .back-link{margin-left:auto;color:var(--teal);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.7;transition:opacity 0.2s;font-family:'Fredoka',sans-serif;}
+.top-bar .back-link:hover{opacity:1;}
+
+/* Sidebar */
+.sidebar{position:fixed;left:0;top:48px;width:var(--sidebar-w);height:calc(100vh - 48px);background:var(--sidebar-bg);color:#fff;z-index:100;overflow-y:auto;transition:width 0.3s ease;}
+.sidebar.collapsed{width:0;overflow:hidden;}
+.sidebar-content{padding:16px 0;}
+.sidebar-section{margin-bottom:12px;}
+.sidebar-section-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);padding:10px 18px 6px;}
+.sidebar-item{background:none;border:none;color:rgba(255,255,255,0.6);font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;padding:9px 18px;width:100%;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:10px;}
+.sidebar-item:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.sidebar-item.active{background:rgba(78,205,196,0.15);color:#fff;border-left:4px solid var(--teal);padding-left:14px;}
+.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* Main */
+main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:36px 60px 80px;position:relative;z-index:1;}
+.sidebar.collapsed~main{margin-left:0;}
+.slide{display:none;max-width:900px;margin:0 auto;animation:fadeIn 0.4s ease;}
+.slide.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* Card */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:40px 48px;margin-bottom:22px;}
+.card h2{font-family:'Fredoka',sans-serif;font-size:clamp(22px,4vw,32px);font-weight:700;margin-bottom:16px;line-height:1.2;}
+.card h3{font-family:'Fredoka',sans-serif;font-size:clamp(16px,2.5vw,22px);font-weight:600;margin-bottom:10px;color:var(--teal);}
+.card p,.card li{font-size:clamp(15px,2vw,19px);line-height:1.7;}
+.card ul{padding-left:24px;}
+.card li{margin-bottom:10px;}
+
+/* LISC */
+.lisc{background:linear-gradient(135deg,#fff,#f0fffe);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:26px;border-left:5px solid var(--teal);}
+.lisc-li{font-size:clamp(17px,2.2vw,22px);font-weight:600;margin:0 0 12px;color:var(--teal);}
+.lisc-li-text{color:var(--ink);font-weight:500;}
+.lisc-sc-title{font-family:'Fredoka',sans-serif;font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);font-weight:700;margin:14px 0 8px;}
+.lisc ul{margin:0;padding-left:22px;}
+.lisc li{font-size:clamp(13px,1.5vw,16px);color:var(--ink);margin:6px 0;line-height:1.5;}
+
+/* Slide nav */
+.slide-nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:16px;border-top:1px solid #eee;}
+.nav-btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:11px 28px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;background:var(--teal);color:#fff;}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.nav-btn:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none;}
+.slide-counter{font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--ink-light);letter-spacing:1.5px;}
+
+/* Buttons */
+.btn{font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:11px 26px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-coral{background:var(--coral);color:#fff;}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-outline{background:#fff;color:var(--ink);border:2px solid #ddd;}
+
+/* Reveal steps */
+.reveal-step{opacity:0;max-height:0;overflow:hidden;transition:opacity 0.4s ease,max-height 0.4s ease,margin 0.4s ease;margin-top:0;}
+.reveal-step.visible{opacity:1;max-height:1200px;margin-top:16px;}
+
+/* Highlight for appositives */
+.hl-app{background:var(--yellow);padding:2px 6px;border-radius:4px;font-weight:600;}
+.hl-noun{background:var(--sky-light);padding:2px 6px;border-radius:4px;font-weight:600;}
+.hl-app-pink{background:var(--pink);padding:2px 6px;border-radius:4px;font-weight:600;}
+.hl-app-green{background:var(--green-light);padding:2px 6px;border-radius:4px;font-weight:600;}
+.hl-app-orange{background:var(--orange);padding:2px 6px;border-radius:4px;font-weight:600;}
+
+/* Example sentence */
+.example-sentence{background:#fafafa;border:2px solid #e8e0d8;border-radius:var(--radius);padding:20px 24px;font-size:clamp(17px,2vw,21px);line-height:1.8;margin:12px 0;font-weight:500;}
+
+/* Text passage */
+.text-passage{background:rgba(255,255,255,0.9);border:2px solid #e8e0d8;border-radius:16px;padding:24px 28px;font-size:clamp(16px,2vw,20px);font-weight:500;line-height:1.9;color:var(--ink);margin:16px 0;}
+
+/* Comparison panel */
+.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0;}
+@media(max-width:700px){.compare-row{grid-template-columns:1fr;}}
+.compare-box{background:#fff;border-radius:12px;padding:24px 28px;box-shadow:var(--shadow);}
+.compare-box.plain{border-top:4px solid #ccc;}
+.compare-box.rich{border-top:4px solid var(--teal);}
+.compare-eyebrow{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:8px;}
+.compare-box.plain .compare-eyebrow{color:var(--ink-light);}
+.compare-box.rich .compare-eyebrow{color:var(--teal);}
+.compare-text{font-size:clamp(16px,2vw,20px);line-height:1.7;font-weight:500;}
+
+/* Thinking steps */
+.think-step{background:#f8f9fa;border-left:4px solid var(--teal);border-radius:0 12px 12px 0;padding:14px 20px;margin:10px 0;font-size:clamp(15px,1.8vw,18px);line-height:1.6;}
+.think-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:4px;}
+
+/* Detail type tags */
+.detail-tag{display:inline-block;font-family:'Fredoka',sans-serif;font-size:0.75rem;letter-spacing:1px;padding:3px 10px;border-radius:20px;font-weight:600;margin-left:8px;vertical-align:middle;}
+.tag-desc{background:var(--teal-light);color:#2a9d8f;}
+.tag-time{background:var(--sky-light);color:#3a7bd5;}
+.tag-purpose{background:var(--green-light);color:var(--green);}
+.tag-history{background:var(--purple-light);color:var(--purple);}
+.tag-relation{background:var(--pink);color:#d63384;}
+.tag-appear{background:var(--orange);color:#c46200;}
+.tag-skill{background:var(--gold-light);color:#b8860b;}
+.tag-emotion{background:var(--coral-light);color:var(--incorrect);}
+.tag-age{background:#e8e0d8;color:var(--ink);}
+.tag-nickname{background:var(--teal-light);color:#2a9d8f;}
+
+/* Non-example */
+.non-example{background:#fff5f5;border:2px solid var(--coral);border-radius:12px;padding:16px 22px;margin:10px 0;font-size:clamp(15px,1.8vw,18px);line-height:1.6;}
+.non-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--coral);font-weight:700;margin-bottom:4px;}
+
+/* Good example */
+.good-example{background:#f0fff4;border:2px solid var(--green);border-radius:12px;padding:16px 22px;margin:10px 0;font-size:clamp(15px,1.8vw,18px);line-height:1.6;}
+.good-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:4px;}
+
+/* Appositive examples grid */
+.app-examples{display:flex;flex-direction:column;gap:14px;margin:16px 0;}
+.app-ex-item{background:#fff;border-radius:12px;padding:16px 22px;box-shadow:var(--shadow);font-size:clamp(15px,1.8vw,18px);line-height:1.6;font-weight:500;opacity:0;transform:translateY(10px);transition:all 0.4s ease;}
+.app-ex-item.visible{opacity:1;transform:none;}
+
+/* Quiz */
+.quiz-options{display:grid;gap:12px;margin:16px 0;}
+.quiz-opt{font-family:'Fredoka',sans-serif;font-size:clamp(15px,1.8vw,18px);font-weight:500;padding:16px 24px;border:2px solid #e0e0e0;border-radius:12px;background:#fff;cursor:pointer;text-align:left;transition:all 0.2s;line-height:1.5;}
+.quiz-opt:hover:not(.selected){border-color:var(--teal);background:#fafffe;}
+.quiz-opt.selected.correct{border-color:var(--correct);background:#eafff0;color:var(--correct);}
+.quiz-opt.selected.incorrect{border-color:var(--incorrect);background:#fff0f0;color:var(--incorrect);}
+.quiz-opt.show-correct{border-color:var(--correct);background:#eafff0;}
+.quiz-opt.disabled{pointer-events:none;opacity:0.7;}
+.quiz-feedback{margin-top:16px;padding:16px 20px;border-radius:12px;font-size:clamp(14px,1.6vw,17px);line-height:1.6;animation:fadeIn 0.4s ease;}
+.quiz-feedback.correct{background:var(--green-light);border-left:4px solid var(--correct);}
+.quiz-feedback.incorrect{background:var(--coral-light);border-left:4px solid var(--incorrect);}
+
+/* Writing input */
+.writing-input{width:100%;min-height:140px;padding:16px 20px;border:2px solid #e8e0d8;border-radius:12px;font-family:'Fredoka',sans-serif;font-size:clamp(15px,1.8vw,17px);font-weight:400;line-height:1.7;color:var(--ink);background:rgba(255,255,255,0.9);resize:vertical;transition:border-color 0.3s ease;}
+.writing-input:focus{border-color:var(--teal);outline:none;box-shadow:0 0 0 3px rgba(78,205,196,0.15);}
+
+/* Model response */
+.model-response{background:linear-gradient(135deg,rgba(240,255,244,0.9) 0%,rgba(240,249,255,0.9) 100%);border:2px solid var(--correct);border-radius:16px;padding:24px;margin-top:16px;animation:fadeIn 0.4s ease;display:none;}
+.model-response.shown{display:block;}
+.model-label{font-weight:600;font-size:0.85rem;color:var(--correct);margin-bottom:14px;text-transform:uppercase;letter-spacing:1px;}
+.model-sentence{font-size:clamp(15px,1.8vw,18px);line-height:1.8;margin:10px 0;font-weight:500;}
+
+/* Word bank */
+.word-bank{background:linear-gradient(135deg,#fff9e6,#fff5d6);border:2px solid var(--gold);border-radius:16px;padding:24px;margin:16px 0;}
+.word-bank h3{color:#b8860b;margin-bottom:12px;}
+.wb-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:600px){.wb-grid{grid-template-columns:1fr;}}
+.wb-item{background:#fff;border-radius:10px;padding:12px 16px;font-size:clamp(13px,1.5vw,16px);line-height:1.5;}
+.wb-starter{font-weight:600;color:var(--teal);}
+.wb-example{color:var(--ink-light);font-style:italic;margin-top:4px;}
+
+/* Reflection */
+.reflect-item{background:#f8f9fa;border-radius:12px;padding:16px 22px;margin:10px 0;font-size:clamp(16px,2vw,20px);font-weight:500;line-height:1.5;opacity:0;transform:translateY(8px);transition:all 0.4s ease;}
+.reflect-item.visible{opacity:1;transform:none;}
+
+/* Identify exercise */
+.id-exercise{margin:16px 0;}
+.id-sentence{background:#fff;border-radius:12px;padding:18px 22px;margin:10px 0;box-shadow:var(--shadow);cursor:pointer;transition:all 0.2s;}
+.id-sentence:hover{box-shadow:var(--shadow-hover);}
+.id-sentence .sent-text{font-size:clamp(15px,1.8vw,18px);line-height:1.7;font-weight:500;margin-bottom:8px;}
+.id-sentence .sent-feedback{display:none;padding-top:10px;border-top:1px solid #eee;margin-top:10px;font-size:clamp(13px,1.5vw,16px);line-height:1.6;color:var(--ink-light);}
+.id-sentence.revealed .sent-feedback{display:block;animation:fadeIn 0.3s ease;}
+.id-sentence .appositive-hl{cursor:pointer;transition:background 0.3s;border-radius:4px;padding:1px 4px;}
+.id-sentence.revealed .appositive-hl{background:var(--yellow);font-weight:600;}
+
+/* Checklist table */
+.check-table{width:100%;border-collapse:separate;border-spacing:0;margin:16px 0;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);}
+.check-table th{background:var(--teal);color:#fff;font-family:'Fredoka',sans-serif;font-size:clamp(13px,1.4vw,15px);font-weight:600;padding:14px 16px;text-align:left;}
+.check-table td{padding:14px 16px;font-size:clamp(13px,1.4vw,15px);line-height:1.5;border-bottom:1px solid #eee;background:#fff;}
+.check-table tr:last-child td{border-bottom:none;}
+.check-table .yes{color:var(--correct);font-weight:600;}
+.check-table .no{color:var(--incorrect);font-weight:600;}
+
+/* Writing prompt */
+.writing-prompt{margin-bottom:8px;}
+.writing-prompt-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:4px;}
+.writing-prompt-text{font-size:clamp(15px,1.8vw,18px);font-weight:500;color:var(--ink);}
+
+/* Para rewrite area */
+.para-input{width:100%;min-height:180px;padding:16px 20px;border:2px solid #e8e0d8;border-radius:12px;font-family:'Fredoka',sans-serif;font-size:clamp(15px,1.8vw,17px);font-weight:400;line-height:1.7;color:var(--ink);background:rgba(255,255,255,0.9);resize:vertical;transition:border-color 0.3s ease;}
+.para-input:focus{border-color:var(--teal);outline:none;box-shadow:0 0 0 3px rgba(78,205,196,0.15);}
+
+/* Tip box */
+.tip-box{background:var(--teal-light);border-radius:12px;padding:16px 20px;margin:14px 0;font-size:clamp(14px,1.6vw,17px);line-height:1.6;}
+.tip-box strong{color:#2a9d8f;}
+
+@media(max-width:768px){
+  main{padding:20px 16px 60px;}
+  .card{padding:24px 20px;}
+  .compare-row{grid-template-columns:1fr;}
+  .wb-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+  <div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div>
+</div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">&#9776;</button>
+  <div class="top-bar-title"><span>Writer's Toolkit</span> &middot; Writing with Appositives</div>
+  <a href="https://educoder101.github.io/Writers-Toolkit" class="back-link">&larr; Back to Toolkit</a>
+</div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Learning</div>
+      <button class="sidebar-item active" onclick="goToSlide(0)"><span class="sidebar-dot" style="background:var(--teal)"></span>LISC</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Hook</div>
+      <button class="sidebar-item" onclick="goToSlide(1)"><span class="sidebar-dot" style="background:var(--coral)"></span>Hook paragraph</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">I Do</div>
+      <button class="sidebar-item" onclick="goToSlide(2)"><span class="sidebar-dot" style="background:var(--purple)"></span>What is an appositive?</button>
+      <button class="sidebar-item" onclick="goToSlide(3)"><span class="sidebar-dot" style="background:var(--purple)"></span>Why use appositives?</button>
+      <button class="sidebar-item" onclick="goToSlide(4)"><span class="sidebar-dot" style="background:var(--purple)"></span>People and animals</button>
+      <button class="sidebar-item" onclick="goToSlide(5)"><span class="sidebar-dot" style="background:var(--purple)"></span>Places and things</button>
+      <button class="sidebar-item" onclick="goToSlide(6)"><span class="sidebar-dot" style="background:var(--purple)"></span>Non-examples</button>
+      <button class="sidebar-item" onclick="goToSlide(7)"><span class="sidebar-dot" style="background:var(--purple)"></span>Word bank</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">We Do</div>
+      <button class="sidebar-item" onclick="goToSlide(8)"><span class="sidebar-dot" style="background:var(--gold)"></span>Teacher model</button>
+      <button class="sidebar-item" onclick="goToSlide(9)"><span class="sidebar-dot" style="background:var(--gold)"></span>Shared example</button>
+      <button class="sidebar-item" onclick="goToSlide(10)"><span class="sidebar-dot" style="background:var(--gold)"></span>Guided practice</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">You Do</div>
+      <button class="sidebar-item" onclick="goToSlide(11)"><span class="sidebar-dot" style="background:var(--sky)"></span>Identify appositives</button>
+      <button class="sidebar-item" onclick="goToSlide(12)"><span class="sidebar-dot" style="background:var(--sky)"></span>Add appositives</button>
+      <button class="sidebar-item" onclick="goToSlide(13)"><span class="sidebar-dot" style="background:var(--sky)"></span>Before and after</button>
+      <button class="sidebar-item" onclick="goToSlide(14)"><span class="sidebar-dot" style="background:var(--sky)"></span>Rewrite a paragraph</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Reflect</div>
+      <button class="sidebar-item" onclick="goToSlide(15)"><span class="sidebar-dot" style="background:var(--green)"></span>Exit slip</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ SLIDE 0: LISC ============ -->
+<div class="slide active" id="slide0">
+  <div class="lisc">
+    <p class="lisc-li">Learning Intention</p>
+    <p class="lisc-li-text">We are learning to use appositives to add depth, detail and description to our writing.</p>
+    <p class="lisc-sc-title">Success Criteria</p>
+    <ul>
+      <li>I can explain what an appositive is and how it works in a sentence.</li>
+      <li>I can identify appositives in sentences and explain what detail they add about the noun.</li>
+      <li>I can write sentences that include effective appositives using a variety of starters (a/an, the, who, with, known for).</li>
+      <li>I can add appositives to a paragraph to enrich the detail for the reader.</li>
+    </ul>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" disabled onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 1: HOOK ============ -->
+<div class="slide" id="slide1">
+  <div class="card">
+    <h2>Hook Paragraph</h2>
+    <div class="text-passage">
+      Mrs Frisby climbed onto the rock, her small body trembling in the morning chill. She gazed out over the garden, which seemed unusually quiet. Timothy, <span class="appositive-hl" id="hookHL1">her youngest child</span>, lay in the burrow behind her, too sick to move. The medicine he needed was out of reach, and the plough would soon arrive. The rats, <span class="appositive-hl" id="hookHL2">a mysterious group who lived beneath the rose bush</span>, might be her only hope. Their home, <span class="appositive-hl" id="hookHL3">a maze of tunnels lit with tiny bulbs</span>, remained hidden from sight.
+    </div>
+    <div class="reveal-step" id="hookQ">
+      <div class="think-step">
+        <div class="think-label">Discussion</div>
+        What do you notice about this paragraph? What extra details does it give us about the characters and places?
+      </div>
+    </div>
+    <div class="reveal-step" id="hookReveal">
+      <div class="think-step">
+        <div class="think-label">Notice</div>
+        The highlighted phrases give us extra information about a noun right next to it. These are called <strong>appositives</strong>.
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-coral" onclick="revealHook()">Reveal next</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 2: WHAT IS AN APPOSITIVE ============ -->
+<div class="slide" id="slide2">
+  <div class="card">
+    <h2>What is an Appositive?</h2>
+    <p>An <strong>appositive</strong> is a noun or noun phrase that adds extra information about another noun right next to it.</p>
+    <div class="example-sentence" style="margin-top:20px;">
+      <span class="hl-noun">Timothy</span>, <span class="hl-app">her youngest child</span>, lay in the burrow.
+    </div>
+    <div class="reveal-step" id="appDef1">
+      <div class="think-step">
+        <div class="think-label">The noun</div>
+        <span class="hl-noun">Timothy</span> is the noun we want to know more about.
+      </div>
+    </div>
+    <div class="reveal-step" id="appDef2">
+      <div class="think-step">
+        <div class="think-label">The appositive</div>
+        <span class="hl-app">her youngest child</span> is the appositive. It renames or describes Timothy, telling us who he is.
+      </div>
+    </div>
+    <div class="reveal-step" id="appDef3">
+      <div class="tip-box">
+        <strong>Tip:</strong> The appositive often sits between commas, but not always. It can also come at the end of a sentence before a full stop.
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-purple" onclick="revealAppDef()">Reveal next</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 3: WHY USE APPOSITIVES ============ -->
+<div class="slide" id="slide3">
+  <div class="card">
+    <h2>Why Use Appositives?</h2>
+    <div class="app-examples">
+      <div class="app-ex-item" id="why1">Adds detail and description without needing a separate sentence.</div>
+      <div class="app-ex-item" id="why2">Helps paint a clearer picture for the reader.</div>
+      <div class="app-ex-item" id="why3">Helps introduce or explain characters, settings, or objects.</div>
+    </div>
+    <div class="reveal-step" id="whyCompare">
+      <div class="compare-row">
+        <div class="compare-box plain">
+          <div class="compare-eyebrow">Without</div>
+          <div class="compare-text">The rats might be her only hope.</div>
+        </div>
+        <div class="compare-box rich">
+          <div class="compare-eyebrow">With appositive</div>
+          <div class="compare-text">The rats, <span class="hl-app">a mysterious group who lived beneath the rose bush</span>, might be her only hope.</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-purple" onclick="revealWhy()">Reveal next</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 4: PEOPLE AND ANIMALS ============ -->
+<div class="slide" id="slide4">
+  <div class="card">
+    <h2>What Can Appositives Tell Us? (People)</h2>
+    <p style="margin-bottom:16px;">Tap each sentence to reveal what kind of detail the appositive provides about the character.</p>
+    <div class="id-exercise" id="peopleExercise">
+      <div class="id-sentence" onclick="revealSent(this)">
+        <div class="sent-text">Luna, <span class="appositive-hl">a grey tabby cat</span>, slept on the windowsill.</div>
+        <div class="sent-feedback"><span class="detail-tag tag-desc">description</span> Tells us what Luna looks like.</div>
+      </div>
+      <div class="id-sentence" onclick="revealSent(this)">
+        <div class="sent-text">Daniel, <span class="appositive-hl">a kind and curious boy</span>, asked many questions.</div>
+        <div class="sent-feedback"><span class="detail-tag tag-desc">personality</span> Tells us what Daniel is like as a person.</div>
+      </div>
+      <div class="id-sentence" onclick="revealSent(this)">
+        <div class="sent-text">Mrs Chen, <span class="appositive-hl">a retired scientist</span>, volunteered at the library.</div>
+        <div class="sent-feedback"><span class="detail-tag tag-skill">role / background</span> Tells us about her career and life stage.</div>
+      </div>
+      <div class="id-sentence" onclick="revealSent(this)">
+        <div class="sent-text">James, <span class="appositive-hl">his best friend</span>, cheered him on.</div>
+        <div class="sent-feedback"><span class="detail-tag tag-relation">relationship</span> Tells us how James is connected to another character.</div>
+      </div>
+      <div class="id-sentence" onclick="revealSent(this)">
+        <div class="sent-text">Leo, <span class="appositive-hl">born in the Blue Mountains</span>, knew the terrain well.</div>
+        <div class="sent-feedback"><span class="detail-tag tag-history">origin / background</span> Tells us where Leo comes from.</div>
+      </div>
+      <div class="id-sentence" onclick="revealSent(this)">
+        <div class="sent-text">Rosie, <span class="appositive-hl">tired and sore</span>, sat down to rest.</div>
+        <div class="sent-feedback"><span class="detail-tag tag-emotion">physical / emotional state</span> Tells us how Rosie is feeling right now.</div>
+      </div>
+      <div class="id-sentence" onclick="revealSent(this)">
+        <div class="sent-text">Noah, <span class="appositive-hl">only eight years old</span>, led the group.</div>
+        <div class="sent-feedback"><span class="detail-tag tag-age">age</span> Tells us how old Noah is, which makes his action more surprising.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 5: PLACES AND THINGS ============ -->
+<div class="slide" id="slide5">
+  <div class="card">
+    <h2>What Can Appositives Tell Us? (Places and Things)</h2>
+    <p style="margin-bottom:16px;">Tap each sentence to reveal the type of detail.</p>
+    <div class="id-exercise">
+      <div class="id-sentence" onclick="revealSent(this)">
+        <div class="sent-text">The cave, <span class="appositive-hl">a dark and narrow tunnel</span>, echoed with dripping water.</div>
+        <div class="sent-feedback"><span class="detail-tag tag-desc">description</span> Tells us what the cave looks like.</div>
+      </div>
+      <div class="id-sentence" onclick="revealSent(this)">
+        <div class="sent-text">The building, <span class="appositive-hl">once a post office</span>, now houses a museum.</div>
+        <div class="sent-feedback"><span class="detail-tag tag-history">history</span> Tells us what the building used to be.</div>
+      </div>
+      <div class="id-sentence" onclick="revealSent(this)">
+        <div class="sent-text">The island, <span class="appositive-hl">lush and overgrown</span>, sat untouched by time.</div>
+        <div class="sent-feedback"><span class="detail-tag tag-desc">description</span> Tells us the appearance and atmosphere of the island.</div>
+      </div>
+      <div class="id-sentence" onclick="revealSent(this)">
+        <div class="sent-text">The compass, <span class="appositive-hl">a tool for finding direction</span>, lay on the table.</div>
+        <div class="sent-feedback"><span class="detail-tag tag-purpose">purpose</span> Tells us what the compass does.</div>
+      </div>
+      <div class="id-sentence" onclick="revealSent(this)">
+        <div class="sent-text">The town, <span class="appositive-hl">over 200 years old</span>, still held secrets.</div>
+        <div class="sent-feedback"><span class="detail-tag tag-time">age / time</span> Tells us how old the town is.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 6: NON-EXAMPLES ============ -->
+<div class="slide" id="slide6">
+  <div class="card">
+    <h2>Non-Examples of Appositives</h2>
+    <p style="margin-bottom:16px;">Not every extra phrase is an appositive. Look at these and think about why they do not work.</p>
+    <div class="non-example">
+      <div class="non-label">Not an appositive</div>
+      Mrs Frisby, <strong>who likes cheese</strong>, went to the rose bush.
+    </div>
+    <div class="reveal-step" id="nonEx1">
+      <div class="think-step">
+        <div class="think-label">Why not?</div>
+        This detail is irrelevant to the story. A good appositive adds information that helps the reader understand the character, setting, or plot.
+      </div>
+    </div>
+    <div class="non-example">
+      <div class="non-label">Not an appositive</div>
+      The cat, <strong>it was grey</strong>, scratched the post.
+    </div>
+    <div class="reveal-step" id="nonEx2">
+      <div class="think-step">
+        <div class="think-label">Why not?</div>
+        This is a full clause (it has a subject and verb), not a noun phrase. It creates a clunky, confusing sentence. A correct version would be: The cat, <em>a grey tabby</em>, scratched the post.
+      </div>
+    </div>
+    <div class="reveal-step" id="nonExSummary">
+      <div class="tip-box">
+        <strong>Key points:</strong> A good appositive should be relevant to the story, rename or describe the noun directly, and not be a full clause or sentence crammed in with commas.
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-coral" onclick="revealNonEx()">Reveal next</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 7: WORD BANK ============ -->
+<div class="slide" id="slide7">
+  <div class="card">
+    <h2>Word Bank for Appositive Starters</h2>
+    <p style="margin-bottom:16px;">Here are some common ways to begin an appositive. Keep this in mind for your writing tasks.</p>
+    <div class="word-bank">
+      <div class="wb-grid">
+        <div class="wb-item">
+          <div class="wb-starter">a / an ...</div>
+          <div class="wb-example">Leo, a clever inventor, built his own robot.</div>
+        </div>
+        <div class="wb-item">
+          <div class="wb-starter">the ...</div>
+          <div class="wb-example">Noah, the youngest of four, was full of questions.</div>
+        </div>
+        <div class="wb-item">
+          <div class="wb-starter">who ...</div>
+          <div class="wb-example">Mia, who loved to read, finished five books in a week.</div>
+        </div>
+        <div class="wb-item">
+          <div class="wb-starter">with ...</div>
+          <div class="wb-example">Sarah, with a red ribbon in her hair, skipped down the hallway.</div>
+        </div>
+        <div class="wb-item">
+          <div class="wb-starter">known for ...</div>
+          <div class="wb-example">Jack, known for his courage, stepped forward.</div>
+        </div>
+        <div class="wb-item">
+          <div class="wb-starter">including ...</div>
+          <div class="wb-example">Emma brought her pets, including her pet parrot, to the show.</div>
+        </div>
+        <div class="wb-item">
+          <div class="wb-starter">like ...</div>
+          <div class="wb-example">The girl, like a fearless explorer, climbed the rocky hill.</div>
+        </div>
+        <div class="wb-item">
+          <div class="wb-starter">such as ...</div>
+          <div class="wb-example">He admired artists, such as Leonardo da Vinci, for their detail.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 8: I DO - TEACHER MODEL ============ -->
+<div class="slide" id="slide8">
+  <div class="card">
+    <h2>I Do: Teacher Model</h2>
+    <div class="example-sentence">
+      Lily walked into the classroom.
+    </div>
+    <div class="reveal-step" id="iDoThink">
+      <div class="think-step">
+        <div class="think-label">Step 1: Think</div>
+        Who is Lily? What might the reader want to know about her?
+      </div>
+    </div>
+    <div class="reveal-step" id="iDoQuestion">
+      <div class="think-step">
+        <div class="think-label">Step 2: Ask</div>
+        What detail fits the context of this sentence? If she is walking into a classroom, perhaps she is a new student.
+      </div>
+    </div>
+    <div class="reveal-step" id="iDoResult">
+      <div class="good-example">
+        <div class="good-label">With appositive</div>
+        Lily, <span class="hl-app">a new student from Brisbane</span>, walked into the classroom.
+      </div>
+    </div>
+    <div class="reveal-step" id="iDoAnnotation">
+      <div class="think-step">
+        <div class="think-label">Notice</div>
+        The appositive <span class="hl-app">a new student from Brisbane</span> tells us two things: she is new, and where she is from. It sits between commas, right next to the noun it describes (Lily).
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-gold" onclick="revealIDo()">Reveal next</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 9: WE DO - SHARED EXAMPLE ============ -->
+<div class="slide" id="slide9">
+  <div class="card">
+    <h2>We Do: Shared Example</h2>
+    <div class="example-sentence">
+      The creature scuttled under the table.
+    </div>
+    <div class="reveal-step" id="weDo1">
+      <div class="think-step">
+        <div class="think-label">Think together</div>
+        What kind of creature is it? What does it look like? What detail would help the reader picture it?
+      </div>
+    </div>
+    <div class="reveal-step" id="weDo2">
+      <div class="good-example">
+        <div class="good-label">Modelled version</div>
+        The creature, <span class="hl-app">a hairy, three-eyed beetle</span>, scuttled under the table.
+      </div>
+    </div>
+    <div class="reveal-step" id="weDo3">
+      <div class="think-step">
+        <div class="think-label">Notice</div>
+        The appositive tells us what the creature is and what it looks like. The commas signal where the appositive starts and ends.
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-gold" onclick="revealWeDo()">Reveal next</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 10: YOU DO GUIDED ============ -->
+<div class="slide" id="slide10">
+  <div class="card">
+    <h2>Your Turn: Guided Practice</h2>
+    <p style="margin-bottom:14px;">Add an appositive that tells us more about Tom or the backpack.</p>
+    <div class="example-sentence">
+      Tom, ____________, reached for his backpack.
+    </div>
+    <div class="writing-prompt" style="margin-top:20px;">
+      <div class="writing-prompt-label" style="color:var(--teal);">Your appositive</div>
+      <div class="writing-prompt-text">Write a sentence with your appositive for Tom below.</div>
+    </div>
+    <textarea class="writing-input" id="guidedInput" rows="3"></textarea>
+    <div style="text-align:center;margin-top:12px;">
+      <button class="btn btn-teal" onclick="showGuidedModel()">See a model response</button>
+    </div>
+    <div class="model-response" id="guidedModel">
+      <div class="model-label">Model responses</div>
+      <div class="model-sentence">Tom, <span class="hl-app">a tall Year 6 student with muddy knees</span>, reached for his backpack.</div>
+      <div class="model-sentence" style="margin-top:12px;">Tom, <span class="hl-app">exhausted from the cross-country race</span>, reached for his backpack.</div>
+      <div class="model-sentence" style="margin-top:12px;">Tom, <span class="hl-app">her older brother</span>, reached for his backpack.</div>
+      <p style="font-size:clamp(13px,1.4vw,15px);color:var(--ink-light);margin-top:14px;">Each model uses a different type of detail: appearance, physical state, and relationship. Compare yours to these.</p>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 11: IDENTIFY APPOSITIVES (QUIZ TABLE) ============ -->
+<div class="slide" id="slide11">
+  <div class="card">
+    <h2>Can You Spot the Appositive?</h2>
+    <p style="margin-bottom:16px;">Tap each row to check if the highlighted phrase is an appositive or not.</p>
+    <table class="check-table">
+      <thead>
+        <tr><th>Sentence</th><th style="width:70px;">Appositive?</th><th style="min-width:160px;">Why / Why not?</th></tr>
+      </thead>
+      <tbody>
+        <tr class="check-row" onclick="revealCheckRow(this)" data-is="yes" data-why="&quot;a nervous student&quot; adds extra information about Ben. It is a noun phrase that renames him.">
+          <td>Ben, <strong>a nervous student</strong>, walked through the door.</td>
+          <td class="check-answer"></td>
+          <td class="check-reason"></td>
+        </tr>
+        <tr class="check-row" onclick="revealCheckRow(this)" data-is="no" data-why="&quot;and jumped with excitement&quot; adds an action, not a description of Ben as a noun phrase.">
+          <td>Ben walked through the door <strong>and jumped with excitement</strong>.</td>
+          <td class="check-answer"></td>
+          <td class="check-reason"></td>
+        </tr>
+        <tr class="check-row" onclick="revealCheckRow(this)" data-is="yes" data-why="&quot;an old wooden one with a brass knob&quot; is a noun phrase that gives more detail about the door.">
+          <td>The door, <strong>an old wooden one with a brass knob</strong>, creaked open.</td>
+          <td class="check-answer"></td>
+          <td class="check-reason"></td>
+        </tr>
+        <tr class="check-row" onclick="revealCheckRow(this)" data-is="no" data-why="&quot;and slammed behind him&quot; is another verb phrase (action), not an appositive.">
+          <td>The door creaked open <strong>and slammed behind him</strong>.</td>
+          <td class="check-answer"></td>
+          <td class="check-reason"></td>
+        </tr>
+        <tr class="check-row" onclick="revealCheckRow(this)" data-is="yes" data-why="&quot;his older cousin&quot; renames Sarah and tells us her relationship to another character.">
+          <td>Sarah, <strong>his older cousin</strong>, handed him the envelope.</td>
+          <td class="check-answer"></td>
+          <td class="check-reason"></td>
+        </tr>
+        <tr class="check-row" onclick="revealCheckRow(this)" data-is="no" data-why="&quot;and whispered something&quot; adds a second action, not a noun phrase describing Sarah.">
+          <td>Sarah handed him the envelope <strong>and whispered something</strong>.</td>
+          <td class="check-answer"></td>
+          <td class="check-reason"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 12: ADD APPOSITIVES ============ -->
+<div class="slide" id="slide12">
+  <div class="card">
+    <h2>Independent Practice: Add Appositives</h2>
+    <p style="margin-bottom:16px;">Add an appositive to each sentence. Try to use a different starter from the word bank for each one.</p>
+
+    <div style="margin-bottom:20px;">
+      <div class="example-sentence">1. The boat bobbed in the harbour.</div>
+      <textarea class="writing-input" id="indep1" rows="2"></textarea>
+    </div>
+    <div style="margin-bottom:20px;">
+      <div class="example-sentence">2. Samantha opened the envelope.</div>
+      <textarea class="writing-input" id="indep2" rows="2"></textarea>
+    </div>
+    <div style="margin-bottom:20px;">
+      <div class="example-sentence">3. The book lay on the table.</div>
+      <textarea class="writing-input" id="indep3" rows="2"></textarea>
+    </div>
+
+    <div style="text-align:center;margin-top:12px;">
+      <button class="btn btn-teal" onclick="showIndepModel()">See model responses</button>
+    </div>
+    <div class="model-response" id="indepModel">
+      <div class="model-label">Model responses</div>
+      <div class="model-sentence">1. The boat, <span class="hl-app">a small wooden dinghy with peeling paint</span>, bobbed in the harbour.</div>
+      <div class="model-sentence" style="margin-top:10px;">2. Samantha, <span class="hl-app">who had been waiting all morning</span>, opened the envelope.</div>
+      <div class="model-sentence" style="margin-top:10px;">3. The book, <span class="hl-app">a thick leather-bound journal</span>, lay on the table.</div>
+      <p style="font-size:clamp(13px,1.4vw,15px);color:var(--ink-light);margin-top:14px;">Notice how each model uses a different starter: a/an, who, and a/an again. Compare your sentences. Did your appositives add relevant, interesting detail?</p>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 13: BEFORE AND AFTER ============ -->
+<div class="slide" id="slide13">
+  <div class="card">
+    <h2>Before and After: Appositives in a Paragraph</h2>
+    <p style="margin-bottom:14px;">Read this paragraph. It gives the basic outline of a scene, but it lacks detail.</p>
+    <div class="text-passage" style="border-color:#ccc;">
+      A girl stood at the edge of the field. She was holding a bag. Behind her, the trees moved in the wind. In the distance, a building stood near a fence. The girl began to walk. After a few minutes, she saw someone sitting on a bench. She stopped and waited.
+    </div>
+    <div class="reveal-step" id="ba1">
+      <p style="font-weight:600;color:var(--teal);margin-bottom:10px;">Now see what happens when appositives are added:</p>
+      <div class="text-passage" style="border-color:var(--teal);">
+        A girl, <span class="hl-app">a quiet traveller with a curious mind</span>, stood at the edge of the field. She was holding a bag, <span class="hl-app">a battered canvas satchel covered in patches</span>. Behind her, the trees, <span class="hl-app-green">tall and swaying like sleepy dancers</span>, moved in the wind. In the distance stood a building, <span class="hl-app-pink">an old weatherboard shed with a rusted roof</span>, just beyond a crooked fence. The girl began to walk, <span class="hl-app-orange">her footsteps soft on the narrow path</span>. After a few minutes, she saw someone sitting on a bench, <span class="hl-app">a boy, no older than she was, with a notebook in his hands</span>. She stopped and waited, unsure whether to speak or turn back.
+      </div>
+    </div>
+    <div class="reveal-step" id="ba2">
+      <div class="think-step">
+        <div class="think-label">Discussion</div>
+        What difference do the appositives make? How many can you count? What types of detail do they add (description, age, appearance, purpose)?
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-teal" onclick="revealBA()">Reveal next</button>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 14: REWRITE A PARAGRAPH ============ -->
+<div class="slide" id="slide14">
+  <div class="card">
+    <h2>Your Turn: Rewrite a Paragraph</h2>
+    <p style="margin-bottom:10px;">Choose one of these paragraphs and rewrite it with at least three appositives that help the reader picture the scene.</p>
+
+    <div class="text-passage" style="font-size:clamp(14px,1.6vw,17px);">
+      <strong>Option A: The Lost Item</strong><br>
+      A girl walked across the school playground. She knelt beside the bench and picked something up. She turned it over in her hand. A friend called her from the basketball court. She walked over to show what she had found.
+    </div>
+    <div class="text-passage" style="font-size:clamp(14px,1.6vw,17px);">
+      <strong>Option B: The Discovery</strong><br>
+      The child stepped into the room. It was quiet. A table stood in the middle. On top of it was a box. The child walked over and opened the lid.
+    </div>
+    <div class="text-passage" style="font-size:clamp(14px,1.6vw,17px);">
+      <strong>Option C: The Journey</strong><br>
+      The vehicle rolled down the road. The driver stared ahead. Beside them sat another person. They did not speak. The road curved towards the mountains.
+    </div>
+
+    <div class="tip-box" style="margin-top:14px;">
+      <strong>Before you write,</strong> think about the nouns in your chosen paragraph. What could you tell the reader about each character, object, or place? Choose detail that is relevant and interesting.
+    </div>
+
+    <div class="writing-prompt" style="margin-top:16px;">
+      <div class="writing-prompt-label" style="color:var(--teal);">Your rewrite</div>
+    </div>
+    <textarea class="para-input" id="paraRewrite"></textarea>
+
+    <div style="text-align:center;margin-top:12px;">
+      <button class="btn btn-teal" onclick="showParaModel()">See a model response</button>
+    </div>
+    <div class="model-response" id="paraModel">
+      <div class="model-label">Model response (Option A)</div>
+      <div class="model-sentence" style="line-height:2;">
+        A girl, <span class="hl-app">a quiet Year 5 student with untied shoelaces</span>, walked across the school playground. She knelt beside the bench, <span class="hl-app-green">a faded wooden seat with graffiti on the side</span>, and picked something up. She turned it over in her hand, <span class="hl-app-pink">a small silver key with a crooked tooth</span>. A friend, <span class="hl-app-orange">her classmate from netball training</span>, called her from the basketball court. She walked over to show what she had found.
+      </div>
+      <p style="font-size:clamp(13px,1.4vw,15px);color:var(--ink-light);margin-top:14px;">This model uses four appositives, each with a different starter. Compare yours. Did you add at least three? Do your appositives add relevant detail that helps the reader picture the scene?</p>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 15: EXIT SLIP ============ -->
+<div class="slide" id="slide15">
+  <div class="card">
+    <h2>Recap and Reflect</h2>
+    <div class="reflect-item" id="ref1">Why might a writer use an appositive in their story?</div>
+    <div class="reflect-item" id="ref2">What is the difference between a good appositive and a bad one?</div>
+    <div class="reflect-item" id="ref3">Where else in your writing this term could you use appositives?</div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-green" style="background:var(--green);color:#fff;" onclick="revealReflect()">Reveal next</button>
+    </div>
+
+    <div style="margin-top:30px;padding-top:20px;border-top:2px solid #eee;">
+      <h3>Exit Slip</h3>
+      <p style="margin-bottom:10px;">Write one sentence using an appositive. Use the word bank if you need help.</p>
+      <textarea class="writing-input" id="exitSlip" rows="3"></textarea>
+      <p style="font-size:clamp(13px,1.4vw,15px);color:var(--ink-light);margin-top:10px;">Bonus: Swap with a partner and see if they can identify your appositive.</p>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" disabled onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+/* ============ NAVIGATION ============ */
+var slides=document.querySelectorAll('.slide');
+var sidebarItems=document.querySelectorAll('.sidebar-item');
+var totalSlides=slides.length;
+var currentSlide=0;
+
+function goToSlide(n){
+  if(n<0||n>=totalSlides)return;
+  slides[currentSlide].classList.remove('active');
+  sidebarItems[currentSlide].classList.remove('active');
+  currentSlide=n;
+  slides[currentSlide].classList.add('active');
+  sidebarItems[currentSlide].classList.add('active');
+  updateCounter();
+  document.activeElement.blur();
+  window.scrollTo(0,0);
+}
+function nextSlide(){goToSlide(currentSlide+1);}
+function prevSlide(){goToSlide(currentSlide-1);}
+function updateCounter(){
+  document.querySelectorAll('.slide-counter').forEach(function(el){
+    el.textContent='Card '+(currentSlide+1)+' of '+totalSlides;
+  });
+  document.querySelectorAll('.slide').forEach(function(s,i){
+    var btns=s.querySelectorAll('.nav-btn');
+    if(btns[0])btns[0].disabled=(i===0);
+    if(btns[1])btns[1].disabled=(i===totalSlides-1);
+  });
+}
+updateCounter();
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('collapsed');
+}
+
+/* Keyboard navigation (clicker compatible) */
+document.addEventListener('keydown',function(e){
+  var tag=document.activeElement.tagName;
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;
+  document.activeElement.blur();
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){
+    e.preventDefault();nextSlide();
+  }else if(e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='PageUp'){
+    e.preventDefault();prevSlide();
+  }
+},true);
+
+/* ============ GENERIC REVEAL ============ */
+function reveal(id){
+  var el=document.getElementById(id);
+  if(el)el.classList.add('visible');
+}
+
+/* ============ HOOK (Slide 1) ============ */
+var hookStep=0;
+function revealHook(){
+  hookStep++;
+  if(hookStep===1){
+    document.getElementById('hookHL1').style.background='var(--yellow)';
+    document.getElementById('hookHL1').style.fontWeight='600';
+    document.getElementById('hookHL2').style.background='var(--yellow)';
+    document.getElementById('hookHL2').style.fontWeight='600';
+    document.getElementById('hookHL3').style.background='var(--yellow)';
+    document.getElementById('hookHL3').style.fontWeight='600';
+    reveal('hookQ');
+  }
+  if(hookStep===2){reveal('hookReveal');}
+}
+
+/* ============ APPOSITIVE DEFINITION (Slide 2) ============ */
+var appDefStep=0;
+function revealAppDef(){
+  appDefStep++;
+  if(appDefStep===1)reveal('appDef1');
+  if(appDefStep===2)reveal('appDef2');
+  if(appDefStep===3)reveal('appDef3');
+}
+
+/* ============ WHY USE (Slide 3) ============ */
+var whyStep=0;
+function revealWhy(){
+  whyStep++;
+  if(whyStep===1)document.getElementById('why1').classList.add('visible');
+  if(whyStep===2)document.getElementById('why2').classList.add('visible');
+  if(whyStep===3)document.getElementById('why3').classList.add('visible');
+  if(whyStep===4)reveal('whyCompare');
+}
+
+/* ============ TAP TO REVEAL SENTENCES (Slides 4, 5) ============ */
+function revealSent(el){
+  el.classList.add('revealed');
+}
+
+/* ============ NON-EXAMPLES (Slide 6) ============ */
+var nonExStep=0;
+function revealNonEx(){
+  nonExStep++;
+  if(nonExStep===1)reveal('nonEx1');
+  if(nonExStep===2)reveal('nonEx2');
+  if(nonExStep===3)reveal('nonExSummary');
+}
+
+/* ============ I DO (Slide 8) ============ */
+var iDoStep=0;
+function revealIDo(){
+  iDoStep++;
+  if(iDoStep===1)reveal('iDoThink');
+  if(iDoStep===2)reveal('iDoQuestion');
+  if(iDoStep===3)reveal('iDoResult');
+  if(iDoStep===4)reveal('iDoAnnotation');
+}
+
+/* ============ WE DO (Slide 9) ============ */
+var weDoStep=0;
+function revealWeDo(){
+  weDoStep++;
+  if(weDoStep===1)reveal('weDo1');
+  if(weDoStep===2)reveal('weDo2');
+  if(weDoStep===3)reveal('weDo3');
+}
+
+/* ============ GUIDED MODEL (Slide 10) ============ */
+function showGuidedModel(){
+  document.getElementById('guidedModel').classList.add('shown');
+}
+
+/* ============ CHECK TABLE (Slide 11) ============ */
+function revealCheckRow(row){
+  if(row.classList.contains('revealed'))return;
+  row.classList.add('revealed');
+  var isApp=row.getAttribute('data-is');
+  var why=row.getAttribute('data-why');
+  var ansCell=row.querySelector('.check-answer');
+  var whyCell=row.querySelector('.check-reason');
+  if(isApp==='yes'){
+    ansCell.innerHTML='Yes';
+    ansCell.className='check-answer yes';
+  }else{
+    ansCell.innerHTML='No';
+    ansCell.className='check-answer no';
+  }
+  whyCell.textContent=why;
+  whyCell.style.animation='fadeIn 0.3s ease';
+}
+
+/* ============ INDEPENDENT MODEL (Slide 12) ============ */
+function showIndepModel(){
+  document.getElementById('indepModel').classList.add('shown');
+}
+
+/* ============ BEFORE/AFTER (Slide 13) ============ */
+var baStep=0;
+function revealBA(){
+  baStep++;
+  if(baStep===1)reveal('ba1');
+  if(baStep===2)reveal('ba2');
+}
+
+/* ============ PARA MODEL (Slide 14) ============ */
+function showParaModel(){
+  document.getElementById('paraModel').classList.add('shown');
+}
+
+/* ============ REFLECT (Slide 15) ============ */
+var refStep=0;
+function revealReflect(){
+  refStep++;
+  if(refStep<=3){
+    document.getElementById('ref'+refStep).classList.add('visible');
+  }
+}
+</script>
+</body>
+</html>
