@@ -1,0 +1,1044 @@
+<!--
+    NEW PATTERN: Pick'n'Mix Story Scaffold with Bespoke Pathways v4
+    WHAT: Two-screen flow. Picker screen: choose options with live plan preview.
+          Writing screen: plan reordered to narrative flow (trigger before memory),
+          clean text with collapsed "Writing help" cards under each section,
+          sentence toolkit with checklist and medal system on the right.
+    WHY: v3 had prompt questions always visible making the plan too noisy.
+         Writing screen now reorders steps to match actual story structure
+         (students choose memory before trigger for logic, but write trigger
+         before memory for narrative flow).
+    STATUS: experimental
+-->
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Flashback Story Pick'n'Mix — build your story plan step by step, then write with paragraph-by-paragraph guidance.">
+    <title>Flashback Pick'n'Mix | Writer's Toolkit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary-accent: #4ECDC4;
+            --text-dark: #2D3436;
+            --text-light: #636E72;
+            --correct-color: #27AE60;
+            --imaginative-color: #9B5DE5;
+            --highlight-yellow: #FFF3BF;
+            --highlight-blue: #D0EBFF;
+            --highlight-green: #D3F9D8;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: #FAF8F5;
+        }
+
+        .bg-shapes { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .bg-shape { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18; }
+        .bg-shape:nth-child(1) { width: 500px; height: 500px; top: -10%; left: -5%; background: #FF6B6B; }
+        .bg-shape:nth-child(2) { width: 400px; height: 400px; top: 20%; right: -8%; background: #4ECDC4; }
+        .bg-shape:nth-child(3) { width: 350px; height: 350px; bottom: 15%; left: 10%; background: #FFD93D; }
+        .bg-shape:nth-child(4) { width: 450px; height: 450px; bottom: -5%; right: 15%; background: #A29BFE; }
+        .bg-shape:nth-child(5) { width: 300px; height: 300px; top: 50%; left: 40%; background: #74B9FF; }
+
+        .screen { display: none; position: relative; z-index: 1; }
+        .screen.active { display: block; }
+
+        /* Header */
+        .page-header { text-align: center; padding: 20px 24px 10px; }
+        .page-header .toolkit-label {
+            font-size: 0.8rem; font-weight: 500; color: var(--text-light);
+            letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px;
+        }
+        .page-header h1 { font-size: clamp(1.4rem, 3.5vw, 1.9rem); font-weight: 700; margin-bottom: 5px; }
+        .page-header .subtitle {
+            font-size: 0.9rem; font-weight: 400; color: var(--text-light);
+            max-width: 600px; margin: 0 auto; line-height: 1.4;
+        }
+
+        /* ===== PICKER SCREEN ===== */
+        .picker-layout {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+            max-width: 1300px; margin: 14px auto 60px; padding: 0 20px; align-items: start;
+        }
+        @media (max-width: 900px) {
+            .picker-layout { grid-template-columns: 1fr; }
+            .plan-col { order: -1; }
+        }
+
+        .steps-col { min-width: 0; }
+
+        .step-card {
+            background: rgba(255,255,255,0.88); backdrop-filter: blur(10px);
+            border-radius: 16px; box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+            margin-bottom: 12px; overflow: hidden; transition: all 0.3s ease;
+        }
+        .step-card.locked { opacity: 0.35; pointer-events: none; transform: scale(0.98); }
+        .step-card.completed { opacity: 1; }
+        .step-card.active { box-shadow: 0 6px 28px rgba(78,205,196,0.16); }
+
+        .step-hdr {
+            display: flex; align-items: center; gap: 10px;
+            padding: 14px 18px; cursor: pointer; user-select: none;
+        }
+        .step-n {
+            font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700;
+            width: 30px; height: 30px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            background: #EEE; color: var(--text-light); transition: all 0.3s ease;
+        }
+        .step-card.active .step-n { background: var(--primary-accent); color: #fff; }
+        .step-card.completed .step-n { background: var(--correct-color); color: #fff; }
+        .step-card.completed .step-n::after { content: '\2713'; font-size: 0.85rem; }
+        .step-card.completed .step-n span { display: none; }
+        .step-lbl { font-size: 0.95rem; font-weight: 600; flex: 1; }
+        .step-tag {
+            font-size: 0.78rem; font-weight: 500; color: var(--primary-accent);
+            max-width: 45%; text-align: right; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis;
+        }
+        .step-chev { font-size: 0.9rem; color: var(--text-light); transition: transform 0.3s ease; flex-shrink: 0; }
+        .step-card.active .step-chev { transform: rotate(180deg); }
+
+        .step-body {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease; padding: 0 18px;
+        }
+        .step-card.active .step-body { max-height: 3000px; padding: 0 18px 18px; }
+
+        .step-inst { font-size: 0.85rem; color: var(--text-light); margin-bottom: 10px; line-height: 1.4; }
+
+        .opts { display: grid; gap: 8px; }
+        .opts.two-col { grid-template-columns: 1fr 1fr; }
+        @media (max-width: 700px) { .opts.two-col { grid-template-columns: 1fr; } }
+
+        .opt {
+            background: rgba(255,255,255,0.92); border: 2px solid #E8E0D8;
+            border-radius: 12px; padding: 12px 14px; cursor: pointer;
+            transition: all 0.2s ease; position: relative;
+        }
+        .opt:hover { border-color: var(--primary-accent); transform: translateY(-1px); box-shadow: 0 3px 12px rgba(78,205,196,0.1); }
+        .opt.selected { border-color: var(--primary-accent); background: rgba(78,205,196,0.06); }
+        .opt.selected::after {
+            content: '\2713'; position: absolute; top: 8px; right: 10px;
+            font-size: 0.95rem; font-weight: 700; color: var(--primary-accent);
+        }
+        .opt .opt-tag {
+            font-size: 0.68rem; font-weight: 600; color: var(--imaginative-color);
+            text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 1px;
+            font-family: 'Space Mono', monospace;
+        }
+        .opt .opt-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; }
+        .opt .opt-desc { font-size: 0.82rem; font-weight: 400; color: var(--text-light); line-height: 1.35; }
+
+        /* Plan column */
+        .plan-col { position: sticky; top: 16px; }
+        .plan-card {
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+            border-radius: 16px; box-shadow: 0 6px 24px rgba(0,0,0,0.09); padding: 22px;
+        }
+        .plan-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 2px; }
+        .plan-card .plan-sub { font-size: 0.8rem; color: var(--text-light); margin-bottom: 14px; }
+
+        .plan-row {
+            border-left: 4px solid #E8E0D8; padding: 10px 13px; margin-bottom: 8px;
+            border-radius: 0 10px 10px 0; background: rgba(0,0,0,0.012);
+            transition: all 0.3s ease; min-height: 40px;
+        }
+        .plan-row.filled { border-left-color: var(--primary-accent); background: rgba(78,205,196,0.03); }
+        .plan-row:nth-child(even).filled { border-left-color: var(--imaginative-color); }
+        .plan-row-label {
+            font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.4px; color: var(--text-light); margin-bottom: 2px;
+            font-family: 'Space Mono', monospace;
+        }
+        .plan-row.filled .plan-row-label { color: var(--primary-accent); }
+        .plan-row:nth-child(even).filled .plan-row-label { color: var(--imaginative-color); }
+        .plan-row-text { font-size: 0.85rem; line-height: 1.4; }
+        .plan-row-text.empty { color: #CCC; font-style: italic; font-size: 0.8rem; }
+
+        .plan-actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+
+        .btn {
+            font-family: 'Fredoka', sans-serif; font-size: 0.85rem; font-weight: 600;
+            border: none; border-radius: 10px; padding: 10px 20px;
+            cursor: pointer; transition: all 0.25s ease;
+        }
+        .btn:hover { transform: translateY(-1px); }
+        .btn-primary { background: var(--primary-accent); color: #fff; box-shadow: 0 4px 14px rgba(78,205,196,0.25); }
+        .btn-secondary { background: rgba(0,0,0,0.06); color: var(--text-dark); }
+        .btn:disabled { opacity: 0.35; pointer-events: none; }
+
+        /* ===== WRITING SCREEN ===== */
+        .write-header { text-align: center; padding: 16px 24px 8px; }
+        .write-header h1 { font-size: clamp(1.2rem, 3vw, 1.6rem); font-weight: 700; }
+        .write-header .subtitle { font-size: 0.85rem; color: var(--text-light); margin-top: 2px; }
+
+        .write-layout {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+            max-width: 1300px; margin: 0 auto 60px; padding: 0 20px; align-items: start;
+        }
+        @media (max-width: 900px) { .write-layout { grid-template-columns: 1fr; } }
+
+        /* Write plan column */
+        .write-plan-col { position: sticky; top: 16px; }
+        .write-plan-card {
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+            border-radius: 16px; box-shadow: 0 6px 24px rgba(0,0,0,0.09); padding: 22px;
+        }
+        .write-plan-card h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+        .write-plan-card .wp-sub { font-size: 0.8rem; color: var(--text-light); margin-bottom: 14px; }
+
+        /* Writing plan sections */
+        .wp-section { margin-bottom: 12px; }
+
+        .wp-bar {
+            border-left: 4px solid var(--primary-accent); padding: 10px 13px;
+            border-radius: 0 10px 10px 0; background: rgba(78,205,196,0.03);
+        }
+        .wp-section:nth-child(even) .wp-bar { border-left-color: var(--imaginative-color); }
+
+        .wp-bar-label {
+            font-size: 0.65rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.4px; font-family: 'Space Mono', monospace;
+            color: var(--primary-accent); margin-bottom: 2px;
+        }
+        .wp-section:nth-child(even) .wp-bar-label { color: var(--imaginative-color); }
+
+        .wp-bar-text { font-size: 0.85rem; line-height: 1.4; }
+
+        .wp-bar-badge {
+            font-size: 0.65rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.3px; font-family: 'Space Mono', monospace;
+            color: var(--text-light); margin-top: 4px; opacity: 0.7;
+        }
+
+        /* Writing help toggle */
+        .wp-help-toggle {
+            display: flex; align-items: center; gap: 6px;
+            margin-top: 6px; padding: 6px 12px;
+            font-family: 'Fredoka', sans-serif; font-size: 0.8rem; font-weight: 500;
+            color: var(--imaginative-color); background: none; border: 1.5px solid rgba(155,93,229,0.2);
+            border-radius: 8px; cursor: pointer; transition: all 0.2s ease;
+            width: 100%;
+        }
+        .wp-help-toggle:hover { background: rgba(155,93,229,0.04); border-color: rgba(155,93,229,0.35); }
+        .wp-help-toggle .toggle-arrow {
+            font-size: 0.7rem; transition: transform 0.25s ease; flex-shrink: 0;
+        }
+        .wp-help-toggle.open .toggle-arrow { transform: rotate(90deg); }
+
+        .wp-help-card {
+            max-height: 0; overflow: hidden; transition: max-height 0.35s ease, margin 0.2s ease;
+            margin-top: 0;
+        }
+        .wp-help-card.open { max-height: 600px; margin-top: 6px; }
+
+        .wp-help-inner {
+            background: rgba(155,93,229,0.04); border: 1.5px solid rgba(155,93,229,0.12);
+            border-radius: 10px; padding: 14px 16px;
+        }
+        .wp-help-inner .help-heading {
+            font-size: 0.78rem; font-weight: 600; color: var(--imaginative-color);
+            margin-bottom: 6px;
+        }
+        .wp-help-inner .help-q {
+            font-size: 0.82rem; line-height: 1.5; color: var(--text-dark);
+            padding: 3px 0; padding-left: 14px; position: relative;
+        }
+        .wp-help-inner .help-q::before {
+            content: '?'; position: absolute; left: 0; top: 3px;
+            font-weight: 700; color: var(--imaginative-color); font-size: 0.82rem;
+        }
+        .wp-help-inner .help-tip {
+            font-size: 0.78rem; color: var(--text-light); margin-top: 8px;
+            padding: 8px 10px; background: var(--highlight-yellow); border-radius: 8px; line-height: 1.4;
+        }
+        .wp-help-inner .help-tip strong { font-weight: 600; color: var(--text-dark); }
+
+        .write-plan-actions { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+        /* ===== TOOLKIT COLUMN ===== */
+        .toolkit-col { min-width: 0; }
+        .toolkit-card {
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+            border-radius: 16px; box-shadow: 0 6px 24px rgba(0,0,0,0.09); padding: 22px;
+        }
+        .toolkit-card h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+        .toolkit-card .tk-sub { font-size: 0.8rem; color: var(--text-light); margin-bottom: 10px; }
+
+        .medal-bar {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 14px; margin-bottom: 14px;
+            background: rgba(255,255,255,0.85); border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .medal-count { font-family: 'Space Mono', monospace; font-size: 1rem; font-weight: 700; }
+        .medal-count span { font-size: 0.75rem; color: var(--text-light); font-weight: 400; }
+        .medal-icons { display: flex; gap: 6px; }
+        .medal-icon {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; transition: all 0.4s ease; opacity: 0.18;
+        }
+        .medal-icon.earned { opacity: 1; transform: scale(1.1); }
+        .medal-bronze { background: linear-gradient(135deg, #CD7F32, #E8A862); }
+        .medal-silver { background: linear-gradient(135deg, #A8A8A8, #D0D0D0); }
+        .medal-gold { background: linear-gradient(135deg, #DAA520, #FFD700); }
+        .medal-legend { flex: 1; text-align: right; font-size: 0.72rem; color: var(--text-light); }
+
+        .tk-section {
+            background: rgba(255,255,255,0.8); border-radius: 12px;
+            padding: 14px 16px; margin-bottom: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+        .tk-section h3 {
+            font-size: 0.9rem; font-weight: 600; margin-bottom: 6px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .tk-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+        .tk-section .tk-note { font-size: 0.78rem; color: var(--text-light); margin-bottom: 6px; line-height: 1.35; }
+
+        .tk-item {
+            display: flex; align-items: flex-start; gap: 8px;
+            padding: 5px 3px; border-bottom: 1px solid rgba(0,0,0,0.03);
+            cursor: pointer; user-select: none; transition: background 0.2s ease; border-radius: 5px;
+        }
+        .tk-item:last-child { border-bottom: none; }
+        .tk-item:hover { background: rgba(78,205,196,0.04); }
+        .tk-check {
+            width: 20px; height: 20px; border-radius: 5px; border: 2px solid #D0D0D0;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            margin-top: 1px; transition: all 0.25s ease; font-size: 0.75rem; color: transparent;
+        }
+        .tk-item.checked .tk-check { background: var(--correct-color); border-color: var(--correct-color); color: #fff; }
+        .tk-item.checked .tk-text { color: var(--text-light); }
+        .tk-text { font-size: 0.82rem; line-height: 1.4; }
+        .tk-text strong { font-weight: 600; }
+
+        .tk-tip {
+            font-size: 0.78rem; color: var(--text-light); margin-top: 6px; line-height: 1.35;
+            padding: 7px 10px; background: var(--highlight-yellow); border-radius: 8px;
+        }
+        .tk-header-row {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;
+        }
+        .tk-header-row h3 { margin-bottom: 0; }
+        .tk-shuffle {
+            font-family: 'Fredoka', sans-serif; font-size: 0.75rem; font-weight: 600;
+            color: var(--primary-accent); background: rgba(78,205,196,0.08);
+            border: 1.5px solid rgba(78,205,196,0.25); border-radius: 8px;
+            padding: 4px 12px; cursor: pointer; transition: all 0.2s ease;
+            display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+        }
+        .tk-shuffle:hover { background: rgba(78,205,196,0.15); border-color: var(--primary-accent); transform: translateY(-1px); }
+        .tk-shuffle .shuffle-icon { display: inline-block; transition: transform 0.4s ease; }
+        .tk-shuffle:active .shuffle-icon { transform: rotate(180deg); }
+        .tk-set-label {
+            font-size: 0.68rem; font-family: 'Space Mono', monospace; font-weight: 600;
+            color: var(--text-light); margin-bottom: 6px; letter-spacing: 0.3px;
+        }
+        .tk-tense-grid { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; margin-top: 4px; }
+        .tk-tense-label { font-weight: 600; font-size: 0.78rem; color: var(--imaginative-color); }
+        .tk-tense-text { font-size: 0.8rem; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 70% { transform: scale(1.25); } 100% { transform: scale(1.1); opacity: 1; } }
+        .medal-icon.just-earned { animation: popIn 0.5s ease forwards; }
+
+        @media print {
+            .bg-shapes, .plan-actions, .write-plan-actions, .toolkit-col,
+            .page-header, .steps-col, .write-header, .wp-help-toggle, .wp-help-card { display: none !important; }
+            .screen { display: block !important; }
+            .screen#pickerScreen { display: none !important; }
+            .write-layout { grid-template-columns: 1fr !important; }
+            .write-plan-card { box-shadow: none; }
+            body { background: #fff; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-shapes">
+    <div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div>
+    <div class="bg-shape"></div><div class="bg-shape"></div>
+</div>
+
+<!-- ===== SCREEN 1: PICKER ===== -->
+<div class="screen active" id="pickerScreen">
+    <div class="page-header">
+        <div class="toolkit-label">Writer's Toolkit</div>
+        <h1>Flashback Pick'n'Mix</h1>
+        <div class="subtitle">Choose one option at each step. Your story plan builds on the right.</div>
+    </div>
+    <div class="picker-layout">
+        <div class="steps-col" id="stepsCol"></div>
+        <div class="plan-col">
+            <div class="plan-card">
+                <h2>My Story Plan</h2>
+                <div class="plan-sub">Your selections build here as you choose.</div>
+                <div class="plan-row" id="planRow-1"><div class="plan-row-label">Setting and Character</div><div class="plan-row-text empty" id="planText-1">Waiting for your choice...</div></div>
+                <div class="plan-row" id="planRow-2"><div class="plan-row-label">Present Moment Mood</div><div class="plan-row-text empty" id="planText-2">Waiting for your choice...</div></div>
+                <div class="plan-row" id="planRow-3"><div class="plan-row-label">The Memory</div><div class="plan-row-text empty" id="planText-3">Waiting for your choice...</div></div>
+                <div class="plan-row" id="planRow-4"><div class="plan-row-label">Sensory Trigger and Time Signal</div><div class="plan-row-text empty" id="planText-4">Waiting for your choice...</div></div>
+                <div class="plan-row" id="planRow-5"><div class="plan-row-label">Return Cue and Ending</div><div class="plan-row-text empty" id="planText-5">Waiting for your choice...</div></div>
+                <div class="plan-actions">
+                    <button class="btn btn-primary" id="goWriteBtn" disabled onclick="goToWriteScreen()">I'm happy with my plan &rarr;</button>
+                    <button class="btn btn-secondary" onclick="resetAll()">Start Over</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SCREEN 2: WRITING ===== -->
+<div class="screen" id="writeScreen">
+    <div class="write-header">
+        <h1>Time to Write</h1>
+        <div class="subtitle">Your plan follows the order you will write in. Tap "Writing help" under each section for guidance.</div>
+    </div>
+    <div class="write-layout">
+        <div class="write-plan-col">
+            <div class="write-plan-card">
+                <h2>My Story Plan</h2>
+                <div class="wp-sub">Sections are in the order you will write them. Open the writing help for each paragraph as you go.</div>
+                <div id="writePlanContent"></div>
+                <div class="write-plan-actions">
+                    <button class="btn btn-secondary" onclick="goBackToPicker()">&#8592; Change my plan</button>
+                    <button class="btn btn-secondary" onclick="window.print()">Print plan</button>
+                </div>
+            </div>
+        </div>
+        <div class="toolkit-col">
+            <div class="toolkit-card">
+                <h2>Sentence Toolkit</h2>
+                <div class="tk-sub">Tick off each type you use in your writing.</div>
+                <div class="medal-bar">
+                    <div class="medal-count" id="tkCount">0 <span>used</span></div>
+                    <div class="medal-icons">
+                        <div class="medal-icon medal-bronze" id="medalBronze" title="Bronze: use 3">&#127941;</div>
+                        <div class="medal-icon medal-silver" id="medalSilver" title="Silver: use 5">&#127941;</div>
+                        <div class="medal-icon medal-gold" id="medalGold" title="Gold: use 8">&#127941;</div>
+                    </div>
+                    <div class="medal-legend">3 = &#127941; &nbsp; 5 = &#129352; &nbsp; 8 = &#129351;</div>
+                </div>
+                <div class="tk-section">
+                    <div class="tk-header-row">
+                        <h3><span class="tk-dot" style="background: var(--primary-accent);"></span> Adverbial Openers</h3>
+                        <button class="tk-shuffle" onclick="shuffleCategory('adverbial')"><span class="shuffle-icon">&#8635;</span> New set</button>
+                    </div>
+                    <div class="tk-note">Start your sentence with an adverbial phrase, then add a comma.</div>
+                    <div class="tk-set-label" id="tkAdverbialLabel">Set 1 of 3</div>
+                    <div id="tkAdverbial"></div>
+                    <div class="tk-tip">An adverbial opener tells the reader when, where, or how something happened before the main action begins.</div>
+                </div>
+                <div class="tk-section">
+                    <div class="tk-header-row">
+                        <h3><span class="tk-dot" style="background: var(--imaginative-color);"></span> Complex Sentences</h3>
+                        <button class="tk-shuffle" onclick="shuffleCategory('complex')"><span class="shuffle-icon">&#8635;</span> New set</button>
+                    </div>
+                    <div class="tk-note">Use a subordinating conjunction to join a dependent clause to a main clause.</div>
+                    <div class="tk-set-label" id="tkComplexLabel">Set 1 of 3</div>
+                    <div id="tkComplex"></div>
+                    <div class="tk-tip">The subordinate clause cannot stand alone. If it comes first, follow it with a comma.</div>
+                </div>
+                <div class="tk-section">
+                    <div class="tk-header-row">
+                        <h3><span class="tk-dot" style="background: #FF6B6B;"></span> Compound Sentences</h3>
+                        <button class="tk-shuffle" onclick="shuffleCategory('compound')"><span class="shuffle-icon">&#8635;</span> New set</button>
+                    </div>
+                    <div class="tk-note">Join two complete ideas with a comma and a FANBOYS conjunction.</div>
+                    <div class="tk-set-label" id="tkCompoundLabel">Set 1 of 3</div>
+                    <div id="tkCompound"></div>
+                    <div class="tk-tip">FANBOYS: <strong>F</strong>or, <strong>A</strong>nd, <strong>N</strong>or, <strong>B</strong>ut, <strong>O</strong>r, <strong>Y</strong>et, <strong>S</strong>o. Both halves must be complete sentences.</div>
+                </div>
+                <div class="tk-section">
+                    <div class="tk-header-row">
+                        <h3><span class="tk-dot" style="background: #FFD93D;"></span> Show, Don't Tell</h3>
+                        <button class="tk-shuffle" onclick="shuffleCategory('show')"><span class="shuffle-icon">&#8635;</span> New set</button>
+                    </div>
+                    <div class="tk-note">Instead of naming an emotion, show it through the body.</div>
+                    <div class="tk-set-label" id="tkShowLabel">Set 1 of 3</div>
+                    <div id="tkShow"></div>
+                </div>
+                <div class="tk-section">
+                    <h3><span class="tk-dot" style="background: #74B9FF;"></span> Tense Shifts for Flashbacks</h3>
+                    <div class="tk-note">Tense is the gear stick that moves between present and past.</div>
+                    <div class="tk-tense-grid">
+                        <div class="tk-tense-label">Before</div>
+                        <div class="tk-tense-text">Simple past: "Her fingers <strong>gripped</strong> the edge."</div>
+                        <div class="tk-tense-label">Entering</div>
+                        <div class="tk-tense-text">Past perfect: "She <strong>had stood</strong> here before..."</div>
+                        <div class="tk-tense-label">Inside</div>
+                        <div class="tk-tense-text">Relax to simple past: "The crowd <strong>roared</strong>..."</div>
+                        <div class="tk-tense-label">Returning</div>
+                        <div class="tk-tense-text">Back to simple past: "The memory <strong>faded</strong>..."</div>
+                    </div>
+                    <div class="tk-tip">Use past perfect ("had + verb") for the first sentence or two of the flashback. After that, relax into simple past.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// STORY WORLDS
+// ============================================================
+const WORLDS = {
+    mia: {
+        id: 'mia', label: 'A',
+        title: 'Mia at a swimming carnival',
+        desc: 'Standing behind the starting blocks, the crowd buzzing around the pool deck.',
+        plan: 'Mia stands behind the starting blocks at a swimming carnival. The crowd buzzes around the pool deck.',
+        moods: [
+            { title: 'Nervous excitement', desc: 'Butterflies churn. Her legs bounce. This is the race she has been training for.', plan: 'Nervous excitement. Something big is about to happen and her body shows it.' },
+            { title: 'Restless determination', desc: 'She has been overlooked all season. Today she will prove she belongs in this lane.', plan: 'Restless determination. She has been waiting for her chance to prove something.' },
+            { title: 'Warm nostalgia', desc: 'The familiar smell of chlorine and the echo of the pool bring a wave of comfort.', plan: 'Warm nostalgia. This place feels familiar and safe.' }
+        ],
+        memories: [
+            { title: 'Her first ever race', desc: 'Standing on the blocks as a tiny swimmer, terrified, then the shock of cold water.', plan: 'Her first ever swimming race when she was much younger.' },
+            { title: 'The race she lost', desc: 'Last year, something went wrong. The embarrassment, the walk back to her towel.', plan: 'A race that went wrong and what someone said to her afterwards.' },
+            { title: 'Learning to swim with someone special', desc: 'Hands holding hers in the shallow end. The water sparkling. Feeling safe enough to let go.', plan: 'Learning to swim for the first time with someone she trusts.' }
+        ],
+        triggers: [
+            { title: 'The starting buzzer echoes', desc: 'A practice buzzer sounds across the pool and the noise takes her straight back.', plan: 'Sound trigger: a practice buzzer echoes across the pool. Time signal: "In a heartbeat, she was six again..."' },
+            { title: 'The smell of chlorine hits her', desc: 'She breathes in and the sharp chlorine scent floods her with a sudden memory.', plan: 'Smell trigger: the sharp chlorine scent floods her with a memory. Time signal: "Suddenly it was last summer..."' },
+            { title: 'Her fingers grip the rough block', desc: 'The wet, gritty surface under her fingertips is instantly familiar.', plan: 'Touch trigger: the rough, wet surface of the starting block. Time signal: "The pool fell away, and she was back at that afternoon..."' }
+        ],
+        endings: [
+            { title: 'She dives in with new courage', desc: 'The buzzer sounds for real and she launches forward, carrying the memory with her.', plan: 'The memory dissolves, the real buzzer sounds, and she dives in with new courage.' },
+            { title: 'She lets go of the pressure', desc: 'She realises the race is not about winning. She steps onto the block feeling light.', plan: 'The memory fades and she realises this race is not about the result. Something shifts inside her.' },
+            { title: 'She sees her coach differently', desc: 'She looks over at her coach and understands something she did not understand before.', plan: 'She looks at her coach and understands something new.' }
+        ]
+    },
+    jack: {
+        id: 'jack', label: 'B',
+        title: 'Jack at a family barbecue',
+        desc: 'Watching his dad set up cricket stumps while smoke drifts from the grill.',
+        plan: 'Jack watches his dad push cricket stumps into the lawn at a family barbecue. Smoke drifts from the grill and cousins chase each other.',
+        moods: [
+            { title: 'Proud contentment', desc: 'Everyone is here, the sun is out, and nothing needs to change.', plan: 'Proud contentment. He feels quietly grateful watching the scene unfold.' },
+            { title: 'Nervous excitement', desc: 'This is the year he finally bats against his older cousins.', plan: 'Nervous excitement. He is about to do something that tests him.' },
+            { title: 'Warm nostalgia', desc: 'Everything feels the same as it always has. Same backyard, same grill, same laughter.', plan: 'Warm nostalgia. Everything feels familiar and comforting.' }
+        ],
+        memories: [
+            { title: 'Learning to bowl from someone older', desc: 'Standing in this exact spot years ago, someone showing him how to hold the ball properly.', plan: 'Someone older teaching him how to bowl in this very backyard.' },
+            { title: 'The catch that surprised everyone', desc: 'A ball flew towards him and he caught it without thinking. The family erupted.', plan: 'A moment in a family cricket game when he did something that surprised everyone.' },
+            { title: 'Burning the sausages with Dad', desc: 'The first time Dad let him mind the barbecue alone. He got distracted.', plan: 'A funny moment involving the barbecue when Dad trusted him with a job.' }
+        ],
+        triggers: [
+            { title: 'The crack of leather on willow', desc: 'Someone hits the ball and the sharp crack carries across the yard.', plan: 'Sound trigger: the sharp crack of a cricket bat. Time signal: "Three summers ago..."' },
+            { title: 'Smoke from the barbecue drifts past', desc: 'The charcoal scent catches him off guard.', plan: 'Smell trigger: barbecue smoke catches him off guard. Time signal: "In a heartbeat, he was eight again..."' },
+            { title: 'He picks up the old cricket ball', desc: 'His fingers close around the worn leather and he feels the raised seam.', plan: 'Touch trigger: the worn leather and raised seam of the cricket ball. Time signal: "The backyard fell away..."' }
+        ],
+        endings: [
+            { title: 'He steps up to bat with confidence', desc: 'His cousin bowls and Jack steps forward to meet the ball.', plan: 'The memory dissolves, it is his turn, and he steps up with new confidence.' },
+            { title: 'He sees his dad differently', desc: 'He looks at Dad, tongs in hand, and understands something new.', plan: 'He looks at his dad and understands something new about why these afternoons matter.' },
+            { title: 'He teaches his younger cousin', desc: 'He notices a younger cousin watching from the edge, too shy to join in.', plan: 'He notices a younger cousin on the sideline and decides to help them join in.' }
+        ]
+    },
+    priya: {
+        id: 'priya', label: 'C',
+        title: 'Priya on her first day at a new school',
+        desc: 'Standing in the playground, watching groups of students huddle together.',
+        plan: 'Priya stands in the playground on her first day at a new school. Groups of students huddle together around her.',
+        moods: [
+            { title: 'Nervous excitement', desc: 'Her stomach flutters but she keeps her chin up. A fresh start could be what she needs.', plan: 'Nervous excitement. A fresh start could be exactly what she needs.' },
+            { title: 'Curious wonder', desc: 'Everything is unfamiliar. She takes it all in, wide-eyed.', plan: 'Curious wonder. Everything is unfamiliar and she is taking it all in.' },
+            { title: 'Restless determination', desc: 'She promised herself she would not just stand on the edge this time.', plan: 'Restless determination. She has made a promise to herself about today.' }
+        ],
+        memories: [
+            { title: 'Meeting her best friend at her old school', desc: 'Two students sitting alone, one of them finally saying something, then instant connection.', plan: 'The day she met her best friend at her old school. It started with one brave sentence.' },
+            { title: 'A teacher who believed in her', desc: 'A teacher singled out her work and said something that stuck with her for weeks.', plan: 'A teacher who said something about her work that stayed with her.' },
+            { title: 'A performance she almost backed out of', desc: 'Nearly backing out, standing in the wings shaking, then walking out and the crowd responding.', plan: 'A time she nearly backed out of something but did it anyway.' }
+        ],
+        triggers: [
+            { title: 'A burst of laughter from a nearby group', desc: 'Laughter carries across the playground and takes her straight back.', plan: 'Sound trigger: a burst of laughter across the playground. Time signal: "Suddenly it was last year..."' },
+            { title: 'She spots a familiar book in someone\'s hand', desc: 'A girl nearby is reading a book she knows well.', plan: 'Sight trigger: she spots a book she knows well. Time signal: "Before any of this, there had been that day..."' },
+            { title: 'The school bell rings', desc: 'Different from her old school but still a bell.', plan: 'Sound trigger: the school bell, different but familiar. Time signal: "In a heartbeat, she was in her old playground..."' }
+        ],
+        endings: [
+            { title: 'She walks over and introduces herself', desc: 'She takes a breath and walks towards the nearest group.', plan: 'The memory dissolves and she walks over to introduce herself.' },
+            { title: 'She realises she has done this before', desc: 'She stands taller. She has survived a first day before.', plan: 'She stands taller, realising she has survived something like this before.' },
+            { title: 'She sees the girl with the book differently', desc: 'She looks at the girl reading nearby and knows exactly what to say.', plan: 'She looks at the girl with the book and knows how to start.' }
+        ]
+    },
+    luca: {
+        id: 'luca', label: 'D',
+        title: 'Luca at a football grand final',
+        desc: 'Sitting on the reserve bench, watching his teammates warm up on the field.',
+        plan: 'Luca sits on the reserve bench at a football grand final. His teammates warm up on the field. His boots are laced but the coach has not called his name.',
+        moods: [
+            { title: 'Restless determination', desc: 'His knee bounces. If the coach gives him five minutes, he will make them count.', plan: 'Restless determination. He is ready and waiting for his chance.' },
+            { title: 'Nervous excitement', desc: 'Part of him hopes the coach calls his name. Part of him is terrified.', plan: 'Nervous excitement. He wants to be called on but is afraid of what happens if he is.' },
+            { title: 'Proud contentment', desc: 'Even being on the bench at a grand final feels like an achievement.', plan: 'Proud contentment. Even being here, in this jersey, feels like something.' }
+        ],
+        memories: [
+            { title: 'His first ever goal', desc: 'A scrappy goal in the mud during his first season. Teammates piling on.', plan: 'His first ever goal. It was scrappy and messy and unforgettable.' },
+            { title: 'A training session that changed everything', desc: 'Staying late, just him and the coach, working on something over and over.', plan: 'A training session where someone stayed back with him and something finally clicked.' },
+            { title: 'Watching his hero on TV', desc: 'A player came off the bench and changed the game. Someone said something he never forgot.', plan: 'Watching a big game on TV when a substitute changed everything, and someone said something unforgettable.' }
+        ],
+        triggers: [
+            { title: 'The referee\'s whistle pierces the air', desc: 'A sharp whistle blast cuts through the noise.', plan: 'Sound trigger: the referee\'s whistle cuts through the noise. Time signal: "Three winters ago..."' },
+            { title: 'The smell of freshly cut grass', desc: 'The sharp green scent of the pitch floods him with a sudden memory.', plan: 'Smell trigger: the sharp green scent of freshly cut grass. Time signal: "In a heartbeat, he was nine again..."' },
+            { title: 'He runs his fingers along the bench', desc: 'The smooth wooden slats are warm. He has sat here before.', plan: 'Touch trigger: the smooth warm wood of the bench. Time signal: "The crowd noise fell away..."' }
+        ],
+        endings: [
+            { title: 'He hears his name called', desc: 'The coach points at him and he springs off the bench.', plan: 'The memory dissolves, the coach calls his name, and he runs on.' },
+            { title: 'He decides the bench is not the end', desc: 'He sits taller. Being ready is its own kind of playing.', plan: 'He sits taller on the bench. Being ready is its own kind of playing.' },
+            { title: 'He cheers for his teammates', desc: 'He watches his team and something shifts inside him.', plan: 'He watches his teammates and realises something about what being part of a team means.' }
+        ]
+    },
+    anika: {
+        id: 'anika', label: 'E',
+        title: 'Anika in a music shop',
+        desc: 'Holding a second-hand guitar, its strings humming faintly under the warm light.',
+        plan: 'Anika stands in a music shop, holding a second-hand guitar. Its strings hum faintly under the warm light.',
+        moods: [
+            { title: 'Curious wonder', desc: 'She turns the guitar over, studying every scratch. Every mark tells a story.', plan: 'Curious wonder. She is fascinated by this instrument and the stories its scratches might tell.' },
+            { title: 'Nervous excitement', desc: 'She has saved up for months. This could be the one.', plan: 'Nervous excitement. She has been saving for this moment.' },
+            { title: 'Warm nostalgia', desc: 'The smell of wood and polish wraps around her. Being here feels like coming home.', plan: 'Warm nostalgia. Being surrounded by instruments feels like home.' }
+        ],
+        memories: [
+            { title: 'Hearing someone play for the first time', desc: 'At a family gathering, someone played a song that made the whole room go still.', plan: 'The first time she heard someone play and it stopped the whole room.' },
+            { title: 'Her first awful lesson', desc: 'The strings hurt her fingers. The sound was terrible. But she went back.', plan: 'Her very first music lesson. It did not go well, but she went back.' },
+            { title: 'Performing for a stranger', desc: 'Playing in public for the first time. Then someone stopped to listen.', plan: 'The first time she played for a stranger and they actually stopped to listen.' }
+        ],
+        triggers: [
+            { title: 'She strums a chord and it rings out', desc: 'Her thumb brushes the strings and a warm chord fills the quiet shop.', plan: 'Sound trigger: a warm chord fills the shop. Time signal: "Suddenly she was seven again..."' },
+            { title: 'The smell of old wood and polish', desc: 'She lifts the guitar closer and the scent pulls her backwards.', plan: 'Smell trigger: the scent of aged wood and polish. Time signal: "Before any of this, there had been that evening..."' },
+            { title: 'The worn frets under her fingers', desc: 'Smooth where thousands of fingers have pressed. Instantly familiar.', plan: 'Touch trigger: the smooth, worn frets under her fingers. Time signal: "The shop fell away..."' }
+        ],
+        endings: [
+            { title: 'She decides to buy the guitar', desc: 'She holds the guitar tighter. This is the one.', plan: 'The memory dissolves and she holds the guitar tighter. This is the one.' },
+            { title: 'She understands why music matters', desc: 'She stands in the shop with a new understanding.', plan: 'She understands why music matters to her. It is not about skill.' },
+            { title: 'She wants to play for someone special', desc: 'She pictures a specific person and decides to learn a song for them.', plan: 'She pictures someone and decides to learn a song for them.' }
+        ]
+    },
+    sam: {
+        id: 'sam', label: 'F',
+        title: 'Sam at a family beach house',
+        desc: 'Arriving for the first summer holiday in years. The verandah creaks underfoot.',
+        plan: 'Sam steps onto the verandah of the family beach house for the first summer holiday in years. The boards creak and the salt air hits him.',
+        moods: [
+            { title: 'Warm nostalgia', desc: 'The salt air, the creak of the boards. It all feels the same and completely different.', plan: 'Warm nostalgia. Everything feels the same as before and completely different.' },
+            { title: 'Curious wonder', desc: 'He notices things he never saw as a younger kid.', plan: 'Curious wonder. He is noticing details he never paid attention to before.' },
+            { title: 'Nervous excitement', desc: 'The ocean is louder than he remembers. Tomorrow he will swim out past the break.', plan: 'Nervous excitement. He is planning something he has never done before at this beach.' }
+        ],
+        memories: [
+            { title: 'Building sandcastles with his sister', desc: 'An entire afternoon engineering a sand fortress. The tide took it. They did not mind.', plan: 'An afternoon building something on the beach with someone. The tide took it and they did not mind.' },
+            { title: 'The night they saw dolphins', desc: 'Standing on the rocks at sunset. Someone pointing. Dark shapes in the water.', plan: 'A moment at this beach when they saw something in the water that left everyone speechless.' },
+            { title: 'Learning to bodysurf', desc: 'Someone in the shallows showing him how to catch a wave. Missing the first ten. Then one carried him.', plan: 'Learning to do something in the ocean for the first time. Failing over and over, then finally getting it.' }
+        ],
+        triggers: [
+            { title: 'The screen door bangs shut', desc: 'The familiar slam echoes through the house.', plan: 'Sound trigger: the screen door bangs shut. Time signal: "Three summers ago..."' },
+            { title: 'He smells salt and sunscreen', desc: 'The mix of ocean salt and coconut sunscreen hits him.', plan: 'Smell trigger: the mix of salt air and coconut sunscreen. Time signal: "In a heartbeat, he was six again..."' },
+            { title: 'His hand brushes the sandy railing', desc: 'Grit from years of sea breeze under his palm.', plan: 'Touch trigger: gritty sand on the railing under his palm. Time signal: "The verandah fell away..."' }
+        ],
+        endings: [
+            { title: 'He races down to the water', desc: 'He kicks off his shoes and runs for the shore.', plan: 'The memory dissolves and he runs down to the shore.' },
+            { title: 'He realises why this place matters', desc: 'He looks at the house with older eyes. It was never about the building.', plan: 'He looks at the beach house with older eyes and realises why this place matters.' },
+            { title: 'He saves a spot for someone', desc: 'He lays his towel on the sand, then puts another one beside it.', plan: 'He puts his towel down and places another beside it for someone who has not arrived yet.' }
+        ]
+    }
+};
+
+// ============================================================
+// WRITING HELP: section-specific coaching, keyed by narrative order
+// ============================================================
+const WRITING_HELP = {
+    setting: {
+        heading: 'Writing your opening paragraph',
+        questions: [
+            'What can your character see, hear, and smell right now?',
+            'What are they physically doing? Standing, sitting, walking, fidgeting?',
+            'What one small detail could show the reader where they are without telling them directly?',
+            'Can you start with an adverbial opener to set the scene? (Check the Sentence Toolkit.)'
+        ],
+        tip: 'This is your "Before" section. Ground the reader in the present moment before anything else happens. Two to four sentences is enough.'
+    },
+    mood: {
+        heading: 'Showing the mood',
+        questions: [
+            'Instead of writing "she felt nervous", what does her body do? Does her stomach knot? Do her fingers tremble?',
+            'What is the character thinking but not saying out loud?',
+            'Can you show the mood through a small action rather than naming the emotion?'
+        ],
+        tip: '<strong>Show, don\'t tell.</strong> Look at the Show Don\'t Tell section in the Sentence Toolkit for ideas. Weave the mood into your opening paragraph rather than writing it as a separate section.'
+    },
+    trigger: {
+        heading: 'Writing the trigger and time signal',
+        questions: [
+            'Can you describe the sensory detail so vividly that the reader almost experiences it too?',
+            'What does this sensation remind your character of? Let the reader feel the connection.',
+            'Have you included your time signal phrase to transport the reader backwards?'
+        ],
+        tip: '<strong>Tense shift alert:</strong> this is where you move from simple past into past perfect. For example: "The buzzer sounded. <em>In a heartbeat, she was six again. She had stood on these same blocks...</em>" Start with "had + verb" then relax into simple past after a sentence or two.'
+    },
+    memory: {
+        heading: 'Writing the flashback itself',
+        questions: [
+            'What did it look like? What colours, shapes, or light do you remember?',
+            'What sounds were there? Voices, music, nature, silence?',
+            'Was there a smell or taste that made the moment vivid?',
+            'Who else was there? What were they doing or saying?',
+            'What is the one detail your character remembers most clearly?',
+            'How did your character feel during this moment?'
+        ],
+        tip: 'This is the heart of your story. Use <strong>vivid sensory detail</strong> so the reader can picture the memory. Try to include at least three different senses. This section can be your longest paragraph.'
+    },
+    ending: {
+        heading: 'Writing the return and ending',
+        questions: [
+            'What present-moment sensation snaps the reader back? A sound, a touch, a voice?',
+            'What is different now? Has the character\'s mood changed, even slightly?',
+            'What does the character decide, do, or say because of the memory?',
+            'Could your last sentence echo something from the opening to give the story a satisfying shape?'
+        ],
+        tip: 'The "After" is what turns a flashback from a detour into a <strong>turning point</strong>. Something must change: a decision, an action, a feeling, or how the character sees someone else. Without the change, the memory was just a daydream.'
+    }
+};
+
+// ============================================================
+// PICKER LOGIC
+// ============================================================
+const STEPS = [
+    { id: 1, label: 'Setting and Character', instruction: 'Who is your main character and where are they right now?' },
+    { id: 2, label: 'Present Moment Mood', instruction: 'How is your character feeling before the flashback begins?' },
+    { id: 3, label: 'The Memory', instruction: 'What does your character flash back to? This is the heart of the story.' },
+    { id: 4, label: 'Sensory Trigger and Time Signal', instruction: 'What detail in the present jolts the memory, and what phrase takes the reader back?' },
+    { id: 5, label: 'Return Cue and Ending', instruction: 'How does the character snap back, and what changes because of the memory?' }
+];
+
+let choices = {};
+let currentWorld = null;
+
+function renderSteps() {
+    const col = document.getElementById('stepsCol');
+    col.innerHTML = '';
+    STEPS.forEach((step, i) => {
+        const state = i === 0 ? 'active' : 'locked';
+        const div = document.createElement('div');
+        div.className = `step-card ${state}`;
+        div.id = `step-${step.id}`;
+        div.innerHTML = `
+            <div class="step-hdr" onclick="toggleStep(${step.id})">
+                <div class="step-n"><span>${step.id}</span></div>
+                <div class="step-lbl">${step.label}</div>
+                <div class="step-tag" id="tag-${step.id}"></div>
+                <div class="step-chev">&#9662;</div>
+            </div>
+            <div class="step-body">
+                <div class="step-inst">${step.instruction}</div>
+                <div class="opts ${step.id === 1 ? 'two-col' : ''}" id="opts-${step.id}"></div>
+            </div>`;
+        col.appendChild(div);
+    });
+    renderStep1();
+}
+
+function renderStep1() {
+    const c = document.getElementById('opts-1');
+    c.innerHTML = '';
+    Object.values(WORLDS).forEach(w => {
+        c.innerHTML += `<div class="opt" onclick="selectWorld('${w.id}')" data-id="${w.id}">
+            <div class="opt-tag">${w.label}</div>
+            <div class="opt-title">${w.title}</div>
+            <div class="opt-desc">${w.desc}</div></div>`;
+    });
+}
+
+function renderOptions(stepNum) {
+    if (!currentWorld) return;
+    const w = WORLDS[currentWorld];
+    const c = document.getElementById(`opts-${stepNum}`);
+    c.innerHTML = '';
+    let items;
+    if (stepNum === 2) items = w.moods;
+    else if (stepNum === 3) items = w.memories;
+    else if (stepNum === 4) items = w.triggers;
+    else if (stepNum === 5) items = w.endings;
+    if (!items) return;
+    items.forEach((item, i) => {
+        c.innerHTML += `<div class="opt" onclick="selectOpt(${stepNum},${i})" data-idx="${i}">
+            <div class="opt-tag">${String.fromCharCode(65 + i)}</div>
+            <div class="opt-title">${item.title}</div>
+            <div class="opt-desc">${item.desc}</div></div>`;
+    });
+}
+
+function selectWorld(id) {
+    currentWorld = id;
+    const w = WORLDS[id];
+    for (let s = 2; s <= 5; s++) clearStep(s);
+    choices = { 1: { short: w.title, plan: w.plan } };
+    document.querySelectorAll('#opts-1 .opt').forEach(o => o.classList.remove('selected'));
+    document.querySelector(`#opts-1 .opt[data-id="${id}"]`).classList.add('selected');
+    document.getElementById('tag-1').textContent = w.title;
+    updatePlanRow(1, w.plan);
+    renderOptions(2);
+    advanceStep(1);
+}
+
+function selectOpt(step, idx) {
+    const w = WORLDS[currentWorld];
+    let items;
+    if (step === 2) items = w.moods;
+    else if (step === 3) items = w.memories;
+    else if (step === 4) items = w.triggers;
+    else if (step === 5) items = w.endings;
+    const item = items[idx];
+    for (let s = step + 1; s <= 5; s++) clearStep(s);
+    choices[step] = { short: item.title, plan: item.plan };
+    document.querySelectorAll(`#opts-${step} .opt`).forEach(o => o.classList.remove('selected'));
+    document.querySelector(`#opts-${step} .opt[data-idx="${idx}"]`).classList.add('selected');
+    document.getElementById(`tag-${step}`).textContent = item.title;
+    updatePlanRow(step, item.plan);
+    if (step < 5) renderOptions(step + 1);
+    advanceStep(step);
+    document.getElementById('goWriteBtn').disabled = Object.keys(choices).length < 5;
+}
+
+function clearStep(s) {
+    delete choices[s];
+    document.getElementById(`planRow-${s}`).classList.remove('filled');
+    document.getElementById(`planText-${s}`).innerHTML = '<span class="empty">Waiting for your choice...</span>';
+    document.getElementById(`tag-${s}`).textContent = '';
+    const card = document.getElementById(`step-${s}`);
+    card.classList.remove('active', 'completed'); card.classList.add('locked');
+}
+
+function advanceStep(from) {
+    setTimeout(() => {
+        const curr = document.getElementById(`step-${from}`);
+        curr.classList.remove('active'); curr.classList.add('completed');
+        if (from < 5) {
+            const next = document.getElementById(`step-${from + 1}`);
+            next.classList.remove('locked'); next.classList.add('active');
+            next.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }, 300);
+}
+
+function toggleStep(n) {
+    const card = document.getElementById(`step-${n}`);
+    if (card.classList.contains('locked')) return;
+    if (card.classList.contains('active')) { card.classList.remove('active'); }
+    else {
+        document.querySelectorAll('.step-card').forEach(s => { if (!s.classList.contains('locked')) s.classList.remove('active'); });
+        card.classList.add('active');
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
+function updatePlanRow(step, text) {
+    document.getElementById(`planRow-${step}`).classList.add('filled');
+    const el = document.getElementById(`planText-${step}`);
+    el.textContent = text; el.classList.remove('empty');
+}
+
+function resetAll() {
+    choices = {}; currentWorld = null;
+    document.getElementById('goWriteBtn').disabled = true;
+    for (let s = 1; s <= 5; s++) {
+        document.getElementById(`planRow-${s}`).classList.remove('filled');
+        document.getElementById(`planText-${s}`).innerHTML = '<span class="empty">Waiting for your choice...</span>';
+    }
+    renderSteps();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// WRITING SCREEN
+// ============================================================
+// Narrative order for writing: setting, mood, trigger, memory, ending
+// Maps picker step IDs to writing-order and help keys
+const WRITE_ORDER = [
+    { pickStep: 1, label: 'Setting and Character', helpKey: 'setting', badge: 'Paragraph 1: The "Before"' },
+    { pickStep: 2, label: 'Present Moment Mood', helpKey: 'mood', badge: 'Weave into Paragraph 1' },
+    { pickStep: 4, label: 'Sensory Trigger and Time Signal', helpKey: 'trigger', badge: 'Paragraph 2: The Bridge' },
+    { pickStep: 3, label: 'The Memory (Flashback)', helpKey: 'memory', badge: 'Paragraph 3: The Flashback' },
+    { pickStep: 5, label: 'Return Cue and Ending', helpKey: 'ending', badge: 'Paragraph 4: The "After"' }
+];
+
+function goToWriteScreen() {
+    document.getElementById('pickerScreen').classList.remove('active');
+    document.getElementById('writeScreen').classList.add('active');
+    buildWritePlan();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goBackToPicker() {
+    document.getElementById('writeScreen').classList.remove('active');
+    document.getElementById('pickerScreen').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function buildWritePlan() {
+    const container = document.getElementById('writePlanContent');
+    container.innerHTML = '';
+
+    WRITE_ORDER.forEach((item, i) => {
+        const c = choices[item.pickStep];
+        if (!c) return;
+        const help = WRITING_HELP[item.helpKey];
+        const uid = `wphelp-${i}`;
+
+        let html = `<div class="wp-section">
+            <div class="wp-bar">
+                <div class="wp-bar-label">${item.label}</div>
+                <div class="wp-bar-text">${c.plan}</div>
+                <div class="wp-bar-badge">${item.badge}</div>
+            </div>
+            <button class="wp-help-toggle" id="toggle-${uid}" onclick="toggleHelp('${uid}')">
+                <span class="toggle-arrow">&#9654;</span> Writing help
+            </button>
+            <div class="wp-help-card" id="card-${uid}">
+                <div class="wp-help-inner">
+                    <div class="help-heading">${help.heading}</div>
+                    ${help.questions.map(q => `<div class="help-q">${q}</div>`).join('')}
+                    <div class="help-tip">${help.tip}</div>
+                </div>
+            </div>
+        </div>`;
+        container.innerHTML += html;
+    });
+}
+
+function toggleHelp(uid) {
+    const toggle = document.getElementById(`toggle-${uid}`);
+    const card = document.getElementById(`card-${uid}`);
+    toggle.classList.toggle('open');
+    card.classList.toggle('open');
+}
+
+// ============================================================
+// SENTENCE TOOLKIT — adverbials are character-specific
+// ============================================================
+const TK_ADV = {
+    mia: [
+        ['Behind the starting blocks, ...','With water still dripping from the lane ropes, ...','Under the glare of the pool lights, ...','Without taking her eyes off the water, ...','Across the crowded pool deck, ...','In the seconds before the buzzer, ...','With her goggles pressed tight, ...','Between the cheers of the crowd, ...'],
+        ['At the shallow end of the pool, ...','Through the fog of chlorine, ...','With her toes curled over the edge, ...','Before the ripples had settled, ...','Along the wet tiles, ...','In the echo of the last race, ...','Without a single glance at the scoreboard, ...','Beyond the roped-off lanes, ...'],
+        ['Above the splash of warm-up laps, ...','With her cap pulled low, ...','Beside the timing screen, ...','After what felt like hours of waiting, ...','In the stillness between races, ...','With the taste of chlorine on her lips, ...','Near the edge of the pool, ...','Throughout the long morning of heats, ...']
+    ],
+    jack: [
+        ['Across the sunlit backyard, ...','With the smell of charcoal drifting past, ...','Behind the row of fold-out chairs, ...','Without letting go of the bat, ...','Under the old Hills Hoist, ...','In the gap between innings, ...','With the cricket ball warm in his hand, ...','Between bursts of laughter from the adults, ...'],
+        ['Near the jacaranda tree, ...','Through the haze of barbecue smoke, ...','With his cousins arguing behind him, ...','Before anyone noticed he had moved, ...','Along the worn patch of grass, ...','In the shade of the back verandah, ...','Without making a sound, ...','Beyond the fence line, ...'],
+        ['Beside the esky full of drinks, ...','After the last ball was bowled, ...','With tomato sauce on his fingers, ...','Above the noise of the cricket commentary, ...','In the warmth of the late afternoon, ...','With the stumps casting long shadows, ...','During a break between overs, ...','Throughout the slow Sunday afternoon, ...']
+    ],
+    priya: [
+        ['Across the unfamiliar playground, ...','With her backpack straps digging in, ...','Behind the shelter shed, ...','Without knowing a single face, ...','Under the school clock tower, ...','In the noise of the morning bell, ...','With her lunch box clutched to her chest, ...','Between groups of students she did not recognise, ...'],
+        ['Near the library building, ...','Through the crowd of uniforms, ...','With her shoes scuffing the asphalt, ...','Before anyone looked her way, ...','Along the painted handball courts, ...','In the shadow of the main block, ...','Without anyone to walk beside, ...','Beyond the oval fence, ...'],
+        ['Beside the bubblers, ...','After the second bell rang, ...','With the playground emptying around her, ...','Above the chatter of morning greetings, ...','In the gap between two friendship groups, ...','With the school map crumpled in her pocket, ...','During the long walk to her classroom, ...','Throughout the endless first morning, ...']
+    ],
+    luca: [
+        ['Along the sideline, ...','With his boots laced and ready, ...','Behind the coach\'s shoulder, ...','Without leaving the bench, ...','Under the floodlights, ...','In the roar of the grandstand, ...','With the score ticking over above him, ...','Between the nervous chatter of the other reserves, ...'],
+        ['Near the halfway line, ...','Through the gap in the fence, ...','With his shin pads already strapped on, ...','Before the half-time whistle, ...','Along the worn wooden bench, ...','In the shadow of the grandstand, ...','Without taking his eyes off the pitch, ...','Beyond the orange cones, ...'],
+        ['Beside the drink bottles, ...','After the opposition scored, ...','With the cold evening air on his neck, ...','Above the referee\'s whistle, ...','In the final minutes of the half, ...','With his knee bouncing against the seat, ...','During the tense second half, ...','Throughout the long wait on the sideline, ...']
+    ],
+    anika: [
+        ['Between the rows of hanging guitars, ...','With the strings still humming, ...','Behind the glass counter, ...','Without putting the guitar down, ...','Under the warm shop lights, ...','In the quiet of the empty store, ...','With her fingers resting on the frets, ...','Among the racks of second-hand instruments, ...'],
+        ['Near the amplifiers in the corner, ...','Through the dusty shop window, ...','With the price tag dangling from the neck, ...','Before she could change her mind, ...','Along the shelf of guitar picks, ...','In the smell of old wood and polish, ...','Without a sound from the street outside, ...','Beyond the bead curtain at the back, ...'],
+        ['Beside the stack of song books, ...','After the last chord faded, ...','With the shop owner watching from the till, ...','Above the faint hum of the speakers, ...','In the space between two notes, ...','With the scratch marks catching the light, ...','During the long pause before she strummed, ...','Throughout the quiet afternoon in the shop, ...']
+    ],
+    sam: [
+        ['Across the sandy verandah, ...','With the salt air filling his lungs, ...','Behind the faded beach towels on the line, ...','Without stepping off the verandah, ...','Under the peeling paint of the awning, ...','In the crash of the afternoon waves, ...','With the screen door rattling behind him, ...','Between the dunes and the house, ...'],
+        ['Near the old surfboard in the corner, ...','Through the salt-stained window, ...','With his bare feet on the warm boards, ...','Before the tide had turned, ...','Along the rocky path to the beach, ...','In the shade of the Norfolk pines, ...','Without his shoes or his worries, ...','Beyond the rock pool, ...'],
+        ['Beside the shell collection on the sill, ...','After the long drive from the city, ...','With the taste of salt on his lips, ...','Above the sound of the gulls, ...','In the stillness of the empty house, ...','With sand already between his toes, ...','During the slow walk down to the water, ...','Throughout the golden last hour of daylight, ...']
+    ]
+};
+
+const TK_GEN = {
+    complex: [
+        ['<strong>Although</strong> she wanted to run, ...','<strong>Before</strong> he could speak, ...','<strong>Even though</strong> the memory stung, ...','<strong>As</strong> the music swelled around her, ...','<strong>While</strong> the crowd roared, ...','<strong>Until</strong> that moment, ...','<strong>Because</strong> she remembered what he said, ...','<strong>After</strong> the whistle sounded, ...'],
+        ['<strong>Whenever</strong> she heard that sound, ...','<strong>Since</strong> that summer afternoon, ...','<strong>Unless</strong> he turned around now, ...','<strong>If</strong> she closed her eyes, ...','<strong>Although</strong> the crowd was cheering, ...','<strong>Before</strong> the memory could fade, ...','<strong>While</strong> her hands were still shaking, ...','<strong>As soon as</strong> she saw his face, ...'],
+        ['<strong>Even though</strong> years had passed, ...','<strong>Once</strong> the noise died down, ...','<strong>Whether</strong> she liked it or not, ...','<strong>As</strong> the sun dipped below the trees, ...','<strong>Although</strong> nobody else noticed, ...','<strong>Until</strong> she opened the door, ...','<strong>Because</strong> the smell was so familiar, ...','<strong>After</strong> everything they had been through, ...']
+    ],
+    compound: [
+        ['Her hands were shaking, <strong>but</strong> she stepped forward anyway.','The whistle blew, <strong>and</strong> the memory vanished.','He wanted to look away, <strong>yet</strong> something held his gaze.','She could stay silent, <strong>or</strong> she could finally speak up.','The crowd fell quiet, <strong>so</strong> he took a breath and began.'],
+        ['The memory was fading, <strong>but</strong> the feeling stayed.','She gripped the railing, <strong>and</strong> the wood felt exactly the same.','He knew the answer, <strong>yet</strong> he could not say it out loud.','They could leave now, <strong>or</strong> they could wait for the tide.','Nobody was watching, <strong>so</strong> she let herself smile.'],
+        ['The sun was warm on her shoulders, <strong>but</strong> a chill ran through her.','He closed his eyes, <strong>and</strong> the whole scene came flooding back.','She had practised for weeks, <strong>yet</strong> her legs still wobbled.','He could pretend it did not matter, <strong>or</strong> he could admit the truth.','The bell rang, <strong>so</strong> she took a deep breath and walked in.']
+    ],
+    show: [
+        ['Her stomach knotted.','His throat tightened.','A prickle ran up her arms.','He clenched his jaw.','Her eyes stung but she blinked it away.','His fingers curled around the edge of the bench.','A warmth spread through her chest.','He exhaled slowly, shoulders dropping.'],
+        ['Her breath caught in her throat.','His knee bounced against the seat.','She pressed her nails into her palms.','A flush crept up his neck.','Her hands would not stay still.','Something loosened behind his ribs.','She swallowed hard and looked away.','His heart hammered so loud he was sure everyone could hear it.'],
+        ['The tips of her ears burned.','He blinked faster than usual.','She bit the inside of her cheek.','His shoulders pulled up towards his ears.','A slow smile spread across her face before she could stop it.','He stood very still, as if moving would break something.','Her chin trembled but she held it steady.','The tension in his hands softened, finger by finger.']
+    ]
+};
+
+const tkCurrentSet = { adverbial: 0, complex: 0, compound: 0, show: 0 };
+let tkChecked = new Set();
+
+function getSets(cat) {
+    if (cat === 'adverbial') return (currentWorld && TK_ADV[currentWorld]) ? TK_ADV[currentWorld] : TK_ADV.mia;
+    return TK_GEN[cat];
+}
+
+function renderToolkit() {
+    tkCurrentSet.adverbial = 0;
+    ['adverbial','complex','compound','show'].forEach(cat => renderCat(cat));
+}
+
+function renderCat(cat) {
+    const elIds = { adverbial:'tkAdverbial', complex:'tkComplex', compound:'tkCompound', show:'tkShow' };
+    const c = document.getElementById(elIds[cat]);
+    const sets = getSets(cat);
+    const si = tkCurrentSet[cat];
+    const items = sets[si];
+    c.innerHTML = '';
+    items.forEach((text, i) => {
+        const wt = (cat === 'adverbial' && currentWorld) ? currentWorld + '-' : '';
+        const key = `${cat}-${wt}${si}-${i}`;
+        const ch = tkChecked.has(key) ? ' checked' : '';
+        c.innerHTML += `<div class="tk-item${ch}" id="tk-${key}" onclick="toggleCheck('${key}')"><div class="tk-check">&#10003;</div><div class="tk-text">${text}</div></div>`;
+    });
+    const lbl = document.getElementById(`tk${cat.charAt(0).toUpperCase()+cat.slice(1)}Label`);
+    if (lbl) lbl.textContent = `Set ${si+1} of ${sets.length}`;
+}
+
+function shuffleCategory(cat) {
+    const sets = getSets(cat);
+    tkCurrentSet[cat] = (tkCurrentSet[cat]+1) % sets.length;
+    renderCat(cat);
+    updateMedals();
+}
+
+function toggleCheck(key) {
+    const el = document.getElementById(`tk-${key}`);
+    if (tkChecked.has(key)) { tkChecked.delete(key); el.classList.remove('checked'); }
+    else { tkChecked.add(key); el.classList.add('checked'); }
+    updateMedals();
+}
+
+function updateMedals() {
+    const n = tkChecked.size;
+    document.getElementById('tkCount').innerHTML = `${n} <span>used</span>`;
+    const b=document.getElementById('medalBronze'), s=document.getElementById('medalSilver'), g=document.getElementById('medalGold');
+    [b,s,g].forEach(m => m.classList.remove('earned','just-earned'));
+    if(n>=3){b.classList.add('earned');if(n===3)b.classList.add('just-earned');}
+    if(n>=5){s.classList.add('earned');if(n===5)s.classList.add('just-earned');}
+    if(n>=8){g.classList.add('earned');if(n===8)g.classList.add('just-earned');}
+}
+
+// Also re-render toolkit when entering write screen so adverbials match chosen world
+const _origGoWrite = goToWriteScreen;
+goToWriteScreen = function() {
+    _origGoWrite();
+    renderToolkit();
+};
+
+// Init
+renderSteps();
+renderToolkit();
+</script>
+
+</body>
+</html>
