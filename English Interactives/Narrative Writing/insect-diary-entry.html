@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diary Entry: Eating Insects | Writer's Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #2c2420;
+    --paper: #fdf6ec;
+    --paper-line: #c8bfb4;
+    --accent: #b85c38;
+    --accent-light: #f0d9c6;
+    --grammar-adverbial: #2a7b4f;
+    --grammar-adverbial-bg: #e3f4eb;
+    --grammar-appositive: #5b3fa0;
+    --grammar-appositive-bg: #ede7fa;
+    --highlight: #fff3cd;
+    --success: #2a7b4f;
+    --success-bg: #e8f5e9;
+    --card-bg: #fff;
+    --card-border: #e8e0d6;
+    --shadow: 0 2px 12px rgba(44,36,32,0.08);
+    --radius: 12px;
+    --font-body: 'DM Sans', sans-serif;
+    --font-handwriting: 'Caveat', cursive;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: var(--accent);
+    color: white;
+    padding: 20px 24px;
+    text-align: center;
+  }
+  .header-back {
+    display: inline-block;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+  .header-back:hover { color: white; }
+  .header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
+  .header p { font-size: 0.9rem; opacity: 0.9; }
+
+  .timer-bar {
+    background: #fff;
+    border-bottom: 1px solid var(--card-border);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .timer-display {
+    font-size: 1.6rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    min-width: 70px;
+    text-align: center;
+  }
+  .timer-display.warning { color: var(--accent); }
+  .timer-display.danger { color: #c0392b; }
+  .timer-btn {
+    padding: 6px 16px;
+    border-radius: 8px;
+    border: 2px solid var(--accent);
+    background: white;
+    color: var(--accent);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .timer-btn:hover { background: var(--accent); color: white; }
+  .timer-btn.active { background: var(--accent); color: white; }
+  .timer-label { font-size: 0.8rem; color: #888; }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 16px 100px;
+  }
+
+  .step { display: none; }
+  .step.active { display: block; }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .nav-btn {
+    padding: 10px 24px;
+    border-radius: 10px;
+    border: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn.next { background: var(--accent); color: white; }
+  .nav-btn.next:hover { background: #9a4a2a; }
+  .nav-btn.back {
+    background: transparent;
+    color: var(--accent);
+    border: 2px solid var(--card-border);
+  }
+  .nav-btn.back:hover { border-color: var(--accent); }
+
+  .progress-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--card-border);
+    transition: all 0.3s;
+  }
+  .dot.active { background: var(--accent); transform: scale(1.2); }
+  .dot.done { background: var(--success); }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .card h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card p { margin-bottom: 10px; font-size: 0.95rem; }
+  .card ul { padding-left: 20px; margin-bottom: 12px; }
+  .card li { margin-bottom: 6px; font-size: 0.93rem; }
+
+  .grammar-box {
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .grammar-box.adverbial {
+    background: var(--grammar-adverbial-bg);
+    border-left: 4px solid var(--grammar-adverbial);
+  }
+  .grammar-box.appositive {
+    background: var(--grammar-appositive-bg);
+    border-left: 4px solid var(--grammar-appositive);
+  }
+  .grammar-box .label {
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+  }
+  .grammar-box.adverbial .label { color: var(--grammar-adverbial); }
+  .grammar-box.appositive .label { color: var(--grammar-appositive); }
+  .grammar-box .example {
+    font-family: var(--font-handwriting);
+    font-size: 1.2rem;
+    color: var(--ink);
+    margin-top: 4px;
+  }
+  .grammar-box .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .grammar-box.adverbial .tag { background: var(--grammar-adverbial); color: white; }
+  .grammar-box.appositive .tag { background: var(--grammar-appositive); color: white; }
+
+  .model-text {
+    background: var(--paper);
+    border-radius: 10px;
+    padding: 20px;
+    font-family: var(--font-handwriting);
+    font-size: 1.25rem;
+    line-height: 1.7;
+    border: 1px solid var(--paper-line);
+  }
+  .model-text .adverbial-hl {
+    background: var(--grammar-adverbial-bg);
+    border-bottom: 2px solid var(--grammar-adverbial);
+    padding: 1px 3px;
+    border-radius: 3px;
+  }
+  .model-text .appositive-hl {
+    background: var(--grammar-appositive-bg);
+    border-bottom: 2px solid var(--grammar-appositive);
+    padding: 1px 3px;
+    border-radius: 3px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .legend-swatch { width: 14px; height: 14px; border-radius: 3px; }
+
+  .sentence-bank { display: grid; gap: 8px; }
+  .sentence-option {
+    background: var(--paper);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+  .sentence-option .category {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #999;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0ebe4;
+    font-size: 0.93rem;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 22px; height: 22px;
+    border: 2px solid var(--card-border);
+    border-radius: 6px;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+    transition: all 0.2s;
+  }
+  .check-box.checked {
+    background: var(--success);
+    border-color: var(--success);
+    color: white;
+  }
+  .check-box.checked::after { content: '✓'; font-size: 14px; font-weight: 700; }
+
+  .tip-box {
+    background: var(--highlight);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    margin-bottom: 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .tip-box .icon { font-size: 1.2rem; flex-shrink: 0; }
+
+  .task-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+
+  .plan-input {
+    width: 100%;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 10px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    min-height: 50px;
+    resize: vertical;
+    outline-color: var(--accent);
+  }
+  .plan-label { font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 4px; }
+  .plan-field { margin-bottom: 14px; }
+
+  .reflection-textarea {
+    width: 100%;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 12px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    min-height: 70px;
+    resize: vertical;
+    outline-color: var(--accent);
+    line-height: 1.5;
+  }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border-radius: 10px;
+    border: none;
+    background: var(--accent);
+    color: white;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .download-btn:hover { background: #9a4a2a; transform: translateY(-1px); }
+  .download-btn:active { transform: translateY(0); }
+
+  .name-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  .name-field label { font-weight: 600; font-size: 0.95rem; white-space: nowrap; }
+  .name-field input {
+    flex: 1;
+    border: none;
+    border-bottom: 2px solid var(--card-border);
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    padding: 4px 2px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .name-field input:focus { border-bottom-color: var(--accent); }
+
+  .links-row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .toolkit-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .toolkit-link.adverbial { background: var(--grammar-adverbial-bg); color: var(--grammar-adverbial); }
+  .toolkit-link.appositive { background: var(--grammar-appositive-bg); color: var(--grammar-appositive); }
+  .toolkit-link:hover { transform: translateY(-1px); }
+
+  /* ===== Rubric table ===== */
+  .rubric-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    margin-top: 8px;
+  }
+  .rubric-table th,
+  .rubric-table td {
+    border: 1px solid var(--card-border);
+    padding: 8px 10px;
+    vertical-align: top;
+    text-align: left;
+  }
+  .rubric-table thead th {
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-align: center;
+  }
+  .rubric-table thead th:first-child {
+    text-align: left;
+    width: 18%;
+  }
+  .rubric-table tbody th {
+    background: #faf6f0;
+    font-weight: 700;
+    font-size: 0.83rem;
+    width: 18%;
+  }
+  .rubric-table tbody td {
+    background: white;
+  }
+  .rubric-level-4 { border-top: 3px solid var(--success) !important; }
+  .rubric-level-3 { border-top: 3px solid #3498db !important; }
+  .rubric-level-2 { border-top: 3px solid var(--accent) !important; }
+  .rubric-level-1 { border-top: 3px solid #c0392b !important; }
+
+  /* Scrollable rubric on mobile */
+  .rubric-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -8px;
+    padding: 0 8px;
+  }
+  .rubric-scroll .rubric-table {
+    min-width: 620px;
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.25rem; }
+    .card { padding: 18px; }
+    .model-text { font-size: 1.1rem; }
+    .timer-bar { gap: 10px; padding: 8px 16px; }
+    .timer-display { font-size: 1.3rem; }
+  }
+
+  @media print {
+    body { background: white; }
+    .timer-bar, .header, .progress-dots, .nav-row,
+    .download-btn, .reveal-btn, .reveal-content { display: none !important; }
+    .step { display: block !important; }
+    .card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="https://educoder101.github.io/Writers-Toolkit/" class="header-back">← Back to Writer's Toolkit</a>
+  <h1>📓 Diary Entry: Eating Insects</h1>
+  <p>Write a diary entry describing how it felt to eat insects.</p>
+</div>
+
+<div class="timer-bar">
+  <span class="timer-label">⏱</span>
+  <span class="timer-display" id="timerDisplay">20:00</span>
+  <button class="timer-btn" id="timerBtn" onclick="toggleTimer()">Start</button>
+  <button class="timer-btn" onclick="resetTimer()">Reset</button>
+</div>
+
+<div class="container">
+
+  <div class="name-field">
+    <label for="studentName">Name:</label>
+    <input type="text" id="studentName" placeholder="Type your name here">
+  </div>
+
+  <div class="progress-dots" id="progressDots"></div>
+
+  <!-- ====== STEP 1: Task & Reminders ====== -->
+  <div class="step active" data-step="1">
+    <div class="card">
+      <h2>📋 Your Task</h2>
+      <p>Write a <strong>diary entry as one of the children</strong> describing how it felt eating the insects. Your paragraph must include:</p>
+      <ul>
+        <li><strong>Sensory details</strong> (taste, texture, smell)</li>
+        <li><strong>Thoughts and emotions</strong> (fear, disgust, bravery)</li>
+        <li><strong>Reasons for eating the insects</strong></li>
+        <li><strong>Reflection</strong> (Would you do it again?)</li>
+      </ul>
+      <p>You must also include at least <strong>one adverbial phrase</strong> and <strong>one appositive</strong>.</p>
+    </div>
+
+    <div class="card">
+      <h2>🧠 Grammar Reminders</h2>
+
+      <div class="grammar-box adverbial">
+        <div class="label">Adverbial Phrase</div>
+        <p style="font-size:0.9rem;">A group of words that tells the reader <strong>when, where, how</strong> or <strong>why</strong> something happened.</p>
+        <div class="example">
+          I picked up the insect <span class="adverbial-hl">with trembling fingers</span>. <span class="tag">HOW</span>
+        </div>
+        <div class="example" style="margin-top:4px;">
+          <span class="adverbial-hl">Before I could change my mind</span>, I put it in my mouth. <span class="tag">WHEN</span>
+        </div>
+      </div>
+
+      <div class="grammar-box appositive">
+        <div class="label">Appositive</div>
+        <p style="font-size:0.9rem;">A noun phrase that renames or describes another noun right next to it. Often sits between commas.</p>
+        <div class="example">
+          The cricket, <span class="appositive-hl">a brown, crunchy creature no bigger than my thumb</span>, sat on the plate.
+        </div>
+        <div class="example" style="margin-top:4px;">
+          Lina, <span class="appositive-hl">the bravest in our group</span>, went first.
+        </div>
+      </div>
+
+      <div class="links-row">
+        <a href="https://educoder101.github.io/Writers-Toolkit/English Interactives/Narrative/Grammar/adverbial-phrases-lesson.html" target="_blank" class="toolkit-link adverbial">📌 Adverbial Phrases lesson</a>
+        <a href="https://educoder101.github.io/Writers-Toolkit/English Interactives/Narrative/Grammar/appositives-lesson.html" target="_blank" class="toolkit-link appositive">🔖 Appositives lesson</a>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <div></div>
+      <button class="nav-btn next" onclick="goStep(2)">See the model →</button>
+    </div>
+  </div>
+
+  <!-- ====== STEP 2: Model Text ====== -->
+  <div class="step" data-step="2">
+    <div class="card">
+      <h2>✍️ Model Diary Entry</h2>
+      <p>Read this example. Notice how the grammar features are used and how the writer includes sensory details, emotions and reflection.</p>
+
+      <div class="model-text">
+        Dear Diary,<br><br>
+        Today I did something I never thought I would do. I ate a cricket. The plate sat in front of me, piled high with roasted insects, and my stomach twisted into a knot. The cricket, <span class="appositive-hl">a small, golden-brown creature with spindly legs</span>, stared up at me as if daring me to try. <span class="adverbial-hl">With a deep breath and shaking hands</span>, I picked one up and placed it on my tongue. The shell cracked like a tiny chip, and a nutty, smoky flavour spread through my mouth. It was not what I expected. Part of me wanted to spit it out, but another part felt strangely proud. We had to eat them because there was nothing else, and wasting food was not an option. <span class="adverbial-hl">Despite my fear</span>, I swallowed. Would I do it again? Honestly, I think I would. Not because I enjoyed it, but because I proved to myself that I could.
+      </div>
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="legend-swatch" style="background:var(--grammar-adverbial-bg);border:2px solid var(--grammar-adverbial);"></div>
+          Adverbial phrase
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch" style="background:var(--grammar-appositive-bg);border:2px solid var(--grammar-appositive);"></div>
+          Appositive
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🔍 What to Notice</h2>
+      <ul>
+        <li>The appositive tells us what the cricket <em>looked like</em>, adding a sensory detail right where it matters.</li>
+        <li>The adverbial phrases tell us <em>how</em> the writer picked up the insect and describe their emotional state (<em>despite my fear</em>).</li>
+        <li>The paragraph moves through a clear sequence: the moment before, the moment of eating, the sensory experience, the reason, and the reflection.</li>
+      </ul>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goStep(1)">← Back</button>
+      <button class="nav-btn next" onclick="goStep(3)">Plan your entry →</button>
+    </div>
+  </div>
+
+  <!-- ====== STEP 3: Quick Plan ====== -->
+  <div class="step" data-step="3">
+    <div class="task-badge">⏱ 3 minutes</div>
+    <div class="card">
+      <h2>🗒 Quick Plan</h2>
+      <p>Jot down a few notes before you write. You do not need full sentences here.</p>
+
+      <div class="plan-field">
+        <label class="plan-label">What insect did you eat? What did it look like?</label>
+        <textarea class="plan-input" id="plan1" placeholder="e.g. a fat, green grasshopper with long back legs..."></textarea>
+      </div>
+      <div class="plan-field">
+        <label class="plan-label">Sensory details: What did it taste, feel, smell like?</label>
+        <textarea class="plan-input" id="plan2" placeholder="e.g. crunchy, salty, like burnt popcorn, legs stuck in my teeth..."></textarea>
+      </div>
+      <div class="plan-field">
+        <label class="plan-label">Emotions: How did you feel before, during and after?</label>
+        <textarea class="plan-input" id="plan3" placeholder="e.g. terrified, disgusted, then proud of myself..."></textarea>
+      </div>
+      <div class="plan-field">
+        <label class="plan-label">Why did you eat them?</label>
+        <textarea class="plan-input" id="plan4" placeholder="e.g. no other food, dared by a friend, curiosity..."></textarea>
+      </div>
+      <div class="plan-field" style="margin-bottom:0;">
+        <label class="plan-label">Reflection: Would you do it again? Why or why not?</label>
+        <textarea class="plan-input" id="plan5" placeholder="e.g. yes because it wasn't that bad / no way, once was enough..."></textarea>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <span class="icon">💡</span>
+      <div>Think about <strong>where</strong> your adverbial phrase and appositive will go. The model used an appositive to describe the insect and adverbial phrases to show how the character moved and felt.</div>
+    </div>
+
+    <div class="card">
+      <h2>🔤 Sentence Starters You Could Use</h2>
+      <div class="sentence-bank">
+        <div class="sentence-option"><span class="category">Opening</span>Dear Diary, today I did something that made my stomach churn.</div>
+        <div class="sentence-option"><span class="category">Describing the insect (appositive opportunity)</span>The [insect], <em>a __________</em>, sat on the plate in front of me.</div>
+        <div class="sentence-option"><span class="category">The moment of eating (adverbial opportunity)</span><em>With __________</em>, I lifted it to my mouth and...</div>
+        <div class="sentence-option"><span class="category">Sensory detail</span>The taste was... / It crunched like... / A strange flavour of...</div>
+        <div class="sentence-option"><span class="category">Emotion</span>Part of me wanted to... but another part felt...</div>
+        <div class="sentence-option"><span class="category">Reason</span>I had no choice because... / The reason I ate it was...</div>
+        <div class="sentence-option"><span class="category">Reflection</span>If someone asked me to do it again, I would... because...</div>
+      </div>
+      <p style="font-size:0.82rem;color:#999;margin-top:10px;">These are suggestions to get you started. You do not have to use them.</p>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goStep(2)">← Back</button>
+      <button class="nav-btn next" onclick="goStep(4)">See the rubric →</button>
+    </div>
+  </div>
+
+  <!-- ====== STEP 4: Rubric ====== -->
+  <div class="step" data-step="4">
+    <div class="card">
+      <h2>📊 Rubric</h2>
+      <p>This is how your diary entry will be assessed. Read through the criteria before you start writing in your book.</p>
+
+      <div class="rubric-scroll">
+        <table class="rubric-table">
+          <thead>
+            <tr>
+              <th>Criteria</th>
+              <th class="rubric-level-4">Exceptional (4)</th>
+              <th class="rubric-level-3">Proficient (3)</th>
+              <th class="rubric-level-2">Developing (2)</th>
+              <th class="rubric-level-1">Beginning (1)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Sensory Details</th>
+              <td>Vivid, specific details across multiple senses (taste, texture, smell) that make the reader feel as though they are there.</td>
+              <td>Clear sensory details covering at least two senses. The reader can picture the experience.</td>
+              <td>Some sensory detail is present, but it is vague or limited to one sense only.</td>
+              <td>Little or no sensory detail. The writing tells the reader what happened but does not describe how it felt.</td>
+            </tr>
+            <tr>
+              <th>Thoughts &amp; Emotions</th>
+              <td>Emotions are layered and develop across the entry (e.g. fear turns to pride). Inner thoughts feel genuine and specific.</td>
+              <td>Emotions are clearly stated and connected to the experience. The reader understands how the character felt.</td>
+              <td>Some emotion is mentioned, but it is general (e.g. "I felt scared") without development or detail.</td>
+              <td>Emotions are missing or only named in passing with no connection to the experience.</td>
+            </tr>
+            <tr>
+              <th>Reason</th>
+              <td>A clear, convincing reason is given that fits naturally within the diary entry and connects to the character's situation.</td>
+              <td>A reason is given and makes sense in context.</td>
+              <td>A reason is mentioned but is vague or feels disconnected from the rest of the entry.</td>
+              <td>No reason is given for eating the insects.</td>
+            </tr>
+            <tr>
+              <th>Reflection</th>
+              <td>Thoughtful reflection that goes beyond yes/no. The writer explains their thinking and shows personal growth or self-awareness.</td>
+              <td>A clear reflection is included with a reason (e.g. "I would because...").</td>
+              <td>A brief reflection is present but lacks reasoning or depth.</td>
+              <td>No reflection is included.</td>
+            </tr>
+            <tr>
+              <th style="color:var(--grammar-adverbial);">Adverbial Phrase</th>
+              <td>Two or more adverbial phrases are used effectively, adding detail about when, where, how or why. They are correctly placed and enhance the writing.</td>
+              <td>At least one adverbial phrase is used correctly and adds clear detail to a sentence.</td>
+              <td>An adverbial phrase is attempted but may be a single adverb rather than a phrase, or is awkwardly placed.</td>
+              <td>No adverbial phrase is included, or the attempt does not meet the definition.</td>
+            </tr>
+            <tr>
+              <th style="color:var(--grammar-appositive);">Appositive</th>
+              <td>Two or more appositives are used effectively to add relevant detail about a noun. They are correctly punctuated with commas.</td>
+              <td>At least one appositive is used correctly, adding useful detail and punctuated with commas.</td>
+              <td>An appositive is attempted but may be missing commas, or the phrase does not clearly rename or describe a noun.</td>
+              <td>No appositive is included, or the attempt does not meet the definition.</td>
+            </tr>
+            <tr>
+              <th>Diary Voice &amp; Structure</th>
+              <td>Consistent first-person voice throughout. The entry reads naturally as a diary, with a clear beginning, middle and end. Writing flows smoothly between ideas.</td>
+              <td>Written in first person with a diary-like tone. The entry has a logical structure.</td>
+              <td>Mostly first person, but the diary voice is inconsistent or the structure is unclear.</td>
+              <td>Not written as a diary entry, or switches frequently out of first person.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <span class="icon">🎯</span>
+      <div>Aim for the <strong>Proficient</strong> column as your target. If you want to push yourself, look at what it takes to reach <strong>Exceptional</strong>.</div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goStep(3)">← Back</button>
+      <button class="nav-btn next" onclick="goStep(5)">Go to checklist & reflection →</button>
+    </div>
+  </div>
+
+  <!-- ====== STEP 5: Self-check + Reflection + Download ====== -->
+  <div class="step" data-step="5">
+    <div class="card">
+      <h2>✅ Self-Check</h2>
+      <p>Read back through your diary entry in your book and tick off each item. If something is missing, go back and add it.</p>
+
+      <ul class="checklist" id="checklist">
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <span>I have written in <strong>first person</strong> (I, me, my) as a diary entry.</span>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <span>I have included at least one <strong style="color:var(--grammar-adverbial);">adverbial phrase</strong> (a group of words telling when, where, how or why).</span>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <span>I have included at least one <strong style="color:var(--grammar-appositive);">appositive</strong> (a noun phrase that renames or describes another noun, set off by commas).</span>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <span>I have included <strong>sensory details</strong> (taste, texture, smell).</span>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <span>I have described my <strong>thoughts and emotions</strong>.</span>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <span>I have explained <strong>why</strong> I ate the insects.</span>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <span>I have included a <strong>reflection</strong> (Would I do it again?).</span>
+        </li>
+        <li>
+          <div class="check-box" onclick="toggleCheck(this)"></div>
+          <span>I have re-read my work and checked my <strong>spelling and punctuation</strong>.</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>💭 Reflection</h2>
+      <p>Think about the diary entry you wrote in your book.</p>
+
+      <div class="plan-field">
+        <label class="plan-label" style="color:var(--success);">⭐ Something I did really well in my writing:</label>
+        <textarea class="reflection-textarea" id="reflectWell" placeholder="e.g. I used an appositive to describe the insect and I think it painted a really clear picture for the reader..."></textarea>
+      </div>
+
+      <div class="plan-field" style="margin-bottom:0;">
+        <label class="plan-label" style="color:var(--accent);">🎯 Something I could improve next time:</label>
+        <textarea class="reflection-textarea" id="reflectImprove" placeholder="e.g. I could add more sensory detail about the smell and texture, not just the taste..."></textarea>
+      </div>
+    </div>
+
+    <div class="card" id="completionCard" style="display:none;">
+      <div style="text-align:center;padding:10px 0;">
+        <div style="font-size:2rem;margin-bottom:8px;">🎉</div>
+        <h2 style="justify-content:center;">All checks complete!</h2>
+        <p>Well done. Your diary entry is finished.</p>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:24px;">
+      <button class="download-btn" onclick="downloadPlanAndReflection()">
+        📄 Download My Plan & Reflection as PDF
+      </button>
+      <p style="font-size:0.8rem;color:#999;margin-top:8px;">Opens a print window so you can save as PDF.</p>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn back" onclick="goStep(4)">← Back to rubric</button>
+      <div></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const TOTAL_STEPS = 5;
+  let currentStep = 1;
+
+  function goStep(n) {
+    document.querySelector('.step.active').classList.remove('active');
+    document.querySelector(`[data-step="${n}"]`).classList.add('active');
+    currentStep = n;
+    updateDots();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function updateDots() {
+    const container = document.getElementById('progressDots');
+    container.innerHTML = '';
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      if (i === currentStep) dot.classList.add('active');
+      if (i < currentStep) dot.classList.add('done');
+      dot.onclick = () => goStep(i);
+      dot.style.cursor = 'pointer';
+      container.appendChild(dot);
+    }
+  }
+  updateDots();
+
+  let timerSeconds = 20 * 60;
+  let timerInterval = null;
+  let timerRunning = false;
+
+  function updateTimerDisplay() {
+    const m = Math.floor(timerSeconds / 60);
+    const s = timerSeconds % 60;
+    const display = document.getElementById('timerDisplay');
+    display.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+    display.className = 'timer-display';
+    if (timerSeconds <= 120 && timerSeconds > 60) display.classList.add('warning');
+    if (timerSeconds <= 60) display.classList.add('danger');
+  }
+
+  function toggleTimer() {
+    const btn = document.getElementById('timerBtn');
+    if (timerRunning) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      btn.textContent = 'Start';
+      btn.classList.remove('active');
+    } else {
+      timerRunning = true;
+      btn.textContent = 'Pause';
+      btn.classList.add('active');
+      timerInterval = setInterval(() => {
+        if (timerSeconds > 0) {
+          timerSeconds--;
+          updateTimerDisplay();
+        } else {
+          clearInterval(timerInterval);
+          timerRunning = false;
+          btn.textContent = 'Done';
+          document.getElementById('timerDisplay').textContent = "0:00";
+        }
+      }, 1000);
+    }
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    timerSeconds = 20 * 60;
+    updateTimerDisplay();
+    const btn = document.getElementById('timerBtn');
+    btn.textContent = 'Start';
+    btn.classList.remove('active');
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+    const boxes = document.querySelectorAll('#checklist .check-box');
+    const allChecked = [...boxes].every(b => b.classList.contains('checked'));
+    document.getElementById('completionCard').style.display = allChecked ? 'block' : 'none';
+  }
+
+  // Download as PDF via print dialog
+  function downloadPlanAndReflection() {
+    const name = document.getElementById('studentName').value.trim() || 'No name entered';
+    const plan1 = document.getElementById('plan1').value.trim() || '—';
+    const plan2 = document.getElementById('plan2').value.trim() || '—';
+    const plan3 = document.getElementById('plan3').value.trim() || '—';
+    const plan4 = document.getElementById('plan4').value.trim() || '—';
+    const plan5 = document.getElementById('plan5').value.trim() || '—';
+    const reflectWell = document.getElementById('reflectWell').value.trim() || '—';
+    const reflectImprove = document.getElementById('reflectImprove').value.trim() || '—';
+
+    const checkItems = [
+      'First person (I, me, my)',
+      'Adverbial phrase',
+      'Appositive',
+      'Sensory details',
+      'Thoughts and emotions',
+      'Reason for eating the insects',
+      'Reflection (Would I do it again?)',
+      'Spelling and punctuation checked'
+    ];
+    const boxes = document.querySelectorAll('#checklist .check-box');
+    let checklistHTML = '';
+    boxes.forEach((box, i) => {
+      const checked = box.classList.contains('checked');
+      checklistHTML += `<tr>
+        <td style="width:28px;text-align:center;font-size:1.1rem;">${checked ? '✅' : '⬜'}</td>
+        <td style="padding:5px 0;">${checkItems[i]}</td>
+      </tr>`;
+    });
+
+    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Plan & Reflection — ${esc(name)}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; color: #2c2420; padding: 28px 32px; max-width: 700px; margin: 0 auto; }
+  h1 { font-size: 1.3rem; margin-bottom: 2px; }
+  .subtitle { font-size: 0.85rem; color: #888; margin-bottom: 18px; }
+  .name-line { font-size: 1.05rem; font-weight: 700; margin-bottom: 18px; padding-bottom: 8px; border-bottom: 2px solid #e8e0d6; }
+  .section { margin-bottom: 18px; }
+  .section-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; padding: 5px 10px; border-radius: 6px; display: inline-block; }
+  .plan-title { background: #f0d9c6; color: #b85c38; }
+  .check-title { background: #e8f5e9; color: #2a7b4f; }
+  .reflect-title { background: #ede7fa; color: #5b3fa0; }
+  .rubric-title { background: #fdf6ec; color: #b85c38; border: 1px solid #e8e0d6; }
+  .field { margin-bottom: 8px; }
+  .field-label { font-weight: 600; font-size: 0.8rem; color: #666; margin-bottom: 2px; }
+  .field-value { font-size: 0.88rem; line-height: 1.45; padding: 5px 0; border-bottom: 1px solid #f0ebe4; }
+  table.check-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .reflect-box { padding: 9px 13px; border-radius: 8px; margin-bottom: 8px; font-size: 0.88rem; line-height: 1.45; }
+  .well-box { background: #e8f5e9; border-left: 3px solid #2a7b4f; }
+  .improve-box { background: #fff3cd; border-left: 3px solid #b85c38; }
+  table.rubric { width: 100%; border-collapse: collapse; font-size: 0.68rem; line-height: 1.35; margin-top: 6px; }
+  table.rubric th, table.rubric td { border: 1px solid #ccc; padding: 4px 5px; vertical-align: top; text-align: left; }
+  table.rubric thead th { background: #b85c38; color: white; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.03em; text-align: center; }
+  table.rubric thead th:first-child { text-align: left; }
+  table.rubric tbody th { background: #faf6f0; font-weight: 700; width: 14%; font-size: 0.68rem; }
+  table.rubric tbody td { background: white; }
+  @page { size: A4; margin: 12mm; }
+</style>
+</head>
+<body>
+  <h1>📓 Diary Entry: Eating Insects</h1>
+  <div class="subtitle">Plan, Checklist, Rubric & Reflection</div>
+  <div class="name-line">Name: ${esc(name)}</div>
+
+  <div class="section">
+    <div class="section-title plan-title">🗒 My Plan</div>
+    <div class="field"><div class="field-label">What insect did you eat? What did it look like?</div><div class="field-value">${esc(plan1)}</div></div>
+    <div class="field"><div class="field-label">Sensory details (taste, texture, smell)</div><div class="field-value">${esc(plan2)}</div></div>
+    <div class="field"><div class="field-label">Emotions (before, during and after)</div><div class="field-value">${esc(plan3)}</div></div>
+    <div class="field"><div class="field-label">Why did you eat them?</div><div class="field-value">${esc(plan4)}</div></div>
+    <div class="field"><div class="field-label">Reflection: Would you do it again?</div><div class="field-value">${esc(plan5)}</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title check-title">✅ Self-Check</div>
+    <table class="check-table">${checklistHTML}</table>
+  </div>
+
+  <div class="section">
+    <div class="section-title rubric-title">📊 Rubric</div>
+    <table class="rubric">
+      <thead>
+        <tr><th>Criteria</th><th>Exceptional (4)</th><th>Proficient (3)</th><th>Developing (2)</th><th>Beginning (1)</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>Sensory Details</th><td>Vivid, specific details across multiple senses that make the reader feel as though they are there.</td><td>Clear sensory details covering at least two senses.</td><td>Some sensory detail, but vague or limited to one sense.</td><td>Little or no sensory detail.</td></tr>
+        <tr><th>Thoughts & Emotions</th><td>Emotions are layered and develop across the entry. Inner thoughts feel genuine.</td><td>Emotions are clearly stated and connected to the experience.</td><td>Some emotion mentioned, but general without development.</td><td>Emotions are missing or only named in passing.</td></tr>
+        <tr><th>Reason</th><td>A clear, convincing reason that fits naturally within the entry.</td><td>A reason is given and makes sense in context.</td><td>A reason is mentioned but vague or disconnected.</td><td>No reason is given.</td></tr>
+        <tr><th>Reflection</th><td>Thoughtful reflection that shows personal growth or self-awareness.</td><td>A clear reflection with a reason.</td><td>Brief reflection lacking reasoning or depth.</td><td>No reflection included.</td></tr>
+        <tr><th>Adverbial Phrase</th><td>Two or more used effectively and correctly placed.</td><td>At least one used correctly, adding clear detail.</td><td>Attempted but may be a single adverb or awkwardly placed.</td><td>Not included or does not meet the definition.</td></tr>
+        <tr><th>Appositive</th><td>Two or more used effectively with correct comma punctuation.</td><td>At least one used correctly with commas.</td><td>Attempted but missing commas or unclear.</td><td>Not included or does not meet the definition.</td></tr>
+        <tr><th>Diary Voice & Structure</th><td>Consistent first person. Reads naturally as a diary with clear structure and smooth flow.</td><td>First person with diary tone and logical structure.</td><td>Mostly first person but voice or structure is inconsistent.</td><td>Not written as a diary entry.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title reflect-title">💭 Reflection</div>
+    <div class="reflect-box well-box"><strong>⭐ Something I did really well:</strong><br>${esc(reflectWell)}</div>
+    <div class="reflect-box improve-box"><strong>🎯 Something I could improve next time:</strong><br>${esc(reflectImprove)}</div>
+  </div>
+</body>
+</html>`;
+
+    const printWindow = window.open('', '_blank', 'width=800,height=600');
+    if (!printWindow) {
+      alert('Please allow pop-ups for this site to download your PDF.');
+      return;
+    }
+    printWindow.document.write(html);
+    printWindow.document.close();
+    printWindow.onload = function() {
+      setTimeout(() => { printWindow.print(); }, 400);
+    };
+    setTimeout(() => {
+      if (!printWindow.closed) { printWindow.print(); }
+    }, 1200);
+  }
+</script>
+</body>
+</html>
