@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Star Log Coach — Year 5</title>
+<style>
+  :root{
+    --navy:#1B2A4A; --navy-2:#243a63; --amber:#E8A33D; --amber-deep:#cf8c25;
+    --cream:#FBF4E7; --light:#EEF1F6; --rule:#C9D2E0; --ink:#222a35; --muted:#5C6B85;
+    --paper:#FAFBFD; --good:#1f7a5a; --good-bg:#e8f4ee;
+    --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --serif: Georgia, "Times New Roman", serif;
+    --shadow: 0 1px 2px rgba(27,42,74,.06), 0 6px 20px rgba(27,42,74,.08);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--font); font-size:17px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1000px; margin:0 auto; padding:0 20px}
+  a{color:var(--navy)}
+  :focus-visible{outline:3px solid var(--amber); outline-offset:2px; border-radius:6px}
+
+  /* ---------- top bar ---------- */
+  header.site{position:sticky; top:0; z-index:20; background:var(--navy); color:#fff;
+    border-bottom:3px solid var(--amber)}
+  .bar{display:flex; align-items:center; gap:18px; flex-wrap:wrap; padding:12px 0}
+  .mark{font-weight:800; letter-spacing:.06em; font-size:1.15rem}
+  .mark small{display:block; font-weight:400; letter-spacing:.02em; font-size:.66rem; color:#aebbd6}
+  nav.weeks{display:flex; gap:8px; flex-wrap:wrap; margin-left:auto}
+  .weektab{font:inherit; font-size:.82rem; font-weight:600; color:#cdd6ea; background:transparent;
+    border:1px solid #3a4f78; border-radius:999px; padding:7px 13px; cursor:pointer; line-height:1.1}
+  .weektab b{display:block; font-size:.7rem; font-weight:700; color:#90a0c4}
+  .weektab[aria-current="true"]{background:var(--amber); color:var(--navy); border-color:var(--amber)}
+  .weektab[aria-current="true"] b{color:#7a531a}
+  .weektab:hover:not([aria-current="true"]){border-color:var(--amber); color:#fff}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative; background:var(--navy); color:#fff; overflow:hidden}
+  .stars{position:absolute; inset:0; pointer-events:none}
+  .stars i{position:absolute; background:#fff; border-radius:50%; opacity:.55}
+  .hero .wrap{position:relative; padding:46px 20px 52px}
+  .badge{display:inline-block; background:var(--amber); color:var(--navy); font-weight:800;
+    letter-spacing:.08em; font-size:.86rem; padding:7px 14px; border-radius:8px}
+  .hero h1{margin:.5rem 0 .2rem; font-size:clamp(2rem,5.5vw,3.2rem); line-height:1.05; letter-spacing:-.01em}
+  .hero .eyebrow{font-family:var(--serif); font-style:italic; color:var(--amber); font-size:1.05rem; margin:0}
+  .hero p.lead{color:#d7deec; font-size:1.05rem}
+  .howto{margin-top:18px; background:rgba(255,255,255,.06); border:1px solid #36486e;
+    border-radius:12px; padding:12px 16px; font-size:.95rem; color:#dfe5f1}
+  .howto b{color:#fff}
+
+  /* ---------- sections ---------- */
+  main{padding-bottom:60px}
+  section.module{padding:40px 0 8px}
+  .eyebrow-row{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+  .kicker{font-family:var(--serif); font-style:italic; color:var(--amber-deep); font-size:1rem}
+  h2.mod{font-size:1.6rem; margin:.15rem 0 .2rem; letter-spacing:-.01em; color:var(--navy)}
+  .mod-intro{color:var(--muted); margin:.2rem 0 22px}
+  .mod-intro.wide{max-width:none}
+
+  .card{background:#fff; border:1px solid var(--rule); border-radius:var(--radius); box-shadow:var(--shadow)}
+  .pad{padding:22px}
+
+  /* ---------- good vs not yet ---------- */
+  .compare{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  .col-head{display:flex; align-items:center; gap:9px; font-weight:800; font-size:.95rem; margin-bottom:10px}
+  .dot{width:11px; height:11px; border-radius:50%}
+  .dot.no{background:#b06a4f} .dot.yes{background:var(--good)}
+  .tag{font-size:.72rem; font-weight:700; letter-spacing:.04em; padding:3px 9px; border-radius:999px}
+  .tag.no{background:#f4e7e1; color:#92492f} .tag.yes{background:var(--good-bg); color:var(--good)}
+  .story{font-size:1.06rem; line-height:1.7}
+  .story .hl{border-radius:4px; padding:0 1px; transition:background .25s, box-shadow .25s}
+  .show-craft .story.good .hl{background:rgba(232,163,61,.26); box-shadow:0 2px 0 var(--amber)}
+  .show-craft .story.bad .iss{background:#f3e7e2; box-shadow:0 2px 0 #c98c72}
+  .notes{list-style:none; margin:14px 0 0; padding:0; display:none}
+  .show-craft .notes{display:block}
+  .notes li{display:flex; gap:10px; padding:7px 0; border-top:1px solid var(--light); font-size:.92rem; color:var(--ink)}
+  .num{flex:none; width:22px; height:22px; border-radius:50%; font-size:.74rem; font-weight:800;
+    display:grid; place-items:center; color:#fff}
+  .notes.good-notes .num{background:var(--good)} .notes.bad-notes .num{background:#b06a4f}
+  .compare-actions{margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; align-items:center}
+
+  .btn{font:inherit; font-weight:700; cursor:pointer; border-radius:10px; padding:11px 18px; border:1px solid var(--navy);
+    background:var(--navy); color:#fff; line-height:1.1}
+  .btn:hover{background:var(--navy-2)}
+  .btn.ghost{background:#fff; color:var(--navy)}
+  .btn.ghost:hover{background:var(--light)}
+  .hint{color:var(--muted); font-size:.9rem}
+
+  /* ---------- spot the craft ---------- */
+  .craftbar{display:flex; gap:9px; flex-wrap:wrap; margin-bottom:16px}
+  .craftbtn{font:inherit; font-weight:700; font-size:.92rem; cursor:pointer; border-radius:999px;
+    border:1.5px solid var(--rule); background:#fff; color:var(--navy); padding:9px 15px}
+  .craftbtn[aria-pressed="true"]{border-color:var(--amber); background:var(--cream)}
+  .craftbtn:hover{border-color:var(--amber)}
+  .craftpara{font-size:1.12rem; line-height:1.85}
+  .craftpara .c{border-radius:4px; padding:0 1px; transition:background .2s}
+  .craftpara .c.on{background:rgba(232,163,61,.30); box-shadow:0 2px 0 var(--amber)}
+  .why{margin-top:16px; background:var(--light); border-left:4px solid var(--amber);
+    border-radius:0 10px 10px 0; padding:13px 16px; min-height:1px}
+  .why b{color:var(--navy)}
+  .why.empty{color:var(--muted)}
+
+  /* ---------- game ---------- */
+  .game-line{font-size:1.2rem; line-height:1.6; min-height:3.2em; display:flex; align-items:center}
+  .game-line span{font-style:italic}
+  .choices{display:flex; gap:12px; margin:18px 0 6px; flex-wrap:wrap}
+  .choice{flex:1 1 160px; font:inherit; font-weight:800; font-size:1.02rem; cursor:pointer; padding:16px;
+    border-radius:12px; border:2px solid var(--rule); background:#fff; color:var(--navy)}
+  .choice:hover{border-color:var(--amber)}
+  .choice:disabled{cursor:default; opacity:.85}
+  .feedback{margin-top:14px; padding:13px 16px; border-radius:12px; font-size:.98rem; display:none}
+  .feedback.show{display:block}
+  .feedback.right{background:var(--good-bg); border:1px solid #b7ddca; color:#155}
+  .feedback.wrong{background:#f6ece6; border:1px solid #e3c6b6; color:#7a3f24}
+  .feedback .mk{font-weight:800; margin-right:6px}
+  .game-foot{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:16px; flex-wrap:wrap}
+  .score{font-weight:700; color:var(--muted); font-size:.95rem}
+
+  /* ---------- shuffler ---------- */
+  .filters{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px}
+  .chip{font:inherit; font-size:.85rem; font-weight:700; cursor:pointer; border-radius:999px;
+    border:1.5px solid var(--rule); background:#fff; color:var(--navy); padding:7px 13px}
+  .chip[aria-pressed="true"]{background:var(--navy); color:#fff; border-color:var(--navy)}
+  .starter{background:var(--cream); border:1px dashed var(--amber-deep); border-radius:14px; padding:24px;
+    text-align:center}
+  .starter .type{font-size:.74rem; font-weight:800; letter-spacing:.06em; color:var(--amber-deep); text-transform:uppercase}
+  .starter .text{font-size:1.35rem; line-height:1.45; margin:10px 0 6px; color:var(--navy); font-weight:600}
+  .starter .nudge{color:var(--muted); font-size:.9rem}
+
+  .backbar{margin-top:36px; background:var(--navy); color:#fff; border-radius:var(--radius); padding:22px 24px;
+    display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap}
+  .backbar p{margin:0}
+  .backbar > div{flex:1}
+  .backbar .eyebrow{font-family:var(--serif); font-style:italic; color:var(--amber); margin:0 0 3px}
+
+  footer.site{border-top:1px solid var(--rule); color:var(--muted); font-size:.86rem; padding:26px 0 50px}
+  footer .wrap{display:flex; gap:14px; justify-content:space-between; flex-wrap:wrap}
+
+  /* ---------- stub weeks ---------- */
+  .stub{padding:46px 0}
+  .stub .card{padding:30px}
+  .stub h2{color:var(--navy); margin:.2rem 0 .4rem; font-size:1.5rem}
+  .stub ul{margin:14px 0 0; padding-left:20px; color:var(--ink)}
+  .stub li{margin:6px 0}
+  .stub .soon{display:inline-block; background:var(--cream); color:var(--amber-deep); font-weight:800;
+    font-size:.74rem; letter-spacing:.05em; padding:5px 11px; border-radius:999px}
+
+  /* object gallery */
+  .objgrid{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:18px}
+  .objbtn{font:inherit; font-weight:700; font-size:.95rem; cursor:pointer; border-radius:12px;
+    border:1.5px solid var(--rule); background:#fff; color:var(--navy); padding:11px 16px}
+  .objbtn[aria-pressed="true"]{background:var(--navy); color:#fff; border-color:var(--navy)}
+  .objbtn:hover:not([aria-pressed="true"]){border-color:var(--amber)}
+  .gallery h3{margin:.1rem 0 .7rem; color:var(--navy); font-size:1.2rem}
+  .wonders{list-style:none; margin:0 0 18px; padding:0}
+  .wonders li{display:flex; gap:11px; padding:9px 0; border-top:1px solid var(--light); font-size:1.02rem}
+  .wonders li::before{content:"\2605"; color:var(--amber); line-height:1.55}
+  .links{display:flex; flex-wrap:wrap; gap:10px}
+  .linkbtn{display:inline-flex; align-items:center; gap:8px; text-decoration:none; font-weight:700; font-size:.92rem;
+    color:var(--navy); background:var(--light); border:1px solid var(--rule); border-radius:10px; padding:10px 15px}
+  .linkbtn:hover{border-color:var(--amber)}
+  .linkbtn .ext{font-size:.72rem; font-weight:600; color:var(--muted)}
+  /* flips */
+  .flips{display:grid; gap:14px}
+  .flip{border:1px solid var(--rule); border-radius:14px; overflow:hidden}
+  .flip .told{padding:15px 18px; background:#fff}
+  .flip .lbl{font-size:.7rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+  .flip .line{font-size:1.08rem; margin-top:3px}
+  .flip .told .line{color:var(--ink)}
+  .flip .shown{padding:15px 18px; background:var(--cream); border-top:1px dashed var(--amber-deep); display:none}
+  .flip.open .shown{display:block}
+  .flip .shown .line{color:var(--navy); font-weight:600}
+  .flip .shown .tip{color:var(--muted); font-size:.88rem; margin-top:7px}
+  .flipbtn{font:inherit; font-weight:800; font-size:.85rem; cursor:pointer; background:transparent; border:0;
+    color:var(--amber-deep); padding:8px 0 2px}
+  /* recorder */
+  .rec-privacy{background:var(--good-bg); border:1px solid #b7ddca; color:#14503a; border-radius:10px;
+    padding:11px 15px; font-size:.92rem; margin-bottom:18px}
+  .timer{font-variant-numeric:tabular-nums; font-weight:800; font-size:2.7rem; color:var(--navy); line-height:1}
+  .timer .target{display:block; font-size:.8rem; font-weight:600; color:var(--muted); margin-top:5px}
+  .rec-row{display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin:16px 0 10px}
+  .rec-msg{font-size:.94rem; color:var(--muted); min-height:1.3em}
+  .rec-msg.good{color:var(--good); font-weight:600}
+  audio{width:100%; margin-top:12px}
+  .checklist{list-style:none; margin:12px 0 0; padding:0}
+  .checklist li{display:flex; gap:11px; align-items:flex-start; padding:8px 0; border-top:1px solid var(--light)}
+  .checklist input{margin-top:3px; width:18px; height:18px; accent-color:var(--amber-deep); flex:none}
+  .checklist label{font-size:1rem}
+  /* colour & mood + focal */
+  .moodbar{display:flex; gap:9px; flex-wrap:wrap; margin-bottom:16px}
+  .mood-wrap{display:grid; grid-template-columns:1.1fr 1fr; gap:22px; align-items:center}
+  .mood-svg{width:100%; border-radius:14px; display:block; border:1px solid var(--rule)}
+  .mood-name{font-weight:800; color:var(--navy); font-size:1.2rem; margin-bottom:4px}
+  .mood-desc{color:var(--muted)}
+  #focalSvg .fdot{transition:opacity .35s}
+  #focalSvg.on .fdot{opacity:.16}
+  #focalRing{opacity:0; transition:opacity .35s}
+  #focalSvg.on #focalRing{opacity:1}
+  @media (max-width:720px){ .mood-wrap{grid-template-columns:1fr} }
+  [hidden]{display:none !important}
+
+  @media (max-width:720px){
+    .compare{grid-template-columns:1fr}
+    nav.weeks{width:100%; margin-left:0}
+    .bar{gap:12px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important}
+    html{scroll-behavior:auto}
+  }
+  @keyframes twinkle{0%,100%{opacity:.25}50%{opacity:.8}}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap bar">
+    <div class="mark">STAR LOG<small>Year 5 home-learning coach</small></div>
+    <nav class="weeks" aria-label="Choose a week">
+      <button class="weektab" data-week="week2"><b>Week 2</b>Research</button>
+      <button class="weektab" data-week="week3"><b>Week 3</b>Report &amp; speech</button>
+      <button class="weektab" data-week="narrative" aria-current="true"><b>Week 4</b>Narrative</button>
+      <button class="weektab" data-week="week5"><b>Week 5</b>Poem</button>
+      <button class="weektab" data-week="week6"><b>Week 6</b>Artwork</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== NARRATIVE WEEK ===================== -->
+<div class="weekview" id="view-narrative">
+
+  <section class="hero">
+    <div class="stars" id="stars" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="badge">WEEK 4</span>
+      <p class="eyebrow">Your booklet is the mission. This page is your coach.</p>
+      <h1>Write a story about your object</h1>
+      <p class="lead">See what strong space writing looks like, take the craft apart, then try it for yourself.</p>
+      <div class="howto"><b>How to use this page:</b> explore the four parts in any order, then go and write your draft in your printed Star Log. Nothing here is saved, so click around freely.</div>
+    </div>
+  </section>
+
+  <main class="wrap">
+
+    <!-- SEE IT -->
+    <section class="module" id="see">
+      <div class="eyebrow-row"><span class="kicker">See it</span></div>
+      <h2 class="mod">Good vs not yet</h2>
+      <p class="mod-intro">Two ways to open the same kind of story. One could be about any planet in any story. The other could only be about a real object in space. Press the button to see exactly what makes the difference.</p>
+
+      <div class="compare" id="compare">
+        <div class="card pad">
+          <div class="col-head"><span class="dot no"></span><span class="tag no">Not yet</span></div>
+          <p class="story bad">
+            One day a girl landed on <span class="iss">a strange planet</span>. It was <span class="iss">really scary</span> and full of <span class="iss">green aliens</span>. They chased her, so she ran back to her spaceship and <span class="iss">flew home. The end.</span>
+          </p>
+          <ol class="notes bad-notes">
+            <li><span class="num">1</span><span>“A strange planet” could be anywhere. There is nothing real to picture.</span></li>
+            <li><span class="num">2</span><span>“Really scary” <em>tells</em> us the feeling. Show it instead.</span></li>
+            <li><span class="num">3</span><span>Generic aliens, with no real science to ground the story.</span></li>
+            <li><span class="num">4</span><span>A rushed ending, with no feeling and nothing changed.</span></li>
+          </ol>
+        </div>
+
+        <div class="card pad">
+          <div class="col-head"><span class="dot yes"></span><span class="tag yes">Strong</span></div>
+          <p class="story good">
+            <span class="hl">Far from the Sun,</span> Commander Ito eased the probe onto <span class="hl">Europa, a moon wrapped in cracked white ice.</span> <span class="hl">The ground glowed faintly in the starlight,</span> and far below her boots lay <span class="hl">a hidden ocean, deeper than any on Earth.</span> “Mission Control,” she whispered, <span class="hl">“the cracks are moving.”</span>
+          </p>
+          <ol class="notes good-notes">
+            <li><span class="num">1</span><span><b>Adverbial phrase.</b> “Far from the Sun” tells us where, and drops us straight into the scene.</span></li>
+            <li><span class="num">2</span><span><b>Appositive + a real feature.</b> The commas add a true detail about the real moon.</span></li>
+            <li><span class="num">3</span><span><b>Sensory detail.</b> We can see the glow, not just be told it is there.</span></li>
+            <li><span class="num">4</span><span><b>A real fact woven in.</b> Europa really does hide an ocean beneath its ice.</span></li>
+            <li><span class="num">5</span><span><b>Ends on a hook.</b> Now we have to keep reading.</span></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="compare-actions">
+        <button class="btn reveal-btn" data-target="compare" aria-pressed="false">Show what makes the difference</button>
+        <span class="hint">Kind reminder: “not yet” just means it is on its way. Every fix is shown.</span>
+      </div>
+    </section>
+
+    <!-- SPOT THE CRAFT -->
+    <section class="module" id="spot">
+      <div class="eyebrow-row"><span class="kicker">Take it apart</span></div>
+      <h2 class="mod">Spot the craft</h2>
+      <p class="mod-intro wide">Here is one paragraph from a space story. Tap a tool to find it inside the writing and see why it works. These are the same four tools as your booklet toolkit.</p>
+
+      <div class="card pad">
+        <div class="craftbar" role="group" aria-label="Writing tools">
+          <button class="craftbtn" data-craft="fig" aria-pressed="false">Figurative language</button>
+          <button class="craftbtn" data-craft="app" aria-pressed="false">Appositive</button>
+          <button class="craftbtn" data-craft="adv" aria-pressed="false">Adverbial phrase</button>
+          <button class="craftbtn" data-craft="sen" aria-pressed="false">Sensory detail</button>
+        </div>
+
+        <p class="craftpara" id="craftpara">
+          <span class="c adv">Without a sound,</span> the old star <span class="c fig">swelled like a balloon about to burst</span>. <span class="c app">Aurora, the youngest pilot in the fleet,</span> gripped her seat as <span class="c sen">light poured across the deck, hot and gold</span>. <span class="c adv">Far below,</span> the dying star began to <span class="c fig">shed its skin</span> in glowing rings.
+        </p>
+
+        <div class="why empty" id="why" role="status" aria-live="polite">Tap a tool above to highlight it in the paragraph.</div>
+      </div>
+    </section>
+
+    <!-- TRY IT -->
+    <section class="module" id="try">
+      <div class="eyebrow-row"><span class="kicker">Try it</span></div>
+      <h2 class="mod">Grounded or generic?</h2>
+      <p class="mod-intro">A <b>grounded</b> opening could only be about a real object in space. A <b>generic</b> one could be any old story. Read each line and choose. You will see straight away if you are right.</p>
+
+      <div class="card pad" id="game">
+        <p class="game-line"><span id="gameText"></span></p>
+        <div class="choices">
+          <button class="choice" data-answer="true">Grounded</button>
+          <button class="choice" data-answer="false">Generic</button>
+        </div>
+        <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+        <div class="game-foot">
+          <span class="score" id="score">Line 1 of 8</span>
+          <button class="btn ghost" id="next" hidden>Next line</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- GET INSPIRED -->
+    <section class="module" id="inspire">
+      <div class="eyebrow-row"><span class="kicker">Get inspired</span></div>
+      <h2 class="mod">Sentence-starter shuffler</h2>
+      <p class="mod-intro">Stuck on a first line? Shuffle for one, then make it your own. Filter by your story type so you find a fit, and so the whole class does not begin the same way.</p>
+
+      <div class="filters" role="group" aria-label="Filter by story type">
+        <button class="chip" data-type="all" aria-pressed="true">All</button>
+        <button class="chip" data-type="Discovery" aria-pressed="false">A · Discovery</button>
+        <button class="chip" data-type="Voyager" aria-pressed="false">B · Voyager</button>
+        <button class="chip" data-type="New discovery" aria-pressed="false">C · New discovery</button>
+        <button class="chip" data-type="Any" aria-pressed="false">D · Your own</button>
+      </div>
+
+      <div class="starter" id="starter" aria-live="polite">
+        <div class="type" id="starterType">Voyager</div>
+        <div class="text" id="starterText">Star Log, the date is 2199, and our ship is heading for…</div>
+        <div class="nudge">Change the words to make it your own.</div>
+      </div>
+      <div style="margin-top:16px"><button class="btn" id="shuffle">Shuffle a starter</button></div>
+    </section>
+
+    <div class="wrap" style="padding:0">
+      <div class="backbar">
+        <div>
+          <p class="eyebrow">Ready to write?</p>
+          <p>Open your printed Star Log to the narrative pages. Plan on the story mountain, then draft your story using everything you have just seen.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ===================== STUB WEEKS ===================== -->
+<div class="weekview" id="view-week2" hidden>
+  <section class="hero"><div class="stars" aria-hidden="true"></div><div class="wrap">
+    <span class="badge">WEEK 2</span>
+    <p class="eyebrow">Your booklet is the mission. This page is your coach.</p>
+    <h1>Research your object</h1>
+    <p class="lead">Become the expert. Find facts you can trust, and write them in your own words.</p>
+    <div class="howto"><b>How to use this page:</b> explore the parts in any order, then take your notes into your printed Star Log. Nothing here is saved.</div>
+  </div></section>
+  <main class="wrap">
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">See it</span></div>
+      <h2 class="mod">Good notes vs copying</h2>
+      <p class="mod-intro wide">Research is not copying. It is finding a fact, understanding it, and writing it in your own words so you can use it later. Here is the same fact, gathered two ways.</p>
+      <div class="compare" id="cmp2">
+        <div class="card pad">
+          <div class="col-head"><span class="dot no"></span><span class="tag no">Not yet</span></div>
+          <p class="story bad"><span class="iss">Mars is the fourth planet from the Sun and is often described as the &lsquo;Red Planet&rsquo; because of the reddish appearance of its surface, which is caused by iron oxide, more commonly known as rust.</span></p>
+          <ol class="notes bad-notes">
+            <li><span class="num">1</span><span>Copied word for word from a website.</span></li>
+            <li><span class="num">2</span><span>One long sentence &mdash; that is not notes you can use.</span></li>
+            <li><span class="num">3</span><span>No source written down, so it cannot go in the bibliography.</span></li>
+          </ol>
+        </div>
+        <div class="card pad">
+          <div class="col-head"><span class="dot yes"></span><span class="tag yes">Strong</span></div>
+          <p class="story good" style="white-space:pre-line"><span class="hl">Mars &mdash; 4th planet from the Sun</span>
+<span class="hl">Looks red: rusty iron in the soil</span>
+<span class="hl">Source: NASA Space Place</span></p>
+          <ol class="notes good-notes">
+            <li><span class="num">1</span><span><b>Your own words.</b> Short and clear, so you really understand it.</span></li>
+            <li><span class="num">2</span><span><b>Dot points.</b> Easy to turn into report sentences later.</span></li>
+            <li><span class="num">3</span><span><b>Source noted.</b> Ready for your bibliography.</span></li>
+          </ol>
+        </div>
+      </div>
+      <div class="compare-actions">
+        <button class="btn reveal-btn" data-target="cmp2" aria-pressed="false">Show what makes the difference</button>
+        <span class="hint">Tip: read the fact, look away, then write it without peeking.</span>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">Try it</span></div>
+      <h2 class="mod">Where does this fact go?</h2>
+      <p class="mod-intro wide">Your Gathering Grid sorts facts into groups. Read each fact and choose the group it belongs in &mdash; exactly what you will do when you research at home.</p>
+      <div class="card pad">
+        <p class="game-line"><span id="sortText"></span></p>
+        <div class="choices" id="sortChoices">
+          <button class="choice" data-cat="Description">Description</button>
+          <button class="choice" data-cat="Numbers">Size &amp; numbers</button>
+          <button class="choice" data-cat="Where">Where it is</button>
+          <button class="choice" data-cat="Mystery">Still a mystery</button>
+        </div>
+        <div class="feedback" id="sortFeedback" role="status" aria-live="polite"></div>
+        <div class="game-foot"><span class="score" id="sortScore"></span><button class="btn ghost" id="sortNext" hidden>Next fact</button></div>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">Get inspired</span></div>
+      <h2 class="mod">Object gallery</h2>
+      <p class="mod-intro wide">Pick the kind of object you are studying. You will get a few wonder-facts to spark your curiosity, plus the best safe websites to start your research.</p>
+      <div class="objgrid" id="objgrid" role="group" aria-label="Choose your object">
+        <button class="objbtn" data-obj="planet" aria-pressed="true">A planet</button>
+        <button class="objbtn" data-obj="moon" aria-pressed="false">A moon</button>
+        <button class="objbtn" data-obj="star" aria-pressed="false">The Sun or a star</button>
+        <button class="objbtn" data-obj="nebula" aria-pressed="false">A nebula</button>
+        <button class="objbtn" data-obj="galaxy" aria-pressed="false">A galaxy</button>
+        <button class="objbtn" data-obj="blackhole" aria-pressed="false">A black hole</button>
+      </div>
+      <div class="card pad gallery" id="gallery"></div>
+    </section>
+
+    <div class="wrap" style="padding:0"><div class="backbar"><div>
+      <p class="eyebrow">Ready to research?</p>
+      <p>Open your Star Log to the Gathering Grid and use the Resource Bank links. Write every fact in your own words, and note where you found it.</p>
+    </div></div></div>
+  </main>
+</div>
+
+<div class="weekview" id="view-week3" hidden>
+  <section class="hero"><div class="stars" aria-hidden="true"></div><div class="wrap">
+    <span class="badge">WEEK 3</span>
+    <p class="eyebrow">Your booklet is the mission. This page is your coach.</p>
+    <h1>Report and speech</h1>
+    <p class="lead">Inform with a clear report, then bring it to life in a 90-second speech.</p>
+    <div class="howto"><b>How to use this page:</b> see a strong report opening, rehearse your speech out loud, and gather ideas for a hook. Nothing here is saved.</div>
+  </div></section>
+  <main class="wrap">
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">See it</span></div>
+      <h2 class="mod">Report openings &mdash; good vs not yet</h2>
+      <p class="mod-intro wide">Your introduction is the first thing the reader meets. A flat one lists the obvious. A strong one hooks the reader and previews what is coming.</p>
+      <div class="compare" id="cmp3">
+        <div class="card pad">
+          <div class="col-head"><span class="dot no"></span><span class="tag no">Not yet</span></div>
+          <p class="story bad">My object is the Sun. <span class="iss">This report is about the Sun.</span> The Sun is a star. <span class="iss">I will tell you some facts about the Sun.</span></p>
+          <ol class="notes bad-notes">
+            <li><span class="num">1</span><span>It repeats &ldquo;the Sun&rdquo; and &ldquo;report&rdquo; again and again.</span></li>
+            <li><span class="num">2</span><span>No hook &mdash; nothing makes us want to read on.</span></li>
+            <li><span class="num">3</span><span>It says what you <em>will</em> do, instead of just starting.</span></li>
+          </ol>
+        </div>
+        <div class="card pad">
+          <div class="col-head"><span class="dot yes"></span><span class="tag yes">Strong</span></div>
+          <p class="story good"><span class="hl">The Sun is the closest star to Earth,</span> <span class="hl">a giant ball of glowing gas so wide that a million Earths could fit inside it.</span> Without its light and heat, nothing on our planet could survive. <span class="hl">This report explains what the Sun is, how big it is, and why it matters.</span></p>
+          <ol class="notes good-notes">
+            <li><span class="num">1</span><span><b>Classifies it.</b> Tells the reader what kind of thing it is.</span></li>
+            <li><span class="num">2</span><span><b>A hook with a real number.</b> A fact big enough to make us read on.</span></li>
+            <li><span class="num">3</span><span><b>Previews the report.</b> Now we know what is coming.</span></li>
+          </ol>
+        </div>
+      </div>
+      <div class="compare-actions"><button class="btn reveal-btn" data-target="cmp3" aria-pressed="false">Show what makes the difference</button></div>
+    </section>
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">Try it</span></div>
+      <h2 class="mod">Rehearse your speech</h2>
+      <p class="mod-intro wide">The best way to improve a speech is to hear yourself. Record it, play it back, and time it. Aim for about 90 seconds.</p>
+      <div class="card pad">
+        <p class="rec-privacy">Your recording stays on your own device. Nothing is sent anywhere, and nothing is kept once you close the page.</p>
+        <div class="timer" id="recTimer">0:00<span class="target">aim for about 1:30</span></div>
+        <div class="rec-row">
+          <button class="btn" id="recStart">Start</button>
+          <button class="btn ghost" id="recStop" hidden>Stop</button>
+          <button class="btn ghost" id="recReset" hidden>Try again</button>
+        </div>
+        <div class="rec-msg" id="recMsg"></div>
+        <audio id="recAudio" controls hidden></audio>
+        <p style="margin:18px 0 0; font-weight:700; color:var(--navy)">Then check yourself:</p>
+        <ul class="checklist">
+          <li><input type="checkbox" id="s1"><label for="s1">I opened with a hook, not just my object&rsquo;s name.</label></li>
+          <li><input type="checkbox" id="s2"><label for="s2">I talked to my audience and pictured them listening.</label></li>
+          <li><input type="checkbox" id="s3"><label for="s3">I used a comparison or a word-picture for my facts.</label></li>
+          <li><input type="checkbox" id="s4"><label for="s4">I saved a &ldquo;wow&rdquo; for near the end.</label></li>
+          <li><input type="checkbox" id="s5"><label for="s5">I finished with a strong ending.</label></li>
+          <li><input type="checkbox" id="s6"><label for="s6">It lasted about 90 seconds.</label></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">Get inspired</span></div>
+      <h2 class="mod">Turn a fact into a hook</h2>
+      <p class="mod-intro wide">A speech that just lists facts is easy to forget. Open with a hook that grabs your audience. Tap each one to see a flat fact become an opening.</p>
+      <div class="flips">
+        <div class="flip"><div class="told"><div class="lbl">Flat fact</div><div class="line">Jupiter is very big.</div><button class="flipbtn" data-show="Turn it into a hook">Turn it into a hook</button></div><div class="shown"><div class="lbl">Stronger</div><div class="line">Imagine a planet so huge that more than a thousand Earths could fit inside it. That is Jupiter.</div><div class="tip">Technique: open with &ldquo;Imagine&hellip;&rdquo;.</div></div></div>
+        <div class="flip"><div class="told"><div class="lbl">Flat fact</div><div class="line">A black hole is dark.</div><button class="flipbtn" data-show="Turn it into a hook">Turn it into a hook</button></div><div class="shown"><div class="lbl">Stronger</div><div class="line">What if I told you there is a place where not even light can escape?</div><div class="tip">Technique: open with a question.</div></div></div>
+        <div class="flip"><div class="told"><div class="lbl">Flat fact</div><div class="line">The Moon pulls the tides.</div><button class="flipbtn" data-show="Turn it into a hook">Turn it into a hook</button></div><div class="shown"><div class="lbl">Stronger</div><div class="line">Every time the sea rises and falls, the Moon is quietly pulling the strings.</div><div class="tip">Technique: a surprising word-picture.</div></div></div>
+        <div class="flip"><div class="told"><div class="lbl">Flat fact</div><div class="line">Mars is cold.</div><button class="flipbtn" data-show="Turn it into a hook">Turn it into a hook</button></div><div class="shown"><div class="lbl">Stronger</div><div class="line">On Mars, even a summer&rsquo;s day can freeze you solid.</div><div class="tip">Technique: a surprising fact.</div></div></div>
+      </div>
+    </section>
+
+    <div class="wrap" style="padding:0"><div class="backbar"><div>
+      <p class="eyebrow">Ready to write?</p>
+      <p>Draft your report in your Star Log, then plan your speech on the speech page and practise it out loud.</p>
+    </div></div></div>
+  </main>
+</div>
+
+<div class="weekview" id="view-week5" hidden>
+  <section class="hero"><div class="stars" aria-hidden="true"></div><div class="wrap">
+    <span class="badge">WEEK 5</span>
+    <p class="eyebrow">Your booklet is the mission. This page is your coach.</p>
+    <h1>Write a poem</h1>
+    <p class="lead">Free verse. Paint your object with images, and let it carry a feeling.</p>
+    <div class="howto"><b>How to use this page:</b> see how to show instead of tell, learn the two poem tools, then try them out. Nothing here is saved.</div>
+  </div></section>
+  <main class="wrap">
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">See it</span></div>
+      <h2 class="mod">Show, don&rsquo;t tell</h2>
+      <p class="mod-intro wide">Telling names a feeling. Showing paints a picture and lets the reader feel it. Tap each one to turn a told line into a shown one.</p>
+      <div class="flips">
+        <div class="flip"><div class="told"><div class="lbl">Flat fact</div><div class="line">The black hole was scary.</div><button class="flipbtn" data-show="Show the strong version">Show the strong version</button></div><div class="shown"><div class="lbl">Stronger</div><div class="line">The black hole swallowed every light, and gave nothing back.</div><div class="tip">Shown through what it does.</div></div></div>
+        <div class="flip"><div class="told"><div class="lbl">Flat fact</div><div class="line">The nebula was beautiful.</div><button class="flipbtn" data-show="Show the strong version">Show the strong version</button></div><div class="shown"><div class="lbl">Stronger</div><div class="line">The nebula spilled pink and gold across the cold black sky.</div><div class="tip">Shown with colour and the senses.</div></div></div>
+        <div class="flip"><div class="told"><div class="lbl">Flat fact</div><div class="line">Space felt lonely.</div><button class="flipbtn" data-show="Show the strong version">Show the strong version</button></div><div class="shown"><div class="lbl">Stronger</div><div class="line">One small light drifted on, with a million miles of dark on every side.</div><div class="tip">Shown with an image, not the word.</div></div></div>
+        <div class="flip"><div class="told"><div class="lbl">Flat fact</div><div class="line">The old star was dying.</div><button class="flipbtn" data-show="Show the strong version">Show the strong version</button></div><div class="shown"><div class="lbl">Stronger</div><div class="line">Ring by glowing ring, the tired star let go of its skin.</div><div class="tip">Shown with an action.</div></div></div>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">Take it apart</span></div>
+      <h2 class="mod">Two tools: symbol and image</h2>
+      <p class="mod-intro wide">Your two mentor poems show two tools. Borrow both: paint your object with images, and let it carry a deeper feeling.</p>
+      <div class="compare">
+        <div class="card pad">
+          <div class="col-head"><span class="dot" style="background:var(--amber)"></span><b>Symbol</b>&nbsp;<span class="hint">like Emily Dickinson</span></div>
+          <p>In <i>&lsquo;Hope is the thing with feathers&rsquo;</i>, Dickinson lets a small bird stand for hope. You can do the same: let your object carry a bigger feeling. A lone star might stand for <b>hope</b>; a black hole for <b>the unknown</b>; a nebula for a <b>new beginning</b>.</p>
+        </div>
+        <div class="card pad">
+          <div class="col-head"><span class="dot" style="background:var(--amber)"></span><b>Image</b>&nbsp;<span class="hint">like Dorothea Mackellar</span></div>
+          <p>In <i>&lsquo;My Country&rsquo;</i>, Mackellar paints the land so clearly you can almost feel its heat and see its colours. Paint your object with the senses: <i>&ldquo;the comet streaked past, trailing ice and silver light.&rdquo;</i></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">Try it</span></div>
+      <h2 class="mod">Show or tell?</h2>
+      <p class="mod-intro wide">Read each line. Does it <b>tell</b> us the feeling, or <b>show</b> it with a picture? Choose, and see straight away.</p>
+      <div class="card pad">
+        <p class="game-line"><span id="sotText"></span></p>
+        <div class="choices">
+          <button class="choice" data-tell="true">Tells</button>
+          <button class="choice" data-tell="false">Shows</button>
+        </div>
+        <div class="feedback" id="sotFeedback" role="status" aria-live="polite"></div>
+        <div class="game-foot"><span class="score" id="sotScore"></span><button class="btn ghost" id="sotNext" hidden>Next line</button></div>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">Get inspired</span></div>
+      <h2 class="mod">Image starter</h2>
+      <p class="mod-intro wide">Shuffle for a feeling and a picture to spark a line. Then write one line that <i>shows</i> the feeling, without naming it.</p>
+      <div class="starter">
+        <div class="type" id="imgFeel">Wonder</div>
+        <div class="text" id="imgText">a sky too big to hold in your eyes</div>
+        <div class="nudge">Write a line that shows this feeling, without using the feeling word.</div>
+      </div>
+      <div style="margin-top:16px"><button class="btn" id="imgShuffle">Shuffle an image</button></div>
+    </section>
+
+    <div class="wrap" style="padding:0"><div class="backbar"><div>
+      <p class="eyebrow">Ready to write?</p>
+      <p>Open your Star Log to the poem pages. Plan your images and your symbol, then write your free-verse poem.</p>
+    </div></div></div>
+  </main>
+</div>
+
+<div class="weekview" id="view-week6" hidden>
+  <section class="hero"><div class="stars" aria-hidden="true"></div><div class="wrap">
+    <span class="badge">WEEK 6</span>
+    <p class="eyebrow">Your booklet is the mission. This page is your coach.</p>
+    <h1>Make your artwork</h1>
+    <p class="lead">Show your object&rsquo;s feeling. Expressive, but grounded in its real colours and shapes.</p>
+    <div class="howto"><b>How to use this page:</b> play with colour and mood, learn about the focal point, then gather ideas for your artist&rsquo;s statement. Nothing here is saved.</div>
+  </div></section>
+  <main class="wrap">
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">See it</span></div>
+      <h2 class="mod">Colour and mood</h2>
+      <p class="mod-intro wide">The colours you choose change how your artwork feels. Try the same object in three palettes and watch the mood change.</p>
+      <div class="card pad">
+        <div class="moodbar" role="group" aria-label="Choose a palette">
+          <button class="craftbtn moodbtn" data-mood="warm" aria-pressed="true">Warm</button>
+          <button class="craftbtn moodbtn" data-mood="cool" aria-pressed="false">Cool</button>
+          <button class="craftbtn moodbtn" data-mood="dark" aria-pressed="false">Dark</button>
+        </div>
+        <div class="mood-wrap">
+          <svg class="mood-svg" viewBox="0 0 400 260" role="img" aria-label="A planet glowing in a sky">
+            <rect id="msky" x="0" y="0" width="400" height="260"/>
+            <circle id="mglow" cx="200" cy="132" r="94" opacity="0.45"/>
+            <circle id="morb" cx="200" cy="132" r="58"/>
+          </svg>
+          <div>
+            <div class="mood-name" id="moodName">Warm</div>
+            <p class="mood-desc" id="moodDesc"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">Take it apart</span></div>
+      <h2 class="mod">Focal point</h2>
+      <p class="mod-intro wide">Your eye lands on one thing first. In strong art, that is the subject. Tap to see where your eye goes in this picture.</p>
+      <div class="card pad">
+        <svg class="mood-svg" id="focalSvg" viewBox="0 0 400 240" role="img" aria-label="A night sky with one bright planet">
+          <rect width="400" height="240" fill="#11203a"/>
+          <circle class="fdot" cx="50" cy="40" r="3" fill="#aebbd6"/>
+          <circle class="fdot" cx="120" cy="78" r="2.5" fill="#aebbd6"/>
+          <circle class="fdot" cx="330" cy="48" r="3.5" fill="#aebbd6"/>
+          <circle class="fdot" cx="78" cy="172" r="3" fill="#aebbd6"/>
+          <circle class="fdot" cx="170" cy="120" r="2.5" fill="#aebbd6"/>
+          <circle class="fdot" cx="352" cy="190" r="3" fill="#aebbd6"/>
+          <circle class="fdot" cx="150" cy="210" r="2.5" fill="#aebbd6"/>
+          <circle class="fdot" cx="300" cy="118" r="2.5" fill="#aebbd6"/>
+          <circle id="focalRing" cx="272" cy="138" r="58" fill="none" stroke="#E8A33D" stroke-width="2.5" stroke-dasharray="6 5"/>
+          <circle id="focal" cx="272" cy="138" r="46" fill="#E8A33D"/>
+        </svg>
+        <button class="btn" id="focalBtn" aria-pressed="false" style="margin-top:14px">Show the focal point</button>
+        <p class="mood-desc" style="margin-top:12px">Your eye goes to the brightest, biggest, most different thing first. Make that your subject, and leave space around it so it stands out.</p>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="eyebrow-row"><span class="kicker">Get inspired</span></div>
+      <h2 class="mod">Artist&rsquo;s statement starters</h2>
+      <p class="mod-intro wide">A few sentences explain your artwork to the viewer. Shuffle for a starter, then finish it about your own piece.</p>
+      <div class="starter">
+        <div class="text" id="stmtText">My artwork shows&hellip;</div>
+        <div class="nudge">Finish the sentence about your own artwork.</div>
+      </div>
+      <div style="margin-top:16px"><button class="btn" id="stmtShuffle">Shuffle a starter</button></div>
+    </section>
+
+    <div class="wrap" style="padding:0"><div class="backbar"><div>
+      <p class="eyebrow">Ready to create?</p>
+      <p>Open your Star Log to the artwork brief. Plan your colours and focal point, make your artwork, then write your statement and title card.</p>
+    </div></div></div>
+  </main>
+</div>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Roseville College &nbsp;|&nbsp; Year 5 &nbsp;|&nbsp; How the World Works</span>
+    <span>For families: this page is a companion to the printed Star Log. It saves nothing and needs no sign-in.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  function shuffleArr(a){ for(var j=a.length-1;j>0;j--){ var k=Math.floor(Math.random()*(j+1)); var t=a[j]; a[j]=a[k]; a[k]=t; } return a; }
+
+  /* ---- starfield (all heroes) ---- */
+  var reduceM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll(".stars").forEach(function(stars){
+    for (var i=0;i<46;i++){
+      var s = document.createElement("i");
+      var sz = (Math.random()*2+1).toFixed(1);
+      s.style.width = sz+"px"; s.style.height = sz+"px";
+      s.style.left = (Math.random()*100).toFixed(2)+"%";
+      s.style.top = (Math.random()*100).toFixed(2)+"%";
+      if (Math.random()<0.30) s.style.background = "#E8A33D";
+      s.style.opacity = (Math.random()*0.5+0.25).toFixed(2);
+      if (!reduceM && Math.random()<0.4){
+        s.style.animation = "twinkle "+(2.5+Math.random()*3).toFixed(1)+"s ease-in-out infinite";
+        s.style.animationDelay = (Math.random()*3).toFixed(1)+"s";
+      }
+      stars.appendChild(s);
+    }
+  });
+
+  /* ---- week navigation ---- */
+  var tabs = document.querySelectorAll(".weektab");
+  var views = document.querySelectorAll(".weekview");
+  tabs.forEach(function(t){
+    t.addEventListener("click", function(){
+      tabs.forEach(function(x){ x.removeAttribute("aria-current"); });
+      t.setAttribute("aria-current","true");
+      var id = "view-" + t.dataset.week;
+      views.forEach(function(v){ v.hidden = (v.id !== id); });
+      window.scrollTo({top:0, behavior:"auto"});
+    });
+  });
+
+  /* ---- good vs not yet (all weeks) ---- */
+  document.querySelectorAll(".reveal-btn").forEach(function(btn){
+    var target = document.getElementById(btn.dataset.target);
+    if (!target) return;
+    btn.addEventListener("click", function(){
+      var on = target.classList.toggle("show-craft");
+      btn.setAttribute("aria-pressed", on ? "true":"false");
+      btn.textContent = on ? "Hide the difference" : "Show what makes the difference";
+    });
+  });
+
+  /* ---- flip cards (hooks, show-don't-tell) ---- */
+  document.querySelectorAll(".flipbtn").forEach(function(b){
+    b.addEventListener("click", function(){
+      var card = b.closest(".flip");
+      var open = card.classList.toggle("open");
+      b.textContent = open ? "Hide" : b.getAttribute("data-show");
+    });
+  });
+
+  /* ---- spot the craft ---- */
+  var craftBtns = document.querySelectorAll("#spot .craftbtn");
+  var para = document.getElementById("craftpara");
+  var why = document.getElementById("why");
+  var WHY = {
+    fig:"<b>Figurative language.</b> “swelled like a balloon” is a simile; “shed its skin” gives the star a human action (personification). Both paint a picture.",
+    app:"<b>Appositive.</b> An extra phrase tucked between commas that tells us who Aurora is, without starting a new sentence.",
+    adv:"<b>Adverbial phrase.</b> Tells us when, where or how. Opening with one, then a comma, is a great way to start a sentence.",
+    sen:"<b>Sensory detail.</b> Lets the reader see and feel the moment: light that is “hot and gold”, not just “bright”."
+  };
+  craftBtns.forEach(function(b){
+    b.addEventListener("click", function(){
+      var type = b.dataset.craft;
+      var wasOn = b.getAttribute("aria-pressed")==="true";
+      craftBtns.forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+      para.querySelectorAll(".c").forEach(function(s){ s.classList.remove("on"); });
+      if (wasOn){
+        why.className = "why empty";
+        why.textContent = "Tap a tool above to highlight it in the paragraph.";
+        return;
+      }
+      b.setAttribute("aria-pressed","true");
+      para.querySelectorAll(".c."+type).forEach(function(s){ s.classList.add("on"); });
+      why.className = "why";
+      why.innerHTML = WHY[type];
+    });
+  });
+
+  /* ---- grounded or generic game ---- */
+  var ITEMS = [
+    {t:"Star Log, the date is 2199, and our ship is heading for the rings of Saturn.", g:true,  w:"It names a real feature — Saturn’s rings."},
+    {t:"The alien jumped out from behind a rock and shouted “boo!”", g:false, w:"This could be any story at all. There is no real space in it."},
+    {t:"As the telescope focused, the Andromeda galaxy spiralled into view, 2.5 million light-years away.", g:true, w:"A real galaxy and a real distance."},
+    {t:"It was a dark and scary planet full of monsters.", g:false, w:"“Scary” and “monsters” give us nothing real to picture."},
+    {t:"Beneath the ice of Enceladus, the probe’s lights caught a tall plume of icy spray.", g:true, w:"Enceladus really does shoot plumes of ice into space."},
+    {t:"The space princess waved her magic wand and zapped the baddies.", g:false, w:"Magic and “baddies” are not grounded in any real object."},
+    {t:"On the Moon, her footprints would last for millions of years, because there is no wind to sweep them away.", g:true, w:"True — the Moon has no wind, so footprints really do stay."},
+    {t:"Suddenly, aliens attacked the city for no reason at all.", g:false, w:"An attack “for no reason” is not tied to anything real."}
+  ];
+  var gi = 0, score = 0, answered = false;
+  var gameText = document.getElementById("gameText");
+  var feedback = document.getElementById("feedback");
+  var scoreEl = document.getElementById("score");
+  var nextBtn = document.getElementById("next");
+  var choices = document.querySelectorAll("#game .choice");
+
+  function renderGame(){
+    answered = false;
+    gameText.textContent = "“" + ITEMS[gi].t + "”";
+    feedback.className = "feedback"; feedback.innerHTML = "";
+    choices.forEach(function(c){ c.disabled = false; });
+    nextBtn.hidden = true;
+    scoreEl.textContent = "Line " + (gi+1) + " of " + ITEMS.length + "  ·  Score " + score;
+  }
+  choices.forEach(function(c){
+    c.addEventListener("click", function(){
+      if (answered) return;
+      answered = true;
+      var pick = (c.dataset.answer === "true");
+      var correct = (pick === ITEMS[gi].g);
+      if (correct) score++;
+      choices.forEach(function(x){ x.disabled = true; });
+      feedback.className = "feedback show " + (correct ? "right":"wrong");
+      var mk = correct ? "Yes! " : "Not quite. ";
+      var label = ITEMS[gi].g ? "This one is grounded. " : "This one is generic. ";
+      feedback.innerHTML = "<span class='mk'>"+mk+"</span>"+label+ITEMS[gi].w;
+      scoreEl.textContent = "Line " + (gi+1) + " of " + ITEMS.length + "  ·  Score " + score;
+      nextBtn.hidden = false;
+      nextBtn.textContent = (gi+1 < ITEMS.length) ? "Next line" : "See your score";
+      nextBtn.focus();
+    });
+  });
+  nextBtn.addEventListener("click", function(){
+    if (gi+1 < ITEMS.length){ gi++; renderGame(); }
+    else {
+      gameText.textContent = "You scored " + score + " out of " + ITEMS.length + ". The trick every time: could this only be about a real object in space?";
+      feedback.className = "feedback"; feedback.innerHTML = "";
+      choices.forEach(function(x){ x.disabled = true; });
+      scoreEl.textContent = "Finished";
+      nextBtn.textContent = "Play again";
+      nextBtn.onclick = function(){ gi=0; score=0; shuffleArr(ITEMS); nextBtn.onclick=null; renderGame(); };
+    }
+  });
+  shuffleArr(ITEMS);
+  renderGame();
+
+  /* ---- starter shuffler ---- */
+  var STARTERS = [
+    {ty:"Discovery", x:"As the telescope came into focus, I saw for the first time…"},
+    {ty:"Discovery", x:"Nobody at the observatory expected what appeared on the screen that night."},
+    {ty:"Discovery", x:"It had been hiding in the dark for billions of years, waiting, until…"},
+    {ty:"Discovery", x:"For centuries, people had looked at this patch of sky and seen nothing. Then…"},
+    {ty:"Voyager", x:"Star Log, the date is 2199, and our ship is heading for…"},
+    {ty:"Voyager", x:"The engines fell silent, and there, filling the whole window, was…"},
+    {ty:"Voyager", x:"Mission Control, this is Explorer One. You are not going to believe what we can see."},
+    {ty:"Voyager", x:"Through the frost on the porthole, I caught my first glimpse of…"},
+    {ty:"New discovery", x:"The reading on my screen made no sense at all."},
+    {ty:"New discovery", x:"Buried deep in the data, the computer had found something strange."},
+    {ty:"New discovery", x:"The signal arrived just after midnight, faint but unmistakable."},
+    {ty:"New discovery", x:"It should have been impossible. And yet, there it was."},
+    {ty:"Any", x:"Far away, where no light had ever reached…"},
+    {ty:"Any", x:"I will never forget the moment when…"},
+    {ty:"Any", x:"Imagine a place where…"},
+    {ty:"Any", x:"Suddenly, without any warning…"}
+  ];
+  var filter = "all", lastText = "";
+  var chips = document.querySelectorAll(".chip");
+  var sType = document.getElementById("starterType");
+  var sText = document.getElementById("starterText");
+  var shuffleBtn = document.getElementById("shuffle");
+
+  function pool(){ return filter==="all" ? STARTERS : STARTERS.filter(function(s){return s.ty===filter;}); }
+  function shuffle(){
+    var p = pool();
+    var pick;
+    do { pick = p[Math.floor(Math.random()*p.length)]; }
+    while (p.length>1 && pick.x===lastText);
+    lastText = pick.x;
+    sType.textContent = pick.ty==="Any" ? "Your own idea" : pick.ty;
+    sText.textContent = pick.x;
+  }
+  chips.forEach(function(ch){
+    ch.addEventListener("click", function(){
+      chips.forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+      ch.setAttribute("aria-pressed","true");
+      filter = ch.dataset.type;
+      shuffle();
+    });
+  });
+  shuffleBtn.addEventListener("click", shuffle);
+
+  /* ===== WEEK 2: sort the fact ===== */
+  (function(){
+    var SORT=[
+      {t:"Saturn has wide, icy rings circling its middle.", cat:"Description", w:"It describes what Saturn looks like."},
+      {t:"Jupiter is so big that more than 1,300 Earths could fit inside it.", cat:"Numbers", w:"It is all about size and amount."},
+      {t:"Europa is one of the moons that orbit the giant planet Jupiter.", cat:"Where", w:"It tells us where Europa is found."},
+      {t:"No one knows for sure what lies inside a black hole.", cat:"Mystery", w:"It is something scientists still cannot answer."},
+      {t:"A comet grows a long, glowing tail as it nears the Sun.", cat:"Description", w:"It describes how a comet looks and changes."},
+      {t:"The Moon is about 384,000 km from Earth.", cat:"Numbers", w:"It is a measurement \u2014 a number."},
+      {t:"Scientists think a hidden ocean may lie beneath Europa\u2019s icy shell.", cat:"Mystery", w:"It is an idea they are still investigating."},
+      {t:"Our Sun sits about two thirds of the way out from the centre of the Milky Way.", cat:"Where", w:"It tells us where the Sun is in space."}
+    ];
+    var el=document.getElementById("sortText"); if(!el) return;
+    var fb=document.getElementById("sortFeedback"), sc=document.getElementById("sortScore"),
+        nx=document.getElementById("sortNext"), choices=document.querySelectorAll("#sortChoices .choice");
+    var i=0, score=0, done=false;
+    function render(){ done=false; el.textContent="\u201C"+SORT[i].t+"\u201D"; fb.className="feedback"; fb.innerHTML="";
+      choices.forEach(function(c){c.disabled=false;}); nx.hidden=true;
+      sc.textContent="Fact "+(i+1)+" of "+SORT.length+"  \u00B7  Score "+score; }
+    choices.forEach(function(c){ c.addEventListener("click", function(){
+      if(done) return; done=true; var ok=(c.dataset.cat===SORT[i].cat); if(ok) score++;
+      choices.forEach(function(x){x.disabled=true;});
+      fb.className="feedback show "+(ok?"right":"wrong");
+      fb.innerHTML="<span class='mk'>"+(ok?"Yes! ":"Not quite. ")+"</span>"+SORT[i].w;
+      sc.textContent="Fact "+(i+1)+" of "+SORT.length+"  \u00B7  Score "+score;
+      nx.hidden=false; nx.textContent=(i+1<SORT.length)?"Next fact":"Finish"; nx.focus(); }); });
+    nx.addEventListener("click", function(){ if(i+1<SORT.length){i++;render();}
+      else { el.textContent="Nice work \u2014 you scored "+score+" of "+SORT.length+". On your Gathering Grid, every fact has a home.";
+        fb.className="feedback"; fb.innerHTML=""; choices.forEach(function(x){x.disabled=true;}); sc.textContent="Finished";
+        nx.textContent="Play again"; nx.onclick=function(){i=0;score=0;shuffleArr(SORT);nx.onclick=null;render();}; } });
+    shuffleArr(SORT);
+    render();
+  })();
+
+  /* ===== WEEK 2: object gallery ===== */
+  (function(){
+    var grid=document.getElementById("objgrid"); if(!grid) return;
+    var out=document.getElementById("gallery");
+    var GAL={
+      planet:{name:"A planet", wonders:[
+        "Saturn is so light that it would float in a giant bath of water.",
+        "A day on Venus lasts longer than a whole year on Venus.",
+        "Jupiter\u2019s Great Red Spot is a storm wider than the whole Earth."],
+        links:[["NASA Space Place: Planets","https://spaceplace.nasa.gov/planets/en/"],
+               ["ESA Kids: Planets and moons","https://www.esa.int/kids/en/learn/Our_Universe/Planets_and_moons/The_Solar_System_and_its_planets"]]},
+      moon:{name:"A moon", wonders:[
+        "Our Moon is drifting away from Earth, about 4 cm every year.",
+        "On the Moon, footprints can last for millions of years, because there is no wind.",
+        "Jupiter\u2019s moon Io has hundreds of erupting volcanoes."],
+        links:[["NASA Space Place: The Moon","https://spaceplace.nasa.gov/all-about-the-moon/en/"],
+               ["ESA Kids: Planets and moons","https://www.esa.int/kids/en/learn/Our_Universe/Planets_and_moons/The_Solar_System_and_its_planets"]]},
+      star:{name:"The Sun or a star", wonders:[
+        "The Sun is so big that about a million Earths could fit inside it.",
+        "Light from the Sun takes about 8 minutes to reach us.",
+        "Some stars are so huge they would reach out past the orbit of Jupiter."],
+        links:[["NASA Space Place: The Sun","https://spaceplace.nasa.gov/all-about-the-sun/en/"],
+               ["ESA Kids: Stars","https://www.esa.int/kids/en/learn/Our_Universe/Stars_and_galaxies/Stars"]]},
+      nebula:{name:"A nebula", wonders:[
+        "A nebula is a giant cloud of gas and dust where new stars are born.",
+        "The Orion Nebula is so wide that light takes about 24 years to cross it.",
+        "Some nebulae are the glowing leftovers of a star that has died."],
+        links:[["NASA Space Place: Nebulae","https://spaceplace.nasa.gov/nebula/en/"]]},
+      galaxy:{name:"A galaxy", wonders:[
+        "Our galaxy, the Milky Way, holds more than 100 billion stars.",
+        "The nearest big galaxy, Andromeda, is 2.5 million light-years away.",
+        "Galaxies can crash together in very slow motion over billions of years."],
+        links:[["NASA Space Place: Galaxies","https://spaceplace.nasa.gov/galaxy/en/"],
+               ["ESA Kids: Galaxies","https://www.esa.int/kids/en/learn/Our_Universe/Stars_and_galaxies/Galaxies"]]},
+      blackhole:{name:"A black hole", wonders:[
+        "A black hole\u2019s gravity is so strong that not even light can escape.",
+        "In 2019, scientists took the first ever picture of a black hole.",
+        "Time itself runs more slowly close to a black hole."],
+        links:[["NASA Space Place: Black holes","https://spaceplace.nasa.gov/black-holes/en/"],
+               ["NASA: Black holes (Grades 5-8)","https://www.nasa.gov/learning-resources/for-kids-and-students/what-is-a-black-hole-grades-5-8/"]]}
+    };
+    function show(key){
+      var g=GAL[key];
+      var w=g.wonders.map(function(x){return "<li><span>"+x+"</span></li>";}).join("");
+      var l=g.links.map(function(p){return "<a class='linkbtn' href='"+p[1]+"' target='_blank' rel='noopener noreferrer'>"+p[0]+" <span class='ext'>\u2197 new tab</span></a>";}).join("");
+      out.innerHTML="<h3>"+g.name+"</h3><ul class='wonders'>"+w+"</ul><div class='links'>"+l+"</div>";
+    }
+    grid.querySelectorAll(".objbtn").forEach(function(b){ b.addEventListener("click", function(){
+      grid.querySelectorAll(".objbtn").forEach(function(x){x.setAttribute("aria-pressed","false");});
+      b.setAttribute("aria-pressed","true"); show(b.dataset.obj); }); });
+    show("planet");
+  })();
+
+  /* ===== WEEK 3: speech recorder + timer ===== */
+  (function(){
+    var startBtn=document.getElementById("recStart"); if(!startBtn) return;
+    var stopBtn=document.getElementById("recStop"), resetBtn=document.getElementById("recReset"),
+        timerEl=document.getElementById("recTimer"), msg=document.getElementById("recMsg"), audio=document.getElementById("recAudio");
+    var t0, tick, rec=null, stream=null, chunks=[];
+    function fmt(s){ var m=Math.floor(s/60), ss=s%60; return m+":"+(ss<10?"0":"")+ss; }
+    function setTime(s){ timerEl.innerHTML=fmt(s)+"<span class='target'>aim for about 1:30</span>"; }
+    function startTimer(){ t0=Date.now(); setTime(0); tick=setInterval(function(){ setTime(Math.floor((Date.now()-t0)/1000)); },250); }
+    function stopTimer(){ clearInterval(tick); return Math.floor((Date.now()-t0)/1000); }
+    function start(){
+      msg.className="rec-msg"; msg.textContent=""; audio.hidden=true; chunks=[];
+      if (navigator.mediaDevices && window.MediaRecorder){
+        navigator.mediaDevices.getUserMedia({audio:true}).then(function(st){
+          stream=st; rec=new MediaRecorder(st);
+          rec.ondataavailable=function(e){ if(e.data && e.data.size) chunks.push(e.data); };
+          rec.onstop=function(){ try{ var blob=new Blob(chunks,{type:(chunks[0]&&chunks[0].type)||"audio/webm"});
+            audio.src=URL.createObjectURL(blob); audio.hidden=false; }catch(e){} };
+          rec.start();
+        }).catch(function(){ rec=null; msg.textContent="No microphone this time \u2014 the timer still works. Allow the mic if you want to hear yourself."; });
+      } else { rec=null; msg.textContent="Recording needs a microphone and a secure (https) page. The timer still works for rehearsing."; }
+      startTimer(); startBtn.hidden=true; stopBtn.hidden=false; resetBtn.hidden=true;
+    }
+    function stop(){
+      var secs=stopTimer();
+      try{ if(rec && rec.state!=="inactive") rec.stop(); }catch(e){}
+      if(stream) stream.getTracks().forEach(function(t){t.stop();});
+      stopBtn.hidden=true; resetBtn.hidden=false;
+      if(secs>=75 && secs<=105){ msg.className="rec-msg good"; msg.textContent="Great length \u2014 "+fmt(secs)+", right around 90 seconds."; }
+      else if(secs<75){ msg.className="rec-msg"; msg.textContent="A little short at "+fmt(secs)+". Add a fact, or stretch your hook."; }
+      else { msg.className="rec-msg"; msg.textContent="A little long at "+fmt(secs)+". Trim it back to your best parts."; }
+    }
+    function reset(){ audio.hidden=true; audio.removeAttribute("src"); msg.className="rec-msg"; msg.textContent="";
+      setTime(0); startBtn.hidden=false; stopBtn.hidden=true; resetBtn.hidden=true; }
+    startBtn.addEventListener("click", start); stopBtn.addEventListener("click", stop); resetBtn.addEventListener("click", reset);
+    setTime(0);
+  })();
+
+  /* ===== WEEK 5: show or tell? ===== */
+  (function(){
+    var SOT=[
+      {t:"The Sun was very hot.", tell:true, w:"This tells us. Show it: \u201Cthe Sun pressed its heat against the glass.\u201D"},
+      {t:"The comet trailed a river of silver light.", tell:false, w:"This shows us \u2014 we can picture it."},
+      {t:"The planet looked lonely.", tell:true, w:"It names the feeling. Show it with an image instead."},
+      {t:"One light drifted on, in a sea of black.", tell:false, w:"This shows loneliness without naming it."},
+      {t:"The nebula was pretty.", tell:true, w:"\u201CPretty\u201D tells. Paint it with colour instead."},
+      {t:"Pink and gold dust bloomed across the dark.", tell:false, w:"This shows beauty with the senses."}
+    ];
+    var el=document.getElementById("sotText"); if(!el) return;
+    var fb=document.getElementById("sotFeedback"), sc=document.getElementById("sotScore"),
+        nx=document.getElementById("sotNext"), choices=el.closest(".card").querySelectorAll(".choice");
+    var i=0, score=0, done=false;
+    function render(){ done=false; el.textContent="\u201C"+SOT[i].t+"\u201D"; fb.className="feedback"; fb.innerHTML="";
+      choices.forEach(function(c){c.disabled=false;}); nx.hidden=true;
+      sc.textContent="Line "+(i+1)+" of "+SOT.length+"  \u00B7  Score "+score; }
+    choices.forEach(function(c){ c.addEventListener("click", function(){
+      if(done) return; done=true; var pick=(c.dataset.tell==="true"); var ok=(pick===SOT[i].tell); if(ok) score++;
+      choices.forEach(function(x){x.disabled=true;});
+      fb.className="feedback show "+(ok?"right":"wrong");
+      fb.innerHTML="<span class='mk'>"+(ok?"Yes! ":"Not quite. ")+"</span>"+SOT[i].w;
+      sc.textContent="Line "+(i+1)+" of "+SOT.length+"  \u00B7  Score "+score;
+      nx.hidden=false; nx.textContent=(i+1<SOT.length)?"Next line":"Finish"; nx.focus(); }); });
+    nx.addEventListener("click", function(){ if(i+1<SOT.length){i++;render();}
+      else { el.textContent="You scored "+score+" of "+SOT.length+". In a poem, showing almost always beats telling.";
+        fb.className="feedback"; fb.innerHTML=""; choices.forEach(function(x){x.disabled=true;}); sc.textContent="Finished";
+        nx.textContent="Play again"; nx.onclick=function(){i=0;score=0;shuffleArr(SOT);nx.onclick=null;render();}; } });
+    shuffleArr(SOT);
+    render();
+  })();
+
+  /* ===== WEEK 5: image starter shuffler ===== */
+  (function(){
+    var btn=document.getElementById("imgShuffle"); if(!btn) return;
+    var feel=document.getElementById("imgFeel"), text=document.getElementById("imgText");
+    var IMG=[
+      {f:"Wonder", x:"a sky too big to hold in your eyes"},
+      {f:"Hope", x:"one light that will not go out"},
+      {f:"Loneliness", x:"a single set of footprints in grey dust"},
+      {f:"Mystery", x:"a door in the dark that no one has opened"},
+      {f:"Beginnings", x:"the first faint glow before a star is born"},
+      {f:"Stillness", x:"a silence so deep you can hear your own heart"}
+    ];
+    var last=-1;
+    btn.addEventListener("click", function(){ var k; do{k=Math.floor(Math.random()*IMG.length);}while(IMG.length>1&&k===last); last=k;
+      feel.textContent=IMG[k].f; text.textContent=IMG[k].x; });
+  })();
+
+  /* ===== WEEK 6: colour and mood ===== */
+  (function(){
+    var bar=document.querySelectorAll(".moodbtn"); if(!bar.length) return;
+    var sky=document.getElementById("msky"), orb=document.getElementById("morb"), glow=document.getElementById("mglow"),
+        nm=document.getElementById("moodName"), ds=document.getElementById("moodDesc");
+    var M={ warm:{sky:"#2c170f",orb:"#f08a2c",glow:"#E8A33D",name:"Warm",desc:"Reds and oranges feel hot, full of energy, and close. Good for a star, a sunrise, or a world full of life."},
+            cool:{sky:"#13243d",orb:"#7fc0e0",glow:"#9fd0e8",name:"Cool",desc:"Blues and purples feel calm, cold, and far away. Good for an icy moon, a distant planet, or deep space."},
+            dark:{sky:"#0a1120",orb:"#3b5170",glow:"#1e3358",name:"Dark",desc:"Deep darkness feels vast, quiet, and full of mystery. Good for a black hole or the lonely edge of space."} };
+    function set(k){ var m=M[k]; sky.setAttribute("fill",m.sky); orb.setAttribute("fill",m.orb); glow.setAttribute("fill",m.glow);
+      nm.textContent=m.name; ds.textContent=m.desc; }
+    bar.forEach(function(b){ b.addEventListener("click", function(){ bar.forEach(function(x){x.setAttribute("aria-pressed","false");});
+      b.setAttribute("aria-pressed","true"); set(b.dataset.mood); }); });
+    set("warm");
+  })();
+
+  /* ===== WEEK 6: focal point ===== */
+  (function(){
+    var btn=document.getElementById("focalBtn"); if(!btn) return;
+    var svg=document.getElementById("focalSvg");
+    btn.addEventListener("click", function(){ var on=svg.classList.toggle("on"); btn.setAttribute("aria-pressed",on?"true":"false");
+      btn.textContent= on ? "Hide the focal point" : "Show the focal point"; });
+  })();
+
+  /* ===== WEEK 6: statement starter shuffler ===== */
+  (function(){
+    var btn=document.getElementById("stmtShuffle"); if(!btn) return;
+    var txt=document.getElementById("stmtText");
+    var S=["My artwork shows\u2026","I wanted you to feel\u2026","I chose these colours and shapes because\u2026","It links to my object because\u2026 (include one real fact)"];
+    var last=0;
+    btn.addEventListener("click", function(){ var k; do{k=Math.floor(Math.random()*S.length);}while(S.length>1&&k===last); last=k; txt.textContent=S[k]; });
+  })();
+
+})();
+</script>
+</body>
+</html>
