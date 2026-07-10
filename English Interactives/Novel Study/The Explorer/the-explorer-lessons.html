@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Explorer | Novel Study Lessons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+    --primary-accent:#4ECDC4;
+    --text-dark:#2D3436;
+    --text-light:#636E72;
+    --card-shadow:0 8px 32px rgba(0,0,0,0.12);
+    --correct-color:#27AE60;
+
+    --l1:#4ECDC4; --l2:#F0A500; --l3:#FF6B6B; --l4:#9B5DE5;
+
+    --ido:#F0A500; --wedo:#4A90D9; --youdo:#27AE60; --plenary:#9B5DE5;
+
+    /* Three-part chain colours (each also carries a text label) */
+    --st-setting:#16978d;
+    --st-challenge:#E8772E;
+    --st-theme:#9B5DE5;
+
+    --highlight-yellow:#FFF3BF;
+    --highlight-blue:#D0EBFF;
+    --highlight-green:#D3F9D8;
+    --highlight-pink:#FFD6E0;
+}
+
+*{box-sizing:border-box;}
+
+body{margin:0;padding:0;font-family:'Fredoka',sans-serif;color:var(--text-dark);min-height:100vh;overflow-x:hidden;background:#FAF8F5;line-height:1.6;}
+
+.bg-shapes{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.16;}
+.bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:#4ECDC4;}
+.bg-shape:nth-child(2){width:420px;height:420px;top:25%;right:-8%;background:#FFD93D;}
+.bg-shape:nth-child(3){width:360px;height:360px;bottom:18%;left:8%;background:#FF6B6B;}
+.bg-shape:nth-child(4){width:460px;height:460px;bottom:-6%;right:14%;background:#A29BFE;}
+.bg-shape:nth-child(5){width:300px;height:300px;top:52%;left:42%;background:#74B9FF;}
+
+.content-wrapper{position:relative;z-index:1;max-width:940px;width:clamp(320px,94%,940px);margin:0 auto;padding:24px 16px 90px;}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;z-index:1;border-radius:0 0 28px 28px;overflow:hidden;box-shadow:var(--card-shadow);margin-bottom:8px;}
+.hero svg{display:block;width:100%;height:auto;}
+.hero-text{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 20px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,0.45);}
+.hero-text .eyebrow{font-size:0.95rem;letter-spacing:2px;text-transform:uppercase;font-weight:500;opacity:0.95;margin:0 0 6px;}
+.hero-text h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:700;margin:0;line-height:1.05;}
+.hero-text .byline{font-size:clamp(1rem,2.6vw,1.3rem);font-weight:500;margin-top:8px;opacity:0.96;}
+
+/* ---------- STICKY TABS ---------- */
+.lesson-nav{position:sticky;top:0;z-index:50;background:rgba(250,248,245,0.94);backdrop-filter:blur(10px);border-bottom:1px solid #ECE4DB;padding:10px 0;margin-bottom:24px;}
+.lesson-nav-inner{max-width:940px;margin:0 auto;padding:0 16px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.nav-chip{border:none;cursor:pointer;font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.92rem;padding:9px 16px;border-radius:999px;color:#fff;opacity:0.5;transition:all 0.25s ease;display:flex;align-items:center;gap:6px;}
+.nav-chip .num{font-family:'Space Mono',monospace;font-weight:700;}
+.nav-chip:hover{opacity:0.82;transform:translateY(-1px);}
+.nav-chip.active{opacity:1;box-shadow:0 4px 14px rgba(0,0,0,0.18);}
+.nc1{background:var(--l1);}.nc2{background:var(--l2);}.nc3{background:var(--l3);}.nc4{background:var(--l4);}
+
+/* ---------- TAB PANELS ---------- */
+.tab-panel{display:none;}
+.tab-panel.active{display:block;animation:fadeIn 0.35s ease;}
+
+/* ---------- CARDS ---------- */
+.card{background:rgba(255,255,255,0.86);backdrop-filter:blur(10px);border-radius:22px;box-shadow:var(--card-shadow);padding:34px;margin:22px 0;}
+
+.lesson{scroll-margin-top:92px;margin-top:14px;}
+.lesson-head{display:flex;align-items:center;gap:14px;margin:6px 0 4px;}
+.lesson-badge{font-family:'Space Mono',monospace;font-weight:700;font-size:1.1rem;color:#fff;width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lesson-title{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:700;margin:0;}
+.l1 .lesson-badge{background:var(--l1);} .l2 .lesson-badge{background:var(--l2);}
+.l3 .lesson-badge{background:var(--l3);} .l4 .lesson-badge{background:var(--l4);}
+.l1 .lesson-title{color:#16978d;} .l2 .lesson-title{color:#b87b00;}
+.l3 .lesson-title{color:#d6453f;} .l4 .lesson-title{color:#7a3fc4;}
+
+/* ---------- LISC ---------- */
+.lisc{border-left:6px solid var(--primary-accent);background:rgba(255,255,255,0.9);border-radius:14px;padding:22px 26px;margin:14px 0 4px;}
+.lisc h3{margin:0 0 4px;font-size:0.85rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);font-weight:600;}
+.lisc .intention{font-size:1.14rem;font-weight:600;margin:0 0 16px;}
+.lisc ul{margin:0;padding-left:0;list-style:none;}
+.lisc li{position:relative;padding:7px 0 7px 30px;}
+.lisc li::before{content:"";position:absolute;left:0;top:12px;width:16px;height:16px;border-radius:5px;border:2px solid var(--primary-accent);}
+.l1 .lisc{border-left-color:var(--l1);} .l1 .lisc li::before{border-color:var(--l1);}
+.l2 .lisc{border-left-color:var(--l2);} .l2 .lisc li::before{border-color:var(--l2);}
+.l3 .lisc{border-left-color:var(--l3);} .l3 .lisc li::before{border-color:var(--l3);}
+.l4 .lisc{border-left-color:var(--l4);} .l4 .lisc li::before{border-color:var(--l4);}
+
+/* ---------- PHASE ---------- */
+.phase{margin:6px 0;}
+.phase-label{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:1rem;color:#fff;padding:7px 18px;border-radius:999px;margin-bottom:10px;}
+.phase-label small{font-weight:500;opacity:0.92;font-size:0.82rem;}
+.p-ido{background:var(--ido);} .p-wedo{background:var(--wedo);}
+.p-youdo{background:var(--youdo);} .p-plenary{background:var(--plenary);}
+
+h4.sub{font-size:1.12rem;font-weight:600;margin:26px 0 10px;}
+p{margin:10px 0;}
+
+/* ---------- CONCEPT EXPLAINER ---------- */
+.concept{background:var(--highlight-green);border-radius:16px;padding:22px 26px;margin:16px 0;}
+.concept p{font-size:1.05rem;}
+
+/* ---------- PATTERN STRIP ---------- */
+.pattern-strip{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin:22px 0 6px;}
+.pattern-pill{font-weight:700;color:#fff;padding:13px 24px;border-radius:999px;font-size:1.08rem;}
+.ps-setting{background:var(--st-setting);} .ps-challenge{background:var(--st-challenge);} .ps-theme{background:var(--st-theme);}
+.pattern-arrow{font-size:1.9rem;color:var(--text-light);font-weight:700;}
+.pattern-caption{text-align:center;color:var(--text-light);font-size:1rem;margin:8px 0 4px;}
+
+/* ---------- CHAIN (spacious vertical) ---------- */
+.chain{display:flex;flex-direction:column;align-items:stretch;gap:0;margin:18px 0 8px;}
+.chain-stage{border-radius:18px;padding:24px 28px;border-left:8px solid;background:rgba(255,255,255,0.96);box-shadow:0 4px 18px rgba(0,0,0,0.06);}
+.stage-label{display:inline-block;font-size:0.76rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;color:#fff;padding:5px 13px;border-radius:8px;margin-bottom:12px;}
+.stage-text{font-size:1.22rem;font-weight:500;margin:0;line-height:1.5;}
+.st-setting{border-left-color:var(--st-setting);} .st-setting .stage-label{background:var(--st-setting);}
+.st-challenge{border-left-color:var(--st-challenge);} .st-challenge .stage-label{background:var(--st-challenge);}
+.st-theme{border-left-color:var(--st-theme);} .st-theme .stage-label{background:var(--st-theme);}
+.chain-connector{text-align:center;color:var(--text-light);font-weight:600;font-size:1rem;padding:16px 0;}
+
+/* ---------- BOOK EXAMPLE ---------- */
+.book-example{margin:26px 0;}
+.book-tag{display:inline-block;font-weight:700;background:var(--text-dark);color:#fff;padding:8px 18px;border-radius:10px;margin-bottom:8px;font-size:1.02rem;}
+
+.wedo-example{margin:30px 0;}
+
+/* ---------- REVEAL ---------- */
+.reveal-item{animation:fadeIn 0.4s ease;}
+.reveal-item.hidden{display:none;}
+.idea{background:var(--highlight-yellow);border-radius:12px;padding:16px 20px;font-size:1.05rem;font-weight:500;display:flex;gap:12px;align-items:flex-start;margin:12px 0;}
+.idea .dot{font-family:'Space Mono',monospace;font-weight:700;color:#b87b00;flex-shrink:0;}
+
+.btn{font-family:'Fredoka',sans-serif;font-weight:600;font-size:0.95rem;border:none;cursor:pointer;border-radius:12px;padding:12px 22px;color:#fff;transition:all 0.25s ease;margin-top:6px;}
+.btn:hover{transform:translateY(-2px);}
+.btn:disabled{opacity:0.5;cursor:default;transform:none;}
+.btn-reveal{background:var(--ido);box-shadow:0 4px 14px rgba(240,165,0,0.35);}
+.btn-l3{background:var(--l3);box-shadow:0 4px 14px rgba(255,107,107,0.35);}
+.btn-l4{background:var(--l4);box-shadow:0 4px 14px rgba(155,93,229,0.35);}
+
+.text-passage{background:rgba(255,255,255,0.92);border:2px solid #E8E0D8;border-radius:16px;padding:24px 28px;font-size:1.08rem;line-height:1.8;margin:14px 0;}
+.quote-strip{background:#16978d;color:#fff;border-radius:14px;padding:20px 26px;font-size:1.18rem;font-weight:500;font-style:italic;margin:16px 0;}
+
+/* ---------- THEME CHIPS ---------- */
+.theme-bank{display:flex;flex-wrap:wrap;gap:11px;margin:12px 0;}
+.theme-chip{font-family:'Fredoka',sans-serif;font-weight:500;font-size:0.95rem;border:2px solid var(--l1);background:#fff;color:#16978d;border-radius:999px;padding:10px 17px;cursor:pointer;transition:all 0.2s ease;}
+.theme-chip:hover{background:rgba(78,205,196,0.12);}
+.theme-chip.selected{background:var(--l1);color:#fff;}
+
+/* ---------- WRITING ---------- */
+.scaffold{background:var(--highlight-blue);border-radius:12px;padding:18px 22px;margin:14px 0 10px;font-weight:500;font-size:1.04rem;}
+.scaffold ul{margin:8px 0 0;padding-left:22px;}
+.scaffold li{margin:6px 0;}
+.writing-input{width:100%;min-height:140px;padding:18px 22px;border:2px solid #E8E0D8;border-radius:12px;font-family:'Fredoka',sans-serif;font-size:1rem;line-height:1.6;color:var(--text-dark);background:rgba(255,255,255,0.95);resize:vertical;transition:border-color 0.25s ease;}
+.writing-input:focus{border-color:var(--primary-accent);outline:none;box-shadow:0 0 0 3px rgba(78,205,196,0.15);}
+
+/* ---------- TASK CARDS ---------- */
+.task-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:16px 0;}
+.task-card{border-radius:16px;padding:20px 22px;border:2px solid;background:rgba(255,255,255,0.92);}
+.task-card h5{margin:0 0 6px;font-size:1.05rem;font-weight:700;}
+.task-core{border-color:var(--youdo);} .task-core h5{color:var(--youdo);}
+.task-support{border-color:var(--wedo);} .task-support h5{color:var(--wedo);}
+.task-ext{border-color:var(--l4);} .task-ext h5{color:#7a3fc4;}
+.task-card .lvl{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:5px;opacity:0.8;}
+
+/* ---------- VIDEO ---------- */
+.video-card{display:flex;align-items:center;gap:18px;background:#2D3436;border-radius:18px;padding:22px 26px;margin:16px 0;color:#fff;text-decoration:none;transition:transform 0.25s ease;}
+.video-card:hover{transform:translateY(-3px);}
+.video-card .play{width:56px;height:56px;border-radius:50%;background:var(--l2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.video-card .play svg{width:24px;height:24px;}
+.video-card .vtitle{font-weight:600;font-size:1.12rem;}
+.video-card .vsub{font-size:0.85rem;opacity:0.8;}
+
+/* ---------- ARC ---------- */
+.arc-wrap{background:rgba(255,255,255,0.92);border-radius:18px;padding:16px;margin:16px 0;}
+.arc-svg{width:100%;height:auto;display:block;}
+.arc-node{cursor:pointer;}
+.arc-info{margin-top:12px;background:var(--highlight-yellow);border-radius:12px;padding:18px 22px;min-height:54px;font-weight:500;font-size:1.04rem;}
+.arc-info .tag{display:inline-block;font-family:'Space Mono',monospace;font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;background:var(--l2);color:#fff;padding:3px 9px;border-radius:6px;margin-right:8px;}
+
+/* ---------- CHARACTERS ---------- */
+.char-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:16px 0;}
+.char-card{background:rgba(255,255,255,0.92);border:2px solid #E8E0D8;border-radius:16px;padding:20px 22px;}
+.char-card h5{margin:0 0 4px;font-size:1.18rem;font-weight:700;color:#7a3fc4;}
+.char-card .traits{font-size:0.92rem;color:var(--text-light);margin:0 0 12px;}
+.char-card .jobs{display:none;animation:fadeIn 0.3s ease;}
+.char-card .jobs.show{display:block;}
+.char-card .jobs .jlabel{font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;color:var(--l4);margin-bottom:5px;}
+.char-card .jobs span{display:inline-block;background:rgba(155,93,229,0.12);color:#7a3fc4;border-radius:999px;padding:4px 11px;margin:3px 3px 0 0;font-size:0.85rem;font-weight:500;}
+.char-card .reveal-jobs{margin-top:6px;background:var(--l4);color:#fff;border:none;border-radius:10px;padding:9px 15px;font-family:'Fredoka',sans-serif;font-weight:600;cursor:pointer;font-size:0.85rem;}
+
+/* ---------- CHECKLIST ---------- */
+.checklist{list-style:none;padding:0;margin:10px 0;}
+.checklist li{background:rgba(255,255,255,0.92);border:2px solid #E8E0D8;border-radius:12px;padding:14px 18px;margin:10px 0;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.2s ease;}
+.checklist li:hover{border-color:var(--l3);}
+.checklist li.checked{background:var(--highlight-green);border-color:var(--correct-color);}
+.checklist .box{width:26px;height:26px;border-radius:7px;border:2px solid var(--l3);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;}
+.checklist li.checked .box{background:var(--correct-color);border-color:var(--correct-color);}
+.check-progress{font-family:'Space Mono',monospace;font-weight:700;color:var(--l3);}
+
+/* ---------- NOTES ---------- */
+.note{border-radius:14px;padding:18px 22px;margin:14px 0;font-weight:500;font-size:1.04rem;}
+.note-discuss{background:var(--highlight-pink);}
+.note-discuss .nlabel{font-weight:700;color:#d6453f;}
+.note-exit{background:var(--highlight-green);}
+.note-exit .nlabel{font-weight:700;color:var(--correct-color);}
+.note .nlabel{display:block;font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+
+a.inline{color:#16978d;font-weight:600;}
+
+#toTop{position:fixed;bottom:22px;right:22px;z-index:60;background:var(--text-dark);color:#fff;border:none;border-radius:50%;width:50px;height:50px;font-size:1.3rem;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.25);opacity:0;pointer-events:none;transition:opacity 0.3s ease,transform 0.25s ease;}
+#toTop.show{opacity:1;pointer-events:auto;}
+#toTop:hover{transform:translateY(-3px);}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+@media(max-width:560px){
+    .card{padding:22px;}
+    .stage-text{font-size:1.08rem;}
+    .pattern-arrow{transform:rotate(90deg);}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes"><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div></div>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+    <svg viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FBE8A6"/><stop offset="55%" stop-color="#F6C177"/><stop offset="100%" stop-color="#E8A95C"/></linearGradient>
+            <linearGradient id="c1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2E8B6F"/><stop offset="100%" stop-color="#1F6E55"/></linearGradient>
+            <linearGradient id="c2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#247159"/><stop offset="100%" stop-color="#164D3B"/></linearGradient>
+            <linearGradient id="c3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#173E30"/><stop offset="100%" stop-color="#0E2C22"/></linearGradient>
+        </defs>
+        <rect width="1200" height="320" fill="url(#sky)"/>
+        <circle cx="930" cy="115" r="68" fill="#FFF3C4" opacity="0.85"/>
+        <circle cx="930" cy="115" r="90" fill="#FFF3C4" opacity="0.35"/>
+        <g transform="translate(230,82) rotate(-8)" fill="#5b4636" opacity="0.55"><ellipse cx="0" cy="0" rx="34" ry="7"/><polygon points="-6,-2 14,-22 20,-20 4,-1"/><polygon points="-22,3 -34,14 -28,15 -16,5"/></g>
+        <path d="M0,240 Q150,150 320,200 T640,190 T980,195 T1200,205 L1200,320 L0,320 Z" fill="url(#c1)"/>
+        <path d="M0,280 Q200,200 430,245 T900,240 T1200,260 L1200,320 L0,320 Z" fill="url(#c2)"/>
+        <g fill="url(#c3)"><rect x="120" y="170" width="16" height="150" rx="6"/><rect x="1040" y="160" width="18" height="160" rx="6"/><ellipse cx="128" cy="170" rx="60" ry="34"/><ellipse cx="70" cy="200" rx="55" ry="30"/><ellipse cx="1050" cy="158" rx="66" ry="36"/><ellipse cx="1120" cy="195" rx="58" ry="32"/></g>
+        <path d="M0,312 Q300,284 600,304 T1200,300 L1200,320 L0,320 Z" fill="#0E2C22"/>
+    </svg>
+    <div class="hero-text">
+        <p class="eyebrow">Year 5 Novel Study</p>
+        <h1>The Explorer</h1>
+        <p class="byline">by Katherine Rundell &nbsp;&middot;&nbsp; Today's Lessons</p>
+    </div>
+</header>
+
+<!-- ===================== TABS ===================== -->
+<nav class="lesson-nav">
+    <div class="lesson-nav-inner">
+        <button class="nav-chip nc1 active" data-target="lesson1"><span class="num">1</span> Setting &amp; Theme</button>
+        <button class="nav-chip nc2" data-target="lesson2"><span class="num">2</span> Time in Narrative</button>
+        <button class="nav-chip nc3" data-target="lesson3"><span class="num">3</span> What Happened Next?</button>
+        <button class="nav-chip nc4" data-target="lesson4"><span class="num">4</span> Job Application</button>
+    </div>
+</nav>
+
+<div class="content-wrapper">
+
+<!-- ===================================================== LESSON 1 ===================================================== -->
+<section id="lesson1" class="lesson l1 tab-panel active">
+    <div class="lesson-head"><div class="lesson-badge">1</div><h2 class="lesson-title">How Setting Develops Theme</h2></div>
+
+    <div class="lisc">
+        <h3>Learning Intention</h3>
+        <p class="intention">To explore how setting develops theme in a novel.</p>
+        <h3>Success Criteria &middot; I can&hellip;</h3>
+        <ul>
+            <li>describe how the setting creates challenges</li>
+            <li>connect challenges to a theme</li>
+            <li>explain how the author uses language devices in the setting to shape meaning</li>
+        </ul>
+    </div>
+
+    <!-- I DO -->
+    <div class="card">
+        <span class="phase-label p-ido">I DO <small>watch &amp; listen</small></span>
+
+        <div class="concept">
+            <h4 class="sub" style="margin-top:0;">First, what is a setting detail?</h4>
+            <p>A setting detail is one specific thing about <strong>where</strong> or <strong>when</strong> a story takes place. Not the whole place, just one piece you could point to: the weather, an object, a smell, a single room.</p>
+            <p>Authors choose their setting details on purpose. A strong setting detail does a job. It creates a <strong>challenge</strong> for the characters, and that challenge helps a <strong>theme</strong> grow.</p>
+        </div>
+
+        <h4 class="sub">The pattern we are looking for</h4>
+        <div class="pattern-strip">
+            <span class="pattern-pill ps-setting">Setting detail</span>
+            <span class="pattern-arrow">&rarr;</span>
+            <span class="pattern-pill ps-challenge">Challenge</span>
+            <span class="pattern-arrow">&rarr;</span>
+            <span class="pattern-pill ps-theme">Theme</span>
+        </div>
+        <p class="pattern-caption">A setting detail creates a challenge, and the challenge develops a theme.</p>
+
+        <h4 class="sub">Let's model the thinking: The Explorer</h4>
+        <p>I will think aloud. We start with one setting detail, ask what challenge it creates, then ask what theme that grows.</p>
+        <div class="chain" id="modelExplorer">
+            <div class="reveal-item chain-stage st-setting"><span class="stage-label">Setting detail</span><p class="stage-text">The dense jungle, thick with tangled vines.</p></div>
+            <div class="reveal-item hidden chain-connector">&darr;&nbsp; so what challenge does that create?</div>
+            <div class="reveal-item hidden chain-stage st-challenge"><span class="stage-label">Challenge</span><p class="stage-text">It is exhausting to push through, and very easy to get lost.</p></div>
+            <div class="reveal-item hidden chain-connector">&darr;&nbsp; and what theme does that grow?</div>
+            <div class="reveal-item hidden chain-stage st-theme"><span class="stage-label">Theme</span><p class="stage-text">Perseverance. The children must keep going when everything is hard.</p></div>
+        </div>
+        <button class="btn btn-reveal" data-target="modelExplorer" onclick="revealNext(this)">Reveal next step</button>
+
+        <h4 class="sub">The same pattern works in any book</h4>
+        <p>This is not just an Amazon trick. The exact same thinking works in stories you already know.</p>
+        <div id="famousExamples">
+            <div class="reveal-item hidden book-example">
+                <div class="book-tag">Harry Potter</div>
+                <div class="chain">
+                    <div class="chain-stage st-setting"><span class="stage-label">Setting detail</span><p class="stage-text">The Forbidden Forest, dark and full of unknown creatures.</p></div>
+                    <div class="chain-connector">&darr;</div>
+                    <div class="chain-stage st-challenge"><span class="stage-label">Challenge</span><p class="stage-text">The characters have to go in, even though they are frightened.</p></div>
+                    <div class="chain-connector">&darr;</div>
+                    <div class="chain-stage st-theme"><span class="stage-label">Theme</span><p class="stage-text">Courage, and facing your fears.</p></div>
+                </div>
+            </div>
+            <div class="reveal-item hidden book-example">
+                <div class="book-tag">Charlie and the Chocolate Factory</div>
+                <div class="chain">
+                    <div class="chain-stage st-setting"><span class="stage-label">Setting detail</span><p class="stage-text">A room made of chocolate, with a flowing chocolate river and sweets you can eat.</p></div>
+                    <div class="chain-connector">&darr;</div>
+                    <div class="chain-stage st-challenge"><span class="stage-label">Challenge</span><p class="stage-text">The children are tempted to grab and gobble everything in sight.</p></div>
+                    <div class="chain-connector">&darr;</div>
+                    <div class="chain-stage st-theme"><span class="stage-label">Theme</span><p class="stage-text">Greed, and the consequences of not controlling it.</p></div>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-reveal" data-target="famousExamples" onclick="revealNext(this)">Reveal a book example</button>
+    </div>
+
+    <!-- WE DO -->
+    <div class="card">
+        <span class="phase-label p-wedo">WE DO <small>let's try together</small></span>
+        <h4 class="sub" style="margin-top:8px;">Let's examine this description of the rainforest</h4>
+        <div class="quote-strip">&ldquo;Thick vines, overwhelming heat, unfamiliar animal sounds.&rdquo;</div>
+        <p><strong>How does this setting challenge the characters? What theme does that challenge connect to?</strong> We will build our anchor chart together, one step at a time, using the same pattern.</p>
+
+        <div class="wedo-example">
+            <h4 class="sub">Anchor chart &middot; example 1</h4>
+            <div class="chain" id="anchorA">
+                <div class="reveal-item chain-stage st-setting"><span class="stage-label">Setting detail</span><p class="stage-text">Dense jungle</p></div>
+                <div class="reveal-item hidden chain-connector">&darr;&nbsp; what challenge?</div>
+                <div class="reveal-item hidden chain-stage st-challenge"><span class="stage-label">Challenge</span><p class="stage-text">Hard to navigate</p></div>
+                <div class="reveal-item hidden chain-connector">&darr;&nbsp; what theme?</div>
+                <div class="reveal-item hidden chain-stage st-theme"><span class="stage-label">Theme</span><p class="stage-text">Perseverance</p></div>
+            </div>
+            <button class="btn btn-reveal" data-target="anchorA" onclick="revealNext(this)">Reveal next step</button>
+        </div>
+
+        <div class="wedo-example">
+            <h4 class="sub">Anchor chart &middot; example 2</h4>
+            <div class="chain" id="anchorB">
+                <div class="reveal-item chain-stage st-setting"><span class="stage-label">Setting detail</span><p class="stage-text">Wild animals</p></div>
+                <div class="reveal-item hidden chain-connector">&darr;&nbsp; what challenge?</div>
+                <div class="reveal-item hidden chain-stage st-challenge"><span class="stage-label">Challenge</span><p class="stage-text">Fear and caution</p></div>
+                <div class="reveal-item hidden chain-connector">&darr;&nbsp; what theme?</div>
+                <div class="reveal-item hidden chain-stage st-theme"><span class="stage-label">Theme</span><p class="stage-text">Respect for nature</p></div>
+            </div>
+            <button class="btn btn-reveal" data-target="anchorB" onclick="revealNext(this)">Reveal next step</button>
+        </div>
+    </div>
+
+    <!-- YOU DO -->
+    <div class="card">
+        <span class="phase-label p-youdo">YOU DO <small>your turn</small></span>
+        <p style="margin-top:8px;">Now it is your turn. Choose <strong>one setting detail</strong> from the novel and explain how it helps develop a theme, using the same pattern we modelled.</p>
+        <div class="scaffold">
+            Sentence scaffold:
+            <ul>
+                <li>The setting detail I chose is&hellip;</li>
+                <li>This creates a challenge because&hellip;</li>
+                <li>This connects to the theme of&hellip;</li>
+                <li>I know this because&hellip; (justify with evidence from the text)</li>
+            </ul>
+        </div>
+        <textarea class="writing-input" aria-label="Your written response for Lesson 1"></textarea>
+
+        <h4 class="sub">Theme bank (tap the themes you might use)</h4>
+        <div class="theme-bank" id="themeBank">
+            <button class="theme-chip">survival / resourcefulness</button>
+            <button class="theme-chip">courage / facing fears</button>
+            <button class="theme-chip">teamwork / interdependence</button>
+            <button class="theme-chip">leadership / responsibility</button>
+            <button class="theme-chip">respect for nature</button>
+            <button class="theme-chip">identity / self-discovery</button>
+            <button class="theme-chip">ethics / moral choices</button>
+            <button class="theme-chip">friendship and belonging</button>
+            <button class="theme-chip">perseverance and resilience</button>
+            <button class="theme-chip">wonder / curiosity</button>
+        </div>
+    </div>
+
+    <!-- PLENARY -->
+    <div class="card">
+        <span class="phase-label p-plenary">PLENARY <small>wrap up</small></span>
+        <div class="note note-discuss"><span class="nlabel">Think, Pair, Share</span>How does the Amazon rainforest help teach the characters, and the reader, something important?</div>
+    </div>
+</section>
+
+<!-- ===================================================== LESSON 2 ===================================================== -->
+<section id="lesson2" class="lesson l2 tab-panel">
+    <div class="lesson-head"><div class="lesson-badge">2</div><h2 class="lesson-title">Time in Narratives</h2></div>
+
+    <div class="lisc">
+        <h3>Learning Intention</h3>
+        <p class="intention">To understand how authors manipulate time in a narrative to build tension.</p>
+        <h3>Success Criteria &middot; I can&hellip;</h3>
+        <ul>
+            <li>identify the time markers an author uses</li>
+            <li>explain why time matters to the characters and the plot</li>
+            <li>map a narrative across its stages and explain how time builds tension</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <span class="phase-label p-ido">I DO <small>watch &amp; listen</small></span>
+        <h4 class="sub" style="margin-top:8px;">Time markers in narratives</h4>
+        <p>Narratives are usually chronological, but authors deliberately stretch, skip and squeeze time to build tension. Reveal a few examples:</p>
+        <div id="l2markers">
+            <div class="reveal-item"><div class="idea"><span class="dot">&rsaquo;</span><span>&ldquo;The next day&hellip;&rdquo;</span></div></div>
+            <div class="reveal-item hidden"><div class="idea"><span class="dot">&rsaquo;</span><span>&ldquo;Meanwhile&hellip;&rdquo;</span></div></div>
+            <div class="reveal-item hidden"><div class="idea"><span class="dot">&rsaquo;</span><span>&ldquo;A full twelve days since the crash&hellip;&rdquo;</span></div></div>
+        </div>
+        <button class="btn btn-reveal" data-target="l2markers" onclick="revealNext(this)">Reveal next marker</button>
+
+        <h4 class="sub">Model analysis</h4>
+        <p>As we watch, think aloud: <strong>How do we know time is passing? What clues are given?</strong></p>
+        <a class="video-card" href="https://www.youtube.com/watch?v=07d2dXHYb94" target="_blank" rel="noopener">
+            <span class="play"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="6,4 20,12 6,20"/></svg></span>
+            <span><span class="vtitle">Watch: &ldquo;Pip&rdquo;</span><br><span class="vsub">A short animated film by Dogs Inc &middot; opens in a new tab</span></span>
+        </a>
+    </div>
+
+    <div class="card">
+        <span class="phase-label p-wedo">WE DO <small>let's try together</small></span>
+        <h4 class="sub" style="margin-top:8px;">Apply it to The Explorer</h4>
+        <div class="task-grid">
+            <div class="task-card task-support"><span class="lvl">For the children</span><h5>Why is time critical?</h5>Survival: food, danger, rescue.</div>
+            <div class="task-card task-ext"><span class="lvl">For the Explorer</span><h5>Why does time matter?</h5>Loss, regret, missed chances.</div>
+        </div>
+        <h4 class="sub">Narrative arc (tap a stage to reveal it)</h4>
+        <div class="arc-wrap">
+            <svg class="arc-svg" viewBox="0 0 800 330" xmlns="http://www.w3.org/2000/svg">
+                <line x1="40" y1="290" x2="760" y2="290" stroke="#E0D6CC" stroke-width="2"/>
+                <path d="M70,280 C220,275 250,120 400,80 C520,50 560,180 680,260 C700,272 720,278 740,282" fill="none" stroke="#F0A500" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+                <g class="arc-node" data-stage="0"><circle cx="80" cy="278" r="13" fill="#fff" stroke="#F0A500" stroke-width="4"/><text x="80" y="312" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="600" fill="#b87b00">Orientation</text></g>
+                <g class="arc-node" data-stage="1"><circle cx="250" cy="150" r="13" fill="#fff" stroke="#F0A500" stroke-width="4"/><text x="250" y="130" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="600" fill="#b87b00">Rising action</text></g>
+                <g class="arc-node" data-stage="2"><circle cx="400" cy="78" r="14" fill="#F0A500" stroke="#fff" stroke-width="3"/><text x="400" y="58" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="700" fill="#b87b00">Climax</text></g>
+                <g class="arc-node" data-stage="3"><circle cx="620" cy="210" r="13" fill="#fff" stroke="#F0A500" stroke-width="4"/><text x="620" y="190" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="600" fill="#b87b00">Resolution</text></g>
+                <g class="arc-node" data-stage="4"><circle cx="740" cy="282" r="13" fill="#fff" stroke="#F0A500" stroke-width="4"/><text x="740" y="312" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="600" fill="#b87b00">Coda</text></g>
+            </svg>
+            <div class="arc-info" id="arcInfo"><span class="tag">Tap a stage</span>Select a point on the arc to see what happens, and how time builds tension there.</div>
+        </div>
+        <p><strong>Connect:</strong> how does time build tension as we move across these stages?</p>
+    </div>
+
+    <div class="card">
+        <span class="phase-label p-youdo">YOU DO <small>choose one</small></span>
+        <div class="task-grid" style="margin-top:10px;">
+            <div class="task-card task-core"><span class="lvl">Core task</span><h5>Map the arc</h5>Complete the <a class="inline" href="https://drive.google.com/file/d/1WXfdAju50HfBz5UbVOjJbBxerAeYP3Vd/view?usp=sharing" target="_blank" rel="noopener">narrative graph</a> with labelled stages and a brief explanation for each.</div>
+            <div class="task-card task-support"><span class="lvl">Support</span><h5>Order the events</h5>Use the scaffold with the events already listed, and place each one at the correct stage.</div>
+            <div class="task-card task-ext"><span class="lvl">Extension</span><h5>Add the clock</h5>Add a time marker to each stage, for example &ldquo;after days without food&hellip;&rdquo;, to show tension rising.</div>
+        </div>
+        <h4 class="sub">Optional: jot your stage notes here</h4>
+        <textarea class="writing-input" aria-label="Narrative arc notes" style="min-height:150px;"></textarea>
+    </div>
+</section>
+
+<!-- ===================================================== LESSON 3 ===================================================== -->
+<section id="lesson3" class="lesson l3 tab-panel">
+    <div class="lesson-head"><div class="lesson-badge">3</div><h2 class="lesson-title">What Happened Next?</h2></div>
+
+    <div class="lisc">
+        <h3>Learning Intention</h3>
+        <p class="intention">To develop character voice, tension and pacing when writing a narrative chapter.</p>
+        <h3>Success Criteria &middot; I can&hellip;</h3>
+        <ul>
+            <li>develop believable character reactions and dialogue</li>
+            <li>vary my pacing to create suspense</li>
+            <li>edit my writing to improve clarity and impact</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <span class="phase-label p-ido">I DO <small>watch &amp; listen</small></span>
+        <p style="margin-top:8px;">Reread the final chapter. What might the next scene be for a particular character and their family? Let's build a model together, one part at a time. <strong>Imagine Fred is reunited with his father&hellip;</strong></p>
+        <div class="text-passage" id="fredModel">
+            <span class="reveal-item">Fred stepped off the boat and froze. His father stood waiting near the dock, his tie crooked and his sleeves rolled up as if he had rushed straight from work.</span>
+            <span class="reveal-item hidden"> For a moment, neither of them spoke. Then his father strode forward and pulled Fred into a tight hug.</span>
+            <span class="reveal-item hidden"> &ldquo;&hellip;if I&rsquo;d lost you, Fred&hellip; if I&rsquo;d lost you&hellip;&rdquo; he said quietly, his voice shaking.</span>
+            <span class="reveal-item hidden"> Fred stared in surprise. He couldn&rsquo;t remember the last time his father had hugged him, or spoken so freely.</span>
+        </div>
+        <button class="btn btn-l3" data-target="fredModel" onclick="revealNext(this)">Reveal next sentence</button>
+
+        <h4 class="sub">How a writer lifts a basic paragraph</h4>
+        <div id="l3tech">
+            <div class="reveal-item hidden"><div class="idea" style="background:var(--highlight-pink);"><span class="dot" style="color:#d6453f;">&rsaquo;</span><span>Add sensory details.</span></div></div>
+            <div class="reveal-item hidden"><div class="idea" style="background:var(--highlight-pink);"><span class="dot" style="color:#d6453f;">&rsaquo;</span><span>Replace simple verbs with precise vocabulary.</span></div></div>
+            <div class="reveal-item hidden"><div class="idea" style="background:var(--highlight-pink);"><span class="dot" style="color:#d6453f;">&rsaquo;</span><span>Include internal thoughts.</span></div></div>
+            <div class="reveal-item hidden"><div class="idea" style="background:var(--highlight-pink);"><span class="dot" style="color:#d6453f;">&rsaquo;</span><span>Vary your sentence length.</span></div></div>
+        </div>
+        <button class="btn btn-l3" data-target="l3tech" onclick="revealNext(this)">Reveal a technique</button>
+    </div>
+
+    <div class="card">
+        <span class="phase-label p-youdo">YOU DO <small>your turn</small></span>
+        <p style="margin-top:8px;">Write the chapter that follows the ending for one character. Focus on characterisation and suspense. You may choose to:</p>
+        <div class="task-grid">
+            <div class="task-card task-core"><h5>Becoming a writer</h5>A scene where a child begins to write their story (the novel).</div>
+            <div class="task-card task-support" style="border-color:var(--l3);"><h5 style="color:#d6453f;">A new conflict</h5>Conflict between the character and someone newly introduced, for example Con and her aunt.</div>
+            <div class="task-card task-ext"><h5>A new setting</h5>Describe a new setting for the character, such as their home.</div>
+        </div>
+        <textarea class="writing-input" aria-label="Your narrative chapter" style="min-height:200px;"></textarea>
+
+        <h4 class="sub">Editing checklist (tap each one as you check it)</h4>
+        <p class="check-progress"><span id="checkCount">0</span> / 4 checks complete</p>
+        <ul class="checklist" id="editChecklist">
+            <li><span class="box"></span><span><strong>Vocabulary:</strong> have I chosen precise, vivid words?</span></li>
+            <li><span class="box"></span><span><strong>Dialogue:</strong> does it sound like the character and is it punctuated correctly?</span></li>
+            <li><span class="box"></span><span><strong>Paragraphing:</strong> have I started a new paragraph for new ideas and speakers?</span></li>
+            <li><span class="box"></span><span><strong>Tension:</strong> have I varied my pacing to build suspense?</span></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <span class="phase-label p-plenary">PLENARY <small>wrap up</small></span>
+        <div class="note note-discuss"><span class="nlabel">Author's Chair</span>Read a short excerpt aloud. Listeners, identify one successful narrative technique you noticed.</div>
+        <div class="note note-exit"><span class="nlabel">Exit slip</span>&ldquo;The part of my writing that sounds most like The Explorer is&hellip;&rdquo;</div>
+    </div>
+</section>
+
+<!-- ===================================================== LESSON 4 ===================================================== -->
+<section id="lesson4" class="lesson l4 tab-panel">
+    <div class="lesson-head"><div class="lesson-badge">4</div><h2 class="lesson-title">The Job Application</h2></div>
+
+    <div class="lisc">
+        <h3>Learning Intention</h3>
+        <p class="intention">To write a formal persuasive text by adopting a character's voice and applying knowledge of their traits.</p>
+        <h3>Success Criteria &middot; I can&hellip;</h3>
+        <ul>
+            <li>identify key character traits and use them to inform my writing</li>
+            <li>write in a formal register appropriate to a job application</li>
+            <li>use persuasive language to present a character's skills convincingly</li>
+            <li>structure a job application with an opening, evidence of skills and a closing statement</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <span class="phase-label p-ido">I DO <small>watch &amp; listen</small></span>
+        <h4 class="sub" style="margin-top:8px;">Our four characters and their traits</h4>
+        <p>If these characters grew up, what jobs would suit them? What Amazon experiences would make them qualified? Tap a character to reveal possible careers.</p>
+        <div class="char-grid" id="charGrid">
+            <div class="char-card"><h5>Fred</h5><p class="traits">leader &middot; curious &middot; knowledgeable &middot; responsible</p><button class="reveal-jobs" onclick="toggleJobs(this)">Show possible jobs</button><div class="jobs"><div class="jlabel">Possible jobs</div><span>explorer</span><span>geographer</span><span>survival instructor</span><span>documentary maker</span></div></div>
+            <div class="char-card"><h5>Con</h5><p class="traits">resourceful &middot; brave &middot; loyal &middot; quick-thinking</p><button class="reveal-jobs" onclick="toggleJobs(this)">Show possible jobs</button><div class="jobs"><div class="jlabel">Possible jobs</div><span>pilot</span><span>engineer</span><span>expedition leader</span><span>chef</span></div></div>
+            <div class="char-card"><h5>Lila</h5><p class="traits">nurturing &middot; passionate about animals &middot; determined &middot; observant</p><button class="reveal-jobs" onclick="toggleJobs(this)">Show possible jobs</button><div class="jobs"><div class="jlabel">Possible jobs</div><span>zookeeper</span><span>vet</span><span>conservationist</span><span>wildlife ranger</span></div></div>
+            <div class="char-card"><h5>Max</h5><p class="traits">imaginative &middot; resilient &middot; joyful &middot; adaptable</p><button class="reveal-jobs" onclick="toggleJobs(this)">Show possible jobs</button><div class="jobs"><div class="jlabel">Possible jobs</div><span>author</span><span>illustrator</span><span>teacher</span><span>comedian</span></div></div>
+        </div>
+
+        <h4 class="sub">Model: Lila applies to be a zookeeper</h4>
+        <p>Lila cared for injured animals throughout the story, stayed calm under pressure and was deeply observant. Let's reveal her application part by part, and notice the formal register.</p>
+        <div class="text-passage" id="lilaModel">
+            <span class="reveal-item"><strong>Opening:</strong> I am writing to apply for the position of Zookeeper at your wildlife park. I am a calm, observant and deeply committed carer of animals.</span>
+            <span class="reveal-item hidden"><br><br><strong>Skill + evidence:</strong> During my time in the Amazon, I demonstrated a lifelong commitment to animal welfare. I treated injured creatures with patience and care, often under extremely difficult conditions.</span>
+            <span class="reveal-item hidden"><br><br><strong>Skill + evidence:</strong> I have shown that I remain calm under pressure. When others panicked, I observed each animal closely and responded sensibly.</span>
+            <span class="reveal-item hidden"><br><br><strong>Closing:</strong> I believe I am the ideal candidate because few applicants have cared for wild animals in the rainforest itself. I would be honoured to bring this experience to your team.</span>
+        </div>
+        <button class="btn btn-l4" data-target="lilaModel" onclick="revealNext(this)">Reveal next part</button>
+        <div class="note note-discuss" style="margin-top:16px;"><span class="nlabel">Formal register</span>We do not write &ldquo;I really love animals.&rdquo; We write &ldquo;I have demonstrated a lifelong commitment to animal welfare.&rdquo;</div>
+    </div>
+
+    <div class="card">
+        <span class="phase-label p-wedo">WE DO <small>let's try together</small></span>
+        <p style="margin-top:8px;">In pairs, choose one character and draft the <strong>opening paragraph</strong> of their application. As you write, ask: which specific moment from the story proves this skill, and how do I say that formally?</p>
+        <textarea class="writing-input" aria-label="Paired opening paragraph" style="min-height:120px;"></textarea>
+    </div>
+
+    <div class="card">
+        <span class="phase-label p-youdo">YOU DO <small>your turn</small></span>
+        <h4 class="sub" style="margin-top:8px;">Plan first</h4>
+        <div class="scaffold">
+            Before you write, plan:
+            <ul>
+                <li>Who am I applying to, and for what role?</li>
+                <li>What are my 3 strongest skills?</li>
+                <li>What evidence from the Amazon proves each skill?</li>
+                <li>Why am I the best person for this job?</li>
+            </ul>
+        </div>
+        <h4 class="sub">Then write: opening &rarr; skill + evidence (x3) &rarr; closing statement</h4>
+        <div class="scaffold">
+            Sentence starters:
+            <ul>
+                <li>I am writing to apply for&hellip;</li>
+                <li>During my expedition to the Amazon, I demonstrated&hellip;</li>
+                <li>I believe I am the ideal candidate because&hellip;</li>
+            </ul>
+        </div>
+        <textarea class="writing-input" aria-label="Your full job application" style="min-height:220px;"></textarea>
+        <div class="task-card task-ext" style="margin-top:16px;"><span class="lvl">Extension</span><h5>The employer replies</h5>Write the employer's response: either offer the job with specific reasons, or reject the application and explain what was missing.</div>
+    </div>
+
+    <div class="card">
+        <span class="phase-label p-plenary">PLENARY <small>wrap up</small></span>
+        <div class="note note-discuss"><span class="nlabel">Would you hire them?</span>Read your closing statement aloud. The class votes on whether they would hire the candidate, and must give one reason. Did writing as this character teach you anything new about them?</div>
+        <div class="note note-exit"><span class="nlabel">Exit slip</span>Write one formal sentence you are proud of, and one word you used that you would not normally use in everyday writing.</div>
+    </div>
+</section>
+
+</div><!-- /content-wrapper -->
+
+<button id="toTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&uarr;</button>
+
+<script>
+/* ---- Generic step reveal ---- */
+function revealNext(btn){
+    var c=document.getElementById(btn.dataset.target);
+    var hidden=c.querySelector('.reveal-item.hidden');
+    if(hidden){hidden.classList.remove('hidden');}
+    if(!c.querySelector('.reveal-item.hidden')){btn.disabled=true;btn.textContent='All revealed';}
+    if(document.activeElement)document.activeElement.blur();
+}
+
+/* ---- Theme chips ---- */
+document.querySelectorAll('#themeBank .theme-chip').forEach(function(chip){
+    chip.addEventListener('click',function(){chip.classList.toggle('selected');});
+});
+
+/* ---- Narrative arc ---- */
+var arcData=[
+    {tag:'Orientation',text:'The plane crashes. Time begins. The children are suddenly thrown into a world where every hour counts.'},
+    {tag:'Rising action',text:'Jungle threats build: food, shelter and fear. As the days pass, the pressure and tension steadily rise.'},
+    {tag:'Climax',text:'Max is bitten. This is the moment of greatest danger, where time feels most urgent and the stakes are highest.'},
+    {tag:'Resolution',text:'Rescue arrives. The race against time eases as the immediate danger passes.'},
+    {tag:'Coda',text:'Changed relationships and understanding. Looking back across the time that has passed, we see how the characters have grown.'}
+];
+var arcInfo=document.getElementById('arcInfo');
+document.querySelectorAll('.arc-node').forEach(function(n){
+    n.addEventListener('click',function(){
+        var d=arcData[+n.dataset.stage];
+        arcInfo.innerHTML='<span class="tag">'+d.tag+'</span>'+d.text;
+    });
+});
+
+/* ---- Job reveal ---- */
+function toggleJobs(btn){
+    var jobs=btn.nextElementSibling;
+    var open=jobs.classList.toggle('show');
+    btn.textContent=open?'Hide jobs':'Show possible jobs';
+}
+
+/* ---- Editing checklist ---- */
+var checkCount=document.getElementById('checkCount');
+document.querySelectorAll('#editChecklist li').forEach(function(li){
+    li.addEventListener('click',function(){
+        li.classList.toggle('checked');
+        li.querySelector('.box').textContent=li.classList.contains('checked')?'\u2713':'';
+        checkCount.textContent=document.querySelectorAll('#editChecklist li.checked').length;
+    });
+});
+
+/* ---- Tabs: show one lesson at a time ---- */
+var chips=document.querySelectorAll('.nav-chip');
+var panels=document.querySelectorAll('.tab-panel');
+chips.forEach(function(ch){
+    ch.addEventListener('click',function(){
+        chips.forEach(function(c){c.classList.remove('active');});
+        ch.classList.add('active');
+        var target=ch.dataset.target;
+        panels.forEach(function(p){p.classList.toggle('active',p.id===target);});
+        var t=document.getElementById(target);
+        if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+});
+
+/* ---- Back to top ---- */
+var toTop=document.getElementById('toTop');
+window.addEventListener('scroll',function(){toTop.classList.toggle('show',window.scrollY>400);});
+</script>
+</body>
+</html>

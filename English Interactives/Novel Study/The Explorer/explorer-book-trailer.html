@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Explorer | Make a Book Trailer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+    --paper:#FBF4F7;          /* soft pale pink */
+    --paper-2:#FFFFFF;
+    --ink:#33303A;
+    --ink-soft:#6E6878;
+    --line:#EEE2EA;
+
+    --accent:#5C97C9;         /* baby blue (readable) */
+    --accent-deep:#3F77A8;
+    --accent-soft:#E4F0F9;
+
+    --amber:#E089A6;          /* rose pink (secondary) */
+    --amber-soft:#FBE5EC;
+
+    --danger:#EA8AA0;         /* mood: danger (pink-coral) */
+    --danger-soft:#FBE2E9;
+    --discovery:#B79BDC;      /* mood: discovery (soft lilac) */
+    --discovery-soft:#F0E8F9;
+    --teamwork:#6FB3DC;       /* mood: teamwork (sky blue) */
+    --teamwork-soft:#E1F0F9;
+
+    --shell:1180px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:18px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+}
+
+/* progress bar */
+.progress{position:fixed;top:0;left:0;right:0;height:4px;background:transparent;z-index:50;}
+.progress #bar{height:100%;width:0;background:var(--accent);transition:width .08s linear;}
+
+.shell{width:min(var(--shell),92vw);margin:0 auto;}
+
+section{padding:60px 0;border-bottom:1px solid var(--line);}
+section:last-of-type{border-bottom:none;}
+
+.eyebrow{
+    display:flex;align-items:center;gap:12px;
+    font-size:.78rem;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);
+    margin-bottom:14px;
+}
+.step{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:30px;height:30px;padding:0 9px;border-radius:8px;
+    background:var(--accent);color:#fff;
+    font-size:.82rem;font-weight:700;letter-spacing:.02em;
+}
+.eyebrow .tag{color:var(--ink-soft);font-weight:600;}
+
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;line-height:1.18;margin:0;}
+h2{font-size:2.05rem;letter-spacing:-.01em;margin-bottom:10px;}
+h3{font-size:1.32rem;margin-bottom:8px;}
+p{margin:0 0 16px;}
+p:last-child{margin-bottom:0;}
+.lead{font-size:1.18rem;color:var(--ink-soft);max-width:62ch;}
+
+a{color:var(--accent-deep);}
+
+/* HERO */
+.hero{
+    padding:74px 0 60px;
+    background:
+        radial-gradient(120% 90% at 85% -10%, rgba(111,179,220,.30), transparent 60%),
+        radial-gradient(90% 80% at 5% 110%, rgba(224,137,166,.26), transparent 55%),
+        radial-gradient(70% 60% at 50% 0%, rgba(183,155,220,.16), transparent 60%);
+    border-bottom:1px solid var(--line);
+}
+.hero .kicker{
+    font-size:.8rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--amber);margin-bottom:18px;
+}
+.hero h1{font-size:3.5rem;letter-spacing:-.02em;max-width:16ch;}
+.hero .sub{margin-top:18px;font-size:1.25rem;color:var(--ink-soft);max-width:60ch;}
+.hero .book{
+    font-style:italic;color:var(--accent-deep);font-weight:500;
+}
+
+/* learning intention strip */
+.li-card{
+    margin-top:34px;display:grid;grid-template-columns:1fr 1fr;gap:0;
+    border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:14px;overflow:hidden;background:var(--paper-2);
+}
+.li-card > div{padding:22px 26px;}
+.li-card .li-int{border-right:1px solid var(--line);}
+.li-card h4{
+    margin:0 0 10px;font-size:.74rem;font-weight:700;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--accent);
+}
+.li-card p{font-size:1.02rem;margin:0;}
+.li-card ul{margin:0;padding-left:18px;}
+.li-card li{margin-bottom:6px;font-size:1.0rem;}
+.li-card li:last-child{margin-bottom:0;}
+
+/* generic layout helpers */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start;}
+.split-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;}
+
+/* video */
+.video{
+    position:relative;width:100%;aspect-ratio:16/9;
+    border-radius:14px;overflow:hidden;border:1px solid var(--line);
+    background:#15110d;box-shadow:0 10px 30px rgba(42,38,34,.12);
+}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.vcap{margin-top:10px;font-size:.92rem;color:var(--ink-soft);font-weight:600;}
+
+/* prompt cards */
+.prompt{
+    background:var(--paper-2);border:1px solid var(--line);
+    border-radius:14px;padding:22px 24px;
+}
+.prompt .q{
+    font-family:'Fraunces',serif;font-size:1.22rem;font-weight:600;
+    color:var(--ink);margin-bottom:6px;
+}
+.prompt .hint{font-size:.98rem;color:var(--ink-soft);margin:0;}
+.stack{display:flex;flex-direction:column;gap:16px;}
+
+.frame{
+    background:var(--accent-soft);border:1px solid #cbe1f2;border-radius:12px;
+    padding:16px 20px;font-size:1.02rem;
+}
+.frame strong{color:var(--accent-deep);}
+
+/* element cards (success criteria) */
+.crit{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.crit .card{
+    background:var(--paper-2);border:1px solid var(--line);border-radius:14px;
+    padding:22px 24px;position:relative;
+}
+.crit .card .n{
+    font-family:'Fraunces',serif;font-size:1.4rem;color:var(--amber);
+    font-weight:600;display:block;margin-bottom:6px;
+}
+.crit .card h3{font-size:1.18rem;margin-bottom:6px;}
+.crit .card p{font-size:1.0rem;color:var(--ink-soft);margin:0;}
+
+/* mission box */
+.mission{
+    background:linear-gradient(180deg,var(--accent) 0%,var(--accent-deep) 100%);
+    color:#F4EFE4;border-radius:16px;padding:34px 38px;
+}
+.mission .eyebrow{color:#CFE3D7;}
+.mission .step{background:rgba(255,255,255,.18);}
+.mission h2{color:#fff;}
+.mission p{color:#E7E0D2;}
+.mission ul{margin:14px 0 0;padding-left:20px;}
+.mission li{margin-bottom:8px;color:#EFE9DC;}
+.mission li:last-child{margin-bottom:0;}
+.mission .specs{
+    display:flex;gap:14px;flex-wrap:wrap;margin:22px 0 4px;
+}
+.mission .spec{
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+    border-radius:10px;padding:10px 16px;font-size:.96rem;font-weight:600;
+}
+.mission .spec b{display:block;font-family:'Fraunces',serif;font-size:1.2rem;font-weight:600;}
+
+/* blurb / quote asset */
+.blurb{
+    margin-top:26px;background:var(--amber-soft);border:1px solid #f2c9d8;
+    border-left:5px solid var(--amber);border-radius:12px;padding:20px 24px;
+}
+.blurb .t{font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--amber);margin-bottom:8px;}
+.blurb q{font-family:'Fraunces',serif;font-style:italic;font-size:1.3rem;color:var(--ink);quotes:none;}
+.blurb .by{display:block;margin-top:8px;font-size:.96rem;color:var(--ink-soft);font-weight:600;}
+
+/* storyboard */
+.storyboard{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px;}
+.sb{
+    background:var(--paper-2);border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;
+}
+.sb .top{padding:8px 16px;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;}
+.sb.danger .top{background:var(--danger);}
+.sb.discovery .top{background:var(--discovery);}
+.sb.teamwork .top{background:var(--teamwork);}
+.sb .body{padding:16px 18px;}
+.sb h4{margin:0 0 6px;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;}
+.sb p{font-size:.96rem;color:var(--ink-soft);margin:0;}
+
+.keyel{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+.keyel .item{
+    background:var(--paper-2);border:1px solid var(--line);border-radius:12px;
+    padding:14px 18px;
+}
+.keyel .item b{font-family:'Fraunces',serif;color:var(--accent-deep);}
+
+.symbols{
+    display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;
+}
+.symbols span{
+    background:var(--accent-soft);border:1px solid #cbe1f2;border-radius:30px;
+    padding:8px 16px;font-size:.96rem;font-weight:600;color:var(--accent-deep);
+}
+
+/* digital tips */
+.tipgroup{margin-bottom:30px;}
+.tipgroup:last-child{margin-bottom:0;}
+.tipgroup > h3{
+    display:flex;align-items:center;gap:10px;margin-bottom:14px;
+    font-size:1.22rem;
+}
+.tipgroup > h3 .dot{width:11px;height:11px;border-radius:50%;background:var(--amber);display:inline-block;}
+.tips{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.tip{
+    background:var(--paper-2);border:1px solid var(--line);border-radius:12px;
+    padding:15px 18px;font-size:1.0rem;
+}
+.tip b{font-family:'Fraunces',serif;color:var(--ink);font-weight:600;}
+.tip code{
+    font-family:'Inter',sans-serif;background:var(--amber-soft);
+    padding:1px 7px;border-radius:5px;font-size:.92em;font-weight:600;color:#a85574;
+}
+
+/* resource button */
+.btn{
+    display:inline-flex;align-items:center;gap:9px;margin-top:6px;
+    background:var(--accent);color:#fff;text-decoration:none;
+    padding:11px 20px;border-radius:10px;font-weight:600;font-size:.98rem;
+    border:1px solid var(--accent-deep);
+}
+.btn.amber{background:var(--amber);border-color:#a85574;}
+.btn .arrow{font-weight:700;}
+.btnrow{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;}
+
+/* plenary / evaluation */
+.eval{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.eval .card{
+    background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:24px 26px;
+}
+.eval .card h3{color:var(--accent-deep);}
+.eval .card ul{margin:6px 0 0;padding-left:20px;}
+.eval .card li{margin-bottom:8px;}
+
+.exit{
+    margin-top:24px;background:var(--accent-soft);border:1px solid #cbe1f2;
+    border-radius:14px;padding:24px 28px;
+}
+.exit h3{color:var(--accent-deep);margin-bottom:6px;}
+.exit .frameline{
+    background:#fff;border:1px dashed var(--accent);border-radius:10px;
+    padding:14px 18px;margin-top:14px;font-family:'Fraunces',serif;
+    font-style:italic;font-size:1.12rem;color:var(--ink);
+}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.in{opacity:1;transform:none;}
+
+footer{padding:40px 0 60px;color:var(--ink-soft);font-size:.92rem;}
+
+@media (max-width:860px){
+    .split,.crit,.eval,.tips,.keyel,.li-card{grid-template-columns:1fr;}
+    .li-card .li-int{border-right:none;border-bottom:1px solid var(--line);}
+    .storyboard,.split-3{grid-template-columns:1fr;}
+    .hero h1{font-size:2.5rem;}
+    h2{font-size:1.7rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="progress"><div id="bar"></div></div>
+
+<!-- HERO -->
+<header class="hero">
+    <div class="shell">
+        <div class="kicker">Year 5 Novel Study &middot; The Explorer by Katherine Rundell</div>
+        <h1>Make a Book Trailer</h1>
+        <p class="sub">Watch how trailers tempt a reader in, work out what makes them land, then plan and film a 30 to 60 second trailer that sells <span class="book">The Explorer</span> to readers in other classes.</p>
+
+        <div class="li-card">
+            <div class="li-int">
+                <h4>Learning intention</h4>
+                <p>We are learning how the choices a film-maker makes (image, sound, text, pace) create mood and tempt a reader, so we can plan a short trailer that promotes a novel without giving away its secrets.</p>
+            </div>
+            <div>
+                <h4>I can</h4>
+                <ul>
+                    <li>name the elements that make a book trailer work</li>
+                    <li>plan a 30 to 60 second trailer with a hook and a clear mood</li>
+                    <li>choose images, sound and words that match the book's tone</li>
+                    <li>tease the story without spoiling the ending</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- 1. WATCH THE OFFICIAL TRAILER -->
+<section>
+    <div class="shell reveal">
+        <div class="eyebrow"><span class="step">01</span> Watch &amp; respond <span class="tag">&middot; whole class</span></div>
+        <h2>The official trailer</h2>
+        <p class="lead">As you watch, hold one question in your head: would this trailer have made <em>you</em> want to read the book?</p>
+
+        <div class="split" style="margin-top:26px;">
+            <div>
+                <div class="video">
+                    <iframe src="https://www.youtube.com/embed/YI_YJ4yThPE" title="The Explorer book trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="vcap">The Explorer &middot; official book trailer</div>
+            </div>
+            <div class="stack">
+                <div class="prompt">
+                    <div class="q">What did you like about it?</div>
+                    <p class="hint">Point to a specific moment. An image, a line of text, a sound, the way it ended.</p>
+                </div>
+                <div class="prompt">
+                    <div class="q">How could it be improved?</div>
+                    <p class="hint">If you were the editor, what would you change, cut or add, and why?</p>
+                </div>
+                <div class="frame">
+                    Be ready to say <strong>yes or no</strong>: did it make you want to read <em>The Explorer</em>? What exactly tipped you one way or the other?
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 2. TWO DIFFERENT APPROACHES -->
+<section>
+    <div class="shell reveal">
+        <div class="eyebrow"><span class="step">02</span> Compare two approaches <span class="tag">&middot; whole class</span></div>
+        <h2>Two trailers, two completely different ideas</h2>
+        <p class="lead">These two take very different routes to the same job. As you watch each one, note down which <strong>elements</strong> the film-makers use, and what mood those choices create.</p>
+
+        <div class="split" style="margin-top:26px;">
+            <div>
+                <div class="video">
+                    <iframe src="https://www.youtube.com/embed/iEX5g6c7ueE" title="A Monster Calls trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="vcap">A Monster Calls</div>
+            </div>
+            <div>
+                <div class="video">
+                    <iframe src="https://www.youtube.com/embed/8yUj5SM453c" title="The Interrogation of Ashala Wolf trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="vcap">The Interrogation of Ashala Wolf</div>
+            </div>
+        </div>
+
+        <div class="frame" style="margin-top:24px;">
+            <strong>Spot the elements.</strong> For each trailer: what kind of <em>images</em> did they use (filmed, drawn, symbolic)? Was there a <em>voiceover</em>, on-screen <em>text</em>, or both? How did the <em>music</em> make you feel? How much of the <em>story</em> did they actually give away?
+        </div>
+    </div>
+</section>
+
+<!-- 3. WHAT MAKES A GOOD BOOK TRAILER -->
+<section>
+    <div class="shell reveal">
+        <div class="eyebrow"><span class="step">03</span> Success criteria <span class="tag">&middot; co-construct</span></div>
+        <h2>What makes a good book trailer?</h2>
+        <p class="lead">Pull your ideas together. A strong trailer usually does these five things.</p>
+
+        <div class="crit" style="margin-top:26px;">
+            <div class="card">
+                <span class="n">01</span>
+                <h3>A hook</h3>
+                <p>Something in the opening seconds that grabs attention and makes a viewer keep watching.</p>
+            </div>
+            <div class="card">
+                <span class="n">02</span>
+                <h3>Theme &amp; atmosphere</h3>
+                <p>Features that reflect the book's themes and mood, so the trailer feels like the book.</p>
+            </div>
+            <div class="card">
+                <span class="n">03</span>
+                <h3>No spoilers</h3>
+                <p>Enough insight into the story to intrigue, without revealing the twists or the ending.</p>
+            </div>
+            <div class="card">
+                <span class="n">04</span>
+                <h3>Matched choices</h3>
+                <p>Text, voiceover, images and music all chosen to reflect the tone and intent of the book.</p>
+            </div>
+            <div class="card" style="grid-column:1 / -1;">
+                <span class="n">05</span>
+                <h3>A sense of audience</h3>
+                <p>Clues to who the book is for, so the right readers know straight away that this one is for them.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. THE MISSION -->
+<section>
+    <div class="shell reveal">
+        <div class="mission">
+            <div class="eyebrow"><span class="step">04</span> Your mission <span class="tag" style="color:#cfe3d7;">&middot; pairs or small groups</span></div>
+            <h2>Promote The Explorer</h2>
+            <p>Create a book trailer to promote <em>The Explorer</em> to your peers in other classes. First, draft a plan and script. That plan becomes the trailer.</p>
+
+            <div class="specs">
+                <div class="spec"><b>30 to 60s</b> length</div>
+                <div class="spec"><b>Pairs / groups</b> teamwork</div>
+                <div class="spec"><b>No spoilers</b> tease only</div>
+            </div>
+
+            <ul>
+                <li>Think about your key characters, the plot and the action.</li>
+                <li>Decide what goes in the voiceover and what goes on screen as text.</li>
+                <li>Remember: tempt them in, do not retell the whole story.</li>
+            </ul>
+
+            <div class="blurb">
+                <div class="t">A quote you are allowed to use</div>
+                <q>I wish I'd written this novel ... a masterpiece</q>
+                <span class="by">J.K. Rowling, on The Explorer</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. PLAN / STORYBOARD -->
+<section>
+    <div class="shell reveal">
+        <div class="eyebrow"><span class="step">05</span> Plan it <span class="tag">&middot; storyboard first</span></div>
+        <h2>Map your trailer before you film</h2>
+        <p class="lead">Use a storyboard (Google Slides or Canva work well) to plan your scenes: the opening hook, your key images or phrases, and where the mood shifts.</p>
+
+        <div class="storyboard">
+            <div class="sb danger">
+                <div class="top">Mood shift &middot; Danger</div>
+                <div class="body">
+                    <h4>Danger</h4>
+                    <p>A crashed plane, dense jungle closing in, a storm. The world feels threatening.</p>
+                </div>
+            </div>
+            <div class="sb discovery">
+                <div class="top">Mood shift &middot; Discovery</div>
+                <div class="body">
+                    <h4>Discovery</h4>
+                    <p>A hidden map, ruins in the green, a secret revealed. Curiosity takes over.</p>
+                </div>
+            </div>
+            <div class="sb teamwork">
+                <div class="top">Mood shift &middot; Teamwork</div>
+                <div class="body">
+                    <h4>Teamwork</h4>
+                    <p>Four children working together to survive. Hope, grit, belonging.</p>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin-top:34px;">Key elements of the story to draw on</h3>
+        <div class="keyel">
+            <div class="item"><b>The Amazon setting.</b> A vast, beautiful, dangerous rainforest.</div>
+            <div class="item"><b>Survival.</b> Finding food, water, shelter and a way out.</div>
+            <div class="item"><b>Four children's journey.</b> Strangers who become a team.</div>
+            <div class="item"><b>The mystery of the explorer.</b> Who lived here before them, and why?</div>
+        </div>
+
+        <h3 style="margin-top:30px;">Try symbolic imagery, not literal scenes</h3>
+        <p class="lead" style="margin-bottom:0;">Suggest the story rather than acting it out. A single object can carry a whole feeling.</p>
+        <div class="symbols">
+            <span>Dense rainforest</span>
+            <span>A broken compass</span>
+            <span>Tangled vines</span>
+            <span>An old map</span>
+            <span>Firelight</span>
+            <span>A small plane</span>
+        </div>
+    </div>
+</section>
+
+<!-- 6. DIGITAL TIPS -->
+<section>
+    <div class="shell reveal">
+        <div class="eyebrow"><span class="step">06</span> Make it <span class="tag">&middot; digital tips</span></div>
+        <h2>Filming and editing tips</h2>
+        <p class="lead">Keep it simple. A clear voice, steady images and good pacing beat fancy effects every time.</p>
+
+        <div style="margin-top:30px;">
+            <div class="tipgroup">
+                <h3><span class="dot"></span> Finding images</h3>
+                <div class="tips">
+                    <div class="tip">Make your own <b>photos or drawings</b>, or use copyright-free images.</div>
+                    <div class="tip">Good free sources: <code>photosforclass</code> and <code>Unsplash</code>.</div>
+                </div>
+            </div>
+
+            <div class="tipgroup">
+                <h3><span class="dot"></span> Filming</h3>
+                <div class="tips">
+                    <div class="tip">Film with <b>steady shots</b> and <b>natural lighting</b>.</div>
+                    <div class="tip">Record a <b>clear voiceover</b> with short, suspenseful lines, for example: <em>"Four children. One crashed plane. A jungle full of secrets."</em></div>
+                </div>
+            </div>
+
+            <div class="tipgroup">
+                <h3><span class="dot"></span> Editing</h3>
+                <div class="tips">
+                    <div class="tip">Use <b>iMovie</b> or <b>Canva</b>. Trim clips for pace and match timing to your mood shifts.</div>
+                    <div class="tip">Add <b>text overlays</b>, use transitions <b>sparingly</b>, and keep it moving.</div>
+                    <div class="tip">Use only <b>one or two quotes</b> from the novel. Less is more.</div>
+                    <div class="tip">Edit for <b>spelling, audio clarity, flow and pacing</b> before you finish.</div>
+                </div>
+            </div>
+
+            <div class="tipgroup">
+                <h3><span class="dot"></span> Finishing &amp; sharing</h3>
+                <div class="tips">
+                    <div class="tip">Add <b>credits</b>, for example: <em>"Images from Unsplash. Music from Mixkit."</em></div>
+                    <div class="tip">Export as an <b>MP4</b> for viewing.</div>
+                    <div class="tip">Share via <b>Google Drive</b> or <b>Google Sites</b>. Ask Mr Ell if you need a hand with Sites.</div>
+                </div>
+            </div>
+
+            <div class="btnrow">
+                <a class="btn" href="https://docs.google.com/document/d/144YXyc8qDpuGREzIdN11SmR7zrqx62tmfrP-0PJlqR8/edit?usp=sharing" target="_blank" rel="noopener">Canva tips document <span class="arrow">&rarr;</span></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 7. PLENARY & EVALUATION -->
+<section>
+    <div class="shell reveal">
+        <div class="eyebrow"><span class="step">07</span> Share &amp; reflect <span class="tag">&middot; plenary</span></div>
+        <h2>Share your trailers</h2>
+        <p class="lead">Watch each other's trailers. Be a generous, specific audience.</p>
+
+        <div class="eval" style="margin-top:26px;">
+            <div class="card">
+                <h3>What worked well?</h3>
+                <ul>
+                    <li>Which trailer made you want to read the book, and why?</li>
+                    <li>Name one choice (image, sound or line) that really landed.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>How could you improve it?</h3>
+                <ul>
+                    <li>What is one change that would make your own trailer stronger?</li>
+                    <li>Did anything give away too much of the story?</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="exit">
+            <h3>Exit slip</h3>
+            <p style="margin:0;color:var(--ink-soft);">Record a <strong>one sentence summary</strong> of the chapter. We will do this at the end of every chapter, so use the printed template each time.</p>
+            <div class="frameline">In this chapter, ______________________________________________ .</div>
+            <div class="btnrow">
+                <a class="btn amber" href="https://docs.google.com/document/d/1hO-cTzJjeyMAJxsNa3ODflycPidwyuxc/edit" target="_blank" rel="noopener">Exit slip template <span class="arrow">&rarr;</span></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="shell">The Explorer by Katherine Rundell &middot; Year 5 novel study &middot; Make a Book Trailer</div>
+</footer>
+
+<script>
+// progress bar
+const bar=document.getElementById('bar');
+function setBar(){
+    const h=document.documentElement;
+    const scrolled=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    bar.style.width=(scrolled*100)+'%';
+}
+document.addEventListener('scroll',setBar,{passive:true});
+setBar();
+
+// reveal on scroll
+const io=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

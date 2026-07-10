@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simile Refresher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-accent: #4ECDC4;
+        --text-dark: #2D3436;
+        --text-light: #636E72;
+        --correct-color: #27AE60;
+        --debate-color: #9B5DE5;
+        --incorrect-color: #E74C3C;
+        --highlight-yellow: #FFF3BF;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Fredoka', sans-serif;
+        color: var(--text-dark);
+        min-height: 100vh;
+        overflow-x: hidden;
+        background: #FAF8F5;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Floating background blobs */
+    .bg-shapes {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+    }
+    .bg-shape {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.18;
+    }
+    .bg-shape:nth-child(1) { width: 500px; height: 500px; top: -10%; left: -5%; background: #FF6B6B; }
+    .bg-shape:nth-child(2) { width: 400px; height: 400px; top: 20%; right: -8%; background: #4ECDC4; }
+    .bg-shape:nth-child(3) { width: 350px; height: 350px; bottom: 15%; left: 10%; background: #FFD93D; }
+    .bg-shape:nth-child(4) { width: 450px; height: 450px; bottom: -5%; right: 15%; background: #A29BFE; }
+    .bg-shape:nth-child(5) { width: 300px; height: 300px; top: 50%; left: 40%; background: #74B9FF; }
+
+    .content-wrapper {
+        position: relative;
+        z-index: 1;
+        max-width: 1000px;
+        width: clamp(320px, 92%, 1000px);
+        margin: 0 auto;
+        padding: 24px 16px 32px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Header */
+    .top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    .title-block h1 {
+        font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+        font-weight: 700;
+        margin: 0;
+        color: var(--text-dark);
+    }
+    .title-block p {
+        margin: 4px 0 0;
+        color: var(--text-light);
+        font-size: 1rem;
+        font-weight: 500;
+    }
+    .counter {
+        font-family: 'Space Mono', monospace;
+        font-weight: 700;
+        font-size: 1.1rem;
+        background: rgba(255,255,255,0.85);
+        border: 2px solid #E8E0D8;
+        border-radius: 12px;
+        padding: 8px 16px;
+        white-space: nowrap;
+    }
+
+    /* Card */
+    .card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        padding: 40px 44px;
+        animation: fadeIn 0.4s ease;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .badge {
+        align-self: flex-start;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        margin-bottom: 24px;
+    }
+    .badge.spot {
+        background: rgba(78, 205, 196, 0.18);
+        color: #1A9B92;
+    }
+    .badge.debate {
+        background: rgba(155, 93, 229, 0.16);
+        color: var(--debate-color);
+    }
+
+    /* Sentence */
+    .sentence {
+        font-size: clamp(1.6rem, 4vw, 2.6rem);
+        font-weight: 500;
+        line-height: 1.5;
+        margin: 0 0 36px;
+        color: var(--text-dark);
+    }
+    .blank {
+        display: inline-block;
+        min-width: 2.6em;
+        padding: 0 0.35em;
+        border-bottom: 4px dashed var(--primary-accent);
+        text-align: center;
+        font-weight: 700;
+        color: var(--primary-accent);
+        transition: all 0.3s ease;
+    }
+    .blank.filled-correct { color: var(--correct-color); border-bottom-color: var(--correct-color); }
+    .blank.filled-debate { color: var(--debate-color); border-bottom-color: var(--debate-color); }
+    .blank.filled-wrong { color: var(--incorrect-color); border-bottom-color: var(--incorrect-color); }
+
+    /* Options */
+    .options {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+    .option {
+        flex: 1 1 200px;
+        font-family: 'Fredoka', sans-serif;
+        font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+        font-weight: 600;
+        padding: 22px 18px;
+        border: 3px solid #E8E0D8;
+        border-radius: 16px;
+        background: rgba(255,255,255,0.9);
+        color: var(--text-dark);
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+    .option:hover {
+        transform: translateY(-2px);
+        border-color: var(--primary-accent);
+        box-shadow: 0 6px 18px rgba(78,205,196,0.25);
+    }
+    .option.correct {
+        border-color: var(--correct-color);
+        background: rgba(39, 174, 96, 0.12);
+        color: var(--correct-color);
+    }
+    .option.wrong {
+        border-color: var(--incorrect-color);
+        background: rgba(231, 76, 60, 0.10);
+        color: var(--incorrect-color);
+    }
+    .option.chosen-debate {
+        border-color: var(--debate-color);
+        background: rgba(155, 93, 229, 0.12);
+        color: var(--debate-color);
+    }
+
+    /* Feedback */
+    .feedback {
+        margin-top: 28px;
+        font-size: clamp(1.05rem, 2vw, 1.35rem);
+        font-weight: 500;
+        line-height: 1.6;
+        padding: 20px 24px;
+        border-radius: 16px;
+        animation: fadeIn 0.3s ease;
+        display: none;
+    }
+    .feedback.show { display: block; }
+    .feedback.correct { background: rgba(39, 174, 96, 0.10); border: 2px solid var(--correct-color); }
+    .feedback.wrong { background: rgba(231, 76, 60, 0.08); border: 2px solid var(--incorrect-color); }
+    .feedback.debate { background: rgba(155, 93, 229, 0.08); border: 2px solid var(--debate-color); }
+    .feedback strong { font-weight: 700; }
+
+    /* Nav */
+    .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-top: 24px;
+    }
+    .nav-btn {
+        font-family: 'Fredoka', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        padding: 14px 28px;
+        border: none;
+        border-radius: 14px;
+        background: var(--primary-accent);
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.25s ease;
+    }
+    .nav-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(78,205,196,0.4);
+    }
+    .nav-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+    .nav-btn.ghost {
+        background: rgba(255,255,255,0.9);
+        color: var(--text-dark);
+        border: 2px solid #E8E0D8;
+    }
+    .hint {
+        font-size: 0.95rem;
+        color: var(--text-light);
+        font-weight: 500;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+<div class="bg-shapes">
+    <div class="bg-shape"></div>
+    <div class="bg-shape"></div>
+    <div class="bg-shape"></div>
+    <div class="bg-shape"></div>
+    <div class="bg-shape"></div>
+</div>
+
+<div class="content-wrapper">
+    <div class="top-bar">
+        <div class="title-block">
+            <h1>Simile Refresher</h1>
+            <p>A simile compares two things using <em>like</em> or <em>as</em>. Which word fits the gap?</p>
+        </div>
+        <div class="counter" id="counter">1 / 10</div>
+    </div>
+
+    <div class="card" id="card">
+        <span class="badge" id="badge"></span>
+        <p class="sentence" id="sentence"></p>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="nav">
+        <button class="nav-btn ghost" id="prevBtn">Back</button>
+        <p class="hint">Tap an option, or use the arrow keys or your clicker to move on</p>
+        <button class="nav-btn" id="nextBtn">Next</button>
+    </div>
+</div>
+
+<script>
+    const slides = [
+        {
+            type: 'spot',
+            parts: ['As fast as a ', '.'],
+            options: [
+                { word: 'cheetah', correct: true, note: 'A cheetah is the fastest land animal on Earth, so this paints someone moving really quickly. A clear, literal simile.' },
+                { word: 'snail', correct: true, note: 'Cheeky, but it works. We say "as fast as a snail" sarcastically to mean someone is really slow. Same simile frame, opposite meaning. Similes can be used for irony.' },
+                { word: 'brick', note: 'You could defend this if you mean a brick dropped from a height, but you would need to say so. On its own a brick does not picture speed. Cheetah or snail are much clearer.' }
+            ]
+        },
+        {
+            type: 'spot',
+            parts: ['As quiet as a ', '.'],
+            options: [
+                { word: 'drum', note: 'A drum is loud, so "quiet as a drum" only works as a joke meaning the opposite. Clever, but a mouse gives the clear, serious picture.' },
+                { word: 'mouse', correct: true, note: 'The clearest choice. A mouse moves silently and is so small we barely notice it, a perfect picture of quietness.' },
+                { word: 'firework', note: 'A firework bangs and crackles, so this works only as sarcasm meaning very loud. A mouse is the clearer choice for real quietness.' }
+            ]
+        },
+        {
+            type: 'spot',
+            parts: ['The snow was as white as a ', '.'],
+            options: [
+                { word: 'sheet', correct: true, note: 'The clearest choice. A clean white sheet is one of the whitest everyday things, so the picture is natural and instant.' },
+                { word: 'crow', note: 'A crow is jet black, the opposite of white. You could only use this as irony, and ironic colour similes confuse most readers. Sheet is far clearer.' },
+                { word: 'puddle', note: 'A puddle is usually grey or muddy. You could defend it if it were reflecting a bright white sky, but you would need to explain that. Sheet pictures white on its own.' }
+            ]
+        },
+        {
+            type: 'spot',
+            parts: ['He was as busy as a ', ' all morning.'],
+            options: [
+                { word: 'pillow', note: 'A pillow just sits there, so "busy as a pillow" would be a joke meaning not busy at all. The clear, serious choice is a bee.' },
+                { word: 'rock', note: 'A rock never moves, so this only works as sarcasm. If you want to picture someone really busy, a bee is the choice.' },
+                { word: 'bee', correct: true, note: 'The clearest choice. Bees are always working and buzzing about, which is why "busy as a bee" is such a well known simile.' }
+            ]
+        },
+        {
+            type: 'debate',
+            parts: ['Her smile was as bright as ', '.'],
+            options: [
+                { word: 'the sun', note: 'The sun suggests warmth and energy, a smile that lights up the whole room. It is bold but a little expected.' },
+                { word: 'a new coin', note: 'A new coin is small, shiny and precious. This makes the smile feel fresh and valuable, but less warm.' },
+                { word: 'a lighthouse', note: 'A lighthouse beam cuts through darkness to guide people. This hints the smile gives comfort or hope, not just light.' }
+            ],
+            debatePrompt: 'There is no single right answer here. Each choice changes the picture. Which do you like best, and why?'
+        },
+        {
+            type: 'debate',
+            parts: ['The classroom was as loud as ', '.'],
+            options: [
+                { word: 'a jungle', note: 'A jungle is full of many different wild sounds at once. This suggests chaos and lots of separate noises.' },
+                { word: 'a stadium', note: 'A stadium is loud in a united way, like a roaring crowd. This suggests excitement and energy together.' },
+                { word: 'a thunderstorm', note: 'A thunderstorm is sudden, booming and a bit frightening. This suggests the noise was overwhelming.' }
+            ],
+            debatePrompt: 'All three work. Which best matches the kind of loud you want to describe? Be ready to explain.'
+        },
+        {
+            type: 'debate',
+            parts: ['The old house creaked like ', '.'],
+            options: [
+                { word: 'a ghost ship', note: 'A ghost ship adds mystery and spookiness. The house feels haunted and full of stories.' },
+                { word: "an old man's bones", note: 'This makes the house feel alive and ageing, almost like a living person with aches and pains.' },
+                { word: 'a rusty gate', note: 'A rusty gate is a plain, realistic sound. It feels true to life but less imaginative.' }
+            ],
+            debatePrompt: 'Which simile creates the strongest mood? There is no wrong choice, only different effects.'
+        },
+        {
+            type: 'debate',
+            parts: ['The lake was as smooth as ', '.'],
+            options: [
+                { word: 'glass', note: 'Glass suggests a perfectly flat, still surface you could almost see your face in. A classic, clear image.' },
+                { word: 'silk', note: 'Silk adds a soft, gentle feeling. The water feels luxurious and pleasant to touch, not just flat.' },
+                { word: 'a mirror', note: 'A mirror suggests the water reflects everything above it perfectly. It adds the idea of reflection, not just smoothness.' }
+            ],
+            debatePrompt: 'Each one is smooth in a slightly different way. Which gives the clearest or most surprising picture?'
+        },
+        {
+            type: 'debate',
+            parts: ['She was as brave as ', '.'],
+            options: [
+                { word: 'a lion', note: 'A lion is the classic symbol of courage. Strong and instantly understood, but very familiar.' },
+                { word: 'a firefighter', note: 'A firefighter chooses to run towards danger to help others. This makes the bravery feel real and human.' },
+                { word: 'a small dog facing a storm', note: 'This is unexpected. Bravery in spite of being small and frightened can be the most powerful kind.' }
+            ],
+            debatePrompt: 'A surprising simile can be more powerful than an obvious one. Which would you choose for your own writing?'
+        },
+        {
+            type: 'debate',
+            parts: ['The news spread through the school like ', '.'],
+            options: [
+                { word: 'wildfire', note: 'Wildfire suggests the news spread fast and could not be stopped. The most common choice, and very vivid.' },
+                { word: 'a cold', note: 'A cold spreads quietly, person to person. This suggests the news passed in whispers rather than all at once.' },
+                { word: 'ripples on a pond', note: 'Ripples spread out gently and evenly from one point. A calmer, more thoughtful image.' }
+            ],
+            debatePrompt: 'Fast and fierce, or quiet and creeping? The simile you pick changes how the reader imagines it.'
+        }
+    ];
+
+    let current = 0;
+    const answered = slides.map(() => false);
+
+    const counterEl = document.getElementById('counter');
+    const badgeEl = document.getElementById('badge');
+    const sentenceEl = document.getElementById('sentence');
+    const optionsEl = document.getElementById('options');
+    const feedbackEl = document.getElementById('feedback');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function render() {
+        const slide = slides[current];
+        counterEl.textContent = (current + 1) + ' / ' + slides.length;
+
+        if (slide.type === 'spot') {
+            badgeEl.className = 'badge spot';
+            badgeEl.textContent = 'Spot the simile';
+        } else {
+            badgeEl.className = 'badge debate';
+            badgeEl.textContent = 'Debate it';
+        }
+
+        buildSentence(slide, null);
+
+        optionsEl.innerHTML = '';
+        slide.options.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'option';
+            btn.textContent = opt.word;
+            btn.onclick = () => choose(i);
+            optionsEl.appendChild(btn);
+        });
+
+        feedbackEl.className = 'feedback';
+        feedbackEl.innerHTML = '';
+
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === slides.length - 1;
+        document.activeElement && document.activeElement.blur();
+    }
+
+    function buildSentence(slide, chosenWord) {
+        let blankClass = 'blank';
+        let blankText = '?';
+        if (chosenWord) {
+            blankText = chosenWord.word;
+            if (slide.type === 'debate') blankClass += ' filled-debate';
+            else if (chosenWord.correct) blankClass += ' filled-correct';
+            else blankClass += ' filled-debate';
+        }
+        sentenceEl.innerHTML =
+            escapeHtml(slide.parts[0]) +
+            '<span class="' + blankClass + '">' + escapeHtml(blankText) + '</span>' +
+            escapeHtml(slide.parts[1]);
+    }
+
+    function choose(i) {
+        const slide = slides[current];
+        const opt = slide.options[i];
+        const optionBtns = optionsEl.querySelectorAll('.option');
+
+        if (slide.type === 'spot') {
+            const corrects = slide.options.filter(o => o.correct);
+            optionBtns[i].classList.remove('correct', 'wrong', 'chosen-debate');
+            optionBtns[i].classList.add(opt.correct ? 'correct' : 'chosen-debate');
+
+            buildSentence(slide, opt);
+
+            if (opt.correct) {
+                feedbackEl.className = 'feedback show correct';
+                let msg = '<strong>Yes.</strong> ' + escapeHtml(opt.note);
+                if (corrects.length > 1) {
+                    msg += '<br><br><strong>More than one answer works here.</strong> Try the others too and see how the meaning changes.';
+                }
+                feedbackEl.innerHTML = msg;
+            } else {
+                feedbackEl.className = 'feedback show debate';
+                feedbackEl.innerHTML = '<strong>That can work too.</strong> ' + escapeHtml(opt.note);
+            }
+        } else {
+            optionBtns.forEach(b => b.classList.remove('chosen-debate'));
+            optionBtns[i].classList.add('chosen-debate');
+            buildSentence(slide, opt);
+            feedbackEl.className = 'feedback show debate';
+            feedbackEl.innerHTML = '<strong>' + escapeHtml(opt.word) + ':</strong> ' + escapeHtml(opt.note) +
+                '<br><br>' + escapeHtml(slide.debatePrompt);
+        }
+        answered[current] = true;
+        document.activeElement && document.activeElement.blur();
+    }
+
+    function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[c]));
+    }
+
+    function go(delta) {
+        const next = current + delta;
+        if (next < 0 || next >= slides.length) return;
+        current = next;
+        render();
+    }
+
+    prevBtn.onclick = () => go(-1);
+    nextBtn.onclick = () => go(1);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') { go(1); e.preventDefault(); }
+        else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { go(-1); e.preventDefault(); }
+    }, true);
+
+    render();
+</script>
+</body>
+</html>
