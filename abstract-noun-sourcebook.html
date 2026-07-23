@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Book of Feelings: a poet's sourcebook of images, words and rhymes for writing poems about abstract nouns. Stage 3 English (EN3-CWT-01).">
+<title>The Book of Feelings</title>
+<!--
+    NEW PATTERN: Poetry-unit aesthetic ("The Printed Page") + reference-only sourcebook
+    WHAT: A no-input browsing companion. Students pick a feeling and get one calm page
+          of imagery, vocabulary and rhyme families to lean on while they draft on paper.
+          There is deliberately nowhere to type: the writing happens in their books.
+    WHY: Paddy approved a departure from the Fredoka + floating-blob house style for the
+          poetry unit. Serif typography (Fraunces/Spectral), warm paper, muted eucalypt
+          and antique gold, no background blobs, one screen at a time. The LISC card is
+          folded into a quiet expandable disclosure on the opening page rather than a
+          large banner, at Paddy's request, to keep the entry calm.
+    STATUS: experimental (candidate for the poetry-unit house style)
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Spectral:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+    :root{
+        --paper:#F4F0E7;
+        --panel:#FBF9F3;
+        --ink:#28231C;
+        --ink-soft:#6C6353;
+        --hair:#DED5C4;
+        --accent:#45685C;      /* deep eucalypt */
+        --accent-soft:#E4EAE4;
+        --gold:#A9803F;        /* antique gold, used sparingly */
+        --shadow:0 18px 50px rgba(60,50,35,0.10);
+    }
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;}
+    body{
+        font-family:'Inter',sans-serif;
+        color:var(--ink);
+        background:var(--paper);
+        min-height:100vh;
+        -webkit-font-smoothing:antialiased;
+    }
+    body::before{
+        content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+        background:
+            radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,0.5), transparent 60%),
+            radial-gradient(100% 60% at 50% 120%, rgba(69,104,92,0.06), transparent 55%);
+    }
+
+    .stage{
+        position:relative;z-index:2;
+        max-width:1100px;margin:0 auto;padding:40px 32px 90px;
+        min-height:100vh;display:flex;flex-direction:column;
+    }
+
+    .view{display:none;animation:rise .5s ease;flex:1;}
+    .view.on{display:flex;flex-direction:column;}
+    @keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+    .eyebrow{
+        font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;
+        color:var(--gold);font-weight:600;margin:0 0 14px;
+    }
+    h1.title{
+        font-family:'Fraunces',serif;font-weight:500;
+        font-size:clamp(2.4rem,7vw,3.4rem);line-height:1.06;letter-spacing:-0.01em;
+        margin:0 0 20px;
+    }
+    h2.head{
+        font-family:'Fraunces',serif;font-weight:500;
+        font-size:clamp(2rem,6vw,2.9rem);line-height:1.08;margin:0 0 8px;
+    }
+    p.lead{
+        font-family:'Spectral',serif;font-size:1.16rem;line-height:1.75;color:var(--ink-soft);
+        max-width:54ch;margin:0 0 26px;
+    }
+
+    /* quiet top nav link */
+    .crumb{
+        font-family:'Inter',sans-serif;font-size:0.82rem;letter-spacing:0.06em;
+        color:var(--ink-soft);background:none;border:none;cursor:pointer;
+        padding:6px 0;margin:0 0 30px;text-align:left;align-self:flex-start;
+        border-bottom:1px solid transparent;transition:all .25s ease;
+    }
+    .crumb:hover{color:var(--accent);border-bottom-color:var(--accent);}
+
+    /* buttons */
+    button.begin{
+        font-family:'Inter',sans-serif;font-size:1rem;font-weight:500;letter-spacing:0.02em;
+        background:var(--accent);color:#fff;border:none;border-radius:2px;
+        padding:16px 34px;cursor:pointer;align-self:flex-start;
+        transition:all .25s ease;box-shadow:0 8px 22px rgba(69,104,92,0.28);
+    }
+    button.begin:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(69,104,92,0.34);}
+    button.ghost{
+        font-family:'Inter',sans-serif;font-size:0.92rem;font-weight:500;
+        background:transparent;color:var(--accent);border:1px solid var(--hair);
+        border-radius:2px;padding:12px 22px;cursor:pointer;transition:all .25s ease;
+    }
+    button.ghost:hover{border-color:var(--accent);}
+
+    /* ---------- Opening ---------- */
+    .opening{flex:1;display:flex;flex-direction:column;justify-content:center;}
+    .open-grid{display:block;}
+    @media(min-width:880px){
+        .open-grid{
+            display:grid;grid-template-columns:1.05fr 1fr;gap:64px;
+            grid-template-areas:"a b" "c b";align-items:center;
+        }
+        .open-a{grid-area:a;}
+        .open-b{grid-area:b;align-self:center;}
+        .open-c{grid-area:c;}
+        .open-b .epigraph{font-size:1.5rem;}
+    }
+    .epigraph{
+        font-family:'Spectral',serif;font-style:italic;font-size:1.32rem;line-height:2;
+        color:var(--ink);border-left:2px solid var(--accent);
+        padding:8px 0 8px 26px;margin:0 0 12px;
+    }
+    .attrib{
+        font-family:'Inter',sans-serif;font-style:normal;font-size:0.8rem;
+        letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-soft);
+        margin:0 0 32px;padding-left:28px;
+    }
+
+    details.lisc{
+        margin-top:34px;border-top:1px solid var(--hair);padding-top:16px;
+        max-width:56ch;
+    }
+    details.lisc summary{
+        font-family:'Inter',sans-serif;font-size:0.78rem;letter-spacing:0.16em;
+        text-transform:uppercase;color:var(--ink-soft);cursor:pointer;
+        list-style:none;display:flex;align-items:center;gap:10px;font-weight:600;
+    }
+    details.lisc summary::-webkit-details-marker{display:none;}
+    details.lisc summary::after{content:"+";font-family:'Fraunces',serif;font-size:1.1rem;color:var(--gold);}
+    details.lisc[open] summary::after{content:"\2212";}
+    details.lisc summary:hover{color:var(--accent);}
+    .lisc-body{
+        font-family:'Spectral',serif;font-size:1.05rem;line-height:1.75;color:var(--ink-soft);
+        padding:14px 0 4px;
+    }
+    .lisc-body p{margin:0 0 10px;}
+    .lisc-body ul{margin:0;padding-left:20px;}
+    .lisc-body li{margin:6px 0;}
+    .lisc-body .ext{color:var(--gold);font-weight:500;}
+
+    /* ---------- Contents ---------- */
+    .group-label{
+        font-family:'Inter',sans-serif;font-size:0.74rem;letter-spacing:0.16em;text-transform:uppercase;
+        color:var(--ink-soft);margin:30px 0 16px;font-weight:600;
+    }
+    .contents-cols{display:block;}
+    @media(min-width:880px){
+        .contents-cols{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+        .contents-cols .group-label{margin-top:10px;}
+    }
+    .noun-flow{display:flex;flex-wrap:wrap;gap:12px;}
+    .noun{
+        font-family:'Fraunces',serif;font-size:1.18rem;font-weight:400;
+        background:transparent;border:1px solid var(--hair);color:var(--ink);
+        border-radius:2px;padding:12px 22px;cursor:pointer;transition:all .2s ease;
+        min-height:48px;
+    }
+    .noun:hover,.noun:focus-visible{border-color:var(--accent);color:var(--accent);outline:none;}
+    .shelf-link{
+        margin-top:44px;border-top:1px solid var(--hair);padding-top:22px;
+        display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    }
+    .shelf-link p{font-family:'Spectral',serif;color:var(--ink-soft);margin:0;font-size:1.02rem;}
+
+    /* ---------- Feeling page ---------- */
+    .subtitle-line{
+        font-family:'Spectral',serif;font-style:italic;font-size:1.22rem;line-height:1.6;
+        color:var(--ink-soft);margin:0 0 38px;
+    }
+    section.leaf{margin:0 0 40px;}
+    .spread{display:block;}
+    @media(min-width:880px){
+        .spread{display:grid;grid-template-columns:1.05fr 1fr;gap:64px;align-items:start;}
+        .spread section.leaf{margin-bottom:0;}
+        .spread{margin-bottom:48px;}
+    }
+    .leaf-label{
+        font-family:'Inter',sans-serif;font-size:0.74rem;letter-spacing:0.18em;text-transform:uppercase;
+        color:var(--gold);font-weight:600;margin:0 0 16px;
+        display:flex;align-items:center;gap:14px;
+    }
+    .leaf-label::after{content:"";flex:1;height:1px;background:var(--hair);}
+
+    .imagery{display:flex;flex-direction:column;gap:10px;}
+    .imagery .img-line{
+        font-family:'Spectral',serif;font-style:italic;font-size:1.28rem;line-height:1.55;color:var(--ink);
+    }
+    .imagery .img-line::before{content:"\2013\00a0";color:var(--gold);font-style:normal;}
+    /* NOTE: the ::before mark above is a decorative en dash leader on each imagery
+       line, in the tradition of a printed list of epithets. */
+
+    .word-cols{display:grid;grid-template-columns:1fr;gap:26px;}
+    @media(min-width:560px) and (max-width:879px){ .word-cols{grid-template-columns:1fr 1fr;} }
+    .word-col .col-name{
+        font-family:'Inter',sans-serif;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;
+        color:var(--ink-soft);font-weight:600;margin-bottom:12px;
+    }
+    .word-col .col-name.reach{color:var(--accent);}
+    .word-list{display:flex;flex-wrap:wrap;gap:8px;}
+    .word{
+        font-family:'Spectral',serif;font-size:1.06rem;color:var(--ink);
+        background:var(--panel);border:1px solid var(--hair);border-radius:2px;
+        padding:6px 14px;
+    }
+    .word-col.reach-col .word{background:var(--accent-soft);border-color:#CBD8CE;}
+
+    .rhyme-rows{display:flex;flex-direction:column;gap:16px;}
+    @media(min-width:880px){
+        #fRhymes.rhyme-rows{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;}
+    }
+    .rhyme-row .fam{
+        font-family:'Inter',sans-serif;font-size:0.78rem;letter-spacing:0.1em;
+        color:var(--accent);font-weight:600;margin-bottom:6px;
+    }
+    .rhyme-row .fam-words{
+        font-family:'Spectral',serif;font-size:1.14rem;line-height:1.7;color:var(--ink);
+    }
+    .rhyme-note{
+        font-family:'Spectral',serif;font-style:italic;font-size:0.98rem;color:var(--ink-soft);
+        margin:16px 0 0;
+    }
+
+    .way-in{
+        background:var(--panel);border:1px solid var(--hair);border-radius:6px;
+        box-shadow:var(--shadow);padding:30px 34px;
+    }
+    .way-in .verse{
+        font-family:'Spectral',serif;font-size:1.34rem;line-height:1.9;color:var(--ink);margin:0 0 14px;
+    }
+    .way-in .nudge{
+        font-family:'Inter',sans-serif;font-size:0.85rem;color:var(--ink-soft);margin:0;
+    }
+    .way-in .nudge b{color:var(--accent);font-weight:600;}
+
+    .page-turn{
+        display:flex;justify-content:space-between;align-items:center;gap:12px;
+        margin-top:10px;border-top:1px solid var(--hair);padding-top:24px;
+    }
+    .turn{
+        font-family:'Fraunces',serif;font-size:1.02rem;color:var(--accent);
+        background:none;border:none;cursor:pointer;padding:10px 4px;
+        transition:all .2s ease;min-height:44px;
+    }
+    .turn:hover{color:var(--ink);}
+    .turn:disabled{color:var(--hair);cursor:default;}
+
+    /* ---------- Rhyming shelf ---------- */
+    .shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:26px 48px;}
+    .shelf .rhyme-row{border-bottom:1px solid var(--hair);padding-bottom:18px;}
+
+    @media(max-width:540px){
+        .word-cols{grid-template-columns:1fr;}
+        .way-in{padding:24px 20px;}
+        .stage{padding:28px 18px 70px;}
+    }
+</style>
+</head>
+<body>
+<div class="stage">
+
+    <!-- ============ OPENING ============ -->
+    <section class="view on" id="view-opening">
+        <div class="opening">
+            <div class="open-grid">
+                <div class="open-a">
+                    <p class="eyebrow">Stage 3 &middot; A poetry study</p>
+                    <h1 class="title">The Book<br>of Feelings</h1>
+                </div>
+                <div class="open-b">
+                    <div class="epigraph">
+                        &ldquo;Hope&rdquo; is the thing with feathers &ndash;<br>
+                        That perches in the soul &ndash;<br>
+                        And sings the tune without the words &ndash;<br>
+                        And never stops &ndash; at all &ndash;
+                    </div>
+                    <p class="attrib">Emily Dickinson</p>
+                </div>
+                <div class="open-c">
+                    <p class="lead">Dickinson never tells us what hope means. She hands us a small bird instead, and lets the bird do the telling. Inside this book are pictures, words and rhymes for twenty feelings of your own. Borrow whatever helps. Then close the lid, pick up your pen, and write.</p>
+                    <button class="begin" onclick="openContents()">Open the book</button>
+                </div>
+            </div>
+
+            <details class="lisc">
+                <summary>What we are learning</summary>
+                <div class="lisc-body">
+                    <p>We are learning to write a poem that uses a symbol as a metaphor for an abstract noun, holding a repeated pattern and rhyme across several stanzas.</p>
+                    <ul>
+                        <li>I can choose an abstract noun and explain what it means to me.</li>
+                        <li>I can pick a symbol and use it as a metaphor to stand for my abstract noun.</li>
+                        <li>I can use repetition by starting each stanza with the same &ldquo;[Idea] is&hellip;&rdquo; pattern.</li>
+                        <li>I can use rhyme by ending lines with words that share a sound.</li>
+                        <li><span class="ext">Extension:</span> I can extend one metaphor through a whole stanza so every line adds to the same picture.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- ============ CONTENTS ============ -->
+    <section class="view" id="view-contents">
+        <button class="crumb" onclick="openOpening()">&larr; The beginning</button>
+        <p class="eyebrow">Contents</p>
+        <h2 class="head">Choose a feeling.</h2>
+        <p class="lead">Each feeling has its own page: pictures you could borrow, words to lean on, and rhymes that suit. Start anywhere.</p>
+
+        <div class="contents-cols">
+            <div>
+                <div class="group-label">Begin here</div>
+                <div class="noun-flow" id="coreNouns"></div>
+            </div>
+            <div>
+                <div class="group-label">Reach further</div>
+                <div class="noun-flow" id="stretchNouns"></div>
+            </div>
+        </div>
+
+        <div class="shelf-link">
+            <p>Hunting a rhyme that is not on your feeling&rsquo;s page?</p>
+            <button class="ghost" onclick="openShelf()">Browse the rhyming shelf</button>
+        </div>
+    </section>
+
+    <!-- ============ FEELING PAGE ============ -->
+    <section class="view" id="view-feeling">
+        <button class="crumb" onclick="openContents()">&larr; Contents</button>
+        <p class="eyebrow" id="fEyebrow"></p>
+        <h2 class="head" id="fName"></h2>
+        <p class="subtitle-line" id="fSubtitle"></p>
+
+        <div class="spread">
+            <section class="leaf">
+                <div class="leaf-label">Pictures you could borrow</div>
+                <div class="imagery" id="fImagery"></div>
+            </section>
+
+            <section class="leaf">
+                <div class="leaf-label">Words to lean on</div>
+                <div class="word-cols">
+                    <div class="word-col">
+                        <div class="col-name">Everyday</div>
+                        <div class="word-list" id="fCore"></div>
+                    </div>
+                    <div class="word-col reach-col">
+                        <div class="col-name reach">Reach further</div>
+                        <div class="word-list" id="fStretch"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section class="leaf">
+            <div class="leaf-label">Rhymes that suit</div>
+            <div class="rhyme-rows" id="fRhymes"></div>
+            <p class="rhyme-note">A near rhyme is allowed. Poets use them all the time; Dickinson barely rhymed at all.</p>
+        </section>
+
+        <section class="leaf">
+            <div class="leaf-label">A way in</div>
+            <div class="way-in">
+                <p class="verse" id="fOpening"></p>
+                <p class="nudge"><b>Now it is yours.</b> Close the lid, and write your own opening in your book. Say your feeling <i>is</i> the thing, not <i>like</i> the thing: that is what makes it a metaphor.</p>
+            </div>
+        </section>
+
+        <div class="page-turn">
+            <button class="turn" id="prevBtn"></button>
+            <button class="turn" id="nextBtn"></button>
+        </div>
+    </section>
+
+    <!-- ============ RHYMING SHELF ============ -->
+    <section class="view" id="view-shelf">
+        <button class="crumb" onclick="openContents()">&larr; Contents</button>
+        <p class="eyebrow">The rhyming shelf</p>
+        <h2 class="head">Every family in the book.</h2>
+        <p class="lead">Find the sound your line ends on, and see who its relatives are. If your word is not here, listen for its last sound and hunt the nearest family. A near rhyme is allowed.</p>
+        <div class="shelf" id="shelfRows"></div>
+    </section>
+
+</div>
+
+<script>
+/* ================= RHYME FAMILIES ================= */
+const FAM = {
+    eeze:{label:'sounds like breeze', words:['breeze','trees','seas','ease','keys','please','freeze']},
+    ight:{label:'sounds like light', words:['light','bright','night','sight','flight','might','fight','tight']},
+    old:{label:'sounds like gold', words:['bold','cold','gold','hold','told','old','fold']},
+    ore:{label:'sounds like door', words:['roar','soar','more','door','floor','shore','core','explore','before']},
+    ow:{label:'sounds like glow', words:['glow','flow','grow','slow','show','know','snow','below']},
+    eam:{label:'sounds like dream', words:['beam','dream','gleam','stream','seem']},
+    ise:{label:'sounds like skies', words:['rise','skies','eyes','prize','wise','surprise']},
+    ake:{label:'sounds like lake', words:['lake','break','wake','make','take','shake','awake']},
+    oud:{label:'sounds like cloud', words:['cloud','loud','proud','crowd','shroud']},
+    ing:{label:'sounds like wing', words:['wing','sing','ring','bring','spring','string','anything']},
+    one:{label:'sounds like stone', words:['stone','alone','grown','thrown','own','unknown']},
+    eep:{label:'sounds like deep', words:['deep','sleep','keep','weep','sweep','steep']},
+    ear:{label:'sounds like near', words:['fear','near','clear','tear','year','appear','disappear']},
+    all:{label:'sounds like tall', words:['tall','wall','call','fall','small','all']},
+    ind:{label:'sounds like find', words:['mind','find','kind','blind','behind','unwind']},
+    ame:{label:'sounds like flame', words:['flame','name','same','tame','frame','became']},
+    air:{label:'sounds like air', words:['air','care','share','dare','flare','bare','everywhere']},
+    ay:{label:'sounds like day', words:['day','away','stay','grey','say','play','delay']},
+    end:{label:'sounds like end', words:['end','bend','friend','send','mend','descend']},
+    ark:{label:'sounds like dark', words:['dark','spark','mark','bark','lark']},
+    ine:{label:'sounds like shine', words:['mine','vine','shine','line','pine','entwine']},
+    ell:{label:'sounds like bell', words:['bell','well','tell','fell','spell','farewell']},
+    ide:{label:'sounds like wide', words:['wide','hide','tide','side','ride','beside']},
+    un:{label:'sounds like sun', words:['sun','run','one','done','begun','won']},
+    art:{label:'sounds like heart', words:['start','part','heart','art','apart']},
+    eed:{label:'sounds like seed', words:['seed','need','freed','lead','indeed']},
+    eak:{label:'sounds like peak', words:['peak','speak','weak','seek','creak']},
+    ill:{label:'sounds like still', words:['still','will','hill','fill','until']},
+    een:{label:'sounds like green', words:['green','seen','keen','between','unseen']},
+    ower:{label:'sounds like flower', words:['flower','power','hour','tower','shower']}
+};
+
+/* ================= THE TWENTY FEELINGS ================= */
+const CORE_ORDER = ['Joy','Hope','Fear','Anger','Kindness','Friendship','Courage','Sadness','Excitement','Calm'];
+const STRETCH_ORDER = ['Wisdom','Freedom','Loneliness','Curiosity','Patience','Jealousy','Grief','Pride','Determination','Wonder'];
+
+const BOOK = {
+Joy:{ sub:'the brightness that arrives before you can name it.',
+    imagery:['a bursting sunflower','a kite let off its string','a fountain in full sunlight','the first bell of the holidays','a songbird at first light','a firework over dark water'],
+    core:['bright','dance','laugh','warm','leap','sparkle','sing','light','rush','bloom'],
+    stretch:['radiant','soar','effervescent','brimming','jubilant','blossom','glisten'],
+    fams:['ing','ight','ower'],
+    opening:['Joy is a kite let off its string,','Climbing higher than anything.'] },
+Hope:{ sub:'the small light that refuses to go out.',
+    imagery:['the thing with feathers','a lighthouse over black waves','the light at the end of the tunnel','a candle set in a window','a seed under winter soil','the first pale line of sunrise'],
+    core:['light','warm','rise','bright','hold','glow','reach','morning','lift','shine'],
+    stretch:['flicker','kindle','horizon','beckon','steady','dawning'],
+    fams:['end','ight','eam'],
+    opening:['Hope is the light at the tunnel&rsquo;s end,','A promise the dark cannot bend.'] },
+Fear:{ sub:'the cold hand that stops you at the door.',
+    imagery:['a locked door in an empty house','a shadow that grows on the wall','thunder counting closer','a cracked bell that will not ring','ice thinning underfoot','a growl from the long grass'],
+    core:['cold','shaking','dark','hide','race','frozen','tight','run','shadow','alone'],
+    stretch:['dread','tremble','clutch','paralyse','lurking','icy','whisper','creeping'],
+    fams:['all','ear','ark'],
+    opening:['Fear is a shadow on the wall,','Growing taller as I grow small.'] },
+Anger:{ sub:'the heat that rises before you choose it.',
+    imagery:['a kettle left to shriek','a wildfire jumping the road','a slammed and rattling door','a storm that has waited all day','a volcano clearing its throat','a wasp trapped against the glass'],
+    core:['hot','burn','boil','red','shout','clench','fist','storm','snap','blaze'],
+    stretch:['seethe','smoulder','erupt','simmer','scorch','bristle'],
+    fams:['ame','oud','un'],
+    opening:['Anger is a kettle left to shriek,','Steam escaping as I try to speak.'] },
+Kindness:{ sub:'the quiet gift that asks for nothing back.',
+    imagery:['a warm blanket on a cold night','an open hand','a bridge built for someone else','rain on a dry garden','a candle lit for a stranger','a coat given away'],
+    core:['soft','warm','gentle','give','help','hold','smile','care','share','light'],
+    stretch:['tender','mend','cradle','soothe','embrace','nurture'],
+    fams:['old','air','ay'],
+    opening:['Kindness is a blanket, wide and warm,','Wrapped around you in the storm.'] },
+Friendship:{ sub:'the rope that holds when everything pulls.',
+    imagery:['two trees grown into each other','a rope bridge that holds','a campfire in the dark','a well-worn path between houses','an anchor in rough water','a key that fits'],
+    core:['near','share','laugh','hold','stay','warm','walk','true','bond','trust'],
+    stretch:['loyal','anchor','weave','steadfast','kindred','cherish'],
+    fams:['end','ind','ide'],
+    opening:['Friendship is a rope bridge, tried and true,','It holds my weight, and I hold you.'] },
+Courage:{ sub:'the voice that says go on, even so.',
+    imagery:['the bell in the darkness','a lion&rsquo;s roar','an ember that will not go out','a lighthouse facing the storm','the first foot on the rope bridge','a small bird facing a hawk'],
+    core:['strong','stand','brave','fight','bold','steady','roar','tall','face','rise'],
+    stretch:['dauntless','unshaken','forge','defiant','resolve'],
+    fams:['ark','ore','ell'],
+    opening:['Courage is a bell in the dark,','One clear note, one saving spark.'] },
+Sadness:{ sub:'the grey weight that slows the afternoon.',
+    imagery:['a grey rain cloud','an empty chair','a fading photograph','a winter tide','the last leaf letting go','a piano in an empty hall'],
+    core:['grey','heavy','slow','cold','tears','sink','quiet','ache','rain','alone'],
+    stretch:['sorrow','weeping','hollow','drifting','leaden','fading'],
+    fams:['ow','oud','one'],
+    opening:['Sadness is the last leaf letting go,','Drifting down to the frost below.'] },
+Excitement:{ sub:'the spark that will not sit still.',
+    imagery:['a lightning bolt','a starting gun','a fizzing bottle','a drum getting faster','a spring wound tight','a river at the top of the falls'],
+    core:['fast','jump','race','buzz','spark','rush','bright','leap','thrill','bounce'],
+    stretch:['electric','surge','fizzing','tingling','restless','quiver'],
+    fams:['un','ing','art'],
+    opening:['Excitement is a starting gun,','A hundred heartbeats rolled in one.'] },
+Calm:{ sub:'the stillness after the whole world exhales.',
+    imagery:['a still lake at dawn','a cat asleep in the sun','a slow deep river','the full moon on water','snow falling with no wind','a harbour after the storm'],
+    core:['still','soft','slow','quiet','smooth','deep','warm','rest','ease','settle'],
+    stretch:['tranquil','serene','hushed','drifting','placid','soothe'],
+    fams:['ake','eep','ow'],
+    opening:['Calm is a harbour after the gale,','Still water resting every sail.'] },
+Wisdom:{ sub:'the knowing that waits until it is asked.',
+    imagery:['an ancient oak','an owl in the dusk','a deep well','a river that has carved a canyon','a lantern held high on the path','a map worn soft at the folds'],
+    core:['old','deep','know','wait','learn','quiet','still','true','guide','steady'],
+    stretch:['ancient','sage','weathered','discern','ponder','counsel','rooted'],
+    fams:['ell','old','ind'],
+    opening:['Wisdom is a deep and patient well,','Holding more than it will tell.'] },
+Freedom:{ sub:'the open gate, the sky with no fence.',
+    imagery:['an eagle over open country','a gate swung wide','a horse with no fence','the wind itself','a boat slipping its mooring','the sky after the last bell'],
+    core:['open','fly','wide','run','light','sky','wild','break','loose','soar'],
+    stretch:['boundless','unfettered','expanse','liberate','untamed','drifting'],
+    fams:['ide','ing','ay'],
+    opening:['Freedom is a gate swung wide,','A horizon with nothing to hide.'] },
+Loneliness:{ sub:'the echo in a room built for two.',
+    imagery:['an empty room','one streetlight on a long road','a bare tree in a wide field','an island off the map','a coat with no one in it','an echo answering itself'],
+    core:['empty','cold','quiet','alone','dark','still','far','ache','grey','wait'],
+    stretch:['hollow','isolated','forsaken','desolate','echoing','adrift'],
+    fams:['one','ow','ear'],
+    opening:['Loneliness is one streetlight&rsquo;s glow,','Burning for the empty road below.'] },
+Curiosity:{ sub:'the itch to open every unopened door.',
+    imagery:['a half-open door','a key without a lock','a lantern at the cave mouth','a path that bends out of sight','a parcel not yet opened','a cat&rsquo;s turned ear'],
+    core:['ask','look','open','reach','wonder','search','peek','want','find','follow'],
+    stretch:['inquisitive','probing','kindled','restless','questing','unravel'],
+    fams:['ore','ind','ay'],
+    opening:['Curiosity is a half-open door,','Whispering, come and see some more.'] },
+Patience:{ sub:'the seed that trusts the season.',
+    imagery:['a seed under snow','an hourglass that will not be hurried','a spider rebuilding its web','a river polishing a stone','a lighthouse through the long night','an orchard waiting for spring'],
+    core:['slow','wait','still','calm','hold','steady','quiet','grow','soft','last'],
+    stretch:['enduring','unhurried','tempered','abiding','measured','forbearing'],
+    fams:['eed','ow','ill'],
+    opening:['Patience is a seed beneath the snow,','Certain of a spring it cannot know.'] },
+Jealousy:{ sub:'the green vine that strangles what it holds.',
+    imagery:['a thorned and twisting vine','a cracked mirror','a locked box that is not yours','a green shadow','a crow watching another&rsquo;s nest','a fire fed on borrowed light'],
+    core:['green','want','watch','burn','tight','cold','stare','ache','grip','wish'],
+    stretch:['envious','covet','gnawing','simmering','bitter','resentful'],
+    fams:['ine','een','old'],
+    opening:['Jealousy is a thorned and twisting vine,','Squeezing everything that is not mine.'] },
+Grief:{ sub:'the stone you carry that no one can see.',
+    imagery:['a heavy stone','a winter sea','an empty coat on its hook','a fallen tree','a bell tolling far off','a house with one light off forever'],
+    core:['heavy','deep','cold','ache','dark','weight','loss','quiet','tears','hollow'],
+    stretch:['mourning','anguish','unrelenting','fathomless','wrenching','bereft'],
+    fams:['one','eep','ay'],
+    opening:['Grief is a bell that tolls far away,','Softer, but never gone, each day.'] },
+Pride:{ sub:'the flag you raise on your own mountain.',
+    imagery:['a mountain peak','a raised flag','a peacock at full fan','a polished medal','a tower above the town','a name carved in stone'],
+    core:['tall','stand','shine','high','gleam','strong','hold','glow','lift','earn'],
+    stretch:['soaring','dignified','gleaming','unbowed','resplendent','towering'],
+    fams:['eak','ide','ame'],
+    opening:['Pride is a flag on the highest peak,','Bright with the words I do not speak.'] },
+Determination:{ sub:'the river that will cut through stone.',
+    imagery:['a river cutting stone','a climbing vine on a brick wall','an anvil','a marching drum','a tide that keeps returning','a candle relit in the wind'],
+    core:['push','hard','drive','hold','keep','climb','grip','last','aim','steel'],
+    stretch:['relentless','unyielding','forge','tenacious','resolute','dogged'],
+    fams:['art','ill','one'],
+    opening:['Determination is a river on stone,','Carving a canyon all on its own.'] },
+Wonder:{ sub:'the gasp that has no bottom.',
+    imagery:['a sky thick with stars','the open ocean','a comet crossing slowly','a cathedral ceiling','a whale surfacing beside the boat','the first map of an unknown coast'],
+    core:['wide','open','gaze','glow','vast','dream','spark','deep','shine','awe'],
+    stretch:['marvel','boundless','luminous','spellbound','radiant','agape'],
+    fams:['ise','eep','ight'],
+    opening:['Wonder is a sky crowded with stars,','Endless, ancient, always ours.'] }
+};
+/* In Wonder&rsquo;s opening, stars and ours are a near rhyme, which the page note allows. */
+
+const ORDER = CORE_ORDER.concat(STRETCH_ORDER);
+let current = null;
+
+/* ================= NAVIGATION ================= */
+function showView(id){
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+    document.getElementById(id).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+function openOpening(){ showView('view-opening'); }
+function openContents(){ showView('view-contents'); }
+function openShelf(){ renderShelf(); showView('view-shelf'); }
+function openFeeling(name){
+    current = name;
+    renderFeeling(name);
+    showView('view-feeling');
+}
+
+/* ================= RENDER: CONTENTS ================= */
+function renderContents(){
+    const mk = name => {
+        const b = document.createElement('button');
+        b.className = 'noun';
+        b.textContent = name;
+        b.addEventListener('click', ()=>openFeeling(name));
+        return b;
+    };
+    const core = document.getElementById('coreNouns');
+    const stretch = document.getElementById('stretchNouns');
+    CORE_ORDER.forEach(n=>core.appendChild(mk(n)));
+    STRETCH_ORDER.forEach(n=>stretch.appendChild(mk(n)));
+}
+
+/* ================= RENDER: FEELING PAGE ================= */
+function renderFeeling(name){
+    const f = BOOK[name];
+    const idx = ORDER.indexOf(name);
+    const band = CORE_ORDER.includes(name) ? 'Begin here' : 'Reach further';
+
+    document.getElementById('fEyebrow').innerHTML =
+        'The Book of Feelings &middot; ' + band + ' &middot; page ' + (idx+1) + ' of ' + ORDER.length;
+    document.getElementById('fName').textContent = name + '.';
+    document.getElementById('fSubtitle').textContent = name + ': ' + f.sub;
+
+    document.getElementById('fImagery').innerHTML =
+        f.imagery.map(i=>'<div class="img-line">'+i+'</div>').join('');
+
+    document.getElementById('fCore').innerHTML =
+        f.core.map(w=>'<span class="word">'+w+'</span>').join('');
+    document.getElementById('fStretch').innerHTML =
+        f.stretch.map(w=>'<span class="word">'+w+'</span>').join('');
+
+    document.getElementById('fRhymes').innerHTML = f.fams.map(k=>{
+        const fam = FAM[k];
+        return '<div class="rhyme-row"><div class="fam">'+fam.label+'</div>'+
+               '<div class="fam-words">'+fam.words.join(' &middot; ')+'</div></div>';
+    }).join('');
+
+    document.getElementById('fOpening').innerHTML = f.opening.join('<br>');
+
+    const prev = document.getElementById('prevBtn');
+    const next = document.getElementById('nextBtn');
+    if (idx > 0){
+        prev.disabled = false;
+        prev.innerHTML = '&larr; ' + ORDER[idx-1];
+        prev.onclick = ()=>openFeeling(ORDER[idx-1]);
+    } else {
+        prev.disabled = true; prev.innerHTML = ''; prev.onclick = null;
+    }
+    if (idx < ORDER.length-1){
+        next.disabled = false;
+        next.innerHTML = ORDER[idx+1] + ' &rarr;';
+        next.onclick = ()=>openFeeling(ORDER[idx+1]);
+    } else {
+        next.disabled = false;
+        next.innerHTML = 'Back to contents &rarr;';
+        next.onclick = openContents;
+    }
+}
+
+/* ================= RENDER: SHELF ================= */
+let shelfDone = false;
+function renderShelf(){
+    if (shelfDone) return;
+    shelfDone = true;
+    document.getElementById('shelfRows').innerHTML = Object.keys(FAM).map(k=>{
+        const fam = FAM[k];
+        return '<div class="rhyme-row"><div class="fam">'+fam.label+'</div>'+
+               '<div class="fam-words">'+fam.words.join(' &middot; ')+'</div></div>';
+    }).join('');
+}
+
+renderContents();
+</script>
+</body>
+</html>
