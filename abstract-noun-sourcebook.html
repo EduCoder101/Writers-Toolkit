@@ -228,6 +228,100 @@
         margin:16px 0 0;
     }
 
+    /* ---------- Lines to borrow (tap a picture to unfold) ---------- */
+    .img-btn{
+        background:none;border:none;padding:0;text-align:left;cursor:pointer;
+        font-family:'Spectral',serif;font-style:italic;font-size:1.28rem;line-height:1.55;color:var(--ink);
+        display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+    }
+    .img-btn::before{content:"\2013\00a0";color:var(--gold);font-style:normal;}
+    .img-btn:hover .img-text{color:var(--accent);}
+    .img-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+    .lines-tag{
+        font-family:'Inter',sans-serif;font-style:normal;font-size:0.64rem;letter-spacing:0.12em;
+        text-transform:uppercase;font-weight:600;color:var(--accent);border:1px solid var(--hair);
+        border-radius:999px;padding:2px 10px;white-space:nowrap;
+    }
+    .img-btn[aria-expanded="true"] .lines-tag{background:var(--accent);color:#fff;border-color:var(--accent);}
+    .line-bank{
+        margin:10px 0 18px 26px;padding:12px 20px;border-left:2px solid var(--accent-soft);
+        display:none;
+    }
+    .line-bank.open{display:block;animation:rise .35s ease;}
+    .line-bank .lb-label{
+        font-family:'Inter',sans-serif;font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;
+        color:var(--gold);font-weight:600;margin-bottom:8px;
+    }
+    .line-bank .lb-line{font-family:'Spectral',serif;font-size:1.12rem;line-height:1.8;color:var(--ink);}
+    .line-bank .lb-nudge{font-family:'Spectral',serif;font-style:italic;font-size:0.95rem;color:var(--ink-soft);margin-top:10px;}
+
+    /* ---------- Workshop (paper-only support) ---------- */
+    .stuck-link{margin:0 0 34px;}
+    .wk-move{margin:0 0 38px;}
+    .wk-think{font-family:'Spectral',serif;font-size:1.16rem;line-height:2;color:var(--ink);max-width:58ch;}
+    .frame-card{
+        background:var(--panel);border:1px solid var(--hair);border-radius:6px;
+        box-shadow:var(--shadow);padding:32px 38px;
+    }
+    .frame-line{font-family:'Spectral',serif;font-size:1.28rem;line-height:2.4;color:var(--ink);margin:0;}
+    .blank{
+        display:inline-block;min-width:9ch;border-bottom:1.5px solid var(--ink-soft);
+        height:1em;vertical-align:baseline;
+    }
+    .wk-note{font-family:'Inter',sans-serif;font-size:0.85rem;color:var(--ink-soft);margin:16px 0;}
+    .do-first{
+        background:#FBF6EA;border:1px solid var(--gold);border-radius:6px;
+        padding:26px 30px;box-shadow:var(--shadow);
+    }
+    .do-pill{
+        display:inline-block;font-family:'Inter',sans-serif;font-size:0.68rem;
+        letter-spacing:0.16em;text-transform:uppercase;font-weight:600;
+        background:var(--gold);color:#fff;border-radius:999px;padding:4px 14px;
+    }
+    .do-first .wk-think{font-size:1.24rem;}
+    .wk-why{
+        font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;
+        color:var(--gold);margin:14px 0 0;
+    }
+    .noun.selected{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+    /* ---------- Sample poems ---------- */
+    .sample-poem{
+        background:var(--panel);border:1px solid var(--hair);border-radius:6px;
+        box-shadow:var(--shadow);padding:32px 38px;margin:0 0 30px;
+    }
+    .sample-poem h3{
+        font-family:'Fraunces',serif;font-weight:500;font-size:1.5rem;margin:0 0 18px;
+    }
+    .sample-poem .verse{
+        font-family:'Spectral',serif;font-size:1.18rem;line-height:2;color:var(--ink);margin:0 0 10px;
+    }
+    .sample-poem .verse + .verse{margin-top:16px;}
+    .notice-line{
+        font-family:'Spectral',serif;font-style:italic;font-size:0.98rem;
+        color:var(--ink-soft);border-top:1px solid var(--hair);padding-top:12px;margin:18px 0 0;
+    }
+    .samples-callout{
+        border:1px solid var(--hair);border-radius:6px;background:var(--panel);
+        padding:20px 26px;margin:0 0 10px;display:flex;align-items:center;
+        justify-content:space-between;gap:18px;flex-wrap:wrap;
+    }
+    .samples-callout p{font-family:'Spectral',serif;font-size:1.05rem;color:var(--ink-soft);margin:0;}
+
+    /* ---------- Print: clean black on white ---------- */
+    @media print{
+        body{background:#fff;}
+        body::before{display:none;}
+        .crumb,button.begin,button.ghost,.turn,.page-turn,.stuck-link,.lines-tag{display:none !important;}
+        .view{display:none !important;}
+        .view.on{display:block !important;}
+        .stage{max-width:100%;padding:0;}
+        .frame-card,.way-in{box-shadow:none;border:1px solid #888;}
+        .stage *{color:#000 !important;}
+        .blank{border-bottom-color:#000;}
+        .line-bank{display:block;}
+    }
+
     .way-in{
         background:var(--panel);border:1px solid var(--hair);border-radius:6px;
         box-shadow:var(--shadow);padding:30px 34px;
@@ -285,7 +379,10 @@
                 </div>
                 <div class="open-c">
                     <p class="lead">Dickinson never tells us what hope means. She hands us a small bird instead, and lets the bird do the telling. Inside this book are pictures, words and rhymes for twenty feelings of your own. Borrow whatever helps. Then close the lid, pick up your pen, and write.</p>
-                    <button class="begin" onclick="openContents()">Open the book</button>
+                    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+                        <button class="begin" onclick="openContents()">Open the book</button>
+                        <button class="ghost" onclick="openSamples()">Read three sample poems first</button>
+                    </div>
                 </div>
             </div>
 
@@ -311,6 +408,11 @@
         <p class="eyebrow">Contents</p>
         <h2 class="head">Choose a feeling.</h2>
         <p class="lead">Each feeling has its own page: pictures you could borrow, words to lean on, and rhymes that suit. Start anywhere.</p>
+
+        <div class="samples-callout">
+            <p>Not sure what a finished poem should look like? Read three first.</p>
+            <button class="ghost" onclick="openSamples()">The sample poems</button>
+        </div>
 
         <div class="contents-cols">
             <div>
@@ -371,9 +473,94 @@
             </div>
         </section>
 
+        <div class="stuck-link">
+            <button class="ghost" id="stuckBtn"></button>
+        </div>
+
         <div class="page-turn">
             <button class="turn" id="prevBtn"></button>
             <button class="turn" id="nextBtn"></button>
+        </div>
+    </section>
+
+    <!-- ============ SAMPLE POEMS ============ -->
+    <section class="view" id="view-samples">
+        <button class="crumb" onclick="openContents()">&larr; Contents</button>
+        <p class="eyebrow">Before you write</p>
+        <h2 class="head">Three sample poems.</h2>
+        <p class="lead">This is the standard to aim for. These sound like Year 5 poets, not famous grown-ups, because that is exactly what your poem should sound like: yours. Read all three, then steal the moves, not the words.</p>
+
+        <div class="sample-poem">
+            <h3>Courage is a Lion</h3>
+            <p class="verse">Courage is a lion with a golden mane,<br>It stands up tall in the pouring rain.<br>Courage is a roar that shakes the trees,<br>It keeps on going with shaking knees.</p>
+            <p class="verse">Courage is a lion who guards the gate,<br>It doesn&rsquo;t run and it doesn&rsquo;t wait.<br>Courage is the first paw on the track,<br>Even when it wants to turn back.</p>
+            <p class="verse">Courage is a lion inside of me,<br>Quiet and small where no one can see.<br>It wakes up right when I need it most,<br>And roars at the things that scare me most.</p>
+            <p class="notice-line">Notice: the lion is in every stanza, and the poet lets it feel scared too. Brave and shaking can happen at the same time.</p>
+        </div>
+
+        <div class="sample-poem">
+            <h3>Joy is a Kite</h3>
+            <p class="verse">Joy is a kite on a windy day,<br>It tugs at my hand and wants to play.<br>Joy is the string unwinding fast,<br>Laughing at clouds as they go past.</p>
+            <p class="verse">Joy is a kite that loops and dives,<br>It wakes up the sky and makes it alive.<br>Joy is the colour against the blue,<br>A little red dot the sun shines through.</p>
+            <p class="verse">Joy is a kite I can&rsquo;t quite hold,<br>Brighter than treasure, better than gold.<br>And when it finally comes back down,<br>It pulls the sky all over town.</p>
+            <p class="notice-line">Notice: the kite does something different in every stanza: tugging, looping, coming home. That is an extended metaphor.</p>
+        </div>
+
+        <div class="sample-poem">
+            <h3>Loneliness is an Empty Room</h3>
+            <p class="verse">Loneliness is an empty room,<br>Where dust floats round in the afternoon.<br>The chairs still sit where they always sat,<br>But nobody&rsquo;s there to notice that.</p>
+            <p class="verse">Loneliness is a quiet clock,<br>Ticking away with no one to talk.<br>It sounds much louder than it should,<br>I&rsquo;d turn it off if I only could.</p>
+            <p class="verse">But loneliness is a door as well,<br>Waiting for footsteps, waiting for the bell.<br>And when my friend knocks twice for me,<br>The room is as full as it can be.</p>
+            <p class="notice-line">Notice: clock and talk are a near rhyme, and that is allowed. And see how the poem turns at the end, from empty to full.</p>
+        </div>
+
+        <div class="page-turn">
+            <button class="turn" onclick="openContents()">Now choose your feeling &rarr;</button>
+            <span></span>
+        </div>
+    </section>
+
+    <!-- ============ WORKSHOP (paper-only support) ============ -->
+    <section class="view" id="view-workshop">
+        <button class="crumb" id="wkBack"></button>
+        <p class="eyebrow" id="wkEyebrow"></p>
+        <h2 class="head">When you are stuck.</h2>
+        <p class="lead">These are the same three moves we used for hope in class. Everything here happens in your book or on paper; there is nothing to type.</p>
+
+        <section class="wk-move">
+            <div class="leaf-label">First &middot; Choose your picture</div>
+            <p class="lead" style="margin-bottom:16px;">Pick the one you can see most clearly in your head. There is no wrong choice, and you can come back and try another.</p>
+            <div class="noun-flow" id="wkChoices"></div>
+        </section>
+
+        <div id="wkBody" style="display:none;">
+            <section class="wk-move">
+                <div class="do-first">
+                    <span class="do-pill">Do this first, in your book</span>
+                    <div class="leaf-label" style="margin-top:14px;">Move one &middot; What is it really about?</div>
+                    <p class="wk-think" id="wkThink"></p>
+                    <p class="wk-why">The words you jot here become the words of your poem. This step is where your poem actually starts, so do not skip it.</p>
+                </div>
+            </section>
+
+            <section class="wk-move">
+                <div class="leaf-label">Move two &middot; Build your poem from the frame</div>
+                <div class="frame-card">
+                    <p class="frame-line" id="wkFrame"></p>
+                </div>
+                <p class="wk-note">Copy the frame into your book and fill the gaps with words from Move one, or print this page and write straight onto it.</p>
+                <button class="ghost" onclick="window.print()">Print this page</button>
+            </section>
+
+            <section class="wk-move">
+                <div class="leaf-label">Move three &middot; Push past the obvious</div>
+                <p class="wk-think" id="wkPush"></p>
+            </section>
+        </div>
+
+        <div class="page-turn">
+            <button class="turn" id="wkBackBottom"></button>
+            <span></span>
         </div>
     </section>
 
@@ -435,7 +622,7 @@ Joy:{ sub:'the brightness that arrives before you can name it.',
     fams:['ing','ight','ower'],
     opening:['Joy is a kite let off its string,','Climbing higher than anything.'] },
 Hope:{ sub:'the small light that refuses to go out.',
-    imagery:['the thing with feathers','a lighthouse over black waves','the light at the end of the tunnel','a candle set in a window','a seed under winter soil','the first pale line of sunrise'],
+    imagery:['the thing with feathers','a bridge','a thread','a seed','a flame','the wind','a star'],
     core:['light','warm','rise','bright','hold','glow','reach','morning','lift','shine'],
     stretch:['flicker','kindle','horizon','beckon','steady','dawning'],
     fams:['end','ight','eam'],
@@ -551,6 +738,207 @@ Wonder:{ sub:'the gasp that has no bottom.',
 };
 /* In Wonder&rsquo;s opening, stars and ours are a near rhyme, which the page note allows. */
 
+/* ================= LINES TO BORROW =================
+   Tap a picture on a feeling page and these unfold beneath it.
+   Hope's six banks are verbatim from the class PowerPoint
+   "Hope is the thing...help with metaphors". */
+const LINES = {
+Hope:{
+    'a bridge':['joins past to future','links one heart to another','carries us over danger','leads towards new land','rises above fear','offers a safe crossing','reaches the unseen shore','stands strong in storms'],
+    'a thread':['binds broken pieces','stitches hidden wounds','holds dreams together','guides through darkness','weaves a new story','ties friends in trust','links thought to action','strengthens fragile hearts'],
+    'a seed':['holds growth inside','waits for the right season','roots in hard soil','sprouts after rain','promises a forest','carries life in small form','needs care to thrive','pushes through the surface'],
+    'a flame':['glows in the gloom','warms cold hands','spreads from spark to spark','lights the next step','keeps night at bay','dances in the wind','needs tending to grow','proves fire still lives'],
+    'the wind':['fills empty sails','pushes clouds aside','whispers of change','lifts kites upward','carries seeds afar','cools tired faces','bends trees without breaking them','arrives unseen yet felt'],
+    'a star':['shines in the darkest night','guides lost travellers','stays constant above shifting seas','reminds us of distant worlds','appears small yet burns immense','sparks wishes across the sky','glimmers despite gathering clouds','shows there is light beyond reach']
+},
+Joy:{
+    'a bursting sunflower':['turns to face the light','opens without asking permission','crowds the fence with gold','grows taller than its garden','spills seeds for next year','wears the sun as a crown'],
+    'a kite let off its string':['climbs on a laughing wind','tugs at careful hands','dances over rooftops','paints loops on the sky','refuses to come down','catches light in its tail']
+},
+Fear:{
+    'a locked door in an empty house':['keeps its secrets shut','waits at the end of the hall','rattles when the wind moves','hides what might be nothing','dares you to knock','opens only from the inside'],
+    'a shadow that grows on the wall':['grows taller as light fades','follows without footsteps','swallows familiar shapes','stretches across the ceiling','borrows the shape of monsters','vanishes when you face it']
+},
+Anger:{
+    'a kettle left to shriek':['rattles its own lid','builds steam in silence','whistles until someone listens','scalds the careless hand','boils over the smallest flame','cools when moved from heat'],
+    'a wildfire jumping the road':['leaps the widest road','feeds on dry ground','turns whispers into roars','paints the sky orange','leaves ash where it walked','starts from a single spark']
+},
+Kindness:{
+    'a warm blanket on a cold night':['wraps cold shoulders first','holds the shape of care','softens the hardest night','waits folded by the door','warms without being asked','covers more than one'],
+    'an open hand':['offers before it is asked','holds nothing back','steadies a stumbling friend','passes the last piece','builds instead of pointing','stays open in the rain']
+},
+Friendship:{
+    'a rope bridge that holds':['holds when the planks creak','sways but does not drop you','joins two distant cliffs','steadies under shared weight','was knotted by many hands','carries you both ways'],
+    'a campfire in the dark':['gathers strangers into a circle','keeps the dark at arm’s length','shares its warmth evenly','crackles with old stories','glows long after midnight','needs feeding from everyone']
+},
+Courage:{
+    'the bell in the darkness':['rings one clear note','sounds when others stay silent','carries across the valley','wakes the sleeping town','trembles yet still tolls','answers the dark with sound'],
+    'an ember that will not go out':['outlasts the tallest flames','glows under grey ash','waits for one more breath','warms the hand that shields it','refuses the wind’s last word','relights the whole fire']
+},
+Sadness:{
+    'a grey rain cloud':['hangs low over the morning','empties itself slowly','softens every sharp colour','follows without hurrying','blots out the blue','passes, given time'],
+    'the last leaf letting go':['lets go without a sound','drifts past bare branches','settles on cold ground','carries summer’s last colour','waits longest of all','feeds the spring to come']
+},
+Excitement:{
+    'a starting gun':['splits the silence open','sets a hundred hearts running','echoes off the grandstand','ends the longest wait','starts everything at once','leaves smoke in the air'],
+    'a fizzing bottle':['shakes beneath its cap','crackles with trapped sparks','threatens to overflow','bubbles past the brim','bursts at the first twist','cannot sit still']
+},
+Calm:{
+    'a still lake at dawn':['holds the sky without spilling','mirrors every quiet cloud','smooths the wind’s old arguments','keeps its deep places secret','lets the morning land gently','asks nothing of the shore'],
+    'a harbour after the storm':['gathers the tired boats in','stills the last of the swell','lets ropes hang loose','holds water flat as glass','hums with small safe sounds','promises a quiet night']
+},
+Wisdom:{
+    'an ancient oak':['remembers a hundred winters','bends without breaking','shelters whoever comes','grows a ring at a time','holds birds and silence both','roots deeper than it shows'],
+    'a deep well':['holds more than it tells','echoes every dropped question','stays cool in any summer','rewards the patient bucket','reflects the face that looks','runs deeper than its rim']
+},
+Freedom:{
+    'an eagle over open country':['rides the morning thermals','answers to no fence','sees the whole valley at once','owns the empty sky','lands only where it chooses','spreads unclipped wings'],
+    'a gate swung wide':['swings wide on old hinges','lets the paddock breathe','invites the road in','creaks its own welcome','stands open to the hills','turns a wall into a doorway']
+},
+Loneliness:{
+    'an empty room':['echoes a single footstep','keeps its chairs unmoved','holds the shape of absence','listens to the clock','waits for a knock','grows larger after dark'],
+    'one streetlight on a long road':['burns for no one passing','pools light on empty tar','hums to keep itself company','stands miles from its neighbour','draws moths, not people','watches the road both ways']
+},
+Curiosity:{
+    'a half-open door':['leaks a line of light','whispers of the next room','swings at the lightest touch','shows only half the secret','invites one more step','never quite closes'],
+    'a path that bends out of sight':['bends just out of sight','promises something further','wears the prints of others','narrows to make you wonder','climbs towards a rumour','begins where the map ends']
+},
+Patience:{
+    'a seed under snow':['trusts the buried dark','counts the winter out','keeps spring folded inside','asks no questions of the frost','grows before it shows','waits without complaining'],
+    'a spider rebuilding its web':['begins again by morning','measures thread by thread','repairs what the storm tore','hangs its work on air','never curses the wind','finishes what it starts']
+},
+Jealousy:{
+    'a thorned and twisting vine':['coils around what blooms','borrows another’s trellis','pricks the hand that feeds it','chokes the tallest flower','grows fastest in shade','claims a garden not its own'],
+    'a cracked mirror':['splits every smile it shows','doubles what it envies','sharpens its own edges','shows the worst angle','catches light and breaks it','cuts whoever holds it']
+},
+Grief:{
+    'a heavy stone':['presses where no one sees','grows lighter very slowly','remembers the hand that dropped it','sinks below the surface','smooths at last in the river','stays when everything moves'],
+    'a bell tolling far off':['tolls from another valley','softens with the distance','rings on ordinary mornings','pauses, then returns','marks what mattered','fades but never finishes']
+},
+Pride:{
+    'a mountain peak':['wears the first snow','catches the earliest sun','measures every climber','stands above the weather','keeps its head in cloud','was built by slow ages'],
+    'a raised flag':['snaps in the high wind','shows its colours plainly','marks the summit won','flies for the whole team','outlasts the applause','stands where hands raised it']
+},
+Determination:{
+    'a river cutting stone':['argues with the mountain daily','wins by centimetres','takes the long way through','polishes as it passes','never asks permission','arrives at the sea regardless'],
+    'a candle relit in the wind':['gutters but comes back','cups its own small light','borrows flame from a neighbour','leans away, then straightens','makes the dark negotiate','burns shortest and brightest']
+},
+Wonder:{
+    'a sky thick with stars':['outnumber every question','deepen the longer you look','arrive one by one at dusk','make the paddock feel small','spell shapes for the patient','shine from long ago'],
+    'a whale surfacing beside the boat':['rises without warning','dwarfs the little boat','breathes like a bellows','shows one ancient eye','slides back into mystery','leaves the sea ringing']
+}
+};
+
+/* ================= THE WORKSHOP =================
+   Paper-only support. The three moves and the gap-stem style come from
+   the class scaffold document "Hope poems metaphor and symbolism scaffold".
+   Hope's stems are verbatim (the flame set). Gaps are ___ tokens,
+   rendered as ruled blanks. */
+/* Each feeling offers THREE pictures to choose from. Hope's flame, star and
+   bridge stem sets are verbatim from the class scaffold document. */
+const WORKSHOP = {
+Hope:{ options:[
+    { symbol:'a flame', stems:['A flame begins ___, but ___','Even in darkness, a flame ___','A flame can turn into ___','A flame needs ___, but also ___','A flame might burn for ___, or for ___'] },
+    { symbol:'a star', stems:['A star shines ___, even when ___','A star is far away, but ___','A star reminds me that ___','A star needs ___, but offers ___','A star might guide ___, or ___'] },
+    { symbol:'a bridge', stems:['A bridge stands between ___ and ___','A bridge connects ___ even when ___','A bridge can fall if ___','A bridge needs ___ to hold it up','A bridge might lead to ___, or ___'] }
+]},
+Joy:{ options:[
+    { symbol:'a kite', stems:['A kite rises when ___','Even on a still day, a kite ___','A kite pulls towards ___','A kite needs ___, but also ___','A kite might carry ___, or ___'] },
+    { symbol:'a firework', stems:['A firework waits quietly until ___','When it finally bursts, ___','A firework fills the sky with ___','A firework needs ___, but also ___','A firework might light up ___, or ___'] },
+    { symbol:'a sunflower', stems:['A sunflower turns towards ___','Even on grey days, a sunflower ___','A sunflower grows taller than ___','A sunflower needs ___, but also ___','A sunflower might give its seeds to ___, or ___'] }
+]},
+Fear:{ options:[
+    { symbol:'a shadow', stems:['A shadow grows when ___','Even in my own room, a shadow ___','A shadow follows ___','A shadow needs ___ to exist','A shadow might disappear if ___, or ___'] },
+    { symbol:'a storm', stems:['A storm starts with ___, then ___','Even far away, a storm ___','A storm shakes ___','A storm needs ___ before it breaks','A storm might pass when ___, or ___'] },
+    { symbol:'a growling dog', stems:['A growling dog warns ___','Even behind a fence, a growling dog ___','A growling dog makes me ___','A growling dog needs ___ to settle','A growling dog might calm down if ___, or ___'] }
+]},
+Anger:{ options:[
+    { symbol:'a volcano', stems:['A volcano sleeps until ___','Deep inside, a volcano ___','A volcano bursts when ___','A volcano needs ___ to cool','A volcano might quieten when ___, or ___'] },
+    { symbol:'a wildfire', stems:['A wildfire starts from ___','Even a small wildfire ___','A wildfire spreads when ___','A wildfire needs ___ to keep burning','A wildfire might stop at ___, or ___'] },
+    { symbol:'a slammed door', stems:['A slammed door tells everyone ___','After a slammed door, ___','A slammed door shakes ___','A slammed door needs ___ before it opens','A slammed door might open again when ___, or ___'] }
+]},
+Kindness:{ options:[
+    { symbol:'a blanket', stems:['A blanket covers ___ and ___','Even on the coldest night, a blanket ___','A blanket is passed from ___ to ___','A blanket needs ___ to be any use','A blanket might warm ___, or ___'] },
+    { symbol:'an open hand', stems:['An open hand offers ___','Even when it is empty, an open hand ___','An open hand can steady ___','An open hand needs ___ to give','An open hand might share ___, or ___'] },
+    { symbol:'spring rain', stems:['Spring rain falls on ___','Even the smallest rain ___','Spring rain wakes up ___','Spring rain needs ___ to reach the roots','Spring rain might turn ___ into ___'] }
+]},
+Friendship:{ options:[
+    { symbol:'a rope bridge', stems:['A rope bridge joins ___ and ___','Even when it sways, a rope bridge ___','A rope bridge holds when ___','A rope bridge needs ___ on both sides','A rope bridge might lead to ___, or ___'] },
+    { symbol:'a campfire', stems:['A campfire pulls everyone ___','Even on the darkest night, a campfire ___','A campfire crackles with ___','A campfire needs ___ from everyone','A campfire might spark ___, or ___'] },
+    { symbol:'a key that fits', stems:['A key that fits opens ___','Even a small key ___','A key is useless without ___','A key needs ___ to turn','A key might unlock ___, or ___'] }
+]},
+Courage:{ options:[
+    { symbol:'a lion', stems:['A lion stands its ground when ___','Even with shaking paws, a lion ___','A lion roars so that ___','A lion needs ___ more than teeth','A lion might be scared of ___, but still ___'] },
+    { symbol:'a bell', stems:['A bell rings out when ___','Even in the dark, a bell ___','A bell can wake ___','A bell needs ___ to make a sound','A bell might ring for ___, or for ___'] },
+    { symbol:'an ember', stems:['An ember keeps glowing when ___','Even under ash, an ember ___','An ember waits for ___','An ember needs ___ to come back to life','An ember might relight ___, or ___'] }
+]},
+Sadness:{ options:[
+    { symbol:'a rain cloud', stems:['A rain cloud gathers when ___','Even on a bright day, a rain cloud ___','A rain cloud empties itself over ___','A rain cloud needs ___ before it can pass','A rain cloud might bring ___, or ___'] },
+    { symbol:'the last leaf', stems:['The last leaf holds on while ___','Even in the wind, the last leaf ___','The last leaf finally ___','The last leaf needs ___ to let go','The last leaf might land on ___, or ___'] },
+    { symbol:'an empty chair', stems:['An empty chair remembers ___','Even at dinner time, an empty chair ___','An empty chair waits for ___','An empty chair needs ___ to feel full again','An empty chair might be filled by ___, or ___'] }
+]},
+Excitement:{ options:[
+    { symbol:'a starting gun', stems:['A starting gun waits for ___','When it finally fires, ___','A starting gun sets off ___','A starting gun needs ___ before it can sound','A starting gun might begin ___, or ___'] },
+    { symbol:'a drum', stems:['A drum beats faster when ___','Even from far away, a drum ___','A drum makes my feet ___','A drum needs ___ to keep time','A drum might call everyone to ___, or ___'] },
+    { symbol:'a fizzing bottle', stems:['A fizzing bottle shakes with ___','Under the cap, a fizzing bottle ___','A fizzing bottle bursts when ___','A fizzing bottle needs ___ to settle','A fizzing bottle might spill over ___, or ___'] }
+]},
+Calm:{ options:[
+    { symbol:'a still lake', stems:['A still lake holds ___ without spilling','Even when the wind comes, a still lake ___','A still lake reflects ___','A still lake needs ___ to stay smooth','A still lake might hide ___, or ___'] },
+    { symbol:'a sleeping cat', stems:['A sleeping cat curls up in ___','Even in a noisy house, a sleeping cat ___','A sleeping cat breathes like ___','A sleeping cat needs ___ and nothing else','A sleeping cat might dream of ___, or ___'] },
+    { symbol:'falling snow', stems:['Falling snow covers ___ softly','Falling snow makes even the loudest street ___','Falling snow lands without ___','Falling snow needs ___ to settle','Falling snow might tuck in ___, or ___'] }
+]},
+Wisdom:{ options:[
+    { symbol:'an ancient oak', stems:['An ancient oak has seen ___','Even in storms, an ancient oak ___','An ancient oak shelters ___','An ancient oak needs ___, but also ___','An ancient oak might whisper ___, or ___'] },
+    { symbol:'an owl', stems:['An owl watches ___ before it moves','Even in darkness, an owl ___','An owl waits until ___','An owl needs ___ more than speed','An owl might teach ___, or ___'] },
+    { symbol:'a deep well', stems:['A deep well holds ___','Even in dry summers, a deep well ___','A deep well rewards ___','A deep well needs ___ to be found','A deep well might hide ___, or ___'] }
+]},
+Freedom:{ options:[
+    { symbol:'an open gate', stems:['An open gate leads to ___','Even rusted, an open gate ___','An open gate lets in ___','An open gate needs ___ to swing','An open gate might welcome ___, or ___'] },
+    { symbol:'an eagle', stems:['An eagle rises above ___','Even in strong winds, an eagle ___','An eagle sees ___','An eagle needs ___, not a cage','An eagle might land wherever ___, or ___'] },
+    { symbol:'a wild horse', stems:['A wild horse runs without ___','Even fenced in, a wild horse ___','A wild horse belongs to ___','A wild horse needs ___, but also ___','A wild horse might gallop towards ___, or ___'] }
+]},
+Loneliness:{ options:[
+    { symbol:'an empty room', stems:['An empty room remembers ___','Even full of light, an empty room ___','An empty room waits for ___','An empty room needs only ___ to change','An empty room might echo with ___, or ___'] },
+    { symbol:'a bare tree', stems:['A bare tree stands in ___','Even without leaves, a bare tree ___','A bare tree misses ___','A bare tree needs ___ to feel spring','A bare tree might wait for ___, or ___'] },
+    { symbol:'one streetlight', stems:['One streetlight shines on ___','Even with no one passing, a streetlight ___','One streetlight hums to ___','A streetlight needs ___ to matter','A streetlight might guide ___, or ___'] }
+]},
+Curiosity:{ options:[
+    { symbol:'a half-open door', stems:['A half-open door shows ___, but hides ___','Even at night, a half-open door ___','A half-open door invites ___','A half-open door needs ___ to open wide','A half-open door might lead to ___, or ___'] },
+    { symbol:'a wrapped parcel', stems:['A wrapped parcel rattles with ___','Even before the bow is pulled, a parcel ___','A wrapped parcel dares me to ___','A parcel needs ___ to give up its secret','A parcel might hold ___, or ___'] },
+    { symbol:'a winding path', stems:['A winding path bends towards ___','Even in the rain, a winding path ___','A winding path promises ___','A winding path needs ___ to follow it','A winding path might end at ___, or ___'] }
+]},
+Patience:{ options:[
+    { symbol:'a seed', stems:['A seed waits through ___','Even under snow, a seed ___','A seed becomes ___','A seed needs ___, but also ___','A seed might wait for ___, or for ___'] },
+    { symbol:'a spider', stems:['A spider builds its web one ___ at a time','Even after the storm, a spider ___','A spider never rushes ___','A spider needs ___ more than luck','A spider might wait all day for ___, or ___'] },
+    { symbol:'an hourglass', stems:['An hourglass drops one grain while ___','Even if you shake it, an hourglass ___','An hourglass finishes when ___','An hourglass needs ___ to do its work','An hourglass might teach ___, or ___'] }
+]},
+Jealousy:{ options:[
+    { symbol:'a thorned vine', stems:['A thorned vine wraps around ___','Even in a rich garden, a thorned vine ___','A thorned vine reaches for ___','A thorned vine needs ___ to climb','A thorned vine might strangle ___, or ___'] },
+    { symbol:'a cracked mirror', stems:['A cracked mirror shows ___ instead of ___','A cracked mirror makes even ___ look broken','A cracked mirror cuts whoever ___','A cracked mirror needs ___ to mend','A cracked mirror might heal when ___, or ___'] },
+    { symbol:'a hungry crow', stems:['A hungry crow watches ___','Even with food of its own, a hungry crow ___','A hungry crow wants ___','A hungry crow needs ___ it cannot name','A hungry crow might fly away when ___, or ___'] }
+]},
+Grief:{ options:[
+    { symbol:'a heavy stone', stems:['A heavy stone presses on ___','Even years later, a heavy stone ___','A heavy stone grows lighter when ___','A heavy stone needs ___ to be carried','A heavy stone might sink into ___, or ___'] },
+    { symbol:'a distant bell', stems:['A distant bell rings when ___','Even on happy days, a distant bell ___','A distant bell reminds me of ___','A distant bell needs ___ to be heard','A distant bell might grow softer when ___, or ___'] },
+    { symbol:'an empty coat', stems:['An empty coat still smells of ___','Even on its hook, an empty coat ___','An empty coat keeps the shape of ___','An empty coat needs ___ to be warm again','An empty coat might be worn again by ___, or ___'] }
+]},
+Pride:{ options:[
+    { symbol:'a mountain peak', stems:['A mountain peak rises above ___','Even hidden in cloud, a mountain peak ___','A mountain peak looks down on ___','A mountain peak needs ___ beneath it','A mountain peak might celebrate ___, or ___'] },
+    { symbol:'a raised flag', stems:['A raised flag shows everyone ___','Even in the wind, a raised flag ___','A raised flag stands for ___','A raised flag needs ___ to fly','A raised flag might fly for ___, or ___'] },
+    { symbol:'a shining medal', stems:['A shining medal remembers ___','Even in a drawer, a shining medal ___','A shining medal was earned by ___','A shining medal needs ___ to mean anything','A shining medal might be shown to ___, or ___'] }
+]},
+Determination:{ options:[
+    { symbol:'a river', stems:['A river pushes through ___','Even against stone, a river ___','A river carves ___','A river needs ___, but also ___','A river might take years to ___, or ___'] },
+    { symbol:'a climbing vine', stems:['A climbing vine finds a way past ___','Even on smooth brick, a climbing vine ___','A climbing vine reaches for ___','A climbing vine needs ___ to hold on','A climbing vine might take years to ___, or ___'] },
+    { symbol:'a candle in the wind', stems:['A candle in the wind bends, but ___','Even when it gutters, a candle ___','A candle guards its ___','A candle needs ___ to stay alight','A candle might borrow flame from ___, or ___'] }
+]},
+Wonder:{ options:[
+    { symbol:'a sky of stars', stems:['A sky of stars makes me feel ___','Even over the city, a sky of stars ___','A sky of stars asks ___','A sky of stars needs ___ to be seen','A sky of stars might hold ___, or ___'] },
+    { symbol:'a whale', stems:['A whale rises from ___','Even beside our small boat, a whale ___','A whale carries ___','A whale needs ___ we cannot see','A whale might dive back into ___, or ___'] },
+    { symbol:'a comet', stems:['A comet crosses the sky once every ___','Even from far away, a comet ___','A comet drags a tail of ___','A comet needs ___ to be noticed','A comet might make everyone ___, or ___'] }
+]}
+};
+
 const ORDER = CORE_ORDER.concat(STRETCH_ORDER);
 let current = null;
 
@@ -595,8 +983,33 @@ function renderFeeling(name){
     document.getElementById('fName').textContent = name + '.';
     document.getElementById('fSubtitle').textContent = name + ': ' + f.sub;
 
-    document.getElementById('fImagery').innerHTML =
-        f.imagery.map(i=>'<div class="img-line">'+i+'</div>').join('');
+    const banks = LINES[name] || {};
+    document.getElementById('fImagery').innerHTML = f.imagery.map((img,idx)=>{
+        const bank = banks[img];
+        if (!bank) return '<div class="img-line">'+img+'</div>';
+        return '<div class="img-item">'+
+            '<button class="img-btn" data-bank="'+idx+'" aria-expanded="false" aria-controls="bank-'+idx+'">'+
+                '<span class="img-text">'+img+'</span>'+
+                '<span class="lines-tag">lines to borrow</span>'+
+            '</button>'+
+            '<div class="line-bank" id="bank-'+idx+'" role="region">'+
+                '<div class="lb-label">Lines you could borrow</div>'+
+                bank.map(l=>'<div class="lb-line">'+l+'</div>').join('')+
+                '<div class="lb-nudge">Borrow one, then change a word or two to make it yours.</div>'+
+            '</div>'+
+        '</div>';
+    }).join('');
+    document.querySelectorAll('#fImagery .img-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+            const bank = document.getElementById('bank-'+btn.dataset.bank);
+            const open = bank.classList.toggle('open');
+            btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+    });
+
+    const stuck = document.getElementById('stuckBtn');
+    stuck.textContent = 'If you are stuck: open the '+name+' workshop';
+    stuck.onclick = ()=>openWorkshop(name);
 
     document.getElementById('fCore').innerHTML =
         f.core.map(w=>'<span class="word">'+w+'</span>').join('');
@@ -629,6 +1042,60 @@ function renderFeeling(name){
         next.innerHTML = 'Back to contents &rarr;';
         next.onclick = openContents;
     }
+}
+
+/* ================= RENDER: WORKSHOP ================= */
+function capFirst(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+function blanks(s){ return s.replace(/_{3,}/g, '<span class="blank"></span>'); }
+
+function openSamples(){ showView('view-samples'); }
+
+function openWorkshop(name){
+    const w = WORKSHOP[name];
+    if (!w) return;
+
+    document.getElementById('wkBack').textContent = '← Back to '+name;
+    document.getElementById('wkBack').onclick = ()=>openFeeling(name);
+    document.getElementById('wkBackBottom').innerHTML = '← Back to '+name;
+    document.getElementById('wkBackBottom').onclick = ()=>openFeeling(name);
+    document.getElementById('wkEyebrow').innerHTML = 'The workshop &middot; '+name;
+    document.getElementById('wkBody').style.display = 'none';
+
+    const choices = document.getElementById('wkChoices');
+    choices.innerHTML = w.options.map((o,i)=>
+        '<button class="noun" data-opt="'+i+'">'+o.symbol+'</button>').join('');
+    choices.querySelectorAll('.noun').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+            choices.querySelectorAll('.noun').forEach(b=>b.classList.remove('selected'));
+            btn.classList.add('selected');
+            renderWorkshopBody(name, parseInt(btn.dataset.opt));
+        });
+    });
+
+    showView('view-workshop');
+}
+
+function renderWorkshopBody(name, idx){
+    const o = WORKSHOP[name].options[idx];
+    const sym = o.symbol;
+
+    document.getElementById('wkEyebrow').innerHTML = 'The workshop &middot; '+name+' &middot; '+sym;
+
+    document.getElementById('wkThink').innerHTML =
+        'Jot quick answers to these three, before anything else:<br>'+
+        capFirst(sym)+' is&hellip; (two or three true facts).<br>'+
+        capFirst(sym)+' is like&hellip; (describing words).<br>'+
+        capFirst(sym)+' might really be&hellip; (what bigger idea could it stand for?)';
+
+    document.getElementById('wkFrame').innerHTML =
+        '<strong>'+name+' is '+sym+',</strong><br>'+
+        o.stems.map(s=>blanks(s)).join('<br>');
+
+    document.getElementById('wkPush').innerHTML =
+        capFirst(sym)+' is not just something simple. In your book, write three more surprising things it could also be. The third one is usually the best.';
+
+    document.getElementById('wkBody').style.display = '';
+    document.getElementById('wkBody').scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 /* ================= RENDER: SHELF ================= */
