@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Who Designed Our Flag, and Who Was Left Out? &middot; Year 5 English</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,600;1,9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f3edde;
+  --card:#fbf7ec;
+  --ink:#33291d;
+  --soft:#6b5d49;
+  --accent:#b95d2c;      /* ochre */
+  --accent-deep:#8f4520;
+  --dark:#2c4237;        /* eucalypt */
+  --dark-2:#22352c;
+  --gold:#cfa233;
+  --sage:#7d9074;
+  --rust:#a33d2b;
+  --line:rgba(51,41,29,.16);
+  --shadow:0 18px 44px rgba(51,41,29,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.7;
+  font-size:17px;
+  overflow-x:hidden;
+}
+::selection{background:var(--gold);color:var(--dark-2)}
+
+/* ---------- scroll progress ---------- */
+#bar{position:fixed;top:0;left:0;height:3px;width:0;z-index:99;
+  background:linear-gradient(90deg,var(--accent),var(--gold));
+  transition:width .1s linear}
+
+/* ---------- layout ---------- */
+.shell{max-width:1280px;margin:0 auto;padding:88px 48px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.split.wide-left{grid-template-columns:1.5fr 1fr}
+.split.wide-right{grid-template-columns:1fr 1.5fr}
+.stack>*+*{margin-top:22px}
+@media(max-width:900px){
+  .shell{padding:64px 24px}
+  .split,.split.wide-left,.split.wide-right{grid-template-columns:1fr;gap:36px}
+}
+
+/* ---------- type ---------- */
+h1,h2,h3,.script,.keyq p,.verse{font-family:'Fraunces',serif}
+h1{font-size:clamp(2.4rem,5.4vw,4.3rem);line-height:1.06;font-weight:900;letter-spacing:-.015em}
+h2{font-size:clamp(1.7rem,3.4vw,2.6rem);line-height:1.15;font-weight:700;letter-spacing:-.01em;margin-bottom:18px}
+h3{font-size:1.25rem;font-weight:700;margin-bottom:10px}
+p.lede{font-size:1.16rem;color:var(--soft);max-width:62ch}
+em{font-family:'Fraunces',serif;font-style:italic}
+
+.eyebrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  font-size:.78rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:20px}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--accent);flex:none}
+.min{font-size:.72rem;font-weight:700;letter-spacing:.06em;color:var(--dark);
+  background:var(--gold);padding:3px 12px;border-radius:999px;text-transform:none}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+
+/* ---------- wall divider ---------- */
+.wall{height:26px;background:
+  repeating-linear-gradient(90deg,transparent 0 72px,rgba(51,41,29,.12) 72px 74px),
+  repeating-linear-gradient(90deg,transparent 0 36px,transparent 36px 108px),
+  linear-gradient(180deg,rgba(51,41,29,.07) 0 12px,transparent 12px 14px,rgba(51,41,29,.07) 14px 26px);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);opacity:.7}
+
+/* ---------- cards & furniture ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:28px 30px;box-shadow:var(--shadow)}
+.card.tint{background:linear-gradient(160deg,#fbf7ec,#f5ead2)}
+.card h3{display:flex;align-items:center;gap:10px}
+.badge{flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;
+  display:inline-flex;align-items:center;justify-content:center;font-family:'Inter';font-size:.85rem;font-weight:800}
+
+.script{background:linear-gradient(160deg,#f0e6cf,#ead9b8);border-left:5px solid var(--gold);
+  border-radius:0 18px 18px 0;padding:24px 28px;font-style:italic;font-size:1.12rem;line-height:1.65;color:#4a3a22}
+.script b{font-style:normal;font-family:'Inter';font-size:.74rem;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent-deep);display:block;margin-bottom:8px}
+
+.keyq{border:2px dashed var(--accent);border-radius:18px;padding:26px 30px;background:rgba(185,93,44,.06)}
+.keyq b{font-size:.74rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-deep);display:block;margin-bottom:8px}
+.keyq p{font-size:1.3rem;font-weight:600;font-style:italic;line-height:1.45}
+
+.chart{width:100%;border-collapse:collapse;background:var(--card);border-radius:18px;overflow:hidden;
+  box-shadow:var(--shadow);border:1px solid var(--line)}
+.chart caption{caption-side:top;text-align:left;font-family:'Fraunces',serif;font-weight:700;
+  font-size:1.15rem;padding:0 4px 12px}
+.chart th{background:var(--dark);color:#f3edde;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;
+  text-align:left;padding:13px 20px}
+.chart td{padding:14px 20px;border-top:1px solid var(--line);vertical-align:top;font-size:.98rem}
+.chart td:first-child{font-weight:700;white-space:nowrap}
+
+.checklist{list-style:none}
+.checklist li{position:relative;padding:10px 0 10px 40px;border-bottom:1px dashed var(--line)}
+.checklist li:last-child{border-bottom:none}
+.checklist li::before{content:"";position:absolute;left:0;top:13px;width:22px;height:22px;
+  border:2px solid var(--accent);border-radius:6px;background:#fff}
+.checklist li b{color:var(--accent-deep)}
+
+.starters{list-style:none;counter-reset:st}
+.starters li{counter-increment:st;background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:16px 20px 16px 58px;margin-bottom:12px;position:relative;font-family:'Fraunces',serif;
+  font-size:1.12rem;font-style:italic;box-shadow:var(--shadow)}
+.starters li::before{content:counter(st);position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--dark-2);
+  font-family:'Inter';font-style:normal;font-weight:800;font-size:.85rem;
+  display:flex;align-items:center;justify-content:center}
+.starters li span{color:var(--accent-deep);font-weight:700}
+
+.snips{display:flex;flex-wrap:wrap;gap:10px}
+.snips span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 16px;
+  font-size:.92rem;font-weight:600;color:var(--dark);box-shadow:0 3px 10px rgba(51,41,29,.06)}
+.snips span.hot{background:var(--gold);border-color:var(--gold);color:var(--dark-2)}
+
+/* numbered question grid */
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:820px){.qgrid{grid-template-columns:1fr}}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px 18px;
+  box-shadow:var(--shadow);position:relative}
+.q b{position:absolute;top:-13px;left:18px;background:var(--dark);color:var(--gold);
+  font-size:.78rem;font-weight:800;letter-spacing:.08em;padding:3px 12px;border-radius:999px}
+.q p{font-size:1.02rem;font-weight:500;line-height:1.55}
+.q small{display:block;margin-top:8px;font-size:.85rem;color:var(--soft);font-style:italic}
+
+/* video */
+.video{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 26px 60px rgba(34,53,44,.28);
+  border:1px solid var(--line);background:#000;aspect-ratio:16/9}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* bridge: avoid / aim-for */
+.bridge{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:20px;overflow:hidden;
+  box-shadow:var(--shadow);border:1px solid var(--line)}
+@media(max-width:820px){.bridge{grid-template-columns:1fr}}
+.bridge>div{padding:28px 30px}
+.bridge .no{background:#efe0d6}
+.bridge .yes{background:#e2e8da}
+.bridge h4{font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.bridge .no h4{color:var(--rust)}
+.bridge .yes h4{color:var(--dark)}
+.bridge ul{list-style:none}
+.bridge li{padding:7px 0 7px 26px;position:relative;font-size:.98rem}
+.bridge .no li::before{content:"\2715";position:absolute;left:0;color:var(--rust);font-weight:800}
+.bridge .yes li::before{content:"\2713";position:absolute;left:0;color:var(--dark);font-weight:800}
+
+/* timeline steps */
+.timeline{list-style:none;position:relative;padding-left:34px}
+.timeline::before{content:"";position:absolute;left:11px;top:8px;bottom:8px;width:2px;
+  background:repeating-linear-gradient(180deg,var(--accent) 0 8px,transparent 8px 15px)}
+.timeline li{position:relative;padding:0 0 26px 6px}
+.timeline li:last-child{padding-bottom:0}
+.timeline li::before{content:"";position:absolute;left:-30px;top:6px;width:16px;height:16px;border-radius:50%;
+  background:var(--gold);border:3px solid var(--accent)}
+.timeline b{display:block;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700}
+.timeline .where{display:inline-block;margin-top:6px;font-size:.74rem;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--dark);background:rgba(125,144,116,.25);padding:2px 10px;border-radius:999px}
+
+/* verse (poem) */
+.verse{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:34px 38px;
+  box-shadow:var(--shadow);font-size:1.22rem;font-style:italic;line-height:1.9;position:relative}
+.verse::before{content:"\201C";position:absolute;top:-6px;left:20px;font-size:5rem;color:var(--gold);opacity:.55;line-height:1}
+.verse .stanza+.stanza{margin-top:22px}
+.verse mark{background:linear-gradient(180deg,transparent 55%,rgba(207,162,51,.55) 55%);color:inherit;padding:0 2px}
+.verse .tag{position:absolute;top:-13px;right:22px;background:var(--accent);color:#fff;font-family:'Inter';
+  font-style:normal;font-size:.74rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 14px;border-radius:999px}
+
+/* exit slip */
+.exit{background:var(--card);border:1px solid var(--line);border-top:6px solid var(--gold);border-radius:18px;
+  padding:30px 34px;box-shadow:var(--shadow)}
+.exit h3{font-size:1.4rem}
+.exit ol{margin:14px 0 0 22px}
+.exit li{padding:6px 0}
+
+/* crest + dark band */
+.crest{height:130px;background:linear-gradient(180deg,var(--paper),#a8b29a 55%,var(--dark))}
+.over{background:linear-gradient(170deg,var(--dark),var(--dark-2));color:#efe9d8}
+.over h2,.over h3{color:#f7f2e2}
+.over .eyebrow{color:var(--gold)}
+.over .eyebrow::before{background:var(--gold)}
+.over p.lede{color:#cfc9b4}
+.over .card{background:rgba(243,237,222,.07);border-color:rgba(243,237,222,.18);box-shadow:none;color:#efe9d8}
+.over .card h3{color:#f7f2e2}
+.crest-out{height:130px;background:linear-gradient(180deg,var(--dark-2),#7c8c74 45%,var(--paper))}
+
+/* colour swatch grid (dark band) */
+.colours{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:980px){.colours{grid-template-columns:repeat(2,1fr)}}
+.sw{border-radius:16px;overflow:hidden;border:1px solid rgba(243,237,222,.2)}
+.sw i{display:block;height:64px}
+.sw div{padding:12px 16px 14px;background:rgba(243,237,222,.07)}
+.sw b{display:block;font-size:.95rem;color:#f7f2e2}
+.sw span{font-size:.84rem;color:#cfc9b4;line-height:1.45;display:block}
+
+/* symbol cards (dark band) */
+.syms{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:980px){.syms{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.syms{grid-template-columns:1fr}}
+.sym{background:rgba(243,237,222,.07);border:1px solid rgba(243,237,222,.18);border-radius:16px;padding:20px}
+.sym svg{width:44px;height:44px;margin-bottom:10px}
+.sym b{display:block;color:#f7f2e2;margin-bottom:4px}
+.sym span{font-size:.88rem;color:#cfc9b4;line-height:1.5;display:block}
+
+/* world flag cards (dark band) */
+.worldflags{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:980px){.worldflags{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.worldflags{grid-template-columns:1fr}}
+.wf{background:rgba(243,237,222,.07);border:1px solid rgba(243,237,222,.18);border-radius:16px;padding:16px}
+.wf .flagbox{box-shadow:0 10px 26px rgba(0,0,0,.35);border-color:rgba(243,237,222,.3)}
+.wf b{display:block;color:#f7f2e2;margin:14px 0 4px}
+.wf span{font-size:.88rem;color:#cfc9b4;line-height:1.5;display:block}
+
+/* flag figures */
+.flagbox{border-radius:14px;overflow:hidden;box-shadow:0 14px 34px rgba(51,41,29,.18);border:1px solid var(--line);line-height:0}
+.flagbox svg{width:100%;height:auto;display:block}
+figure figcaption{line-height:1.5;font-size:.86rem;color:var(--soft);margin-top:10px;font-style:italic}
+.flagrow{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:820px){.flagrow{grid-template-columns:1fr}}
+
+.legend{list-style:none}
+.legend li{display:flex;gap:14px;padding:10px 0;border-bottom:1px dashed var(--line);align-items:flex-start}
+.legend li:last-child{border-bottom:none}
+.legend .dot{flex:none;width:28px;height:28px;border-radius:50%;color:#fff;background:var(--accent);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;margin-top:2px}
+.legend b{display:block}
+.legend span{font-size:.92rem;color:var(--soft);line-height:1.5}
+
+/* hero */
+.hero{position:relative;background:
+  radial-gradient(1100px 500px at 85% -10%,rgba(207,162,51,.25),transparent 60%),
+  radial-gradient(900px 480px at -10% 110%,rgba(185,93,44,.16),transparent 60%),
+  var(--paper);border-bottom:1px solid var(--line)}
+.pills{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.pills span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 18px;
+  font-size:.88rem;font-weight:700;box-shadow:0 4px 12px rgba(51,41,29,.07)}
+.pills span b{color:var(--accent-deep)}
+.heroflags{display:grid;grid-template-columns:1fr;gap:18px}
+.heroflags figure:nth-child(2){width:78%;justify-self:end}
+.heroflags figure:nth-child(3){width:78%}
+
+footer{background:var(--dark-2);color:#cfc9b4;text-align:center;padding:44px 24px;font-size:.9rem}
+footer b{color:var(--gold)}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<!-- ============ SVG DEFS ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="ausflag">
+      <rect width="1280" height="640" fill="#012169"/>
+      <g transform="scale(10.6667)">
+        <clipPath id="ujc"><path d="M0,0 v30 h60 v-30 z"/></clipPath>
+        <clipPath id="ujt"><path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/></clipPath>
+        <g clip-path="url(#ujc)">
+          <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
+          <path d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="6"/>
+          <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#ujt)" stroke="#C8102E" stroke-width="4"/>
+          <path d="M30,0 v30 M0,15 h60" stroke="#ffffff" stroke-width="10"/>
+          <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
+        </g>
+      </g>
+      <polygon fill="#ffffff" points="320.0,384.0 338.5,441.6 395.1,420.1 361.6,470.5 413.6,501.4 353.4,506.6 361.7,566.5 320.0,522.7 278.3,566.5 286.6,506.6 226.4,501.4 278.4,470.5 244.9,420.1 301.5,441.6"/>
+      <polygon fill="#ffffff" points="960.0,510.4 964.4,524.1 977.9,519.0 969.9,531.0 982.3,538.4 968.0,539.6 969.9,553.9 960.0,543.5 950.1,553.9 952.0,539.6 937.7,538.4 950.1,531.0 942.1,519.0 955.6,524.1"/>
+      <polygon fill="#ffffff" points="800.0,257.1 804.4,270.8 817.9,265.7 809.9,277.7 822.3,285.1 808.0,286.3 809.9,300.6 800.0,290.2 790.1,300.6 792.0,286.3 777.7,285.1 790.1,277.7 782.1,265.7 795.6,270.8"/>
+      <polygon fill="#ffffff" points="960.0,83.8 964.4,97.5 977.9,92.4 969.9,104.4 982.3,111.8 968.0,113.0 969.9,127.3 960.0,116.9 950.1,127.3 952.0,113.0 937.7,111.8 950.1,104.4 942.1,92.4 955.6,97.5"/>
+      <polygon fill="#ffffff" points="1102.2,214.4 1106.6,228.1 1120.1,223.0 1112.1,235.0 1124.5,242.4 1110.2,243.6 1112.1,257.9 1102.2,247.5 1092.3,257.9 1094.2,243.6 1079.9,242.4 1092.3,235.0 1084.3,223.0 1097.8,228.1"/>
+      <polygon fill="#ffffff" points="1024.0,333.4 1027.5,341.9 1036.6,342.6 1029.6,348.5 1031.8,357.5 1024.0,352.6 1016.2,357.5 1018.4,348.5 1011.4,342.6 1020.5,341.9"/>
+    </g>
+    <g id="aboriginalflag">
+      <rect width="1280" height="640" fill="#000000"/>
+      <rect y="320" width="1280" height="320" fill="#CC0000"/>
+      <circle cx="640" cy="320" r="160" fill="#FFCC00"/>
+    </g>
+    <g id="tsiflag">
+      <rect width="1280" height="640" fill="#000099"/>
+      <rect width="1280" height="145" fill="#009966"/>
+      <rect y="495" width="1280" height="145" fill="#009966"/>
+      <rect y="145" width="1280" height="30" fill="#000000"/>
+      <rect y="465" width="1280" height="30" fill="#000000"/>
+      <path fill="#ffffff" d="M 562.3,361.3 L 535.0,421.4 L 537.5,370.0 L 507.8,366.0 L 528.6,344.4 L 500.7,333.5 L 526.0,317.4 L 501.4,300.2 L 529.9,290.6 L 510.0,268.1 L 539.9,265.4 L 525.9,238.9 L 555.6,243.4 L 548.3,214.2 L 576.1,225.6 L 575.8,195.6 L 600.1,213.2 L 607.0,184.0 L 626.5,206.8 L 640.0,180.0 L 653.5,206.8 L 673.0,184.0 L 679.9,213.2 L 704.2,195.6 L 703.9,225.6 L 731.7,214.2 L 724.4,243.4 L 754.1,238.9 L 740.1,265.4 L 770.0,268.1 L 750.1,290.6 L 778.6,300.2 L 754.0,317.4 L 779.3,333.5 L 751.4,344.4 L 772.2,366.0 L 742.5,370.0 L 745.0,421.4 L 717.7,361.3 L 721.0,354.5 L 723.6,347.4 L 725.7,340.2 L 727.1,332.8 L 727.8,325.2 L 728.0,317.7 L 727.4,310.2 L 726.3,302.7 L 724.5,295.4 L 722.1,288.2 L 719.0,281.3 L 715.4,274.7 L 711.3,268.4 L 706.6,262.5 L 701.4,257.0 L 695.8,251.9 L 689.7,247.4 L 683.3,243.4 L 676.6,240.0 L 669.6,237.1 L 662.4,234.9 L 655.0,233.3 L 647.5,232.3 L 640.0,232.0 L 632.5,232.3 L 625.0,233.3 L 617.6,234.9 L 610.4,237.1 L 603.4,240.0 L 596.7,243.4 L 590.3,247.4 L 584.2,251.9 L 578.6,257.0 L 573.4,262.5 L 568.7,268.4 L 564.6,274.7 L 561.0,281.3 L 557.9,288.2 L 555.5,295.4 L 553.7,302.7 L 552.6,310.2 L 552.0,317.7 L 552.2,325.2 L 552.9,332.8 L 554.3,340.2 L 556.4,347.4 L 559.0,354.5 L 562.3,361.3 Z"/>
+      <polygon fill="#ffffff" points="640.0,288.0 653.3,323.7 691.4,325.3 661.6,349.0 671.7,385.7 640.0,364.7 608.3,385.7 618.4,349.0 588.6,325.3 626.7,323.7"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="shell">
+    <div class="split wide-left">
+      <div class="stack">
+        <div class="eyebrow">Year 5 English &middot; Symbols, Perspective &amp; Identity <span class="min">Lessons 16, 17 &amp; 18</span></div>
+        <h1>Who designed our flag, and who was left out?</h1>
+        <p class="lede">Every flag is an argument. Somebody chose its colours, its symbols and its stories, and by choosing, they also left things out. In these three lessons you will investigate the flag we have, design the flag you think Australia deserves, and then give your flag a voice in a poem.</p>
+        <div class="pills">
+          <span><b>Part 1</b> &middot; Investigate the flag</span>
+          <span><b>Part 2</b> &middot; Design a new flag</span>
+          <span><b>Part 3</b> &middot; If my flag could speak</span>
+        </div>
+        <div class="card tint">
+          <h3><span class="badge">!</span> How to use this page</h3>
+          <p>Work through this page from top to bottom <em>at your own pace</em>. You do not need to finish a part in one sitting. Every written answer goes in your <b>English book</b> with today&rsquo;s date and the question number. Your final flag goes on the <b>paper your teacher gives you</b>, and your finished poem is published in <b>Canva</b>.</p>
+        </div>
+      </div>
+      <div class="heroflags reveal">
+        <figure>
+          <div class="flagbox"><svg viewBox="0 0 1280 640" role="img" aria-label="The Australian national flag"><use href="#ausflag"/></svg></div>
+          <figcaption>The Australian National Flag, chosen by public competition in 1901.</figcaption>
+        </figure>
+        <figure>
+          <div class="flagbox"><svg viewBox="0 0 1280 640" role="img" aria-label="The Australian Aboriginal flag"><use href="#aboriginalflag"/></svg></div>
+          <figcaption>The Australian Aboriginal Flag, designed by Harold Thomas in 1971.</figcaption>
+        </figure>
+        <figure>
+          <div class="flagbox"><svg viewBox="0 0 1280 640" role="img" aria-label="The Torres Strait Islander flag"><use href="#tsiflag"/></svg></div>
+          <figcaption>The Torres Strait Islander Flag, designed by Bernard Namok in 1992.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ WHERE DOES MY WORK GO ============ -->
+<section class="shell reveal">
+  <div class="split wide-right">
+    <div class="stack">
+      <div class="eyebrow">Before you begin</div>
+      <h2>Where does my work go?</h2>
+      <p class="lede">Three lessons, four places for your work. Check this table whenever you are not sure.</p>
+      <div class="keyq">
+        <b>The big question</b>
+        <p>Can one piece of cloth tell the story of everyone who calls Australia home?</p>
+      </div>
+    </div>
+    <table class="chart">
+      <caption>Your work map</caption>
+      <thead><tr><th>Task</th><th>Where it goes</th></tr></thead>
+      <tbody>
+        <tr><td>Video questions 1 to 8</td><td>English book, in full sentences</td></tr>
+        <tr><td>Thinking questions 9 to 12</td><td>English book, short paragraphs</td></tr>
+        <tr><td>Flag brainstorm &amp; rough drafts</td><td>English book</td></tr>
+        <tr><td>Final flag</td><td>The paper your teacher gives you</td></tr>
+        <tr><td>Flag explanation (the four starters)</td><td>English book, then a neat copy beside your flag</td></tr>
+        <tr><td>Poem draft</td><td>English book</td></tr>
+        <tr><td>Published poem</td><td>Canva, displayed beside your flag</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ============ PART 1: WATCH ============ -->
+<section class="shell reveal" id="part1">
+  <div class="stack">
+    <div class="eyebrow">Part 1 &middot; Investigate <span class="min">Watch</span></div>
+    <h2>First, the story of the flag we already have</h2>
+    <div class="split wide-left">
+      <div class="stack">
+        <div class="video">
+          <iframe src="https://www.youtube-nocookie.com/embed/RzKD5LqRD6g" title="BTN: Australia&rsquo;s Flag" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <p style="font-size:.88rem;color:var(--soft);font-style:italic">If the video will not load, search YouTube for <b>&ldquo;BTN Australia&rsquo;s Flag&rdquo;</b> or ask your teacher.</p>
+      </div>
+      <div class="script">
+        <b>How to watch like a researcher</b>
+        First, watch the whole story once with your pen down. Just listen. Then read questions 1 to 8 below, and watch a second time with your pen ready, pausing whenever you hear an answer. Nobody remembers everything on one viewing. Researchers rewind.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 1: QUESTIONS ============ -->
+<section class="shell reveal">
+  <div class="stack">
+    <div class="eyebrow">Part 1 &middot; Investigate <span class="min">Answer in your English book</span></div>
+    <h2>Eight questions from the video</h2>
+    <p class="lede">Rule the date, write the heading <em>Australia&rsquo;s Flag</em>, and answer in full sentences. Turn each question around to start your answer. If you can&rsquo;t find an answer in the video, <b>search it up</b>: real researchers use more than one source.</p>
+    <div class="qgrid">
+      <div class="q"><b>Q1</b><p>Who designed the Australian flag?</p><small>Hint: it was not one famous artist.</small></div>
+      <div class="q"><b>Q2</b><p>When was the Australian flag designed?</p></div>
+      <div class="q"><b>Q3</b><p>When did Australia become a federation?</p><small>Federation means the colonies joined to become one country.</small></div>
+      <div class="q"><b>Q4</b><p>Which national flag does the Union Jack symbol come from?</p></div>
+      <div class="q"><b>Q5</b><p>What is the Southern Cross?</p></div>
+      <div class="q"><b>Q6</b><p>What does the 6-pointed star on the Australian flag represent?</p><small>Listen carefully: the star has changed since 1901.</small></div>
+      <div class="q"><b>Q7</b><p>Why do many people say the Union Jack doesn&rsquo;t represent a lot of Australians?</p><small>Give at least two reasons.</small></div>
+      <div class="q"><b>Q8</b><p>What stories are missing from the Australian flag, if any?</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ============ KNOW YOUR FLAG ============ -->
+<section class="shell reveal">
+  <div class="split wide-left">
+    <div class="stack">
+      <div class="eyebrow">Part 1 &middot; Close reading <span class="min">Reference &middot; no writing needed</span></div>
+      <h2>Read the flag like a text</h2>
+      <p class="lede">A flag can be read the way you read a picture book: every element was placed on purpose, by an author, for an audience. Match the numbers on the flag to the notes beside it.</p>
+      <figure>
+        <div class="flagbox">
+          <svg viewBox="0 0 1280 640" role="img" aria-label="The Australian flag with three numbered labels">
+            <use href="#ausflag"/>
+            <g font-family="Inter, sans-serif" font-size="52" font-weight="800" text-anchor="middle">
+              <circle cx="120" cy="90" r="46" fill="#cfa233" stroke="#22352c" stroke-width="5"/>
+              <text x="120" y="108" fill="#22352c">1</text>
+              <circle cx="470" cy="480" r="46" fill="#cfa233" stroke="#22352c" stroke-width="5"/>
+              <text x="470" y="498" fill="#22352c">2</text>
+              <circle cx="1180" cy="120" r="46" fill="#cfa233" stroke="#22352c" stroke-width="5"/>
+              <text x="1180" y="138" fill="#22352c">3</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>Three symbols, three stories. Which stories do they tell, and whose?</figcaption>
+      </figure>
+    </div>
+    <div class="stack">
+      <ul class="legend">
+        <li><span class="dot">1</span><div><b>The Union Jack</b><span>The flag of the United Kingdom, placed in the position of honour. It tells the story of Australia&rsquo;s British colonial history, and of loyalty to Britain in 1901.</span></div></li>
+        <li><span class="dot">2</span><div><b>The Commonwealth Star</b><span>Seven points: one for each of the six states, and one for all of Australia&rsquo;s territories. It began with six points in 1901 and gained a seventh in 1908.</span></div></li>
+        <li><span class="dot">3</span><div><b>The Southern Cross</b><span>A constellation seen in the southern sky. It says <em>we are a land of the south</em>. First Nations peoples have told stories about these same stars for tens of thousands of years.</span></div></li>
+      </ul>
+      <div class="card">
+        <h3><span class="badge">?</span> Did you know?</h3>
+        <p>The Aboriginal Flag and the Torres Strait Islander Flag, shown at the top of this page, have both been official flags of Australia since 1995. They fly beside the national flag, but they are not part of it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THINK DEEPER ============ -->
+<section class="shell reveal">
+  <div class="stack">
+    <div class="eyebrow">Part 1 &middot; Think deeper <span class="min">English book</span></div>
+    <h2>Four questions with no right answer</h2>
+    <p class="lede">These questions are about your <em>perspective</em>, so there is no answer key. There is only your thinking and your reasons. Write a short paragraph for each, and use <b>because</b> at least once in every answer.</p>
+    <div class="qgrid">
+      <div class="q"><b>Q9</b><p>Do you think the Australian flag should be changed? Why or why not?</p></div>
+      <div class="q"><b>Q10</b><p>Should a national flag represent the people, or the <em>nation</em> (the idea of a country)? Should it represent people or principles?</p><small>A principle is a big idea a country tries to live by, like fairness or freedom.</small></div>
+      <div class="q"><b>Q11</b><p>What do you think is the purpose of a national flag?</p></div>
+      <div class="q"><b>Q12</b><p>If a new Australian flag could carry only <em>one</em> message, what should that message be?</p><small>Keep your answer safe. You will need it in Part 2.</small></div>
+    </div>
+    <div class="script">
+      <b>Talk before you write</b>
+      If a classmate is at this point too, compare your answers to Q9 before writing Q10 to Q12. You are allowed to disagree. In fact, disagreeing politely and giving reasons is exactly what this unit is about: different authors, different perspectives.
+    </div>
+  </div>
+</section>
+
+<div class="crest"></div>
+
+<!-- ============ DARK BAND: SYMBOLISM ============ -->
+<section class="over">
+  <div class="shell">
+    <div class="stack reveal">
+      <div class="eyebrow">The designer&rsquo;s toolbox <span class="min">Read closely &middot; you will use this in Part 2</span></div>
+      <h2>A flag speaks without words</h2>
+      <p class="lede">Flags cannot write sentences, so they speak in <em>colour</em> and <em>symbol</em>. Around the world, designers have built a shared visual language. Learn it here, then use it to make your own flag say something true.</p>
+
+      <h3 style="margin-top:26px">What colours can say</h3>
+      <div class="colours">
+        <div class="sw"><i style="background:#C8102E"></i><div><b>Red</b><span>Courage, sacrifice, the earth and ochre of this continent, lifeblood and kinship.</span></div></div>
+        <div class="sw"><i style="background:#FFCC00"></i><div><b>Yellow &amp; gold</b><span>The sun, the giver of life, golden wattle, beaches and harvest.</span></div></div>
+        <div class="sw"><i style="background:#0057A8"></i><div><b>Blue</b><span>Sky and sea, the oceans that surround us and that most Australians crossed to get here.</span></div></div>
+        <div class="sw"><i style="background:#009B48"></i><div><b>Green</b><span>The land itself, forests, growth, hope and new beginnings.</span></div></div>
+        <div class="sw"><i style="background:#111111"></i><div><b>Black</b><span>On the Aboriginal Flag, black represents Aboriginal people. It can also stand for strength and determination.</span></div></div>
+        <div class="sw"><i style="background:#f5f1e6"></i><div><b>White</b><span>Peace and honesty. On the Torres Strait Islander Flag, white stands for peace.</span></div></div>
+        <div class="sw"><i style="background:linear-gradient(90deg,#b95d2c,#8f4520)"></i><div><b>Ochre</b><span>The colours of country: desert sands, rock and the oldest continuing cultures on Earth.</span></div></div>
+        <div class="sw"><i style="background:linear-gradient(90deg,#C8102E,#FFCC00,#0057A8,#009B48)"></i><div><b>Many colours</b><span>Diversity: many peoples, languages and stories sharing one place.</span></div></div>
+      </div>
+
+      <h3 style="margin-top:34px">What symbols can say</h3>
+      <div class="syms">
+        <div class="sym">
+          <svg viewBox="-110 -110 220 220" aria-hidden="true"><polygon fill="#cfa233" points="0.0,-100.0 19.3,-40.0 78.2,-62.3 43.3,-9.9 97.5,22.3 34.7,27.7 43.4,90.1 0.0,44.4 -43.4,90.1 -34.7,27.7 -97.5,22.3 -43.3,-9.9 -78.2,-62.3 -19.3,-40.0"/></svg>
+          <b>Stars</b><span>Guidance, hope, and finding your way. The Southern Cross appears on the flags of Australia, New Zealand, Papua New Guinea, Samoa and Brazil.</span>
+        </div>
+        <div class="sym">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="22" fill="#cfa233"/><g stroke="#cfa233" stroke-width="7" stroke-linecap="round"><path d="M50,8 v14"/><path d="M50,78 v14"/><path d="M8,50 h14"/><path d="M78,50 h14"/><path d="M20,20 l10,10"/><path d="M70,70 l10,10"/><path d="M80,20 l-10,10"/><path d="M30,70 l-10,10"/></g></svg>
+          <b>The sun</b><span>Life, energy and new dawns. The yellow circle at the heart of the Aboriginal Flag is the sun, the constant renewer of life.</span>
+        </div>
+        <div class="sym">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="34" fill="none" stroke="#cfa233" stroke-width="9"/><circle cx="50" cy="50" r="9" fill="#cfa233"/></svg>
+          <b>Circles</b><span>Unity, meeting places and belonging. A circle has no first place and no last place: everyone inside it is equal.</span>
+        </div>
+        <div class="sym">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#cfa233" stroke-width="8" fill="none" stroke-linecap="round"><path d="M8,35 q12,-14 24,0 t24,0 t24,0 t12,0"/><path d="M8,60 q12,-14 24,0 t24,0 t24,0 t12,0"/></g></svg>
+          <b>Waves</b><span>The sea, and journeys across it: ancient voyages, tall ships, and the boats and planes that still carry new Australians here.</span>
+        </div>
+        <div class="sym">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><g fill="#cfa233"><path d="M50,90 q-4,-38 0,-72" stroke="#cfa233" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="38" cy="30" r="9"/><circle cx="62" cy="24" r="9"/><circle cx="34" cy="50" r="9"/><circle cx="66" cy="44" r="9"/><circle cx="40" cy="68" r="9"/><circle cx="63" cy="63" r="9"/><circle cx="50" cy="14" r="9"/></g></svg>
+          <b>Plants</b><span>Golden wattle is Australia&rsquo;s national flower, blooming even after fire. Plants can say growth, survival and care for country.</span>
+        </div>
+        <div class="sym">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><g stroke="#cfa233" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="1 18"><path d="M15,85 Q40,60 50,50 T85,15"/></g><polygon fill="#cfa233" points="85,15 68,22 78,32"/></svg>
+          <b>Paths &amp; journeys</b><span>Footsteps, songlines and roads: where a people have been, and where they choose to go next, together.</span>
+        </div>
+      </div>
+
+      <h3 style="margin-top:34px">Real flags, real choices</h3>
+      <p class="lede" style="margin-bottom:18px">See the language of colour and symbol at work around the world. Two of these countries faced exactly the question you are facing, and chose a new flag.</p>
+      <div class="worldflags">
+        <div class="wf">
+          <div class="flagbox"><svg viewBox="0 0 1200 600" role="img" aria-label="The flag of Canada"><rect width="1200" height="600" fill="#ffffff"/><rect width="300" height="600" fill="#d80621"/><rect x="900" width="300" height="600" fill="#d80621"/><g transform="translate(600,300) scale(4.4)"><polygon fill="#d80621" points="0.0,-51.0 5.5,-38.0 21.0,-45.0 17.0,-26.0 42.0,-32.0 37.0,-16.0 51.0,-11.0 34.0,7.0 38.0,13.0 10.0,10.0 13.0,25.0 3.0,22.0 3.0,51.0 -3.0,51.0 -3.0,22.0 -13.0,25.0 -10.0,10.0 -38.0,13.0 -34.0,7.0 -51.0,-11.0 -37.0,-16.0 -42.0,-32.0 -17.0,-26.0 -21.0,-45.0 -5.5,-38.0"/></g></svg></div>
+          <b>Canada, 1965</b>
+          <span>Until 1965, Canada&rsquo;s flag carried the Union Jack. After a fierce national debate, Canadians chose a single maple leaf: a symbol from the land itself, belonging to no one group and to everyone.</span>
+        </div>
+        <div class="wf">
+          <div class="flagbox"><svg viewBox="0 0 900 600" role="img" aria-label="The flag of South Africa"><rect width="900" height="300" fill="#de3831"/><rect y="300" width="900" height="300" fill="#002395"/><path d="M0,0 L450,300 H900 M0,600 L450,300" stroke="#ffffff" stroke-width="200" fill="none"/><path d="M0,0 L450,300 H900 M0,600 L450,300" stroke="#007a4d" stroke-width="120" fill="none"/><polygon points="0,100 300,300 0,500" fill="#ffb612"/><polygon points="0,160 210,300 0,440" fill="#000000"/></svg></div>
+          <b>South Africa, 1994</b>
+          <span>Adopted when apartheid ended. The sideways Y is read as different paths coming together into one road ahead, and the six colours gather up the flags of South Africa&rsquo;s many peoples.</span>
+        </div>
+        <div class="wf">
+          <div class="flagbox"><svg viewBox="0 0 900 600" role="img" aria-label="The flag of Japan"><rect width="900" height="600" fill="#ffffff"/><circle cx="450" cy="300" r="180" fill="#bc002d"/></svg></div>
+          <b>Japan</b>
+          <span>One red circle: the rising sun, for the land of the sunrise. Proof that a single well-chosen symbol can carry a whole country&rsquo;s identity, with nothing else needed.</span>
+        </div>
+        <div class="wf">
+          <div class="flagbox"><svg viewBox="0 0 900 600" role="img" aria-label="The flag of Greenland"><rect width="900" height="300" fill="#ffffff"/><rect y="300" width="900" height="300" fill="#d00c33"/><path d="M150,300 A200,200 0 0 1 550,300 Z" fill="#d00c33"/><path d="M150,300 A200,200 0 0 0 550,300 Z" fill="#ffffff"/></svg></div>
+          <b>Greenland, 1985</b>
+          <span>The sun rising over the ice, drawn with just two colours swapped over. Greenlanders chose this over a Nordic cross design: their own symbol, not a borrowed one.</span>
+        </div>
+        <div class="wf">
+          <div class="flagbox"><svg viewBox="0 0 1200 600" role="img" aria-label="The flag of Seychelles"><polygon points="0,600 0,0 400,0" fill="#003f87"/><polygon points="0,600 400,0 800,0" fill="#fcd856"/><polygon points="0,600 800,0 1200,0 1200,200" fill="#d62828"/><polygon points="0,600 1200,200 1200,400" fill="#ffffff"/><polygon points="0,600 1200,400 1200,600" fill="#007a3d"/></svg></div>
+          <b>Seychelles, 1996</b>
+          <span>Five rays bursting out of the corner: a young country moving into its future. Blue for sky and sea, yellow for the sun, red for the people, white for justice, green for the land.</span>
+        </div>
+        <div class="wf">
+          <div class="flagbox"><svg viewBox="0 0 1000 600" role="img" aria-label="The flag of Bangladesh"><rect width="1000" height="600" fill="#006a4e"/><circle cx="450" cy="300" r="200" fill="#f42a41"/></svg></div>
+          <b>Bangladesh, 1971</b>
+          <span>A red sun rising over a green land, remembering those who died for independence. The circle sits slightly towards the flagpole so it looks centred when the flag is flying.</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Countries really do change their flags</h3>
+        <p style="margin-top:6px">Canada changed in 1965. South Africa changed in 1994. New Zealand held a national vote in 2016 and chose to <em>keep</em> its flag. Changing a flag, or keeping it, is always a decision made by people, which means it is a decision you are allowed to have an opinion about.</p>
+      </div>
+
+      <div class="card">
+        <h3>Read two flags as mentor texts</h3>
+        <p style="margin-top:6px">On the <b>Aboriginal Flag</b>, Harold Thomas used just three colours: black for Aboriginal people, red for the earth and their spiritual relationship to it, and yellow for the sun. On the <b>Torres Strait Islander Flag</b>, Bernard Namok used green for the land, blue for the sea, black for the people, a white dhari (a dancer&rsquo;s headdress) for Torres Strait Islanders, and a white five-pointed star for the island groups, peace and navigation. Notice how <em>every single element earns its place</em>. That is your standard in Part 2.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="crest-out"></div>
+
+<!-- ============ PART 2: DESIGN BRIEF ============ -->
+<section class="shell reveal" id="part2">
+  <div class="stack">
+    <div class="eyebrow">Part 2 &middot; Design <span class="min">Brainstorm &amp; drafts in your English book</span></div>
+    <h2>Your commission: a new flag for Australia</h2>
+    <p class="lede">You have been asked to design a new Australian flag that reflects an <em>inclusive</em> national identity: a flag with room in it for everyone who calls this country home. Real flag designers follow a few rules that keep flags strong. So will you.</p>
+    <div class="bridge">
+      <div class="no">
+        <h4>Weak flags usually&hellip;</h4>
+        <ul>
+          <li>cram in ten symbols so no single one matters</li>
+          <li>use six or more colours that fight each other</li>
+          <li>rely on words or names (a flag is not a poster)</li>
+          <li>copy another country&rsquo;s flag too closely</li>
+          <li>use symbols the designer cannot explain</li>
+        </ul>
+      </div>
+      <div class="yes">
+        <h4>Strong flags usually&hellip;</h4>
+        <ul>
+          <li>are so simple a child could draw them from memory</li>
+          <li>use two or three colours that mean something</li>
+          <li>let every symbol carry a story</li>
+          <li>look like nowhere else on Earth</li>
+          <li>still work when small, far away, or flapping in wind</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 2: STEPS + SCAFFOLD ============ -->
+<section class="shell reveal">
+  <div class="split">
+    <div class="stack">
+      <h2>Design it in five steps</h2>
+      <ol class="timeline">
+        <li><b>1. Brainstorm</b> List the people, places, ideas and stories your flag must honour. Aim for at least ten. Circle the three that matter most to you. <span class="where">English book</span></li>
+        <li><b>2. Choose your symbols</b> For each circled idea, sketch two or three symbols that could carry it. Steal wisely from the designer&rsquo;s toolbox above. <span class="where">English book</span></li>
+        <li><b>3. Choose your colours</b> Pick two or three colours and write one sentence saying what each colour means on <em>your</em> flag. <span class="where">English book</span></li>
+        <li><b>4. Draft three rough flags</b> Small, quick rectangles. Squint at them from arm&rsquo;s length: which one still speaks? <span class="where">English book</span></li>
+        <li><b>5. Draw your final flag</b> Take your best draft to the paper your teacher gives you. Use the full space, press your colours in solidly, and keep your edges clean. <span class="where">Paper from your teacher</span></li>
+      </ol>
+      <div class="script">
+        <b>The memory test</b>
+        When you think you are finished, show a classmate your flag for five seconds, then hide it and ask them to describe it. If they can, your design is strong. If they can&rsquo;t, simplify.
+      </div>
+    </div>
+    <div class="stack">
+      <h2>Explain your thinking</h2>
+      <p class="lede">Every new flag is accompanied by a designer&rsquo;s explanation of the symbols, colours and design choices. Draft yours in your English book using all four starters, then write a neat copy to display beside your flag.</p>
+      <ol class="starters">
+        <li><span>My flag includes ______ because&hellip;</span></li>
+        <li><span>This symbol represents&hellip;</span></li>
+        <li><span>I chose these colours to show&hellip;</span></li>
+        <li><span>I was inspired by the idea that&hellip;</span></li>
+      </ol>
+      <div class="card tint">
+        <h3><span class="badge">&#10003;</span> Part 2 checklist</h3>
+        <ul class="checklist">
+          <li>Brainstorm, symbol sketches and colour choices in my <b>English book</b></li>
+          <li>Three rough drafts, with my best one ticked</li>
+          <li>Final flag drawn on the <b>paper my teacher gave me</b></li>
+          <li>Explanation drafted with <b>all four starters</b>, then written neatly</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ============ PART 3: POEM ============ -->
+<section class="shell reveal" id="part3">
+  <div class="stack">
+    <div class="eyebrow">Part 3 &middot; Write <span class="min">Draft in your English book</span></div>
+    <h2>If my flag could speak&hellip;</h2>
+    <p class="lede">Imagine your newly designed flag could speak. What would it say to the people of Australia? What story would it tell about <em>identity</em>, <em>fairness</em> and <em>belonging</em>? Use the <b>&ldquo;I am&rdquo;</b> structure from earlier in the unit. Here is a model to learn from, not to copy.</p>
+    <div class="split wide-left">
+      <div class="verse">
+        <span class="tag">Model poem</span>
+        <div class="stanza">
+          <mark>I am</mark> a flag shaped by voices you don&rsquo;t always hear,<br>
+          <mark>I feel</mark> the footsteps of those who came before,<br>
+          <mark>I see</mark> a land held by generations,<br>
+          <mark>I hold</mark> the colours of truth and hope.
+        </div>
+        <div class="stanza">
+          <mark>I worry</mark> I&rsquo;ll be ignored like the ones I speak for,<br>
+          <mark>I hope</mark> I fly in peace, not in pride,<br>
+          <mark>I wish</mark> to unite, not divide,<br>
+          <mark>I am</mark> more than a symbol, I am a choice.
+        </div>
+      </div>
+      <div class="stack">
+        <div class="card">
+          <h3>Read the model like a writer</h3>
+          <p>The highlighted words are the <b>&ldquo;I am&rdquo; skeleton</b>: <em>I am, I feel, I see, I hold, I worry, I hope, I wish, I am</em>. The first and last lines match on purpose, and the last line lands the message. Notice the abstract nouns (<em>truth, hope, peace, pride</em>) and the metaphor: the flag is <em>a choice</em>, not just cloth.</p>
+        </div>
+        <div class="card tint">
+          <h3><span class="badge">&#10003;</span> Your poem must&hellip;</h3>
+          <ul class="checklist">
+            <li>Use your <b>own flag design</b> as its inspiration</li>
+            <li>Include at least <b>two symbols or colours</b> from your flag</li>
+            <li>Use at least <b>two abstract nouns</b> and <b>one metaphor</b></li>
+            <li>Be drafted in your <b>English book</b> first, then published neatly to display beside your flag</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="split">
+      <div class="card">
+        <h3>Abstract noun word bank</h3>
+        <p style="font-size:.9rem;color:var(--soft);margin-bottom:12px">An abstract noun names something you cannot touch. Choose the ones your flag truly stands for.</p>
+        <div class="snips">
+          <span class="hot">identity</span><span class="hot">fairness</span><span class="hot">belonging</span>
+          <span>hope</span><span>truth</span><span>unity</span><span>courage</span><span>freedom</span>
+          <span>respect</span><span>justice</span><span>peace</span><span>pride</span><span>history</span>
+          <span>friendship</span><span>equality</span><span>future</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Metaphor starters</h3>
+        <p style="font-size:.9rem;color:var(--soft);margin-bottom:12px">A metaphor says one thing <em>is</em> another. No <em>like</em> or <em>as</em> allowed.</p>
+        <div class="snips">
+          <span>I am a promise stitched in&hellip;</span>
+          <span>I am a campfire that&hellip;</span>
+          <span>My stars are&hellip;</span>
+          <span>My colours are a handshake between&hellip;</span>
+          <span>I am a doorway to&hellip;</span>
+          <span>I am the morning that&hellip;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ============ PUBLISH ============ -->
+<section class="shell reveal">
+  <div class="split wide-right">
+    <div class="stack">
+      <div class="eyebrow">Part 3 &middot; Publish <span class="min">Canva</span></div>
+      <h2>Publish in Canva</h2>
+      <p class="lede">Once your teacher has seen your draft, publish your poem in Canva so it can be displayed beside your flag.</p>
+    </div>
+    <ol class="timeline">
+      <li><b>1. Edit first, on paper</b> Read your draft aloud in a whisper. Fix anything that trips your tongue, then check spelling and punctuation. <span class="where">English book</span></li>
+      <li><b>2. Open Canva and choose a simple layout</b> A poster or A4 document works well. Give your poem a title. Your flag&rsquo;s name makes a good one. <span class="where">Canva</span></li>
+      <li><b>3. Type your poem carefully</b> One line of the poem per line on the page. Choose one or two fonts at most, and colours drawn from your flag. <span class="where">Canva</span></li>
+      <li><b>4. Check, then submit</b> Compare your published poem to your draft word by word, then share it with your teacher. <span class="where">Canva</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ EXIT ============ -->
+<section class="shell reveal">
+  <div class="split wide-left">
+    <div class="exit">
+      <h3>Exit slip: before you finish</h3>
+      <p style="margin-top:8px">Answer in your English book, under the heading <em>Exit slip</em>.</p>
+      <ol>
+        <li>Which <b>one symbol</b> on your flag matters most to you, and why?</li>
+        <li>Who is <b>included</b> by your flag that the current flag leaves out?</li>
+        <li>Complete this sentence: <em>A flag is really a&hellip;</em></li>
+      </ol>
+    </div>
+    <div class="keyq">
+      <b>Return to the big question</b>
+      <p>Can one piece of cloth tell the story of everyone who calls Australia home? Has your answer changed since the start of this page?</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><b>Who designed our flag, and who was left out?</b> &middot; Year 5 English &middot; Lessons 16, 17 &amp; 18</p>
+  <p style="margin-top:6px">Symbols, perspective and identity &middot; Video: Behind the News, <em>Australia&rsquo;s Flag</em></p>
+</footer>
+
+<script>
+(function(){
+  var bar=document.getElementById('bar');
+  function onScroll(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';
+  }
+  document.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+  var reveals=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}
+      });
+    },{threshold:.12});
+    reveals.forEach(function(r){io.observe(r);});
+  }else{
+    reveals.forEach(function(r){r.classList.add('on');});
+  }
+})();
+</script>
+</body>
+</html>
