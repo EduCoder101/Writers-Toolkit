@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Year 5 English lesson: brainstorming, planning, drafting and performing an original slam poem.">
+<title>Lesson 20: Writing Your Slam Poem</title>
+<!--
+    AESTHETIC: Wildstyle Wall (see Lesson 19). Companion file, same palette and type.
+
+    NEW PATTERN: Prompt deck
+    WHAT: A shuffleable deck of about 40 specific writing prompts, filterable by
+          category, with a star shortlist that carries into the planning sheet.
+    WHY:  Students asked to "pick a topic" reach for world peace. A deck forces them
+          past the first idea and every prompt is already a small moment, not a theme.
+    STATUS: experimental
+
+    NEW PATTERN: Zoom-in funnel
+    WHAT: Four narrowing inputs (theme, who or where, one moment, three details) with a
+          live plan preview, modelled first by a teacher-controlled worked example.
+    WHY:  Narrowing is the actual skill. The funnel makes the narrowing visible rather
+          than leaving it to the instruction "be specific".
+    STATUS: experimental
+
+    NEW PATTERN: Teacher notes drawer
+    WHAT: A header button opens an overlay of notes meant for the teacher only. It sits
+          outside the slide sequence so it can never be advanced onto the board by accident.
+    WHY:  Personal-writing lessons need guidance the class should not read.
+    STATUS: experimental
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700;900&family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --wall:#0e0d12; --wall2:#17161d; --panel:rgba(10,9,14,.72);
+  --pink:#FF2E88; --acid:#C6FF00; --cyan:#00E5FF;
+  --paper:#f6f4ff; --body:#dcd8ea; --muted:#a49dbb;
+  --line:rgba(255,255,255,.14); --amber:#FFB03A; --violet:#9B5DE5;
+  --header-h:112px;
+}
+*{box-sizing:border-box}
+html{height:100%}
+body{
+  margin:0;height:100%;
+  font-family:'Inter',system-ui,sans-serif;color:var(--body);
+  background:
+    radial-gradient(1200px 620px at 12% -6%, rgba(255,46,136,.16), transparent 62%),
+    radial-gradient(1000px 760px at 90% 34%, rgba(0,229,255,.13), transparent 62%),
+    radial-gradient(800px 600px at 45% 105%, rgba(198,255,0,.09), transparent 62%),
+    linear-gradient(180deg,#17161d,#0e0d12);
+  background-attachment:fixed;overflow-x:hidden;
+}
+body:focus{outline:none}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.028) 0 1px,transparent 1px 92px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.028) 0 1px,transparent 1px 40px);
+}
+
+/* ---------- HEADER ---------- */
+header{
+  position:relative;z-index:300;background:rgba(8,7,11,.92);
+  border-bottom:3px solid var(--pink);padding:12px 26px;
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+}
+header .back{
+  color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:600;
+  border:1px solid var(--line);border-radius:100px;padding:6px 14px;white-space:nowrap;
+}
+header .back:hover{color:var(--wall);background:var(--acid);border-color:var(--acid)}
+header .eyebrow{font-family:'Permanent Marker',cursive;font-size:1.05rem;color:var(--acid);transform:rotate(-2deg);white-space:nowrap}
+header h1{margin:0;font-family:'Bangers',cursive;font-weight:400;font-size:2.1rem;letter-spacing:.03em;color:#fff;line-height:1}
+header h1 span{color:var(--pink)}
+.tnotes-btn{
+  margin-left:auto;background:transparent;border:1px solid var(--violet);color:#cbb0ff;
+  font-family:'Inter',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.03em;
+  padding:7px 15px;border-radius:100px;cursor:pointer;white-space:nowrap;
+}
+.tnotes-btn:hover{background:var(--violet);color:#fff}
+
+/* ---------- PHASE NAV ---------- */
+.phase-nav{
+  position:sticky;top:0;z-index:280;background:rgba(8,7,11,.95);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:9px 26px;flex-wrap:wrap;
+}
+.sidebar-toggle{background:transparent;border:1px solid var(--line);color:var(--paper);font-size:1.1rem;line-height:1;padding:7px 12px;border-radius:6px;cursor:pointer}
+.sidebar-toggle:hover{background:var(--acid);color:var(--wall);border-color:var(--acid)}
+.phase-btn{
+  background:transparent;border:none;cursor:pointer;font-family:'Inter',sans-serif;
+  font-weight:700;font-size:.95rem;color:var(--muted);padding:8px 14px;
+  border-bottom:4px solid transparent;letter-spacing:.02em;
+}
+.phase-btn:hover{color:var(--paper)}
+.phase-btn.active{color:#fff}
+.phase-btn[data-phase="learning"].active{border-bottom-color:var(--pink)}
+.phase-btn[data-phase="find"].active{border-bottom-color:var(--acid)}
+.phase-btn[data-phase="narrow"].active{border-bottom-color:var(--cyan)}
+.phase-btn[data-phase="draft"].active{border-bottom-color:var(--amber)}
+.phase-btn[data-phase="feedback"].active{border-bottom-color:var(--violet)}
+.phase-btn[data-phase="perform"].active{border-bottom-color:var(--pink)}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:264px;z-index:200;background:#100f15;border-right:1px solid var(--line);padding-top:var(--header-h);overflow-y:auto;transition:width .25s ease}
+.sidebar.collapsed{width:0;border-right:none}
+.sidebar .inner{padding:16px 0 40px}
+.sb-section{font-family:'Permanent Marker',cursive;font-size:.85rem;color:var(--acid);letter-spacing:.04em;padding:16px 18px 6px}
+.sb-item{display:block;width:100%;text-align:left;background:transparent;border:none;cursor:pointer;color:var(--muted);font-family:'Inter',sans-serif;font-size:.95rem;padding:9px 18px;border-left:4px solid transparent;line-height:1.35}
+.sb-item:hover{color:var(--paper);background:rgba(255,255,255,.05)}
+.sb-item.active{color:#fff;border-left-color:var(--pink);background:rgba(255,46,136,.12);font-weight:600}
+
+/* ---------- MAIN ---------- */
+main{position:relative;z-index:1;margin-left:264px;transition:margin-left .25s ease;padding:30px 54px 44px}
+main.wide{margin-left:0}
+.slide{display:none;max-width:1120px;margin:0 auto;animation:fadeIn .3s ease}
+.slide.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:var(--panel);border:2px solid rgba(198,255,0,.4);border-radius:6px;padding:30px 40px 34px;box-shadow:11px 11px 0 rgba(255,46,136,.26)}
+.card.pinktop{border-top:7px solid var(--pink)}
+.card h2{font-family:'Bangers',cursive;font-weight:400;letter-spacing:.035em;font-size:2.7rem;line-height:1.05;margin:0 0 16px;color:#fff}
+.card h2 em{font-style:normal;color:var(--acid)}
+.card h3{font-family:'Bangers',cursive;font-weight:400;letter-spacing:.04em;font-size:1.65rem;margin:22px 0 10px;color:var(--cyan)}
+.card h3:first-child{margin-top:0}
+.card p{font-size:1.35rem;line-height:1.65;margin:0 0 14px}
+.card p.lead{font-size:1.5rem;color:var(--paper)}
+.card ul,.card ol{font-size:1.35rem;line-height:1.75;margin:0 0 14px;padding-left:26px}
+.card li{margin-bottom:8px}
+.tiny{font-size:1.02rem;color:var(--muted);line-height:1.55}
+.hand{font-family:'Permanent Marker',cursive;color:var(--acid);font-size:1.35rem;transform:rotate(-1.2deg);display:inline-block}
+
+.chips{display:flex;gap:14px;flex-wrap:wrap;margin:18px 0 6px}
+.chip{font-family:'Permanent Marker',cursive;font-size:1.1rem;background:var(--acid);color:#12121a;padding:10px 18px;border-radius:3px;transform:rotate(-2deg);box-shadow:4px 4px 0 rgba(0,0,0,.6)}
+.chip:nth-child(2){background:var(--pink);color:#fff;transform:rotate(1.6deg)}
+.chip:nth-child(3){background:var(--cyan);transform:rotate(-1deg)}
+.chip:nth-child(4){background:#fff;transform:rotate(2.2deg)}
+
+.slab{background:rgba(255,255,255,.05);border-left:9px solid var(--pink);padding:20px 26px;margin:16px 0;border-radius:0 6px 6px 0}
+.slab p{margin:0}
+.slab.cyan{border-left-color:var(--cyan)}
+.slab.amber{border-left-color:var(--amber)}
+
+.step{display:none}
+.step.shown{display:block;animation:fadeIn .3s ease}
+.step-cue{
+  font-family:'Permanent Marker',cursive;color:var(--acid);font-size:1.1rem;margin-top:18px;
+  display:inline-flex;align-items:center;gap:11px;cursor:pointer;
+  background:rgba(198,255,0,.09);border:2px solid rgba(198,255,0,.45);border-radius:3px;
+  padding:10px 20px;transition:background .15s ease;
+}
+.step-cue:hover{background:var(--acid);color:#12121a;border-color:var(--acid)}
+.step-cue:hover .dot{background:#12121a}
+.step-cue.done{display:none}
+.step-cue .dot{width:9px;height:9px;border-radius:50%;background:var(--acid);animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+
+.btn{font-family:'Bangers',cursive;font-weight:400;letter-spacing:.05em;font-size:1.35rem;background:var(--pink);color:#fff;border:none;padding:12px 28px;border-radius:3px;cursor:pointer;box-shadow:6px 6px 0 var(--acid);transition:transform .15s ease}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--acid)}
+.btn.ghost{background:transparent;color:var(--paper);border:2px solid var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--acid);color:var(--acid);transform:none}
+.btn.cyan{background:var(--cyan);color:#0b0b12;box-shadow:6px 6px 0 var(--pink)}
+.btnrow{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px;align-items:center}
+
+/* ---------- PROMPT DECK ---------- */
+.deckgrid{display:grid;grid-template-columns:1.5fr .95fr;gap:26px;align-items:start}
+.cats{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.cat{font-family:'Inter',sans-serif;font-weight:700;font-size:.92rem;background:transparent;color:var(--muted);border:2px solid var(--line);border-radius:100px;padding:7px 15px;cursor:pointer}
+.cat:hover{color:var(--paper);border-color:var(--paper)}
+.cat.on{background:var(--acid);color:#12121a;border-color:var(--acid)}
+.promptcard{
+  background:linear-gradient(135deg,rgba(255,46,136,.2),rgba(0,229,255,.14));
+  border:2px dashed rgba(255,255,255,.3);border-radius:5px;
+  padding:28px 30px;min-height:212px;display:flex;flex-direction:column;justify-content:center;
+}
+.promptcard .kicker{font-family:'Permanent Marker',cursive;font-size:1rem;color:var(--acid);margin-bottom:12px}
+.promptcard .txt{font-family:'Bangers',cursive;font-size:2.15rem;line-height:1.16;letter-spacing:.02em;color:#fff}
+.starred{background:rgba(255,255,255,.045);border:2px solid var(--line);border-radius:5px;padding:18px 20px;min-height:212px}
+.starred h4{font-family:'Permanent Marker',cursive;font-size:1.15rem;color:var(--cyan);margin:0 0 12px}
+.starred ol{margin:0;padding-left:20px;font-size:1.05rem;line-height:1.5}
+.starred li{margin-bottom:9px;cursor:pointer}
+.starred li:hover{color:var(--pink);text-decoration:line-through}
+.starred .empty{font-size:1.02rem;color:var(--muted);line-height:1.5}
+
+/* ---------- FUNNEL ---------- */
+.funnel{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:start}
+.fstep{display:flex;gap:14px;align-items:flex-start;margin-bottom:13px}
+.fstep .num{font-family:'Space Mono',monospace;font-weight:700;font-size:.95rem;background:var(--pink);color:#fff;padding:6px 10px;border-radius:3px;flex:0 0 auto;margin-top:5px}
+.fstep .fld{flex:1}
+.fstep label{display:block;font-family:'Permanent Marker',cursive;font-size:1.08rem;color:var(--acid);margin-bottom:5px}
+.fstep .hintline{font-size:.95rem;color:var(--muted);margin-bottom:6px;line-height:1.4}
+.fin{
+  width:100%;font-family:'Inter',sans-serif;font-size:1.12rem;color:#fff;
+  background:rgba(255,255,255,.07);border:2px solid var(--line);border-radius:3px;
+  padding:10px 14px;line-height:1.5;resize:vertical;
+}
+.fin:focus{outline:none;border-color:var(--acid);background:rgba(198,255,0,.07)}
+.preview{background:rgba(255,255,255,.045);border:2px solid rgba(0,229,255,.4);border-radius:5px;padding:20px 24px}
+.preview h4{font-family:'Permanent Marker',cursive;font-size:1.15rem;color:var(--cyan);margin:0 0 14px}
+.preview dl{margin:0;font-size:1.05rem;line-height:1.5}
+.preview dt{font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-top:12px}
+.preview dt:first-child{margin-top:0}
+.preview dd{margin:3px 0 0;color:#fff}
+.preview dd.blank{color:var(--muted);font-style:italic}
+
+/* worked example rows */
+.wex{border-left:6px solid var(--cyan);padding:4px 0 4px 20px;margin-bottom:12px}
+.wex .lbl{font-family:'Space Mono',monospace;font-size:.78rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:3px}
+.wex .val{font-size:1.3rem;color:#fff;line-height:1.45}
+.wex.bad{border-left-color:var(--amber)}
+.wex.bad .val{color:var(--amber)}
+
+/* show don't tell */
+.tellrow{display:flex;gap:12px;flex-wrap:wrap;margin:4px 0 0}
+.tellbtn{font-family:'Permanent Marker',cursive;font-size:1.15rem;background:rgba(255,255,255,.06);color:var(--paper);border:2px solid var(--line);border-radius:3px;padding:11px 20px;cursor:pointer}
+.tellbtn:hover{border-color:var(--cyan);color:var(--cyan)}
+.tellbtn.on{background:var(--cyan);color:#0b0b12;border-color:var(--cyan)}
+.tellout{margin-top:18px;background:rgba(255,255,255,.05);border:2px solid rgba(0,229,255,.4);border-radius:5px;padding:22px 26px;min-height:186px}
+.tellout .telling{font-family:'Bangers',cursive;font-size:2.1rem;color:var(--amber);letter-spacing:.03em;margin:0 0 6px}
+.tellout .showing{font-size:1.35rem;line-height:1.6;color:#fff;margin:0}
+.tellout .note{font-size:1.05rem;color:var(--muted);margin:12px 0 0;line-height:1.5}
+
+/* checklist */
+.check{list-style:none;padding:0;margin:0}
+.check li{position:relative;padding-left:42px;margin-bottom:13px;font-size:1.35rem;line-height:1.5}
+.check li::before{content:"";position:absolute;left:0;top:3px;width:24px;height:24px;border:3px solid var(--acid);border-radius:3px}
+
+.cols{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:start}
+.scaffold{background:#fff;color:#12121a;padding:20px 24px;border-radius:3px;transform:rotate(-1.4deg);box-shadow:7px 7px 0 rgba(0,229,255,.5)}
+.scaffold h4{font-family:'Permanent Marker',cursive;font-size:1.25rem;margin:0 0 12px}
+.scaffold ul{margin:0;padding-left:20px;font-size:1.12rem;line-height:1.7;color:#2a2a33}
+
+.marks{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:6px}
+.mark{background:rgba(255,255,255,.05);border:2px solid var(--line);border-radius:5px;padding:16px 18px}
+.mark .sym{font-family:'Bangers',cursive;font-size:2.4rem;color:var(--pink);line-height:1;display:block;margin-bottom:6px}
+.mark b{display:block;font-size:1.12rem;color:#fff;margin-bottom:4px}
+.mark span.d{font-size:1rem;color:var(--muted);line-height:1.45}
+
+/* slide nav */
+.slide-nav{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:24px;padding-top:16px;border-top:1px solid var(--line)}
+.nav-btn{font-family:'Inter',sans-serif;font-weight:700;font-size:1rem;background:transparent;color:var(--paper);border:2px solid var(--line);padding:12px 30px;border-radius:3px;cursor:pointer}
+.nav-btn:hover:not(:disabled){border-color:var(--acid);color:var(--acid)}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.slide-counter{font-family:'Space Mono',monospace;font-size:.95rem;color:var(--muted);letter-spacing:.08em}
+
+/* ---------- OVERLAYS ---------- */
+.overlay{position:fixed;inset:0;z-index:500;background:rgba(5,4,8,.86);display:none;align-items:center;justify-content:center;padding:30px}
+.overlay.open{display:flex}
+.sheet{background:#141219;border:2px solid var(--violet);border-radius:6px;max-width:820px;width:100%;max-height:86vh;overflow-y:auto;padding:30px 36px 34px;box-shadow:12px 12px 0 rgba(155,93,229,.3)}
+.sheet h3{font-family:'Bangers',cursive;font-size:2rem;color:#cbb0ff;margin:0 0 6px;letter-spacing:.03em}
+.sheet h4{font-family:'Bangers',cursive;font-size:1.4rem;color:var(--acid);margin:22px 0 8px;letter-spacing:.04em}
+.sheet p,.sheet li{font-size:1.08rem;line-height:1.6}
+.sheet ul{padding-left:22px;margin:0 0 10px}
+.sheet .close{margin-top:22px}
+.modal .sheet{max-width:560px;border-color:var(--acid);box-shadow:12px 12px 0 rgba(198,255,0,.28)}
+.modal .sheet h3{color:var(--acid)}
+.modal input[type=text]{width:100%;font-family:'Inter',sans-serif;font-size:1.15rem;color:#fff;background:rgba(255,255,255,.08);border:2px solid var(--line);border-radius:3px;padding:12px 15px;margin-top:6px}
+.modal input[type=text]:focus{outline:none;border-color:var(--acid)}
+.err{color:var(--pink);font-size:1rem;margin-top:9px;min-height:22px}
+
+/* ---------- PRINTABLE PLANNING SHEET ---------- */
+#plansheet{display:none}
+.rule-lines div{border-bottom:1px solid #999;height:26px}
+@media print{
+  body{background:#fff !important;color:#000}
+  body::before,header,.phase-nav,.sidebar,main,.overlay{display:none !important}
+  #plansheet{display:block;font-family:Georgia,'Times New Roman',serif;color:#000}
+  #plansheet h1{font-size:22pt;margin:0 0 2pt}
+  #plansheet .sub{font-size:10pt;color:#444;margin:0 0 14pt}
+  #plansheet h2{font-size:13pt;margin:16pt 0 6pt;border-bottom:1.5pt solid #000;padding-bottom:3pt}
+  #plansheet p,#plansheet li{font-size:11pt;line-height:1.5}
+  #plansheet .ans{font-size:11.5pt;line-height:1.5;padding:5pt 0 5pt 10pt;border-left:2.5pt solid #666;margin:0 0 9pt}
+  #plansheet .ans.empty{color:#777;font-style:italic}
+  #plansheet .box{border:1pt solid #000;padding:8pt 11pt;margin:0 0 9pt}
+  #plansheet ul{margin:0 0 8pt;padding-left:16pt}
+  #plansheet .tick{list-style:none;padding-left:0}
+  #plansheet .tick li{padding-left:20pt;position:relative;margin-bottom:5pt}
+  #plansheet .tick li::before{content:"";position:absolute;left:0;top:2pt;width:10pt;height:10pt;border:1pt solid #000}
+  .pagebreak{page-break-before:always}
+  @page{margin:16mm 15mm}
+}
+@media(max-height:880px){
+  main{padding:18px 40px 14px}
+  .card{padding:22px 34px 24px}
+  .card h2{font-size:2.25rem;margin:0 0 12px}
+  .card h3{font-size:1.45rem;margin:15px 0 8px}
+  .card p{margin-bottom:10px}
+  .card ul,.card ol{margin-bottom:10px;line-height:1.6}
+  .card li{margin-bottom:5px}
+  .slab{padding:11px 20px;margin:9px 0}
+  .card p.lead{font-size:1.38rem}
+  .hand{font-size:1.25rem}
+  .chips{margin:14px 0 4px}
+  .step-cue{margin-top:9px;padding:8px 16px;font-size:1rem}
+  .slide-nav{margin-top:15px;padding-top:12px}
+  .nav-btn{padding:9px 24px}
+  .btnrow{margin-top:14px}
+  .promptcard{min-height:180px;padding:22px 26px}
+  .promptcard .txt{font-size:1.9rem}
+  .starred{min-height:180px;padding:15px 18px}
+  .fstep{margin-bottom:9px}
+  .fin{padding:7px 12px;font-size:1.02rem}
+  .fstep label{font-size:1rem;margin-bottom:3px}
+  .fstep .hintline{font-size:.88rem;margin-bottom:4px}
+  .preview{padding:15px 18px}
+  .preview dt{margin-top:9px}
+  .funnel{gap:20px}
+  .tellout{min-height:160px;padding:17px 22px}
+  .tellout .telling{font-size:1.85rem}
+  .tellout .showing{font-size:1.25rem}
+  .check li{margin-bottom:9px;font-size:1.25rem}
+  .marks{gap:12px}
+  .mark{padding:12px 15px}
+  .wex{margin-bottom:9px}
+  .wex .val{font-size:1.2rem}
+  .scaffold{padding:16px 20px}
+}
+@media(max-width:1180px){
+  .deckgrid,.funnel,.cols{grid-template-columns:1fr}
+  .marks{grid-template-columns:1fr}
+  main{padding:24px 26px 36px;margin-left:0}
+  .sidebar{width:0;border-right:none}
+  .sidebar.open{width:264px;border-right:1px solid var(--line)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back" href="../../index.html">&larr; Back to Interactives</a>
+  <div class="eyebrow">Year 5 &middot; English</div>
+  <h1>Lesson 20 &middot; <span>Writing Your Slam Poem</span></h1>
+  <button class="tnotes-btn" tabindex="-1" onclick="openNotes()">Teacher notes</button>
+</header>
+
+<nav class="phase-nav" id="phaseNav">
+  <button class="sidebar-toggle" id="sidebarToggle" tabindex="-1" onclick="toggleSidebar()">&#9776;</button>
+  <button class="phase-btn active" data-phase="learning" tabindex="-1" onclick="goToPhase('Learning')">LISC</button>
+  <button class="phase-btn" data-phase="find" tabindex="-1" onclick="goToPhase('Find It')">Find It</button>
+  <button class="phase-btn" data-phase="narrow" tabindex="-1" onclick="goToPhase('Narrow It')">Narrow It</button>
+  <button class="phase-btn" data-phase="draft" tabindex="-1" onclick="goToPhase('Draft It')">Draft It</button>
+  <button class="phase-btn" data-phase="feedback" tabindex="-1" onclick="goToPhase('Feedback')">Feedback</button>
+  <button class="phase-btn" data-phase="perform" tabindex="-1" onclick="goToPhase('Perform')">Perform</button>
+</nav>
+
+<aside class="sidebar" id="sidebar"><div class="inner" id="sidebarInner"></div></aside>
+
+<main id="main">
+
+<!-- ============ 0 LISC ============ -->
+<section class="slide active" id="slide-0">
+  <div class="card pinktop">
+    <h2>Learning Intention &amp; Success Criteria</h2>
+    <h3>Learning Intention</h3>
+    <p>We are learning to plan and draft a slam poem that turns one small personal moment into powerful spoken words.</p>
+    <h3>Success Criteria</h3>
+    <ul class="check">
+      <li>I can choose a topic that is one specific moment, not a broad idea.</li>
+      <li>I can collect sensory details that show my moment instead of explaining it.</li>
+      <li>I can draft 8 to 12 lines that include a powerful image and some repetition.</li>
+      <li>I can give a peer specific feedback and use feedback to improve my own performance.</li>
+    </ul>
+  </div>
+  <div class="slide-nav"><button class="nav-btn" tabindex="-1" onclick="prevSlide()">Previous</button><span class="slide-counter"></span><button class="nav-btn next-btn" tabindex="-1" onclick="advance()">Next</button></div>
+</section>
+
+<!-- ============ 1 The rule ============ -->
+<section class="slide" id="slide-1">
+  <div class="card">
+    <h2>The rule: go <em>small</em></h2>
+    <p class="lead">Every poet who has ever bored an audience started with a topic that was too big.</p>
+    <div class="step" id="s1a">
+      <div class="wex bad"><span class="lbl">Too big</span><span class="val">"I am going to write about world peace."</span></div>
+    </div>
+    <div class="step" id="s1b">
+      <div class="wex bad"><span class="lbl">Still too big</span><span class="val">"I am going to write about my family."</span></div>
+    </div>
+    <div class="step" id="s1c">
+      <div class="wex"><span class="lbl">Now we are getting somewhere</span><span class="val">"I am going to write about the afternoon my nan taught me to make scones and my hands were too slow."</span></div>
+    </div>
+    <div class="step" id="s1d">
+      <p style="margin-top:6px">Nobody can picture world peace. Everybody can picture flour on a bench. A slam poem does not need a big idea, it needs one tiny snapshot that you own.</p>
+      <p class="hand">Small is not the opposite of important. Small is how important gets in.</p>
+    </div>
+    <button class="step-cue" id="cue-1" type="button" tabindex="-1" onclick="advance()"><span class="dot"></span> Reveal next</button>
+  </div>
+  <div class="slide-nav"><button class="nav-btn" tabindex="-1" onclick="prevSlide()">Previous</button><span class="slide-counter"></span><button class="nav-btn next-btn" tabindex="-1" onclick="advance()">Next</button></div>
+</section>
+
+<!-- ============ 2 Prompt deck ============ -->
+<section class="slide" id="slide-2">
+  <div class="card">
+    <h2>The <em>deck</em></h2>
+    <p>Shuffle until something makes you sit up. Star up to five. You do not have to use any of them, but you have to react to them. <span class="tiny" id="deckCount"></span></p>
+    <div class="cats" id="catRow"></div>
+    <div class="deckgrid">
+      <div>
+        <div class="promptcard">
+          <div class="kicker" id="pcCat">&nbsp;</div>
+          <div class="txt" id="pcText">Press Shuffle to start</div>
+        </div>
+        <div class="btnrow">
+          <button class="btn" tabindex="-1" onclick="shuffleCard()">Shuffle</button>
+          <button class="btn cyan" tabindex="-1" onclick="starCard()">Star this one</button>
+        </div>
+      </div>
+      <div class="starred">
+        <h4>My shortlist</h4>
+        <div id="starList"><p class="empty">Nothing starred yet. Star up to five, then pick the one you cannot stop thinking about. Click any starred prompt to remove it.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav"><button class="nav-btn" tabindex="-1" onclick="prevSlide()">Previous</button><span class="slide-counter"></span><button class="nav-btn next-btn" tabindex="-1" onclick="advance()">Next</button></div>
+</section>
+
+<!-- ============ 3 Funnel modelled ============ -->
+<section class="slide" id="slide-3">
+  <div class="card">
+    <h2>The <em>funnel</em></h2>
+    <p class="lead">Watch a big soggy topic get squeezed into something you could actually write.</p>
+    <div class="step" id="s3a"><div class="wex bad"><span class="lbl">1. Big theme</span><span class="val">Family</span></div></div>
+    <div class="step" id="s3b"><div class="wex"><span class="lbl">2. One person or one place</span><span class="val">My nan's kitchen</span></div></div>
+    <div class="step" id="s3c"><div class="wex"><span class="lbl">3. One moment</span><span class="val">The afternoon she taught me to make scones and my hands were too slow</span></div></div>
+    <div class="step" id="s3d"><div class="wex"><span class="lbl">4. Three things I could see, hear or touch</span><span class="val">Flour on the bench like frost &middot; the radio she never turns off &middot; her thumb pressing the edge of the dough</span></div></div>
+    <div class="step" id="s3e">
+      <div class="slab"><p class="lead">And there is your opening line, hiding in the details: <span class="hand" style="font-size:1.5rem">Her hands were faster than the radio.</span></p></div>
+    </div>
+    <button class="step-cue" id="cue-3" type="button" tabindex="-1" onclick="advance()"><span class="dot"></span> Reveal next</button>
+  </div>
+  <div class="slide-nav"><button class="nav-btn" tabindex="-1" onclick="prevSlide()">Previous</button><span class="slide-counter"></span><button class="nav-btn next-btn" tabindex="-1" onclick="advance()">Next</button></div>
+</section>
+
+<!-- ============ 4 Your funnel ============ -->
+<section class="slide" id="slide-4">
+  <div class="card">
+    <h2>Your turn: <em>squeeze it down</em></h2>
+    <div class="funnel">
+      <div>
+        <div class="fstep">
+          <span class="num">1</span>
+          <div class="fld">
+            <label for="f1">Big theme</label>
+            <div class="hintline">One or two words. This is allowed to be vague.</div>
+            <input class="fin" type="text" id="f1" oninput="syncPlan()">
+          </div>
+        </div>
+        <div class="fstep">
+          <span class="num">2</span>
+          <div class="fld">
+            <label for="f2">One person, or one place</label>
+            <div class="hintline">Not "my family". One person. Not "home". One room.</div>
+            <input class="fin" type="text" id="f2" oninput="syncPlan()">
+          </div>
+        </div>
+        <div class="fstep">
+          <span class="num">3</span>
+          <div class="fld">
+            <label for="f3">One moment</label>
+            <div class="hintline">When exactly? One afternoon, one sentence somebody said, one look.</div>
+            <input class="fin" type="text" id="f3" oninput="syncPlan()">
+          </div>
+        </div>
+        <div class="fstep">
+          <span class="num">4</span>
+          <div class="fld">
+            <label for="f4">Three things you could see, hear, smell or touch</label>
+            <div class="hintline">No feelings in this box. Only things. Feelings come out of things.</div>
+            <textarea class="fin" id="f4" rows="2" oninput="syncPlan()"></textarea>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="preview">
+          <h4>My plan so far</h4>
+          <dl>
+            <dt>Theme</dt><dd id="p1" class="blank">not yet</dd>
+            <dt>Person or place</dt><dd id="p2" class="blank">not yet</dd>
+            <dt>The moment</dt><dd id="p3" class="blank">not yet</dd>
+            <dt>Details</dt><dd id="p4" class="blank">not yet</dd>
+          </dl>
+        </div>
+        <div class="btnrow"><button class="btn" tabindex="-1" onclick="openPlanModal()">Print my planning sheet</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav"><button class="nav-btn" tabindex="-1" onclick="prevSlide()">Previous</button><span class="slide-counter"></span><button class="nav-btn next-btn" tabindex="-1" onclick="advance()">Next</button></div>
+</section>
+
+<!-- ============ 5 Show don't tell ============ -->
+<section class="slide" id="slide-5">
+  <div class="card">
+    <h2>Show it, don't <em>tell it</em></h2>
+    <p>Telling names the feeling and stops. Showing hands the feeling to the audience and lets them have it themselves. Pick one.</p>
+    <div class="tellrow">
+      <button class="tellbtn" tabindex="-1" onclick="setTell(0,this)">I was sad</button>
+      <button class="tellbtn" tabindex="-1" onclick="setTell(1,this)">I was nervous</button>
+      <button class="tellbtn" tabindex="-1" onclick="setTell(2,this)">I was angry</button>
+      <button class="tellbtn" tabindex="-1" onclick="setTell(3,this)">I was happy</button>
+    </div>
+    <div class="tellout" id="tellOut">
+      <p class="note">Choose a flat, boring sentence and watch it get its body back.</p>
+    </div>
+  </div>
+  <div class="slide-nav"><button class="nav-btn" tabindex="-1" onclick="prevSlide()">Previous</button><span class="slide-counter"></span><button class="nav-btn next-btn" tabindex="-1" onclick="advance()">Next</button></div>
+</section>
+
+<!-- ============ 6 What your poem needs ============ -->
+<section class="slide" id="slide-6">
+  <div class="card">
+    <h2>What your poem <em>needs</em></h2>
+    <div class="step" id="s6a"><div class="slab"><p class="lead"><strong>At least one metaphor or powerful image.</strong> One line where you say a thing is another thing, or paint a picture so clear the audience can see it.</p></div></div>
+    <div class="step" id="s6b"><div class="slab cyan"><p class="lead"><strong>Repetition or a rhythmic phrase.</strong> A line or a few words that come back. Repetition is how a slam poem gets a heartbeat.</p></div></div>
+    <div class="step" id="s6c"><div class="slab amber"><p class="lead"><strong>Stressed and unstressed words.</strong> Read your draft aloud. Where does your voice push? If it pushes nowhere, the line is flat.</p></div></div>
+    <div class="step" id="s6d"><div class="slab"><p class="lead"><strong>8 to 12 lines.</strong> More if you have more to say. Fewer only if every single line is doing work.</p></div></div>
+    <button class="step-cue" id="cue-6" type="button" tabindex="-1" onclick="advance()"><span class="dot"></span> Reveal next</button>
+  </div>
+  <div class="slide-nav"><button class="nav-btn" tabindex="-1" onclick="prevSlide()">Previous</button><span class="slide-counter"></span><button class="nav-btn next-btn" tabindex="-1" onclick="advance()">Next</button></div>
+</section>
+
+<!-- ============ 7 Draft it ============ -->
+<section class="slide" id="slide-7">
+  <div class="card pinktop">
+    <h2>Now <em>write it</em></h2>
+    <div class="cols">
+      <div>
+        <p class="lead">First draft, in your English book or typed in Word or Docs. Use your planning sheet, not your memory.</p>
+        <ul>
+          <li>Start in the middle of the moment, not at the beginning of the day.</li>
+          <li>Write it the way you would say it. If you would not say it out loud, cut it.</li>
+          <li>Leave the ending until last. It usually arrives once the rest exists.</li>
+          <li>Cross out is fine. Slam poems are drafted out loud and messy.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="scaffold">
+          <h4>Stuck on line one?</h4>
+          <ul>
+            <li>Start with one of your three details.</li>
+            <li>Start with something somebody said.</li>
+            <li>Start with "The day that..."</li>
+            <li>Start with the thing you noticed last.</li>
+          </ul>
+        </div>
+        <div class="btnrow"><button class="btn cyan" tabindex="-1" onclick="openPlanModal()">Print my planning sheet</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav"><button class="nav-btn" tabindex="-1" onclick="prevSlide()">Previous</button><span class="slide-counter"></span><button class="nav-btn next-btn" tabindex="-1" onclick="advance()">Next</button></div>
+</section>
+
+<!-- ============ 8 Peer feedback ============ -->
+<section class="slide" id="slide-8">
+  <div class="card">
+    <h2>Read it to <em>somebody</em></h2>
+    <div class="step" id="s8a"><p class="lead">In pairs or threes. Read your draft out loud twice: once so they hear it, once so they can listen properly.</p></div>
+    <div class="step" id="s8b">
+      <div class="slab"><p class="lead">One part that really made me feel something was...</p></div>
+      <div class="slab cyan"><p class="lead">A line you could perform more strongly is...</p></div>
+      <div class="slab amber"><p class="lead">Your message made me think about...</p></div>
+    </div>
+    <div class="step" id="s8c"><p class="hand">"It was good" is not feedback. Name the line.</p></div>
+    <button class="step-cue" id="cue-8" type="button" tabindex="-1" onclick="advance()"><span class="dot"></span> Reveal next</button>
+  </div>
+  <div class="slide-nav"><button class="nav-btn" tabindex="-1" onclick="prevSlide()">Previous</button><span class="slide-counter"></span><button class="nav-btn next-btn" tabindex="-1" onclick="advance()">Next</button></div>
+</section>
+
+<!-- ============ 9 Rehearse ============ -->
+<section class="slide" id="slide-9">
+  <div class="card">
+    <h2>Mark up your <em>script</em></h2>
+    <p>Rehearsing is not just reading it again. Take a pen to your draft and tell your voice what to do.</p>
+    <div class="marks">
+      <div class="mark"><span class="sym">/</span><b>Slash for a pause</b><span class="d">One slash, one beat of silence. Two slashes, make them wait.</span></div>
+      <div class="mark"><span class="sym">__</span><b>Underline to push</b><span class="d">The word your voice leans on. Two or three per line, no more.</span></div>
+      <div class="mark"><span class="sym">&#8599;</span><b>Arrow for pitch</b><span class="d">Up to question or lift, down to land or accuse.</span></div>
+    </div>
+    <h3>Then rehearse for</h3>
+    <ul>
+      <li><strong>Pace, rhythm and pauses.</strong> Slower than feels natural. Nerves speed everybody up.</li>
+      <li><strong>Intonation and pitch.</strong> If every line ends the same way, the poem sounds like a list.</li>
+      <li><strong>Volume and eye contact.</strong> Look up at least twice. Find one friendly face.</li>
+    </ul>
+  </div>
+  <div class="slide-nav"><button class="nav-btn" tabindex="-1" onclick="prevSlide()">Previous</button><span class="slide-counter"></span><button class="nav-btn next-btn" tabindex="-1" onclick="advance()">Next</button></div>
+</section>
+
+<!-- ============ 10 Performance checklist ============ -->
+<section class="slide" id="slide-10">
+  <div class="card pinktop">
+    <h2>Performance <em>checklist</em></h2>
+    <div class="cols">
+      <div>
+        <p class="lead">Rehearse at home, out loud, at least three times. Then check yourself against this.</p>
+        <ul class="check">
+          <li>Did I pause?</li>
+          <li>Did I make eye contact?</li>
+          <li>Did I change my tone?</li>
+          <li>Did I slow down enough for the audience to keep up?</li>
+          <li>Did my last line land, or did it trail off?</li>
+        </ul>
+      </div>
+      <div>
+        <div class="scaffold">
+          <h4>The rehearsal trick</h4>
+          <ul>
+            <li>Read it to a mirror once.</li>
+            <li>Read it to a person once.</li>
+            <li>Read it to a pet, a photo or an empty chair once.</li>
+            <li>The third one is where you stop performing and start meaning it.</li>
+          </ul>
+        </div>
+        <div class="btnrow"><button class="btn" tabindex="-1" onclick="openPlanModal()">Print my planning sheet</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav"><button class="nav-btn" tabindex="-1" onclick="prevSlide()">Previous</button><span class="slide-counter"></span><button class="nav-btn next-btn" tabindex="-1" onclick="advance()">Next</button></div>
+</section>
+
+</main>
+
+<!-- ============ TEACHER NOTES (never in the slide sequence) ============ -->
+<div class="overlay" id="notesOverlay">
+  <div class="sheet">
+    <h3>Teacher notes</h3>
+    <p class="tiny">Not part of the lesson sequence. This panel only opens when you open it.</p>
+
+    <h4>Before you start the deck</h4>
+    <ul>
+      <li>Say out loud that nobody has to write about anything they do not want to share, and that choosing a lighter topic is not choosing an easier one.</li>
+      <li>Say what will happen to the finished poems: who hears them, whether performing is expected, and what the alternative is. Students write more honestly when they know the audience in advance.</li>
+      <li>Offer the opt-outs now rather than later: read seated, read to you alone, read a section rather than the whole poem, or have a friend read it.</li>
+    </ul>
+
+    <h4>If a poem goes somewhere heavy</h4>
+    <ul>
+      <li>Personal writing sometimes surfaces things. Respond to the writing warmly and without alarm, then follow up privately rather than in front of the class.</li>
+      <li>Do not promise confidentiality before you know what you are being told.</li>
+      <li>If anything in a poem raises a concern about a child's safety or wellbeing, follow your school's child protection reporting process and talk to your school's designated person. That process, not this page, is the authority. Keep the poem.</li>
+      <li>You are the teacher here, not the counsellor. Passing it on quickly is the right move, not an overreaction.</li>
+    </ul>
+
+    <h4>Steering the deck</h4>
+    <ul>
+      <li>The prompts are deliberately concrete and everyday. If a student picks one and takes it somewhere heavier, that is their call, not a fault in the prompt.</li>
+      <li>Watch for the student who stars nothing. Usually it means the deck is being read as homework rather than as options. Shuffle a few with them and react out loud yourself.</li>
+      <li>Watch for the student who stars everything. Push them to one, then run the funnel with them at the board.</li>
+    </ul>
+
+    <h4>Where the funnel usually fails</h4>
+    <ul>
+      <li>Box 3 comes back as a period of time ("when I was little") rather than a moment. Ask: what were you actually doing? What could you hear?</li>
+      <li>Box 4 comes back as feelings. Send them back for things. Feelings belong in the poem, not in the plan.</li>
+      <li>A student stuck at box 1 usually does not need a smaller theme, they need a person. Skip to box 2 and come back.</li>
+    </ul>
+
+    <h4>Timing</h4>
+    <ul>
+      <li>Cards 1 to 5 run as one teaching block, about 25 minutes. Cards 6 and 7 launch the drafting.</li>
+      <li>Card 8 (peer feedback) is a natural stopping point. Cards 9 and 10 work as the start of the following session, or as the homework brief.</li>
+    </ul>
+
+    <div class="btnrow close"><button class="btn ghost" tabindex="-1" onclick="closeNotes()">Close</button></div>
+  </div>
+</div>
+
+<!-- ============ NAME MODAL ============ -->
+<div class="overlay modal" id="planModal">
+  <div class="sheet">
+    <h3>Print my planning sheet</h3>
+    <p>Put your name on it so you get it back.</p>
+    <input type="text" id="stuName" autocomplete="off">
+    <div class="err" id="nameErr"></div>
+    <p class="tiny" id="planWarn"></p>
+    <div class="btnrow">
+      <button class="btn" tabindex="-1" onclick="doPrint()">Make my sheet</button>
+      <button class="btn ghost" tabindex="-1" onclick="closePlanModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ THE PRINTABLE SHEET ============ -->
+<div id="plansheet"></div>
+
+<script>
+/* ---------------- slide model ---------------- */
+const slides=[
+  {id:'slide-0', section:'Learning',  title:'Learning intention'},
+  {id:'slide-1', section:'Find It',   title:'The rule: go small'},
+  {id:'slide-2', section:'Find It',   title:'The deck'},
+  {id:'slide-3', section:'Narrow It', title:'The funnel, modelled'},
+  {id:'slide-4', section:'Narrow It', title:'Your turn: squeeze it down'},
+  {id:'slide-5', section:'Draft It',  title:"Show it, don't tell it"},
+  {id:'slide-6', section:'Draft It',  title:'What your poem needs'},
+  {id:'slide-7', section:'Draft It',  title:'Now write it'},
+  {id:'slide-8', section:'Feedback',  title:'Read it to somebody'},
+  {id:'slide-9', section:'Perform',   title:'Mark up your script'},
+  {id:'slide-10',section:'Perform',   title:'Performance checklist'}
+];
+const sectionToPhase={'Learning':'learning','Find It':'find','Narrow It':'narrow','Draft It':'draft','Feedback':'feedback','Perform':'perform'};
+const slideSteps={1:['s1a','s1b','s1c','s1d'],3:['s3a','s3b','s3c','s3d','s3e'],6:['s6a','s6b','s6c','s6d'],8:['s8a','s8b','s8c']};
+const stepCue={1:'cue-1',3:'cue-3',6:'cue-6',8:'cue-8'};
+let current=0, shownSteps={};
+
+function buildSidebar(){
+  const box=document.getElementById('sidebarInner');
+  let html='', last=null;
+  slides.forEach((s,i)=>{
+    if(s.section!==last){ html+='<div class="sb-section">'+s.section+'</div>'; last=s.section; }
+    html+='<button class="sb-item" tabindex="-1" data-i="'+i+'" onclick="goToSlide('+i+')">'+(i+1)+'. '+s.title+'</button>';
+  });
+  box.innerHTML=html;
+}
+function toggleSidebar(){
+  const sb=document.getElementById('sidebar'), mn=document.getElementById('main');
+  if(window.innerWidth<=1180){ sb.classList.toggle('open'); }
+  else { sb.classList.toggle('collapsed'); mn.classList.toggle('wide'); }
+  blurActive();
+}
+function setHeaderHeight(){
+  const h=document.querySelector('header').offsetHeight+document.getElementById('phaseNav').offsetHeight;
+  document.documentElement.style.setProperty('--header-h',h+'px');
+}
+function goToSlide(i){
+  if(i<0||i>=slides.length) return;
+  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+  document.getElementById(slides[i].id).classList.add('active');
+  current=i;
+  document.querySelectorAll('.sb-item').forEach(b=>b.classList.toggle('active', +b.dataset.i===i));
+  document.querySelectorAll('.phase-btn').forEach(b=>b.classList.toggle('active', b.dataset.phase===sectionToPhase[slides[i].section]));
+  document.querySelectorAll('.slide-counter').forEach(c=>c.textContent='CARD '+(i+1)+' OF '+slides.length);
+  document.querySelectorAll('.slide').forEach(s=>{
+    const btns=s.querySelectorAll('.nav-btn');
+    if(btns.length===2){ btns[0].disabled=(i===0); }
+  });
+  updateRevealUi();
+  window.scrollTo(0,0);
+  blurActive();
+}
+function goToPhase(section){ const i=slides.findIndex(s=>s.section===section); if(i>-1) goToSlide(i); }
+function nextSlide(){ goToSlide(current+1); }
+function prevSlide(){ goToSlide(current-1); }
+function blurActive(){ if(document.activeElement && document.activeElement.blur) document.activeElement.blur(); }
+
+/* The bottom-right button doubles as the reveal control, so the lesson is fully
+   driveable by mouse when a clicker or keyboard focus is unavailable. */
+function updateRevealUi(){
+  const remaining = shownCount(current) < stepsFor(current).length;
+  const nb=document.getElementById(slides[current].id).querySelector('.next-btn');
+  if(!nb) return;
+  nb.textContent = remaining ? 'Reveal' : 'Next';
+  nb.disabled = (!remaining && current===slides.length-1);
+}
+function stepsFor(i){ return slideSteps[i]||[]; }
+function shownCount(i){ return shownSteps[i]||0; }
+function advance(){
+  const steps=stepsFor(current);
+  if(shownCount(current)<steps.length){
+    const n=shownCount(current);
+    document.getElementById(steps[n]).classList.add('shown');
+    shownSteps[current]=n+1;
+    if(shownSteps[current]===steps.length && stepCue[current]) document.getElementById(stepCue[current]).classList.add('done');
+    updateRevealUi(); blurActive();
+    return;
+  }
+  nextSlide();
+}
+function retreat(){
+  const steps=stepsFor(current);
+  if(shownCount(current)>0){
+    const n=shownCount(current)-1;
+    document.getElementById(steps[n]).classList.remove('shown');
+    shownSteps[current]=n;
+    if(stepCue[current]) document.getElementById(stepCue[current]).classList.remove('done');
+    updateRevealUi(); blurActive();
+    return;
+  }
+  prevSlide();
+}
+
+/* ---------------- prompt deck ---------------- */
+const CATS=['Family','Growing up','Place &amp; belonging','Friends &amp; fairness','The world outside'];
+const PROMPTS=[
+ [0,'The moment you realised somebody in your family was scared of something.'],
+ [0,'A rule in your house that nobody else&rsquo;s house seems to have.'],
+ [0,'Something an older relative said to you that you still think about.'],
+ [0,'A photograph on your wall, and what was happening just before it was taken.'],
+ [0,'Something your brother or sister can do that you cannot, and how that sits with you.'],
+ [0,'The sound of your house at six in the morning.'],
+ [0,'A meal that only tastes right when one particular person makes it.'],
+ [0,'The day you noticed a grown-up in your family was tired in a way you had not seen before.'],
+ [1,'The first time you realised an adult did not know the answer.'],
+ [1,'Something you were completely certain about at six years old that you now know is wrong.'],
+ [1,'The day something you loved suddenly felt babyish.'],
+ [1,'A promise you made to yourself that you have not kept yet.'],
+ [1,'The moment you were braver than you expected to be.'],
+ [1,'Something you are still not allowed to do, and the exact reason you have been given.'],
+ [1,'A thing you can do now that you could not do last year.'],
+ [1,'The last time you got upset about something small, and what it was really about.'],
+ [2,'The walk from your front door to somewhere you go every single week.'],
+ [2,'A place in your suburb that has changed, and what used to be there instead.'],
+ [2,'The spot in the classroom you always sit in, and why it is that one.'],
+ [2,'A word or phrase your family uses that other people do not understand.'],
+ [2,'A tradition in your family that you would be sad to lose.'],
+ [2,'The first time you were somewhere and felt like you did not belong.'],
+ [2,'What your street sounds like on a hot afternoon.'],
+ [2,'A tree, a fence, a shop or a bus stop that means something only to you.'],
+ [3,'The moment a friendship changed, and the exact thing that changed it.'],
+ [3,'A time you stayed quiet when you wish you had said something.'],
+ [3,'Something people assume about you that is not true.'],
+ [3,'A time you watched somebody get left out.'],
+ [3,'The difference between how you are at school and how you are at home.'],
+ [3,'Something a friend said once that you have never forgotten.'],
+ [3,'A time you were the new one.'],
+ [3,'A rule at school that you think is unfair, and one specific time it was applied to you.'],
+ [4,'A room full of people all looking at their own screens.'],
+ [4,'Something you saw in the news that you could not stop thinking about.'],
+ [4,'A place near you that used to have more water, more trees or more birds.'],
+ [4,'Something adults say about kids your age that you would like to answer.'],
+ [4,'The person you walk past who nobody seems to look at.'],
+ [4,'Something you own that will still be rubbish in a hundred years.'],
+ [4,'What you would say to somebody your age living somewhere very different.'],
+ [4,'A machine that now does something a person used to do.'],
+ [4,'A question you have never asked out loud.']
+];
+let catFilter=-1, lastIdx=-1, starred=[];
+
+function buildCats(){
+  const row=document.getElementById('catRow');
+  let html='<button class="cat on" tabindex="-1" data-c="-1" onclick="setCat(-1)">Everything</button>';
+  CATS.forEach((c,i)=>{ html+='<button class="cat" tabindex="-1" data-c="'+i+'" onclick="setCat('+i+')">'+c+'</button>'; });
+  row.innerHTML=html;
+  document.getElementById('deckCount').textContent=PROMPTS.length+' prompts in the deck.';
+}
+function setCat(c){
+  catFilter=c;
+  document.querySelectorAll('.cat').forEach(b=>b.classList.toggle('on', +b.dataset.c===c));
+  shuffleCard();
+}
+function pool(){ return PROMPTS.map((p,i)=>i).filter(i=>catFilter<0||PROMPTS[i][0]===catFilter); }
+function shuffleCard(){
+  const p=pool();
+  let i=p[Math.floor(Math.random()*p.length)];
+  if(p.length>1){ let guard=0; while(i===lastIdx && guard++<12){ i=p[Math.floor(Math.random()*p.length)]; } }
+  lastIdx=i;
+  document.getElementById('pcCat').innerHTML=CATS[PROMPTS[i][0]];
+  document.getElementById('pcText').innerHTML=PROMPTS[i][1];
+  blurActive();
+}
+function starCard(){
+  if(lastIdx<0){ shuffleCard(); return; }
+  if(starred.length>=5 || starred.includes(lastIdx)){ renderStars(starred.includes(lastIdx)?'That one is already on your list.':'Five is the limit. Take one off first.'); blurActive(); return; }
+  starred.push(lastIdx);
+  renderStars();
+  blurActive();
+}
+function unstar(i){ starred=starred.filter(x=>x!==i); renderStars(); }
+function renderStars(msg){
+  const box=document.getElementById('starList');
+  if(!starred.length){ box.innerHTML='<p class="empty">'+(msg||'Nothing starred yet. Star up to five, then pick the one you cannot stop thinking about. Click any starred prompt to remove it.')+'</p>'; return; }
+  let html='<ol>';
+  starred.forEach(i=>{ html+='<li onclick="unstar('+i+')" title="Click to remove">'+PROMPTS[i][1]+'</li>'; });
+  html+='</ol>';
+  if(msg) html+='<p class="empty" style="margin-top:10px">'+msg+'</p>';
+  box.innerHTML=html;
+}
+
+/* ---------------- funnel ---------------- */
+function syncPlan(){
+  [['f1','p1'],['f2','p2'],['f3','p3'],['f4','p4']].forEach(([a,b])=>{
+    const v=document.getElementById(a).value.trim();
+    const dd=document.getElementById(b);
+    dd.textContent = v || 'not yet';
+    dd.classList.toggle('blank', !v);
+  });
+}
+
+/* ---------------- show don't tell ---------------- */
+const TELLS=[
+ {tell:'I was sad.', show:'The kitchen floor was cold through my socks and the clock kept going anyway.',
+  note:'No feeling word at all. The cold floor and the clock that will not stop do the work, and the audience arrives at "sad" on their own.'},
+ {tell:'I was nervous.', show:'I read the first line four times and the paper had gone soft where my thumb was.',
+  note:'A body detail beats an emotion word every time. Soft paper means a thumb that has been pressing for a long while.'},
+ {tell:'I was angry.', show:'I said it was fine. I said it twice. I said it to the door.',
+  note:'Repetition and one small action. Nobody says "fine" three times unless it is not fine, and the audience knows it.'},
+ {tell:'I was happy.', show:'We walked the long way home for no reason and nobody said why.',
+  note:'Happiness in a choice rather than a word. The long way home for no reason is the whole feeling in nine words.'}
+];
+function setTell(i,btn){
+  document.querySelectorAll('.tellbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const t=TELLS[i];
+  document.getElementById('tellOut').innerHTML=
+    '<p class="telling">'+t.tell+'</p><p class="showing">'+t.show+'</p><p class="note">'+t.note+'</p>';
+  blurActive();
+}
+
+/* ---------------- overlays ---------------- */
+function openNotes(){ document.getElementById('notesOverlay').classList.add('open'); }
+function closeNotes(){ document.getElementById('notesOverlay').classList.remove('open'); blurActive(); }
+function openPlanModal(){
+  const m=document.getElementById('planModal');
+  m.classList.add('open');
+  document.getElementById('nameErr').textContent='';
+  const empties=['f1','f2','f3','f4'].filter(id=>!document.getElementById(id).value.trim()).length;
+  document.getElementById('planWarn').textContent = empties
+    ? 'Heads up: '+empties+' of your four funnel boxes are still empty. The sheet will print with blank lines you can fill in by hand.'
+    : '';
+  setTimeout(()=>document.getElementById('stuName').focus(),40);
+}
+function closePlanModal(){ document.getElementById('planModal').classList.remove('open'); blurActive(); }
+
+/* ---------------- printable planning sheet ---------------- */
+function esc(t){ return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function ansBlock(v){ return v ? '<p class="ans">'+esc(v)+'</p>' : '<p class="ans empty">(to fill in)</p>'; }
+function ruled(n){ let h='<div class="rule-lines">'; for(let i=0;i<n;i++) h+='<div></div>'; return h+'</div>'; }
+
+function buildPlanSheet(name){
+  const v=id=>document.getElementById(id).value.trim();
+  const d=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  let shortlist='';
+  if(starred.length){
+    shortlist='<h2>Prompts I starred</h2><ul>';
+    starred.forEach(i=>{ shortlist+='<li>'+PROMPTS[i][1]+'</li>'; });
+    shortlist+='</ul>';
+  }
+  document.getElementById('plansheet').innerHTML =
+    '<h1>Slam poem planning sheet</h1>'+
+    '<p class="sub">'+esc(name)+' &middot; '+d+' &middot; Year 5 English, Lesson 20</p>'+
+    shortlist+
+    '<h2>My funnel</h2>'+
+    '<p><strong>1. Big theme</strong></p>'+ansBlock(v('f1'))+
+    '<p><strong>2. One person, or one place</strong></p>'+ansBlock(v('f2'))+
+    '<p><strong>3. One moment</strong></p>'+ansBlock(v('f3'))+
+    '<p><strong>4. Three things I could see, hear, smell or touch</strong></p>'+ansBlock(v('f4'))+
+    '<h2>My poem must have</h2>'+
+    '<ul class="tick">'+
+      '<li>At least one metaphor or powerful image</li>'+
+      '<li>Repetition, or a phrase that comes back</li>'+
+      '<li>Words I push on when I read it aloud</li>'+
+      '<li>8 to 12 lines (more if I have more to say)</li>'+
+    '</ul>'+
+    '<h2>First draft</h2>'+ruled(14)+
+    '<div class="pagebreak"></div>'+
+    '<h1>Feedback and performance</h1>'+
+    '<p class="sub">'+esc(name)+'</p>'+
+    '<h2>More draft</h2>'+ruled(10)+
+    '<h2>What my partner said</h2>'+
+    '<div class="box"><p>One part that really made me feel something was...</p>'+ruled(2)+'</div>'+
+    '<div class="box"><p>A line you could perform more strongly is...</p>'+ruled(2)+'</div>'+
+    '<div class="box"><p>Your message made me think about...</p>'+ruled(2)+'</div>'+
+    '<h2>Marking up my script</h2>'+
+    '<ul><li><strong>/</strong> one slash, one beat of silence. Two slashes, make them wait.</li>'+
+    '<li><strong>underline</strong> the word my voice leans on. Two or three per line, no more.</li>'+
+    '<li><strong>arrow</strong> up to question or lift, down to land.</li></ul>'+
+    '<h2>Performance checklist</h2>'+
+    '<ul class="tick">'+
+      '<li>Did I pause?</li><li>Did I make eye contact?</li><li>Did I change my tone?</li>'+
+      '<li>Did I slow down enough for the audience to keep up?</li>'+
+      '<li>Did my last line land, or did it trail off?</li>'+
+    '</ul>'+
+    '<p style="margin-top:14pt"><em>Rehearse out loud at least three times: to a mirror, to a person, and to an empty chair.</em></p>';
+}
+function doPrint(){
+  const name=document.getElementById('stuName').value.trim();
+  if(!name){ document.getElementById('nameErr').textContent='Put your name in first, otherwise you will not get it back.'; return; }
+  buildPlanSheet(name);
+  const old=document.title;
+  document.title='Slam poem planning sheet - '+name;
+  closePlanModal();
+  window.addEventListener('afterprint',function restore(){ document.title=old; window.removeEventListener('afterprint',restore); });
+  setTimeout(()=>window.print(),120);
+}
+
+/* ---------------- keyboard / clicker ---------------- */
+document.addEventListener('keydown',function(e){
+  const tag=(document.activeElement&&document.activeElement.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA') {
+    if(e.key==='Enter' && document.getElementById('planModal').classList.contains('open')){ e.preventDefault(); doPrint(); }
+    return;
+  }
+  const overlayOpen=document.querySelector('.overlay.open');
+  if(e.key==='Escape'){ closeNotes(); closePlanModal(); return; }
+  if(overlayOpen) return;
+  if(['ArrowRight','ArrowDown','PageDown'].includes(e.key)){ e.preventDefault(); advance(); }
+  else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); retreat(); }
+  else if(e.key==='Home'){ e.preventDefault(); goToSlide(0); }
+  else if(e.key==='End'){ e.preventDefault(); goToSlide(slides.length-1); }
+},true);
+
+/* Keydown only reaches this document while it holds focus. In a preview pane it may
+   not, so ask for focus on load and on any click, and never rely on the keyboard
+   alone: every reveal also has a button. */
+function grabFocus(){
+  try{
+    window.focus();
+    const ae=document.activeElement;
+    /* preventScroll matters: without it, focusing body on mousedown jumps a
+       scrolled card back to the top and the button moves out from under the
+       cursor before mouseup, so the click never lands. */
+    if(!ae || ae===document.body || ae===document.documentElement) document.body.focus({preventScroll:true});
+  }catch(e){}
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  document.body.setAttribute('tabindex','-1');
+  buildSidebar();
+  buildCats();
+  setHeaderHeight();
+  shuffleCard();
+  syncPlan();
+  goToSlide(0);
+  grabFocus();
+});
+document.addEventListener('mousedown',grabFocus);
+window.addEventListener('resize',setHeaderHeight);
+</script>
+</body>
+</html>
