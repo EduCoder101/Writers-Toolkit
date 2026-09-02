@@ -378,9 +378,220 @@ main.wide{margin-left:0}
   .sidebar.open{width:264px;border-right:1px solid var(--line)}
   main{margin-left:0}
 }
+
+/* =====================================================================
+   WILDSTYLE WALL v2
+   Wall, posters, stencil panels, pieces, spray reveals, art, tiles, nav.
+   ===================================================================== */
+body::before{display:none}
+body{--g1:rgba(255,46,136,.20);--g2:rgba(0,229,255,.16);--pc:var(--pink);--pd:#5a0d33;--pd2:#3a0820;--ph:var(--cyan);--pg:rgba(255,46,136,.30);--ink:#17151c;--cream:#f3ecd9}
+body[data-phase="tuning"],body[data-phase="find"],body[data-phase="techniques"],body[data-phase="feedback"]{--g1:rgba(198,255,0,.16);--g2:rgba(255,46,136,.16);--pc:var(--acid);--pd:#4a5c00;--pd2:#2c3700;--ph:var(--pink);--pg:rgba(198,255,0,.26)}
+body[data-phase="watch"],body[data-phase="narrow"],body[data-phase="youdo"],body[data-phase="perform"]{--g1:rgba(0,229,255,.18);--g2:rgba(255,46,136,.14);--pc:var(--cyan);--pd:#005a66;--pd2:#003a42;--ph:var(--acid);--pg:rgba(0,229,255,.26)}
+body[data-phase="discuss"],body[data-phase="draft"]{--g1:rgba(255,176,58,.18);--g2:rgba(0,229,255,.14);--pc:var(--pink);--pd:#5a0d33;--pd2:#3a0820;--ph:#FFB03A;--pg:rgba(255,46,136,.30)}
+
+/* ---- the wall ---- */
+.wall{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.wall svg{width:100%;height:100%;display:block}
+.wall .wallimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%;filter:brightness(.45) saturate(1.05);opacity:0;transition:opacity .45s ease}
+body[data-hero="1"] .wall .wallimg{opacity:1}
+.wallglow{position:absolute;inset:0;background:radial-gradient(1100px 600px at 10% -8%,var(--g1),transparent 60%),radial-gradient(900px 700px at 92% 45%,var(--g2),transparent 62%)}
+
+/* ---- header drips ---- */
+header{position:relative}
+header::after{content:"";position:absolute;left:0;right:0;top:100%;height:18px;pointer-events:none;z-index:1;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 18'><path d='M46 0v9a4 4 0 0 0 8 0V0z M250 0v14a4 4 0 0 0 8 0V0z M431 0v6a3 3 0 0 0 6 0V0z M577 0v11a4 4 0 0 0 8 0V0z' fill='%23FF2E88'/></svg>") repeat-x;background-size:640px 18px}
+
+/* ---- sidebar alley ---- */
+.sidebar{background-color:#100f15;background-image:
+   linear-gradient(335deg,#1b1824 23px,transparent 23px),linear-gradient(155deg,#191621 23px,transparent 23px),
+   linear-gradient(335deg,#1b1824 23px,transparent 23px),linear-gradient(155deg,#191621 23px,transparent 23px);
+  background-size:58px 58px;background-position:0 2px,4px 35px,29px 31px,34px 6px}
+.sb-section{transform:rotate(-2deg);display:inline-block;font-size:.95rem}
+.sb-item{position:relative}
+.sb-item.active{background:transparent;border-left-color:transparent;color:#fff}
+.sb-item.active::after{content:"";position:absolute;left:16px;right:54px;bottom:3px;height:9px;opacity:.95;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'><path d='M2 7 Q30 2 60 7 T120 6 T198 7' stroke='%23FF2E88' stroke-width='5' fill='none' stroke-linecap='round'/></svg>") no-repeat;background-size:100% 100%}
+.sb-item.active::before{content:"";position:absolute;left:5px;top:11px;width:6px;height:16px;background:var(--pink);border-radius:0 0 6px 6px}
+
+/* ---- phase caps ---- */
+.phase-btn{display:inline-flex;align-items:center;gap:8px;border-bottom:4px solid transparent}
+.phase-btn.active{border-bottom-color:transparent !important}
+.phase-btn .cap{width:15px;height:23px;opacity:.28;transition:opacity .15s}
+.phase-btn.active .cap,.phase-btn:hover .cap{opacity:1}
+
+.slide-nav{background:rgba(8,7,11,.78);border-top:none;padding:12px 18px;border-radius:3px}
+/* ---- posters (reading cards) ---- */
+.card:not(.dark){background:none;border:none;border-radius:0;padding:0;box-shadow:none;position:relative;color:var(--ink);transform:rotate(-.55deg);filter:drop-shadow(13px 13px 0 rgba(0,0,0,.62))}
+.slide:nth-child(even) .card:not(.dark){transform:rotate(.45deg)}
+.card.pinktop{border-top:none}
+.paper{position:relative;background:var(--cream);padding:30px 40px 34px}
+.paper::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .18 0'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>")}
+.paper>*{position:relative}
+.tape{position:absolute;z-index:4;width:116px;height:28px;background:rgba(255,236,170,.62);box-shadow:0 1px 4px rgba(0,0,0,.3);pointer-events:none}
+.tape.tl{top:-12px;left:28px;transform:rotate(-7deg)}
+.tape.tr{top:-10px;right:36px;transform:rotate(6deg)}
+.stamp{position:absolute;right:28px;top:20px;font-family:'Permanent Marker',cursive;color:var(--pink);border:3px solid var(--pink);padding:4px 12px;transform:rotate(9deg);font-size:1rem;opacity:.85;letter-spacing:.04em;z-index:2}
+.sticker{position:absolute;bottom:-12px;right:-8px;z-index:4;background:var(--acid);color:var(--ink);font-family:'Permanent Marker',cursive;padding:8px 15px;transform:rotate(-6deg);box-shadow:4px 4px 0 rgba(0,0,0,.6);font-size:.98rem}
+.card:not(.dark) h2{color:var(--ink);text-shadow:3px 3px 0 var(--pink);transform:rotate(-.8deg);transform-origin:left bottom;display:inline-block}
+.card:not(.dark) h2 em{color:var(--pink);text-shadow:3px 3px 0 var(--ink)}
+.card:not(.dark) h3{color:#8a1f4f}
+.card:not(.dark) p,.card:not(.dark) li,.card:not(.dark) ol,.card:not(.dark) ul{color:#2a2733}
+.card:not(.dark) p.lead{color:var(--ink)}
+.card:not(.dark) .tiny{color:#6b6675}
+.card:not(.dark) .hand{color:#e0187a}
+.card:not(.dark) .slab{background:#fff;color:var(--ink);box-shadow:4px 4px 0 rgba(0,0,0,.28);transform:rotate(-.35deg)}
+.card:not(.dark) .slab:nth-of-type(even){transform:rotate(.3deg)}
+.card:not(.dark) .slab p{color:var(--ink)}
+.card:not(.dark) .btn.ghost{color:var(--ink);border-color:var(--ink)}
+.card:not(.dark) .step-cue{background:#fff;border-color:var(--pink);color:#8a1f4f}
+.card:not(.dark) .step-cue .dot{background:var(--pink)}
+.card:not(.dark) .step-cue:hover{background:var(--pink);color:#fff}
+.card:not(.dark) .step-cue:hover .dot{background:#fff}
+.card:not(.dark) .sc li::before,.card:not(.dark) .check li::before{color:var(--pink);border-color:var(--pink)}
+.card:not(.dark) .counter{color:#6b6675}
+.card:not(.dark) .mark{background:#fff;border:2px solid var(--ink)}
+.card:not(.dark) .mark b{color:var(--ink)}
+.card:not(.dark) .mark span.d{color:#555}
+.card:not(.dark) .wex .lbl{color:#6b6675}
+.card:not(.dark) .wex .val{color:var(--ink)}
+.card:not(.dark) .wex.bad .val{color:#b8720a}
+.card:not(.dark) .wex.bad{border-left-color:#e0a028}
+.card:not(.dark) .scaffold{border:2px solid var(--ink)}
+.card:not(.dark) .chips .chip{box-shadow:4px 4px 0 rgba(0,0,0,.45)}
+
+/* ---- stencil panels (doing cards) ---- */
+.card.dark{background:rgba(12,11,17,.95);border:none;border-radius:0;box-shadow:none;position:relative}
+.card.dark::before{content:"";position:absolute;inset:-7px;border:4px solid var(--pc);filter:url(#roughen);pointer-events:none;opacity:.95}
+.card.dark::after{content:"";position:absolute;inset:-20px;background:radial-gradient(closest-side,var(--pg),transparent);filter:blur(14px);z-index:-1;pointer-events:none}
+.card.dark h2{position:relative;z-index:0;display:inline-block;color:var(--pc);transform:rotate(-1.6deg) skewX(-4deg);transform-origin:left bottom;padding-right:.15em;
+  text-shadow:3px 3px 0 #000,6px 6px 0 #000,9px 9px 0 var(--pd),12px 12px 0 var(--pd),14px 14px 0 var(--pd2)}
+.card.dark h2 em{color:#fff}
+.card.dark h2::before{content:attr(data-text);position:absolute;inset:0;z-index:-1;-webkit-text-stroke:14px #000;color:#000;text-shadow:none}
+.card.dark h2::after{content:attr(data-text);position:absolute;inset:0;z-index:-2;color:var(--ph);filter:blur(20px);opacity:.5;text-shadow:none}
+
+/* ---- spray reveals ---- */
+.step.shown{display:block;animation:spray .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes spray{0%{clip-path:inset(0 100% 0 0);filter:blur(8px) saturate(3);transform:translateX(-6px)}55%{filter:blur(2px) saturate(1.6)}100%{clip-path:inset(0 0 0 0);filter:blur(0) saturate(1);transform:none}}
+
+/* ---- hand-drawn art ---- */
+.cardart{position:absolute;right:22px;top:12px;width:116px;height:116px;pointer-events:none;z-index:1}
+.cardart::before{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--ac,var(--pink));filter:blur(18px);opacity:.55}
+.cardart svg{position:relative;width:100%;height:100%;fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+.card.dark .cardart svg{stroke:#fff;filter:drop-shadow(3px 3px 0 #000)}
+.card:not(.dark) .cardart svg{stroke:var(--ink);filter:drop-shadow(3px 3px 0 rgba(0,0,0,.22))}
+.hasart h2{padding-right:150px}
+.hasart .paper>p.lead:first-of-type,.hasart>p.lead:first-of-type{padding-right:130px}
+
+/* ---- syllable tiles ---- */
+.syl{border:none;border-radius:0;background:rgba(255,255,255,.07)}
+.syl::before{content:"";position:absolute;inset:-3px;border:3px solid rgba(255,255,255,.4);filter:url(#roughen);pointer-events:none}
+.syl.marked{background:var(--acid);text-decoration:underline;text-decoration-thickness:4px;text-underline-offset:5px}
+.syl.marked::before{border-color:var(--acid)}
+.syl.marked::after{content:"";position:absolute;left:36%;top:auto;bottom:-22px;transform:none;width:8px;height:22px;background:var(--acid);border-radius:0 0 8px 8px;font-size:0}
+.syl.res-hit::before{border-color:#4ee08a}.syl.res-hit.marked::after{background:#4ee08a}
+.syl.res-miss::before{border-color:var(--cyan)}
+.syl.res-over::before,.syl.res-arg::before{border-color:#FFB03A}
+.syl.res-over.marked::after,.syl.res-arg.marked::after{background:#FFB03A}
+.syls{padding-bottom:22px}
+
+
+/* ---- spotlight words ---- */
+.kw{display:inline-block;font-weight:700;cursor:pointer;position:relative;transform-origin:50% 70%;padding:0 .05em;margin:0;border-radius:2px;
+  background-image:linear-gradient(transparent 58%,var(--kwhl) 58%);background-repeat:no-repeat;background-size:0% 100%}
+.card:not(.dark) .kw{--kwhl:rgba(198,255,0,.85);color:var(--ink)}
+.card:not(.dark) .hand.kw{color:#e0187a}
+.card.dark .kw{--kwhl:rgba(255,46,136,.5);color:#fff}
+.kw.lit{background-size:100% 100%}
+.card.dark .kw.lit{text-shadow:0 0 12px rgba(255,46,136,.85)}
+.kw.go{animation-duration:.85s,.5s;animation-delay:0s,.25s;animation-fill-mode:both,both;animation-timing-function:cubic-bezier(.2,.9,.3,1.2),ease-out}
+.kw.go[data-fx="pop"]{animation-name:kwpop,kwhl}
+.kw.go[data-fx="grow"]{animation-name:kwgrow,kwhl}
+.kw.go[data-fx="shrink"]{animation-name:kwshrink,kwhl}
+.kw.go[data-fx="shrinkbig"]{animation-name:kwshrinkbig,kwhl;animation-duration:1.4s,.5s;animation-delay:0s,.9s}
+.kw.go[data-fx="fly"]{animation-name:kwfly,kwhl}
+.kw.go[data-fx="flyr"]{animation-name:kwflyr,kwhl}
+.kw.go[data-fx="wobble"]{animation-name:kwwobble,kwhl;animation-timing-function:ease-in-out,ease-out}
+.kw.go[data-fx="pulse"]{animation-name:kwpulse,kwhl;animation-duration:1.3s,.5s;animation-timing-function:ease-in-out,ease-out}
+.kw.go[data-fx="bounce"],.kw.go[data-fx="wave"]{animation-name:kwhl;animation-duration:.5s;animation-delay:.3s}
+.kw .kl{display:inline-block}
+.kw[data-fx="bounce"] .kl.go{animation:kwdrop .7s cubic-bezier(.2,.9,.3,1.3) both}
+.kw[data-fx="wave"] .kl.go{animation:kwwave .9s ease-in-out both}
+@keyframes kwhl{from{background-size:0% 100%}to{background-size:100% 100%}}
+@keyframes kwpop{0%{transform:scale(.2) rotate(-10deg);opacity:0}55%{transform:scale(1.32) rotate(5deg);opacity:1}75%{transform:scale(.94) rotate(-2deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes kwgrow{0%{transform:scale(1)}45%{transform:scale(1.6);color:var(--pink)}100%{transform:scale(1.04)}}
+@keyframes kwshrink{0%{transform:scale(2.4);opacity:.25}100%{transform:scale(1);opacity:1}}
+@keyframes kwshrinkbig{0%{transform:scale(3);opacity:0}25%{transform:scale(2.7);opacity:1}55%{transform:scale(2.5)}100%{transform:scale(1)}}
+@keyframes kwfly{0%{transform:translateX(-90px) skewX(-18deg);opacity:0;filter:blur(5px)}70%{transform:translateX(10px) skewX(3deg);opacity:1;filter:blur(0)}100%{transform:none}}
+@keyframes kwflyr{0%{transform:translateX(90px) skewX(18deg);opacity:0;filter:blur(5px)}70%{transform:translateX(-10px) skewX(-3deg);opacity:1;filter:blur(0)}100%{transform:none}}
+@keyframes kwwobble{0%,100%{transform:rotate(0)}15%{transform:rotate(-8deg) scale(1.12)}35%{transform:rotate(7deg) scale(1.12)}55%{transform:rotate(-5deg)}75%{transform:rotate(3deg)}}
+@keyframes kwpulse{0%,100%{transform:scale(1)}15%{transform:scale(1.3)}30%{transform:scale(1)}45%{transform:scale(1.25)}60%{transform:scale(1)}}
+@keyframes kwdrop{0%{transform:translateY(-46px) rotate(-12deg);opacity:0}60%{transform:translateY(9px) rotate(4deg);opacity:1}80%{transform:translateY(-4px)}100%{transform:none}}
+@keyframes kwwave{0%,100%{transform:translateY(0)}30%{transform:translateY(-14px)}60%{transform:translateY(6px)}}
+@media(prefers-reduced-motion:reduce){.kw.go,.kl.go{animation-duration:.01ms !important;animation-delay:0s !important}}
+
+@media print{.wall{display:none !important}}
+@media(max-height:880px){
+  main{padding-top:14px}
+  .paper{padding:18px 30px 20px}.card.dark{padding:18px 32px 20px}
+  .slide-nav{margin-top:10px}
+  .card:not(.dark){transform:rotate(-.35deg)}.slide:nth-child(even) .card:not(.dark){transform:rotate(.3deg)}
+  .card:not(.dark) .slab{padding:10px 18px;margin:8px 0}
+  .wex{margin-bottom:7px;padding:3px 0 3px 18px}
+  .slide-nav{padding:9px 14px}
+}
+
+
+/* L19: mic mural on the watch cards */
+.vidlink{background:linear-gradient(90deg,rgba(8,7,11,.88) 48%,rgba(8,7,11,.30)),url(art/mic-mural.webp) right 28%/cover no-repeat,linear-gradient(135deg,rgba(255,46,136,.18),rgba(0,229,255,.14));min-height:230px;display:flex;flex-direction:column;justify-content:center}
+.hasart h2+p{padding-right:130px}
 </style>
 </head>
 <body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="roughen" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency=".055" numOctaves="3" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="9" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .10 0"/></filter>
+    <filter id="sprayblur"><feGaussianBlur stdDeviation="18"/></filter>
+    <pattern id="bricks" width="124" height="62" patternUnits="userSpaceOnUse">
+      <rect width="124" height="62" fill="#100e15"/>
+      <rect x="2" y="2" width="58" height="27" rx="2" fill="#1e1a27"/>
+      <rect x="64" y="2" width="58" height="27" rx="2" fill="#1a1622"/>
+      <rect x="-29" y="33" width="58" height="27" rx="2" fill="#1c1825"/>
+      <rect x="33" y="33" width="58" height="27" rx="2" fill="#201b29"/>
+      <rect x="95" y="33" width="58" height="27" rx="2" fill="#19151f"/>
+    </pattern>
+  </defs>
+</svg>
+
+<div class="wall" aria-hidden="true">
+  <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+    <rect width="1920" height="1080" fill="url(#bricks)"/>
+    <rect width="1920" height="1080" filter="url(#grain)" opacity=".9"/>
+    <text x="520" y="985" font-family="Bangers" font-size="340" fill="#00E5FF" opacity=".45" filter="url(#sprayblur)" transform="rotate(-4 1000 900)">SLAM</text>
+    <g id="wallExtrude" transform="rotate(-4 1000 900) skewX(-6)"></g>
+    <text x="520" y="985" font-family="Bangers" font-size="340" fill="#FF2E88" stroke="#000" stroke-width="24" stroke-linejoin="round" paint-order="stroke" transform="rotate(-4 1000 900) skewX(-6)">SLAM</text>
+    <text x="520" y="985" font-family="Bangers" font-size="340" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" opacity=".85" transform="translate(-9,-9) rotate(-4 1000 900) skewX(-6)" stroke-dasharray="70 400 40 900">SLAM</text>
+    <g fill="#FF2E88" stroke="#000" stroke-width="4" transform="rotate(-4 1000 900) skewX(-6)">
+      <path d="M612 988 v54 a12 12 0 0 0 24 0 v-54z"/><path d="M842 990 v30 a9 9 0 0 0 18 0 v-30z"/><path d="M1010 990 v78 a13 13 0 0 0 26 0 v-78z"/><path d="M1235 990 v40 a10 10 0 0 0 20 0 v-40z"/>
+    </g>
+    <polygon points="1560,150 1575,195 1622,195 1584,222 1598,268 1560,240 1522,268 1536,222 1498,195 1545,195" fill="#C6FF00" stroke="#000" stroke-width="7" stroke-linejoin="round" transform="rotate(12 1560 210)"/>
+    <path d="M1700 520 l120 -60 l-18 44 l70 -10 l-30 60 l-52 -30 l-4 46 z" fill="#00E5FF" stroke="#000" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M1730 90 l14 -40 l22 30 l22 -44 l22 44 l22 -30 l14 40 z" fill="#C6FF00" stroke="#000" stroke-width="6" stroke-linejoin="round"/>
+    <circle cx="1420" cy="120" r="9" fill="#fff" opacity=".7"/><circle cx="1450" cy="95" r="5" fill="#fff" opacity=".6"/>
+    <text x="1480" y="360" font-family="Permanent Marker" font-size="44" fill="#fff" opacity=".42" transform="rotate(-9 1480 360)">one mic</text>
+    <text x="1380" y="720" font-family="Permanent Marker" font-size="38" fill="#C6FF00" opacity=".38" transform="rotate(6 1380 720)">say it like you mean it</text>
+    <text x="340" y="1052" font-family="Permanent Marker" font-size="34" fill="#FF2E88" opacity=".4" transform="rotate(-4 340 1052)">yr 5 was here</text>
+    <text x="1540" y="1040" font-family="Permanent Marker" font-size="30" fill="#00E5FF" opacity=".4" transform="rotate(3 1540 1040)">beats + bars</text>
+  </svg>
+  <img class="wallimg" src="art/slam-mural.webp" alt="" onerror="this.remove()">
+  <div class="wallglow"></div>
+</div>
+
 
 <header>
   <a class="back" href="../../index.html">&larr; Back to Interactives</a>
@@ -407,7 +618,7 @@ main.wide{margin-left:0}
   <div class="card pinktop lisc">
     <h2>Learning Intention &amp; Success Criteria</h2>
     <h3>Learning Intention</h3>
-    <p>We are learning to identify how slam poets use their voice and their words to express powerful ideas.</p>
+    <p>We are learning to identify how <span class="kw" data-fx="pop">slam poets</span> use their <span class="kw" data-fx="grow">voice</span> and their words to express <span class="kw" data-fx="fly">powerful ideas</span>.</p>
     <h3>Success Criteria</h3>
     <ul class="sc">
       <li>I can explain what slam poetry is and how it is different from poetry that is only read on a page.</li>
@@ -426,12 +637,12 @@ main.wide{margin-left:0}
     <p class="lead">Before we watch anything, get this into your books.</p>
     <div class="step" id="s1a">
       <div class="slab">
-        <p class="lead">Slam poetry is a type of performance poetry that uses powerful language, rhythm and expression to make people feel or think. It often explores personal stories or big social ideas.</p>
+        <p class="lead">Slam poetry is a type of <span class="kw" data-fx="grow">performance poetry</span> that uses powerful language, <span class="kw" data-fx="bounce">rhythm</span> and expression to make people <span class="kw" data-fx="pop">feel or think</span>. It often explores personal stories or big social ideas.</p>
       </div>
     </div>
     <div class="step" id="s1b">
       <h3>So what makes it different?</h3>
-      <p>A poem on a page is finished when the words are chosen. A slam poem is not finished until somebody says it out loud. The voice is part of the poem.</p>
+      <p>A poem on a page is finished when the words are chosen. A slam poem is not finished until somebody says it out loud. The <span class="kw" data-fx="grow">voice</span> is part of the poem.</p>
       <div class="chips">
         <div class="chip">Written to be heard</div>
         <div class="chip">Says something that matters</div>
@@ -448,9 +659,9 @@ main.wide{margin-left:0}
   <div class="card">
     <h2>While you watch</h2>
     <p class="lead">Three things to hold onto. You will need them in a minute.</p>
-    <div class="step" id="s2a"><div class="slab"><p class="lead"><strong>1.</strong> What words or lines stood out?</p></div></div>
-    <div class="step" id="s2b"><div class="slab"><p class="lead"><strong>2.</strong> How did the poet speak: fast, slow, loud, soft?</p></div></div>
-    <div class="step" id="s2c"><div class="slab"><p class="lead"><strong>3.</strong> What emotions did the poet express?</p></div></div>
+    <div class="step" id="s2a"><div class="slab"><p class="lead"><strong>1.</strong> What words or lines <span class="kw" data-fx="pop">stood out</span>?</p></div></div>
+    <div class="step" id="s2b"><div class="slab"><p class="lead"><strong>2.</strong> How did the poet speak: <span class="kw" data-fx="bounce">fast, slow, loud, soft</span>?</p></div></div>
+    <div class="step" id="s2c"><div class="slab"><p class="lead"><strong>3.</strong> What <span class="kw" data-fx="grow">emotions</span> did the poet express?</p></div></div>
     <div class="step" id="s2d"><p class="hand">Eyes up, pens down. You are listening, not writing.</p></div>
     <button class="step-cue" id="cue-2" type="button" tabindex="-1" onclick="advance()"><span class="dot"></span> Reveal next</button>
   </div>
@@ -465,7 +676,7 @@ main.wide{margin-left:0}
       <a class="vidlink" href="https://www.youtube.com/watch?v=6a6RS-6wnP4" target="_blank" rel="noopener"><span class="play">&#9654; WATCH</span><span class="who">Zayn1ab Farah</span><span class="go">Opens YouTube in a new tab</span><span class="url">youtube.com/watch?v=6a6RS-6wnP4</span></a>
       <div>
         <h3 style="margin-top:0">Listen for</h3>
-        <ul><li>The words that land hardest.</li><li>Where she pauses, and how long she holds it.</li></ul>
+        <ul><li>The words that <span class="kw" data-fx="grow">land hardest</span>.</li><li>Where she <span class="kw" data-fx="wobble">pauses</span>, and how long she holds it.</li></ul>
         <p class="hand">Which line would you steal?</p>
       </div>
     </div>
@@ -480,7 +691,7 @@ main.wide{margin-left:0}
       <a class="vidlink" href="https://www.youtube.com/watch?v=B3C-DO9FyEo" target="_blank" rel="noopener"><span class="play">&#9654; WATCH</span><span class="who">Solli Raphael</span><span class="go">Opens YouTube in a new tab</span><span class="url">youtube.com/watch?v=B3C-DO9FyEo</span></a>
       <div>
         <h3 style="margin-top:0">Listen for</h3>
-        <ul><li>Where he speeds up and where he slows down.</li><li>What happens to his volume at the end.</li></ul>
+        <ul><li>Where he <span class="kw" data-fx="fly">speeds up</span> and where he <span class="kw" data-fx="flyr">slows down</span>.</li><li>What happens to his <span class="kw" data-fx="grow">volume</span> at the end.</li></ul>
         <p class="hand">He was your age when he started.</p>
       </div>
     </div>
@@ -495,7 +706,7 @@ main.wide{margin-left:0}
       <a class="vidlink" href="https://www.youtube.com/watch?v=rtnEnEqjk0E" target="_blank" rel="noopener"><span class="play">&#9654; WATCH</span><span class="who">Asha Christensen</span><span class="go">Opens YouTube in a new tab</span><span class="url">youtube.com/watch?v=rtnEnEqjk0E</span></a>
       <div>
         <h3 style="margin-top:0">Listen for</h3>
-        <ul><li>What her voice does at the end of each line.</li><li>The moment the feeling changes.</li></ul>
+        <ul><li>What her voice does at the <span class="kw" data-fx="pop">end of each line</span>.</li><li>The moment the <span class="kw" data-fx="wobble">feeling changes</span>.</li></ul>
         <p class="hand">Watch her hands, not just her mouth.</p>
       </div>
     </div>
@@ -507,9 +718,9 @@ main.wide{margin-left:0}
 <section class="slide" id="slide-6">
   <div class="card">
     <h2>Think, pair, <em>share</em></h2>
-    <div class="step" id="s6a"><div class="slab"><p class="lead"><span class="hand">Think.</span> On your own. What did you like about the performance? What did you notice the poet doing?</p></div></div>
-    <div class="step" id="s6b"><div class="slab"><p class="lead"><span class="hand">Pair.</span> Turn to the person beside you. Did you notice the same moment, or a different one?</p></div></div>
-    <div class="step" id="s6c"><div class="slab"><p class="lead"><span class="hand">Share.</span> Back to the whole class. Try to name what the poet did, not just that it was good.</p></div></div>
+    <div class="step" id="s6a"><div class="slab"><p class="lead"><span class="hand kw" data-fx="bounce">Think.</span> On your own. What did you like about the performance? What did you notice the poet doing?</p></div></div>
+    <div class="step" id="s6b"><div class="slab"><p class="lead"><span class="hand kw" data-fx="bounce">Pair.</span> Turn to the person beside you. Did you notice the same moment, or a different one?</p></div></div>
+    <div class="step" id="s6c"><div class="slab"><p class="lead"><span class="hand kw" data-fx="bounce">Share.</span> Back to the whole class. Try to <span class="kw" data-fx="grow">name what the poet did</span>, not just that it was good.</p></div></div>
     <div class="step" id="s6d"><p class="tiny">Push for the language of the craft. "It was powerful" is a start. "She slowed right down on the last three words so we had to lean in" is the answer we want.</p></div>
     <button class="step-cue" id="cue-6" type="button" tabindex="-1" onclick="advance()"><span class="dot"></span> Reveal next</button>
   </div>
@@ -521,17 +732,17 @@ main.wide{margin-left:0}
   <div class="card">
     <h2>Stressed and <em>unstressed</em></h2>
     <div class="step" id="s7a">
-      <div class="slab"><p class="lead"><strong>Stressed syllables</strong> are the parts of words we emphasise: louder, longer, more forceful.</p></div>
+      <div class="slab"><p class="lead"><strong>Stressed syllables</strong> are the parts of words we <span class="kw" data-fx="grow">emphasise</span>: <span class="kw" data-fx="bounce">louder, longer, more forceful</span>.</p></div>
     </div>
     <div class="step" id="s7b">
-      <div class="slab" style="border-left-color:var(--cyan)"><p class="lead"><strong>Unstressed syllables</strong> are the parts we say more softly and quickly.</p></div>
+      <div class="slab" style="border-left-color:var(--cyan)"><p class="lead"><strong>Unstressed syllables</strong> are the parts we say more <span class="kw" data-fx="shrink">softly and quickly</span>.</p></div>
     </div>
     <div class="step" id="s7c">
       <h3>Every word already has a pattern</h3>
-      <p>Say <strong>POE-try</strong>. Now try <strong>po-E-try</strong>. The second one sounds broken, and nobody taught you that rule. Your mouth already knows where the beat goes.</p>
+      <p>Say <span class="kw" data-fx="pop"><strong>POE-try</strong></span>. Now try <strong>po-E-try</strong>. The second one sounds broken, and nobody taught you that rule. Your mouth already knows where the beat goes.</p>
     </div>
     <div class="step" id="s7d">
-      <p class="hand">A poet's job is to line those beats up on purpose.</p>
+      <p class="hand">A poet's job is to line those beats up <span class="kw" data-fx="wobble">on purpose</span>.</p>
     </div>
     <button class="step-cue" id="cue-7" type="button" tabindex="-1" onclick="advance()"><span class="dot"></span> Reveal next</button>
   </div>
@@ -542,7 +753,7 @@ main.wide{margin-left:0}
 <section class="slide" id="slide-8">
   <div class="card">
     <h2>Tap the <em>beats</em></h2>
-    <p>Say the line out loud, then tap every syllable your voice leans on. <span class="counter" id="beatCounter">LINE 1 OF 3</span></p>
+    <p>Say the line out loud, then tap every syllable your voice <span class="kw" data-fx="grow">leans on</span>. <span class="counter" id="beatCounter">LINE 1 OF 3</span></p>
     <div class="line-wrap">
       <div class="syls" id="sylBox"></div>
       <div class="beatbar" id="beatBar" style="display:none"></div>
@@ -563,10 +774,10 @@ main.wide{margin-left:0}
   <div class="card">
     <h2>Rhythm</h2>
     <div class="step" id="s9a">
-      <div class="slab"><p class="lead"><strong>Rhythm</strong> is the pattern of beats created by stressed and unstressed syllables. It gives a poem its musical flow.</p></div>
+      <div class="slab"><p class="lead"><strong>Rhythm</strong> is the <span class="kw" data-fx="bounce">pattern of beats</span> created by stressed and unstressed syllables. It gives a poem its <span class="kw" data-fx="fly">musical flow</span>.</p></div>
     </div>
     <div class="step" id="s9b">
-      <h3>Line one had a heartbeat</h3>
+      <h3>Line one had a <span class="kw" data-fx="pulse">heartbeat</span></h3>
       <div class="beatbar" style="justify-content:flex-start">
         <span class="beat light">da</span><span class="beat strong">DUM</span>
         <span class="beat light">da</span><span class="beat strong">DUM</span>
@@ -577,7 +788,7 @@ main.wide{margin-left:0}
     </div>
     <div class="step" id="s9c">
       <h3>So why break it?</h3>
-      <p>A pattern only has power while it holds. When a poet drops two heavy beats side by side, or stops dead mid line, the room notices. The rhythm is the rule; breaking it is the moment.</p>
+      <p>A pattern only has power while it holds. When a poet drops two heavy beats side by side, or stops dead mid line, the room notices. The rhythm is the rule; breaking it is <span class="kw" data-fx="grow">the moment</span>.</p>
     </div>
     <div class="step" id="s9d">
       <p class="hand">Listen again for the line where the poet breaks their own pattern.</p>
@@ -591,7 +802,7 @@ main.wide{margin-left:0}
 <section class="slide" id="slide-10">
   <div class="card">
     <h2>Intonation</h2>
-    <div class="slab"><p class="lead"><strong>Intonation</strong> is the way the pitch and tone of the voice rises and falls. It carries emotion, adds emphasis, and can change what a line means.</p></div>
+    <div class="slab"><p class="lead"><strong>Intonation</strong> is the way the pitch and tone of the voice <span class="kw" data-fx="wave">rises and falls</span>. It carries emotion, adds emphasis, and can <span class="kw" data-fx="grow">change what a line means</span>.</p></div>
     <h3>Same six words. Three different poems.</h3>
     <div class="tone-row">
       <button class="tone-btn" tabindex="-1" onclick="setTone(0,this)">As a question</button>
@@ -616,9 +827,9 @@ main.wide{margin-left:0}
         <p class="lead">Pick one of the poems we watched. Watch it again with headphones, then answer in your book.</p>
         <ol>
           <li>What was the poem about?</li>
-          <li>What was one moment that really stood out to you? Why?</li>
-          <li>What slam poetry techniques did the poet use well?</li>
-          <li>How did the poet make you feel?</li>
+          <li>What was <span class="kw" data-fx="pop">one moment</span> that really stood out to you? Why?</li>
+          <li>What slam poetry <span class="kw" data-fx="wobble">techniques</span> did the poet use well?</li>
+          <li>How did the poet make you <span class="kw" data-fx="grow">feel</span>?</li>
         </ol>
         <p class="tiny">All three videos are posted on Google Classroom.</p>
       </div>
@@ -703,6 +914,8 @@ function goToSlide(i){
     if(btns.length===2){ btns[0].disabled=(i===0); }
   });
   updateRevealUi();
+  v2Phase(i);
+  kwOnSlide(i);
   const active=document.getElementById(slides[i].id);
   if(active) active.scrollIntoView({block:'start'});
   window.scrollTo(0,0);
@@ -736,6 +949,7 @@ function advance(){
   if(shownCount(current)<steps.length){
     const n=shownCount(current);
     document.getElementById(steps[n]).classList.add('shown');
+    kwFireIn(document.getElementById(steps[n]),450);
     shownSteps[current]=n+1;
     if(shownSteps[current]===steps.length && stepCue[current]) document.getElementById(stepCue[current]).classList.add('done');
     updateRevealUi(); blurActive();
@@ -892,6 +1106,94 @@ function setTone(i,btn){
   blurActive();
 }
 
+
+/* ---- spotlight words: animate marked phrases when a card or a reveal step arrives ---- */
+function kwSplit(el){
+  if(el.dataset.split || el.children.length) return false;
+  const t=el.textContent; el.textContent='';
+  [...t].forEach(ch=>{ const l=document.createElement('span'); l.className='kl'; l.textContent=(ch===' ')?' ':ch; el.appendChild(l); });
+  el.dataset.split='1'; return true;
+}
+function kwFire(el,delay){
+  const fx=el.dataset.fx||'pop';
+  el.classList.remove('go'); el.querySelectorAll('.kl').forEach(l=>l.classList.remove('go'));
+  void el.offsetWidth;
+  if(fx==='bounce'||fx==='wave'){
+    if(el.dataset.split || kwSplit(el)){
+      el.querySelectorAll('.kl').forEach((l,i)=>{ l.style.animationDelay=(delay+i*70)+'ms'; l.classList.add('go'); });
+      el.style.animationDelay=(delay+200)+'ms'; el.classList.add('go','lit'); return;
+    }
+    el.dataset.fx='pop';
+  }
+  el.style.animationDelay=delay+'ms,'+(delay+250)+'ms';
+  el.classList.add('go','lit');
+}
+function kwFireIn(container,base){
+  let d=base||350;
+  container.querySelectorAll('.kw').forEach(el=>{
+    const st=el.closest('.step'); if(st && !st.classList.contains('shown')) return;
+    kwFire(el,d); d+=260;
+  });
+}
+function kwOnSlide(i){ const sl=document.getElementById(slides[i].id); setTimeout(()=>kwFireIn(sl,120),80); }
+document.addEventListener('click',function(e){ const k=e.target.closest('.kw'); if(k) kwFire(k,0); });
+
+/* ================= WILDSTYLE WALL v2 shell ================= */
+
+const V2_DARK=[3, 4, 5, 8, 10];
+const V2_ART={'mic':`<svg viewBox="0 0 120 120"><rect x="44" y="14" width="32" height="54" rx="16"/><path d="M30 52 a30 30 0 0 0 60 0"/><line x1="60" y1="82" x2="60" y2="104"/><line x1="42" y1="104" x2="78" y2="104"/><path d="M18 30 q-8 12 0 24" opacity=".8"/><path d="M102 30 q8 12 0 24" opacity=".8"/></svg>`,'boombox':`<svg viewBox="0 0 120 120"><rect x="10" y="38" width="100" height="62" rx="8"/><circle cx="38" cy="70" r="16"/><circle cx="82" cy="70" r="16"/><circle cx="38" cy="70" r="4"/><circle cx="82" cy="70" r="4"/><path d="M40 38 v-12 h40 v12"/><line x1="52" y1="52" x2="68" y2="52"/></svg>`,'can':`<svg viewBox="0 0 120 120"><rect x="34" y="40" width="44" height="66" rx="6"/><rect x="42" y="22" width="28" height="18" rx="3"/><path d="M52 22 v-8 h8"/><path d="M86 18 l6 -4 M90 28 l8 0 M86 38 l6 4" opacity=".9"/><line x1="34" y1="62" x2="78" y2="62"/></svg>`,'megaphone':`<svg viewBox="0 0 120 120"><path d="M24 70 l44 -30 v52 l-44 -14 z"/><rect x="10" y="66" width="16" height="22" rx="4"/><path d="M84 46 q10 14 0 28"/><path d="M96 36 q18 24 0 48" opacity=".7"/><line x1="26" y1="88" x2="30" y2="104"/></svg>`,'headphones':`<svg viewBox="0 0 120 120"><path d="M22 74 v-14 a38 38 0 0 1 76 0 v14"/><rect x="14" y="68" width="20" height="30" rx="6"/><rect x="86" y="68" width="20" height="30" rx="6"/><path d="M52 100 q8 6 16 0" opacity=".8"/></svg>`,'pen':`<svg viewBox="0 0 120 120"><path d="M28 92 l6 -22 l52 -52 l16 16 l-52 52 z"/><line x1="78" y1="26" x2="94" y2="42"/><line x1="34" y1="70" x2="50" y2="86"/><path d="M20 104 h80" opacity=".6"/></svg>`,'pulse':`<svg viewBox="0 0 120 120"><path d="M10 64 h22 l10 -30 l14 56 l12 -40 l8 14 h34"/><circle cx="60" cy="20" r="4" opacity=".7"/></svg>`,'wave':`<svg viewBox="0 0 120 120"><path d="M12 60 q12 -34 24 0 t24 0 t24 0 t24 0"/><path d="M12 84 q12 -18 24 0 t24 0 t24 0 t24 0" opacity=".55"/><path d="M12 36 q12 -18 24 0 t24 0 t24 0 t24 0" opacity=".55"/></svg>`,'ear':`<svg viewBox="0 0 120 120"><path d="M40 78 c-14 -30 -4 -58 24 -58 c26 0 34 26 20 42 c-8 10 -14 12 -14 24 c0 12 -12 18 -20 12"/><path d="M56 56 c-6 -10 4 -18 10 -12" opacity=".8"/><path d="M92 30 q10 12 0 24" opacity=".6"/></svg>`};
+const V2_ARTCOL={'mic':'#FF2E88','boombox':'#00E5FF','can':'#C6FF00','megaphone':'#FFB03A','headphones':'#9B5DE5','pen':'#00E5FF','pulse':'#FF2E88','wave':'#C6FF00','ear':'#FFB03A'};
+const V2_ARTMAP={1:'mic',2:'ear',6:'megaphone',7:'boombox',8:'boombox',9:'pulse',10:'wave'};
+const PHASE_COL={learning:'#FF2E88',tuning:'#C6FF00',find:'#C6FF00',watch:'#00E5FF',narrow:'#00E5FF',discuss:'#FFB03A',draft:'#FFB03A',techniques:'#9B5DE5',feedback:'#9B5DE5',youdo:'#FF2E88',perform:'#FF2E88'};
+function tornPoly(){
+  const pts=[]; const n=26;
+  for(let i=0;i<=n;i++) pts.push((i/n*100).toFixed(2)+'% '+(i%2?(Math.random()*1.2).toFixed(2):(Math.random()*0.4).toFixed(2))+'%');
+  for(let i=n;i>=0;i--) pts.push((i/n*100).toFixed(2)+'% '+(100-(i%2?Math.random()*1.3:Math.random()*0.4)).toFixed(2)+'%');
+  return 'polygon('+pts.join(',')+')';
+}
+function buildWallPiece(){
+  const g=document.getElementById('wallExtrude'); if(!g) return;
+  const word=g.nextElementSibling.textContent;
+  for(let i=14;i>=1;i--){
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',520+i*2.3); t.setAttribute('y',985+i*2.3);
+    t.setAttribute('font-family','Bangers'); t.setAttribute('font-size','340');
+    t.setAttribute('fill', i>10?'#2a0716':'#5a0d33'); t.setAttribute('stroke','#000'); t.setAttribute('stroke-width','24'); t.setAttribute('stroke-linejoin','round'); t.setAttribute('paint-order','stroke');
+    t.textContent=word; g.appendChild(t);
+  }
+}
+function dressCards(){
+  slides.forEach((s,i)=>{
+    const card=document.getElementById(s.id).querySelector('.card'); if(!card) return;
+    const art=V2_ARTMAP[i];
+    if(V2_DARK.includes(i)){
+      card.classList.add('dark');
+      const h2=card.querySelector('h2'); if(h2) h2.setAttribute('data-text',h2.textContent);
+      if(art){ const a=document.createElement('div'); a.className='cardart'; a.style.setProperty('--ac',V2_ARTCOL[art]); a.innerHTML=V2_ART[art]; card.appendChild(a); card.classList.add('hasart'); }
+    } else {
+      const paper=document.createElement('div'); paper.className='paper';
+      while(card.firstChild) paper.appendChild(card.firstChild);
+      card.appendChild(paper); paper.style.clipPath=tornPoly();
+      ['tl','tr'].forEach(k=>{ const t=document.createElement('i'); t.className='tape '+k; card.appendChild(t); });
+      if(i===0){ const st=document.createElement('div'); st.className='stamp'; st.textContent='LESSON 19'; paper.appendChild(st);
+                 const sk=document.createElement('div'); sk.className='sticker'; sk.textContent='Year 5 English'; card.appendChild(sk); }
+      if(art){ const a=document.createElement('div'); a.className='cardart'; a.style.setProperty('--ac',V2_ARTCOL[art]); a.innerHTML=V2_ART[art]; paper.appendChild(a); card.classList.add('hasart'); }
+    }
+  });
+}
+function buildCaps(){
+  document.querySelectorAll('.phase-btn').forEach(b=>{
+    const c=PHASE_COL[b.dataset.phase]||'#fff';
+    const s=document.createElementNS('http://www.w3.org/2000/svg','svg'); s.setAttribute('viewBox','0 0 18 26'); s.setAttribute('class','cap');
+    s.innerHTML='<rect x="3" y="8" width="12" height="16" rx="2" fill="'+c+'"/><rect x="6" y="3" width="6" height="5" rx="1" fill="'+c+'"/><rect x="8" y="0" width="2" height="3" fill="#fff"/>';
+    b.prepend(s);
+  });
+}
+function v2Phase(i){
+  document.body.dataset.phase=sectionToPhase[slides[i].section];
+  document.body.dataset.hero=(i===0)?'1':'0';
+}
+
 /* ---------------- keyboard / clicker ---------------- */
 document.addEventListener('keydown',function(e){
   const tag=(document.activeElement&&document.activeElement.tagName)||'';
@@ -918,6 +1220,9 @@ function grabFocus(){
 
 document.addEventListener('DOMContentLoaded',function(){
   document.body.setAttribute('tabindex','-1');
+  buildWallPiece();
+  dressCards();
+  buildCaps();
   buildSidebar();
   setHeaderHeight();
   renderLine();
