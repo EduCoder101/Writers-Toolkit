@@ -158,7 +158,7 @@ main{padding:28px 32px 60px}
   background:var(--ice2);border-radius:16px;padding:16px 12px;text-align:center;
   font-weight:800;font-size:1.1rem;color:var(--navy);
 }
-.icon-tile .ic{font-size:2.6rem;display:block;margin-bottom:6px}
+.icon-tile .ic{display:grid;place-items:center;width:40px;height:40px;margin:0 auto 8px;border-radius:50%;background:var(--navy);color:var(--gold);font-family:'Fraunces',serif;font-weight:900;font-size:1.3rem}
 
 .vs{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch}
 .vs .col{background:var(--ice2);border-radius:16px;padding:18px 20px}
@@ -172,6 +172,18 @@ main{padding:28px 32px 60px}
 .quote.informal{background:#fff1c7;font-style:italic}
 .quote.formal{background:var(--ice)}
 .quote small{display:block;font-family:'Nunito',sans-serif;font-size:.95rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;color:var(--muted);font-style:normal}
+
+.video-row{display:grid;grid-template-columns:1.4fr 1fr;gap:26px;align-items:center}
+.video-link{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  min-height:200px;border-radius:18px;text-decoration:none;color:#fff;font-weight:800;font-size:1.2rem;
+  background:linear-gradient(135deg,var(--navy2),#2d5a8c);
+}
+.video-link:hover{filter:brightness(1.1)}
+.video-link .play{
+  width:0;height:0;border-style:solid;border-width:22px 0 22px 38px;border-color:transparent transparent transparent var(--gold);
+}
+@media (max-width:760px){.video-row{grid-template-columns:1fr}}
 
 /* formal / informal sorter */
 .sorter{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:14px}
@@ -232,7 +244,6 @@ main{padding:28px 32px 60px}
   font-family:'Fraunces',serif;font-weight:900;font-size:1.1rem;padding:4px 14px;border-radius:100px;
 }
 .bio h3{display:flex;align-items:center;gap:12px}
-.bio h3 .ic{font-size:1.8rem}
 .bio .txt{font-size:1.5rem;line-height:1.6;font-family:'Nunito',sans-serif}
 mark{background:transparent;color:inherit;border-radius:5px;padding:0;box-decoration-break:clone;-webkit-box-decoration-break:clone;transition:background .2s}
 body.show-past  mark.f-past {background:var(--past-bg);box-shadow:0 2px 0 var(--past)}
@@ -316,15 +327,15 @@ body.show-time mark.f-time, body.show-cls mark.f-cls, body.show-cause mark.f-cau
   <div class="grid">
 
     <div class="card">
-      <div class="chips"><span class="chip chip-learn">&#11088; Learn this</span></div>
+      <div class="chips"><span class="chip chip-learn">Learn this</span></div>
       <h3>The definition</h3>
       <p class="big">A biography is the true story of a real person's life, written by someone else.</p>
       <p>The word comes from Greek: <strong>bio</strong> means <em>life</em> and <strong>graphy</strong> means <em>writing</em>. Life-writing.</p>
-      <div class="book"><span class="pen">&#9999;&#65039;</span><strong>In your book:</strong> write the heading <em>Biography</em> and copy the definition.</div>
+      <div class="book"><strong>In your book:</strong> write the heading <em>Biography</em> and copy the definition.</div>
     </div>
 
     <div class="card">
-      <div class="chips"><span class="chip chip-learn">&#11088; Learn this</span></div>
+      <div class="chips"><span class="chip chip-learn">Learn this</span></div>
       <h3>Biography or autobiography?</h3>
       <div class="vs">
         <div class="col"><h4>Biography</h4><p>Written <strong>about</strong> a person by <strong>someone else</strong>.</p><p>Uses <strong>he, she, they</strong> and the person's name.</p></div>
@@ -332,25 +343,25 @@ body.show-time mark.f-time, body.show-cls mark.f-cls, body.show-cause mark.f-cau
         <div class="col"><h4>Autobiography</h4><p>Written by the person <strong>about themselves</strong>.</p><p>Uses <strong>I, me, my, we</strong>.</p></div>
       </div>
       <p><em>Auto</em> means <em>self</em>. An autobiography is self-life-writing.</p>
-      <div class="book"><span class="pen">&#9999;&#65039;</span><strong>In your book:</strong> one sentence explaining the difference.</div>
+      <div class="book"><strong>In your book:</strong> one sentence explaining the difference.</div>
     </div>
 
     <div class="card">
-      <div class="chips"><span class="chip chip-talk">&#128172; Talk about it</span></div>
+      <div class="chips"><span class="chip chip-talk">Talk about it</span></div>
       <h3>What goes into a biography?</h3>
       <div class="icon-row">
-        <div class="icon-tile"><span class="ic">&#128118;</span>Birth and family</div>
-        <div class="icon-tile"><span class="ic">&#127979;</span>Education</div>
-        <div class="icon-tile"><span class="ic">&#9968;&#65039;</span>Challenges</div>
-        <div class="icon-tile"><span class="ic">&#127942;</span>Achievements</div>
-        <div class="icon-tile"><span class="ic">&#128150;</span>What they cared about</div>
-        <div class="icon-tile"><span class="ic">&#127775;</span>Legacy</div>
+        <div class="icon-tile"><span class="ic">1</span>Birth and family</div>
+        <div class="icon-tile"><span class="ic">2</span>Education</div>
+        <div class="icon-tile"><span class="ic">3</span>Challenges</div>
+        <div class="icon-tile"><span class="ic">4</span>Achievements</div>
+        <div class="icon-tile"><span class="ic">5</span>What they cared about</div>
+        <div class="icon-tile"><span class="ic">6</span>Legacy</div>
       </div>
       <p>Most biographies travel through a life <strong>in time order</strong>, from the beginning to the end (or to now).</p>
     </div>
 
     <div class="card">
-      <div class="chips"><span class="chip chip-talk">&#128172; Talk about it</span></div>
+      <div class="chips"><span class="chip chip-talk">Talk about it</span></div>
       <h3>Passion and courage</h3>
       <p>Biographers choose people worth writing about. Often that means someone with a <strong>passion</strong> (something they loved and gave their life to) and <strong>courage</strong> (the bravery to keep going when it was hard).</p>
       <p>As you read about Edmund Hillary, keep two questions in your head:</p>
@@ -366,8 +377,27 @@ body.show-time mark.f-time, body.show-cls mark.f-cls, body.show-cause mark.f-cau
   <div class="phase-title"><h2>Formal or informal?</h2><p>Writers choose a voice to suit the reader and the purpose.</p></div>
   <div class="grid">
 
+    <div class="card video" style="grid-column:1/-1">
+      <div class="chips"><span class="chip chip-teacher">Watch together</span></div>
+      <div class="video-row">
+        <div>
+          <h3>Informal vs formal writing</h3>
+          <p>Watch the video first. As you watch, listen for the answers to these three questions:</p>
+          <ul>
+            <li>What are the key aspects of <strong>formal</strong> writing?</li>
+            <li>What are the key aspects of <strong>informal</strong> writing?</li>
+            <li>Which style would you use to write a biography, and why?</li>
+          </ul>
+        </div>
+        <a class="video-link" href="https://youtu.be/sdDBY2-Wmis" target="_blank" rel="noopener">
+          <span class="play"></span>
+          <span>Open the video on YouTube</span>
+        </a>
+      </div>
+    </div>
+
     <div class="card">
-      <div class="chips"><span class="chip chip-learn">&#11088; Learn this</span></div>
+      <div class="chips"><span class="chip chip-learn">Learn this</span></div>
       <h3>Two ways of writing</h3>
       <div class="vs">
         <div class="col"><h4>Formal</h4>
@@ -390,11 +420,11 @@ body.show-time mark.f-time, body.show-cls mark.f-cls, body.show-cause mark.f-cau
           </ul>
         </div>
       </div>
-      <div class="book"><span class="pen">&#9999;&#65039;</span><strong>In your book:</strong> a two-column table, <em>Formal</em> and <em>Informal</em>, with three features in each.</div>
+      <div class="book"><strong>In your book:</strong> a two-column table, <em>Formal</em> and <em>Informal</em>, with three features in each.</div>
     </div>
 
     <div class="card">
-      <div class="chips"><span class="chip chip-talk">&#128172; Talk about it</span></div>
+      <div class="chips"><span class="chip chip-talk">Talk about it</span></div>
       <h3>Same fact, two voices</h3>
       <div class="quote informal"><small>Informal</small>Ed was a total legend, honestly. He smashed Everest back in '53 with his mate Tenzing and they only hung around up there for about 15 minutes!</div>
       <div class="quote formal"><small>Formal</small>In 1953, Hillary and Tenzing Norgay reached the summit of Mount Everest. The two men spent around 15 minutes at the highest point on Earth before beginning their descent.</div>
@@ -402,7 +432,7 @@ body.show-time mark.f-time, body.show-cls mark.f-cls, body.show-cause mark.f-cau
     </div>
 
     <div class="card" style="grid-column:1/-1">
-      <div class="chips"><span class="chip chip-talk">&#128172; Talk about it</span><span class="chip chip-teacher">Click a sentence to reveal</span></div>
+      <div class="chips"><span class="chip chip-talk">Talk about it</span><span class="chip chip-teacher">Click a sentence to reveal</span></div>
       <h3>Spot the voice</h3>
       <p>Read each sentence. Is it formal or informal? Decide, then click to check.</p>
       <div class="sorter">
@@ -416,10 +446,10 @@ body.show-time mark.f-time, body.show-cls mark.f-cls, body.show-cause mark.f-cau
     </div>
 
     <div class="card" style="grid-column:1/-1">
-      <div class="chips"><span class="chip chip-book">&#128214; In your book</span></div>
+      <div class="chips"><span class="chip chip-book">In your book</span></div>
       <h3>So which voice does a biography use, and why?</h3>
       <p class="big">A biography is usually written in a formal voice because it needs to be accurate, trusted and respectful of the real person it describes.</p>
-      <div class="book"><span class="pen">&#9999;&#65039;</span><strong>In your book:</strong> answer in one or two sentences: <em>Which style would you use to write a biography, and why?</em></div>
+      <div class="book"><strong>In your book:</strong> answer in one or two sentences: <em>Which style would you use to write a biography, and why?</em></div>
     </div>
 
   </div>
@@ -432,57 +462,57 @@ body.show-time mark.f-time, body.show-cls mark.f-cls, body.show-cause mark.f-cau
   <div class="grid">
 
     <div class="card feature f-past-c">
-      <div class="chips"><span class="chip chip-learn">&#11088; Learn this</span></div>
+      <div class="chips"><span class="chip chip-learn">Learn this</span></div>
       <h3>Past tense verbs</h3>
       <p>Verbs that tell us something <strong>already happened</strong>. Most of a biography is in the past tense because the events are over.</p>
       <div class="label">In Hillary's story</div>
       <div class="ex">Hillary <b>was born</b> in Auckland. He <b>joined</b> the tramping club. The two men <b>spent</b> 15 minutes at the summit.</div>
-      <div class="book"><span class="pen">&#9999;&#65039;</span><strong>In your book:</strong> definition + one example.</div>
+      <div class="book"><strong>In your book:</strong> definition + one example.</div>
     </div>
 
     <div class="card feature f-pres-c">
-      <div class="chips"><span class="chip chip-learn">&#11088; Learn this</span></div>
+      <div class="chips"><span class="chip chip-learn">Learn this</span></div>
       <h3>Present tense verbs</h3>
       <p>Verbs for things that are <strong>still true now</strong>. Biographers switch to the present tense to show that something continues today.</p>
       <div class="label">In Hillary's story</div>
       <div class="ex">Today, he <b>is remembered</b> as the first person to stand on the summit. The Himalayan Trust <b>builds</b> schools and hospitals in Nepal.</div>
-      <div class="book"><span class="pen">&#9999;&#65039;</span><strong>In your book:</strong> definition + one example. Why is it in the present tense?</div>
+      <div class="book"><strong>In your book:</strong> definition + one example. Why is it in the present tense?</div>
     </div>
 
     <div class="card feature f-emo-c">
-      <div class="chips"><span class="chip chip-learn">&#11088; Learn this</span></div>
+      <div class="chips"><span class="chip chip-learn">Learn this</span></div>
       <h3>Descriptive and emotive language</h3>
       <p>Words that <strong>paint a picture</strong> or <strong>make the reader feel something</strong>. Adjectives, adverbs and strong noun groups do this job.</p>
       <div class="label">In Hillary's story</div>
       <div class="ex">He was a <b>shy, skinny child</b> who spent hours <b>lost in adventure books</b>. The climbers <b>bravely battled</b> <b>thin, freezing air</b> to reach the <b>highly coveted</b> summit.</div>
-      <div class="book"><span class="pen">&#9999;&#65039;</span><strong>In your book:</strong> definition + one example.</div>
+      <div class="book"><strong>In your book:</strong> definition + one example.</div>
     </div>
 
     <div class="card feature f-time-c">
-      <div class="chips"><span class="chip chip-learn">&#11088; Learn this</span></div>
+      <div class="chips"><span class="chip chip-learn">Learn this</span></div>
       <h3>Time connectives</h3>
       <p>Words and phrases that <strong>place events in order</strong>. They are the signposts that move the reader through a life.</p>
       <div class="label">In Hillary's story</div>
       <div class="ex"><b>In 1951</b>, Hillary was invited to join an expedition. <b>When the war was over</b>, he became a beekeeper. <b>Two years later</b>, he took part in a British-led attempt.</div>
-      <div class="book"><span class="pen">&#9999;&#65039;</span><strong>In your book:</strong> definition + two examples.</div>
+      <div class="book"><strong>In your book:</strong> definition + two examples.</div>
     </div>
 
     <div class="card feature bonus f-cls-c">
-      <div class="chips"><span class="chip chip-learn">&#11088; Learn this</span></div>
+      <div class="chips"><span class="chip chip-learn">Learn this</span></div>
       <h3>Classifying language</h3>
       <p>Nouns that put a person or thing <strong>into a group or category</strong>: a job, a role, a type.</p>
       <div class="label">In Hillary's story</div>
       <div class="ex">His father was a <b>beekeeper</b>, and his mother was a <b>teacher</b>. He joined the Air Force as a <b>navigator</b>. The Himalayan Trust is a <b>charity</b>.</div>
-      <div class="book"><span class="pen">&#9999;&#65039;</span><strong>In your book:</strong> definition + one example.</div>
+      <div class="book"><strong>In your book:</strong> definition + one example.</div>
     </div>
 
     <div class="card feature bonus f-cause-c">
-      <div class="chips"><span class="chip chip-learn">&#11088; Learn this</span></div>
+      <div class="chips"><span class="chip chip-learn">Learn this</span></div>
       <h3>Cause and effect language</h3>
       <p>Words that show <strong>one thing made another thing happen</strong>. Look for <em>because, as a result, led to, consequently, so</em>.</p>
       <div class="label">In Hillary's story</div>
       <div class="ex">His mother wanted him to have a good education, <b>so</b> she sent him to Auckland Grammar School. World War II began. <b>As a result</b>, Hillary joined the Air Force. The heavy work <b>led to</b> him becoming a stronger climber.</div>
-      <div class="book"><span class="pen">&#9999;&#65039;</span><strong>In your book:</strong> definition + one example.</div>
+      <div class="book"><strong>In your book:</strong> definition + one example.</div>
     </div>
 
   </div>
@@ -508,48 +538,48 @@ body.show-time mark.f-time, body.show-cls mark.f-cls, body.show-cause mark.f-cau
 
     <div class="card">
       <span class="num">Part 1</span>
-      <h3><span class="ic">&#127757;</span>Who was Sir Edmund Hillary?</h3>
+      <h3>Who was Sir Edmund Hillary?</h3>
       <p class="txt">Sir Edmund Hillary (1919–2008) <mark class="f-past">was</mark> a <mark class="f-emo">pioneering</mark> <mark class="f-cls">mountain climber, explorer and beekeeper</mark> from New Zealand. <mark class="f-time">Today</mark>, he <mark class="f-pres">is remembered</mark> as the first person to stand on the summit of Mount Everest, the highest mountain in the world, together with his <mark class="f-cls">Nepalese Sherpa guide</mark>, Tenzing Norgay. His face <mark class="f-pres">still appears</mark> on New Zealand's five-dollar note, and people around the world <mark class="f-pres">continue</mark> to be inspired by his <mark class="f-emo">quiet courage</mark>.</p>
     </div>
 
     <div class="card">
       <span class="num">Part 2</span>
-      <h3><span class="ic">&#128118;</span>Early life</h3>
+      <h3>Early life</h3>
       <p class="txt">Hillary <mark class="f-past">was born</mark> in Auckland, New Zealand, <mark class="f-time">on 20 July 1919</mark>. His father, Percival, was a <mark class="f-cls">beekeeper</mark>, and his mother, Gertrude, was a <mark class="f-cls">teacher</mark>. He <mark class="f-past">had</mark> an older sister, June, and a younger brother, Rex. <mark class="f-time">As a young boy</mark>, Edmund <mark class="f-past">grew up</mark> on an <mark class="f-emo">eight-acre property in the small, sleepy farming village</mark> of Tuakau. He was a <mark class="f-emo">shy, skinny child</mark> who <mark class="f-past">spent</mark> hours <mark class="f-emo">lost in adventure books, dreaming of faraway places</mark>. <mark class="f-cause">Because</mark> the family kept bees, Edmund <mark class="f-past">learned</mark> early what <mark class="f-emo">hard, sticky work</mark> looked like.</p>
     </div>
 
     <div class="card">
       <span class="num">Part 3</span>
-      <h3><span class="ic">&#127979;</span>Education</h3>
+      <h3>Education</h3>
       <p class="txt">Edmund's mother was <mark class="f-emo">determined</mark> that her son would receive a good education, <mark class="f-cause">so</mark> she <mark class="f-past">sent</mark> him to Auckland Grammar School, a <mark class="f-cls">secondary school</mark> in the city. <mark class="f-time">Every day for many years</mark>, Edmund <mark class="f-past">travelled</mark> more than 90 minutes in each direction, by bike and train, just to reach the school gates. He was an <mark class="f-cls">average student</mark> who <mark class="f-past">finished</mark> school with <mark class="f-emo">reasonable but unremarkable</mark> results. <mark class="f-time">Later</mark>, he <mark class="f-past">studied</mark> Mathematics and Science at the University of Auckland.</p>
     </div>
 
     <div class="card">
       <span class="num">Part 4</span>
-      <h3><span class="ic">&#9968;&#65039;</span>The mountain climbing enthusiast</h3>
+      <h3>The mountain climbing enthusiast</h3>
       <p class="txt">Hillary's interest in mountain climbing <mark class="f-past">was first sparked</mark> <mark class="f-time">at the age of sixteen</mark>, <mark class="f-time">in 1935</mark>, <mark class="f-time">when</mark> he <mark class="f-past">attended</mark> a school skiing trip to Mount Ruapehu. The <mark class="f-emo">tall, awkward teenager</mark> <mark class="f-past">demonstrated</mark> <mark class="f-emo">remarkable endurance</mark> during the trip, far more than his classmates. <mark class="f-time">While</mark> he was at university, he <mark class="f-past">joined</mark> the tramping club and <mark class="f-past">discovered</mark> that he <mark class="f-emo">loved</mark> the mountains. <mark class="f-time">By the youthful age of twenty</mark>, he <mark class="f-past">had already climbed</mark> his first major peak, Mount Ollivier, in the <mark class="f-emo">wild, icy alps</mark> of southern New Zealand.</p>
     </div>
 
     <div class="card">
       <span class="num">Part 5</span>
-      <h3><span class="ic">&#9992;&#65039;</span>War intervenes</h3>
+      <h3>War intervenes</h3>
       <p class="txt"><mark class="f-time">In 1939</mark>, World War II <mark class="f-past">began</mark>. <mark class="f-cause">As a result</mark>, Hillary <mark class="f-past">joined</mark> the Royal New Zealand Air Force as a <mark class="f-cls">navigator</mark>. <mark class="f-time">When the war was over</mark>, Edmund and his brother <mark class="f-past">followed</mark> in the footsteps of their father and <mark class="f-past">became</mark> <mark class="f-cls">beekeepers</mark>. The <mark class="f-emo">heavy, outdoor</mark> work <mark class="f-past">toughened</mark> his body, which <mark class="f-cause">led to</mark> him becoming an even stronger climber. He <mark class="f-past">continued</mark> to climb the highest peaks of his home country, but he also <mark class="f-past">began</mark> to set his sights on a <mark class="f-emo">far greater challenge</mark>: the summit of Mount Everest in the Himalayas.</p>
     </div>
 
     <div class="card">
       <span class="num">Part 6</span>
-      <h3><span class="ic">&#127956;&#65039;</span>Conquering Everest</h3>
+      <h3>Conquering Everest</h3>
       <p class="txt"><mark class="f-time">In 1951</mark>, Hillary <mark class="f-past">was invited</mark> to join a <mark class="f-cls">British expedition</mark> that explored possible routes up Mount Everest. <mark class="f-time">Two years later</mark>, Edmund <mark class="f-past">took part</mark> in a British-led attempt to reach the top. <mark class="f-time">At 11:30 in the morning on 29 May 1953</mark>, Hillary and <mark class="f-cls">Sherpa mountaineer</mark> Tenzing Norgay <mark class="f-emo">bravely <mark class="f-past">battled</mark></mark> <mark class="f-emo">thin, freezing air</mark> and a 12-metre rock wall to reach the <mark class="f-emo">highly coveted</mark> summit. <mark class="f-time">Today</mark>, that rock wall <mark class="f-pres">is known</mark> as Hillary's Step. The two men <mark class="f-past">spent</mark> around 15 minutes at <mark class="f-emo">the highest point on Earth</mark> <mark class="f-time">before</mark> beginning their <mark class="f-emo">dangerous</mark> descent. <mark class="f-cause">Thanks to</mark> this achievement, Hillary <mark class="f-past">was knighted</mark> by Queen Elizabeth II <mark class="f-time">only weeks later</mark>.</p>
     </div>
 
     <div class="card">
       <span class="num">Part 7</span>
-      <h3><span class="ic">&#127775;</span>Hillary's legacy</h3>
+      <h3>Hillary's legacy</h3>
       <p class="txt">Hillary <mark class="f-past">continued</mark> exploring <mark class="f-time">later in life</mark>, joining expeditions to both the South Pole and the North Pole. <mark class="f-cause">Consequently</mark>, he <mark class="f-past">received</mark> many accolades, including the Order of New Zealand. <mark class="f-time">In 1960</mark>, Edmund <mark class="f-past">founded</mark> the Himalayan Trust, a <mark class="f-cls">charity</mark> that <mark class="f-pres">builds</mark> schools and hospitals in the <mark class="f-emo">most isolated</mark> parts of Nepal. He <mark class="f-past">devoted</mark> much of his life to the Sherpa people <mark class="f-cause">because</mark> he <mark class="f-emo">never forgot</mark> who had helped him reach the top. Edmund Hillary <mark class="f-past">died</mark> <mark class="f-time">on 11 January 2008</mark>, <mark class="f-time">at the age of eighty-eight</mark>, in his hometown of Auckland. <mark class="f-time">Today</mark>, the Trust <mark class="f-pres">still runs</mark>, and his story <mark class="f-pres">reminds</mark> us that <mark class="f-emo">ordinary people can do extraordinary things</mark>.</p>
     </div>
 
     <div class="card" style="background:var(--ice2)">
-      <div class="chips"><span class="chip chip-talk">&#128172; Talk about it</span></div>
+      <div class="chips"><span class="chip chip-talk">Talk about it</span></div>
       <h3>Passion and courage</h3>
       <p>Now you have read the whole life:</p>
       <ul>
@@ -569,8 +599,8 @@ body.show-time mark.f-time, body.show-cls mark.f-cls, body.show-cause mark.f-cau
   <div class="phase-title"><h2>Your task: the language treasure hunt</h2><p>Work in your group of three or four. You need the printed biography, highlighters and a treasure map (the recording sheet).</p></div>
 
   <div class="card" style="margin-bottom:22px">
-    <div class="chips"><span class="chip chip-group">&#129309; Group work</span></div>
-    <h3>&#128142; The treasure: what you must find</h3>
+    <div class="chips"><span class="chip chip-group">Group work</span></div>
+    <h3>The treasure: what you must find</h3>
     <p>Six kinds of language are hidden in the text. Each kind has a colour and a target. Highlight every one you find on your group copy, then write your best ones on the sheet.</p>
     <div class="key">
       <div class="f-past-c"><span></span>Past tense verbs <b class="tgt">find 10</b></div>
@@ -596,7 +626,7 @@ body.show-time mark.f-time, body.show-cls mark.f-cls, body.show-cause mark.f-cau
     <div class="chips"><span class="chip chip-teacher">Teacher</span></div>
     <h3>Print for the hunt</h3>
     <p>One biography per group to highlight, and one treasure map per group (or one each). Each is two A4 pages, print double-sided.</p>
-    <p style="display:flex;gap:12px;flex-wrap:wrap"><a class="print-link" href="edmund-hillary-biography-print.html" target="_blank" rel="noopener">&#128196; Print the biography (group copy)</a> <a class="print-link" href="edmund-hillary-recording-sheet.html" target="_blank" rel="noopener">&#128424;&#65039; Print the treasure map</a></p>
+    <p style="display:flex;gap:12px;flex-wrap:wrap"><a class="print-link" href="edmund-hillary-biography-print.html" target="_blank" rel="noopener">Print the biography (group copy)</a> <a class="print-link" href="edmund-hillary-recording-sheet.html" target="_blank" rel="noopener">Print the treasure map</a></p>
   </div>
 
   <div class="phase-foot"><button class="nav-btn prev">&#8592; Back</button><button class="nav-btn next" hidden>Done</button></div>
