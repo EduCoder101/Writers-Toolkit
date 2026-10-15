@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Sizzling Starts Lesson 1 - Start your story where something is already happening. Teacher-paced Writer's Toolkit lesson for Stage 3 English.">
+<title>Sizzling Starts | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF8F5;--ink:#2D3436;--ink-light:#636E72;
+  --teal:#4ECDC4;--teal-light:#d0f0ec;
+  --coral:#FF6B6B;--coral-light:#ffe0e0;
+  --gold:#FFD93D;--gold-light:#fdf2d0;
+  --purple:#9B5DE5;--purple-light:#f0e6ff;
+  --sky:#3A86FF;--sky-light:#dce8ff;
+  --green:#27AE60;--green-light:#d3f9d8;
+  --pink:#FFD6E0;--orange:#FFE0CC;--yellow:#FFF3BF;
+  --card:#fff;
+  --shadow:0 4px 20px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.12);
+  --radius:18px;
+  --sidebar-bg:#2D3436;--sidebar-w:240px;
+  --primary:var(--coral);--primary-light:var(--coral-light);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Fredoka',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* Floating background shapes */
+.bg-shapes{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;}
+.bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:var(--coral);}
+.bg-shape:nth-child(2){width:400px;height:400px;top:20%;right:-8%;background:var(--purple);}
+.bg-shape:nth-child(3){width:350px;height:350px;bottom:15%;left:10%;background:var(--gold);}
+.bg-shape:nth-child(4){width:450px;height:450px;bottom:-5%;right:15%;background:var(--sky);}
+.bg-shape:nth-child(5){width:300px;height:300px;top:50%;left:40%;background:var(--teal);}
+
+/* Top bar */
+.top-bar{background:var(--sidebar-bg);color:#fff;padding:0;position:sticky;top:0;z-index:200;display:flex;align-items:center;border-bottom:2px solid rgba(255,255,255,0.08);}
+.sidebar-toggle{background:none;border:none;border-right:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;padding:14px 16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.top-bar-title{font-weight:600;font-size:0.95rem;padding:0 22px;letter-spacing:0.3px;}
+.top-bar-title span{color:var(--coral);}
+.top-bar .back-link{margin-left:auto;color:var(--coral);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.7;transition:opacity 0.2s;}
+.top-bar .back-link:hover{opacity:1;}
+
+/* Sidebar */
+.sidebar{position:fixed;left:0;top:48px;width:var(--sidebar-w);height:calc(100vh - 48px);background:var(--sidebar-bg);color:#fff;z-index:100;overflow-y:auto;transition:width 0.3s ease;}
+.sidebar.collapsed{width:0;overflow:hidden;}
+.sidebar-content{padding:16px 0;}
+.sidebar-section{margin-bottom:12px;}
+.sidebar-section-title{font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--coral);padding:10px 18px 6px;}
+.sidebar-item{background:none;border:none;color:rgba(255,255,255,0.6);font-family:'Fredoka',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer;padding:9px 18px;width:100%;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:10px;}
+.sidebar-item:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.sidebar-item.active{background:rgba(255,107,107,0.15);color:#fff;border-left:4px solid var(--coral);padding-left:14px;}
+.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* Main: projector-first, wide */
+main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:32px 56px 80px;position:relative;z-index:1;}
+.sidebar.collapsed~main{margin-left:0;}
+.slide{display:none;max-width:1500px;margin:0 auto;animation:fadeIn 0.4s ease;}
+.slide.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* Card */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:40px 52px;margin-bottom:22px;}
+.card h2{font-size:clamp(28px,3.4vw,46px);font-weight:700;margin-bottom:14px;line-height:1.15;}
+.card h3{font-size:clamp(20px,2.2vw,28px);font-weight:600;margin-bottom:10px;color:var(--coral);}
+.card p,.card li{font-size:clamp(18px,1.9vw,25px);line-height:1.6;}
+.card ul{padding-left:26px;}
+.card li{margin-bottom:8px;}
+.eyebrow{font-family:'Space Mono',monospace;font-size:clamp(12px,1vw,15px);letter-spacing:2.5px;text-transform:uppercase;font-weight:700;color:var(--coral);margin-bottom:10px;}
+.lead{color:var(--ink-light);margin-bottom:18px;}
+
+/* LISC */
+.lisc{background:linear-gradient(135deg,#fff,#fff0f0);border-radius:var(--radius);box-shadow:var(--shadow);padding:34px 44px;margin-bottom:26px;border-left:6px solid var(--coral);}
+.lisc-li{font-size:clamp(20px,2vw,26px);font-weight:600;margin:0 0 10px;color:var(--coral);}
+.lisc-li-text{color:var(--ink);font-weight:500;font-size:clamp(22px,2.4vw,32px);line-height:1.4;}
+.lisc-sc-title{font-size:clamp(12px,1vw,15px);letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);font-weight:700;margin:22px 0 10px;font-family:'Space Mono',monospace;}
+.lisc ul{margin:0;padding-left:24px;}
+.lisc li{font-size:clamp(17px,1.7vw,23px);color:var(--ink);margin:8px 0;line-height:1.5;}
+
+/* Slide nav */
+.slide-nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:16px;border-top:1px solid #eee;}
+.nav-btn{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 30px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;background:var(--coral);color:#fff;}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.nav-btn:disabled{opacity:0.3;cursor:not-allowed;transform:none;box-shadow:none;}
+.slide-counter{font-family:'Space Mono',monospace;font-size:0.85rem;color:var(--ink-light);letter-spacing:1.5px;}
+
+/* Buttons */
+.btn{font-family:'Fredoka',sans-serif;font-size:clamp(15px,1.3vw,19px);font-weight:600;padding:13px 30px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn-coral{background:var(--coral);color:#fff;}
+.btn-sky{background:var(--sky);color:#fff;}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-teal{background:var(--teal);color:#fff;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-outline{background:#fff;color:var(--ink);border:2px solid #ddd;}
+.btn.done{display:none;}
+.btn-row{text-align:center;margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+/* Reveal steps */
+.reveal-step{opacity:0;max-height:0;overflow:hidden;transition:opacity 0.45s ease,max-height 0.45s ease,margin 0.45s ease;margin-top:0;}
+.reveal-step.visible{opacity:1;max-height:3000px;margin-top:18px;}
+
+/* Book and learn boxes */
+.book-box,.learn-box{display:flex;gap:16px;align-items:flex-start;border-radius:14px;padding:18px 22px;margin:18px 0 0;}
+.book-box{background:var(--gold-light);border:2px solid var(--gold);}
+.learn-box{background:var(--sky-light);border:2px solid var(--sky);}
+.box-icon{flex-shrink:0;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;}
+.book-box .box-icon{background:var(--gold);}
+.learn-box .box-icon{background:var(--sky);}
+.box-icon svg{width:26px;height:26px;}
+.box-label{font-family:'Space Mono',monospace;font-size:clamp(11px,0.9vw,14px);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:4px;}
+.book-box .box-label{color:#9a7400;}
+.learn-box .box-label{color:var(--sky);}
+.box-text{font-size:clamp(17px,1.7vw,22px);line-height:1.5;font-weight:500;}
+.box-text em{font-style:normal;background:rgba(255,255,255,0.7);padding:1px 6px;border-radius:5px;}
+
+/* Comparison */
+.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:20px 0;}
+@media(max-width:800px){.compare-row{grid-template-columns:1fr;}}
+.compare-box{background:#fff;border-radius:14px;padding:28px 32px;box-shadow:var(--shadow);}
+.compare-box.plain{border-top:6px solid #c9c9c9;background:#fafafa;}
+.compare-box.rich{border-top:6px solid var(--coral);}
+.compare-eyebrow{font-family:'Space Mono',monospace;font-size:clamp(12px,1vw,15px);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:10px;}
+.compare-box.plain .compare-eyebrow{color:var(--ink-light);}
+.compare-box.rich .compare-eyebrow{color:var(--coral);}
+.compare-text{font-size:clamp(20px,2.1vw,30px);line-height:1.55;font-weight:500;}
+.compare-box.plain .compare-text{color:#6b6b6b;}
+
+/* Think / discussion step */
+.think-step{background:#f8f9fa;border-left:5px solid var(--coral);border-radius:0 14px 14px 0;padding:18px 24px;margin:12px 0;font-size:clamp(17px,1.8vw,24px);line-height:1.55;}
+.think-label{font-family:'Space Mono',monospace;font-size:clamp(11px,0.9vw,14px);letter-spacing:2px;text-transform:uppercase;color:var(--coral);font-weight:700;margin-bottom:4px;}
+
+/* Example tiles (name the ways) */
+.way-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:18px 0;}
+@media(max-width:900px){.way-grid{grid-template-columns:1fr;}}
+.way-tile{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:24px 28px;border-top:6px solid #ddd;cursor:pointer;transition:box-shadow 0.2s;position:relative;}
+.way-tile:hover{box-shadow:var(--shadow-hover);}
+.way-tile .way-num{font-family:'Space Mono',monospace;font-size:clamp(12px,1vw,15px);letter-spacing:2px;color:var(--ink-light);font-weight:700;margin-bottom:8px;}
+.way-tile .way-quote{font-size:clamp(19px,1.9vw,27px);line-height:1.5;font-weight:500;}
+.way-tile .way-answer{display:none;margin-top:14px;padding-top:14px;border-top:1px dashed #ddd;}
+.way-tile .way-hint{margin-top:12px;font-size:clamp(13px,1.1vw,16px);color:var(--ink-light);font-family:'Space Mono',monospace;letter-spacing:1px;text-transform:uppercase;}
+.way-tile.revealed .way-answer{display:block;animation:fadeIn 0.3s ease;}
+.way-tile.revealed .way-hint{display:none;}
+.way-name{font-size:clamp(20px,2vw,28px);font-weight:700;margin-bottom:4px;}
+.way-desc{font-size:clamp(15px,1.5vw,20px);color:var(--ink-light);line-height:1.5;}
+.way-tile.t-action{border-top-color:var(--coral);} .way-tile.t-action .way-name{color:var(--coral);}
+.way-tile.t-dialogue{border-top-color:var(--sky);} .way-tile.t-dialogue .way-name{color:var(--sky);}
+.way-tile.t-sound{border-top-color:var(--purple);} .way-tile.t-sound .way-name{color:var(--purple);}
+.way-tile.t-feeling{border-top-color:var(--gold);} .way-tile.t-feeling .way-name{color:#b8860b;}
+.way-tile.t-senses{border-top-color:var(--teal);} .way-tile.t-senses .way-name{color:#1f9c92;}
+.way-tile.wide{grid-column:1 / -1;}
+
+/* Anchor chart */
+.anchor{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:18px 0;}
+@media(max-width:1000px){.anchor{grid-template-columns:repeat(2,1fr);}}
+.anchor-tile{border-radius:16px;padding:22px 20px;color:#fff;min-height:160px;display:flex;flex-direction:column;justify-content:flex-start;}
+.anchor-tile .a-name{font-size:clamp(20px,1.9vw,27px);font-weight:700;margin-bottom:6px;}
+.anchor-tile .a-desc{font-size:clamp(15px,1.4vw,19px);line-height:1.45;opacity:0.95;}
+.anchor-tile.a-action{background:var(--coral);}
+.anchor-tile.a-dialogue{background:var(--sky);}
+.anchor-tile.a-sound{background:var(--purple);}
+.anchor-tile.a-feeling{background:#e0b400;}
+.anchor-senses{background:var(--teal);border-radius:16px;padding:20px 26px;color:#fff;margin-top:16px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;}
+.anchor-senses .a-name{font-size:clamp(20px,1.9vw,27px);font-weight:700;}
+.anchor-senses .a-desc{font-size:clamp(15px,1.4vw,19px);line-height:1.45;}
+
+/* Sound makeover rows */
+.sound-row{display:grid;grid-template-columns:1fr 60px 2fr;gap:14px;align-items:center;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:18px 24px;margin:12px 0;}
+@media(max-width:800px){.sound-row{grid-template-columns:1fr;}}
+.sound-bad{font-size:clamp(19px,2vw,28px);font-weight:700;color:#b0b0b0;text-decoration:line-through;text-decoration-color:var(--coral);}
+.sound-arrow{font-size:28px;color:var(--purple);text-align:center;font-weight:700;}
+.sound-good{font-size:clamp(18px,1.8vw,25px);font-weight:500;line-height:1.5;display:none;}
+.sound-good.shown{display:block;animation:fadeIn 0.3s ease;}
+.sound-good .placeholder{color:var(--ink-light);font-style:italic;}
+.sound-row .reveal-link{font-family:'Fredoka',sans-serif;font-size:clamp(14px,1.2vw,17px);font-weight:600;color:var(--purple);background:var(--purple-light);border:none;border-radius:20px;padding:8px 16px;cursor:pointer;}
+.sound-row .reveal-link.gone{display:none;}
+
+/* Senses grid */
+.sense-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:18px 0;}
+@media(max-width:1000px){.sense-grid{grid-template-columns:repeat(2,1fr);}}
+.sense-tile{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:22px 24px;border-left:6px solid var(--teal);cursor:pointer;}
+.sense-tile:hover{box-shadow:var(--shadow-hover);}
+.sense-tile .s-name{font-size:clamp(19px,1.8vw,26px);font-weight:700;color:#1f9c92;display:flex;align-items:center;gap:10px;}
+.sense-tile .s-name svg{width:30px;height:30px;}
+.sense-tile .s-ex{display:none;margin-top:10px;font-size:clamp(16px,1.6vw,22px);line-height:1.5;font-weight:500;}
+.sense-tile .s-prompt{margin-top:8px;font-size:clamp(13px,1.1vw,16px);color:var(--ink-light);font-family:'Space Mono',monospace;letter-spacing:1px;text-transform:uppercase;}
+.sense-tile.revealed .s-ex{display:block;animation:fadeIn 0.3s ease;}
+.sense-tile.revealed .s-prompt{display:none;}
+
+/* Rules */
+.rules-big{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:20px 0;}
+@media(max-width:900px){.rules-big{grid-template-columns:1fr;}}
+.rule-tile{background:#fff5f5;border:3px solid var(--coral);border-radius:16px;padding:26px 22px;text-align:center;}
+.rule-tile .r-no{font-family:'Space Mono',monospace;font-size:clamp(14px,1.2vw,18px);letter-spacing:3px;color:var(--coral);font-weight:700;}
+.rule-tile .r-what{font-size:clamp(24px,2.6vw,38px);font-weight:700;margin:6px 0;}
+.rule-tile .r-ex{font-size:clamp(15px,1.4vw,19px);color:var(--ink-light);font-style:italic;line-height:1.4;}
+.rule-banner{background:var(--ink);color:#fff;border-radius:16px;padding:24px 30px;text-align:center;font-size:clamp(22px,2.6vw,38px);font-weight:700;margin-top:18px;}
+.rule-banner span{color:var(--gold);}
+
+/* Fizzle or sizzle */
+.fz-list{display:flex;flex-direction:column;gap:12px;margin:16px 0;}
+.fz-item{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:18px 24px;display:grid;grid-template-columns:48px 1fr auto;gap:16px;align-items:center;cursor:pointer;}
+.fz-item:hover{box-shadow:var(--shadow-hover);}
+.fz-num{font-family:'Space Mono',monospace;font-weight:700;color:var(--ink-light);font-size:clamp(14px,1.2vw,18px);}
+.fz-text{font-size:clamp(18px,1.8vw,25px);font-weight:500;line-height:1.5;}
+.fz-verdict{font-family:'Space Mono',monospace;font-size:clamp(12px,1vw,15px);letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:8px 14px;border-radius:20px;visibility:hidden;white-space:nowrap;}
+.fz-item.revealed .fz-verdict{visibility:visible;animation:fadeIn 0.3s ease;}
+.fz-item.sizzle .fz-verdict{background:var(--green-light);color:var(--green);}
+.fz-item.fizzle .fz-verdict{background:var(--coral-light);color:#c0392b;}
+.fz-why{grid-column:2 / -1;display:none;font-size:clamp(15px,1.4vw,19px);color:var(--ink-light);line-height:1.5;}
+.fz-item.revealed .fz-why{display:block;}
+
+/* Topic poster */
+.poster{display:grid;grid-template-columns:1fr 1.2fr;gap:28px;align-items:start;}
+@media(max-width:1000px){.poster{grid-template-columns:1fr;}}
+.poster-hero{border-radius:18px;padding:34px 32px;color:#fff;min-height:300px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;}
+.poster-hero svg.art{position:absolute;inset:0;width:100%;height:100%;opacity:0.22;}
+.poster-hero .p-genre{font-family:'Space Mono',monospace;font-size:clamp(12px,1vw,15px);letter-spacing:3px;text-transform:uppercase;font-weight:700;opacity:0.9;position:relative;}
+.poster-hero .p-title{font-size:clamp(30px,3.2vw,48px);font-weight:700;line-height:1.1;margin:8px 0 12px;position:relative;}
+.poster-hero .p-what{font-size:clamp(18px,1.7vw,24px);line-height:1.45;opacity:0.95;position:relative;}
+.poster-hero.h-purple{background:linear-gradient(135deg,#6a3fc9,#9B5DE5);}
+.poster-hero.h-coral{background:linear-gradient(135deg,#e04e4e,#FF8C8C);}
+.poster-hero.h-teal{background:linear-gradient(135deg,#1f9c92,#4ECDC4);}
+.poster-hero.h-sky{background:linear-gradient(135deg,#1f5fd1,#3A86FF);}
+.poster-side .compare-box{margin-bottom:16px;}
+.type-tag{display:inline-block;font-family:'Space Mono',monospace;font-size:clamp(11px,0.9vw,14px);letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:6px 12px;border-radius:20px;margin-top:12px;margin-right:8px;}
+.tag-action{background:var(--coral-light);color:#c0392b;}
+.tag-dialogue{background:var(--sky-light);color:var(--sky);}
+.tag-sound{background:var(--purple-light);color:var(--purple);}
+.tag-feeling{background:var(--gold-light);color:#9a7400;}
+.tag-senses{background:var(--teal-light);color:#1f9c92;}
+
+/* Sort */
+.sort-labels{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:14px 0 20px;}
+@media(max-width:1000px){.sort-labels{grid-template-columns:repeat(3,1fr);}}
+.sort-label{border-radius:12px;padding:12px 10px;text-align:center;font-weight:700;color:#fff;font-size:clamp(15px,1.4vw,20px);}
+.sort-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+@media(max-width:900px){.sort-cards{grid-template-columns:1fr;}}
+.sort-card{background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:18px 22px;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;border-left:6px solid #e5e5e5;transition:border-color 0.3s;}
+.sort-card .sc-num{font-family:'Space Mono',monospace;font-weight:700;font-size:clamp(16px,1.5vw,22px);color:var(--ink-light);}
+.sort-card .sc-text{font-size:clamp(17px,1.7vw,24px);font-weight:500;line-height:1.45;}
+.sort-card .sc-ans{display:none;font-family:'Space Mono',monospace;font-size:clamp(11px,0.9vw,14px);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-top:6px;}
+.sort-card.revealed .sc-ans{display:block;animation:fadeIn 0.3s ease;}
+.sort-card.a-action.revealed{border-left-color:var(--coral);} .sort-card.a-action .sc-ans{color:#c0392b;}
+.sort-card.a-dialogue.revealed{border-left-color:var(--sky);} .sort-card.a-dialogue .sc-ans{color:var(--sky);}
+.sort-card.a-sound.revealed{border-left-color:var(--purple);} .sort-card.a-sound .sc-ans{color:var(--purple);}
+.sort-card.a-feeling.revealed{border-left-color:#e0b400;} .sort-card.a-feeling .sc-ans{color:#9a7400;}
+.sort-card.a-boring.revealed{border-left-color:#999;} .sort-card.a-boring .sc-ans{color:#777;}
+
+/* Makeover */
+.makeover{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:24px 30px;margin:14px 0;}
+.makeover .m-num{font-family:'Space Mono',monospace;font-size:clamp(12px,1vw,15px);letter-spacing:2px;color:var(--coral);font-weight:700;margin-bottom:6px;}
+.makeover .m-boring{font-size:clamp(20px,2vw,29px);font-weight:500;color:#6b6b6b;line-height:1.5;}
+.makeover .m-model{display:none;margin-top:14px;padding-top:14px;border-top:1px dashed #ddd;}
+.makeover.revealed .m-model{display:block;animation:fadeIn 0.3s ease;}
+.makeover .m-model-text{font-size:clamp(19px,1.9vw,27px);font-weight:500;line-height:1.5;}
+.makeover .m-btn{margin-top:12px;}
+
+/* Timer */
+.timer-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;margin:10px 0 4px;}
+.timer-display{font-family:'Space Mono',monospace;font-size:clamp(64px,9vw,140px);font-weight:700;letter-spacing:4px;color:var(--ink);line-height:1;}
+.timer-display.warn{color:var(--coral);}
+.timer-display.done{color:var(--green);}
+.timer-presets{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.timer-presets .btn{padding:10px 20px;}
+.timer-presets .btn.sel{outline:3px solid var(--ink);}
+
+/* Checklist */
+.check-list{list-style:none;padding:0;margin:14px 0;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+@media(max-width:900px){.check-list{grid-template-columns:1fr;}}
+.check-list li{background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:14px 18px;display:flex;gap:12px;align-items:flex-start;font-size:clamp(16px,1.6vw,22px);margin:0;}
+.check-list li .tick{flex-shrink:0;width:28px;height:28px;border-radius:8px;border:3px solid var(--green);margin-top:3px;}
+
+/* Topic chooser (write card) */
+.choice-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0;}
+@media(max-width:1000px){.choice-grid{grid-template-columns:repeat(2,1fr);}}
+.choice{border-radius:14px;padding:16px 14px;color:#fff;font-weight:700;font-size:clamp(15px,1.4vw,20px);text-align:center;line-height:1.3;}
+
+/* Reflection */
+.reflect-item{background:#f8f9fa;border-radius:14px;padding:20px 26px;margin:12px 0;font-size:clamp(19px,1.9vw,27px);font-weight:500;line-height:1.45;opacity:0;transform:translateY(8px);transition:all 0.4s ease;display:none;}
+.reflect-item.visible{opacity:1;transform:none;display:block;}
+.reflect-item .r-n{font-family:'Space Mono',monospace;color:var(--coral);font-weight:700;margin-right:10px;}
+
+/* Teacher note */
+.teacher-note{font-size:clamp(13px,1.1vw,16px);color:var(--ink-light);margin-top:14px;font-style:italic;}
+
+@media(max-width:900px){
+  main{padding:20px 18px 60px;margin-left:0;}
+  .sidebar{width:0;overflow:hidden;}
+  .sidebar.open{width:var(--sidebar-w);}
+  .card{padding:26px 22px;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+  <div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div>
+</div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar" tabindex="-1">&#9776;</button>
+  <div class="top-bar-title"><span>Writer's Toolkit</span> &middot; Sizzling Starts &middot; Lesson 1</div>
+  <a href="https://educoder101.github.io/Writers-Toolkit" class="back-link">&larr; Back to Toolkit</a>
+</div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Learning</div>
+      <button class="sidebar-item active" onclick="goToSlide(0)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral)"></span>LISC</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Hook</div>
+      <button class="sidebar-item" onclick="goToSlide(1)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold)"></span>Which would you keep reading?</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Discover</div>
+      <button class="sidebar-item" onclick="goToSlide(2)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple)"></span>Name the ways</button>
+      <button class="sidebar-item" onclick="goToSlide(3)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple)"></span>Four ways to sizzle</button>
+      <button class="sidebar-item" onclick="goToSlide(4)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple)"></span>Describe the sound</button>
+      <button class="sidebar-item" onclick="goToSlide(5)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple)"></span>Use the senses</button>
+      <button class="sidebar-item" onclick="goToSlide(6)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple)"></span>The three rules</button>
+      <button class="sidebar-item" onclick="goToSlide(7)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple)"></span>Sizzle or fizzle?</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Story ideas</div>
+      <button class="sidebar-item" onclick="goToSlide(8)" tabindex="-1"><span class="sidebar-dot" style="background:var(--sky)"></span>1. The Library Door</button>
+      <button class="sidebar-item" onclick="goToSlide(9)" tabindex="-1"><span class="sidebar-dot" style="background:var(--sky)"></span>2. The Night Before the Final</button>
+      <button class="sidebar-item" onclick="goToSlide(10)" tabindex="-1"><span class="sidebar-dot" style="background:var(--sky)"></span>3. The Friendship Bracelet</button>
+      <button class="sidebar-item" onclick="goToSlide(11)" tabindex="-1"><span class="sidebar-dot" style="background:var(--sky)"></span>4. Lost on School Camp</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">We Do</div>
+      <button class="sidebar-item" onclick="goToSlide(12)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal)"></span>Sentence sort</button>
+      <button class="sidebar-item" onclick="goToSlide(13)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal)"></span>Boring start makeover</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">You Do</div>
+      <button class="sidebar-item" onclick="goToSlide(14)" tabindex="-1"><span class="sidebar-dot" style="background:var(--green)"></span>Write your sizzling start</button>
+      <button class="sidebar-item" onclick="goToSlide(15)" tabindex="-1"><span class="sidebar-dot" style="background:var(--green)"></span>Partner check</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Reflect</div>
+      <button class="sidebar-item" onclick="goToSlide(16)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral)"></span>Exit slip</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ SLIDE 0: LISC ============ -->
+<div class="slide active" id="slide0">
+  <div class="lisc">
+    <p class="lisc-li">Learning Intention</p>
+    <p class="lisc-li-text">We are learning to start a story where something is already happening, so the reader cannot help but keep reading.</p>
+    <p class="lisc-sc-title">Success Criteria</p>
+    <ul>
+      <li>I can name the four ways to sizzle and spot them in other writers' openings.</li>
+      <li>I can describe a sound instead of spelling it out in capital letters.</li>
+      <li>I can bring in a sense (sight, smell, sound, taste, touch or balance) in my first lines.</li>
+      <li>I can rewrite a boring opening as a sizzling start, and explain which way I used.</li>
+      <li>I never open with waking up, the weather, or "One day".</li>
+    </ul>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" disabled onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 1: HOOK ============ -->
+<div class="slide" id="slide1">
+  <div class="card">
+    <div class="eyebrow">Hook</div>
+    <h2>Which one would you keep reading?</h2>
+    <p class="lead">Two writers were given the same story. Read both openings.</p>
+    <div class="compare-row">
+      <div class="compare-box plain">
+        <div class="compare-eyebrow">Opening A</div>
+        <div class="compare-text">One day Mia woke up. She got dressed and went downstairs and had some breakfast. It was a sunny day.</div>
+      </div>
+      <div class="compare-box rich">
+        <div class="compare-eyebrow">Opening B</div>
+        <div class="compare-text">The smoke alarm screamed. Mia was halfway down the stairs before she remembered the cake.</div>
+      </div>
+    </div>
+    <div class="reveal-step">
+      <div class="think-step">
+        <div class="think-label">Talk to your partner</div>
+        Which opening would you keep reading? What has the writer of Opening B done that the writer of Opening A has not? Be ready to share one idea.
+      </div>
+    </div>
+    <div class="reveal-step">
+      <div class="think-step">
+        <div class="think-label">The big idea</div>
+        Opening B starts <strong>where something is already happening</strong>. We hear the alarm. We are on the stairs with Mia. We want to know about that cake. Opening A has not started yet. Nothing is happening.
+      </div>
+      <div class="book-box">
+        <div class="box-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+        <div><div class="box-label">In your book</div><div class="box-text">Write the date and the title <em>Sizzling Starts</em>. Underneath, copy this: <em>A sizzling start begins where something is already happening.</em></div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-coral" onclick="revealNext(this)">Reveal</button></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 2: NAME THE WAYS ============ -->
+<div class="slide" id="slide2">
+  <div class="card">
+    <div class="eyebrow">Discover</div>
+    <h2>Name the ways</h2>
+    <p class="lead">Here are four sizzling starts. Each writer used a different trick to drop you into the action. Your job: work out what each writer is doing. Give each trick a name. Then click a tile to check.</p>
+    <div class="way-grid">
+      <div class="way-tile t-action" onclick="this.classList.add('revealed')">
+        <div class="way-num">START 1</div>
+        <div class="way-quote">I sprinted across the oval, the envelope crushed in my fist.</div>
+        <div class="way-hint">What is the writer doing? Click to check</div>
+        <div class="way-answer"><div class="way-name">Action</div><div class="way-desc">The character is doing something fast or risky. We arrive mid-movement.</div></div>
+      </div>
+      <div class="way-tile t-dialogue" onclick="this.classList.add('revealed')">
+        <div class="way-num">START 2</div>
+        <div class="way-quote">"Don't open that door!" Grace hissed.</div>
+        <div class="way-hint">What is the writer doing? Click to check</div>
+        <div class="way-answer"><div class="way-name">Dialogue</div><div class="way-desc">Someone is speaking, usually urgently. We are already in the conversation.</div></div>
+      </div>
+      <div class="way-tile t-sound" onclick="this.classList.add('revealed')">
+        <div class="way-num">START 3</div>
+        <div class="way-quote">The trophy shelf came away from the wall with a long, splintering crack, and then the glass began to fall.</div>
+        <div class="way-hint">What is the writer doing? Click to check</div>
+        <div class="way-answer"><div class="way-name">Sound</div><div class="way-desc">A sound is <strong>described</strong> so we can hear it. Notice: no CRASH in capital letters. The writer tells us what the sound was like.</div></div>
+      </div>
+      <div class="way-tile t-feeling" onclick="this.classList.add('revealed')">
+        <div class="way-num">START 4</div>
+        <div class="way-quote">My stomach dropped all the way to my shoes.</div>
+        <div class="way-hint">What is the writer doing? Click to check</div>
+        <div class="way-answer"><div class="way-name">Strong feeling</div><div class="way-desc">We are inside the character's emotion, and we feel it in the body.</div></div>
+      </div>
+    </div>
+    <div class="reveal-step">
+      <div class="learn-box">
+        <div class="box-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 1 9l11 6 11-6-11-6Z"/><path d="M5 11.5V17c0 1 3 3 7 3s7-2 7-3v-5.5"/></svg></div>
+        <div><div class="box-label">Learn this</div><div class="box-text">There are four ways to sizzle: <em>Action</em>, <em>Dialogue</em>, <em>Sound</em> and <em>Strong feeling</em>. Each one drops the reader into a moment that is already moving.</div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-purple" onclick="revealNext(this)">Reveal the four names</button></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 3: ANCHOR CHART ============ -->
+<div class="slide" id="slide3">
+  <div class="card">
+    <div class="eyebrow">Anchor chart</div>
+    <h2>Four ways to sizzle</h2>
+    <div class="anchor">
+      <div class="anchor-tile a-action"><div class="a-name">1. Action</div><div class="a-desc">The character is doing something fast or risky.</div></div>
+      <div class="anchor-tile a-dialogue"><div class="a-name">2. Dialogue</div><div class="a-desc">Someone is speaking, often urgently.</div></div>
+      <div class="anchor-tile a-sound"><div class="a-name">3. Sound</div><div class="a-desc">A sound, described so we can hear it.</div></div>
+      <div class="anchor-tile a-feeling"><div class="a-name">4. Strong feeling</div><div class="a-desc">We are inside the character's emotion.</div></div>
+    </div>
+    <div class="reveal-step">
+      <div class="anchor-senses">
+        <div class="a-name">The secret ingredient: the senses</div>
+        <div class="a-desc">Sight, smell, sound, taste, touch, and even balance. Any of the four ways gets stronger when the reader can sense the moment.</div>
+      </div>
+    </div>
+    <div class="reveal-step">
+      <div class="book-box">
+        <div class="box-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+        <div><div class="box-label">In your book</div><div class="box-text">Write the four ways as a numbered list: <em>1. Action</em> <em>2. Dialogue</em> <em>3. Sound</em> <em>4. Strong feeling</em>. Add a fifth line: <em>Secret ingredient: the senses</em>.</div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-teal" onclick="revealNext(this)">Reveal</button></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 4: DESCRIBE THE SOUND ============ -->
+<div class="slide" id="slide4">
+  <div class="card">
+    <div class="eyebrow">Sound</div>
+    <h2>Describe the sound. Don't shout it.</h2>
+    <p class="lead">CRASH! BANG! SPLASH! These are the easy way out. A real writer tells us what the sound was actually like. Try each one with your partner before you click.</p>
+    <div class="sound-row">
+      <div class="sound-bad">CRASH!</div>
+      <div class="sound-arrow">&rarr;</div>
+      <div><div class="sound-good">The crunch of metal folding in on itself, then a tinkling of glass across the road.</div><button class="reveal-link" onclick="showSound(this)">Show a better version</button></div>
+    </div>
+    <div class="sound-row">
+      <div class="sound-bad">BANG!</div>
+      <div class="sound-arrow">&rarr;</div>
+      <div><div class="sound-good">The classroom door slammed so hard the windows rattled in their frames.</div><button class="reveal-link" onclick="showSound(this)">Show a better version</button></div>
+    </div>
+    <div class="sound-row">
+      <div class="sound-bad">SPLASH!</div>
+      <div class="sound-arrow">&rarr;</div>
+      <div><div class="sound-good">The water swallowed my phone with a soft, final plop, and the pool went quiet.</div><button class="reveal-link" onclick="showSound(this)">Show a better version</button></div>
+    </div>
+    <div class="sound-row">
+      <div class="sound-bad">SCREECH!</div>
+      <div class="sound-arrow">&rarr;</div>
+      <div><div class="sound-good">A chair scraped slowly across the tiles behind me. Nobody else was meant to be in the room.</div><button class="reveal-link" onclick="showSound(this)">Show a better version</button></div>
+    </div>
+    <div class="reveal-step">
+      <div class="learn-box">
+        <div class="box-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 1 9l11 6 11-6-11-6Z"/><path d="M5 11.5V17c0 1 3 3 7 3s7-2 7-3v-5.5"/></svg></div>
+        <div><div class="box-label">Learn this</div><div class="box-text">Sound words to reach for: <em>crunch</em> <em>scrape</em> <em>rattle</em> <em>splinter</em> <em>hiss</em> <em>thud</em> <em>groan</em> <em>creak</em> <em>hum</em> <em>crackle</em>. Then say what made the sound and what it did to the silence.</div></div>
+      </div>
+      <div class="book-box">
+        <div class="box-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+        <div><div class="box-label">In your book</div><div class="box-text">Next to <em>3. Sound</em> write: <em>describe it, don't shout it.</em></div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-purple" onclick="revealNext(this)">Reveal the rule</button></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 5: SENSES ============ -->
+<div class="slide" id="slide5">
+  <div class="card">
+    <div class="eyebrow">The secret ingredient</div>
+    <h2>Use the senses</h2>
+    <p class="lead">The reader has a body too. Give them something to see, smell, hear, taste, touch, or feel in their balance, and they are standing inside your story. Click each sense to see one way in.</p>
+    <div class="sense-grid">
+      <div class="sense-tile" onclick="this.classList.add('revealed')">
+        <div class="s-name"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9c92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>Sight</div>
+        <div class="s-prompt">Click for an example</div>
+        <div class="s-ex">Every sleeping bag was zipped up. Every one was empty.</div>
+      </div>
+      <div class="sense-tile" onclick="this.classList.add('revealed')">
+        <div class="s-name"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9c92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21c0-4 2-5 2-9a4 4 0 0 0-8 0"/><path d="M12 3c2 2 2 4 0 6s-2 4 0 6"/><path d="M17 5c2 2 2 4 0 6s-2 4 0 6"/></svg>Smell</div>
+        <div class="s-prompt">Click for an example</div>
+        <div class="s-ex">The smell hit me first: burnt sugar, and something sharper underneath it.</div>
+      </div>
+      <div class="sense-tile" onclick="this.classList.add('revealed')">
+        <div class="s-name"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9c92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4h4l5 4V6l-5 4H3Z"/><path d="M16 9a4 4 0 0 1 0 6"/><path d="M19 6a8 8 0 0 1 0 12"/></svg>Sound</div>
+        <div class="s-prompt">Click for an example</div>
+        <div class="s-ex">The bookshelf groaned, and then it swung open.</div>
+      </div>
+      <div class="sense-tile" onclick="this.classList.add('revealed')">
+        <div class="s-name"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9c92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8c0 6 4 11 8 11s8-5 8-11c0-2-2-4-4-4-1.5 0-3 1-4 2-1-1-2.5-2-4-2-2 0-4 2-4 4Z"/><path d="M12 6v13"/></svg>Taste</div>
+        <div class="s-prompt">Click for an example</div>
+        <div class="s-ex">The pool water tasted of chlorine and panic.</div>
+      </div>
+      <div class="sense-tile" onclick="this.classList.add('revealed')">
+        <div class="s-name"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9c92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V5a1.5 1.5 0 0 1 3 0v6"/><path d="M11 11V4a1.5 1.5 0 0 1 3 0v7"/><path d="M14 11V6a1.5 1.5 0 0 1 3 0v8"/><path d="M8 13l-2-3a1.5 1.5 0 0 0-2.5 1.5L7 17c1 3 3 4 6 4 4 0 6-2 6-6"/></svg>Touch</div>
+        <div class="s-prompt">Click for an example</div>
+        <div class="s-ex">The rope burned through my palms, and the creek rushed up to meet me.</div>
+      </div>
+      <div class="sense-tile" onclick="this.classList.add('revealed')">
+        <div class="s-name"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9c92" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18"/><path d="M12 17V7"/><path d="M12 7l6 6"/><path d="M12 7l-6 6"/><circle cx="12" cy="5" r="2"/></svg>Balance</div>
+        <div class="s-prompt">Click for an example</div>
+        <div class="s-ex">The floor tilted. I grabbed the bench, and the bench moved too.</div>
+      </div>
+    </div>
+    <div class="reveal-step">
+      <div class="think-step">
+        <div class="think-label">Look again</div>
+        Which of the four ways is each of these using as well? (The balance one is also action. The smell one is also a strong feeling, because something is wrong.) The senses do not replace the four ways. They make them stronger.
+      </div>
+      <div class="book-box">
+        <div class="box-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+        <div><div class="box-label">In your book</div><div class="box-text">Next to <em>Secret ingredient: the senses</em>, list them: <em>sight, smell, sound, taste, touch, balance</em>.</div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-teal" onclick="revealNext(this)">Reveal</button></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 6: THREE RULES ============ -->
+<div class="slide" id="slide6">
+  <div class="card">
+    <div class="eyebrow">You already know these</div>
+    <h2>The three rules</h2>
+    <p class="lead">Say them before I reveal them.</p>
+    <div class="rules-big">
+      <div class="reveal-step" style="margin-top:0"><div class="rule-tile"><div class="r-no">RULE 1</div><div class="r-what">No waking up</div><div class="r-ex">"I woke up and looked out the window."</div></div></div>
+      <div class="reveal-step" style="margin-top:0"><div class="rule-tile"><div class="r-no">RULE 2</div><div class="r-what">No weather</div><div class="r-ex">"It was a sunny day."</div></div></div>
+      <div class="reveal-step" style="margin-top:0"><div class="rule-tile"><div class="r-no">RULE 3</div><div class="r-what">No "One day"</div><div class="r-ex">"One day I went to the shops."</div></div></div>
+    </div>
+    <div class="reveal-step">
+      <div class="rule-banner">Start where something is <span>already happening</span>.</div>
+    </div>
+    <div class="btn-row"><button class="btn btn-coral" onclick="revealNext(this)">Reveal</button></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 7: SIZZLE OR FIZZLE ============ -->
+<div class="slide" id="slide7">
+  <div class="card">
+    <div class="eyebrow">Quick fire</div>
+    <h2>Sizzle or fizzle?</h2>
+    <p class="lead">Thumbs up for sizzle, thumbs down for fizzle. If it sizzles, which way is it? Click each one to check.</p>
+    <div class="fz-list">
+      <div class="fz-item sizzle" onclick="this.classList.add('revealed')">
+        <div class="fz-num">01</div>
+        <div class="fz-text">"Run," Isla whispered, "and don't look at the windows."</div>
+        <div class="fz-verdict">Sizzle: dialogue</div>
+        <div class="fz-why">Someone is speaking urgently. We are already in trouble.</div>
+      </div>
+      <div class="fz-item fizzle" onclick="this.classList.add('revealed')">
+        <div class="fz-num">02</div>
+        <div class="fz-text">It was a cold and windy morning when I got up for school.</div>
+        <div class="fz-verdict">Fizzle</div>
+        <div class="fz-why">Weather and waking up. Two rules broken in one sentence.</div>
+      </div>
+      <div class="fz-item sizzle" onclick="this.classList.add('revealed')">
+        <div class="fz-num">03</div>
+        <div class="fz-text">Something scratched at the inside of the cupboard door. Slowly. Patiently.</div>
+        <div class="fz-verdict">Sizzle: sound</div>
+        <div class="fz-why">A described sound, and nobody shouted SCRATCH.</div>
+      </div>
+      <div class="fz-item fizzle" onclick="this.classList.add('revealed')">
+        <div class="fz-num">04</div>
+        <div class="fz-text">One day a girl called Ruby went to a place that was very interesting.</div>
+        <div class="fz-verdict">Fizzle</div>
+        <div class="fz-why">"One day", and nothing is happening. Even the place is a mystery to the writer.</div>
+      </div>
+      <div class="fz-item sizzle" onclick="this.classList.add('revealed')">
+        <div class="fz-num">05</div>
+        <div class="fz-text">My cheeks were on fire before she had even finished reading out the scores.</div>
+        <div class="fz-verdict">Sizzle: strong feeling</div>
+        <div class="fz-why">Embarrassment, felt in the body. We do not need to be told she was embarrassed.</div>
+      </div>
+      <div class="fz-item sizzle" onclick="this.classList.add('revealed')">
+        <div class="fz-num">06</div>
+        <div class="fz-text">I was over the fence and halfway across the paddock before I let myself breathe.</div>
+        <div class="fz-verdict">Sizzle: action</div>
+        <div class="fz-why">We arrive mid-sprint. Why is she running? We have to keep reading.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 8: TOPIC 1 ============ -->
+<div class="slide" id="slide8">
+  <div class="card">
+    <div class="eyebrow">Story idea 1 of 4</div>
+    <div class="poster">
+      <div class="poster-hero h-purple">
+        <svg class="art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="40" width="40" height="220" rx="4" fill="#fff"/><rect x="80" y="60" width="40" height="200" rx="4" fill="#fff"/><rect x="130" y="30" width="40" height="230" rx="4" fill="#fff"/><rect x="180" y="70" width="40" height="190" rx="4" fill="#fff"/><rect x="250" y="90" width="110" height="180" rx="8" fill="none" stroke="#fff" stroke-width="8"/><circle cx="340" cy="185" r="8" fill="#fff"/></svg>
+        <div class="p-genre">Fantasy / Mystery</div>
+        <div class="p-title">The Door Behind the Library Shelf</div>
+        <div class="p-what">A hidden door appears in the school library that only you can see.</div>
+      </div>
+      <div class="poster-side">
+        <div class="reveal-step">
+          <div class="compare-box plain">
+            <div class="compare-eyebrow">A boring start</div>
+            <div class="compare-text">One day I went to the library to return my book. It was quiet. Then I noticed a door I had not seen before.</div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="compare-box rich">
+            <div class="compare-eyebrow">A sizzling start</div>
+            <div class="compare-text">The bookshelf groaned, and then it swung open.</div>
+            <div class="reveal-step"><span class="type-tag tag-sound">Sound</span><span class="type-tag tag-action">Action</span><div class="teacher-note">A described sound (groaned), and the shelf is moving before we know why.</div></div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="think-step"><div class="think-label">Your turn, out loud</div>How could you start this story with <strong>dialogue</strong>? With a <strong>strong feeling</strong>? Tell your partner one sentence.</div>
+        </div>
+        <div class="btn-row"><button class="btn btn-purple" onclick="revealNext(this)">Reveal</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 9: TOPIC 2 ============ -->
+<div class="slide" id="slide9">
+  <div class="card">
+    <div class="eyebrow">Story idea 2 of 4</div>
+    <div class="poster">
+      <div class="poster-hero h-coral">
+        <svg class="art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><circle cx="90" cy="80" r="40" fill="#fff"/><circle cx="300" cy="200" r="60" fill="#fff"/><path d="M40 260 L200 120 L360 260 Z" fill="none" stroke="#fff" stroke-width="10"/><rect x="150" y="30" width="120" height="30" rx="15" fill="#fff"/></svg>
+        <div class="p-genre">Realistic / Sport</div>
+        <div class="p-title">The Night Before the Final</div>
+        <div class="p-what">The night before the state final (dance, netball, gymnastics, swimming, you choose), everything starts going wrong.</div>
+      </div>
+      <div class="poster-side">
+        <div class="reveal-step">
+          <div class="compare-box plain">
+            <div class="compare-eyebrow">A boring start</div>
+            <div class="compare-text">Tomorrow was the big final. I was feeling a bit nervous. I went to my room to pack my bag.</div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="compare-box rich">
+            <div class="compare-eyebrow">A sizzling start</div>
+            <div class="compare-text">My costume was gone. Not misplaced. Gone.</div>
+            <div class="reveal-step"><span class="type-tag tag-feeling">Strong feeling</span><span class="type-tag tag-senses">Sight</span><div class="teacher-note">Three short sentences. The panic is in the rhythm, not in the word "nervous".</div></div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="think-step"><div class="think-label">Your turn, out loud</div>Start this one with a <strong>sound</strong>. What could you hear the night before a final? Tell your partner.</div>
+        </div>
+        <div class="btn-row"><button class="btn btn-coral" onclick="revealNext(this)">Reveal</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 10: TOPIC 3 ============ -->
+<div class="slide" id="slide10">
+  <div class="card">
+    <div class="eyebrow">Story idea 3 of 4</div>
+    <div class="poster">
+      <div class="poster-hero h-teal">
+        <svg class="art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><circle cx="200" cy="150" r="110" fill="none" stroke="#fff" stroke-width="14"/><circle cx="200" cy="40" r="18" fill="#fff"/><circle cx="310" cy="150" r="18" fill="#fff"/><circle cx="200" cy="260" r="18" fill="#fff"/><circle cx="90" cy="150" r="18" fill="#fff"/><circle cx="278" cy="72" r="12" fill="#fff"/><circle cx="122" cy="228" r="12" fill="#fff"/></svg>
+        <div class="p-genre">Fantasy / Friendship</div>
+        <div class="p-title">The Friendship Bracelet</div>
+        <div class="p-what">A bracelet from a market stall lets you hear what your best friend is really thinking.</div>
+      </div>
+      <div class="poster-side">
+        <div class="reveal-step">
+          <div class="compare-box plain">
+            <div class="compare-eyebrow">A boring start</div>
+            <div class="compare-text">On Saturday Mum took me to the markets. I bought a bracelet. It was nice and it had blue beads.</div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="compare-box rich">
+            <div class="compare-eyebrow">A sizzling start</div>
+            <div class="compare-text">I heard her voice clearly, but her lips never moved.</div>
+            <div class="reveal-step"><span class="type-tag tag-senses">Sound and sight</span><div class="teacher-note">Two senses that do not agree. The reader's brain has to solve it, so it keeps reading.</div></div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="think-step"><div class="think-label">Your turn, out loud</div>Start this one with <strong>dialogue</strong>. What is the first thing you hear your best friend think? Tell your partner.</div>
+        </div>
+        <div class="btn-row"><button class="btn btn-teal" onclick="revealNext(this)">Reveal</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 11: TOPIC 4 ============ -->
+<div class="slide" id="slide11">
+  <div class="card">
+    <div class="eyebrow">Story idea 4 of 4</div>
+    <div class="poster">
+      <div class="poster-hero h-sky">
+        <svg class="art" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><path d="M60 250 L130 120 L200 250 Z" fill="#fff"/><path d="M200 250 L270 110 L340 250 Z" fill="#fff"/><circle cx="330" cy="60" r="26" fill="#fff"/><path d="M20 250 H380" stroke="#fff" stroke-width="8"/><circle cx="90" cy="40" r="4" fill="#fff"/><circle cx="160" cy="70" r="4" fill="#fff"/><circle cx="240" cy="40" r="4" fill="#fff"/></svg>
+        <div class="p-genre">Adventure / Suspense</div>
+        <div class="p-title">Lost on School Camp</div>
+        <div class="p-what">On the last night of camp, you step outside your cabin and every other cabin is empty.</div>
+      </div>
+      <div class="poster-side">
+        <div class="reveal-step">
+          <div class="compare-box plain">
+            <div class="compare-eyebrow">A boring start</div>
+            <div class="compare-text">I woke up in the middle of the night on camp. It was dark and cold. I looked around for my friends.</div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="compare-box rich">
+            <div class="compare-eyebrow">A sizzling start</div>
+            <div class="compare-text">Every sleeping bag was zipped up. Every one was empty.</div>
+            <div class="reveal-step"><span class="type-tag tag-senses">Sight</span><span class="type-tag tag-feeling">Strong feeling</span><div class="teacher-note">The boring start broke two rules. The sizzling start just shows us what she sees, and lets us feel the dread ourselves.</div></div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="think-step"><div class="think-label">Your turn, out loud</div>Start this one with <strong>action</strong> or a <strong>sound</strong>. The cabins are empty. What do you do first? What do you hear?</div>
+        </div>
+        <div class="btn-row"><button class="btn btn-sky" onclick="revealNext(this)">Reveal</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 12: SENTENCE SORT ============ -->
+<div class="slide" id="slide12">
+  <div class="card">
+    <div class="eyebrow">We do</div>
+    <h2>Sentence sort</h2>
+    <div class="book-box" style="margin-top:0;">
+      <div class="box-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+      <div><div class="box-label">In your book</div><div class="box-text">Rule up five columns with these headings. Read each sentence and write its <em>number</em> under the right heading. Be ready to explain why.</div></div>
+    </div>
+    <div class="sort-labels">
+      <div class="sort-label" style="background:var(--coral)">Action</div>
+      <div class="sort-label" style="background:var(--sky)">Dialogue</div>
+      <div class="sort-label" style="background:var(--purple)">Sound</div>
+      <div class="sort-label" style="background:#e0b400">Strong feeling</div>
+      <div class="sort-label" style="background:#888">Boring</div>
+    </div>
+    <div class="sort-cards">
+      <div class="sort-card a-sound" onclick="this.classList.add('revealed')"><div class="sc-num">1</div><div><div class="sc-text">The water swallowed Ruby's phone with a soft, final plop, and the pool went quiet.</div><div class="sc-ans">Sound</div></div></div>
+      <div class="sort-card a-dialogue" onclick="this.classList.add('revealed')"><div class="sc-num">2</div><div><div class="sc-text">"You're not going to believe what I just found," whispered Isla.</div><div class="sc-ans">Dialogue</div></div></div>
+      <div class="sort-card a-feeling" onclick="this.classList.add('revealed')"><div class="sc-num">3</div><div><div class="sc-text">My hands were shaking so badly I could barely hold the microphone.</div><div class="sc-ans">Strong feeling</div></div></div>
+      <div class="sort-card a-action" onclick="this.classList.add('revealed')"><div class="sc-num">4</div><div><div class="sc-text">Zara leapt over the fence and didn't look back.</div><div class="sc-ans">Action</div></div></div>
+      <div class="sort-card a-boring" onclick="this.classList.add('revealed')"><div class="sc-num">5</div><div><div class="sc-text">It was a normal Tuesday at Greenfield Primary.</div><div class="sc-ans">Boring</div></div></div>
+      <div class="sort-card a-sound" onclick="this.classList.add('revealed')"><div class="sc-num">6</div><div><div class="sc-text">A slow, flat beeping started up from the screen. The countdown had begun.</div><div class="sc-ans">Sound</div></div></div>
+      <div class="sort-card a-dialogue" onclick="this.classList.add('revealed')"><div class="sc-num">7</div><div><div class="sc-text">"Get down!" Mum shouted.</div><div class="sc-ans">Dialogue</div></div></div>
+      <div class="sort-card a-boring" onclick="this.classList.add('revealed')"><div class="sc-num">8</div><div><div class="sc-text">I woke up and looked out the window. It was raining.</div><div class="sc-ans">Boring</div></div></div>
+      <div class="sort-card a-feeling" onclick="this.classList.add('revealed')"><div class="sc-num">9</div><div><div class="sc-text">Jealousy burned in my chest as they called her name, not mine.</div><div class="sc-ans">Strong feeling</div></div></div>
+      <div class="sort-card a-action" onclick="this.classList.add('revealed')"><div class="sc-num">10</div><div><div class="sc-text">I grabbed the rope and swung out over the creek.</div><div class="sc-ans">Action</div></div></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-outline" onclick="revealAllSort()">Reveal all answers</button>
+    </div>
+    <p class="teacher-note">Click any sentence to reveal just that answer. Each way appears twice: Action 4 and 10, Dialogue 2 and 7, Sound 1 and 6, Strong feeling 3 and 9, Boring 5 and 8.</p>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 13: MAKEOVER ============ -->
+<div class="slide" id="slide13">
+  <div class="card">
+    <div class="eyebrow">We do</div>
+    <h2>Boring start makeover</h2>
+    <div class="book-box" style="margin-top:0;">
+      <div class="box-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+      <div><div class="box-label">In your book</div><div class="box-text">Rewrite each boring opening as a sizzling start. Use a <em>different way</em> each time and write the way you used in the margin. Bring in at least one sense. Star your favourite.</div></div>
+    </div>
+    <div class="makeover" id="mk1">
+      <div class="m-num">MAKEOVER 1</div>
+      <div class="m-boring">We got on the bus to go to school camp. It was a long drive.</div>
+      <div class="m-model"><div class="compare-eyebrow" style="color:var(--green)">One way it could go</div><div class="m-model-text">The bus lurched around the bend and every bag in the overhead rack slid six inches to the left. Somebody's lunchbox burst open. We had not even left the car park.</div><span class="type-tag tag-action">Action</span><span class="type-tag tag-senses">Sound and balance</span></div>
+      <button class="btn btn-outline m-btn" onclick="revealMakeover('mk1',this)">Show one way it could go</button>
+    </div>
+    <div class="makeover" id="mk2">
+      <div class="m-num">MAKEOVER 2</div>
+      <div class="m-boring">On Saturday I had my dance competition. I was a bit nervous.</div>
+      <div class="m-model"><div class="compare-eyebrow" style="color:var(--green)">One way it could go</div><div class="m-model-text">My legs had forgotten how to be legs. The music started, and for one terrible second I could not remember a single step.</div><span class="type-tag tag-feeling">Strong feeling</span><span class="type-tag tag-senses">Touch and sound</span></div>
+      <button class="btn btn-outline m-btn" onclick="revealMakeover('mk2',this)">Show one way it could go</button>
+    </div>
+    <div class="makeover" id="mk3">
+      <div class="m-num">MAKEOVER 3</div>
+      <div class="m-boring">My friend gave me a present. It was a bracelet.</div>
+      <div class="m-model"><div class="compare-eyebrow" style="color:var(--green)">One way it could go</div><div class="m-model-text">"Don't put it on yet," Ava said, glancing at the door. "Not until you're home. Promise me."</div><span class="type-tag tag-dialogue">Dialogue</span><span class="type-tag tag-senses">Sight</span></div>
+      <button class="btn btn-outline m-btn" onclick="revealMakeover('mk3',this)">Show one way it could go</button>
+    </div>
+    <div class="makeover" id="mk4">
+      <div class="m-num">MAKEOVER 4</div>
+      <div class="m-boring">I went to the library at lunchtime to find a book.</div>
+      <div class="m-model"><div class="compare-eyebrow" style="color:var(--green)">One way it could go</div><div class="m-model-text">Somewhere behind the history shelves, a book slid out and hit the floor with a flat, heavy slap. The library was supposed to be empty.</div><span class="type-tag tag-sound">Sound</span><span class="type-tag tag-senses">Sound</span></div>
+      <button class="btn btn-outline m-btn" onclick="revealMakeover('mk4',this)">Show one way it could go</button>
+    </div>
+    <div class="reveal-step">
+      <div class="think-step"><div class="think-label">Challenge</div>Can you combine two ways in one start? Try it on your favourite.</div>
+    </div>
+    <div class="btn-row"><button class="btn btn-gold" onclick="revealNext(this)">Reveal the challenge</button></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 14: WRITE ============ -->
+<div class="slide" id="slide14">
+  <div class="card">
+    <div class="eyebrow">You do</div>
+    <h2>Write your sizzling start</h2>
+    <p class="lead">Choose one story idea (or your own). Write the opening of that story in your book: a sizzling first line, then keep going for a paragraph. Pens down when the timer ends.</p>
+    <div class="choice-grid">
+      <div class="choice" style="background:linear-gradient(135deg,#6a3fc9,#9B5DE5)">The Door Behind the Library Shelf</div>
+      <div class="choice" style="background:linear-gradient(135deg,#e04e4e,#FF8C8C)">The Night Before the Final</div>
+      <div class="choice" style="background:linear-gradient(135deg,#1f9c92,#4ECDC4)">The Friendship Bracelet</div>
+      <div class="choice" style="background:linear-gradient(135deg,#1f5fd1,#3A86FF)">Lost on School Camp</div>
+    </div>
+    <ul class="check-list">
+      <li><span class="tick"></span><span>My first line starts where something is already happening.</span></li>
+      <li><span class="tick"></span><span>I used one of the four ways, and I can name it.</span></li>
+      <li><span class="tick"></span><span>At least one sense: sight, smell, sound, taste, touch or balance.</span></li>
+      <li><span class="tick"></span><span>No waking up, no weather, no "One day". Any sound is described, not shouted.</span></li>
+    </ul>
+    <div class="timer-wrap">
+      <div class="timer-display" id="timerDisplay">10:00</div>
+      <div class="timer-presets">
+        <button class="btn btn-outline" onclick="setTimer(5,this)">5 min</button>
+        <button class="btn btn-outline sel" onclick="setTimer(10,this)">10 min</button>
+        <button class="btn btn-outline" onclick="setTimer(15,this)">15 min</button>
+        <button class="btn btn-outline" onclick="setTimer(20,this)">20 min</button>
+      </div>
+      <div class="btn-row" style="margin-top:4px;">
+        <button class="btn btn-green" id="timerStart" onclick="toggleTimer()">Start</button>
+        <button class="btn btn-outline" onclick="resetTimer()">Reset</button>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 15: PARTNER CHECK ============ -->
+<div class="slide" id="slide15">
+  <div class="card">
+    <div class="eyebrow">You do</div>
+    <h2>Partner check</h2>
+    <p class="lead">Swap books. Read your partner's opening twice. Then write three things in the margin of their book.</p>
+    <div class="reveal-step">
+      <div class="think-step"><div class="think-label">1. Name the way</div>Which of the four ways did they use? Write it. If you cannot tell, write "Which way?" and talk about it.</div>
+    </div>
+    <div class="reveal-step">
+      <div class="think-step"><div class="think-label">2. Find the sense</div>Underline the words that let you see, smell, hear, taste, touch or feel the moment. If there are none, write "Sense?"</div>
+    </div>
+    <div class="reveal-step">
+      <div class="think-step"><div class="think-label">3. The question</div>Write the question the opening made you ask. ("Why is she running?" "What is behind the door?") That question is the reason a reader keeps going.</div>
+    </div>
+    <div class="reveal-step">
+      <div class="book-box">
+        <div class="box-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+        <div><div class="box-label">In your book</div><div class="box-text">Get your book back. Read your partner's three notes. Change <em>one</em> thing in your opening to make it sizzle harder.</div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-green" onclick="revealNext(this)">Reveal</button></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 16: EXIT SLIP ============ -->
+<div class="slide" id="slide16">
+  <div class="card">
+    <div class="eyebrow">Reflect</div>
+    <h2>Exit slip</h2>
+    <p class="lead">Answer on the last lines of today's page.</p>
+    <div class="reflect-item"><span class="r-n">1</span>Without looking back, write the four ways to sizzle.</div>
+    <div class="reflect-item"><span class="r-n">2</span>Which way did you use today, and which one will you try next time?</div>
+    <div class="reflect-item"><span class="r-n">3</span>Rewrite "CRASH!" as a described sound, in one sentence.</div>
+    <div class="btn-row"><button class="btn btn-coral" onclick="revealReflect()">Reveal next question</button></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" disabled onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+/* ============ NAVIGATION ============ */
+var slides=document.querySelectorAll('.slide');
+var sidebarItems=document.querySelectorAll('.sidebar-item');
+var totalSlides=slides.length;
+var currentSlide=0;
+
+function goToSlide(n){
+  if(n<0||n>=totalSlides)return;
+  slides[currentSlide].classList.remove('active');
+  sidebarItems[currentSlide].classList.remove('active');
+  currentSlide=n;
+  slides[currentSlide].classList.add('active');
+  sidebarItems[currentSlide].classList.add('active');
+  updateCounter();
+  if(document.activeElement)document.activeElement.blur();
+  window.scrollTo(0,0);
+}
+function nextSlide(){goToSlide(currentSlide+1);}
+function prevSlide(){goToSlide(currentSlide-1);}
+function updateCounter(){
+  document.querySelectorAll('.slide-counter').forEach(function(el){
+    el.textContent='Card '+(currentSlide+1)+' of '+totalSlides;
+  });
+  slides.forEach(function(s,i){
+    var btns=s.querySelectorAll('.slide-nav .nav-btn');
+    if(btns[0])btns[0].disabled=(i===0);
+    if(btns[1])btns[1].disabled=(i===totalSlides-1);
+  });
+}
+updateCounter();
+
+function toggleSidebar(){
+  var sb=document.getElementById('sidebar');
+  sb.classList.toggle('collapsed');
+  sb.classList.toggle('open');
+}
+
+/* Keyboard navigation (clicker compatible) */
+document.addEventListener('keydown',function(e){
+  var tag=document.activeElement?document.activeElement.tagName:'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;
+  if(document.activeElement)document.activeElement.blur();
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){
+    e.preventDefault();nextSlide();
+  }else if(e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='PageUp'){
+    e.preventDefault();prevSlide();
+  }
+},true);
+
+/* ============ GENERIC PROGRESSIVE REVEAL ============ */
+/* Reveals the next hidden .reveal-step inside the button's card, in document order.
+   Hides the button once nothing is left to reveal. */
+function revealNext(btn){
+  var card=btn.closest('.card');
+  var steps=card.querySelectorAll('.reveal-step');
+  for(var i=0;i<steps.length;i++){
+    if(!steps[i].classList.contains('visible')){
+      /* skip nested steps whose parent is still hidden */
+      var parent=steps[i].parentElement.closest('.reveal-step');
+      if(parent&&!parent.classList.contains('visible'))continue;
+      steps[i].classList.add('visible');
+      var remaining=false;
+      for(var j=0;j<steps.length;j++){if(!steps[j].classList.contains('visible'))remaining=true;}
+      if(!remaining)btn.classList.add('done');
+      return;
+    }
+  }
+  btn.classList.add('done');
+}
+
+/* ============ SOUND ROWS ============ */
+function showSound(link){
+  link.previousElementSibling.classList.add('shown');
+  link.classList.add('gone');
+}
+
+/* ============ SORT ============ */
+function revealAllSort(){
+  document.querySelectorAll('.sort-card').forEach(function(c){c.classList.add('revealed');});
+}
+
+/* ============ MAKEOVER ============ */
+function revealMakeover(id,btn){
+  document.getElementById(id).classList.add('revealed');
+  btn.classList.add('done');
+}
+
+/* ============ REFLECT ============ */
+var reflectStep=0;
+function revealReflect(){
+  var items=document.querySelectorAll('.reflect-item');
+  if(reflectStep<items.length){
+    items[reflectStep].classList.add('visible');
+    reflectStep++;
+  }
+  if(reflectStep>=items.length){
+    document.querySelector('#slide16 .btn-row .btn').classList.add('done');
+  }
+}
+
+/* ============ TIMER ============ */
+var timerTotal=600,timerLeft=600,timerId=null;
+var timerDisplay=document.getElementById('timerDisplay');
+function fmt(s){var m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r;}
+function paintTimer(){
+  timerDisplay.textContent=fmt(timerLeft);
+  timerDisplay.classList.toggle('warn',timerLeft>0&&timerLeft<=60);
+  timerDisplay.classList.toggle('done',timerLeft===0);
+}
+function setTimer(mins,btn){
+  stopTimer();
+  timerTotal=mins*60;timerLeft=timerTotal;
+  document.querySelectorAll('.timer-presets .btn').forEach(function(b){b.classList.remove('sel');});
+  if(btn)btn.classList.add('sel');
+  paintTimer();
+}
+function toggleTimer(){
+  if(timerId){stopTimer();return;}
+  if(timerLeft<=0)timerLeft=timerTotal;
+  document.getElementById('timerStart').textContent='Pause';
+  timerId=setInterval(function(){
+    timerLeft--;
+    if(timerLeft<=0){timerLeft=0;stopTimer();document.getElementById('timerStart').textContent='Start';}
+    paintTimer();
+  },1000);
+}
+function stopTimer(){
+  if(timerId){clearInterval(timerId);timerId=null;}
+  document.getElementById('timerStart').textContent='Start';
+}
+function resetTimer(){stopTimer();timerLeft=timerTotal;paintTimer();}
+paintTimer();
+</script>
+</body>
+</html>
