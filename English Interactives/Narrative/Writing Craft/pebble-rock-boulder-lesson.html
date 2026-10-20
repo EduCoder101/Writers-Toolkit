@@ -78,6 +78,7 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:30px 
 .mode.m-talk{background:var(--sky-light);color:#1f5fd1;} .mode.m-talk svg{background:var(--sky);}
 .mode.m-book{background:var(--gold-light);color:var(--gold-dark);} .mode.m-book svg{background:#e0b400;}
 .mode.m-board{background:var(--teal-light);color:var(--teal-dark);} .mode.m-board svg{background:var(--teal);}
+.mode.m-sheet{background:var(--green-light);color:#1d7a46;} .mode.m-sheet svg{background:var(--green);}
 .mode.m-watch{background:var(--purple-light);color:#6a3fc9;} .mode.m-watch svg{background:var(--purple);}
 
 /* LISC */
@@ -121,6 +122,12 @@ main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:30px 
 .box-icon{flex-shrink:0;width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;}
 .book-box .box-icon{background:#e0b400;}
 .learn-box .box-icon{background:var(--sky);}
+.sheet-box{background:var(--green-light);border-color:var(--green);}
+.sheet-box .box-icon{background:var(--green);}
+.sheet-box .box-label{color:#1d7a46;}
+.print-link{display:inline-flex;align-items:center;gap:8px;font-weight:600;color:#1d7a46;text-decoration:none;background:var(--green-light);border-radius:20px;padding:6px 14px;}
+.notebook.sheet{background-image:none;padding-left:28px;}
+.notebook.sheet::before{display:none;}
 .box-icon svg{width:26px;height:26px;}
 .box-label{font-size:clamp(13px,1.05vw,16px);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:4px;}
 .book-box .box-label{color:var(--gold-dark);}
@@ -408,6 +415,7 @@ details.helper .h-body ul{padding-left:20px;}
     <symbol id="i-board" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2" fill="none" stroke="#fff" stroke-width="2.2"/><path d="M8 20l4-4 4 4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" fill="none" stroke="#fff" stroke-width="2.2"/><circle cx="12" cy="12" r="3" fill="none" stroke="#fff" stroke-width="2.2"/></symbol>
     <symbol id="i-learn" viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 11-6-11-6Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M5 11.5V17c0 1 3 3 7 3s7-2 7-3v-5.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-sheet" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M15 3v4h4M9 12h7M9 16h7" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 11V7a4 4 0 0 1 8 0v4" fill="none" stroke="currentColor" stroke-width="2.2"/></symbol>
     <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 20V5M5 11l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-tick" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -459,14 +467,18 @@ details.helper .h-body ul{padding-left:20px;}
       <button class="sidebar-item" onclick="goToSlide(13)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal)"></span>4. Lost on School Camp</button>
     </div>
     <div class="sidebar-section">
-      <div class="sidebar-section-title">You do</div>
-      <button class="sidebar-item" onclick="goToSlide(14)" tabindex="-1"><span class="sidebar-dot" style="background:var(--green)"></span>Choose your topic</button>
-      <button class="sidebar-item" onclick="goToSlide(15)" tabindex="-1"><span class="sidebar-dot" style="background:var(--green)"></span>Plan your pebble and rock</button>
-      <button class="sidebar-item" onclick="goToSlide(16)" tabindex="-1"><span class="sidebar-dot" style="background:var(--green)"></span>The because test</button>
+      <div class="sidebar-section-title">On your own</div>
+      <button class="sidebar-item" onclick="goToSlide(14)" tabindex="-1"><span class="sidebar-dot" style="background:var(--green)"></span>Story starter ladders</button>
+      <button class="sidebar-item" onclick="goToSlide(15)" tabindex="-1"><span class="sidebar-dot" style="background:var(--green)"></span>The because test</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Your own story</div>
+      <button class="sidebar-item" onclick="goToSlide(16)" tabindex="-1"><span class="sidebar-dot" style="background:var(--green)"></span>Choose your topic</button>
+      <button class="sidebar-item" onclick="goToSlide(17)" tabindex="-1"><span class="sidebar-dot" style="background:var(--green)"></span>Plan your own ladder</button>
     </div>
     <div class="sidebar-section">
       <div class="sidebar-section-title">Reflect</div>
-      <button class="sidebar-item" onclick="goToSlide(17)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold)"></span>Exit slip</button>
+      <button class="sidebar-item" onclick="goToSlide(18)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold)"></span>Exit slip</button>
     </div>
   </div>
 </nav>
@@ -493,10 +505,10 @@ details.helper .h-body ul{padding-left:20px;}
         <li>One mini whiteboard and marker per group of 3 to 4. Decide groups and give each group a story idea (two groups per idea works well).</li>
         <li>Optional props for card 7: a real pebble and a fist-sized rock to hold up.</li>
         <li>Have your copies of <em>The Explorer</em> and <em>Mrs Frisby and the Rats of NIMH</em> handy. Cards 3 and 4 retell the moments in our own words, with chapter pointers so you can read the real pages aloud.</li>
-        <li>No printing needed. Students draw their Problem Ladder in their books (card 15) and keep it for Lessons 4 to 7.</li>
+        <li>Print the <a href="problem-ladders-a4.pdf" target="_blank">Problem Ladders sheet</a> double-sided, one per student: <strong>Story Starter Ladders</strong> on the front, blank <strong>My Problem Ladders</strong> on the back. Students glue it into their books after the lesson and keep it for Lessons 4 to 7.</li>
       </ul>
       <div class="tp-title">Suggested timing (40 minutes)</div>
-      <p>Hook and the three stories: 7 &middot; Rules, names and Lily's ladder: 8 &middot; Wobbly or strong: 3 &middot; Group challenge and share: 9 &middot; Plan your ladder: 10 &middot; Because test and exit slip: 3</p>
+      <p>Hook and the three stories: 6 &middot; Rules, names and Lily's ladder: 7 &middot; Wobbly or strong: 3 &middot; Group challenge and share: 8 &middot; Story starter ladders and because test: 9 &middot; Your own ladder: 5 &middot; Exit slip: 2</p><p>The flow is groups first (the four unit topics), then on their own with fresh stories (the story starters), then their own story. If time runs short, open Lesson 4 with the blank ladders.</p>
     </div>
   </div>
   <div class="slide-nav">
@@ -565,7 +577,7 @@ details.helper .h-body ul{padding-left:20px;}
     <div class="teacher-panel">
       <div class="tp-title">Say and ask</div>
       <p>Read Ella's story aloud in your most cheerful voice. Ask: "Is that a story? Would you read a whole book of it?" Steer to: nothing goes wrong, so there is nothing to worry about and no reason to keep reading.</p>
-      <p>Take two or three quick ideas for what <em>could</em> go wrong for Ella, then move on. We come back to Ella in the exit slip.</p>
+      <p>Take two or three quick ideas for what <em>could</em> go wrong for Ella, then move on. Ella is the first story on the story starter sheet later, so this warms them up.</p>
     </div>
   </div>
   <div class="slide-nav">
@@ -1251,11 +1263,112 @@ details.helper .h-body ul{padding-left:20px;}
   </div>
 </div>
 
-<!-- ============ SLIDE 14: CHOOSE YOUR TOPIC ============ -->
+<!-- ============ SLIDE 14: STORY STARTER LADDERS ============ -->
 <div class="slide" id="slide14">
   <div class="card">
-    <div class="card-head"><div class="eyebrow">You do</div><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
-    <h2>Choose your topic and set up your ladder</h2>
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">On your own</div><span class="mode m-sheet"><svg><use href="#i-sheet"/></svg>On your sheet</span></div>
+    <h2>Story starter ladders</h2>
+    <p class="lead">Your turn, on your own. Use the <strong>Story Starter Ladders</strong> side of your sheet. Four new stories, four ladders.</p>
+    <div class="chips">
+      <div class="chip h-sky">Ella goes to the beach for the day.</div>
+      <div class="chip h-purple">Zara has the main part in the school play.</div>
+      <div class="chip h-coral">Mia bakes a surprise birthday cake for Mum.</div>
+      <div class="chip h-teal">Grace takes her puppy, Biscuit, to the park.</div>
+    </div>
+    <div class="steps green">
+      <div class="step"><div class="st-n">01</div><div class="st-t">Start with Ella</div><div class="st-d">Remember what could go wrong for her at the beach? Build her ladder first.</div></div>
+      <div class="step"><div class="st-n">02</div><div class="st-t">Pebble, then rock</div><div class="st-d">Bottom rung first. Then what happens <strong>because of that</strong>?</div></div>
+      <div class="step"><div class="st-n">03</div><div class="st-t">Feelings</div><div class="st-d">How does the character feel on each rung? The feeling should grow.</div></div>
+      <div class="step"><div class="st-n">04</div><div class="st-t">Tick the tests</div><div class="st-d">Worry test. Because test. Then pick another story.</div></div>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="book-box sheet-box" style="margin-top:0">
+          <div class="box-icon"><svg><use href="#i-sheet"/></svg></div>
+          <div><div class="box-label">On your sheet</div><div class="box-text">Do Ella, then at least one more story. Leave every <em>boulder</em> empty: we will add them next lesson.</div></div>
+        </div>
+        <details class="helper">
+          <summary>Stuck? Questions for each story</summary>
+          <div class="h-body"><ul>
+            <li><b>Ella:</b> What could she lose or forget at the beach? Who is with her?</li>
+            <li><b>Zara:</b> What does she need for the play? Who is she counting on?</li>
+            <li><b>Mia:</b> What could go wrong in the kitchen? What if someone comes home early?</li>
+            <li><b>Grace:</b> What could Biscuit chase? What could Grace drop or forget?</li>
+          </ul></div>
+        </details>
+        <details class="helper">
+          <summary>Feelings words</summary>
+          <div class="h-body">
+          <div class="feel-cols">
+            <div style="background:var(--gold-light)"><b style="color:var(--gold-dark)">Pebble</b>annoyed, uneasy, puzzled, irritated, embarrassed, flustered</div>
+            <div style="background:var(--orange-light)"><b style="color:var(--orange-dark)">Rock</b>worried, nervous, anxious, upset, frustrated, frightened</div>
+          </div>
+          </div>
+        </details>
+      </div>
+      <div class="timer-wrap" data-mins="8">
+        <div class="timer-display">08:00</div>
+        <div class="timer-presets">
+          <button class="btn btn-outline" onclick="timerSet(this,5)">5 min</button>
+          <button class="btn btn-outline sel" onclick="timerSet(this,8)">8 min</button>
+          <button class="btn btn-outline" onclick="timerSet(this,10)">10 min</button>
+        </div>
+        <div class="btn-row" style="margin-top:2px">
+          <button class="btn btn-green t-start" onclick="timerToggle(this)">Start</button>
+          <button class="btn btn-outline" onclick="timerReset(this)">Reset</button>
+        </div>
+      </div>
+    </div>
+    <div class="teacher-panel">
+      <div class="tp-title">The sheet</div>
+      <p><a class="print-link" href="problem-ladders-a4.pdf" target="_blank">Open the printable Problem Ladders sheet (A4 PDF)</a></p>
+      <ul>
+        <li>Print double-sided, one per student, and hand it out story starter side up. The blank ladders on the back are for their own story later in the lesson.</li>
+        <li>These four stories are deliberately different from the group topics, so students practise on fresh problems before they plan their own story.</li>
+        <li>Everyone starts with Ella (warmed up in the hook). Fast finishers can do all four.</li>
+        <li>Support: build Ella's ladder together at the teacher table, then let them try Grace or Mia on their own.</li>
+        <li>Keep the sheets. In Lesson 4, students come back to these ladders and add the boulders.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 15: BECAUSE TEST ============ -->
+<div class="slide" id="slide15">
+  <div class="card">
+    <div class="card-head"><div class="eyebrow">On your own</div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Partners</span><span class="mode m-sheet"><svg><use href="#i-sheet"/></svg>On your sheet</span></div>
+    <h2>The because test</h2>
+    <p class="lead">Swap sheets with a partner. Choose one of their ladders and read it out as one sentence.</p>
+    <div class="frame-big">The pebble is <span class="gap"></span>, <span class="bc">and because of that</span>, <span class="gap"></span>.</div>
+    <div class="reveal-step">
+      <div class="think-step"><div class="think-label">Partner: check it</div>Thumbs up if "because of that" makes sense. Then point up if the rock is <strong>harder</strong> than the pebble. Not sure? Help each other fix it.</div>
+    </div>
+    <div class="reveal-step">
+      <div class="book-box sheet-box">
+        <div class="box-icon"><svg><use href="#i-sheet"/></svg></div>
+        <div><div class="box-label">On your sheet</div><div class="box-text">Get your sheet back. Make one change to make a ladder stronger. Tick the two tests under it: <em>Worry test</em> <em>Because test</em></div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-green" onclick="revealNext(this)">Reveal</button></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 16: CHOOSE YOUR TOPIC ============ -->
+<div class="slide" id="slide16">
+  <div class="card">
+    <div class="card-head"><div class="eyebrow">Your own story</div><span class="mode m-sheet"><svg><use href="#i-sheet"/></svg>On your sheet</span></div>
+    <h2>Choose your topic for your own story</h2>
     <div class="journey">
       <div class="jstone done"><div class="j-n">01</div><div class="j-t">Sizzling start</div><div class="j-l">Lesson 1</div></div>
       <div class="jstone done"><div class="j-n">02</div><div class="j-t">Backfill</div><div class="j-l">Lesson 2</div></div>
@@ -1275,17 +1388,17 @@ details.helper .h-body ul{padding-left:20px;}
         </div>
         <p style="font-size:clamp(16px,1.5vw,20px);color:var(--ink-light)">Your own idea is fine too, if your teacher says yes.</p>
         <div class="think-step"><div class="think-label">Look back</div>Find your sizzling start and backfill from Lessons 1 and 2. If they fit your topic, keep them. They are the beginning of your story.</div>
-        <div class="book-box">
-          <div class="box-icon"><svg><use href="#i-book"/></svg></div>
-          <div><div class="box-label">In your book</div><div class="box-text">Turn to a new page and set it out like the picture. Draw the ladder with three rungs: <em>PEBBLE</em> at the bottom, <em>ROCK</em> in the middle, <em>BOULDER</em> at the top. Keep this page safe: you will use it until your story is finished.</div></div>
+        <div class="book-box sheet-box">
+          <div class="box-icon"><svg><use href="#i-sheet"/></svg></div>
+          <div><div class="box-label">On your sheet</div><div class="box-text">Turn your sheet over to <em>My Problem Ladders</em>. Write your topic on the <em>Story</em> line of the first ladder. Can't decide? Try two topics on two ladders, then star the one you will write. Glue the sheet into your book: you will use it until your story is finished.</div></div>
         </div>
       </div>
       <div>
-        <div class="notebook" id="notebook">
-          <div class="nb-title">My Problem Ladder</div>
+        <div class="notebook sheet" id="notebook">
+          <div class="nb-title">My Problem Ladders</div>
           <div class="nb-blank">
-            <div class="nb-line">My topic: <span class="blank" style="min-width:220px"></span></div>
-            <div class="nb-line">My main character: <span class="q" style="color:#8a8f94">name, age, one strength, one worry</span></div>
+            <div class="nb-line">Story: <span class="blank" style="min-width:240px"></span></div>
+            <div class="nb-line">Character: <span class="q" style="color:#8a8f94">name, strength, worry</span></div>
             <div class="nb-ladder">
               <div class="nb-rung empty"><b>BOULDER</b><br>Leave this empty until next lesson.</div>
               <div class="nb-rung"><b>ROCK</b><br><span class="q">What happens because of the pebble?</span><br><span class="q">How does my character feel?</span></div>
@@ -1293,8 +1406,8 @@ details.helper .h-body ul{padding-left:20px;}
             </div>
           </div>
           <div class="nb-example">
-            <div class="nb-line">My topic: <span class="nb-ink">my camp story</span></div>
-            <div class="nb-line">My main character: <span class="nb-ink">Lily, 11. Strength: remembers everything. Worry: secretly scared of the dark.</span></div>
+            <div class="nb-line">Story: <span class="nb-ink">my camp story</span></div>
+            <div class="nb-line">Character: <span class="nb-ink">Lily, 11. Strength: remembers everything. Worry: secretly scared of the dark.</span></div>
             <div class="nb-ladder">
               <div class="nb-rung empty"><b>BOULDER</b><br>Leave this empty until next lesson.</div>
               <div class="nb-rung"><b>ROCK</b><br><span class="nb-ink">Because it's so dark, she takes the wrong track and gets lost.</span><br><span class="nb-ink">Feels: worried, scared</span></div>
@@ -1302,7 +1415,7 @@ details.helper .h-body ul{padding-left:20px;}
             </div>
           </div>
         </div>
-        <div class="btn-row"><button class="btn btn-outline" id="nbBtn" onclick="toggleNotebook()">Show Lily's page</button></div>
+        <div class="btn-row"><button class="btn btn-outline" id="nbBtn" onclick="toggleNotebook()">Show Lily's ladder</button></div>
       </div>
     </div>
   </div>
@@ -1313,17 +1426,17 @@ details.helper .h-body ul{padding-left:20px;}
   </div>
 </div>
 
-<!-- ============ SLIDE 15: PLAN ============ -->
-<div class="slide" id="slide15">
+<!-- ============ SLIDE 17: PLAN ============ -->
+<div class="slide" id="slide17">
   <div class="card">
     <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
-    <div class="card-head"><div class="eyebrow">You do</div><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
-    <h2>Plan your pebble and rock</h2>
+    <div class="card-head"><div class="eyebrow">Your own story</div><span class="mode m-sheet"><svg><use href="#i-sheet"/></svg>On your sheet</span></div>
+    <h2>Plan your own ladder</h2>
     <div class="steps green">
-      <div class="step"><div class="st-n">01</div><div class="st-t">Topic and character</div><div class="st-d">Name, age, one strength, one worry.</div></div>
-      <div class="step"><div class="st-n">02</div><div class="st-t">Your pebble</div><div class="st-d">What goes wrong first? Look at your sizzling start. Is something already going wrong? That might be your pebble.</div></div>
-      <div class="step"><div class="st-n">03</div><div class="st-t">Your rock</div><div class="st-d">What happens <strong>because of</strong> your pebble? Make it harder.</div></div>
-      <div class="step"><div class="st-n">04</div><div class="st-t">Feelings</div><div class="st-d">How does your character feel on each rung? The feeling should grow.</div></div>
+      <div class="step"><div class="st-n">01</div><div class="st-t">Story and character</div><div class="st-d">Fill the top two lines: your topic, then your character's name, one strength and one worry.</div></div>
+      <div class="step"><div class="st-n">02</div><div class="st-t">Your pebble</div><div class="st-d">Bottom rung. What goes wrong first? Look at your sizzling start. Is something already going wrong? That might be your pebble.</div></div>
+      <div class="step"><div class="st-n">03</div><div class="st-t">Your rock</div><div class="st-d">Middle rung. What happens <strong>because of</strong> your pebble? Make it harder.</div></div>
+      <div class="step"><div class="st-n">04</div><div class="st-t">Feelings and tests</div><div class="st-d">Write the feeling on each rung, then tick the two tests. Leave the boulder for next lesson.</div></div>
     </div>
     <div class="helpers">
       <details class="helper">
@@ -1352,12 +1465,12 @@ details.helper .h-body ul{padding-left:20px;}
         <li><span class="tick"></span><span>My rock happens because of my pebble. (Because test)</span></li>
         <li><span class="tick"></span><span>I wrote how my character feels on both rungs.</span></li>
       </ul>
-      <div class="timer-wrap" data-mins="10">
-        <div class="timer-display">10:00</div>
+      <div class="timer-wrap" data-mins="8">
+        <div class="timer-display">08:00</div>
         <div class="timer-presets">
           <button class="btn btn-outline" onclick="timerSet(this,5)">5 min</button>
-          <button class="btn btn-outline sel" onclick="timerSet(this,10)">10 min</button>
-          <button class="btn btn-outline" onclick="timerSet(this,15)">15 min</button>
+          <button class="btn btn-outline sel" onclick="timerSet(this,8)">8 min</button>
+          <button class="btn btn-outline" onclick="timerSet(this,10)">10 min</button>
         </div>
         <div class="btn-row" style="margin-top:2px">
           <button class="btn btn-green t-start" onclick="timerToggle(this)">Start</button>
@@ -1371,6 +1484,7 @@ details.helper .h-body ul{padding-left:20px;}
         <li>Rove and ask: "How does your pebble lead to your rock?" and "What is your character worried about? Can your problems poke at it?"</li>
         <li>Support: sit with a small group at the teacher table and use the pebble finder questions together. Accept a pebble and rock without feelings at first, then add one feeling word each.</li>
         <li>Extension: the Go further box. Ask early finishers to write the paragraph where the pebble happens.</li>
+        <li>Short on time? Open Lesson 4 with this card. The sheet is already in their books.</li>
       </ul>
     </div>
   </div>
@@ -1381,46 +1495,21 @@ details.helper .h-body ul{padding-left:20px;}
   </div>
 </div>
 
-<!-- ============ SLIDE 16: BECAUSE TEST ============ -->
-<div class="slide" id="slide16">
-  <div class="card">
-    <div class="card-head"><div class="eyebrow">You do</div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Partners</span><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
-    <h2>The because test</h2>
-    <p class="lead">Turn to a partner. Read your ladder to them as one sentence.</p>
-    <div class="frame-big">My pebble is <span class="gap"></span>, <span class="bc">and because of that</span>, <span class="gap"></span>.</div>
-    <div class="reveal-step">
-      <div class="think-step"><div class="think-label">Partner: check it</div>Thumbs up if "because of that" makes sense. Then point up if the rock is <strong>harder</strong> than the pebble. Not sure? Help each other fix it.</div>
-    </div>
-    <div class="reveal-step">
-      <div class="book-box">
-        <div class="box-icon"><svg><use href="#i-book"/></svg></div>
-        <div><div class="box-label">In your book</div><div class="box-text">Make one change to your ladder to make it stronger. Tick the two tests next to your rock: <em>Worry test</em> <em>Because test</em></div></div>
-      </div>
-    </div>
-    <div class="btn-row"><button class="btn btn-green" onclick="revealNext(this)">Reveal</button></div>
-  </div>
-  <div class="slide-nav">
-    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
-    <span class="slide-counter"></span>
-    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
-  </div>
-</div>
-
-<!-- ============ SLIDE 17: EXIT SLIP ============ -->
-<div class="slide" id="slide17">
+<!-- ============ SLIDE 18: EXIT SLIP ============ -->
+<div class="slide" id="slide18">
   <div class="card">
     <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
     <div class="card-head"><div class="eyebrow">Reflect</div><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
     <h2>Exit slip</h2>
-    <p class="lead">Answer under your ladder.</p>
+    <p class="lead">Answer in your book, under your glued-in sheet.</p>
     <div class="reflect-item"><span class="r-n">1</span>Without looking back, write the two rules for a problem ladder.</div>
-    <div class="reflect-item"><span class="r-n">2</span>Remember Ella at the beach? Give her a pebble and a rock, joined with "because of that".<small>Ella went to the beach. She swam and built a sandcastle. She had a lovely day.</small></div>
+    <div class="reflect-item"><span class="r-n">2</span>Look at all your ladders from today. Which one is the strongest? Explain why, using the words <em>worry test</em> and <em>because test</em>.</div>
     <div class="reflect-item"><span class="r-n">3</span>Predict: what could your boulder be?<small>Hint: what is your character most worried about?</small></div>
     <div class="btn-row"><button class="btn btn-gold" onclick="revealReflect(this)">Reveal next question</button></div>
     <div class="teacher-panel">
       <div class="tp-title">Assessment check</div>
       <p>Collect books or walk the room. Look for: a clear pebble and a bigger rock; a cause-and-effect link between them (the because test); problems that suit the chosen topic; a feeling on each rung.</p>
-      <p>Note students whose rock is not connected, or not bigger than the pebble, and conference with them before Lesson 4. Question 2 shows who can transfer the idea to a new story.</p>
+      <p>Note students whose rock is not connected, or not bigger than the pebble, and conference with them before Lesson 4. The story starter side shows who can use the idea on a brand new story; question 2 shows who can explain it.</p>
     </div>
   </div>
   <div class="slide-nav">
@@ -1611,7 +1700,7 @@ wqRender();
 function toggleNotebook(){
   var nb=document.getElementById('notebook');
   var on=nb.classList.toggle('show-ex');
-  document.getElementById('nbBtn').textContent=on?'Show the empty page':"Show Lily's page";
+  document.getElementById('nbBtn').textContent=on?'Show the empty ladder':"Show Lily's ladder";
 }
 
 /* ============ REFLECT ============ */
