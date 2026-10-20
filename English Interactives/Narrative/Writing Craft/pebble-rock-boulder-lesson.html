@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Pebble, Rock, Boulder Lesson 3 - Stories need problems, and tension builds when a small problem grows into a bigger one. Teacher-paced Writer's Toolkit lesson for Stage 3 English.">
+<title>Pebble, Rock, Boulder | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF8F5;--ink:#2D3436;--ink-light:#636E72;
+  --teal:#4ECDC4;--teal-light:#d0f0ec;--teal-dark:#1f9c92;
+  --coral:#FF6B6B;--coral-light:#ffe0e0;--coral-dark:#c0392b;
+  --gold:#FFD93D;--gold-light:#fdf2d0;--gold-dark:#9a7400;
+  --orange:#FF9F43;--orange-light:#ffe8d1;--orange-dark:#b85e00;
+  --purple:#9B5DE5;--purple-light:#f0e6ff;
+  --sky:#3A86FF;--sky-light:#dce8ff;
+  --green:#27AE60;--green-light:#d3f9d8;
+  --wood:#d8c3a5;--wood-dark:#b89b74;
+  --card:#fff;
+  --shadow:0 4px 20px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.12);
+  --radius:18px;
+  --sidebar-bg:#2D3436;--sidebar-w:250px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Fredoka',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+.num{font-family:'Space Mono',monospace;}
+
+/* Floating background shapes */
+.bg-shapes{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;}
+.bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:var(--gold);}
+.bg-shape:nth-child(2){width:400px;height:400px;top:20%;right:-8%;background:var(--coral);}
+.bg-shape:nth-child(3){width:350px;height:350px;bottom:15%;left:10%;background:var(--orange);}
+.bg-shape:nth-child(4){width:450px;height:450px;bottom:-5%;right:15%;background:var(--sky);}
+.bg-shape:nth-child(5){width:300px;height:300px;top:50%;left:40%;background:var(--teal);}
+
+/* Top bar */
+.top-bar{background:var(--sidebar-bg);color:#fff;position:sticky;top:0;z-index:200;display:flex;align-items:center;height:48px;border-bottom:2px solid rgba(255,255,255,0.08);}
+.sidebar-toggle{background:none;border:none;border-right:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;height:100%;padding:0 16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.top-bar-title{font-weight:600;font-size:0.95rem;padding:0 22px;letter-spacing:0.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.top-bar-title span{color:var(--gold);}
+.top-bar .back-link{margin-left:auto;color:var(--gold);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.75;transition:opacity 0.2s;}
+.top-bar .back-link:hover{opacity:1;}
+
+/* Sidebar */
+.sidebar{position:fixed;left:0;top:48px;width:var(--sidebar-w);height:calc(100vh - 48px);background:var(--sidebar-bg);color:#fff;z-index:100;overflow-y:auto;transition:width 0.3s ease;}
+.sidebar.collapsed{width:0;overflow:hidden;}
+.sidebar-content{padding:14px 0 30px;}
+.sidebar-section{margin-bottom:8px;}
+.sidebar-section-title{font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 18px 5px;}
+.sidebar-item{background:none;border:none;color:rgba(255,255,255,0.62);font-family:'Fredoka',sans-serif;font-size:0.86rem;font-weight:500;cursor:pointer;padding:8px 18px;width:100%;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:10px;}
+.sidebar-item:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.sidebar-item.active{background:rgba(255,217,61,0.14);color:#fff;border-left:4px solid var(--gold);padding-left:14px;}
+.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* Main: projector-first, wide */
+main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:30px 56px 80px;position:relative;z-index:1;}
+.sidebar.collapsed~main{margin-left:0;}
+.slide{display:none;max-width:1560px;margin:0 auto;animation:fadeIn 0.4s ease;}
+.slide.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* Card */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:36px 50px 40px;margin-bottom:22px;position:relative;}
+.card h2{font-size:clamp(30px,3.4vw,48px);font-weight:700;margin-bottom:12px;line-height:1.12;}
+.card h3{font-size:clamp(21px,2.1vw,29px);font-weight:600;margin-bottom:8px;}
+.card p,.card li{font-size:clamp(18px,1.85vw,25px);line-height:1.55;}
+.card-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px;}
+.eyebrow{font-size:clamp(13px,1.05vw,16px);letter-spacing:2.5px;text-transform:uppercase;font-weight:700;color:var(--coral);}
+.lead{color:var(--ink-light);margin-bottom:16px;max-width:1250px;}
+
+/* Mode chips: what students are doing on this card */
+.mode{display:inline-flex;align-items:center;gap:8px;border-radius:30px;padding:6px 14px 6px 8px;font-size:clamp(13px,1.05vw,16px);font-weight:600;}
+.mode svg{width:22px;height:22px;border-radius:50%;padding:3px;}
+.mode.m-talk{background:var(--sky-light);color:#1f5fd1;} .mode.m-talk svg{background:var(--sky);}
+.mode.m-book{background:var(--gold-light);color:var(--gold-dark);} .mode.m-book svg{background:#e0b400;}
+.mode.m-board{background:var(--teal-light);color:var(--teal-dark);} .mode.m-board svg{background:var(--teal);}
+.mode.m-watch{background:var(--purple-light);color:#6a3fc9;} .mode.m-watch svg{background:var(--purple);}
+
+/* LISC */
+.lisc{background:linear-gradient(135deg,#fff,#fff8e6);border-radius:var(--radius);box-shadow:var(--shadow);padding:34px 46px;margin-bottom:22px;border-left:6px solid var(--gold);position:relative;}
+.lisc-li{font-size:clamp(20px,2vw,26px);font-weight:600;margin:0 0 8px;color:var(--gold-dark);}
+.lisc-li-text{color:var(--ink);font-weight:500;font-size:clamp(23px,2.4vw,33px);line-height:1.35;}
+.lisc-sc-title{font-size:clamp(13px,1.05vw,16px);letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dark);font-weight:700;margin:22px 0 8px;}
+.lisc ul{margin:0;padding-left:26px;}
+.lisc li{font-size:clamp(18px,1.8vw,24px);color:var(--ink);margin:7px 0;line-height:1.45;}
+
+/* Slide nav */
+.slide-nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;padding-top:14px;border-top:1px solid #eee;}
+.nav-btn{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 30px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;background:var(--ink);color:#fff;}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.nav-btn:disabled{opacity:0.25;cursor:not-allowed;transform:none;box-shadow:none;}
+.slide-counter{font-size:0.95rem;color:var(--ink-light);letter-spacing:1px;}
+
+/* Buttons */
+.btn{font-family:'Fredoka',sans-serif;font-size:clamp(16px,1.35vw,20px);font-weight:600;padding:13px 30px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn-coral{background:var(--coral);color:#fff;}
+.btn-sky{background:var(--sky);color:#fff;}
+.btn-purple{background:var(--purple);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-orange{background:var(--orange);color:#fff;}
+.btn-teal{background:var(--teal-dark);color:#fff;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-outline{background:#fff;color:var(--ink);border:2px solid #ddd;}
+.btn.done{display:none;}
+.btn:disabled{opacity:0.35;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-row{text-align:center;margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center;}
+
+/* Reveal steps */
+.reveal-step{opacity:0;max-height:0;overflow:hidden;transition:opacity 0.45s ease,max-height 0.5s ease,margin 0.45s ease;margin-top:0;}
+.reveal-step.visible{opacity:1;max-height:3000px;margin-top:16px;}
+
+/* Book, learn and talk boxes */
+.book-box,.learn-box{display:flex;gap:16px;align-items:flex-start;border-radius:14px;padding:18px 22px;margin:16px 0 0;}
+.book-box{background:var(--gold-light);border:2px solid var(--gold);}
+.learn-box{background:var(--sky-light);border:2px solid var(--sky);}
+.box-icon{flex-shrink:0;width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;}
+.book-box .box-icon{background:#e0b400;}
+.learn-box .box-icon{background:var(--sky);}
+.box-icon svg{width:26px;height:26px;}
+.box-label{font-size:clamp(13px,1.05vw,16px);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:4px;}
+.book-box .box-label{color:var(--gold-dark);}
+.learn-box .box-label{color:#1f5fd1;}
+.box-text{font-size:clamp(18px,1.75vw,23px);line-height:1.5;font-weight:500;}
+.box-text em{font-style:normal;background:rgba(255,255,255,0.75);padding:1px 7px;border-radius:5px;}
+.think-step{background:#f8f9fa;border-left:5px solid var(--sky);border-radius:0 14px 14px 0;padding:16px 24px;margin:10px 0;font-size:clamp(18px,1.8vw,24px);line-height:1.5;}
+.think-label{font-size:clamp(13px,1.05vw,16px);letter-spacing:2px;text-transform:uppercase;color:#1f5fd1;font-weight:700;margin-bottom:4px;}
+.think-step.big-idea{border-left-color:var(--coral);}
+.think-step.big-idea .think-label{color:var(--coral-dark);}
+
+/* Teacher notes */
+.teacher-btn{position:absolute;top:18px;right:22px;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;color:var(--ink-light);background:#f3f1ee;border:1px dashed #c9c3bb;border-radius:20px;padding:6px 14px;cursor:pointer;}
+.teacher-btn:hover{background:#ebe7e1;}
+.teacher-panel{display:none;background:#fbfaf7;border:2px dashed #d5cec4;border-radius:14px;padding:18px 24px;margin-top:18px;}
+.teacher-panel.open{display:block;animation:fadeIn 0.3s ease;}
+.teacher-panel .tp-title{font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--ink-light);margin-bottom:6px;}
+.teacher-panel p,.teacher-panel li{font-size:clamp(15px,1.3vw,18px);line-height:1.55;color:#4a4f52;}
+.teacher-panel ul{padding-left:22px;margin:4px 0 8px;}
+.teacher-panel li{margin:3px 0;}
+
+/* Hook */
+.hook-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:30px;align-items:center;margin:8px 0 6px;}
+.story-page{background:#fffdf8;border:2px solid #eee3d3;border-radius:16px;padding:30px 36px;font-size:clamp(24px,2.5vw,36px);line-height:1.6;font-weight:500;box-shadow:var(--shadow);}
+.story-page .the-end{display:block;margin-top:12px;color:var(--ink-light);font-size:0.8em;}
+.pic{border-radius:16px;overflow:hidden;box-shadow:var(--shadow);background:#fff;}
+.pic svg{display:block;width:100%;height:auto;}
+
+/* Poster (stories and topics) */
+.poster{display:grid;grid-template-columns:1fr 1.15fr;gap:30px;align-items:start;}
+.poster.story{align-items:stretch;}
+.poster-hero{border-radius:18px;padding:32px 32px;color:#fff;min-height:330px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;}
+.poster-hero svg.art{position:absolute;inset:0;width:100%;height:100%;opacity:0.22;}
+.poster-hero .p-genre{font-size:clamp(13px,1.05vw,16px);letter-spacing:3px;text-transform:uppercase;font-weight:700;opacity:0.92;position:relative;}
+.poster-hero .p-title{font-size:clamp(32px,3.3vw,50px);font-weight:700;line-height:1.08;margin:8px 0 6px;position:relative;}
+.poster-hero .p-by{font-size:clamp(16px,1.4vw,20px);opacity:0.9;position:relative;margin-bottom:12px;}
+.poster-hero .p-what{font-size:clamp(18px,1.7vw,24px);line-height:1.45;opacity:0.97;position:relative;}
+.h-jungle{background:linear-gradient(135deg,#17694a,#2fa36f);}
+.h-field{background:linear-gradient(135deg,#a85a12,#e08a2c);}
+.h-sky{background:linear-gradient(135deg,#1f5fd1,#3A86FF);}
+.h-purple{background:linear-gradient(135deg,#6a3fc9,#9B5DE5);}
+.h-coral{background:linear-gradient(135deg,#d94848,#FF8C8C);}
+.h-teal{background:linear-gradient(135deg,#1f9c92,#4ECDC4);}
+.h-blue{background:linear-gradient(135deg,#1f5fd1,#3A86FF);}
+
+/* Ladder */
+.ladder{position:relative;display:flex;flex-direction:column-reverse;gap:0;padding:16px 36px;isolation:isolate;}
+.ladder::before,.ladder::after{content:"";position:absolute;top:0;bottom:0;width:14px;border-radius:8px;background:var(--wood);z-index:-1;}
+.ladder::before{left:8px;} .ladder::after{right:8px;}
+.rung{position:relative;background:#fff;border-radius:14px;box-shadow:0 3px 14px rgba(0,0,0,0.08);padding:14px 20px 16px;border-left:8px solid #ddd;min-height:96px;}
+.rung::before{content:"";position:absolute;left:-36px;right:-36px;top:50%;height:12px;margin-top:-6px;background:var(--wood);border-radius:6px;z-index:-1;}
+.rung-tag{display:inline-flex;align-items:center;gap:6px;font-size:clamp(13px,1.05vw,16px);letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:6px;}
+.rung-text{font-size:clamp(18px,1.75vw,24px);line-height:1.45;font-weight:500;}
+.rung-text b{color:var(--coral-dark);font-weight:700;}
+.rung .reveal-step.visible{margin-top:2px;}
+.rq{font-size:clamp(26px,2.4vw,34px);font-weight:700;color:#cfcfcf;line-height:1.1;}
+.reveal-step.visible ~ .rq{display:none;}
+.feels{font-size:clamp(15px,1.35vw,19px);color:var(--ink-light);margin-top:6px;}
+.feels span{font-weight:700;color:var(--ink);}
+.worry{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:clamp(13px,1.05vw,15px);font-weight:600;color:var(--ink-light);letter-spacing:1px;text-transform:uppercase;}
+.worry .bar{flex:0 1 220px;height:10px;background:#eee;border-radius:6px;overflow:hidden;}
+.worry .bar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#FFD93D,#FF9F43 60%,#FF6B6B);}
+.link-arrow{display:flex;justify-content:center;align-items:center;gap:8px;height:46px;font-size:clamp(14px,1.2vw,17px);font-weight:700;color:var(--coral-dark);}
+.link-arrow svg{width:28px;height:28px;}
+.link-arrow .pill{background:var(--coral-light);border-radius:20px;padding:4px 12px;}
+.t-1,.t-pebble{border-left-color:var(--gold);} .t-1 .rung-tag,.t-pebble .rung-tag{background:var(--gold-light);color:var(--gold-dark);}
+.t-2,.t-rock{border-left-color:var(--orange);} .t-2 .rung-tag,.t-rock .rung-tag{background:var(--orange-light);color:var(--orange-dark);}
+.t-3,.t-boulder{border-left-color:var(--coral);} .t-3 .rung-tag,.t-boulder .rung-tag{background:var(--coral-light);color:var(--coral-dark);}
+.rung.locked{background:#f6f5f3;border-left-color:#cfcfcf;box-shadow:none;border:2px dashed #d6d2cc;border-left:8px solid #cfcfcf;}
+.rung.locked .rung-tag{background:#ebe8e4;color:#8a8580;}
+.lock-line{display:flex;align-items:center;gap:10px;color:#8a8580;font-size:clamp(16px,1.5vw,21px);font-weight:500;}
+.lock-line svg{width:24px;height:24px;flex-shrink:0;}
+
+/* Notice recap */
+.recap{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:10px 0 4px;}
+.recap-col{background:#fff;border-radius:14px;box-shadow:var(--shadow);overflow:hidden;}
+.recap-col .rc-title{color:#fff;font-weight:700;font-size:clamp(17px,1.6vw,22px);padding:10px 18px;}
+.recap-col .rc-body{padding:12px 18px 16px;}
+.rc-p{font-size:clamp(15px,1.4vw,19px);line-height:1.4;padding:8px 12px;border-radius:10px;}
+.rc-p.one{background:var(--gold-light);}
+.rc-p.two{background:var(--orange-light);}
+.rc-arrow{text-align:center;color:var(--ink-light);line-height:1;padding:4px 0;}
+.rc-arrow svg{width:22px;height:22px;}
+.rc-p .num{font-weight:700;margin-right:8px;opacity:0.7;}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.rule{border-radius:16px;padding:24px 28px;border:3px solid;}
+.rule.r-harder{border-color:var(--orange);background:#fff8f1;}
+.rule.r-connected{border-color:var(--coral);background:#fff5f5;}
+.rule .r-no{font-size:clamp(14px,1.15vw,17px);letter-spacing:3px;text-transform:uppercase;font-weight:700;}
+.rule.r-harder .r-no{color:var(--orange-dark);}
+.rule.r-connected .r-no{color:var(--coral-dark);}
+.rule .r-what{font-size:clamp(24px,2.5vw,36px);font-weight:700;line-height:1.2;margin:6px 0 12px;}
+.rule .r-test{background:#fff;border-radius:12px;padding:14px 18px;font-size:clamp(17px,1.6vw,22px);line-height:1.45;}
+.rule .r-test strong{display:block;font-size:clamp(14px,1.15vw,17px);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.meter-demo{display:flex;align-items:flex-end;gap:14px;height:90px;margin-top:12px;}
+.meter-demo div{flex:1;border-radius:10px 10px 4px 4px;display:flex;align-items:flex-end;justify-content:center;color:#fff;font-weight:700;font-size:clamp(13px,1.1vw,16px);padding-bottom:6px;}
+.frame{display:inline-block;background:var(--coral-light);border-radius:8px;padding:2px 10px;font-weight:600;}
+
+/* Name them: three panels */
+.stones{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:14px 0 4px;}
+.stone-panel{background:#fff;border-radius:16px;box-shadow:var(--shadow);overflow:hidden;border-top:8px solid #ddd;position:relative;height:100%;}
+.stone-panel .sp-art{background:#fbf6ee;}
+.stone-panel .sp-art svg{display:block;width:100%;height:auto;}
+.stone-panel .sp-body{padding:16px 22px 20px;}
+.stone-panel .sp-name{font-size:clamp(26px,2.6vw,38px);font-weight:700;line-height:1.1;}
+.stone-panel .sp-pic{font-size:clamp(16px,1.5vw,21px);color:var(--ink-light);line-height:1.45;margin:6px 0 10px;}
+.stone-panel .sp-def{font-size:clamp(17px,1.6vw,22px);font-weight:600;line-height:1.4;padding:10px 14px;border-radius:10px;}
+.sp-pebble{border-top-color:var(--gold);} .sp-pebble .sp-name{color:var(--gold-dark);} .sp-pebble .sp-def{background:var(--gold-light);}
+.sp-rock{border-top-color:var(--orange);} .sp-rock .sp-name{color:var(--orange-dark);} .sp-rock .sp-def{background:var(--orange-light);}
+.sp-boulder{border-top-color:var(--coral);} .sp-boulder .sp-name{color:var(--coral-dark);} .sp-boulder .sp-def{background:var(--coral-light);}
+.sp-lock{position:absolute;top:14px;right:14px;background:rgba(45,52,54,0.85);color:#fff;border-radius:20px;padding:6px 14px;font-weight:600;font-size:clamp(13px,1.1vw,16px);display:flex;align-items:center;gap:6px;}
+.sp-lock svg{width:16px;height:16px;}
+.stones .reveal-step.visible{margin-top:0;height:100%;}
+
+/* Lily stepper */
+.lily{display:grid;grid-template-columns:1fr 1.05fr;gap:34px;align-items:start;margin-top:6px;}
+.profile{display:flex;gap:16px;align-items:center;background:var(--sky-light);border-radius:16px;padding:14px 18px;margin-bottom:10px;}
+.profile .face{width:64px;height:64px;flex-shrink:0;}
+.profile .pf-name{font-size:clamp(22px,2.1vw,30px);font-weight:700;line-height:1.1;}
+.profile .pf-row{font-size:clamp(15px,1.35vw,19px);line-height:1.4;}
+.profile .pf-row b{color:#1f5fd1;}
+.lc{display:none;}
+.lc.on{display:block;animation:fadeIn 0.35s ease;}
+.rq.off{display:none;}
+.link-arrow.ghost{visibility:hidden;}
+.wobbly-rung{position:relative;}
+.wobbly-rung.struck .rung-text{text-decoration:line-through;text-decoration-color:var(--coral);text-decoration-thickness:3px;color:#9a9a9a;}
+.stamp{display:none;position:absolute;right:-6px;top:-14px;transform:rotate(8deg);background:var(--coral);color:#fff;font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:clamp(13px,1.1vw,16px);padding:6px 14px;border-radius:8px;box-shadow:0 3px 10px rgba(0,0,0,0.15);}
+.wobbly-rung.struck .stamp{display:block;animation:fadeIn 0.3s ease;}
+.narr{display:none;}
+.narr.on{display:block;animation:fadeIn 0.35s ease;}
+.narr h3{color:#1f5fd1;}
+.narr p{margin-bottom:10px;}
+.narr .quote{background:#fffdf8;border:2px solid #eee3d3;border-radius:12px;padding:14px 18px;font-size:clamp(18px,1.8vw,24px);font-weight:500;line-height:1.5;margin:8px 0 12px;}
+.test-row{display:flex;gap:12px;align-items:flex-start;background:#f8f9fa;border-radius:12px;padding:12px 16px;margin:8px 0;font-size:clamp(16px,1.55vw,21px);line-height:1.45;}
+.test-row .ti{flex-shrink:0;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+.test-row .ti svg{width:20px;height:20px;}
+.test-row.pass .ti{background:var(--green);}
+.test-row .ti.q{background:#e0b400;color:#fff;font-weight:700;font-size:20px;}
+.test-row.fail .ti{background:var(--coral);}
+.test-row strong{display:block;font-size:clamp(13px,1.1vw,16px);letter-spacing:2px;text-transform:uppercase;}
+.test-row.pass strong{color:var(--green);}
+.test-row.fail strong{color:var(--coral-dark);}
+.step-ctrl{display:flex;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap;}
+.step-count{color:var(--ink-light);font-size:clamp(15px,1.3vw,18px);}
+
+/* Wobbly or strong */
+.wq{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start;margin-top:8px;}
+.wq-ladder{transition:transform 0.3s ease;}
+.wq-ladder.wobble{animation:wobble 0.8s ease;transform:rotate(-2.5deg);}
+.wq-ladder.wobble::before,.wq-ladder.wobble::after{background:#e9b0a8;}
+.wq-ladder.strong::before,.wq-ladder.strong::after{background:#8fd3a8;}
+@keyframes wobble{0%{transform:rotate(0);}20%{transform:rotate(-4deg);}40%{transform:rotate(3deg);}60%{transform:rotate(-3deg);}80%{transform:rotate(2deg);}100%{transform:rotate(-2.5deg);}}
+.wq-count{font-size:clamp(15px,1.3vw,18px);color:var(--ink-light);margin-bottom:6px;}
+.wq-ask{font-size:clamp(22px,2.2vw,32px);font-weight:600;line-height:1.3;margin-bottom:12px;}
+.thumbs{display:flex;gap:18px;margin:6px 0 14px;}
+.thumbs div{display:flex;align-items:center;gap:10px;font-size:clamp(17px,1.6vw,22px);font-weight:600;border-radius:14px;padding:10px 16px;}
+.thumbs svg{width:34px;height:34px;}
+.th-up{background:var(--green-light);color:var(--green);}
+.th-down{background:var(--coral-light);color:var(--coral-dark);}
+.wq-verdict{display:none;}
+.wq-verdict.on{display:block;animation:fadeIn 0.35s ease;}
+.big-stamp{display:inline-block;font-size:clamp(28px,3vw,44px);font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:6px 22px;border-radius:12px;color:#fff;margin-bottom:8px;}
+.big-stamp.s{background:var(--green);}
+.big-stamp.w{background:var(--coral);}
+.wq-lesson{font-size:clamp(17px,1.6vw,22px);font-weight:600;margin-top:10px;color:var(--ink);}
+
+/* Steps grid */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:14px 0;}
+.step{background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:20px 22px;border-top:6px solid var(--teal);}
+.step .st-n{font-family:'Space Mono',monospace;font-weight:700;font-size:clamp(22px,2vw,30px);color:var(--teal-dark);line-height:1;}
+.step .st-t{font-size:clamp(19px,1.8vw,25px);font-weight:700;margin:8px 0 6px;line-height:1.2;}
+.step .st-d{font-size:clamp(15px,1.4vw,19px);color:var(--ink-light);line-height:1.45;}
+.steps.green .step{border-top-color:var(--green);} .steps.green .st-n{color:var(--green);}
+
+/* Topic chips */
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:12px 0;}
+.chip{border-radius:14px;padding:14px 14px;color:#fff;font-weight:700;font-size:clamp(15px,1.4vw,20px);text-align:center;line-height:1.25;display:flex;align-items:center;justify-content:center;min-height:64px;}
+
+/* Collapsible helpers */
+details.helper{background:#fff;border:2px solid #e9e4dd;border-radius:14px;margin:12px 0 0;}
+details.helper summary{cursor:pointer;list-style:none;padding:12px 18px;font-weight:600;font-size:clamp(16px,1.5vw,20px);display:flex;align-items:center;gap:10px;color:var(--ink);}
+details.helper summary::-webkit-details-marker{display:none;}
+details.helper summary::before{content:"+";display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-weight:700;flex-shrink:0;}
+details.helper[open] summary::before{content:"\2212";}
+details.helper .h-body{padding:0 20px 16px 54px;}
+details.helper .h-body li,details.helper .h-body p{font-size:clamp(16px,1.5vw,20px);line-height:1.5;}
+details.helper .h-body ul{padding-left:20px;}
+.helpers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:start;}
+.helpers details.helper{margin:0;}
+.feel-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.feel-cols div{border-radius:10px;padding:10px 12px;font-size:clamp(15px,1.4vw,19px);line-height:1.5;}
+.feel-cols b{display:block;font-size:13px;letter-spacing:2px;text-transform:uppercase;}
+
+/* Mini ladder on topic cards */
+.one-way{font-size:clamp(13px,1.05vw,16px);letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--green);margin:4px 0 2px;}
+.mini .rung{min-height:auto;padding:12px 18px 14px;}
+.mini .rung-text{font-size:clamp(17px,1.6vw,22px);}
+.mini .link-arrow{height:40px;}
+
+/* Journey strip */
+.journey{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:6px 0 20px;}
+.jstone{border-radius:14px;padding:12px 12px;text-align:center;background:#f3f1ee;color:var(--ink-light);position:relative;}
+.jstone .j-n{font-family:'Space Mono',monospace;font-weight:700;font-size:13px;}
+.jstone .j-t{font-weight:700;font-size:clamp(15px,1.35vw,19px);line-height:1.2;margin:2px 0;}
+.jstone .j-l{font-size:clamp(12px,1vw,14px);}
+.jstone.done{background:var(--green-light);color:#1d7a46;}
+.jstone.now{background:var(--gold);color:var(--ink);box-shadow:0 0 0 4px rgba(255,217,61,0.35);}
+
+/* Notebook mock-up */
+.notebook{background:#fff;border-radius:6px 16px 16px 6px;box-shadow:0 6px 24px rgba(0,0,0,0.10);padding:22px 28px 26px 58px;position:relative;
+  background-image:repeating-linear-gradient(#fff 0px,#fff 33px,#dbe7f5 34px);font-family:'Patrick Hand',cursive;color:#3a3f44;}
+.notebook::before{content:"";position:absolute;left:40px;top:0;bottom:0;width:2px;background:#f2a7a7;}
+.nb-title{font-size:30px;line-height:34px;text-align:center;}
+.nb-line{font-size:22px;line-height:34px;}
+.nb-line .blank{display:inline-block;border-bottom:2px solid #8a8f94;min-width:160px;height:22px;vertical-align:baseline;}
+.nb-ladder{position:relative;margin:12px 6px 0;padding:0 26px;display:flex;flex-direction:column;gap:12px;}
+.nb-ladder::before,.nb-ladder::after{content:"";position:absolute;top:-8px;bottom:-8px;width:0;border-left:3px solid #6b7075;}
+.nb-ladder::before{left:8px;} .nb-ladder::after{right:8px;}
+.nb-rung{border:3px solid #6b7075;border-radius:8px;padding:6px 12px;background:rgba(255,255,255,0.85);font-size:20px;line-height:28px;}
+.nb-rung b{font-weight:400;letter-spacing:1px;}
+.nb-rung .q{color:#8a8f94;}
+.nb-rung.empty{border-style:dashed;color:#9aa0a5;}
+.nb-example{display:none;}
+.notebook.show-ex .nb-blank{display:none;}
+.notebook.show-ex .nb-example{display:block;}
+.nb-ink{color:#2f55a4;}
+
+/* Checklist */
+.check-list{list-style:none;padding:0;margin:10px 0;display:grid;grid-template-columns:1fr;gap:10px;}
+.check-list li{background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:12px;align-items:flex-start;font-size:clamp(16px,1.5vw,21px);margin:0;line-height:1.4;}
+.check-list li .tick{flex-shrink:0;width:26px;height:26px;border-radius:7px;border:3px solid var(--green);margin-top:2px;}
+
+/* Timer */
+.timer-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;background:#f8f9fa;border-radius:16px;padding:18px 16px;}
+.timer-display{font-family:'Space Mono',monospace;font-size:clamp(56px,7.5vw,120px);font-weight:700;letter-spacing:4px;color:var(--ink);line-height:1;}
+.timer-display.warn{color:var(--coral);}
+.timer-display.done{color:var(--green);}
+.timer-presets{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.timer-presets .btn{padding:8px 16px;}
+.timer-presets .btn.sel{outline:3px solid var(--ink);}
+.two-col{display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:start;}
+
+/* Sentence frame */
+.frame-big{background:#fffdf8;border:3px dashed var(--coral);border-radius:18px;padding:26px 30px;font-size:clamp(26px,2.9vw,42px);font-weight:600;line-height:1.5;text-align:center;margin:12px 0 6px;}
+.frame-big .gap{display:inline-block;min-width:4.5em;border-bottom:4px solid var(--ink);}
+.frame-big .bc{color:var(--coral-dark);}
+
+/* Reflection */
+.reflect-item{background:#f8f9fa;border-radius:14px;padding:18px 24px;margin:12px 0;font-size:clamp(20px,2vw,28px);font-weight:500;line-height:1.45;display:none;}
+.reflect-item.visible{display:block;animation:fadeIn 0.35s ease;}
+.reflect-item .r-n{font-family:'Space Mono',monospace;color:var(--coral);font-weight:700;margin-right:12px;}
+.reflect-item small{display:block;font-size:0.7em;color:var(--ink-light);margin-top:4px;}
+
+.teacher-note{font-size:clamp(14px,1.15vw,16px);color:var(--ink-light);margin-top:12px;font-style:italic;}
+.source{font-size:clamp(14px,1.15vw,16px);color:var(--ink-light);margin-top:12px;}
+
+@media(max-width:1100px){
+  .hook-grid,.poster,.lily,.wq,.two-col,.rules{grid-template-columns:1fr;}
+  .steps,.chips{grid-template-columns:repeat(2,1fr);}
+  .recap,.stones,.helpers{grid-template-columns:1fr;}
+  .journey{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:900px){
+  main{padding:20px 16px 60px;margin-left:0;}
+  .sidebar{width:0;overflow:hidden;}
+  .sidebar.open{width:var(--sidebar-w);}
+  .card{padding:26px 20px;}
+  .steps,.chips{grid-template-columns:1fr;}
+  .teacher-btn{position:static;margin-bottom:10px;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+  <div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div>
+</div>
+
+<!-- SVG symbols reused across cards -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-talk" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 20h9" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-board" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2" fill="none" stroke="#fff" stroke-width="2.2"/><path d="M8 20l4-4 4 4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z" fill="none" stroke="#fff" stroke-width="2.2"/><circle cx="12" cy="12" r="3" fill="none" stroke="#fff" stroke-width="2.2"/></symbol>
+    <symbol id="i-learn" viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 11-6-11-6Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M5 11.5V17c0 1 3 3 7 3s7-2 7-3v-5.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 11V7a4 4 0 0 1 8 0v4" fill="none" stroke="currentColor" stroke-width="2.2"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 20V5M5 11l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-tick" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-thumb" viewBox="0 0 24 24"><path d="M7 10v11H3V10h4Zm0 0 4-8c1.7 0 3 1.3 3 3v4h5.5a2 2 0 0 1 2 2.3l-1.3 7.6A2 2 0 0 1 18.2 21H7" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar" tabindex="-1">&#9776;</button>
+  <div class="top-bar-title"><span>Writer's Toolkit</span> &middot; Pebble, Rock, Boulder &middot; Lesson 3</div>
+  <a href="https://educoder101.github.io/Writers-Toolkit" class="back-link">&larr; Back to Toolkit</a>
+</div>
+
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Learning</div>
+      <button class="sidebar-item active" onclick="goToSlide(0)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold)"></span>LISC</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Hook</div>
+      <button class="sidebar-item" onclick="goToSlide(1)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral)"></span>Is this a story?</button>
+      <button class="sidebar-item" onclick="goToSlide(2)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral)"></span>The Explorer</button>
+      <button class="sidebar-item" onclick="goToSlide(3)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral)"></span>Mrs Frisby</button>
+      <button class="sidebar-item" onclick="goToSlide(4)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral)"></span>Toy Story</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Discover</div>
+      <button class="sidebar-item" onclick="goToSlide(5)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple)"></span>What do you notice?</button>
+      <button class="sidebar-item" onclick="goToSlide(6)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple)"></span>Pebble, rock, boulder</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">I do</div>
+      <button class="sidebar-item" onclick="goToSlide(7)" tabindex="-1"><span class="sidebar-dot" style="background:var(--sky)"></span>Lily's problem ladder</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">We do</div>
+      <button class="sidebar-item" onclick="goToSlide(8)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal)"></span>Wobbly or strong?</button>
+      <button class="sidebar-item" onclick="goToSlide(9)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal)"></span>Group challenge</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Share and check</div>
+      <button class="sidebar-item" onclick="goToSlide(10)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal)"></span>1. The Library Door</button>
+      <button class="sidebar-item" onclick="goToSlide(11)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal)"></span>2. The Night Before the Final</button>
+      <button class="sidebar-item" onclick="goToSlide(12)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal)"></span>3. The Friendship Bracelet</button>
+      <button class="sidebar-item" onclick="goToSlide(13)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal)"></span>4. Lost on School Camp</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">You do</div>
+      <button class="sidebar-item" onclick="goToSlide(14)" tabindex="-1"><span class="sidebar-dot" style="background:var(--green)"></span>Choose your topic</button>
+      <button class="sidebar-item" onclick="goToSlide(15)" tabindex="-1"><span class="sidebar-dot" style="background:var(--green)"></span>Plan your pebble and rock</button>
+      <button class="sidebar-item" onclick="goToSlide(16)" tabindex="-1"><span class="sidebar-dot" style="background:var(--green)"></span>The because test</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Reflect</div>
+      <button class="sidebar-item" onclick="goToSlide(17)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold)"></span>Exit slip</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ SLIDE 0: LISC ============ -->
+<div class="slide active" id="slide0">
+  <div class="lisc">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <p class="lisc-li">Learning Intention</p>
+    <p class="lisc-li-text">We are learning that stories need problems, and that tension builds when a small problem grows into a bigger one.</p>
+    <p class="lisc-sc-title">Success Criteria</p>
+    <ul>
+      <li>I can explain why a story needs problems.</li>
+      <li>I can spot the problems growing in stories I know.</li>
+      <li>I can check a problem ladder with the worry test and the because test.</li>
+      <li>I can plan a pebble and a rock for my own story that connect to my sizzling start.</li>
+    </ul>
+    <div class="teacher-panel">
+      <div class="tp-title">Before the lesson</div>
+      <ul>
+        <li>Students need their books, with their sizzling start from Lesson 1 and their backfill from Lesson 2.</li>
+        <li>One mini whiteboard and marker per group of 3 to 4. Decide groups and give each group a story idea (two groups per idea works well).</li>
+        <li>Optional props for card 7: a real pebble and a fist-sized rock to hold up.</li>
+        <li>Have your copies of <em>The Explorer</em> and <em>Mrs Frisby and the Rats of NIMH</em> handy. Cards 3 and 4 retell the moments in our own words, with chapter pointers so you can read the real pages aloud.</li>
+        <li>No printing needed. Students draw their Problem Ladder in their books (card 15) and keep it for Lessons 4 to 7.</li>
+      </ul>
+      <div class="tp-title">Suggested timing (40 minutes)</div>
+      <p>Hook and the three stories: 7 &middot; Rules, names and Lily's ladder: 8 &middot; Wobbly or strong: 3 &middot; Group challenge and share: 9 &middot; Plan your ladder: 10 &middot; Because test and exit slip: 3</p>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 1: HOOK ============ -->
+<div class="slide" id="slide1">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">Hook</div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Talk</span></div>
+    <h2>Is this a story?</h2>
+    <div class="hook-grid">
+      <div class="story-page">Ella went to the beach. She swam and built a sandcastle. She had a lovely day.<span class="the-end">The end.</span></div>
+      <div class="pic">
+        <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A calm, sunny beach with a sandcastle">
+          <rect width="480" height="300" fill="#dff1ff"/>
+          <circle cx="400" cy="62" r="34" fill="#FFD93D"/>
+          <path d="M60 70 q14 -12 28 0 q14 -12 28 0" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+          <path d="M170 46 q10 -9 20 0 q10 -9 20 0" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+          <rect y="140" width="480" height="70" fill="#7cc4f2"/>
+          <path d="M0 152 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#fff" stroke-width="4" opacity="0.8"/>
+          <path d="M0 178 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#fff" stroke-width="3" opacity="0.6"/>
+          <path d="M0 200 Q240 186 480 200 L480 300 L0 300 Z" fill="#f4dfb4"/>
+          <g transform="translate(250 196)">
+            <rect x="0" y="40" width="120" height="44" fill="#e5c58a"/>
+            <rect x="10" y="10" width="34" height="40" fill="#e5c58a"/>
+            <rect x="76" y="10" width="34" height="40" fill="#e5c58a"/>
+            <rect x="42" y="0" width="36" height="50" fill="#dcb877"/>
+            <path d="M10 10 h8 v-8 h9 v8 h8 v-8 h9 v8" fill="#e5c58a"/>
+            <path d="M76 10 h8 v-8 h9 v8 h8 v-8 h9 v8" fill="#e5c58a"/>
+            <rect x="52" y="64" width="16" height="20" rx="8" fill="#c9a362"/>
+            <path d="M60 0 v-30" stroke="#2D3436" stroke-width="3"/>
+            <path d="M60 -30 l22 7 l-22 7 Z" fill="#FF6B6B"/>
+          </g>
+          <g transform="translate(110 230)">
+            <path d="M0 0 h44 l-6 46 h-32 Z" fill="#FF6B6B"/>
+            <path d="M4 0 q18 -26 36 0" fill="none" stroke="#2D3436" stroke-width="3"/>
+          </g>
+          <path d="M60 300 L96 150" stroke="#9B5DE5" stroke-width="5"/>
+          <path d="M20 160 Q96 96 172 160 Z" fill="#9B5DE5"/>
+          <path d="M20 160 Q58 128 96 160 Q134 128 172 160" fill="none" stroke="#fff" stroke-width="3" opacity="0.6"/>
+        </svg>
+      </div>
+    </div>
+    <div class="reveal-step">
+      <div class="think-step">
+        <div class="think-label">Talk to your partner</div>
+        Thumbs up if you would read a whole book about Ella's day. Thumbs down if you would not. Why not? What is missing?
+      </div>
+    </div>
+    <div class="reveal-step">
+      <div class="think-step big-idea">
+        <div class="think-label">The big idea</div>
+        Nothing goes wrong, so there is nothing to worry about. Readers keep reading because they want to know: <strong>will the character be OK?</strong> Problems create that worry. Writers call it <strong>tension</strong>.
+      </div>
+      <div class="book-box">
+        <div class="box-icon"><svg><use href="#i-book"/></svg></div>
+        <div><div class="box-label">In your book</div><div class="box-text">Write the date and the title <em>Pebble, Rock, Boulder</em>. Underneath, copy: <em>Problems make the reader worry. That worry is called tension. Tension keeps the reader reading.</em></div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-coral" onclick="revealNext(this)">Reveal</button></div>
+    <div class="teacher-panel">
+      <div class="tp-title">Say and ask</div>
+      <p>Read Ella's story aloud in your most cheerful voice. Ask: "Is that a story? Would you read a whole book of it?" Steer to: nothing goes wrong, so there is nothing to worry about and no reason to keep reading.</p>
+      <p>Take two or three quick ideas for what <em>could</em> go wrong for Ella, then move on. We come back to Ella in the exit slip.</p>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 2: THE EXPLORER ============ -->
+<div class="slide" id="slide2">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">Stories you know &middot; <span class="num">1</span> of <span class="num">3</span></div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Talk</span></div>
+    <div class="poster story">
+      <div class="poster-hero h-jungle">
+        <svg class="art" viewBox="0 0 400 330" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><path d="M0 60 Q60 10 120 50 Q70 70 0 60Z" fill="#fff"/><path d="M400 40 Q330 0 270 50 Q330 70 400 40Z" fill="#fff"/><path d="M30 120 Q90 80 140 120 Q90 140 30 120Z" fill="#fff"/><path d="M380 140 Q320 100 260 140 Q320 160 380 140Z" fill="#fff"/><path d="M0 250 q30 -14 60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0" fill="none" stroke="#fff" stroke-width="8"/><path d="M0 285 q30 -14 60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0" fill="none" stroke="#fff" stroke-width="6"/><g transform="translate(150 196)"><rect x="0" y="0" width="120" height="14" rx="7" fill="#fff"/><rect x="0" y="18" width="120" height="14" rx="7" fill="#fff"/><rect x="0" y="36" width="120" height="14" rx="7" fill="#fff"/></g><path d="M200 196 V140" stroke="#fff" stroke-width="6"/><path d="M200 140 L240 160 L200 176Z" fill="#fff"/></svg>
+        <div class="p-genre">Our class novel</div>
+        <div class="p-title">The Explorer</div>
+        <div class="p-by">by Katherine Rundell</div>
+        <div class="p-what">Fred, Con, Lila and Max are alone in the Amazon. They have a den, a fire, and a raft they have tested on the river.</div>
+      </div>
+      <div>
+        <div class="think-step" style="margin-top:0">
+          <div class="think-label">Talk to your partner</div>
+          What goes wrong first? Then what goes wrong <strong>because of that</strong>?
+        </div>
+        <div class="ladder">
+          <div class="rung t-1">
+            <div class="rung-tag">Problem <span class="num">1</span></div>
+            <div class="reveal-step">
+              <div class="rung-text">The wind catches their campfire.</div>
+              <div class="feels"><span>Feels:</span> uneasy, nervous</div>
+              <div class="worry">Worry <div class="bar"><i style="width:35%"></i></div></div>
+            </div>
+            <div class="rq">?</div>
+          </div>
+          <div class="link-arrow"><svg><use href="#i-up"/></svg></div>
+          <div class="rung t-2">
+            <div class="rung-tag">Problem <span class="num">2</span></div>
+            <div class="reveal-step">
+              <div class="rung-text"><b>Because of that</b>, a forest fire starts. It drives them towards the river, and with no other choice, they escape on their raft.</div>
+              <div class="feels"><span>Feels:</span> frightened, scared</div>
+              <div class="worry">Worry <div class="bar"><i style="width:72%"></i></div></div>
+            </div>
+            <div class="rq">?</div>
+          </div>
+          <div class="link-arrow"><svg><use href="#i-up"/></svg></div>
+          <div class="rung locked">
+            <div class="rung-tag">Problem <span class="num">3</span></div>
+            <div class="lock-line"><svg><use href="#i-lock"/></svg>We will come back to this one next lesson.</div>
+          </div>
+        </div>
+        <div class="btn-row"><button class="btn btn-coral" onclick="revealNext(this)">Reveal</button></div>
+      </div>
+    </div>
+    <div class="teacher-panel">
+      <div class="tp-title">About this card</div>
+      <p>The events are retold in our own words, not quoted. The fire comes soon after the chapter 'The Monkeys and the Bees'. If there is time, read that moment aloud from your copy before you reveal problem 2.</p>
+      <p>Problem 3 is held back for Lesson 4 (your programme names Max's bullet-ant attack as the climax).</p>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 3: MRS FRISBY ============ -->
+<div class="slide" id="slide3">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">Stories you know &middot; <span class="num">2</span> of <span class="num">3</span></div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Talk</span></div>
+    <div class="poster story">
+      <div class="poster-hero h-field">
+        <svg class="art" viewBox="0 0 400 330" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><g transform="translate(220 150)"><rect x="0" y="0" width="150" height="90" rx="6" fill="#fff"/><rect x="18" y="20" width="46" height="50" rx="4" fill="#000" opacity="0.35"/><rect x="86" y="20" width="46" height="50" rx="4" fill="#000" opacity="0.35"/></g><path d="M0 270 Q200 250 400 270" fill="none" stroke="#fff" stroke-width="8"/><path d="M0 300 Q200 280 400 300" fill="none" stroke="#fff" stroke-width="8"/><path d="M0 240 Q200 222 400 240" fill="none" stroke="#fff" stroke-width="6"/><g stroke="#fff" stroke-width="5" fill="#fff"><path d="M50 230 V110"/><ellipse cx="50" cy="100" rx="8" ry="16"/><ellipse cx="38" cy="126" rx="6" ry="12" transform="rotate(-30 38 126)"/><ellipse cx="62" cy="126" rx="6" ry="12" transform="rotate(30 62 126)"/><path d="M110 230 V130"/><ellipse cx="110" cy="120" rx="8" ry="16"/><ellipse cx="98" cy="146" rx="6" ry="12" transform="rotate(-30 98 146)"/><ellipse cx="122" cy="146" rx="6" ry="12" transform="rotate(30 122 146)"/></g><circle cx="330" cy="60" r="28" fill="#fff"/></svg>
+        <div class="p-genre">A novel</div>
+        <div class="p-title">Mrs Frisby and the Rats of NIMH</div>
+        <div class="p-by">by Robert C. O'Brien</div>
+        <div class="p-what">Mrs Frisby, a field mouse, lives with her children in a cinder-block house in Mr Fitzgibbon's field.</div>
+      </div>
+      <div>
+        <div class="think-step" style="margin-top:0">
+          <div class="think-label">Talk to your partner</div>
+          What goes wrong first? Then what goes wrong <strong>because of that</strong>?
+        </div>
+        <div class="ladder">
+          <div class="rung t-1">
+            <div class="rung-tag">Problem <span class="num">1</span></div>
+            <div class="reveal-step">
+              <div class="rung-text">Her youngest son, Timothy, falls sick. Mr Ages gives her medicine, but says Timothy must be kept warm and still.</div>
+              <div class="feels"><span>Feels:</span> uneasy, worried</div>
+              <div class="worry">Worry <div class="bar"><i style="width:38%"></i></div></div>
+            </div>
+            <div class="rq">?</div>
+          </div>
+          <div class="link-arrow"><svg><use href="#i-up"/></svg></div>
+          <div class="rung t-2">
+            <div class="rung-tag">Problem <span class="num">2</span></div>
+            <div class="reveal-step">
+              <div class="rung-text"><b>Because</b> Timothy must be kept still, the family cannot move house. The weather is warming up, and Mr Fitzgibbon's plough is coming. It will destroy their home.</div>
+              <div class="feels"><span>Feels:</span> frightened, trapped</div>
+              <div class="worry">Worry <div class="bar"><i style="width:75%"></i></div></div>
+            </div>
+            <div class="rq">?</div>
+          </div>
+          <div class="link-arrow"><svg><use href="#i-up"/></svg></div>
+          <div class="rung locked">
+            <div class="rung-tag">Problem <span class="num">3</span></div>
+            <div class="lock-line"><svg><use href="#i-lock"/></svg>We will come back to this one next lesson.</div>
+          </div>
+        </div>
+        <div class="btn-row"><button class="btn btn-coral" onclick="revealNext(this)">Reveal</button></div>
+      </div>
+    </div>
+    <div class="teacher-panel">
+      <div class="tp-title">About this card</div>
+      <p>Retold in our own words, not quoted. Problem 1 is in Chapter 1 ('The Sickness of Timothy Frisby') and Chapter 2 ('Mr. Ages'). Problem 2 builds in Chapter 4 ('Mr. Fitzgibbon's Plow'). Notice problem 1 is fixable: she gets the medicine. The trouble is what it leads to.</p>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 4: TOY STORY ============ -->
+<div class="slide" id="slide4">
+  <div class="card">
+    <div class="card-head"><div class="eyebrow">Stories you know &middot; <span class="num">3</span> of <span class="num">3</span></div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Talk</span></div>
+    <div class="poster story">
+      <div class="poster-hero h-sky">
+        <svg class="art" viewBox="0 0 400 330" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect x="170" y="170" width="190" height="130" rx="12" fill="#fff"/><rect x="160" y="128" width="210" height="34" rx="10" fill="#fff" transform="rotate(-9 160 162)"/><circle cx="80" cy="262" r="40" fill="#fff"/><rect x="60" y="120" width="56" height="56" rx="8" fill="#fff"/><rect x="96" y="70" width="44" height="44" rx="8" fill="#fff" transform="rotate(12 118 92)"/><path d="M300 40 l9 20 22 3 -16 15 4 22 -19 -11 -19 11 4 -22 -16 -15 22 -3Z" fill="#fff"/><path d="M220 60 l6 13 14 2 -10 10 2 14 -12 -7 -12 7 2 -14 -10 -10 14 -2Z" fill="#fff"/></svg>
+        <div class="p-genre">A film</div>
+        <div class="p-title">Toy Story</div>
+        <div class="p-what">Woody the cowboy doll is Andy's favourite toy. He is the leader of all the toys in Andy's room.</div>
+      </div>
+      <div>
+        <div class="think-step" style="margin-top:0">
+          <div class="think-label">Talk to your partner</div>
+          What goes wrong first? Then what goes wrong <strong>because of that</strong>?
+        </div>
+        <div class="ladder">
+          <div class="rung t-1">
+            <div class="rung-tag">Problem <span class="num">1</span></div>
+            <div class="reveal-step">
+              <div class="rung-text">Andy gets a shiny new toy, Buzz Lightyear, for his birthday. Suddenly Woody is not the favourite any more.</div>
+              <div class="feels"><span>Feels:</span> jealous, annoyed</div>
+              <div class="worry">Worry <div class="bar"><i style="width:30%"></i></div></div>
+            </div>
+            <div class="rq">?</div>
+          </div>
+          <div class="link-arrow"><svg><use href="#i-up"/></svg></div>
+          <div class="rung t-2">
+            <div class="rung-tag">Problem <span class="num">2</span></div>
+            <div class="reveal-step">
+              <div class="rung-text"><b>Because</b> he is jealous, Woody tries to knock Buzz behind the desk, but knocks him out of the window by accident. Now the other toys think Woody did it on purpose.</div>
+              <div class="feels"><span>Feels:</span> guilty, worried</div>
+              <div class="worry">Worry <div class="bar"><i style="width:68%"></i></div></div>
+            </div>
+            <div class="rq">?</div>
+          </div>
+          <div class="link-arrow"><svg><use href="#i-up"/></svg></div>
+          <div class="rung locked">
+            <div class="rung-tag">Problem <span class="num">3</span></div>
+            <div class="lock-line"><svg><use href="#i-lock"/></svg>We will come back to this one next lesson.</div>
+          </div>
+        </div>
+        <div class="btn-row"><button class="btn btn-coral" onclick="revealNext(this)">Reveal</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 5: WHAT DO YOU NOTICE ============ -->
+<div class="slide" id="slide5">
+  <div class="card">
+    <div class="card-head"><div class="eyebrow">Discover</div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Talk</span><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
+    <h2>What do you notice?</h2>
+    <p class="lead">Look at problem 1 and problem 2 in all three stories. What do the problems do? Find <strong>two things</strong> with your partner.</p>
+    <div class="recap">
+      <div class="recap-col"><div class="rc-title h-jungle">The Explorer</div><div class="rc-body"><div class="rc-p two"><span class="num">2</span>A forest fire. They escape on the raft.</div><div class="rc-arrow"><svg><use href="#i-up"/></svg></div><div class="rc-p one"><span class="num">1</span>The wind catches the campfire.</div></div></div>
+      <div class="recap-col"><div class="rc-title h-field">Mrs Frisby</div><div class="rc-body"><div class="rc-p two"><span class="num">2</span>They cannot move before the plough comes.</div><div class="rc-arrow"><svg><use href="#i-up"/></svg></div><div class="rc-p one"><span class="num">1</span>Timothy is sick and must be kept still.</div></div></div>
+      <div class="recap-col"><div class="rc-title h-sky">Toy Story</div><div class="rc-body"><div class="rc-p two"><span class="num">2</span>Buzz falls out of the window. The toys blame Woody.</div><div class="rc-arrow"><svg><use href="#i-up"/></svg></div><div class="rc-p one"><span class="num">1</span>Woody is not the favourite any more.</div></div></div>
+    </div>
+    <div class="rules">
+      <div class="reveal-step">
+        <div class="rule r-harder">
+          <div class="r-no">Rule <span class="num">1</span></div>
+          <div class="r-what">Each problem is harder than the last.</div>
+          <div class="r-test"><strong>The worry test</strong>Is my character <em>more worried</em> now than before?
+            <div class="meter-demo"><div style="height:35%;background:#FFD93D;color:var(--ink)">Problem 1</div><div style="height:75%;background:#FF9F43">Problem 2</div><div style="height:100%;background:#d6d2cc;color:#777">Next lesson</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-step">
+        <div class="rule r-connected">
+          <div class="r-no">Rule <span class="num">2</span></div>
+          <div class="r-what">Each problem is connected. It happens because of the one before.</div>
+          <div class="r-test"><strong>The because test</strong>Say it as one sentence: <span class="frame">problem 1, and because of that, problem 2</span>. Does it make sense?</div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal-step">
+      <div class="book-box">
+        <div class="box-icon"><svg><use href="#i-book"/></svg></div>
+        <div><div class="box-label">In your book</div><div class="box-text">Copy the two rules and their tests. <em>1. Each problem is harder than the last. (Worry test)</em> <em>2. Each problem is connected: it happens because of the one before. (Because test)</em></div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-purple" onclick="revealNext(this)">Reveal</button></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 6: PEBBLE, ROCK, BOULDER ============ -->
+<div class="slide" id="slide6">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">Discover</div><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
+    <h2>Pebble, rock, boulder</h2>
+    <p class="lead">Writers have names for problem 1, 2 and 3. Imagine you are out on a long walk.</p>
+    <div class="stones">
+      <div class="reveal-step">
+        <div class="stone-panel sp-pebble">
+          <div class="sp-art">
+            <svg viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A shoe tipped up with a small pebble falling out">
+              <path d="M24 176 H296" stroke="#e5d8c6" stroke-width="5" stroke-linecap="round"/>
+              <g transform="translate(0 -26) rotate(-16 170 140)">
+                <path d="M66 148 H262 Q278 148 278 160 Q278 172 262 172 H74 Q56 172 56 160 Q56 148 66 148 Z" fill="#fff" stroke="#2D3436" stroke-width="4"/>
+                <path d="M66 148 L76 98 Q80 82 98 84 L132 90 Q146 92 154 104 L178 126 Q228 130 258 140 Q272 144 272 148 Z" fill="#3A86FF" stroke="#2D3436" stroke-width="4" stroke-linejoin="round"/>
+                <path d="M82 96 Q106 104 136 98" fill="none" stroke="#2D3436" stroke-width="4" stroke-linecap="round"/>
+                <path d="M150 108 l14 -8 M160 116 l14 -8 M170 124 l14 -8" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+                <path d="M216 132 Q250 136 266 146" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+              </g>
+              <path d="M94 60 Q86 52 82 46" fill="none" stroke="#9aa0a6" stroke-width="3" stroke-dasharray="4 7" stroke-linecap="round"/>
+              <ellipse cx="72" cy="38" rx="13" ry="10" fill="#b8ada3" stroke="#2D3436" stroke-width="3"/>
+              <path d="M44 30 l-10 -6 M46 46 l-12 2" stroke="#9aa0a6" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="sp-body">
+            <div class="sp-name">Pebble</div>
+            <div class="sp-pic">A pebble in your shoe. Annoying, but you can stop and tip it out.</div>
+            <div class="sp-def">A small problem. Annoying, but fixable.</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-step">
+        <div class="stone-panel sp-rock">
+          <div class="sp-art">
+            <svg viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A walker on a path heading towards a rock">
+              <path d="M0 140 Q160 120 320 140 L320 190 L0 190 Z" fill="#efe2cf"/>
+              <path d="M168 168 Q170 126 204 122 Q238 120 246 150 Q250 170 228 174 L182 174 Q166 174 168 168 Z" fill="#9aa0a6" stroke="#2D3436" stroke-width="4"/>
+              <path d="M190 140 Q204 132 220 136" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+              <g stroke="#2D3436" stroke-width="6" stroke-linecap="round" fill="none">
+                <path d="M88 112 L76 150"/><path d="M88 112 L104 148"/>
+                <path d="M86 78 L88 112"/>
+                <path d="M86 88 L68 104"/><path d="M86 88 L108 96"/>
+              </g>
+              <path d="M74 80 Q86 70 98 80 L94 112 L80 112 Z" fill="#FF9F43" stroke="#2D3436" stroke-width="4" stroke-linejoin="round"/>
+              <circle cx="86" cy="58" r="14" fill="#fff" stroke="#2D3436" stroke-width="4"/>
+              <text x="122" y="64" font-family="Fredoka, sans-serif" font-size="40" font-weight="700" fill="#FF6B6B">!</text>
+            </svg>
+          </div>
+          <div class="sp-body">
+            <div class="sp-name">Rock</div>
+            <div class="sp-pic">A rock on the path. Harder. You might trip and fall.</div>
+            <div class="sp-def">A bigger problem that grows out of the pebble.</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-step">
+        <div class="stone-panel sp-boulder">
+          <div class="sp-lock"><svg><use href="#i-lock"/></svg>Next lesson</div>
+          <div class="sp-art">
+            <svg viewBox="0 0 320 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A huge boulder blocking a path between two cliffs">
+              <path d="M0 30 L58 20 L80 190 L0 190 Z" fill="#d9d2c8"/>
+              <path d="M320 24 L258 36 L244 190 L320 190 Z" fill="#d9d2c8"/>
+              <path d="M60 170 H260 V190 H60 Z" fill="#efe2cf"/>
+              <path d="M64 176 Q52 92 124 60 Q186 36 236 80 Q266 110 252 176 Z" fill="#6c757d" stroke="#2D3436" stroke-width="4"/>
+              <path d="M120 96 Q140 110 132 136 M190 80 Q200 100 220 104" fill="none" stroke="#2D3436" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+              <g stroke="#2D3436" stroke-width="4" stroke-linecap="round" fill="none"><path d="M34 160 L28 180"/><path d="M34 160 L42 180"/><path d="M33 140 L34 160"/><path d="M33 146 L24 154"/><path d="M33 146 L44 140"/></g>
+              <circle cx="33" cy="130" r="9" fill="#fff" stroke="#2D3436" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="sp-body">
+            <div class="sp-name">Boulder</div>
+            <div class="sp-pic">A boulder blocks the whole way.</div>
+            <div class="sp-def">The biggest problem. Coming next lesson.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal-step">
+      <div class="book-box">
+        <div class="box-icon"><svg><use href="#i-book"/></svg></div>
+        <div><div class="box-label">In your book</div><div class="box-text">Draw a pebble, a rock and a boulder, smallest to biggest. Label them: <em>pebble = small problem, annoying but fixable</em> <em>rock = bigger problem that grows out of the pebble</em> <em>boulder = the biggest problem</em></div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-orange" onclick="revealNext(this)">Reveal</button></div>
+    <div class="teacher-panel">
+      <div class="tp-title">With props</div>
+      <p>Hold up a real pebble: "A pebble in your shoe is annoying, but you can fix it." Hold up the rock: "A rock on the path is harder. You might trip." Reveal the boulder: "A boulder blocks the whole way. We'll get to that next lesson."</p>
+      <p>Link back: in the three stories, problem 1 was the pebble and problem 2 was the rock.</p>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 7: LILY'S LADDER (stepper) ============ -->
+<div class="slide" id="slide7">
+  <div class="card">
+    <div class="card-head"><div class="eyebrow">I do</div><span class="mode m-watch"><svg><use href="#i-eye"/></svg>Watch</span><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Talk</span></div>
+    <h2>Lily's problem ladder</h2>
+    <div class="lily" id="lily">
+      <div>
+        <div class="profile">
+          <svg class="face" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#3A86FF"/><circle cx="32" cy="30" r="15" fill="#ffe3cf"/><path d="M17 28 Q18 12 32 12 Q46 12 47 28 Q42 20 32 19 Q22 20 17 28Z" fill="#6b3f1f"/><path d="M47 26 Q54 36 49 46" fill="none" stroke="#6b3f1f" stroke-width="5" stroke-linecap="round"/><circle cx="26.5" cy="31" r="2" fill="#2D3436"/><circle cx="37.5" cy="31" r="2" fill="#2D3436"/><path d="M27 37 Q32 40 37 37" fill="none" stroke="#2D3436" stroke-width="2" stroke-linecap="round"/><path d="M16 60 Q18 46 32 46 Q46 46 48 60" fill="#FFD93D"/></svg>
+          <div>
+            <div class="pf-name">Lily, aged 11</div>
+            <div class="pf-row"><b>Strength:</b> she remembers everything she is told.</div>
+            <div class="pf-row"><b>Worry:</b> she is secretly scared of the dark.</div>
+          </div>
+        </div>
+        <div class="ladder">
+          <div class="rung t-pebble">
+            <div class="rung-tag">Pebble</div>
+            <div class="lc" data-show="1">
+              <div class="rung-text">Her torch flickers, then dies.</div>
+              <div class="feels"><span>Feels:</span> annoyed, uneasy</div>
+              <div class="worry">Worry <div class="bar"><i style="width:30%"></i></div></div>
+            </div>
+            <div class="rq" data-until="1">?</div>
+          </div>
+          <div class="link-arrow ghost" data-vis="4"><svg><use href="#i-up"/></svg><span class="pill">because of that</span></div>
+          <div class="rung t-rock wobbly-rung" id="lilyRock">
+            <div class="rung-tag">Rock</div>
+            <div class="stamp">Wobbly</div>
+            <div class="lc" data-show="2" data-hide="4">
+              <div class="rung-text">At dinner, Lily spilled her drink all over the table.</div>
+            </div>
+            <div class="lc" data-show="4">
+              <div class="rung-text">Because it is so dark, she takes the wrong track. When she looks up, the cabins have gone. She is lost.</div>
+              <div class="feels"><span>Feels:</span> worried, scared</div>
+              <div class="worry">Worry <div class="bar"><i style="width:65%"></i></div></div>
+            </div>
+            <div class="rq" data-until="2">?</div>
+          </div>
+          <div class="link-arrow"><svg><use href="#i-up"/></svg></div>
+          <div class="rung t-boulder locked">
+            <div class="rung-tag">Boulder</div>
+            <div class="lock-line"><svg><use href="#i-lock"/></svg>Next lesson.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="narr" data-step="0">
+          <h3>Meet Lily</h3>
+          <p>This is my story. We will follow it for the whole unit, while you write yours.</p>
+          <div class="quote">It is the last night of Year 5 camp. Lily is walking back from the toilet block on her own.</div>
+          <p>Look at Lily's <strong>worry</strong>. Keep it in mind. You will see why in a moment.</p>
+        </div>
+        <div class="narr" data-step="1">
+          <h3>My pebble</h3>
+          <div class="quote">Her torch flickers, then dies.</div>
+          <p>Small and annoying. She can still just see the path, so she can fix it: keep walking, carefully.</p>
+          <p>Why did I choose a torch? Because Lily's worry is <strong>the dark</strong>. A good pebble pokes at your character's worry.</p>
+        </div>
+        <div class="narr" data-step="2">
+          <h3>My first try at a rock</h3>
+          <div class="quote">At dinner, Lily spilled her drink all over the table.</div>
+          <p>Talk to your partner. Run the two tests.</p>
+          <div class="test-row"><div class="ti q">?</div><div><strong style="color:var(--gold-dark)">Worry test</strong>Is Lily more worried now than when her torch died?</div></div>
+          <div class="test-row"><div class="ti q">?</div><div><strong style="color:var(--gold-dark)">Because test</strong>"Her torch died, and because of that, she spilled her drink at dinner." Does that make sense?</div></div>
+        </div>
+        <div class="narr" data-step="3">
+          <h3>Wobbly!</h3>
+          <div class="test-row fail"><div class="ti"><svg><use href="#i-cross"/></svg></div><div><strong>Worry test</strong>A spilled drink is much smaller than being alone in the dark.</div></div>
+          <div class="test-row fail"><div class="ti"><svg><use href="#i-cross"/></svg></div><div><strong>Because test</strong>Dinner was hours ago. It happened <em>before</em> the torch died, so the torch cannot have caused it.</div></div>
+          <p>It is smaller, it is not connected, and it is in the wrong order. How could we fix it? Talk to your partner.</p>
+        </div>
+        <div class="narr" data-step="4">
+          <h3>A stronger rock</h3>
+          <div class="quote">Because it is so dark, she takes the wrong track. When she looks up, the cabins have gone. She is lost.</div>
+          <div class="test-row pass"><div class="ti"><svg><use href="#i-tick"/></svg></div><div><strong>Worry test</strong>Lost, alone, in the dark. Much worse than a flat torch.</div></div>
+          <div class="test-row pass"><div class="ti"><svg><use href="#i-tick"/></svg></div><div><strong>Because test</strong>"Her torch died, and because of that, she took the wrong track and got lost." Yes!</div></div>
+        </div>
+        <div class="narr" data-step="5">
+          <h3>Lily's ladder so far</h3>
+          <p>Notice Lily's feelings grow too: <strong>annoyed</strong>, then <strong>worried</strong>. When the feelings grow, the tension grows.</p>
+          <p>The boulder comes next lesson.</p>
+          <div class="learn-box">
+            <div class="box-icon"><svg><use href="#i-learn"/></svg></div>
+            <div><div class="box-label">Learn this</div><div class="box-text">A strong ladder gets <em>harder</em>, joins up with <em>because of that</em>, and pokes at your character's <em>worry</em>.</div></div>
+          </div>
+        </div>
+        <div class="step-ctrl">
+          <button class="btn btn-outline" id="lilyBack" onclick="lilyGo(-1)">&larr; Back a step</button>
+          <button class="btn btn-sky" id="lilyNext" onclick="lilyGo(1)">Next step &rarr;</button>
+          <span class="step-count">Step <span class="num" id="lilyN">1</span> of <span class="num">6</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 8: WOBBLY OR STRONG ============ -->
+<div class="slide" id="slide8">
+  <div class="card">
+    <div class="card-head"><div class="eyebrow">We do</div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Thumbs</span></div>
+    <h2>Wobbly or strong?</h2>
+    <p class="lead">A strong ladder passes both tests. A wobbly ladder fails at least one. Read it, run the tests in your head, then show me.</p>
+    <div class="wq">
+      <div>
+        <div class="ladder mini wq-ladder" id="wqLadder">
+          <div class="rung t-pebble"><div class="rung-tag">Pebble</div><div class="rung-text" id="wqP"></div></div>
+          <div class="link-arrow"><svg><use href="#i-up"/></svg></div>
+          <div class="rung t-rock"><div class="rung-tag">Rock</div><div class="rung-text" id="wqR"></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="wq-count">Ladder <span class="num" id="wqN">1</span> of <span class="num" id="wqT">5</span></div>
+        <div class="thumbs"><div class="th-up"><svg><use href="#i-thumb"/></svg>Strong</div><div class="th-down"><svg style="transform:rotate(180deg)"><use href="#i-thumb"/></svg>Wobbly</div></div>
+        <div class="wq-verdict" id="wqV"></div>
+        <div class="btn-row" style="justify-content:flex-start">
+          <button class="btn btn-teal" id="wqBtn" onclick="wqStep()">Reveal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 9: GROUP CHALLENGE ============ -->
+<div class="slide" id="slide9">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">We do</div><span class="mode m-board"><svg><use href="#i-board"/></svg>Group whiteboard</span></div>
+    <h2>Group challenge: build a ladder</h2>
+    <p class="lead">Your group has one story idea. Work together on your whiteboard.</p>
+    <div class="chips">
+      <div class="chip h-purple">The Door Behind the Library Shelf</div>
+      <div class="chip h-coral">The Night Before the Final</div>
+      <div class="chip h-teal">The Friendship Bracelet</div>
+      <div class="chip h-blue">Lost on School Camp</div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="st-n">01</div><div class="st-t">Brainstorm three pebbles</div><div class="st-d">Small problems. Annoying, but fixable.</div></div>
+      <div class="step"><div class="st-n">02</div><div class="st-t">Star the best one</div><div class="st-d">Which pebble gives you the most ideas?</div></div>
+      <div class="step"><div class="st-n">03</div><div class="st-t">Build the rock</div><div class="st-d">"Our pebble is ___, and because of that, ___."</div></div>
+      <div class="step"><div class="st-n">04</div><div class="st-t">Run the two tests</div><div class="st-d">Worry test. Because test. Fix anything wobbly.</div></div>
+    </div>
+    <div class="two-col">
+      <details class="helper">
+        <summary>Stuck? Pebble finder questions</summary>
+        <div class="h-body">
+          <ul>
+            <li>What could go missing?</li>
+            <li>What could break, run out or stop working?</li>
+            <li>Who could nearly catch you, or get the wrong idea?</li>
+            <li>What could you mishear, forget or get wrong?</li>
+            <li>What is your character worried about? Poke at it.</li>
+          </ul>
+        </div>
+      </details>
+      <div class="timer-wrap" data-mins="8">
+        <div class="timer-display">08:00</div>
+        <div class="timer-presets">
+          <button class="btn btn-outline" onclick="timerSet(this,5)">5 min</button>
+          <button class="btn btn-outline sel" onclick="timerSet(this,8)">8 min</button>
+          <button class="btn btn-outline" onclick="timerSet(this,10)">10 min</button>
+        </div>
+        <div class="btn-row" style="margin-top:2px">
+          <button class="btn btn-green t-start" onclick="timerToggle(this)">Start</button>
+          <button class="btn btn-outline" onclick="timerReset(this)">Reset</button>
+        </div>
+      </div>
+    </div>
+    <div class="teacher-panel">
+      <div class="tp-title">While groups work</div>
+      <ul>
+        <li>Rove and ask: "How does your pebble lead to your rock?" and "Would your character be more worried now?"</li>
+        <li>If a group's rock could happen without the pebble, ask them to say it with "because of that" out loud. They will hear the gap.</li>
+        <li>The next four cards are for sharing. Each has topic-specific pebble finder questions for a stuck group, and one way it could go to show after the groups have shared.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 10: TOPIC 1 ============ -->
+<div class="slide" id="slide10">
+  <div class="card">
+    <div class="card-head"><div class="eyebrow">Share and check &middot; Story idea <span class="num">1</span> of <span class="num">4</span></div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Share</span></div>
+    <div class="poster">
+      <div>
+        <div class="poster-hero h-purple">
+          <svg class="art" viewBox="0 0 400 330" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="40" width="40" height="240" rx="4" fill="#fff"/><rect x="80" y="60" width="40" height="220" rx="4" fill="#fff"/><rect x="130" y="30" width="40" height="250" rx="4" fill="#fff"/><rect x="180" y="70" width="40" height="210" rx="4" fill="#fff"/><rect x="250" y="90" width="110" height="200" rx="8" fill="none" stroke="#fff" stroke-width="8"/><circle cx="340" cy="195" r="8" fill="#fff"/></svg>
+          <div class="p-genre">Fantasy / Mystery</div>
+          <div class="p-title">The Door Behind the Library Shelf</div>
+          <div class="p-what">A hidden door appears in the school library that only you can see.</div>
+        </div>
+        <div class="think-step" style="margin-top:16px;border-left-color:var(--purple)"><div class="think-label" style="color:var(--purple)">Remember this sizzling start?</div>"The bookshelf groaned, and then it swung open."</div>
+      </div>
+      <div>
+        <div class="think-step" style="margin-top:0">
+          <div class="think-label">Share</div>
+          Groups with this story: read your pebble and rock as one sentence, joined with <strong>because of that</strong>. Everyone else: thumbs up if it passes both tests.
+        </div>
+        <details class="helper">
+          <summary>Pebble finder for this story</summary>
+          <div class="h-body"><ul><li>Who else is in the library?</li><li>What could make a noise at the wrong moment?</li><li>What could you drop, or leave behind?</li></ul></div>
+        </details>
+        <div class="reveal-step">
+          <div class="one-way">One way it could go</div>
+          <div class="ladder mini">
+            <div class="rung t-pebble"><div class="rung-tag">Pebble</div><div class="rung-text">Mrs Okafor, the librarian, nearly catches you slipping behind the shelf.</div><div class="feels"><span>Feels:</span> flustered, uneasy</div></div>
+            <div class="link-arrow"><svg><use href="#i-up"/></svg><span class="pill">because of that</span></div>
+            <div class="rung t-rock"><div class="rung-tag">Rock</div><div class="rung-text">You dive through so fast that the door slams shut behind you, and there is no handle on this side.</div><div class="feels"><span>Feels:</span> worried, trapped</div></div>
+          </div>
+        </div>
+        <div class="btn-row"><button class="btn btn-purple" onclick="revealNext(this)">Show one way it could go</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 11: TOPIC 2 ============ -->
+<div class="slide" id="slide11">
+  <div class="card">
+    <div class="card-head"><div class="eyebrow">Share and check &middot; Story idea <span class="num">2</span> of <span class="num">4</span></div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Share</span></div>
+    <div class="poster">
+      <div>
+        <div class="poster-hero h-coral">
+          <svg class="art" viewBox="0 0 400 330" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><circle cx="90" cy="80" r="40" fill="#fff"/><circle cx="300" cy="210" r="60" fill="#fff"/><path d="M40 280 L200 130 L360 280 Z" fill="none" stroke="#fff" stroke-width="10"/><rect x="150" y="30" width="120" height="30" rx="15" fill="#fff"/></svg>
+          <div class="p-genre">Realistic / Sport</div>
+          <div class="p-title">The Night Before the Final</div>
+          <div class="p-what">The night before the state final (dance, netball, gymnastics, swimming, you choose), everything starts going wrong.</div>
+        </div>
+        <div class="think-step" style="margin-top:16px;border-left-color:var(--coral)"><div class="think-label" style="color:var(--coral-dark)">Remember this sizzling start?</div>"My costume was gone. Not misplaced. Gone."</div>
+      </div>
+      <div>
+        <div class="think-step" style="margin-top:0">
+          <div class="think-label">Share</div>
+          Groups with this story: read your pebble and rock as one sentence, joined with <strong>because of that</strong>. Everyone else: thumbs up if it passes both tests.
+        </div>
+        <details class="helper">
+          <summary>Pebble finder for this story</summary>
+          <div class="h-body"><ul><li>What do you need for tomorrow?</li><li>Who are you counting on?</li><li>What could make you late?</li></ul></div>
+        </details>
+        <div class="reveal-step">
+          <div class="one-way">One way it could go</div>
+          <div class="ladder mini">
+            <div class="rung t-pebble"><div class="rung-tag">Pebble</div><div class="rung-text">Your costume is missing. That is the sizzling start! A start can drop us straight into the pebble.</div><div class="feels"><span>Feels:</span> annoyed, uneasy</div></div>
+            <div class="link-arrow"><svg><use href="#i-up"/></svg><span class="pill">because of that</span></div>
+            <div class="rung t-rock"><div class="rung-tag">Rock</div><div class="rung-text">You borrow your cousin's costume, but at the dress rehearsal the coach says it breaks the rules. You might be disqualified.</div><div class="feels"><span>Feels:</span> worried, upset</div></div>
+          </div>
+        </div>
+        <div class="btn-row"><button class="btn btn-coral" onclick="revealNext(this)">Show one way it could go</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 12: TOPIC 3 ============ -->
+<div class="slide" id="slide12">
+  <div class="card">
+    <div class="card-head"><div class="eyebrow">Share and check &middot; Story idea <span class="num">3</span> of <span class="num">4</span></div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Share</span></div>
+    <div class="poster">
+      <div>
+        <div class="poster-hero h-teal">
+          <svg class="art" viewBox="0 0 400 330" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><circle cx="200" cy="160" r="110" fill="none" stroke="#fff" stroke-width="14"/><circle cx="200" cy="50" r="18" fill="#fff"/><circle cx="310" cy="160" r="18" fill="#fff"/><circle cx="200" cy="270" r="18" fill="#fff"/><circle cx="90" cy="160" r="18" fill="#fff"/><circle cx="278" cy="82" r="12" fill="#fff"/><circle cx="122" cy="238" r="12" fill="#fff"/></svg>
+          <div class="p-genre">Fantasy / Friendship</div>
+          <div class="p-title">The Friendship Bracelet</div>
+          <div class="p-what">A bracelet from a market stall lets you hear what your best friend is really thinking.</div>
+        </div>
+        <div class="think-step" style="margin-top:16px;border-left-color:var(--teal)"><div class="think-label" style="color:var(--teal-dark)">Remember this sizzling start?</div>"I heard her voice clearly, but her lips never moved."</div>
+      </div>
+      <div>
+        <div class="think-step" style="margin-top:0">
+          <div class="think-label">Share</div>
+          Groups with this story: read your pebble and rock as one sentence, joined with <strong>because of that</strong>. Everyone else: thumbs up if it passes both tests.
+        </div>
+        <details class="helper">
+          <summary>Pebble finder for this story</summary>
+          <div class="h-body"><ul><li>What is the first thing you hear?</li><li>Who is nearby when it happens?</li><li>What could you blurt out by accident?</li></ul></div>
+        </details>
+        <div class="reveal-step">
+          <div class="one-way">One way it could go</div>
+          <div class="ladder mini">
+            <div class="rung t-pebble"><div class="rung-tag">Pebble</div><div class="rung-text">The bracelet tingles, and you start hearing Ava's thoughts. Nobody else can hear them.</div><div class="feels"><span>Feels:</span> puzzled, uneasy</div></div>
+            <div class="link-arrow"><svg><use href="#i-up"/></svg><span class="pill">because of that</span></div>
+            <div class="rung t-rock"><div class="rung-tag">Rock</div><div class="rung-text">In class, you answer a question Ava only <em>thought</em>, out loud, in front of everyone. Now Ava is staring at you, and she wants to know how you knew.</div><div class="feels"><span>Feels:</span> embarrassed, worried</div></div>
+          </div>
+        </div>
+        <div class="btn-row"><button class="btn btn-teal" onclick="revealNext(this)">Show one way it could go</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 13: TOPIC 4 ============ -->
+<div class="slide" id="slide13">
+  <div class="card">
+    <div class="card-head"><div class="eyebrow">Share and check &middot; Story idea <span class="num">4</span> of <span class="num">4</span></div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Share</span></div>
+    <div class="poster">
+      <div>
+        <div class="poster-hero h-blue">
+          <svg class="art" viewBox="0 0 400 330" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><path d="M60 270 L130 140 L200 270 Z" fill="#fff"/><path d="M200 270 L270 130 L340 270 Z" fill="#fff"/><circle cx="330" cy="60" r="26" fill="#fff"/><path d="M20 270 H380" stroke="#fff" stroke-width="8"/><circle cx="90" cy="40" r="4" fill="#fff"/><circle cx="160" cy="70" r="4" fill="#fff"/><circle cx="240" cy="40" r="4" fill="#fff"/></svg>
+          <div class="p-genre">Adventure / Suspense</div>
+          <div class="p-title">Lost on School Camp</div>
+          <div class="p-what">On the last night of camp, you step outside your cabin and every other cabin is empty.</div>
+        </div>
+        <div class="think-step" style="margin-top:16px;border-left-color:var(--sky)"><div class="think-label">Remember this sizzling start?</div>"Every sleeping bag was zipped up. Every one was empty."</div>
+      </div>
+      <div>
+        <div class="think-step" style="margin-top:0">
+          <div class="think-label">Share</div>
+          Groups with this story: read your pebble and rock as one sentence, joined with <strong>because of that</strong>. Everyone else: thumbs up if it passes both tests.
+        </div>
+        <details class="helper">
+          <summary>Pebble finder for this story</summary>
+          <div class="h-body"><ul><li>Who could have left you a clue?</li><li>What do you need that you have not got?</li><li>Where could the path take you?</li></ul><p style="margin-top:6px">Try not to borrow Lily's torch! Find a pebble of your own.</p></div>
+        </details>
+        <div class="reveal-step">
+          <div class="one-way">One way it could go</div>
+          <div class="ladder mini">
+            <div class="rung t-pebble"><div class="rung-tag">Pebble</div><div class="rung-text">On Miss Tran's bunk you find a note: "Meet at the..." The rest has been torn off.</div><div class="feels"><span>Feels:</span> puzzled, uneasy</div></div>
+            <div class="link-arrow"><svg><use href="#i-up"/></svg><span class="pill">because of that</span></div>
+            <div class="rung t-rock"><div class="rung-tag">Rock</div><div class="rung-text">You guess "the campfire" and head into the bush towards the old fire pit. The fire pit is cold and empty, and now you cannot see the cabins at all.</div><div class="feels"><span>Feels:</span> worried, scared</div></div>
+          </div>
+        </div>
+        <div class="btn-row"><button class="btn btn-sky" onclick="revealNext(this)">Show one way it could go</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 14: CHOOSE YOUR TOPIC ============ -->
+<div class="slide" id="slide14">
+  <div class="card">
+    <div class="card-head"><div class="eyebrow">You do</div><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
+    <h2>Choose your topic and set up your ladder</h2>
+    <div class="journey">
+      <div class="jstone done"><div class="j-n">01</div><div class="j-t">Sizzling start</div><div class="j-l">Lesson 1</div></div>
+      <div class="jstone done"><div class="j-n">02</div><div class="j-t">Backfill</div><div class="j-l">Lesson 2</div></div>
+      <div class="jstone now"><div class="j-n">03</div><div class="j-t">Pebble and rock</div><div class="j-l">Today</div></div>
+      <div class="jstone"><div class="j-n">04</div><div class="j-t">Boulder</div><div class="j-l">Lesson 4</div></div>
+      <div class="jstone"><div class="j-n">05</div><div class="j-t">Climax and ending</div><div class="j-l">Lesson 5</div></div>
+      <div class="jstone"><div class="j-n">06</div><div class="j-t">Write it</div><div class="j-l">Lessons 6 to 8</div></div>
+    </div>
+    <div class="two-col">
+      <div>
+        <h3>Today you choose your topic for the whole unit.</h3>
+        <div class="chips" style="grid-template-columns:1fr 1fr">
+          <div class="chip h-purple">The Door Behind the Library Shelf</div>
+          <div class="chip h-coral">The Night Before the Final</div>
+          <div class="chip h-teal">The Friendship Bracelet</div>
+          <div class="chip h-blue">Lost on School Camp</div>
+        </div>
+        <p style="font-size:clamp(16px,1.5vw,20px);color:var(--ink-light)">Your own idea is fine too, if your teacher says yes.</p>
+        <div class="think-step"><div class="think-label">Look back</div>Find your sizzling start and backfill from Lessons 1 and 2. If they fit your topic, keep them. They are the beginning of your story.</div>
+        <div class="book-box">
+          <div class="box-icon"><svg><use href="#i-book"/></svg></div>
+          <div><div class="box-label">In your book</div><div class="box-text">Turn to a new page and set it out like the picture. Draw the ladder with three rungs: <em>PEBBLE</em> at the bottom, <em>ROCK</em> in the middle, <em>BOULDER</em> at the top. Keep this page safe: you will use it until your story is finished.</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="notebook" id="notebook">
+          <div class="nb-title">My Problem Ladder</div>
+          <div class="nb-blank">
+            <div class="nb-line">My topic: <span class="blank" style="min-width:220px"></span></div>
+            <div class="nb-line">My main character: <span class="q" style="color:#8a8f94">name, age, one strength, one worry</span></div>
+            <div class="nb-ladder">
+              <div class="nb-rung empty"><b>BOULDER</b><br>Leave this empty until next lesson.</div>
+              <div class="nb-rung"><b>ROCK</b><br><span class="q">What happens because of the pebble?</span><br><span class="q">How does my character feel?</span></div>
+              <div class="nb-rung"><b>PEBBLE</b><br><span class="q">What goes wrong first?</span><br><span class="q">How does my character feel?</span></div>
+            </div>
+          </div>
+          <div class="nb-example">
+            <div class="nb-line">My topic: <span class="nb-ink">my camp story</span></div>
+            <div class="nb-line">My main character: <span class="nb-ink">Lily, 11. Strength: remembers everything. Worry: secretly scared of the dark.</span></div>
+            <div class="nb-ladder">
+              <div class="nb-rung empty"><b>BOULDER</b><br>Leave this empty until next lesson.</div>
+              <div class="nb-rung"><b>ROCK</b><br><span class="nb-ink">Because it's so dark, she takes the wrong track and gets lost.</span><br><span class="nb-ink">Feels: worried, scared</span></div>
+              <div class="nb-rung"><b>PEBBLE</b><br><span class="nb-ink">Her torch dies on the way back from the toilet block.</span><br><span class="nb-ink">Feels: annoyed, uneasy</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="btn-row"><button class="btn btn-outline" id="nbBtn" onclick="toggleNotebook()">Show Lily's page</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 15: PLAN ============ -->
+<div class="slide" id="slide15">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">You do</div><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
+    <h2>Plan your pebble and rock</h2>
+    <div class="steps green">
+      <div class="step"><div class="st-n">01</div><div class="st-t">Topic and character</div><div class="st-d">Name, age, one strength, one worry.</div></div>
+      <div class="step"><div class="st-n">02</div><div class="st-t">Your pebble</div><div class="st-d">What goes wrong first? Look at your sizzling start. Is something already going wrong? That might be your pebble.</div></div>
+      <div class="step"><div class="st-n">03</div><div class="st-t">Your rock</div><div class="st-d">What happens <strong>because of</strong> your pebble? Make it harder.</div></div>
+      <div class="step"><div class="st-n">04</div><div class="st-t">Feelings</div><div class="st-d">How does your character feel on each rung? The feeling should grow.</div></div>
+    </div>
+    <div class="helpers">
+      <details class="helper">
+        <summary>Stuck on a pebble?</summary>
+        <div class="h-body"><ul><li>What could go missing?</li><li>What could break, run out or stop working?</li><li>Who could nearly catch you?</li><li>What could you mishear or forget?</li></ul></div>
+      </details>
+      <details class="helper">
+        <summary>Feelings words</summary>
+        <div class="h-body">
+          <div class="feel-cols">
+            <div style="background:var(--gold-light)"><b style="color:var(--gold-dark)">Pebble</b>annoyed, uneasy, puzzled, irritated, embarrassed, flustered</div>
+            <div style="background:var(--orange-light)"><b style="color:var(--orange-dark)">Rock</b>worried, nervous, anxious, upset, frustrated, frightened</div>
+          </div>
+          <p style="margin-top:8px">Save the strongest words (terrified, desperate) for your boulder.</p>
+        </div>
+      </details>
+      <details class="helper">
+        <summary>Go further</summary>
+        <div class="h-body"><ul><li>Poke at the worry: choose problems that hit what your character fears most, like Lily's torch.</li><li>Make it matter: give your character a reason this problem matters to them (they promised Mum, it is their last chance to make the team).</li></ul></div>
+      </details>
+    </div>
+    <div class="two-col" style="margin-top:16px">
+      <ul class="check-list">
+        <li><span class="tick"></span><span>My pebble is a small problem: annoying, but fixable.</span></li>
+        <li><span class="tick"></span><span>My rock is harder. My character is more worried. (Worry test)</span></li>
+        <li><span class="tick"></span><span>My rock happens because of my pebble. (Because test)</span></li>
+        <li><span class="tick"></span><span>I wrote how my character feels on both rungs.</span></li>
+      </ul>
+      <div class="timer-wrap" data-mins="10">
+        <div class="timer-display">10:00</div>
+        <div class="timer-presets">
+          <button class="btn btn-outline" onclick="timerSet(this,5)">5 min</button>
+          <button class="btn btn-outline sel" onclick="timerSet(this,10)">10 min</button>
+          <button class="btn btn-outline" onclick="timerSet(this,15)">15 min</button>
+        </div>
+        <div class="btn-row" style="margin-top:2px">
+          <button class="btn btn-green t-start" onclick="timerToggle(this)">Start</button>
+          <button class="btn btn-outline" onclick="timerReset(this)">Reset</button>
+        </div>
+      </div>
+    </div>
+    <div class="teacher-panel">
+      <div class="tp-title">While students plan</div>
+      <ul>
+        <li>Rove and ask: "How does your pebble lead to your rock?" and "What is your character worried about? Can your problems poke at it?"</li>
+        <li>Support: sit with a small group at the teacher table and use the pebble finder questions together. Accept a pebble and rock without feelings at first, then add one feeling word each.</li>
+        <li>Extension: the Go further box. Ask early finishers to write the paragraph where the pebble happens.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 16: BECAUSE TEST ============ -->
+<div class="slide" id="slide16">
+  <div class="card">
+    <div class="card-head"><div class="eyebrow">You do</div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Partners</span><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
+    <h2>The because test</h2>
+    <p class="lead">Turn to a partner. Read your ladder to them as one sentence.</p>
+    <div class="frame-big">My pebble is <span class="gap"></span>, <span class="bc">and because of that</span>, <span class="gap"></span>.</div>
+    <div class="reveal-step">
+      <div class="think-step"><div class="think-label">Partner: check it</div>Thumbs up if "because of that" makes sense. Then point up if the rock is <strong>harder</strong> than the pebble. Not sure? Help each other fix it.</div>
+    </div>
+    <div class="reveal-step">
+      <div class="book-box">
+        <div class="box-icon"><svg><use href="#i-book"/></svg></div>
+        <div><div class="box-label">In your book</div><div class="box-text">Make one change to your ladder to make it stronger. Tick the two tests next to your rock: <em>Worry test</em> <em>Because test</em></div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-green" onclick="revealNext(this)">Reveal</button></div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ SLIDE 17: EXIT SLIP ============ -->
+<div class="slide" id="slide17">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">Reflect</div><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
+    <h2>Exit slip</h2>
+    <p class="lead">Answer under your ladder.</p>
+    <div class="reflect-item"><span class="r-n">1</span>Without looking back, write the two rules for a problem ladder.</div>
+    <div class="reflect-item"><span class="r-n">2</span>Remember Ella at the beach? Give her a pebble and a rock, joined with "because of that".<small>Ella went to the beach. She swam and built a sandcastle. She had a lovely day.</small></div>
+    <div class="reflect-item"><span class="r-n">3</span>Predict: what could your boulder be?<small>Hint: what is your character most worried about?</small></div>
+    <div class="btn-row"><button class="btn btn-gold" onclick="revealReflect(this)">Reveal next question</button></div>
+    <div class="teacher-panel">
+      <div class="tp-title">Assessment check</div>
+      <p>Collect books or walk the room. Look for: a clear pebble and a bigger rock; a cause-and-effect link between them (the because test); problems that suit the chosen topic; a feeling on each rung.</p>
+      <p>Note students whose rock is not connected, or not bigger than the pebble, and conference with them before Lesson 4. Question 2 shows who can transfer the idea to a new story.</p>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+/* ============ NAVIGATION ============ */
+var slides=document.querySelectorAll('.slide');
+var sidebarItems=document.querySelectorAll('.sidebar-item');
+var totalSlides=slides.length;
+var currentSlide=0;
+
+function goToSlide(n){
+  if(n<0||n>=totalSlides)return;
+  slides[currentSlide].classList.remove('active');
+  sidebarItems[currentSlide].classList.remove('active');
+  currentSlide=n;
+  slides[currentSlide].classList.add('active');
+  sidebarItems[currentSlide].classList.add('active');
+  updateCounter();
+  if(document.activeElement)document.activeElement.blur();
+  window.scrollTo(0,0);
+}
+function nextSlide(){goToSlide(currentSlide+1);}
+function prevSlide(){goToSlide(currentSlide-1);}
+function updateCounter(){
+  document.querySelectorAll('.slide-counter').forEach(function(el){
+    el.innerHTML='Card <span class="num">'+(currentSlide+1)+'</span> of <span class="num">'+totalSlides+'</span>';
+  });
+  slides.forEach(function(s,i){
+    var btns=s.querySelectorAll('.slide-nav .nav-btn');
+    if(btns[0])btns[0].disabled=(i===0);
+    if(btns[1])btns[1].disabled=(i===totalSlides-1);
+  });
+}
+updateCounter();
+
+function toggleSidebar(){
+  var sb=document.getElementById('sidebar');
+  sb.classList.toggle('collapsed');
+  sb.classList.toggle('open');
+}
+
+/* Keyboard navigation (clicker compatible) */
+document.addEventListener('keydown',function(e){
+  var tag=document.activeElement?document.activeElement.tagName:'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;
+  if(document.activeElement)document.activeElement.blur();
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){
+    e.preventDefault();nextSlide();
+  }else if(e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='PageUp'){
+    e.preventDefault();prevSlide();
+  }
+},true);
+
+/* ============ GENERIC PROGRESSIVE REVEAL ============ */
+/* Reveals the next hidden .reveal-step inside the button's card, in document order.
+   Hides the button once nothing is left to reveal. */
+function revealNext(btn){
+  var card=btn.closest('.card');
+  var steps=card.querySelectorAll('.reveal-step');
+  for(var i=0;i<steps.length;i++){
+    if(!steps[i].classList.contains('visible')){
+      var parent=steps[i].parentElement.closest('.reveal-step');
+      if(parent&&!parent.classList.contains('visible'))continue;
+      steps[i].classList.add('visible');
+      var remaining=false;
+      for(var j=0;j<steps.length;j++){if(!steps[j].classList.contains('visible'))remaining=true;}
+      if(!remaining)btn.classList.add('done');
+      return;
+    }
+  }
+  btn.classList.add('done');
+}
+
+/* ============ TEACHER NOTES ============ */
+function toggleTeacher(btn){
+  var box=btn.closest('.card, .lisc');
+  var panel=box.querySelector('.teacher-panel');
+  var open=panel.classList.toggle('open');
+  btn.textContent=open?'Hide teacher notes':'Teacher notes';
+}
+
+/* ============ LILY'S LADDER STEPPER ============ */
+var lilyStep=0,LILY_MAX=5;
+function lilyRender(){
+  var root=document.getElementById('lily');
+  root.querySelectorAll('[data-show]').forEach(function(el){
+    var show=+el.getAttribute('data-show');
+    var hide=el.hasAttribute('data-hide')?+el.getAttribute('data-hide'):99;
+    el.classList.toggle('on',lilyStep>=show&&lilyStep<hide);
+  });
+  root.querySelectorAll('[data-until]').forEach(function(el){
+    el.classList.toggle('off',lilyStep>=+el.getAttribute('data-until'));
+  });
+  root.querySelectorAll('[data-vis]').forEach(function(el){
+    el.classList.toggle('ghost',lilyStep<+el.getAttribute('data-vis'));
+  });
+  root.querySelectorAll('.narr').forEach(function(el){
+    el.classList.toggle('on',+el.getAttribute('data-step')===lilyStep);
+  });
+  document.getElementById('lilyRock').classList.toggle('struck',lilyStep===3);
+  document.getElementById('lilyN').textContent=lilyStep+1;
+  document.getElementById('lilyBack').disabled=(lilyStep===0);
+  document.getElementById('lilyNext').disabled=(lilyStep===LILY_MAX);
+}
+function lilyGo(d){
+  lilyStep=Math.max(0,Math.min(LILY_MAX,lilyStep+d));
+  lilyRender();
+}
+lilyRender();
+
+/* ============ WOBBLY OR STRONG ============ */
+var WQ=[
+  {p:"Mia's bike chain slips off on the way to school.",
+   r:"Because she stops to fix it, she misses the excursion bus. It leaves without her.",
+   strong:true,
+   worry:[true,"Missing the excursion is much worse than a slipped chain."],
+   because:[true,"Her chain slipped, and because of that, she missed the bus. It makes sense."],
+   lesson:"Harder, and connected. A strong ladder."},
+  {p:"Zoe spills blue paint on her art project.",
+   r:"A pirate ship sails into the harbour.",
+   strong:false,
+   worry:[true,"Pirates are a bigger problem than spilled paint."],
+   because:[false,"Zoe spilled paint, and because of that, pirates arrived? The rock comes from nowhere."],
+   lesson:"Bigger is not enough. The rock has to grow out of the pebble."},
+  {p:"Grace forgets to shut the back gate.",
+   r:"Because the gate is open, her puppy, Biscuit, slips out and races off down the street.",
+   strong:true,
+   worry:[true,"A lost puppy is much more worrying than an open gate."],
+   because:[true,"She left the gate open, and because of that, Biscuit got out. It makes sense."],
+   lesson:"Harder, and connected. A strong ladder."},
+  {p:"The power goes out at Priya's sleepover, and the whole house goes pitch black.",
+   r:"Because it is dark, Priya cannot find her hairbrush.",
+   strong:false,
+   worry:[false,"A lost hairbrush is smaller than a blackout. The worry goes down, not up."],
+   because:[true,"It is connected: the dark makes it hard to find things."],
+   lesson:"Connected is not enough. The rock has to be harder."},
+  {p:"Ruby's pencil breaks in the middle of the spelling test.",
+   r:"Last week, Ruby lost her library book.",
+   strong:false,
+   worry:[false,"A lost library book is not more worrying than a broken pencil in a test."],
+   because:[false,"Last week happened before the pencil broke, so the pencil cannot have caused it."],
+   lesson:"The rock always comes after the pebble, never before."}
+];
+var wqI=0,wqShown=false;
+function testRow(name,t){
+  return '<div class="test-row '+(t[0]?'pass':'fail')+'"><div class="ti"><svg><use href="#i-'+(t[0]?'tick':'cross')+'"/></svg></div><div><strong>'+name+'</strong>'+t[1]+'</div></div>';
+}
+function wqRender(){
+  var q=WQ[wqI];
+  document.getElementById('wqP').textContent=q.p;
+  document.getElementById('wqR').textContent=q.r;
+  document.getElementById('wqN').textContent=wqI+1;
+  document.getElementById('wqT').textContent=WQ.length;
+  var v=document.getElementById('wqV');
+  var lad=document.getElementById('wqLadder');
+  lad.classList.remove('wobble','strong');
+  if(wqShown){
+    v.innerHTML='<div class="big-stamp '+(q.strong?'s':'w')+'">'+(q.strong?'Strong':'Wobbly')+'</div>'+
+      testRow('Worry test',q.worry)+testRow('Because test',q.because)+
+      '<div class="wq-lesson">'+q.lesson+'</div>';
+    v.classList.add('on');
+    void lad.offsetWidth;
+    lad.classList.add(q.strong?'strong':'wobble');
+  }else{
+    v.classList.remove('on');v.innerHTML='';
+  }
+  var b=document.getElementById('wqBtn');
+  if(!wqShown){b.textContent='Reveal';b.disabled=false;}
+  else if(wqI<WQ.length-1){b.textContent='Next ladder';b.disabled=false;}
+  else{b.textContent='All done';b.disabled=true;}
+}
+function wqStep(){
+  if(!wqShown){wqShown=true;}
+  else if(wqI<WQ.length-1){wqI++;wqShown=false;}
+  wqRender();
+}
+wqRender();
+
+/* ============ NOTEBOOK TOGGLE ============ */
+function toggleNotebook(){
+  var nb=document.getElementById('notebook');
+  var on=nb.classList.toggle('show-ex');
+  document.getElementById('nbBtn').textContent=on?'Show the empty page':"Show Lily's page";
+}
+
+/* ============ REFLECT ============ */
+function revealReflect(btn){
+  var items=btn.closest('.card').querySelectorAll('.reflect-item');
+  for(var i=0;i<items.length;i++){
+    if(!items[i].classList.contains('visible')){
+      items[i].classList.add('visible');
+      if(i===items.length-1)btn.classList.add('done');
+      return;
+    }
+  }
+}
+
+/* ============ TIMERS (one per .timer-wrap) ============ */
+function fmt(s){var m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r;}
+function tState(w){
+  if(!w._t){var m=+w.getAttribute('data-mins')||10;w._t={total:m*60,left:m*60,id:null};}
+  return w._t;
+}
+function tPaint(w){
+  var t=tState(w),d=w.querySelector('.timer-display');
+  d.textContent=fmt(t.left);
+  d.classList.toggle('warn',t.left>0&&t.left<=60);
+  d.classList.toggle('done',t.left===0);
+}
+function tStop(w){
+  var t=tState(w);
+  if(t.id){clearInterval(t.id);t.id=null;}
+  w.querySelector('.t-start').textContent='Start';
+}
+function timerSet(btn,mins){
+  var w=btn.closest('.timer-wrap'),t=tState(w);
+  tStop(w);t.total=mins*60;t.left=t.total;
+  w.querySelectorAll('.timer-presets .btn').forEach(function(b){b.classList.remove('sel');});
+  btn.classList.add('sel');tPaint(w);
+}
+function timerToggle(btn){
+  var w=btn.closest('.timer-wrap'),t=tState(w);
+  if(t.id){tStop(w);return;}
+  if(t.left<=0)t.left=t.total;
+  btn.textContent='Pause';
+  t.id=setInterval(function(){
+    t.left--;
+    if(t.left<=0){t.left=0;tStop(w);}
+    tPaint(w);
+  },1000);
+}
+function timerReset(btn){
+  var w=btn.closest('.timer-wrap'),t=tState(w);
+  tStop(w);t.left=t.total;tPaint(w);
+}
+document.querySelectorAll('.timer-wrap').forEach(tPaint);
+</script>
+</body>
+</html>
