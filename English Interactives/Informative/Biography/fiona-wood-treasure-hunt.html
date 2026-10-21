@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Treasure Hunt: Fiona Wood</title>
+<meta name="description" content="One-page A4 refresher: a short biography of Fiona Wood with a language-feature treasure hunt. Page 2 is the teacher answer key.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,500&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1f3a5f;--ink:#1d2431;--muted:#5e6878;--line:#c9c3b4;--ice:#dce9f4;--gold:#e4b84a;
+  --past:#e4572e;--past-bg:#ffd9cc;
+  --pres:#1f9d63;--pres-bg:#cdf2de;
+  --emo:#7b4fd1;--emo-bg:#e4d8ff;
+  --time:#d9960f;--time-bg:#ffe9a8;
+  --cls:#1686a3;--cls-bg:#cdeef6;
+  --cause:#d6336c;--cause-bg:#ffd5e3;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#e9e5da;font-family:'Nunito',sans-serif;color:var(--ink);font-size:10.5pt;line-height:1.4}
+.toolbar{display:flex;gap:14px;align-items:center;justify-content:center;padding:14px;background:var(--navy);color:#fff;flex-wrap:wrap}
+.toolbar button{font-family:inherit;font-weight:900;font-size:1rem;background:var(--gold);color:var(--navy);border:none;border-radius:100px;padding:10px 22px;cursor:pointer}
+.toolbar a{color:#dbe9f4;font-weight:700}
+.toolbar span{color:#dbe9f4;font-size:.9rem}
+.page{width:210mm;height:297mm;margin:16px auto;background:#fff;padding:10mm 12mm;box-shadow:0 10px 30px rgba(0,0,0,.15);display:flex;flex-direction:column;gap:3.5mm;overflow:hidden}
+.page>*{flex-shrink:0}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:8mm;border-bottom:2.5pt solid var(--navy);padding-bottom:2.5mm}
+.eyebrow{font-size:8pt;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#9a7b1f}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:21pt;margin:0;color:var(--navy);line-height:1.05}
+h1 em{font-weight:500;font-style:italic;color:#4a6d95}
+.names{font-size:9.5pt;min-width:62mm;border-bottom:1pt solid var(--ink);padding-bottom:1mm}
+.names span{color:var(--muted);font-weight:700}
+
+.passage{column-count:2;column-gap:7mm;font-size:10.6pt;line-height:1.5}
+.passage p{margin:0 0 2.2mm}
+.passage p:first-child::first-letter{font-family:'Fraunces',serif;font-size:2.6em;float:left;line-height:.8;padding:1pt 4pt 0 0;color:var(--navy)}
+mark{background:transparent;color:inherit;padding:0;border-radius:3px}
+
+.brief{background:var(--ice);border-radius:3mm;padding:2mm 3.5mm;font-size:9.5pt}
+.brief b{color:var(--navy)}
+
+.hunt{display:grid;grid-template-columns:1fr 1fr;gap:3mm 4mm}
+.feat{border:1.2pt solid var(--c);border-radius:3mm;overflow:hidden}
+.feat .bar{background:var(--bg);padding:1.4mm 3mm;display:flex;align-items:center;gap:2.5mm}
+.feat .bar h2{font-family:'Fraunces',serif;font-weight:700;font-size:11pt;margin:0;color:var(--c);white-space:nowrap}
+.feat .def{font-size:8pt;color:var(--ink);flex:1;line-height:1.25}
+.feat .target{background:var(--c);color:#fff;font-weight:900;font-size:8.5pt;padding:.6mm 2.6mm;border-radius:10mm;white-space:nowrap}
+.feat .cells{padding:0 3mm 1.5mm}
+.feat .cell{display:flex;align-items:flex-end;gap:1.5mm;height:6.6mm;border-bottom:.8pt solid var(--line)}
+.feat .cell b{color:var(--c);font-family:'Fraunces',serif;font-size:8.5pt;width:4mm;padding-bottom:.4mm}
+.f-past{--c:var(--past);--bg:var(--past-bg)}
+.f-pres{--c:var(--pres);--bg:var(--pres-bg)}
+.f-emo{--c:var(--emo);--bg:var(--emo-bg)}
+.f-time{--c:var(--time);--bg:var(--time-bg)}
+.f-cls{--c:var(--cls);--bg:var(--cls-bg)}
+.f-cause{--c:var(--cause);--bg:var(--cause-bg)}
+
+.summit{border:1.2pt solid var(--navy);border-radius:3mm;padding:2mm 3.5mm;display:flex;flex-direction:column;gap:1.5mm;flex:1 0 auto}
+.summit p{margin:0;font-size:9.5pt}
+.summit .lines{height:12mm;background:repeating-linear-gradient(to bottom,transparent 0 5.8mm,var(--line) 5.8mm 6.1mm)}
+.foot{margin-top:auto;font-size:8pt;color:var(--muted);display:flex;justify-content:space-between;border-top:1pt solid var(--line);padding-top:1.5mm}
+
+/* ---- answer key page ---- */
+.key .passage{font-size:11pt}
+.key mark.f-past{background:var(--past-bg);box-shadow:0 1.5pt 0 var(--past)}
+.key mark.f-pres{background:var(--pres-bg);box-shadow:0 1.5pt 0 var(--pres)}
+.key mark.f-emo{background:var(--emo-bg);box-shadow:0 1.5pt 0 var(--emo)}
+.key mark.f-time{background:var(--time-bg);box-shadow:0 1.5pt 0 var(--time)}
+.key mark.f-cls{background:var(--cls-bg);box-shadow:0 1.5pt 0 var(--cls)}
+.key mark.f-cause{background:var(--cause-bg);box-shadow:0 1.5pt 0 var(--cause)}
+.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:2mm 5mm;font-size:9.5pt;font-weight:800}
+.legend div{display:flex;align-items:center;gap:2mm}
+.legend span{width:6mm;height:6mm;border-radius:1.5mm;background:var(--bg);border:1.2pt solid var(--c)}
+.legend small{font-weight:400;color:var(--muted)}
+.answers{font-size:9.5pt;display:grid;grid-template-columns:1fr 1fr;gap:2mm 6mm}
+.answers div{border-left:3pt solid var(--c);padding-left:2.5mm}
+.answers b{color:var(--c)}
+
+@page{size:A4;margin:0}
+@media print{
+  body{background:#fff}
+  .toolbar{display:none}
+  .page{margin:0;box-shadow:none;page-break-after:always}
+  .page:last-child{page-break-after:auto}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar"><button onclick="window.print()">Print</button><span>Page 1 is the student sheet. Page 2 is the teacher answer key, so print page 1 only for the class.</span><a href="edmund-hillary-language-features.html">Back to the Hillary lesson</a></div>
+
+<!-- ============ STUDENT PAGE ============ -->
+<div class="page">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Biography &middot; Language treasure hunt &middot; Refresher</div>
+      <h1>Fiona Wood <em>the surgeon who sprays on skin</em></h1>
+    </div>
+    <div class="names"><span>Name:</span></div>
+  </div>
+
+  <div class="passage" id="passage">
+    <p>Professor Fiona Wood <mark class="f-pres">is</mark> an <mark class="f-emo">inspiring</mark> <mark class="f-cls">burns surgeon and scientist</mark> who <mark class="f-past">invented</mark> spray-on skin. <mark class="f-time">Today</mark>, her invention <mark class="f-pres">helps</mark> burns patients in hospitals around the world, and she <mark class="f-pres">is known</mark> as one of Australia's most trusted scientists.</p>
+    <p>Fiona <mark class="f-past">was born</mark> <mark class="f-time">on 2 February 1958</mark> in a <mark class="f-emo">small coal-mining village</mark> in Yorkshire, England. Her father was a <mark class="f-cls">coal miner</mark> and her mother was a <mark class="f-cls">PE teacher</mark>. <mark class="f-time">As a girl</mark>, she <mark class="f-past">dreamed</mark> of running in the Olympics, but she <mark class="f-past">chose</mark> medicine instead <mark class="f-cause">because</mark> she wanted to help people. <mark class="f-time">In 1987</mark>, she <mark class="f-past">moved</mark> to Perth with her husband, Tony, who is also a surgeon.</p>
+    <p><mark class="f-time">In 1991</mark>, Fiona <mark class="f-past">became</mark> Western Australia's first female <mark class="f-cls">plastic surgeon</mark>. She was <mark class="f-emo">frustrated</mark> that burns patients had to wait weeks for new skin to grow, <mark class="f-cause">so</mark> she and scientist Marie Stoner <mark class="f-past">developed</mark> a <mark class="f-emo">remarkable</mark> new idea: growing a patient's own skin cells in a lab and spraying them onto the burn.</p>
+    <p><mark class="f-time">In October 2002</mark>, bombs exploded in Bali and 28 <mark class="f-emo">badly burned</mark> survivors <mark class="f-past">were flown</mark> to Fiona's hospital in Perth. She and her team <mark class="f-past">worked</mark> <mark class="f-emo">day and night</mark> for weeks, using spray-on skin to save lives. <mark class="f-cause">As a result</mark>, she <mark class="f-past">was named</mark> Australian of the Year <mark class="f-time">in 2005</mark>. Fiona <mark class="f-pres">still works</mark> as a surgeon <mark class="f-time">today</mark>, and her foundation <mark class="f-pres">raises</mark> money for burns research.</p>
+  </div>
+
+  <div class="brief"><b>The hunt:</b> read the biography twice. Highlight each kind of language in its colour, then write your finds below <b>exactly as they appear in the text</b>. There are more hidden than the targets, so keep going if you finish early.</div>
+
+  <div class="hunt">
+    <div class="feat f-past"><div class="bar"><h2>Past tense verbs</h2><div class="def">Already happened.</div><div class="target">Find 6</div></div>
+      <div class="cells"><div class="cell"><b>1</b></div><div class="cell"><b>2</b></div><div class="cell"><b>3</b></div><div class="cell"><b>4</b></div><div class="cell"><b>5</b></div><div class="cell"><b>6</b></div></div></div>
+    <div class="feat f-time"><div class="bar"><h2>Time connectives</h2><div class="def">Signposts that order events.</div><div class="target">Find 5</div></div>
+      <div class="cells"><div class="cell"><b>1</b></div><div class="cell"><b>2</b></div><div class="cell"><b>3</b></div><div class="cell"><b>4</b></div><div class="cell"><b>5</b></div></div></div>
+    <div class="feat f-pres"><div class="bar"><h2>Present tense verbs</h2><div class="def">Still true today.</div><div class="target">Find 3</div></div>
+      <div class="cells"><div class="cell"><b>1</b></div><div class="cell"><b>2</b></div><div class="cell"><b>3</b></div></div></div>
+    <div class="feat f-emo"><div class="bar"><h2>Descriptive &amp; emotive</h2><div class="def">Paints a picture or makes you feel.</div><div class="target">Find 4</div></div>
+      <div class="cells"><div class="cell"><b>1</b></div><div class="cell"><b>2</b></div><div class="cell"><b>3</b></div><div class="cell"><b>4</b></div></div></div>
+    <div class="feat f-cls"><div class="bar"><h2>Classifying</h2><div class="def">A job, a role, a type.</div><div class="target">Find 3</div></div>
+      <div class="cells"><div class="cell"><b>1</b></div><div class="cell"><b>2</b></div><div class="cell"><b>3</b></div></div></div>
+    <div class="feat f-cause"><div class="bar"><h2>Cause &amp; effect</h2><div class="def">One thing made another happen.</div><div class="target">Find 2</div></div>
+      <div class="cells"><div class="cell"><b>1</b></div><div class="cell"><b>2</b></div></div></div>
+  </div>
+
+  <div class="summit">
+    <p><b>At the summit:</b> Why does the writer use the present tense in the first and last paragraphs, but the past tense in the middle?</p>
+    <div class="lines"></div>
+  </div>
+
+  <div class="foot"><span>Writer's Toolkit &middot; Biography &middot; Refresher</span><span>Student sheet</span></div>
+</div>
+
+<!-- ============ TEACHER KEY ============ -->
+<div class="page key">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Teacher answer key &middot; do not print for students</div>
+      <h1>Fiona Wood <em>all the hidden treasure</em></h1>
+    </div>
+  </div>
+  <div class="legend">
+    <div class="f-past"><span></span>Past tense verbs <small>(10)</small></div>
+    <div class="f-pres"><span></span>Present tense verbs <small>(5)</small></div>
+    <div class="f-emo"><span></span>Descriptive &amp; emotive <small>(6)</small></div>
+    <div class="f-time"><span></span>Time connectives <small>(8)</small></div>
+    <div class="f-cls"><span></span>Classifying <small>(4)</small></div>
+    <div class="f-cause"><span></span>Cause &amp; effect <small>(3)</small></div>
+  </div>
+  <div class="passage" id="keypassage"></div>
+  <div class="answers">
+    <div class="f-past"><b>Past tense:</b> invented, was born, dreamed, chose, moved, became, developed, were flown, worked, was named</div>
+    <div class="f-time"><b>Time connectives:</b> Today, on 2 February 1958, As a girl, In 1987, In 1991, In October 2002, in 2005, today</div>
+    <div class="f-pres"><b>Present tense:</b> is, helps, is known, still works, raises. The first and last paragraphs are about now, because Fiona is alive and her invention is still in use; the middle is her story so far.</div>
+    <div class="f-emo"><b>Descriptive &amp; emotive:</b> inspiring, small coal-mining village, frustrated, remarkable, badly burned, day and night. Accept others such as <i>trusted</i>.</div>
+    <div class="f-cls"><b>Classifying:</b> burns surgeon and scientist, coal miner, PE teacher, plastic surgeon</div>
+    <div class="f-cause"><b>Cause &amp; effect:</b> because, so, As a result</div>
+  </div>
+  <div class="foot"><span>Writer's Toolkit &middot; Biography &middot; Refresher</span><span>Teacher key</span></div>
+</div>
+
+<script>document.getElementById('keypassage').innerHTML=document.getElementById('passage').innerHTML;</script>
+</body>
+</html>
