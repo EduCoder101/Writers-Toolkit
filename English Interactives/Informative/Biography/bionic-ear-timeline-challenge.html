@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Timeline Challenge: The Bionic Ear</title>
+<meta name="description" content="Printable A4 timeline task: read the story of Graeme Clark and the bionic ear, fix a purpose, choose eight events and justify them. Page 3 is teacher notes.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,500&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1f3a5f;--ink:#1d2431;--muted:#5e6878;--line:#c9c3b4;--ice:#dce9f4;--ice2:#eef4fa;--gold:#e4b84a;--teal:#1686a3;--teal-bg:#cdeef6;--violet:#7b4fd1;--violet-bg:#e4d8ff;--coral:#e4572e;--coral-bg:#ffd9cc}
+*{box-sizing:border-box}
+body{margin:0;background:#e9e5da;font-family:'Nunito',sans-serif;color:var(--ink);font-size:10.5pt;line-height:1.4}
+.toolbar{display:flex;gap:14px;align-items:center;justify-content:center;padding:14px;background:var(--navy);color:#fff;flex-wrap:wrap}
+.toolbar button{font-family:inherit;font-weight:900;font-size:1rem;background:var(--gold);color:var(--navy);border:none;border-radius:100px;padding:10px 22px;cursor:pointer}
+.toolbar a{color:#dbe9f4;font-weight:700}
+.toolbar span{color:#dbe9f4;font-size:.9rem}
+.page{width:210mm;height:297mm;margin:16px auto;background:#fff;padding:10mm 12mm;box-shadow:0 10px 30px rgba(0,0,0,.15);display:flex;flex-direction:column;gap:3.5mm;overflow:hidden}
+.page>*{flex-shrink:0}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:8mm;border-bottom:2.5pt solid var(--navy);padding-bottom:2.5mm}
+.eyebrow{font-size:8pt;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#9a7b1f}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:21pt;margin:0;color:var(--navy);line-height:1.05}
+h1 em{font-weight:500;font-style:italic;color:#4a6d95}
+h2{font-family:'Fraunces',serif;font-weight:700;font-size:13pt;margin:0;color:var(--navy)}
+.names{font-size:9.5pt;min-width:62mm;border-bottom:1pt solid var(--ink);padding-bottom:1mm}
+.names span{color:var(--muted);font-weight:700}
+
+.li{background:var(--ice2);border-left:4pt solid var(--navy);border-radius:0 3mm 3mm 0;padding:1.6mm 3.5mm;font-size:9.6pt}
+.li b{color:var(--navy)}
+
+.passage{column-count:2;column-gap:7mm;font-size:9.6pt;line-height:1.42}
+.passage p{margin:0 0 2mm}
+.passage h3{font-family:'Fraunces',serif;font-size:11pt;margin:1mm 0 1mm;color:var(--navy);break-after:avoid}
+.passage p:first-of-type::first-letter{font-family:'Fraunces',serif;font-size:2.6em;float:left;line-height:.8;padding:1pt 4pt 0 0;color:var(--navy)}
+
+.step{border:1.2pt solid var(--navy);border-radius:3mm;overflow:hidden}
+.step .bar{background:var(--ice);padding:1.6mm 3.5mm;display:flex;align-items:center;gap:3mm}
+.step .bar .n{width:7mm;height:7mm;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:900;font-size:11pt}
+.step .bar p{margin:0;font-size:9.5pt;color:var(--ink);flex:1}
+.step .body{padding:2.5mm 3.5mm}
+.purposes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3mm}
+.purpose{border:1.2pt solid var(--c);background:var(--bg);border-radius:2.5mm;padding:2mm 2.5mm 2mm 9mm;position:relative;font-size:9.3pt;line-height:1.3}
+.purpose::before{content:"";position:absolute;left:2.5mm;top:2.5mm;width:4.5mm;height:4.5mm;border:1.2pt solid var(--c);border-radius:1mm;background:#fff}
+.purpose b{display:block;color:var(--c);font-family:'Fraunces',serif;font-size:10.5pt;margin-bottom:.5mm}
+.p-a{--c:var(--teal);--bg:var(--teal-bg)}
+.p-b{--c:var(--violet);--bg:var(--violet-bg)}
+.p-c{--c:var(--coral);--bg:var(--coral-bg)}
+.own{margin-top:2.5mm;display:flex;gap:2mm;align-items:flex-end;font-size:9.3pt}
+.own span{white-space:nowrap;font-weight:800;color:var(--muted)}
+.own i{flex:1;border-bottom:.9pt solid var(--ink);height:5mm;display:block}
+
+table.tl{width:100%;border-collapse:collapse;table-layout:fixed}
+table.tl th{font-size:8pt;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:1mm 2mm;border-bottom:1.2pt solid var(--navy);font-weight:900}
+table.tl td{border-bottom:.9pt solid var(--line);padding:1.2mm 2mm;vertical-align:top;height:15.5mm}
+table.tl.compact td{height:8.2mm;padding:.6mm 2mm}
+table.tl.compact td.yr i{height:5.5mm;margin-top:.6mm}
+.rule1{height:6.2mm;border-bottom:.8pt solid var(--line)}
+table.tl.compact td.n{font-size:10pt}
+table.tl tr:last-child td{border-bottom:none}
+table.tl td.n{width:8mm;font-family:'Fraunces',serif;font-weight:900;color:var(--navy);font-size:12pt}
+table.tl td.yr{width:22mm}
+table.tl td.yr i{display:block;height:7mm;border:1pt solid var(--navy);border-radius:1.5mm;margin-top:1mm}
+table.tl td.ev{width:66mm}
+.rule{background:repeating-linear-gradient(to bottom,transparent 0 5.6mm,var(--line) 5.6mm 5.9mm);height:13mm;margin-top:.5mm}
+table.tl td.why .rule{height:13mm}
+
+.cut{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+.cut .box{border:1pt solid var(--line);border-radius:2.5mm;padding:2mm 2.5mm;font-size:9.3pt}
+.cut .box b{color:var(--navy)}
+.cut .lines{height:11.5mm;background:repeating-linear-gradient(to bottom,transparent 0 5.6mm,var(--line) 5.6mm 5.9mm);margin-top:1mm}
+.foot{margin-top:auto;font-size:8pt;color:var(--muted);display:flex;justify-content:space-between;border-top:1pt solid var(--line);padding-top:1.5mm}
+
+/* teacher page */
+.notes p{margin:0 0 2mm;font-size:9.8pt}
+table.ev{width:100%;border-collapse:collapse;font-size:9pt}
+table.ev th{text-align:left;font-size:8pt;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:1mm 1.5mm;border-bottom:1.2pt solid var(--navy)}
+table.ev td{padding:1mm 1.5mm;border-bottom:.8pt solid var(--line);vertical-align:top}
+table.ev td.c{text-align:center;font-weight:900;width:11mm}
+table.ev td.c.a{color:var(--teal)} table.ev td.c.b{color:var(--violet)} table.ev td.c.k{color:var(--coral)}
+
+@page{size:A4;margin:0}
+@media print{body{background:#fff}.toolbar{display:none}.page{margin:0;box-shadow:none;page-break-after:always}.page:last-child{page-break-after:auto}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<div class="toolbar"><button onclick="window.print()">Print</button><span>Pages 1 and 2 are the student booklet (print double-sided). Page 3 is teacher notes. Students do Step 1 before purpose is mentioned.</span><a href="edmund-hillary-language-features.html">Back to the Hillary lesson</a></div>
+
+<!-- ============ PAGE 1: TEXT + FIRST TIMELINE ============ -->
+<div class="page">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Biography &middot; Timeline challenge</div>
+      <h1>The Bionic Ear <em>sixteen events, room for eight</em></h1>
+    </div>
+    <div class="names"><span>Name:</span></div>
+  </div>
+
+  <div class="li"><b>Your challenge:</b> this true story holds more than fifteen events. A timeline may hold only eight. Read the story, then choose.</div>
+
+  <div class="passage">
+    <h3>A boy who wanted to fix ears</h3>
+    <p>Graeme Clark was born on 16 August 1935 in Camden, a small town south-west of Sydney. His father, Colin, ran the local pharmacy and was badly deaf. Graeme watched customers shout their private questions across the counter and saw how embarrassed his father felt. When he was about ten, a visitor asked what he wanted to be when he grew up. "I want to fix ears," he answered.</p>
+    <p>In 1957 Graeme graduated in medicine from the University of Sydney and trained as an ear, nose and throat surgeon. In 1961 he married Margaret, a nurse, and they later had five children. He operated on ears for years, but nothing a surgeon could do helped people whose hearing nerve had died.</p>
+    <h3>A crazy idea</h3>
+    <p>In 1966 Clark gave up his surgical career to start a research degree. His question sounded impossible: could electricity, delivered straight to the hearing nerve, make a deaf person hear? In 1970 he became the first Professor of Otolaryngology at the University of Melbourne and set up a tiny laboratory. Many experts said the idea would never work. Money was so short that in 1974 a Channel 10 telethon raised funds so the work could continue.</p>
+    <p>The breakthrough came on a family holiday in 1977. Sitting on the sand at Minnamurra Beach, Clark picked up a spiral turban shell and pushed a blade of grass into its curling tunnel. The grass bent and slid in easily. He realised a bundle of thin, flexible wires could be guided around the spiral cochlea inside the ear in just the same way.</p>
+    <h3>The first patient</h3>
+    <p>On 1 August 1978, at the Royal Victorian Eye and Ear Hospital, Clark's team implanted the first multi-channel bionic ear into Rod Saunders, who had lost his hearing in a car accident. Weeks later, when the device was switched on and Rod heard the first notes of "God Save the Queen", Clark walked out of the room and wept. In 1979 a second patient, George Watson, received an implant and was soon chatting on the telephone.</p>
+    <h3>Out into the world</h3>
+    <p>In 1981 the Australian government backed a company, Cochlear, to manufacture the device. In 1984 Clark founded the Bionic Ear Institute to keep improving it. In 1985 the United States approved the bionic ear for adults, and in 1990 it was approved for children as young as two, which changed the lives of thousands of families. Clark received the Prime Minister's Prize for Science in 2004 and, in 2013, America's Lasker Award, often called the "American Nobel". Today more than half a million people around the world hear with a cochlear implant, and the turban shell sits in a museum.</p>
+  </div>
+
+  <div class="step">
+    <div class="bar"><span class="n">1</span><h2>My first timeline</h2><p>Choose eight events and put them in time order. Next to each, one short reason you chose it.</p></div>
+    <div class="body" style="padding-top:1mm">
+      <table class="tl compact">
+        <tr><th></th><th>Year</th><th>What happened</th><th>Why I chose it</th></tr>
+        <tr><td class="n">1</td><td class="yr"><i></i></td><td class="ev"><div class="rule1"></div></td><td class="why"><div class="rule1"></div></td></tr><tr><td class="n">2</td><td class="yr"><i></i></td><td class="ev"><div class="rule1"></div></td><td class="why"><div class="rule1"></div></td></tr><tr><td class="n">3</td><td class="yr"><i></i></td><td class="ev"><div class="rule1"></div></td><td class="why"><div class="rule1"></div></td></tr><tr><td class="n">4</td><td class="yr"><i></i></td><td class="ev"><div class="rule1"></div></td><td class="why"><div class="rule1"></div></td></tr><tr><td class="n">5</td><td class="yr"><i></i></td><td class="ev"><div class="rule1"></div></td><td class="why"><div class="rule1"></div></td></tr><tr><td class="n">6</td><td class="yr"><i></i></td><td class="ev"><div class="rule1"></div></td><td class="why"><div class="rule1"></div></td></tr><tr><td class="n">7</td><td class="yr"><i></i></td><td class="ev"><div class="rule1"></div></td><td class="why"><div class="rule1"></div></td></tr><tr><td class="n">8</td><td class="yr"><i></i></td><td class="ev"><div class="rule1"></div></td><td class="why"><div class="rule1"></div></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="foot"><span>Writer's Toolkit &middot; Biography &middot; Timeline challenge</span><span>Page 1 of 2</span></div>
+</div>
+
+<!-- ============ PAGE 2: PURPOSE + REWORK ============ -->
+<div class="page">
+  <div class="step">
+    <div class="bar"><span class="n">2</span><h2>Stop. What was your timeline <em>for</em>?</h2><p>Compare with a partner. Did you choose the same eight? Now your teacher will give your timeline a purpose. Write it here.</p></div>
+    <div class="body">
+      <div class="purposes">
+        <div class="purpose p-a"><b>The inventor's journey</b>To show how one person's life led to the bionic ear.</div>
+        <div class="purpose p-b"><b>How it was built</b>To show the steps of thinking, testing and making.</div>
+        <div class="purpose p-c"><b>How it changed the world</b>To show the difference it has made to people.</div>
+      </div>
+      <div class="own"><span>My purpose:</span><i></i></div>
+    </div>
+  </div>
+
+  <div class="step" style="flex:1 1 auto;display:flex;flex-direction:column">
+    <div class="bar"><span class="n">3</span><h2>My reworked timeline</h2><p>Eight events again, but now every one must serve your purpose. "It was important" is not a reason.</p></div>
+    <div class="body" style="padding-top:1mm;flex:1">
+      <table class="tl">
+        <tr><th></th><th>Year</th><th>What happened</th><th>Why it serves my purpose</th></tr>
+        <tr><td class="n">1</td><td class="yr"><i></i></td><td class="ev"><div class="rule"></div></td><td class="why"><div class="rule"></div></td></tr><tr><td class="n">2</td><td class="yr"><i></i></td><td class="ev"><div class="rule"></div></td><td class="why"><div class="rule"></div></td></tr><tr><td class="n">3</td><td class="yr"><i></i></td><td class="ev"><div class="rule"></div></td><td class="why"><div class="rule"></div></td></tr><tr><td class="n">4</td><td class="yr"><i></i></td><td class="ev"><div class="rule"></div></td><td class="why"><div class="rule"></div></td></tr><tr><td class="n">5</td><td class="yr"><i></i></td><td class="ev"><div class="rule"></div></td><td class="why"><div class="rule"></div></td></tr><tr><td class="n">6</td><td class="yr"><i></i></td><td class="ev"><div class="rule"></div></td><td class="why"><div class="rule"></div></td></tr><tr><td class="n">7</td><td class="yr"><i></i></td><td class="ev"><div class="rule"></div></td><td class="why"><div class="rule"></div></td></tr><tr><td class="n">8</td><td class="yr"><i></i></td><td class="ev"><div class="rule"></div></td><td class="why"><div class="rule"></div></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="bar"><span class="n">4</span><h2>What changed, and why?</h2><p>Look at both timelines.</p></div>
+    <div class="body">
+      <div class="cut">
+        <div class="box"><b>An event I dropped, and why it no longer fitted:</b><div class="lines"></div></div>
+        <div class="box"><b>An event I added, and what it does for my purpose:</b><div class="lines"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span>Writer's Toolkit &middot; Biography &middot; Timeline challenge</span><span>Page 2 of 2</span></div>
+</div>
+
+<!-- ============ PAGE 3: TEACHER NOTES ============ -->
+<div class="page notes">
+  <div class="head">
+    <div>
+      <div class="eyebrow">Teacher notes &middot; do not print for students</div>
+      <h1>The Bionic Ear <em>which events serve which purpose</em></h1>
+    </div>
+  </div>
+  <p>The text holds sixteen datable events. The grid shows the events a strong <i>reworked</i> timeline would be likely to include for each purpose. It is a guide for the discussion, not a marking key: a student who picks an event outside the ticks and argues for it convincingly has done the task well. The point to draw out is that <b>the same event earns its place for different reasons</b> (Rod Saunders belongs on every timeline, but for three different reasons), and that some events only belong on one.</p>
+  <table class="ev">
+    <tr><th>Year</th><th>Event</th><th class="c" style="color:var(--teal)">Journey</th><th class="c" style="color:var(--violet)">Built</th><th class="c" style="color:var(--coral)">World</th></tr>
+    <tr><td>1935</td><td>Born in Camden, NSW</td><td class="c a">&#10003;</td><td class="c"></td><td class="c"></td></tr>
+    <tr><td>c. 1945</td><td>Deaf father; "I want to fix ears"</td><td class="c a">&#10003;</td><td class="c b">&#10003;</td><td class="c"></td></tr>
+    <tr><td>1957</td><td>Graduates in medicine, trains as ENT surgeon</td><td class="c a">&#10003;</td><td class="c"></td><td class="c"></td></tr>
+    <tr><td>1961</td><td>Marries Margaret; five children</td><td class="c a">?</td><td class="c"></td><td class="c"></td></tr>
+    <tr><td>1966</td><td>Gives up surgery to research electrical hearing</td><td class="c a">&#10003;</td><td class="c b">&#10003;</td><td class="c"></td></tr>
+    <tr><td>1970</td><td>First Professor of Otolaryngology, Melbourne; sets up lab</td><td class="c a">&#10003;</td><td class="c b">&#10003;</td><td class="c"></td></tr>
+    <tr><td>1974</td><td>Channel 10 telethon raises funds; experts doubtful</td><td class="c a">?</td><td class="c b">&#10003;</td><td class="c"></td></tr>
+    <tr><td>1977</td><td>Turban shell and blade of grass at Minnamurra Beach</td><td class="c a">&#10003;</td><td class="c b">&#10003;</td><td class="c"></td></tr>
+    <tr><td>1978</td><td>Rod Saunders receives the first multi-channel implant</td><td class="c a">&#10003;</td><td class="c b">&#10003;</td><td class="c k">&#10003;</td></tr>
+    <tr><td>1979</td><td>George Watson, second patient, uses the telephone</td><td class="c"></td><td class="c b">&#10003;</td><td class="c k">&#10003;</td></tr>
+    <tr><td>1981</td><td>Government backs Cochlear to manufacture the device</td><td class="c"></td><td class="c b">&#10003;</td><td class="c k">&#10003;</td></tr>
+    <tr><td>1984</td><td>Founds the Bionic Ear Institute</td><td class="c a">?</td><td class="c b">&#10003;</td><td class="c"></td></tr>
+    <tr><td>1985</td><td>USA approves the implant for adults</td><td class="c"></td><td class="c"></td><td class="c k">&#10003;</td></tr>
+    <tr><td>1990</td><td>Approved for children as young as two</td><td class="c"></td><td class="c"></td><td class="c k">&#10003;</td></tr>
+    <tr><td>2004</td><td>Prime Minister's Prize for Science</td><td class="c a">&#10003;</td><td class="c"></td><td class="c k">?</td></tr>
+    <tr><td>2013</td><td>Lasker Award, the "American Nobel"</td><td class="c a">&#10003;</td><td class="c"></td><td class="c k">?</td></tr>
+    <tr><td>Today</td><td>More than half a million people hear with a cochlear implant</td><td class="c"></td><td class="c"></td><td class="c k">&#10003;</td></tr>
+  </table>
+  <p><b>Running it.</b> Do not mention purpose at the start. Read the text together, then set Step 1 as a plain instruction: "make a timeline of eight events". Let them struggle with the choosing. Then stop the class and compare: put three or four very different timelines on the board and ask why they differ. Someone will say "it depends what it's for", and that is the moment to name <b>purpose</b>. Assign a purpose per table (or let them choose) and set Step 3. The three purposes on the sheet are deliberately different enough that the reworked timelines should share only a few events.</p>
+<p><b>Discussion prompts.</b> Which event appeared on every timeline in the room? Which event appeared on only one? Could a timeline with the marriage on it still be about how the device was built? What would a timeline look like if its purpose was "to persuade the government to fund medical research"?</p>
+  <div class="foot"><span>Writer's Toolkit &middot; Biography &middot; Timeline challenge</span><span>Teacher notes</span></div>
+</div>
+
+</body>
+</html>
