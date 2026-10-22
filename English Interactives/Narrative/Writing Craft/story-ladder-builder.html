@@ -205,6 +205,27 @@ button{font-family:inherit;color:inherit;}
 .land{position:fixed;left:0;right:0;bottom:0;height:96px;z-index:5;pointer-events:none;overflow:hidden;}
 .land svg{position:absolute;bottom:0;left:0;height:96px;width:300%;transition:transform 1s cubic-bezier(.3,.7,.2,1);}
 
+/* ---------- Clear all ---------- */
+.btn-clear{display:inline-flex;align-items:center;gap:7px;background:transparent;color:#FFD9C7;border:1.5px solid rgba(255,217,199,.5);border-radius:20px;padding:7px 14px;font-weight:600;font-size:14px;cursor:pointer;}
+.btn-clear:hover{background:rgba(255,255,255,.1);color:#fff;}
+.btn-clear svg{width:18px;height:18px;}
+.confirm{position:fixed;inset:0;background:rgba(62,34,64,.6);z-index:120;display:none;align-items:center;justify-content:center;padding:20px;}
+.confirm.on{display:flex;}
+.confirm-box{background:var(--paper);border-radius:28px 22px 30px 24px;max-width:520px;width:100%;padding:28px 30px 24px;box-shadow:0 24px 60px rgba(0,0,0,.25);animation:fadeUp .25s ease;}
+.cf-icon{width:46px;height:46px;color:var(--raspberry);background:var(--raspberry-soft);border-radius:50%;padding:10px;margin-bottom:10px;}
+.confirm-box h2{font-size:30px;line-height:1.1;margin-bottom:8px;}
+.confirm-box p{font-size:17px;margin-bottom:8px;}
+.confirm-box .cf-tip{color:var(--plum-soft);font-size:15px;}
+.cf-btns{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px;}
+.btn-danger{background:#C62E50;color:#fff;}
+[data-theme="literary"] .btn-clear{color:#E9CF8E;border:1px solid rgba(233,207,142,.5);border-radius:10px;font-weight:500;}
+[data-theme="literary"] .confirm{background:rgba(42,26,44,.6);}
+[data-theme="literary"] .confirm-box{border-radius:16px;}
+[data-theme="literary"] .btn-danger{background:#8E2A44;}
+.btn-clear,.btn-map,.bar .brand,.bar .home{white-space:nowrap;}
+@media (max-width:1150px){.bar{gap:12px;padding:0 16px;}.bar .home,.saved{display:none;}.bar-actions{gap:10px;}}
+@media (max-width:900px){.btn-clear{padding:7px 10px;font-size:13px;}.bar .brand{font-size:20px;}}
+
 /* ---------- Map overlay ---------- */
 .map{position:fixed;inset:0;background:rgba(62,34,64,.55);z-index:100;display:none;}
 .map.on{display:block;}
@@ -222,7 +243,7 @@ button{font-family:inherit;color:inherit;}
 @media print{
   @page{size:A4;margin:14mm;}
   body{overflow:visible;background:#fff;}
-  .bar,.stones,.track,.land,.map{display:none!important;}
+  .bar,.stones,.track,.land,.map,.confirm{display:none!important;}
   #printPlan{display:block;font-size:11.5pt;}
   #printPlan h1{font-size:22pt;margin-bottom:2mm;}
   #printPlan .pp-sub{color:#6E5070;margin-bottom:5mm;}
@@ -336,6 +357,7 @@ html[data-theme="literary"]{
   <defs>
     <symbol id="i-sticker" viewBox="0 0 60 60"><path d="M30 3l6.2 8.6 10.4-2.3.9 10.6 9.4 5-5.6 9 3.6 10-10.3 2.9-3 10.2-9.7-4.5-9.7 4.5-3-10.2L9 44.5l3.6-10-5.6-9 9.4-5 .9-10.6 10.4 2.3Z" fill="#FFB627" stroke="#e09a00" stroke-width="2"/><text x="30" y="35" text-anchor="middle" font-family="Grandstander, sans-serif" font-weight="800" font-size="13" fill="#3E2240">Picked</text></symbol>
     <symbol id="i-seal" viewBox="0 0 60 60"><circle cx="30" cy="30" r="25" fill="#8E2A44" stroke="#7a2239" stroke-width="3" stroke-dasharray="3 2.4"/><circle cx="30" cy="30" r="18.5" fill="none" stroke="#E9CF8E" stroke-width="1.4"/><path d="M21.5 30.5l5.8 5.8 11.4-12.6" fill="none" stroke="#F4E9D2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-clear" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-map" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.5" fill="currentColor"/><circle cx="12" cy="17" r="2.5" fill="currentColor"/><circle cx="19" cy="8" r="2.5" fill="currentColor"/><path d="M6.5 8l4 7M13.5 15l4-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
     <symbol id="i-next" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -351,6 +373,7 @@ html[data-theme="literary"]{
   <div class="bar-actions">
     <span class="saved" id="saved">Saved on this computer</span>
     <div class="look" role="group" aria-label="Choose a look"><span>Look</span><button data-look="warm">Sunset</button><button data-look="literary">Library</button></div>
+    <button class="btn-clear" onclick="askClear()"><svg aria-hidden="true"><use href="#i-clear"/></svg>Clear all</button>
     <button class="btn-map" onclick="openMap()"><svg aria-hidden="true"><use href="#i-map"/></svg>My journey map</button>
   </div>
 </header>
@@ -526,7 +549,7 @@ html[data-theme="literary"]{
         <div class="book"><svg aria-hidden="true"><use href="#i-book"/></svg><div><h3>In your book</h3>Write your title. Copy your plan as dot points, one for each step. Then start writing your story with your sizzling start.</div></div>
         <div class="plan" id="plan"></div>
         <div class="banks" id="banks"></div>
-        <div class="pnav" style="margin-top:20px"><button class="btn btn-soft" onclick="go(7)"><svg aria-hidden="true"><use href="#i-back"/></svg>Back</button><button class="btn btn-soft" id="resetBtn" onclick="resetAll()">Start a new story</button></div>
+        <div class="pnav" style="margin-top:20px"><button class="btn btn-soft" onclick="go(7)"><svg aria-hidden="true"><use href="#i-back"/></svg>Back</button><button class="btn btn-soft" id="resetBtn" onclick="askClear()">Start a new story</button></div>
       </div>
     </div>
   </section>
@@ -564,6 +587,19 @@ html[data-theme="literary"]{
   <div class="map-box">
     <div class="map-head"><div><h2>My journey map</h2><p>Every idea you were offered is faded. The bright path is the one you chose. Tap a step to go back to it.</p></div><button class="btn btn-rasp" onclick="closeMap()">Close map</button></div>
     <div class="map-scroll" id="mapScroll"></div>
+  </div>
+</div>
+
+<div class="confirm" id="confirm" role="alertdialog" aria-modal="true" aria-labelledby="cf-h" aria-describedby="cf-p">
+  <div class="confirm-box">
+    <svg class="cf-icon" aria-hidden="true"><use href="#i-clear"/></svg>
+    <h2 id="cf-h">Clear your whole story?</h2>
+    <p id="cf-p">This removes every choice you have made and every idea you have typed, on every step. You cannot undo it.</p>
+    <p class="cf-tip">If you are only changing one thing, go back to that step instead.</p>
+    <div class="cf-btns">
+      <button class="btn btn-soft" id="cfKeep" onclick="closeClear()">No, keep my story</button>
+      <button class="btn btn-danger" onclick="doClear()">Yes, clear everything</button>
+    </div>
   </div>
 </div>
 
@@ -978,18 +1014,31 @@ window.addEventListener('resize',function(){track.scrollLeft=cur*track.clientWid
 document.addEventListener('keydown',function(e){
   var tag=document.activeElement?document.activeElement.tagName:'';
   if(tag==='INPUT'||tag==='TEXTAREA')return;
+  if(document.getElementById('confirm').classList.contains('on')){if(e.key==='Escape')closeClear();return;}
   if(document.getElementById('map').classList.contains('on')){if(e.key==='Escape')closeMap();return;}
   if(e.key==='ArrowRight'){e.preventDefault();go(cur+1);}
   else if(e.key==='ArrowLeft'){e.preventDefault();go(cur-1);}
 },true);
 
-/* ================= RESET ================= */
-var resetArmed=false;
-function resetAll(){
-  var b=document.getElementById('resetBtn');
-  if(!resetArmed){resetArmed=true;b.textContent='Tap again to clear everything';b.classList.add('btn-rasp');setTimeout(function(){resetArmed=false;b.textContent='Start a new story';b.classList.remove('btn-rasp');},4000);return;}
-  resetArmed=false;state=JSON.parse(JSON.stringify(EMPTY));save();b.textContent='Start a new story';b.classList.remove('btn-rasp');renderAll();go(0);
+/* ================= CLEAR ALL ================= */
+var clearReturn=null;
+function askClear(){
+  clearReturn=document.activeElement;
+  document.getElementById('confirm').classList.add('on');
+  document.getElementById('cfKeep').focus();
 }
+function closeClear(){
+  document.getElementById('confirm').classList.remove('on');
+  if(clearReturn&&clearReturn.focus)clearReturn.focus();
+}
+function doClear(){
+  state=JSON.parse(JSON.stringify(EMPTY));save();
+  document.getElementById('confirm').classList.remove('on');
+  var b=document.getElementById('banks');if(b.classList.contains('on'))toggleBanks();
+  document.querySelectorAll('.own .hint[id]').forEach(function(h){h.textContent='';});
+  renderAll();go(0);
+}
+document.getElementById('confirm').addEventListener('click',function(e){if(e.target.id==='confirm')closeClear();});
 
 /* ================= PRINT ================= */
 function printPlan(){
