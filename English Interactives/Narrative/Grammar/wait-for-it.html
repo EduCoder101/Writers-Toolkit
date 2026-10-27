@@ -412,6 +412,39 @@ details.help .hb ul{padding-left:20px}
 .counter .pip.cur{outline:3px solid var(--ink);outline-offset:2px}
 .counter .pip.cur:not(.done){background:var(--ink)}
 
+/* Sentence number buttons */
+.qnav-wrap{display:flex;align-items:center;gap:10px;margin-left:auto}
+.qlabel{font-weight:700;font-size:clamp(13px,1.05vw,17px);letter-spacing:1px;text-transform:uppercase}
+.qnav{display:flex;gap:8px;align-items:center}
+.qbtn{width:clamp(36px,2.7vw,44px);height:clamp(36px,2.7vw,44px);border-radius:50%;border:3px solid var(--ink);background:#fff;color:var(--ink);font-family:'Lilita One';font-size:clamp(17px,1.35vw,22px);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;line-height:1;transition:transform .12s}
+.qbtn:hover{transform:translateY(-2px)}
+.qbtn.done{background:var(--good);color:#fff}
+.qbtn.cur{background:var(--yellow);color:var(--ink);box-shadow:0 0 0 3px #fff,0 0 0 6px var(--ink);transform:scale(1.08)}
+.qbtn.done.cur{background:var(--good);color:#fff}
+
+/* Flip it route: Part A then Part B */
+.route{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.rgroup{display:flex;align-items:center;gap:12px;border:3px solid var(--ink);border-radius:20px;padding:6px 12px 6px 6px;background:#f3f1f8;font:inherit;color:var(--ink)}
+button.rgroup{cursor:pointer;transition:transform .12s}
+button.rgroup:hover{transform:translateY(-2px)}
+.rgroup.on{background:var(--orange-soft);box-shadow:4px 4px 0 var(--ink)}
+.rlabel{display:flex;align-items:center;gap:8px;background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-align:left}
+.rlabel b{width:clamp(34px,2.6vw,42px);height:clamp(34px,2.6vw,42px);border-radius:50%;border:3px solid var(--ink);background:#d8d2e8;display:flex;align-items:center;justify-content:center;font-family:'Lilita One';font-weight:400;font-size:clamp(17px,1.35vw,22px);flex-shrink:0}
+.rlabel > span{font-family:'Lilita One';font-size:clamp(18px,1.5vw,25px);line-height:1}
+.rlabel small{display:block;font-family:'Lexend';font-weight:600;font-size:clamp(12px,.9vw,15px);margin-top:3px;color:var(--ink-soft)}
+.rgroup.on .rlabel b{background:var(--orange)}
+.rgroup.done .rlabel b{background:var(--good);color:#fff}
+button.rgroup.ready{background:var(--yellow);animation:glow 1.6s ease-in-out infinite}
+.rthen svg{width:clamp(28px,2.2vw,40px);height:auto;display:block}
+.ba-say{display:flex;gap:12px;align-items:flex-start;font-size:clamp(16px,1.3vw,21px);line-height:1.4;font-weight:500;margin-bottom:12px}
+.ba-say .ic{flex-shrink:0;width:38px;height:38px;border-radius:50%;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;background:var(--good)}
+.ba-say.ok .ic{background:var(--yellow)}
+.ba-say .ic svg{width:22px;height:22px}
+.ba-say .say{font-family:'Lilita One';font-size:1.2em;margin-right:6px}
+.why-line{font-size:clamp(16px,1.3vw,21px);line-height:1.45;font-weight:500;margin:4px 0 8px}
+.why-line .wl{font-family:'Lilita One';color:var(--good);font-size:1.1em}
+.ba .ba-row .meter{display:block}
+
 /* Flip it: Part A / Part B */
 .parts{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .part{display:inline-flex;align-items:center;gap:8px;border:3px solid var(--ink);border-radius:30px;padding:3px 14px 3px 4px;font-weight:600;font-size:clamp(13px,1.05vw,17px);background:#f3f1f8;color:var(--ink-soft)}
@@ -422,6 +455,8 @@ details.help .hb ul{padding-left:20px}
 .flip-b{text-align:left;padding:4px 0 0}
 .pa-done{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-family:'Lilita One';font-size:clamp(20px,1.7vw,28px);color:var(--good)}
 .pa-done .done-stars{margin:0;justify-content:flex-start}
+.pa-done.todo{color:var(--orange-dark,#b85e00)}
+.flip-ctl{margin-top:12px}
 .pa-done .done-stars svg{width:clamp(26px,2vw,34px);height:clamp(26px,2vw,34px)}
 .fb-head{display:flex;gap:20px;align-items:center;margin:8px 0 6px}
 .fb-head h3{font-size:clamp(28px,2.6vw,44px)!important;margin-bottom:6px}
@@ -621,7 +656,7 @@ details.help .hb ul{padding-left:20px}
         <ul>
           <li>Model first from the board with the hook pairs and your three models. Card 2 replays the "lights flickered" model if you want to project it.</li>
           <li>One laptop per pair. Jobs swap on every question: the Explainer says the answer and why before the Clicker clicks.</li>
-          <li>Every practice question has Back a sentence and Undo, so a misclick never costs a pair. Stars only count first tries, so undoing a wrong answer does not earn one.</li>
+          <li>Numbered buttons let pairs jump to any sentence. Flip it shows Part A (on screen) and Part B (in books) at the top; pairs can tap either. Every practice question also has Back a sentence and Undo, so a misclick never costs a pair. Stars only count first tries, so undoing a wrong answer does not earn one.</li>
           <li>Suggested pace: The trick 1, Spot it 2, Pick the word 2, Flip it 5 (four on screen, then four in books), Write it 4, Partner check 3. If time is tight, the Flip it challenge and the Partner check share can be trimmed.</li>
           <li>Both partners write in their own books in Flip it Part B and on cards 6 and 7.</li>
           <li>Exit check: invite two students to read the Before and After they wrote on card 7 and explain which choice was more effective.</li>
@@ -688,7 +723,7 @@ details.help .hb ul{padding-left:20px}
     <div class="grid-2">
       <div class="panel">
         <div id="spotPlay">
-          <div class="play-top"><div class="turn" id="spotTurn"></div><div class="counter" id="spotCount"></div></div>
+          <div class="play-top"><div class="turn" id="spotTurn"></div><div class="qnav-wrap"><span class="qlabel">Sentence</span><div class="qnav" id="spotNav"></div></div></div>
           <p class="ask">Tap the part that can NOT stand on its own.</p>
           <p class="hint">Read each part by itself. Which one leaves you hanging?</p>
           <div class="sent" id="spotSent"></div>
@@ -719,7 +754,7 @@ details.help .hb ul{padding-left:20px}
         </div>
       </div>
     </div>
-    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Next &rarr;</button></div>
+    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Next card: Pick the word &rarr;</button></div>
   </div>
 </section>
 
@@ -733,7 +768,7 @@ details.help .hb ul{padding-left:20px}
     <div class="grid-2">
       <div class="panel">
         <div id="pickPlay">
-          <div class="play-top"><div class="turn" id="pickTurn"></div><div class="counter" id="pickCount"></div></div>
+          <div class="play-top"><div class="turn" id="pickTurn"></div><div class="qnav-wrap"><span class="qlabel">Sentence</span><div class="qnav" id="pickNav"></div></div></div>
           <p class="ask">Which tension word makes sense?</p>
           <p class="hint">Read the whole sentence aloud with each word before you choose.</p>
           <div class="psent" id="pickSent"></div>
@@ -770,7 +805,7 @@ details.help .hb ul{padding-left:20px}
         </div>
       </div>
     </div>
-    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Next &rarr;</button></div>
+    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Next card: Flip it &rarr;</button></div>
   </div>
 </section>
 
@@ -779,36 +814,41 @@ details.help .hb ul{padding-left:20px}
   <div class="wrap">
     <div class="screen-head">
       <span class="badge"><span class="bi"><svg><use href="#i-flip"/></svg></span>Level 3</span>
-      <h2 class="big">Flip it</h2>
+      <h2 class="big" id="flipTitle">Flip it: Part A</h2>
     </div>
     <div class="grid-2">
       <div class="panel">
-        <div class="parts" id="flipParts"><span class="part on" id="partA"><b>A</b>Flip on screen</span><span class="part" id="partB"><b>B</b>Flip in your book</span></div>
+        <nav class="route" aria-label="Flip it has two parts">
+          <div class="rgroup on" id="routeA">
+            <button class="rlabel" type="button" id="routeAbtn"><b>A</b><span>Part A<small>Flip on screen</small></span></button>
+            <div class="qnav" id="flipNav"></div>
+          </div>
+          <span class="rthen" aria-hidden="true"><svg viewBox="0 0 40 24"><path d="M3 12h30M24 4l9 8-9 8" fill="none" stroke="#231942" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <button class="rgroup" type="button" id="routeB"><span class="rlabel"><b>B</b><span>Part B<small>Flip in your book</small></span></span></button>
+        </nav>
         <div id="flipPlay">
-          <div class="play-top"><div class="turn" id="flipTurn"></div><div class="counter" id="flipCount"></div></div>
+          <div class="play-top"><div class="turn" id="flipTurn"></div></div>
           <p class="ask" id="flipAskTop">Flip the dependent clause to the front.</p>
           <div class="fsent" id="flipSent"></div>
           <div class="flip-ask" id="flipAsk"><svg><use href="#i-comma"/></svg>Now tap the gap where the comma goes.</div>
-          <div class="btn-row" id="flipBtnRow"><button class="btn orange" id="flipBtn" type="button"><svg><use href="#i-flip"/></svg>Flip it!</button></div>
-          <div class="fb" id="flipFb"></div>
-          <div class="ba" id="flipBA">
-            <div class="ba-row"><span class="k before">Before</span><div><span id="baBefore"></span><div class="meter" title="Tension"><i id="mBefore"></i></div></div></div>
-            <div class="ba-row"><span class="k after">After</span><div><span id="baAfter"></span><div class="meter" title="Tension"><i id="mAfter"></i></div></div></div>
-            <div class="talk"><svg><use href="#i-talk-ink"/></svg><span>Talk: read both aloud. Which one makes you wait for the action? Why?</span></div>
-            <div class="btn-row" style="margin-top:12px"><button class="btn white small" id="flipWhyBtn" type="button">See why</button></div>
-            <div class="why" id="flipWhy">
-              <p><span class="wl">Why it works: </span><span id="flipWhyText"></span> The tension bars show the difference.</p>
-            </div>
-          </div>
-          <div class="qctl">
+          <div class="qctl flip-ctl">
             <button class="btn white small" id="flipBack" type="button"><svg><use href="#i-back"/></svg>Back a sentence</button>
             <button class="btn white small" id="flipUndo" type="button"><svg><use href="#i-undo"/></svg>Undo</button>
             <span class="grow"></span>
+            <button class="btn orange glow" id="flipBtn" type="button"><svg><use href="#i-flip"/></svg>Flip it!</button>
             <button class="btn orange hide" id="flipNext" type="button"></button>
+          </div>
+          <div class="fb" id="flipFb"></div>
+          <div class="ba" id="flipBA">
+            <div class="ba-say" id="baSay"></div>
+            <div class="ba-row"><span class="k before">Before</span><div><span id="baBefore"></span><div class="meter" title="Tension"><i id="mBefore"></i></div></div></div>
+            <div class="ba-row"><span class="k after">After</span><div><span id="baAfter"></span><div class="meter" title="Tension"><i id="mAfter"></i></div></div></div>
+            <p class="why-line"><span class="wl">Why it works: </span><span id="flipWhyText"></span></p>
+            <div class="talk"><svg><use href="#i-talk-ink"/></svg><span>Talk: read both aloud. Which one makes you wait for the action?</span></div>
           </div>
         </div>
         <div class="done-box flip-b" id="flipDone">
-          <div class="pa-done"><span>Part A done!</span><div class="done-stars" id="flipStars"></div></div>
+          <div class="pa-done" id="paDone"><span id="paText">Part A done!</span><div class="done-stars" id="flipStars"></div></div>
           <div class="fb-head">
             <div>
               <h3>Part B: flip them in your book</h3>
@@ -860,7 +900,7 @@ details.help .hb ul{padding-left:20px}
               <button class="btn white small bcheck" type="button">Check</button>
             </li>
           </ol>
-          <div class="btn-row"><button class="btn white small" id="flipReview" type="button"><svg><use href="#i-back"/></svg>Back to the sentences</button><span class="grow"></span><button class="btn violet" data-go="next">Next: Write it &rarr;</button></div>
+          <div class="btn-row"><button class="btn white small" id="flipReview" type="button"><svg><use href="#i-back"/></svg>Back to Part A</button><span class="grow"></span><button class="btn violet" data-go="next">Next: Write it &rarr;</button></div>
         </div>
       </div>
       <div class="side">
@@ -874,7 +914,7 @@ details.help .hb ul{padding-left:20px}
         </div>
       </div>
     </div>
-    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Next &rarr;</button></div>
+    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Next card: Write it &rarr;</button></div>
   </div>
 </section>
 
@@ -1269,6 +1309,13 @@ function paintTurn(id,qn){
     '<span class="t-talk"><i>'+icon('i-talk')+'</i><b>'+esc(nameOf(x))+'</b>&nbsp;explains first</span>'+
     '<span class="t-click"><i>'+icon('i-click')+'</i><b>'+esc(nameOf(c))+'</b>&nbsp;clicks</span>';
 }
+function paintNav(l){
+  var list=answeredList(l), i=LV[l].i, playing=!$(l+'Play').classList.contains('hide'), h='';
+  for(var k=0;k<list.length;k++){
+    h+='<button type="button" class="qbtn'+(list[k]?' done':'')+(k===i&&playing?' cur':'')+'" data-l="'+l+'" data-q="'+k+'" aria-label="Sentence '+(k+1)+(list[k]?', done':'')+'">'+(k+1)+'</button>';
+  }
+  $(l+'Nav').innerHTML=h;
+}
 function paintCount(id,i,list){
   var h='';
   for(var k=0;k<list.length;k++){ h+='<span class="pip'+(list[k]?' done':'')+(k===i?' cur':'')+'"></span>'; }
@@ -1398,7 +1445,7 @@ var LCOL = {spot:'#FF4F8B', pick:'#3fae31', flip:'#FF8A3D'};
 var LV = {
   spot:{i:0, started:false, stop:2, base:0, done:'Finish Level 1'},
   pick:{i:0, started:false, stop:3, base:4, done:'Finish Level 2'},
-  flip:{i:0, started:false, stop:4, base:8, done:'Finish Level 3'}
+  flip:{i:0, started:false, stop:4, base:8, done:'Go to Part B \u2192'}
 };
 var levelDone = {spot:false, pick:false, flip:false};
 function answered(l,i){
@@ -1453,15 +1500,41 @@ function controls(l){
   $(l+'Back').disabled = v.i===0;
   $(l+'Undo').disabled = !canUndo(l);
   var nb=$(l+'Next');
-  nb.classList.toggle('hide', !answered(l,v.i) || (l==='flip' && !ST.flip[v.i].why));
-  nb.textContent = v.i < ST[l].length-1 ? 'Next sentence →' : v.done;
+  var show=answered(l,v.i);
+  nb.classList.toggle('hide', !show);
+  nb.classList.toggle('glow', show);
+  nb.textContent = v.i < ST[l].length-1 ? 'Next sentence \u2192' : v.done;
+  paintNav(l);
+  if(l==='flip') flipParts(false);
   refreshProgress();
 }
 function flipParts(b){
-  $('partA').classList.toggle('on', !b);
-  $('partA').classList.toggle('done', levelDone.flip);
-  $('partB').classList.toggle('on', b);
+  $('routeA').classList.toggle('on', !b);
+  $('routeA').classList.toggle('done', answeredList('flip').indexOf(false)===-1);
+  $('routeB').classList.toggle('on', b);
+  $('routeB').classList.toggle('ready', !b && answeredList('flip').indexOf(false)===-1);
+  $('flipTitle').textContent = b ? 'Flip it: Part B' : 'Flip it: Part A';
   document.querySelector('[data-name=flip]').classList.toggle('partb', b);
+}
+/* Part B can be opened at any time. Level 3 counts as done once all four Part A sentences are flipped. */
+function showFlipB(){
+  var left=answeredList('flip').filter(function(x){ return !x; }).length;
+  if(left===0 && !levelDone.flip){ levelDone.flip=true; stops[LV.flip.stop].classList.add('done'); checkUnlock(); }
+  LV.flip.started=true;
+  $('flipPlay').classList.add('hide');
+  $('flipDone').classList.add('on');
+  if(left===0){
+    $('paText').textContent='Part A done!';
+    starRow('flipStars', countStars('flip'), 4);
+    $('paDone').classList.remove('todo');
+  } else {
+    $('paText').textContent='Part A: '+(4-left)+' of 4 flipped. Tap A to go back and finish.';
+    $('flipStars').innerHTML='';
+    $('paDone').classList.add('todo');
+  }
+  flipParts(true);
+  paintNav('flip');
+  window.scrollTo(0,0);
 }
 function goQ(l,i){
   LV[l].i=i;
@@ -1471,6 +1544,7 @@ function goQ(l,i){
   RENDER[l]();
 }
 function levelComplete(l){
+  if(l==='flip'){ showFlipB(); return; }
   var first=answeredList(l).indexOf(false);
   if(first>-1){ goQ(l,first); return; }
   levelDone[l]=true;
@@ -1478,7 +1552,6 @@ function levelComplete(l){
   $(l+'Done').classList.add('on');
   starRow(l+'Stars', countStars(l), 4);
   stops[LV[l].stop].classList.add('done');
-  if(l==='flip'){ flipParts(true); window.scrollTo(0,0); }
   checkUnlock();
 }
 LEVELS.forEach(function(l){
@@ -1487,18 +1560,28 @@ LEVELS.forEach(function(l){
   $(l+'Next').addEventListener('click',function(){
     if(LV[l].i < ST[l].length-1) goQ(l, LV[l].i+1); else levelComplete(l);
   });
-  $(l+'Review').addEventListener('click',function(){ goQ(l, ST[l].length-1); });
+  $(l+'Review').addEventListener('click',function(){
+    var first=answeredList(l).indexOf(false);
+    goQ(l, first>-1 ? first : (l==='flip' ? LV.flip.i : ST[l].length-1));
+  });
   enterHooks[l]=function(){
     if(!LV[l].started){ LV[l].started=true; RENDER[l](); }
     else if(!$(l+'Play').classList.contains('hide')) paintTurn(l+'Turn', LV[l].base+LV[l].i);
   };
 });
 
+/* Numbered sentence buttons and the Flip it route */
+document.addEventListener('click',function(e){
+  var q=e.target.closest('.qbtn');
+  if(q){ goQ(q.getAttribute('data-l'), parseInt(q.getAttribute('data-q'),10)); return; }
+  if(e.target.closest('#routeB')){ showFlipB(); return; }
+  if(e.target.closest('#routeAbtn')){ goQ('flip', LV.flip.i); }
+});
+
 /* ================= LEVEL 1: SPOT IT ================= */
 RENDER.spot = function(){
   var i=LV.spot.i, q=SPOT[i], s=ST.spot[i];
   paintTurn('spotTurn', i);
-  paintCount('spotCount', i, answeredList('spot'));
   var box=$('spotSent'); box.innerHTML='';
   [q.a, q.b].forEach(function(txt,k){
     var b=document.createElement('button');
@@ -1530,7 +1613,6 @@ UNDO.spot = function(){ ST.spot[LV.spot.i].k=null; };
 RENDER.pick = function(shake){
   var i=LV.pick.i, q=PICK[i], s=ST.pick[i];
   paintTurn('pickTurn', 4+i);
-  paintCount('pickCount', i, answeredList('pick'));
   $('pickSent').innerHTML='<span class="gap'+(s.word?' filled':'')+(shake===true?' shake':'')+'" id="pickGap">'+(s.word?cap(s.word):'?')+'</span>'+q.rest;
   var c=$('pickChips'); c.innerHTML='';
   WORDS.forEach(function(w){
@@ -1589,19 +1671,13 @@ function highlightParts(){
   });
 }
 function applyWhy(){
-  $('flipWhyBtn').classList.add('hide');
-  $('flipWhy').classList.add('on');
-  $('flipBA').classList.add('why-on');
   setTimeout(function(){ $('mBefore').style.width='38%'; $('mAfter').style.width='88%'; },60);
 }
 RENDER.flip = function(){
   var i=LV.flip.i, q=FLIP[i], s=ST.flip[i];
   if(s.phase===1) s.phase=0;
   paintTurn('flipTurn', 8+i);
-  paintCount('flipCount', i, answeredList('flip'));
-  $('flipBA').classList.remove('on','why-on');
-  $('flipWhy').classList.remove('on');
-  $('flipWhyBtn').classList.remove('hide');
+  $('flipBA').classList.remove('on');
   $('mBefore').style.width='0'; $('mAfter').style.width='0';
   hideFb('flipFb');
   if(s.phase===0){
@@ -1610,10 +1686,10 @@ RENDER.flip = function(){
     el.innerHTML='<span class="fchunk main" id="fMain">'+q.main+'</span><span class="fchunk dep" id="fDep">'+q.dep+'.</span>';
     $('flipAskTop').textContent='Flip the pink dependent clause to the front.';
     $('flipAsk').classList.remove('on');
-    $('flipBtnRow').classList.remove('hide');
+    $('flipBtn').classList.remove('hide');
   } else {
     buildTokens(q);
-    $('flipBtnRow').classList.add('hide');
+    $('flipBtn').classList.add('hide');
     if(s.phase===2){
       $('flipAskTop').textContent='Where does the comma go?';
       $('flipAsk').classList.add('on');
@@ -1625,12 +1701,13 @@ RENDER.flip = function(){
       highlightParts();
       $('flipAskTop').textContent='Flipped!';
       $('flipAsk').classList.remove('on');
-      showFb('flipFb', s.missed?'ok':'good', s.say, 'The comma goes at the end of the dependent clause, right before the main clause. It is the pause before the action.'+(q.note||''));
+      $('baSay').className='ba-say'+(s.missed?' ok':'');
+      $('baSay').innerHTML='<span class="ic">'+(s.missed?'<svg><use href="#i-bang"/></svg>':icon('i-tick'))+'</span><div><span class="say">'+s.say+'</span>The comma goes right after the dependent clause, before the main clause. It is the pause before the action.'+(q.note||'')+'</div>';
       $('baBefore').textContent = q.main+' '+q.dep+'.';
       $('baAfter').innerHTML = esc(q.depCap)+'<b style="color:#FF4F8B">,</b> '+esc(q.mainLow)+'.';
       $('flipWhyText').textContent = q.why;
       $('flipBA').classList.add('on');
-      if(s.why) applyWhy();
+      applyWhy();
     }
   }
   controls('flip');
@@ -1639,7 +1716,7 @@ function doFlip(){
   var i=LV.flip.i, q=FLIP[i], s=ST.flip[i];
   if(s.phase!==0) return;
   s.phase=1;
-  $('flipBtnRow').classList.add('hide');
+  $('flipBtn').classList.add('hide');
   $('flipUndo').disabled=true;
   var m=$('fMain'), d=$('fDep');
   flipMove(d, m, function(){
@@ -1679,11 +1756,6 @@ UNDO.flip = function(){
   else if(s.phase===2){ s.phase=0; s.misses=0; }
 };
 $('flipBtn').addEventListener('click',doFlip);
-$('flipWhyBtn').addEventListener('click',function(){
-  ST.flip[LV.flip.i].why=true;
-  applyWhy();
-  controls('flip');
-});
 
 /* Flip it Part B: reveal each answer after it is written */
 each(document.querySelectorAll('.bcheck'),function(b){
