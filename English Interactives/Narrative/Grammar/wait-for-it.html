@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Wait for it: a short, self-paced pair activity on complex sentences that build tension. Writer's Toolkit, Stage 3 English.">
+<title>Wait for it | Writer's Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!--
+    NEW PATTERN: Pop-art pair practice
+    WHAT: A short self-paced pair activity. Bold pop-art cards (thick ink outlines, hard offset shadows),
+          a bright background colour that changes on every card, drifting shapes and footprint trails
+          that walk across the background. Partners swap Clicker and Explainer on every question.
+    WHY: Paddy asked for a bright, fun look that feels different from the usual Writer's Toolkit pages
+         (warm off-white, soft blobs, Fredoka). Lilita One and Lexend replace Fredoka and Space Mono here
+         on purpose. All motion switches off under prefers-reduced-motion.
+    STATUS: experimental
+-->
+<style>
+:root{
+  --ink:#231942;
+  --ink-soft:#4b4270;
+  --yellow:#FFD23F; --yellow-soft:#FFF3C4;
+  --pink:#FF4F8B;   --pink-soft:#FFE1EC;  --pink-deep:#c2185b;
+  --cyan:#1FB5E9;   --cyan-soft:#DCF4FF;  --cyan-deep:#0b6f99;
+  --lime:#5CC94A;   --lime-soft:#E2F8D9;
+  --orange:#FF8A3D; --orange-soft:#FFE8D6;
+  --violet:#8B5CF6; --violet-soft:#EFE7FF;
+  --good:#16a35a;   --good-soft:#dcf7e6;
+  --bad:#e0315b;    --bad-soft:#ffe3ea;
+  --r:26px;
+  --border:4px solid var(--ink);
+  --shadow:8px 8px 0 var(--ink);
+  --shadow-sm:4px 4px 0 var(--ink);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Lexend',system-ui,sans-serif;color:var(--ink);background:#FFD23F;min-height:100vh;overflow-x:hidden;transition:background-color .8s ease;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Lilita One',sans-serif;font-weight:400;line-height:1.05}
+b,strong{font-weight:700}
+button{font-family:inherit}
+
+/* ===== Background: halftone, drifting shapes, footprint trails ===== */
+.halftone{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(rgba(35,25,66,.13) 1.7px,transparent 1.9px);background-size:22px 22px;
+  -webkit-mask-image:linear-gradient(135deg,#000 0%,transparent 38%,transparent 62%,#000 100%);
+          mask-image:linear-gradient(135deg,#000 0%,transparent 38%,transparent 62%,#000 100%);}
+.shapes,.trails{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.shape{position:absolute;opacity:.6;animation:drift 24s ease-in-out infinite alternate}
+.shape svg{display:block;width:100%;height:100%;overflow:visible}
+@keyframes drift{0%{transform:translate(0,0) rotate(0)}50%{transform:translate(22px,-26px) rotate(9deg)}100%{transform:translate(-16px,14px) rotate(-7deg)}}
+.trail-fp{position:absolute;width:20px;height:36px;color:#fff;opacity:0;animation:fpWalk 5.2s ease forwards}
+.trail-fp svg{width:100%;height:100%;display:block}
+@keyframes fpWalk{0%{opacity:0;transform:var(--t) scale(.5)}10%{opacity:.8;transform:var(--t) scale(1)}65%{opacity:.6;transform:var(--t) scale(1)}100%{opacity:0;transform:var(--t) scale(1)}}
+
+/* ===== Top bar ===== */
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:16px;padding:10px clamp(14px,2.2vw,34px);background:#fff;border-bottom:var(--border)}
+.brand{font-family:'Lilita One';font-size:clamp(20px,1.7vw,30px);white-space:nowrap;display:flex;align-items:baseline}
+.hop i{display:inline-block;width:.2em;height:.2em;border-radius:50%;margin-left:.1em;background:var(--pink);animation:hop 1.5s ease-in-out infinite}
+.hop i:nth-child(2){animation-delay:.15s;background:var(--cyan)}
+.hop i:nth-child(3){animation-delay:.3s;background:var(--orange)}
+@keyframes hop{0%,55%,100%{transform:translateY(0)}28%{transform:translateY(-.4em)}}
+.stops{display:flex;gap:6px;flex:1;justify-content:center;min-width:0}
+.stop{font-weight:600;font-size:clamp(12px,.92vw,15px);display:flex;align-items:center;gap:6px;padding:4px 11px 4px 4px;border:3px solid var(--ink);border-radius:30px;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap;transition:transform .15s}
+.stop:hover{transform:translateY(-2px)}
+.stop .n{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-family:'Lilita One';font-size:14px;flex-shrink:0}
+.stop.on{background:var(--yellow);box-shadow:3px 3px 0 var(--ink)}
+.stop.done .n{background:var(--good)}
+.prints{display:flex;align-items:center;gap:2px;flex-shrink:0;padding:4px 0}
+.prints svg{width:12px;height:22px;color:#ddd8ea;transition:color .3s}
+.prints svg:nth-child(odd){transform:translateY(-4px) rotate(-10deg)}
+.prints svg:nth-child(even){transform:translateY(4px) rotate(10deg)}
+.prints svg.pop{animation:printPop .55s ease}
+@keyframes printPop{0%{scale:1}40%{scale:1.8}100%{scale:1}}
+
+/* ===== Screens ===== */
+main{position:relative;z-index:1}
+.screen{display:none;padding:clamp(16px,2.2vw,34px) clamp(16px,3vw,52px) 34px}
+.screen.on{display:block;animation:screenIn .55s cubic-bezier(.2,.9,.3,1.15)}
+@keyframes screenIn{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+.wrap{max-width:1720px;margin:0 auto}
+.panel{background:#fff;border:var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:clamp(18px,2vw,34px);position:relative}
+.grid-2{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,1fr);gap:clamp(16px,2vw,30px);align-items:start}
+.screen-head{display:flex;align-items:center;gap:14px 18px;margin-bottom:clamp(12px,1.4vw,22px);flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:#fff;font-family:'Lilita One';font-size:clamp(15px,1.2vw,20px);letter-spacing:.5px;padding:6px 18px 6px 6px;border-radius:40px;border:3px solid var(--ink)}
+.badge .bi{width:36px;height:36px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+.badge .bi svg{width:24px;height:24px}
+.big{font-size:clamp(36px,3.8vw,66px);color:var(--ink);text-shadow:3px 3px 0 #fff}
+.lede{font-size:clamp(18px,1.45vw,25px);line-height:1.45;font-weight:500}
+.lede b{background:#fff;padding:0 .25em;border-radius:6px}
+
+/* Buttons */
+.btn{font-family:'Lilita One';font-size:clamp(18px,1.45vw,25px);letter-spacing:.3px;color:var(--ink);background:var(--yellow);border:var(--border);border-radius:18px;padding:10px 26px 12px;cursor:pointer;box-shadow:5px 5px 0 var(--ink);transition:transform .12s,box-shadow .12s;display:inline-flex;align-items:center;gap:10px;line-height:1.1}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.btn:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--ink)}
+.btn.pink{background:var(--pink)} .btn.cyan{background:var(--cyan)} .btn.lime{background:var(--lime)}
+.btn.orange{background:var(--orange)} .btn.violet{background:var(--violet);color:#fff} .btn.white{background:#fff}
+.btn.small{font-size:clamp(15px,1.1vw,18px);padding:7px 16px 8px;border-radius:14px;box-shadow:3px 3px 0 var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:2px 2px 0 var(--ink)}
+.btn svg{width:22px;height:22px}
+.hide{display:none!important}
+.btn-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:20px}
+.btn.glow{animation:glow 1.6s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:5px 5px 0 var(--ink)}50%{box-shadow:5px 5px 0 var(--ink),0 0 0 8px rgba(255,255,255,.85)}}
+
+/* Screen nav */
+.snav{display:flex;justify-content:space-between;align-items:center;margin-top:clamp(18px,2vw,28px)}
+.snav .btn{background:#fff}
+.snav .btn.go{background:var(--ink);color:#fff}
+
+/* Learn and Book cards */
+.side{display:flex;flex-direction:column;gap:18px}
+.tip{border:var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:16px 18px;display:flex;gap:14px;align-items:flex-start;background:#fff}
+.tip .ic{flex-shrink:0;width:52px;height:52px;border-radius:15px;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center}
+.tip .ic svg{width:30px;height:30px}
+.tip .lbl{font-family:'Lilita One';font-size:clamp(17px,1.3vw,21px);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:3px}
+.tip p{font-size:clamp(16px,1.25vw,21px);line-height:1.45;font-weight:500}
+.tip p em{font-style:normal;background:rgba(255,255,255,.85);padding:0 .25em;border-radius:6px;font-weight:600}
+.tip.learn{background:var(--cyan-soft)} .tip.learn .ic{background:var(--cyan)}
+.tip.book{background:var(--yellow-soft)} .tip.book .ic{background:var(--yellow)}
+.tip.book.none{background:#f3f1f8} .tip.book.none .ic{background:#e2deee}
+.tip.book.none p{color:var(--ink-soft)}
+
+/* Partner turn */
+.turn{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.turn span{display:inline-flex;align-items:center;gap:8px;border:3px solid var(--ink);border-radius:30px;padding:4px 14px 4px 5px;font-weight:500;font-size:clamp(14px,1.08vw,17px)}
+.turn span i{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--ink);flex-shrink:0}
+.turn span i svg{width:17px;height:17px}
+.turn .t-click{background:var(--yellow-soft)}
+.turn .t-talk{background:var(--cyan-soft)}
+.counter{display:flex;align-items:center;gap:8px;font-weight:600;font-size:clamp(14px,1.1vw,18px);margin-left:auto}
+.counter .pip{width:16px;height:16px;border-radius:50%;border:3px solid var(--ink);background:#fff}
+.counter .pip.on{background:var(--ink)}
+.counter .pip.done{background:var(--good)}
+.play-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ask{font-family:'Lilita One';font-size:clamp(22px,2vw,34px);line-height:1.15;margin:4px 0 6px}
+.hint{font-size:clamp(15px,1.15vw,19px);color:var(--ink-soft);font-weight:500}
+
+/* Feedback */
+.fb{display:none;margin-top:18px;border:3px solid var(--ink);border-radius:18px;padding:14px 18px 14px 14px;gap:14px;align-items:flex-start;font-size:clamp(17px,1.35vw,22px);line-height:1.45;font-weight:500}
+.fb.on{display:flex;animation:fbIn .45s cubic-bezier(.2,.9,.3,1.3)}
+.fb.good{background:var(--good-soft)} .fb.bad{background:var(--bad-soft)} .fb.ok{background:var(--yellow-soft)}
+.fb .ic{flex-shrink:0;width:46px;height:46px;border-radius:50%;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center}
+.fb.good .ic{background:var(--good)} .fb.bad .ic{background:var(--bad)} .fb.ok .ic{background:var(--yellow)}
+.fb .ic svg{width:26px;height:26px}
+.fb .say{display:block;font-family:'Lilita One';font-size:1.2em;line-height:1.1;margin-bottom:3px}
+@keyframes fbIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+
+/* Clause chunks (Spot it) */
+.sent{font-size:clamp(24px,2.5vw,44px);font-weight:600;line-height:1.35;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;margin:14px 0 6px}
+.chunk{font:inherit;color:inherit;text-align:left;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:10px 18px 12px;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .15s,box-shadow .15s,background-color .3s;display:inline-flex;flex-direction:column;gap:6px}
+.chunk:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.chunk:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.chunk .tag{display:none;font-size:clamp(12px,.95vw,15px);font-weight:700;letter-spacing:1.2px;text-transform:uppercase;line-height:1.2}
+.chunk.is-dep{background:var(--pink-soft);border:3px dashed var(--pink)}
+.chunk.is-main{background:var(--cyan-soft);border-color:var(--cyan)}
+.chunk.is-dep .tag,.chunk.is-main .tag{display:block}
+.chunk.is-dep .tag{color:var(--pink-deep)} .chunk.is-main .tag{color:var(--cyan-deep)}
+.chunk.locked{pointer-events:none;box-shadow:none;transform:none}
+.chunk.picked{outline:5px solid var(--ink);outline-offset:5px}
+.key{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.key span{display:inline-flex;align-items:center;gap:8px;font-size:clamp(13px,1vw,16px);font-weight:600;padding:4px 12px;border-radius:12px}
+.key .kd{background:var(--pink-soft);border:3px dashed var(--pink)}
+.key .km{background:var(--cyan-soft);border:3px solid var(--cyan)}
+
+/* Pick the word */
+.psent{font-size:clamp(26px,2.6vw,46px);font-weight:600;line-height:1.45;margin:14px 0 18px}
+.gap{display:inline-block;min-width:4.4em;text-align:center;border-bottom:6px solid var(--ink);color:#b8b0d0;font-family:'Lilita One';margin-right:.15em;line-height:1.1}
+.gap.filled{min-width:0;border-bottom-color:transparent;background:var(--lime-soft);border-radius:12px;padding:0 .25em;color:var(--ink);animation:pop .45s}
+.gap.shake{animation:shake .45s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+@keyframes pop{0%{transform:scale(.55)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+.chips{display:flex;flex-wrap:wrap;gap:14px}
+.wchip{font-family:'Lilita One';font-size:clamp(24px,2.1vw,36px);padding:8px 24px 11px;border:var(--border);border-radius:18px;background:#fff;box-shadow:5px 5px 0 var(--ink);cursor:pointer;color:var(--ink);transition:transform .12s,box-shadow .12s,opacity .3s}
+.wchip:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.wchip:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--ink)}
+.wchip:nth-child(1){background:var(--pink-soft)} .wchip:nth-child(2){background:var(--cyan-soft)}
+.wchip:nth-child(3){background:var(--orange-soft)} .wchip:nth-child(4){background:var(--violet-soft)}
+.wchip.nope{opacity:.38;text-decoration:line-through;text-decoration-thickness:4px;cursor:not-allowed;box-shadow:none;transform:translate(4px,4px)}
+.wchip.yes{background:var(--lime)!important}
+.wchip.spent{opacity:.5;cursor:default;box-shadow:none}
+.meanings{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:18px}
+.meaning{border:3px solid var(--ink);border-radius:14px;padding:8px 12px 10px;background:#fff;font-size:clamp(13px,1.02vw,17px);line-height:1.3;font-weight:500}
+.meaning b{font-family:'Lilita One';font-weight:400;font-size:1.3em;display:block}
+
+/* Flip it */
+.fsent{font-size:clamp(24px,2.5vw,44px);font-weight:600;line-height:1.35;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;margin:14px 0 8px;min-height:1.6em}
+.fchunk{display:inline-block;border:3px solid var(--ink);border-radius:18px;padding:8px 18px 10px;background:#fff;will-change:transform}
+.fchunk.dep{background:var(--pink-soft);border:3px dashed var(--pink)}
+.fchunk.main{background:var(--cyan-soft);border-color:var(--cyan)}
+.tokens{display:flex;flex-wrap:wrap;align-items:center;row-gap:10px;font-size:clamp(26px,2.6vw,46px);font-weight:600;line-height:1.35;margin:14px 0 8px}
+.tok{padding:2px 4px;border-radius:0;transition:background-color .4s}
+.tok.dep,.slot.dep{background:var(--pink-soft)} .tok.main,.slot.main{background:var(--cyan-soft)}
+.tok.s{border-radius:10px 0 0 10px} .tok.e{border-radius:0 10px 10px 0} .tok.s.e{border-radius:10px}
+.slot.dep,.slot.main{border-radius:0}
+.slot{position:relative;width:.62em;height:calc(1.35em + 4px);border:0;background:transparent;cursor:pointer;border-radius:10px;padding:0;font:inherit;color:var(--pink);flex-shrink:0;transition:background-color .15s,width .15s}
+.slot::before{content:"";position:absolute;left:50%;top:58%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#cfc7e6;transition:transform .15s,background-color .15s}
+.slot:hover,.slot:focus-visible{background:var(--yellow-soft);outline:none}
+.slot:hover::before,.slot:focus-visible::before{background:var(--pink);transform:scale(1.4)}
+.slot.miss{background:var(--bad-soft);animation:shake .45s}
+.slot.off{pointer-events:none}
+.slot.off::before{display:none}
+.slot.comma{width:auto;cursor:default;pointer-events:none;padding:0 .18em 0 0}
+.slot.comma::before{display:none}
+.slot .cm{display:inline-block;font-family:'Lilita One';color:var(--pink);font-size:1.25em;line-height:.8;animation:commaIn .6s cubic-bezier(.2,1.4,.4,1)}
+@keyframes commaIn{0%{transform:scale(0) rotate(-40deg)}100%{transform:scale(1) rotate(0)}}
+.flip-ask{display:none;align-items:center;gap:10px;font-family:'Lilita One';font-size:clamp(20px,1.8vw,30px);color:var(--pink-deep);margin-top:8px}
+.flip-ask.on{display:flex;animation:fbIn .4s ease}
+.flip-ask svg{width:30px;height:30px}
+.ba{display:none;margin-top:18px;border:3px solid var(--ink);border-radius:18px;padding:16px 18px;background:#fff}
+.ba.on{display:block;animation:fbIn .45s ease}
+.ba-row{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;margin-bottom:10px;font-size:clamp(17px,1.4vw,24px);line-height:1.35;font-weight:500}
+.ba-row .k{font-family:'Lilita One';text-transform:uppercase;letter-spacing:1px;padding:4px 12px;border-radius:10px;border:3px solid var(--ink);font-size:.8em;text-align:center}
+.ba-row .k.before{background:#ece9f3} .ba-row .k.after{background:var(--lime)}
+.ba-row .meter{display:none;height:14px;border:3px solid var(--ink);border-radius:10px;background:#fff;overflow:hidden;margin-top:6px;max-width:520px}
+.ba.why-on .ba-row .meter{display:block}
+.ba-row .meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--orange),var(--pink));transition:width 1.2s cubic-bezier(.2,.9,.3,1)}
+.talk{display:flex;gap:10px;align-items:flex-start;background:var(--cyan-soft);border-radius:14px;padding:10px 14px;font-weight:600;font-size:clamp(16px,1.3vw,21px);line-height:1.4;margin-top:6px}
+.talk svg{width:26px;height:26px;flex-shrink:0;margin-top:2px}
+.why{display:none;margin-top:12px;font-size:clamp(17px,1.35vw,22px);line-height:1.45;font-weight:500}
+.why.on{display:block;animation:fbIn .4s ease}
+.why .wl{font-family:'Lilita One';font-size:1.15em;color:var(--good)}
+
+/* Done panel */
+.done-box{display:none;text-align:center;padding:clamp(24px,3vw,44px) 20px}
+.done-box.on{display:block;animation:fbIn .5s ease}
+.done-box h3{font-size:clamp(34px,3.4vw,58px);margin-bottom:8px}
+.done-box p{font-size:clamp(18px,1.45vw,24px);font-weight:500}
+.done-stars{display:flex;justify-content:center;gap:10px;margin:16px 0 4px}
+.done-stars svg{width:clamp(36px,3vw,52px);height:clamp(36px,3vw,52px);color:#e4e0ee}
+.done-stars svg.lit{color:var(--yellow);animation:pop .5s both}
+
+/* The trick (demo) */
+.demo-stage{font-size:clamp(24px,2.35vw,44px);font-weight:600;line-height:1.35;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;min-height:3.2em;margin:16px 0 10px}
+.dchunk{display:inline-flex;flex-direction:column;gap:6px;border:3px solid var(--ink);border-radius:18px;padding:10px 20px 12px;background:#fff;box-shadow:var(--shadow-sm);will-change:transform;transition:background-color .4s,border-color .4s}
+.dchunk .tag{display:none;font-size:clamp(12px,.95vw,15px);font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
+.dchunk.dep{background:var(--pink-soft);border:3px dashed var(--pink)}
+.dchunk.main{background:var(--cyan-soft);border-color:var(--cyan)}
+.labelled .dchunk .tag{display:block}
+.dchunk.dep .tag{color:var(--pink-deep)} .dchunk.main .tag{color:var(--cyan-deep)}
+.as-in{display:inline-block;color:var(--pink-deep);font-family:'Lilita One';animation:pop .5s .1s both}
+.cm-in{display:inline-block;color:var(--pink);font-family:'Lilita One';font-size:1.2em;line-height:.8;animation:commaIn .6s .45s both}
+.demo-note{font-size:clamp(17px,1.4vw,24px);font-weight:500;min-height:1.5em}
+.demo-why{display:none;align-items:center;gap:20px;margin-top:18px;border:3px solid var(--ink);border-radius:18px;padding:14px 18px;background:var(--yellow-soft)}
+.demo-why.on{display:flex;animation:fbIn .45s ease}
+.demo-why p{font-size:clamp(18px,1.5vw,25px);line-height:1.45;font-weight:500}
+.demo-why svg{width:clamp(64px,6vw,96px);flex-shrink:0}
+.bulb-glow{animation:flick 2.6s steps(1) infinite}
+@keyframes flick{0%,18%,24%,62%,66%,100%{opacity:1}20%,64%{opacity:.1}}
+.wstrip{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:22px;padding-top:16px;border-top:3px dashed #d8d2e8}
+.wstrip .lead{font-weight:600;font-size:clamp(15px,1.2vw,19px);margin-right:4px}
+.wtag{font-family:'Lilita One';font-size:clamp(20px,1.7vw,28px);border:3px solid var(--ink);border-radius:14px;padding:3px 16px 5px;background:#fff}
+.wtag:nth-of-type(1){background:var(--pink-soft)} .wtag:nth-of-type(2){background:var(--cyan-soft)}
+.wtag:nth-of-type(3){background:var(--lime-soft)} .wtag:nth-of-type(4){background:var(--orange-soft)}
+.wtag:nth-of-type(5){background:var(--violet-soft)}
+.small-print{font-size:clamp(13px,1vw,16px);color:var(--ink-soft);margin-top:8px}
+
+/* Start screen */
+.start-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(320px,1fr);gap:clamp(16px,2.2vw,32px);align-items:start}
+.hero{background:var(--pink);overflow:hidden;display:flex;flex-direction:column;padding-bottom:0}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.35) 2px,transparent 2.4px);background-size:20px 20px;-webkit-mask-image:linear-gradient(160deg,#000,transparent 60%);mask-image:linear-gradient(160deg,#000,transparent 60%);pointer-events:none}
+.kicker{position:relative;display:inline-block;align-self:flex-start;font-weight:700;font-size:clamp(13px,1.05vw,17px);letter-spacing:2px;text-transform:uppercase;background:#fff;border:3px solid var(--ink);border-radius:30px;padding:4px 14px}
+.title{position:relative;font-size:clamp(64px,8.2vw,150px);color:#fff;-webkit-text-stroke:5px var(--ink);paint-order:stroke fill;text-shadow:7px 7px 0 var(--ink);margin:14px 0 4px;letter-spacing:1px;line-height:.95}
+.title .hop i{width:.16em;height:.16em;border:4px solid var(--ink);background:#fff}
+.title .hop i:nth-child(2){background:var(--yellow)}
+.title .hop i:nth-child(3){background:var(--cyan)}
+.sub{position:relative;font-family:'Lilita One';font-size:clamp(22px,2.2vw,38px);color:var(--ink);background:var(--yellow);display:inline-block;align-self:flex-start;padding:4px 16px 6px;border:3px solid var(--ink);border-radius:12px;transform:rotate(-1.5deg)}
+.hero-art{position:relative;display:block;width:100%;height:auto;margin-top:clamp(10px,1.5vw,24px)}
+.bubble .bd{animation:hop 1.5s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.bubble .bd:nth-of-type(2){animation-delay:.15s} .bubble .bd:nth-of-type(3){animation-delay:.3s}
+.pair-box h3{font-size:clamp(24px,2vw,34px);margin-bottom:6px}
+.pair-box p{font-size:clamp(16px,1.2vw,20px);line-height:1.45;font-weight:500}
+.names{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 6px}
+.names label{display:block;font-weight:700;font-size:clamp(14px,1.05vw,17px);margin-bottom:4px}
+.names input{width:100%;font-family:'Lexend';font-size:clamp(18px,1.4vw,23px);font-weight:600;color:var(--ink);border:3px solid var(--ink);border-radius:14px;padding:8px 12px;background:var(--yellow-soft)}
+.names input:focus{outline:none;box-shadow:0 0 0 4px var(--cyan)}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.role{display:flex;gap:10px;align-items:flex-start;border:3px solid var(--ink);border-radius:14px;padding:10px 12px;font-size:clamp(14px,1.08vw,18px);line-height:1.35;font-weight:500}
+.role i{width:32px;height:32px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.role i svg{width:19px;height:19px}
+.role.r1{background:var(--yellow-soft)} .role.r2{background:var(--cyan-soft)}
+.role b{display:block;font-family:'Lilita One';font-weight:400;font-size:1.2em}
+.start-side{display:flex;flex-direction:column;gap:18px}
+
+/* LISC */
+.learning-card{background:#fff;border:var(--border);border-radius:20px;box-shadow:var(--shadow-sm);overflow:hidden;border-top-width:10px;border-top-color:var(--cyan)}
+.learning-card h2{cursor:pointer;padding:12px 18px;font-size:clamp(18px,1.45vw,24px);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.learning-card h2:hover{background:#f6f4fb}
+.toggle-icon{transition:transform .3s ease;font-size:.75em}
+.learning-content{display:none;padding:0 20px 18px}
+.learning-content.open{display:block;animation:fbIn .35s ease}
+.learning-content h3{font-size:clamp(16px,1.2vw,20px);margin:10px 0 4px;color:var(--cyan-deep);letter-spacing:.5px}
+.learning-content p,.success-criteria li{font-size:clamp(15px,1.15vw,19px);line-height:1.45;font-weight:500}
+.success-criteria{list-style:none}
+.success-criteria li{position:relative;padding:4px 0 4px 28px}
+.success-criteria li::before{content:'\2713';position:absolute;left:0;top:3px;color:var(--good);font-weight:700}
+
+/* Teacher notes */
+.teacher-btn{font-family:'Lexend';font-size:14px;font-weight:600;color:var(--ink);background:#fff;border:2px dashed var(--ink);border-radius:20px;padding:6px 14px;cursor:pointer}
+.teacher-panel{display:none;background:#fffdf6;border:3px dashed var(--ink);border-radius:16px;padding:14px 18px;margin-top:12px}
+.teacher-panel.open{display:block;animation:fbIn .3s ease}
+.teacher-panel .tp-title{font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin:6px 0 4px}
+.teacher-panel li{font-size:clamp(14px,1.05vw,17px);line-height:1.5;margin:3px 0 3px 18px}
+.foot-link{font-size:14px;font-weight:600;color:var(--ink);opacity:.75}
+
+/* Write it */
+.write-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(16px,2vw,30px);align-items:start}
+.art{border:var(--border);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;background:#fff}
+.art svg{display:block;width:100%;height:auto}
+.prompt-card{background:var(--ink);color:#fff;border-radius:20px;padding:16px 20px 18px;margin-bottom:16px;border:var(--border)}
+.prompt-card .pl{font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--yellow)}
+.prompt-card .pt{font-family:'Lilita One';font-size:clamp(26px,2.5vw,44px);line-height:1.1;margin-top:4px}
+.flicker{animation:flick 3.4s steps(1) infinite}
+.hall-fp{opacity:0;animation:hallStep 7s ease infinite}
+@keyframes hallStep{0%{opacity:0}6%{opacity:.85}55%{opacity:.85}70%,100%{opacity:0}}
+details.help{border:3px solid var(--ink);border-radius:16px;background:#fff;margin-top:12px;box-shadow:3px 3px 0 var(--ink)}
+details.help summary{list-style:none;cursor:pointer;padding:11px 16px;font-weight:700;font-size:clamp(16px,1.22vw,20px);display:flex;align-items:center;gap:10px}
+details.help summary::-webkit-details-marker{display:none}
+details.help summary::before{content:"+";width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+details.help[open] summary::before{content:"\2212"}
+details.help .hb{padding:0 18px 16px 54px;font-size:clamp(16px,1.22vw,20px);line-height:1.5;font-weight:500}
+details.help .hb ul{padding-left:20px}
+.frames{display:flex;flex-wrap:wrap;gap:10px}
+.frames span{background:var(--violet-soft);border:2px solid var(--ink);border-radius:12px;padding:4px 12px;font-weight:600}
+.model{display:none;margin-top:10px}
+.model.on{display:block;animation:fbIn .4s ease}
+.model .mtext{background:#fffdf6;border:3px solid var(--ink);border-radius:14px;padding:12px 16px;font-size:clamp(17px,1.35vw,22px);line-height:1.7}
+.model .md{background:var(--pink-soft);border-bottom:3px dashed var(--pink);padding:0 3px}
+.model .mc{color:var(--pink);font-family:'Lilita One';font-size:1.25em}
+.model ol{margin:10px 0 0 22px}
+.model li{margin:4px 0}
+.checks{list-style:none;display:grid;gap:10px;margin-top:14px}
+.check{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:10px 14px;cursor:pointer;font-size:clamp(16px,1.25vw,20px);font-weight:500;color:var(--ink);line-height:1.35}
+.check .bx{width:30px;height:30px;border-radius:9px;border:3px solid var(--ink);flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff}
+.check .bx svg{width:20px;height:20px;opacity:0}
+.check.on{background:var(--lime-soft)}
+.check.on .bx{background:var(--good)}
+.check.on .bx svg{opacity:1;animation:pop .35s}
+.timer{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:3px solid var(--ink);border-radius:16px;padding:10px 14px;background:#fff;margin-top:14px}
+.timer .td{font-family:'Lilita One';font-size:clamp(32px,3vw,50px);min-width:3.2em;line-height:1}
+.timer .td.warn{color:var(--bad)} .timer .td.end{color:var(--good)}
+.timer .tl{font-weight:700;font-size:13px;letter-spacing:2px;text-transform:uppercase;width:100%}
+.timer .btn.sel{background:var(--ink);color:#fff}
+
+/* Partner check */
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(12px,1.4vw,20px);margin:6px 0 4px}
+.step{font:inherit;text-align:left;color:var(--ink);background:#fff;border:var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:16px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:transform .15s,background-color .3s}
+.step:hover{transform:translateY(-3px)}
+.step .sn{font-family:'Lilita One';font-size:clamp(26px,2.3vw,40px);width:clamp(48px,4vw,62px);height:clamp(48px,4vw,62px);border-radius:50%;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;line-height:1}
+.step:nth-child(1) .sn{background:var(--pink)} .step:nth-child(2) .sn{background:var(--yellow)}
+.step:nth-child(3) .sn{background:var(--lime)} .step:nth-child(4) .sn{background:var(--orange)}
+.step:nth-child(5) .sn{background:var(--violet);color:#fff}
+.step .st{font-family:'Lilita One';font-size:clamp(20px,1.65vw,28px);line-height:1.1}
+.step .sd{font-size:clamp(14px,1.12vw,18px);line-height:1.4;font-weight:500}
+.step .sdone{margin-top:auto;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:6px}
+.step .sdone .bx{width:22px;height:22px;border:3px solid var(--ink);border-radius:7px;display:inline-flex;align-items:center;justify-content:center}
+.step .sdone svg{width:14px;height:14px;opacity:0}
+.step.on{background:var(--lime-soft)}
+.step.on .sdone .bx{background:var(--good)} .step.on .sdone svg{opacity:1}
+.step.on .sdone .t1{display:none} .step:not(.on) .sdone .t2{display:none}
+.ideas{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.ideas span{background:#fff;border:3px solid var(--ink);border-radius:30px;padding:6px 14px;font-weight:600;font-size:clamp(14px,1.1vw,18px)}
+.stem{font-family:'Lilita One';font-size:clamp(22px,2vw,34px);background:var(--yellow-soft);border:3px dashed var(--ink);border-radius:16px;padding:10px 16px;margin-top:10px;line-height:1.2}
+.stem .blank{display:inline-block;min-width:5em;border-bottom:4px solid var(--ink)}
+.check-grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(280px,1fr);gap:clamp(16px,2vw,30px);margin-top:clamp(16px,2vw,26px);align-items:start}
+
+/* Finish and Go Deeper */
+.finish-grid{display:grid;grid-template-columns:minmax(260px,.8fr) minmax(0,1.4fr);gap:clamp(16px,2vw,30px);align-items:start}
+.burst-wrap{position:relative;width:min(100%,380px);aspect-ratio:1;margin:0 auto}
+.burst-spin{position:absolute;inset:0;animation:spin 40s linear infinite}
+.burst,.burst-fill{position:absolute;inset:0}
+.burst{background:var(--ink)}
+.burst-fill{inset:10px;background:#fff}
+.star-box{background:#fff;border:var(--border);border-radius:20px;box-shadow:var(--shadow-sm);padding:12px 14px;margin-top:16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.burst-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Lilita One';font-size:clamp(30px,3vw,48px);line-height:1;padding:22%;color:var(--ink)}
+.star-row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.star-row svg{width:clamp(22px,1.8vw,30px);height:clamp(22px,1.8vw,30px);color:#e4e0ee}
+.star-row svg.lit{color:var(--yellow)}
+.star-sum{text-align:center;font-weight:600;font-size:clamp(16px,1.25vw,20px);margin-top:8px}
+.recap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+.recap div{border:3px solid var(--ink);border-radius:16px;padding:12px 14px;font-weight:500;font-size:clamp(15px,1.18vw,19px);line-height:1.4}
+.recap b{display:block;font-family:'Lilita One';font-weight:400;font-size:1.3em;margin-bottom:2px}
+.recap div:nth-child(1){background:var(--pink-soft)} .recap div:nth-child(2){background:var(--lime-soft)} .recap div:nth-child(3){background:var(--orange-soft)}
+.gd-lock{display:flex;align-items:center;gap:14px;border:3px dashed var(--ink);border-radius:18px;padding:14px 18px;background:#f4f2f8;margin-top:18px;font-weight:600;font-size:clamp(15px,1.2vw,19px)}
+.gd-lock svg{width:30px;height:30px;flex-shrink:0}
+.deeper{display:none;margin-top:18px}
+.deeper.on{display:block;animation:fbIn .5s ease}
+.deeper h3{font-size:clamp(28px,2.6vw,44px);margin-bottom:4px}
+.deeper > p{font-size:clamp(16px,1.25vw,20px);font-weight:500;margin-bottom:12px}
+.gd-task{border:var(--border);border-radius:20px;padding:16px 20px;background:var(--violet-soft);box-shadow:var(--shadow-sm);margin-bottom:16px}
+.gd-label{display:inline-block;font-family:'Lilita One';text-transform:uppercase;letter-spacing:1px;background:var(--violet);color:#fff;border-radius:10px;padding:3px 12px 4px;border:3px solid var(--ink);font-size:clamp(14px,1.05vw,17px)}
+.gd-q{font-size:clamp(18px,1.45vw,24px);font-weight:600;line-height:1.4;margin:10px 0 4px}
+.gd-sub{font-size:clamp(15px,1.15vw,19px);font-style:italic;color:var(--ink-soft);margin-bottom:8px}
+.gd-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.gd-pair div{background:#fff;border:3px solid var(--ink);border-radius:14px;padding:10px 14px;font-size:clamp(17px,1.4vw,23px);font-weight:600;line-height:1.35}
+.gd-pair b{font-family:'Lilita One';font-weight:400;color:var(--violet);margin-right:6px}
+.gd-talk{font-size:clamp(14px,1.1vw,18px);font-weight:600;margin:6px 0 10px}
+.gd-model{display:none;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:12px 16px;margin-top:12px}
+.gd-model.on{display:block;animation:fbIn .4s ease}
+.gd-model .ml{font-family:'Lilita One';color:var(--violet);font-size:1.1em;margin-bottom:4px}
+.gd-model p{font-size:clamp(15px,1.18vw,19px);line-height:1.55;margin-bottom:8px}
+.writer-box{border:3px dashed var(--violet);border-radius:14px;padding:10px 14px;background:#fff;margin-top:12px;font-size:clamp(14px,1.1vw,18px);line-height:1.45}
+.confetti{position:fixed;top:-20px;width:12px;height:18px;z-index:60;pointer-events:none;border:2px solid var(--ink);border-radius:3px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(var(--rot));}}
+
+/* Question controls: Back a sentence, Undo, Next */
+.qctl{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px}
+.qctl .grow{flex:1}
+.fb .tryagain{display:block;margin-top:4px;font-size:.85em;font-weight:600;color:var(--ink-soft)}
+.counter .pip.cur{outline:3px solid var(--ink);outline-offset:2px}
+.counter .pip.cur:not(.done){background:var(--ink)}
+
+/* Flip it: Part A / Part B */
+.parts{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.part{display:inline-flex;align-items:center;gap:8px;border:3px solid var(--ink);border-radius:30px;padding:3px 14px 3px 4px;font-weight:600;font-size:clamp(13px,1.05vw,17px);background:#f3f1f8;color:var(--ink-soft)}
+.part b{width:26px;height:26px;border-radius:50%;background:#d8d2e8;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;font-family:'Lilita One';font-weight:400}
+.part.on{background:var(--orange-soft);color:var(--ink)}
+.part.on b{background:var(--orange)}
+.part.done b{background:var(--good);color:#fff}
+.flip-b{text-align:left;padding:4px 0 0}
+.pa-done{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-family:'Lilita One';font-size:clamp(20px,1.7vw,28px);color:var(--good)}
+.pa-done .done-stars{margin:0;justify-content:flex-start}
+.pa-done .done-stars svg{width:clamp(26px,2vw,34px);height:clamp(26px,2vw,34px)}
+.fb-head{display:flex;gap:20px;align-items:center;margin:8px 0 6px}
+.fb-head h3{font-size:clamp(28px,2.6vw,44px)!important;margin-bottom:6px}
+.fb-head p{font-size:clamp(16px,1.3vw,21px)!important;line-height:1.45}
+.fb-art{width:clamp(130px,12vw,200px);flex-shrink:0}
+.bflips{list-style:none;display:grid;gap:12px;margin-top:12px;align-items:start}
+.bflip{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;border:3px solid var(--ink);border-radius:18px;padding:12px 14px;background:#fff}
+.bflip.chal{background:var(--yellow-soft)}
+.bn{width:clamp(36px,3vw,46px);height:clamp(36px,3vw,46px);border-radius:50%;background:var(--orange);border:3px solid var(--ink);font-family:'Lilita One';font-size:clamp(18px,1.6vw,26px);display:flex;align-items:center;justify-content:center}
+.bflip.chal .bn{background:var(--yellow)}
+.bs{font-size:clamp(20px,1.85vw,32px)!important;font-weight:600!important;line-height:1.35}
+.bans{display:none;margin-top:8px;font-size:clamp(18px,1.55vw,27px)!important;font-weight:500!important;line-height:1.45;border-top:3px dashed #d8d2e8;padding-top:8px}
+.bflip.open .bans{display:block;animation:fbIn .35s ease}
+.bflip.open{background:var(--lime-soft)}
+.bdep{background:var(--pink-soft);border-bottom:3px dashed var(--pink);padding:0 3px}
+.bcm{color:var(--pink);font-family:'Lilita One';font-size:1.3em;line-height:.8}
+.bone{font-weight:700;color:var(--ink-soft)}
+.bnote{display:block;font-size:.72em;color:var(--ink-soft);margin-top:4px}
+.chal-h{display:flex;align-items:center;gap:10px;font-size:clamp(22px,2vw,32px);margin-top:22px}
+.chal-h svg{width:32px;height:32px}
+.chal-p{font-size:clamp(16px,1.25vw,20px)!important;margin-top:2px}
+.flip-b .btn-row .grow{flex:1}
+.screen.partb .grid-2{grid-template-columns:1fr}
+.screen.partb .side{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(min-width:1101px){.screen.partb .bflips{grid-template-columns:1fr 1fr}}
+@media(max-width:1100px){.screen.partb .side{grid-template-columns:1fr}}
+
+/* Fast finishers */
+.passage{background:#fff;border:var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 24px 22px}
+.passage .pl{font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--pink-deep)}
+.passage .ptitle{font-family:'Lilita One';font-size:clamp(26px,2.4vw,40px);margin:2px 0 8px}
+.ptext{font-size:clamp(19px,1.65vw,28px);line-height:1.75;font-weight:500}
+.ps{white-space:normal}
+.nw{white-space:nowrap}
+.snm{display:inline-flex;align-items:center;justify-content:center;width:1.25em;height:1.25em;border-radius:50%;background:var(--ink);color:#fff;font-family:'Lilita One';font-style:normal;font-size:.58em;vertical-align:.3em;margin:0 .3em 0 .05em}
+.pnote{font-size:clamp(15px,1.15vw,19px);color:var(--ink-soft);font-weight:500;margin-top:8px}
+.ff-call{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:18px;border:3px solid var(--ink);border-radius:18px;padding:14px 18px;background:var(--pink-soft)}
+.ff-call svg{width:46px;height:46px;flex-shrink:0}
+.ff-call div{flex:1;min-width:200px;font-size:clamp(16px,1.25vw,20px);font-weight:500;line-height:1.4}
+.ff-call b{display:block;font-family:'Lilita One';font-weight:400;font-size:1.3em}
+.gd-panel{margin-top:clamp(18px,2vw,28px)}
+.gd-intro{font-size:clamp(26px,2.4vw,40px)}
+.gd-introp{font-size:clamp(16px,1.25vw,20px);font-weight:500;margin:4px 0 14px}
+.gd-panel .gd-lock{margin-top:0}
+.gd-panel #gdOpenRow{margin-top:0}
+.early{font-size:clamp(15px,1.15vw,19px);font-weight:500;margin-top:12px}
+.linkish{font:inherit;font-weight:700;color:var(--ink);background:var(--yellow-soft);border:2px dashed var(--ink);border-radius:10px;padding:2px 10px;cursor:pointer}
+
+/* Responsive */
+@media(max-width:1500px){.stop:not(.on) .l{display:none}.stop:not(.on){padding:4px}}
+@media(max-width:1100px){
+  .grid-2,.start-grid,.write-grid,.check-grid,.finish-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .meanings{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  .prints{display:none}
+  .brand{display:none}
+  .stops{justify-content:flex-start;overflow-x:auto}
+  .steps,.recap,.gd-pair,.roles,.names{grid-template-columns:1fr}
+  .title{-webkit-text-stroke-width:3px;text-shadow:4px 4px 0 var(--ink)}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .shapes,.trails{display:none}
+  .hall-fp{opacity:.8}
+}
+</style>
+</head>
+<body>
+
+<!-- Background layers -->
+<div class="halftone" aria-hidden="true"></div>
+<div class="shapes" aria-hidden="true">
+  <div class="shape" style="top:9%;left:3%;width:150px;height:60px;animation-duration:26s"><svg viewBox="0 0 150 60"><path d="M6 40 Q24 6 42 30 T78 30 T114 30 T146 22" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round"/></svg></div>
+  <div class="shape" style="top:16%;right:4%;width:90px;height:80px;animation-duration:31s;animation-delay:-6s"><svg viewBox="0 0 90 80"><path d="M45 6 L84 74 H6 Z" fill="none" stroke="#231942" stroke-width="7" stroke-linejoin="round"/></svg></div>
+  <div class="shape" style="top:46%;left:1.5%;width:84px;height:84px;animation-duration:22s;animation-delay:-3s"><svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="32" fill="none" stroke="#fff" stroke-width="11"/></svg></div>
+  <div class="shape" style="bottom:7%;left:6%;width:90px;height:90px;animation-duration:28s;animation-delay:-12s"><svg viewBox="0 0 90 90"><g fill="#231942"><circle cx="15" cy="15" r="7"/><circle cx="45" cy="15" r="7"/><circle cx="75" cy="15" r="7"/><circle cx="15" cy="45" r="7"/><circle cx="45" cy="45" r="7"/><circle cx="75" cy="45" r="7"/><circle cx="15" cy="75" r="7"/><circle cx="45" cy="75" r="7"/><circle cx="75" cy="75" r="7"/></g></svg></div>
+  <div class="shape" style="bottom:10%;right:3%;width:160px;height:50px;animation-duration:25s;animation-delay:-8s"><svg viewBox="0 0 160 50"><path d="M6 40 L30 10 L54 40 L78 10 L102 40 L126 10 L154 40" fill="none" stroke="#231942" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+  <div class="shape" style="top:62%;right:2%;width:80px;height:44px;animation-duration:29s;animation-delay:-15s"><svg viewBox="0 0 80 44"><path d="M4 40 A36 36 0 0 1 76 40 Z" fill="#fff"/></svg></div>
+  <div class="shape" style="top:30%;left:47%;width:52px;height:52px;animation-duration:33s;animation-delay:-4s"><svg viewBox="0 0 52 52"><path d="M26 4 V48 M4 26 H48" stroke="#fff" stroke-width="10" stroke-linecap="round"/></svg></div>
+  <div class="shape" style="bottom:3%;left:44%;width:60px;height:60px;animation-duration:27s;animation-delay:-18s"><svg viewBox="0 0 60 60"><path d="M30 2 L36 24 L58 30 L36 36 L30 58 L24 36 L2 30 L24 24 Z" fill="#fff"/></svg></div>
+  <div class="shape" style="top:3%;left:36%;width:64px;height:64px;animation-duration:30s;animation-delay:-10s"><svg viewBox="0 0 64 64"><rect x="12" y="12" width="40" height="40" rx="6" fill="none" stroke="#231942" stroke-width="7" transform="rotate(20 32 32)"/></svg></div>
+</div>
+<div class="trails" id="trails" aria-hidden="true"></div>
+
+<!-- Shared icons -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="fp" viewBox="0 0 24 44"><path d="M12 1.5c6.3 0 9.5 6.4 9.5 13.6 0 7.4-3.4 12.2-9.5 12.2S2.5 22.5 2.5 15.1C2.5 7.9 5.7 1.5 12 1.5Z" fill="currentColor"/><ellipse cx="12" cy="36" rx="7.2" ry="6.6" fill="currentColor"/></symbol>
+    <symbol id="i-click" viewBox="0 0 24 24"><path d="M6 3l12 8-5.2 1.3L16 19l-2.6 1.3-3.2-6.6L6 17Z" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-talk" viewBox="0 0 24 24"><path d="M20.5 11.5a8 8 0 0 1-11.6 7.1L3.5 20l1.2-4.6A8 8 0 1 1 20.5 11.5Z" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/></symbol>
+    <symbol id="i-talk-ink" viewBox="0 0 24 24"><path d="M20.5 11.5a8 8 0 0 1-11.6 7.1L3.5 20l1.2-4.6A8 8 0 1 1 20.5 11.5Z" fill="none" stroke="#231942" stroke-width="2.4" stroke-linejoin="round"/><circle cx="8.5" cy="11.5" r="1.3" fill="#231942"/><circle cx="12.5" cy="11.5" r="1.3" fill="#231942"/><circle cx="16.5" cy="11.5" r="1.3" fill="#231942"/></symbol>
+    <symbol id="i-tick" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-bang" viewBox="0 0 24 24"><path d="M12 4v10" stroke="#231942" stroke-width="3.6" stroke-linecap="round"/><circle cx="12" cy="19.5" r="2.2" fill="#231942"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M15.5 4.5l4 4L9 19l-5 1 1-5Z" fill="#fff" stroke="#231942" stroke-width="2.2" stroke-linejoin="round"/><path d="M13.5 6.5l4 4" stroke="#231942" stroke-width="2.2"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 17h6M10 20.5h4" stroke="#231942" stroke-width="2.2" stroke-linecap="round"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.3 1 2.2h5.2c0-.9.4-1.7 1-2.2A6 6 0 0 0 12 3Z" fill="#fff" stroke="#231942" stroke-width="2.2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-mag" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6.2" fill="#FFE1EC" stroke="#231942" stroke-width="2.6"/><path d="M14.6 14.6L20.5 20.5" stroke="#231942" stroke-width="3.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-word" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="13" rx="4" fill="#E2F8D9" stroke="#231942" stroke-width="2.4"/><path d="M7 14.5l2.3-6 2.3 6M7.8 12.6h3M14 10.5h3.5M14 13.5h3.5" stroke="#231942" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+    <symbol id="i-flip" viewBox="0 0 24 24"><path d="M4 9h13l-3.5-3.5M20 15H7l3.5 3.5" fill="none" stroke="#231942" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-pair" viewBox="0 0 24 24"><path d="M3 5.5h11v7H8l-3 2.5v-2.5H3Z" fill="#DCF4FF" stroke="#231942" stroke-width="2" stroke-linejoin="round"/><path d="M10 14.5v1.5h6l3 2.5V16h2V9h-4" fill="#FFE1EC" stroke="#231942" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-deeper" viewBox="0 0 24 24"><path d="M6 6l6 5 6-5M6 12.5l6 5 6-5" fill="none" stroke="#231942" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6.2 6.6.7-5 4.5 1.4 6.6L12 17.2l-5.9 3.3 1.4-6.6-5-4.5 6.6-.7Z" fill="currentColor" stroke="#231942" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5" fill="#fff" stroke="#231942" stroke-width="2.4"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11" fill="none" stroke="#231942" stroke-width="2.4"/></symbol>
+    <symbol id="i-door" viewBox="0 0 24 24"><rect x="5" y="2.5" width="14" height="19" rx="1.5" fill="#FFF3C4" stroke="#231942" stroke-width="2.2"/><circle cx="15.5" cy="12" r="1.4" fill="#231942"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="M8.5 4.5L4 9l4.5 4.5" fill="none" stroke="#231942" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 9H14a6 6 0 0 1 0 12h-3" fill="none" stroke="#231942" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M14.5 5L7.5 12l7 7" fill="none" stroke="#231942" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.5 2L5 13.5h6L9.5 22 19 9.5h-6.2Z" fill="#FFD23F" stroke="#231942" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-comma" viewBox="0 0 24 24"><circle cx="12" cy="10" r="3.6" fill="#FF4F8B"/><path d="M15.4 10.5c0 4.5-2.4 7.3-5.6 8.4" fill="none" stroke="#FF4F8B" stroke-width="3" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<!-- Top bar -->
+<header class="topbar">
+  <div class="brand">Wait for it<span class="hop"><i></i><i></i><i></i></span></div>
+  <nav class="stops" id="stops" aria-label="Cards">
+    <button class="stop on" data-go="0" tabindex="-1"><span class="n">1</span><span class="l">Start</span></button>
+    <button class="stop" data-go="1" tabindex="-1"><span class="n">2</span><span class="l">The trick</span></button>
+    <button class="stop" data-go="2" tabindex="-1"><span class="n">3</span><span class="l">Spot it</span></button>
+    <button class="stop" data-go="3" tabindex="-1"><span class="n">4</span><span class="l">Pick the word</span></button>
+    <button class="stop" data-go="4" tabindex="-1"><span class="n">5</span><span class="l">Flip it</span></button>
+    <button class="stop" data-go="5" tabindex="-1"><span class="n">6</span><span class="l">Write it</span></button>
+    <button class="stop" data-go="6" tabindex="-1"><span class="n">7</span><span class="l">Partner check</span></button>
+    <button class="stop" data-go="7" tabindex="-1"><span class="n">8</span><span class="l">Finish</span></button>
+    <button class="stop" data-go="8" tabindex="-1"><span class="n">9</span><span class="l">Fast finishers</span></button>
+  </nav>
+  <div class="prints" id="prints" role="img" aria-label="Footprints show how many practice questions you have finished"></div>
+</header>
+
+<main>
+
+<!-- ================= 1. START ================= -->
+<section class="screen on" data-bg="#FFD23F" data-name="start">
+  <div class="wrap start-grid">
+    <div class="panel hero">
+      <span class="kicker">Writer's Toolkit &middot; Grammar</span>
+      <h1 class="title">Wait for it<span class="hop"><i></i><i></i><i></i></span></h1>
+      <span class="sub">Complex sentences that build tension</span>
+      <svg class="hero-art" viewBox="0 0 600 330" role="img" aria-label="Footprints leading to a door that is open a crack, with light spilling out">
+        <path d="M0 270 Q300 238 600 270 V330 H0Z" fill="#fff" opacity=".3"/>
+        <path d="M398 268 L476 268 L600 330 L330 330Z" fill="#FFD23F" opacity=".9"/>
+        <rect x="388" y="22" width="112" height="248" rx="6" fill="#FFD23F" stroke="#231942" stroke-width="6"/>
+        <path d="M466 52 v40 M486 70 l-10 22 M446 70 l10 22" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+        <path d="M388 22 L456 40 L456 252 L388 270Z" fill="#8B5CF6" stroke="#231942" stroke-width="6" stroke-linejoin="round"/>
+        <path d="M401 56 L443 66 L443 136 L401 128Z M401 158 L443 164 L443 232 L401 230Z" fill="none" stroke="#231942" stroke-width="4" opacity=".5"/>
+        <circle cx="444" cy="148" r="8" fill="#FFD23F" stroke="#231942" stroke-width="4"/>
+        <g class="bubble">
+          <path d="M150 34 h150 a34 34 0 0 1 34 34 v10 a34 34 0 0 1 -34 34 h-96 l-30 26 l6 -26 h-30 a34 34 0 0 1 -34 -34 v-10 a34 34 0 0 1 34 -34z" fill="#fff" stroke="#231942" stroke-width="6" stroke-linejoin="round"/>
+          <circle class="bd" cx="182" cy="73" r="10" fill="#231942"/><circle class="bd" cx="225" cy="73" r="10" fill="#231942"/><circle class="bd" cx="268" cy="73" r="10" fill="#231942"/>
+        </g>
+        <g fill="#231942" id="heroPrints"></g>
+        <path d="M70 120 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5Z M560 70 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4Z" fill="#fff"/>
+      </svg>
+    </div>
+
+    <div class="start-side">
+      <div class="panel pair-box">
+        <h3>Work with a partner</h3>
+        <p>Type your names. You will swap jobs on every question.</p>
+        <div class="names">
+          <div><label for="nameA">Partner A</label><input id="nameA" type="text" maxlength="16" autocomplete="off"></div>
+          <div><label for="nameB">Partner B</label><input id="nameB" type="text" maxlength="16" autocomplete="off"></div>
+        </div>
+        <div class="roles">
+          <div class="role r2"><i><svg><use href="#i-talk"/></svg></i><div><b>Explainer</b>Says the answer and why, first.</div></div>
+          <div class="role r1"><i><svg><use href="#i-click"/></svg></i><div><b>Clicker</b>Listens, then clicks.</div></div>
+        </div>
+      </div>
+
+      <div class="learning-card">
+        <h2 onclick="toggleLearningSection()" role="button" tabindex="0">Learning intention and success criteria <span class="toggle-icon" id="learningToggle">&#9660;</span></h2>
+        <div class="learning-content" id="learningContent">
+          <h3>Learning intention</h3>
+          <p>We are learning to use a dependent clause that starts with when, while, although or because, and to try it at the start or the end of a sentence to build tension.</p>
+          <h3>Success criteria</h3>
+          <ul class="success-criteria">
+            <li>I can spot the main clause and the dependent clause in a complex sentence.</li>
+            <li>I can choose a tension word that makes sense, and put a comma after a dependent clause that comes first.</li>
+            <li>I can use dependent clauses at least twice in my own narrative writing.</li>
+            <li>I can explain how moving the dependent clause changes the tension for the reader.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tip book">
+        <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+        <div><div class="lbl">In your book</div><p>Write the date and the title <em>Wait for it! Complex sentences</em>.</p></div>
+      </div>
+
+      <div class="btn-row" style="margin-top:0;justify-content:space-between">
+        <button class="btn pink glow" data-go="next">Let's go</button>
+        <button class="teacher-btn" type="button" id="teacherBtn">Teacher notes</button>
+      </div>
+      <div class="teacher-panel" id="teacherPanel">
+        <div class="tp-title">How it runs (about 15 minutes after you model)</div>
+        <ul>
+          <li>Model first from the board with the hook pairs and your three models. Card 2 replays the "lights flickered" model if you want to project it.</li>
+          <li>One laptop per pair. Jobs swap on every question: the Explainer says the answer and why before the Clicker clicks.</li>
+          <li>Every practice question has Back a sentence and Undo, so a misclick never costs a pair. Stars only count first tries, so undoing a wrong answer does not earn one.</li>
+          <li>Suggested pace: The trick 1, Spot it 2, Pick the word 2, Flip it 5 (four on screen, then four in books), Write it 4, Partner check 3. If time is tight, the Flip it challenge and the Partner check share can be trimmed.</li>
+          <li>Both partners write in their own books in Flip it Part B and on cards 6 and 7.</li>
+          <li>Exit check: invite two students to read the Before and After they wrote on card 7 and explain which choice was more effective.</li>
+          <li>Fast finishers (card 9): rewrite a ten-sentence choppy passage in their books, with a hint, a checklist and an annotated model. Go Deeper sits underneath for anyone still going; it unlocks once Spot it, Pick the word and Flip it are done.</li>
+          <li>Arrow keys or a clicker move between cards.</li>
+        </ul>
+      </div>
+      <a class="foot-link" href="https://educoder101.github.io/Writers-Toolkit">&larr; Back to the Writer's Toolkit</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2. THE TRICK ================= -->
+<section class="screen" data-bg="#5CCFF2" data-name="trick">
+  <div class="wrap">
+    <div class="screen-head">
+      <span class="badge"><span class="bi"><svg><use href="#i-bulb"/></svg></span>Remember</span>
+      <h2 class="big">The trick: make your reader wait</h2>
+    </div>
+    <div class="grid-2">
+      <div class="panel">
+        <div class="demo-stage" id="demoStage">
+          <span class="dchunk" id="dA"><span class="tx">The lights flickered.</span><span class="tag">Main clause: makes sense on its own</span></span>
+          <span class="dchunk" id="dB"><span class="tx">She reached for the handle.</span><span class="tag">Dependent clause: can't stand alone</span></span>
+        </div>
+        <div class="demo-note" id="demoNote">Two short sentences. Read them aloud. They feel a bit choppy.</div>
+        <div class="demo-why" id="demoWhy">
+          <svg viewBox="0 0 80 100" aria-hidden="true"><g class="bulb-glow"><circle cx="40" cy="38" r="36" fill="#FFD23F" opacity=".45"/></g><path d="M40 10a26 26 0 0 0-15 47c3 2.3 4.5 5.5 4.5 9.5h21c0-4 1.5-7.2 4.5-9.5A26 26 0 0 0 40 10Z" fill="#fff" stroke="#231942" stroke-width="5" stroke-linejoin="round"/><path d="M30 76h20M32 86h16" stroke="#231942" stroke-width="5" stroke-linecap="round"/><path d="M33 44l7 8 7-8" fill="none" stroke="#FF8A3D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <p>The reader has to wait through <b>"As she reached for the handle..."</b> before the main action arrives. Wait for it... <b>the lights flickered!</b> That waiting is tension.</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn white small" id="demoBack" type="button" disabled><svg><use href="#i-back"/></svg>Back a step</button>
+          <button class="btn cyan" id="demoBtn" type="button">Join them</button>
+          <button class="btn white small hide" id="demoReset" type="button">Watch again</button>
+        </div>
+        <div class="wstrip">
+          <span class="lead">Tension words start a dependent clause:</span>
+          <span class="wtag">when</span><span class="wtag">while</span><span class="wtag">as</span><span class="wtag">because</span><span class="wtag">although</span>
+        </div>
+        <p class="small-print">Grammar name: these are subordinating conjunctions.</p>
+      </div>
+      <div class="side">
+        <div class="tip learn">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><div class="lbl">Learn this</div><p>A complex sentence has a <em>main clause</em> that makes sense on its own and a <em>dependent clause</em> that needs the main clause.</p></div>
+        </div>
+        <div class="tip book">
+          <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+          <div><div class="lbl">In your book</div><p>Copy the rule: <em>When the dependent clause comes first, put a comma after it.</em></p></div>
+        </div>
+      </div>
+    </div>
+    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Next: Spot it &rarr;</button></div>
+  </div>
+</section>
+
+<!-- ================= 3. SPOT IT ================= -->
+<section class="screen" data-bg="#FF8FB3" data-name="spot">
+  <div class="wrap">
+    <div class="screen-head">
+      <span class="badge"><span class="bi"><svg><use href="#i-mag"/></svg></span>Level 1</span>
+      <h2 class="big">Spot it</h2>
+    </div>
+    <div class="grid-2">
+      <div class="panel">
+        <div id="spotPlay">
+          <div class="play-top"><div class="turn" id="spotTurn"></div><div class="counter" id="spotCount"></div></div>
+          <p class="ask">Tap the part that can NOT stand on its own.</p>
+          <p class="hint">Read each part by itself. Which one leaves you hanging?</p>
+          <div class="sent" id="spotSent"></div>
+          <div class="fb" id="spotFb"></div>
+          <div class="qctl">
+            <button class="btn white small" id="spotBack" type="button"><svg><use href="#i-back"/></svg>Back a sentence</button>
+            <button class="btn white small" id="spotUndo" type="button"><svg><use href="#i-undo"/></svg>Undo</button>
+            <span class="grow"></span>
+            <button class="btn pink hide" id="spotNext" type="button"></button>
+          </div>
+        </div>
+        <div class="done-box" id="spotDone">
+          <h3>Level 1 done!</h3>
+          <div class="done-stars" id="spotStars"></div>
+          <p>You can spot a dependent clause. Next, choose the tension word.</p>
+          <div class="btn-row" style="justify-content:center"><button class="btn white small" id="spotReview" type="button"><svg><use href="#i-back"/></svg>Back to the sentences</button><button class="btn lime" data-go="next">Next: Pick the word &rarr;</button></div>
+        </div>
+      </div>
+      <div class="side">
+        <div class="tip learn">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><div class="lbl">Learn this</div><p>The dependent clause starts with a tension word. On its own, it leaves you hanging.</p></div>
+        </div>
+        <div class="key"><span class="kd">Dependent clause</span><span class="km">Main clause</span></div>
+        <div class="tip book none">
+          <div class="ic"><svg><use href="#i-talk-ink"/></svg></div>
+          <div><div class="lbl">Book</div><p>Nothing to write here. Talk, then click.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Next &rarr;</button></div>
+  </div>
+</section>
+
+<!-- ================= 4. PICK THE WORD ================= -->
+<section class="screen" data-bg="#8FE07E" data-name="pick">
+  <div class="wrap">
+    <div class="screen-head">
+      <span class="badge"><span class="bi"><svg><use href="#i-word"/></svg></span>Level 2</span>
+      <h2 class="big">Pick the word</h2>
+    </div>
+    <div class="grid-2">
+      <div class="panel">
+        <div id="pickPlay">
+          <div class="play-top"><div class="turn" id="pickTurn"></div><div class="counter" id="pickCount"></div></div>
+          <p class="ask">Which tension word makes sense?</p>
+          <p class="hint">Read the whole sentence aloud with each word before you choose.</p>
+          <div class="psent" id="pickSent"></div>
+          <div class="chips" id="pickChips"></div>
+          <div class="fb" id="pickFb"></div>
+          <div class="qctl">
+            <button class="btn white small" id="pickBack" type="button"><svg><use href="#i-back"/></svg>Back a sentence</button>
+            <button class="btn white small" id="pickUndo" type="button"><svg><use href="#i-undo"/></svg>Undo</button>
+            <span class="grow"></span>
+            <button class="btn lime hide" id="pickNext" type="button"></button>
+          </div>
+        </div>
+        <div class="done-box" id="pickDone">
+          <h3>Level 2 done!</h3>
+          <div class="done-stars" id="pickStars"></div>
+          <p>You chose words that make sense. Next, flip the clause to build tension.</p>
+          <div class="btn-row" style="justify-content:center"><button class="btn white small" id="pickReview" type="button"><svg><use href="#i-back"/></svg>Back to the sentences</button><button class="btn orange" data-go="next">Next: Flip it &rarr;</button></div>
+        </div>
+      </div>
+      <div class="side">
+        <div class="tip learn">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><div class="lbl">Learn this</div><p>Each tension word has its own job. Pick the one that matches the meaning.</p></div>
+        </div>
+        <div class="meanings" style="grid-template-columns:1fr 1fr;margin-top:0">
+          <div class="meaning"><b>when</b>the moment something happens</div>
+          <div class="meaning"><b>while</b>two things at the same time</div>
+          <div class="meaning"><b>because</b>gives a reason</div>
+          <div class="meaning"><b>although</b>a surprise or a contrast</div>
+        </div>
+        <div class="tip book none">
+          <div class="ic"><svg><use href="#i-talk-ink"/></svg></div>
+          <div><div class="lbl">Book</div><p>Nothing to write here. Talk, then click.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Next &rarr;</button></div>
+  </div>
+</section>
+
+<!-- ================= 5. FLIP IT ================= -->
+<section class="screen" data-bg="#FFA65C" data-name="flip">
+  <div class="wrap">
+    <div class="screen-head">
+      <span class="badge"><span class="bi"><svg><use href="#i-flip"/></svg></span>Level 3</span>
+      <h2 class="big">Flip it</h2>
+    </div>
+    <div class="grid-2">
+      <div class="panel">
+        <div class="parts" id="flipParts"><span class="part on" id="partA"><b>A</b>Flip on screen</span><span class="part" id="partB"><b>B</b>Flip in your book</span></div>
+        <div id="flipPlay">
+          <div class="play-top"><div class="turn" id="flipTurn"></div><div class="counter" id="flipCount"></div></div>
+          <p class="ask" id="flipAskTop">Flip the dependent clause to the front.</p>
+          <div class="fsent" id="flipSent"></div>
+          <div class="flip-ask" id="flipAsk"><svg><use href="#i-comma"/></svg>Now tap the gap where the comma goes.</div>
+          <div class="btn-row" id="flipBtnRow"><button class="btn orange" id="flipBtn" type="button"><svg><use href="#i-flip"/></svg>Flip it!</button></div>
+          <div class="fb" id="flipFb"></div>
+          <div class="ba" id="flipBA">
+            <div class="ba-row"><span class="k before">Before</span><div><span id="baBefore"></span><div class="meter" title="Tension"><i id="mBefore"></i></div></div></div>
+            <div class="ba-row"><span class="k after">After</span><div><span id="baAfter"></span><div class="meter" title="Tension"><i id="mAfter"></i></div></div></div>
+            <div class="talk"><svg><use href="#i-talk-ink"/></svg><span>Talk: read both aloud. Which one makes you wait for the action? Why?</span></div>
+            <div class="btn-row" style="margin-top:12px"><button class="btn white small" id="flipWhyBtn" type="button">See why</button></div>
+            <div class="why" id="flipWhy">
+              <p><span class="wl">Why it works: </span><span id="flipWhyText"></span> The tension bars show the difference.</p>
+            </div>
+          </div>
+          <div class="qctl">
+            <button class="btn white small" id="flipBack" type="button"><svg><use href="#i-back"/></svg>Back a sentence</button>
+            <button class="btn white small" id="flipUndo" type="button"><svg><use href="#i-undo"/></svg>Undo</button>
+            <span class="grow"></span>
+            <button class="btn orange hide" id="flipNext" type="button"></button>
+          </div>
+        </div>
+        <div class="done-box flip-b" id="flipDone">
+          <div class="pa-done"><span>Part A done!</span><div class="done-stars" id="flipStars"></div></div>
+          <div class="fb-head">
+            <div>
+              <h3>Part B: flip them in your book</h3>
+              <p>Each partner writes in their own book. Rewrite each sentence with the dependent clause first, add the comma, then draw a ring around it. Write it first, then press <b>Check</b>.</p>
+            </div>
+            <svg class="fb-art" viewBox="0 0 220 150" aria-hidden="true">
+              <path d="M110 22 Q70 8 18 16 V136 Q70 128 110 142 Z" fill="#fff" stroke="#231942" stroke-width="5" stroke-linejoin="round"/>
+              <path d="M110 22 Q150 8 202 16 V136 Q150 128 110 142 Z" fill="#fff" stroke="#231942" stroke-width="5" stroke-linejoin="round"/>
+              <path d="M30 44h66M30 64h66M30 84h66M30 104h50M124 44h66M124 64h66M124 84h40M124 104h66" stroke="#b9d3f0" stroke-width="3"/>
+              <path d="M30 44h48" stroke="#FF4F8B" stroke-width="7" stroke-linecap="round" opacity=".55"/>
+              <circle cx="88" cy="46" r="10" fill="none" stroke="#FF4F8B" stroke-width="3.5"/>
+              <path d="M88 44v6" stroke="#FF4F8B" stroke-width="4" stroke-linecap="round"/>
+              <path d="M152 112 l36 -36 10 10 -36 36 -14 4Z" fill="#FFD23F" stroke="#231942" stroke-width="4" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <ol class="bflips">
+            <li class="bflip">
+              <span class="bn">1</span>
+              <div class="bt"><p class="bs">Zara held her breath while the footsteps came closer.</p><p class="bans"><span class="bdep">While the footsteps came closer</span><span class="bcm">,</span> Zara held her breath.</p></div>
+              <button class="btn white small bcheck" type="button">Check</button>
+            </li>
+            <li class="bflip">
+              <span class="bn">2</span>
+              <div class="bt"><p class="bs">Ava kept climbing although the ladder wobbled.</p><p class="bans"><span class="bdep">Although the ladder wobbled</span><span class="bcm">,</span> Ava kept climbing.<span class="bnote">Ava keeps her capital letter because it is a name.</span></p></div>
+              <button class="btn white small bcheck" type="button">Check</button>
+            </li>
+            <li class="bflip">
+              <span class="bn">3</span>
+              <div class="bt"><p class="bs">Nobody moved because the floorboards would creak.</p><p class="bans"><span class="bdep">Because the floorboards would creak</span><span class="bcm">,</span> nobody moved.<span class="bnote"><b>Nobody</b> loses its capital letter now that it is in the middle of the sentence.</span></p></div>
+              <button class="btn white small bcheck" type="button">Check</button>
+            </li>
+            <li class="bflip">
+              <span class="bn">4</span>
+              <div class="bt"><p class="bs">Grace froze when the handle began to turn.</p><p class="bans"><span class="bdep">When the handle began to turn</span><span class="bcm">,</span> Grace froze.<span class="bnote">Talk: which version is scarier? Some writers would save “the handle began to turn” for the end. Both are correct!</span></p></div>
+              <button class="btn white small bcheck" type="button">Check</button>
+            </li>
+          </ol>
+          <h4 class="chal-h"><svg><use href="#i-bolt"/></svg>Challenge: join, then flip</h4>
+          <p class="chal-p">Join the two sentences with a tension word. Put the dependent clause first.</p>
+          <ol class="bflips">
+            <li class="bflip chal">
+              <span class="bn">A</span>
+              <div class="bt"><p class="bs">The lights went out. Mia grabbed her torch.</p><p class="bans"><span class="bone">One way:</span> <span class="bdep">When the lights went out</span><span class="bcm">,</span> Mia grabbed her torch.<span class="bnote"><b>As</b> or <b>because</b> would work too. Did you remember the comma?</span></p></div>
+              <button class="btn white small bcheck" type="button">Check</button>
+            </li>
+            <li class="bflip chal">
+              <span class="bn">B</span>
+              <div class="bt"><p class="bs">Ruby was frightened. She opened the cupboard.</p><p class="bans"><span class="bone">One way:</span> <span class="bdep">Although Ruby was frightened</span><span class="bcm">,</span> she opened the cupboard.<span class="bnote"><b>Although</b> shows Ruby is brave even though she is scared.</span></p></div>
+              <button class="btn white small bcheck" type="button">Check</button>
+            </li>
+          </ol>
+          <div class="btn-row"><button class="btn white small" id="flipReview" type="button"><svg><use href="#i-back"/></svg>Back to the sentences</button><span class="grow"></span><button class="btn violet" data-go="next">Next: Write it &rarr;</button></div>
+        </div>
+      </div>
+      <div class="side">
+        <div class="tip learn">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><div class="lbl">Learn this</div><p>Dependent clause first? Put a <em>comma</em> after it. The reader has to wait for the action.</p></div>
+        </div>
+        <div class="tip book">
+          <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+          <div><div class="lbl">In your book</div><p><em>Part A:</em> nothing to write, just talk and tap. <em>Part B:</em> flip four sentences in your book and ring every comma.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Next &rarr;</button></div>
+  </div>
+</section>
+
+<!-- ================= 6. WRITE IT ================= -->
+<section class="screen" data-bg="#B49BFF" data-name="write">
+  <div class="wrap">
+    <div class="screen-head">
+      <span class="badge"><span class="bi"><svg><use href="#i-pencil"/></svg></span>Your turn</span>
+      <h2 class="big">Write it</h2>
+    </div>
+    <div class="write-grid">
+      <div>
+        <div class="art">
+          <svg viewBox="0 0 640 420" role="img" aria-label="A long, empty school hallway with coloured doors, a flickering light and footprints leading towards a door at the end">
+            <g stroke="#231942" stroke-width="5" stroke-linejoin="round">
+              <path d="M0 0 H640 L390 120 H250 Z" fill="#DCF4FF"/>
+              <path d="M0 0 L250 120 V270 L0 420 Z" fill="#CDBDFF"/>
+              <path d="M640 0 L390 120 V270 L640 420 Z" fill="#A6E7F7"/>
+              <path d="M0 420 L250 270 H390 L640 420 Z" fill="#FFD1E2"/>
+              <rect x="250" y="120" width="140" height="150" fill="#FFF3C4"/>
+            </g>
+            <g stroke="#231942" stroke-width="3" opacity=".22" fill="none"><path d="M200 300 H440 M133 340 H507 M50 390 H590 M120 420 L285 270 M240 420 L307 270 M400 420 L333 270 M520 420 L355 270"/></g>
+            <g stroke="#231942" stroke-width="4" stroke-linejoin="round">
+              <path d="M40 110 L120 135 L120 342 L40 388Z" fill="#FF4F8B"/>
+              <path d="M170 150 L215 163 L215 288 L170 314Z" fill="#FFD23F"/>
+              <path d="M600 110 L520 135 L520 342 L600 388Z" fill="#5CC94A"/>
+              <path d="M470 150 L425 163 L425 288 L470 314Z" fill="#FF8A3D"/>
+              <rect x="298" y="180" width="44" height="90" fill="#8B5CF6"/>
+            </g>
+            <rect x="330" y="182" width="10" height="86" fill="#FFD23F"/>
+            <path d="M330 270 L340 270 L384 300 L330 300Z" fill="#FFD23F" opacity=".85"/>
+            <circle cx="108" cy="240" r="6" fill="#FFD23F" stroke="#231942" stroke-width="3"/>
+            <circle cx="532" cy="240" r="6" fill="#FFD23F" stroke="#231942" stroke-width="3"/>
+            <path d="M250 22 H390 L370 40 H270 Z" fill="#fff" stroke="#231942" stroke-width="4" stroke-linejoin="round"/>
+            <g class="flicker"><path d="M270 40 H370 L420 120 H220Z" fill="#FFF3C4" opacity=".55"/><path d="M285 80 H355 L347 92 H293 Z" fill="#FFD23F" stroke="#231942" stroke-width="4" stroke-linejoin="round"/></g>
+            <g fill="#231942" id="hallPrints"></g>
+          </svg>
+        </div>
+        <div class="checks" id="writeChecks">
+          <button class="check" type="button"><span class="bx"><svg><use href="#i-tick"/></svg></span>I wrote 2 or 3 connected sentences.</button>
+          <button class="check" type="button"><span class="bx"><svg><use href="#i-tick"/></svg></span>I used a tension word at least twice.</button>
+          <button class="check" type="button"><span class="bx"><svg><use href="#i-tick"/></svg></span>At least one sentence starts with a dependent clause.</button>
+          <button class="check" type="button"><span class="bx"><svg><use href="#i-tick"/></svg></span>I put a comma after each dependent clause that comes first.</button>
+        </div>
+        <div class="timer" id="timer">
+          <span class="tl">Writing timer</span>
+          <span class="td" id="tDisplay">4:00</span>
+          <button class="btn small white" type="button" data-mins="3">3 min</button>
+          <button class="btn small white sel" type="button" data-mins="4">4 min</button>
+          <button class="btn small white" type="button" data-mins="5">5 min</button>
+          <button class="btn small lime" type="button" id="tStart">Start</button>
+        </div>
+      </div>
+      <div>
+        <div class="prompt-card"><div class="pl">Your prompt</div><div class="pt">A character hears footsteps in an empty hallway.</div></div>
+        <div class="tip book">
+          <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+          <div><div class="lbl">In your book</div><p>Each partner writes <em>2 or 3 connected sentences</em>. Use a tension word at least twice. Start at least one sentence with a dependent clause, then add the comma.</p></div>
+        </div>
+        <p class="early">Finished before your partner? <button class="linkish" data-go="8" type="button">Start the fast finishers passage</button></p>
+        <details class="help">
+          <summary>Stuck? Ask each other</summary>
+          <div class="hb"><ul><li>Who is in the hallway? Why are they there?</li><li>What can they hear, see or feel?</li><li>Where are the footsteps coming from?</li><li>What happens when the footsteps stop?</li></ul></div>
+        </details>
+        <details class="help">
+          <summary>Need a boost? Sentence frames</summary>
+          <div class="hb"><div class="frames"><span>When ______, ______.</span><span>While ______, ______.</span><span>Although ______, ______.</span><span>______ because ______.</span></div></div>
+        </details>
+        <details class="help">
+          <summary>Finished? See a model</summary>
+          <div class="hb">
+            <button class="btn white small" type="button" data-model="model">We have finished writing. Show the model.</button>
+            <div class="model" id="model">
+              <div class="mtext"><span class="md">While Zara waited by her locker</span><span class="mc">,</span> the hallway lights hummed and flickered. <span class="md">When the footsteps stopped right behind her</span><span class="mc">,</span> she held her breath. <span class="md">Although every part of her wanted to run</span><span class="mc">,</span> she turned around slowly.</div>
+              <ol>
+                <li>Three dependent clauses, all at the start, so the reader waits three times.</li>
+                <li>A comma after each one, right before the main clause.</li>
+                <li><b>Although</b> shows Zara is brave even though she is scared.</li>
+              </ol>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Next: Partner check &rarr;</button></div>
+  </div>
+</section>
+
+<!-- ================= 7. PARTNER CHECK ================= -->
+<section class="screen" data-bg="#5CCFF2" data-name="check">
+  <div class="wrap">
+    <div class="screen-head">
+      <span class="badge"><span class="bi"><svg><use href="#i-pair"/></svg></span>Partner check</span>
+      <h2 class="big">Swap, check, improve</h2>
+    </div>
+    <div class="steps" id="checkSteps">
+      <button class="step" type="button"><span class="sn">1</span><span class="st">Swap books</span><span class="sd">Read your partner's sentences quietly.</span><span class="sdone"><span class="bx"><svg><use href="#i-tick"/></svg></span><span class="t1">Tap when done</span><span class="t2">Done</span></span></button>
+      <button class="step" type="button"><span class="sn">2</span><span class="st">Underline</span><span class="sd">Underline every dependent clause. Look for the tension words.</span><span class="sdone"><span class="bx"><svg><use href="#i-tick"/></svg></span><span class="t1">Tap when done</span><span class="t2">Done</span></span></button>
+      <button class="step" type="button"><span class="sn">3</span><span class="st">Check commas</span><span class="sd">Is there a comma after each dependent clause that comes first? Tick it if yes.</span><span class="sdone"><span class="bx"><svg><use href="#i-tick"/></svg></span><span class="t1">Tap when done</span><span class="t2">Done</span></span></button>
+      <button class="step" type="button"><span class="sn">4</span><span class="st">Suggest one thing</span><span class="sd">Give one specific idea to make one sentence tenser. Say it out loud.</span><span class="sdone"><span class="bx"><svg><use href="#i-tick"/></svg></span><span class="t1">Tap when done</span><span class="t2">Done</span></span></button>
+      <button class="step" type="button"><span class="sn">5</span><span class="st">Swap back and fix</span><span class="sd">Writer: rewrite one sentence under your work. Label it Before and After.</span><span class="sdone"><span class="bx"><svg><use href="#i-tick"/></svg></span><span class="t1">Tap when done</span><span class="t2">Done</span></span></button>
+    </div>
+    <div class="check-grid">
+      <div class="panel">
+        <h3 style="font-size:clamp(22px,1.9vw,32px)">Ideas for step 4</h3>
+        <div class="ideas">
+          <span>Flip this clause to the front so the reader waits.</span>
+          <span>Add a comma after the dependent clause.</span>
+          <span>Try although to show your character is brave.</span>
+          <span>Use a different tension word so you don't repeat one.</span>
+          <span>Save the scariest words for the end.</span>
+        </div>
+        <h3 style="font-size:clamp(22px,1.9vw,32px);margin-top:18px">Be ready to share</h3>
+        <p class="lede">Your teacher may ask you to read your Before and After and explain your choice.</p>
+        <div class="stem">My After sentence builds more tension because <span class="blank"></span>.</div>
+      </div>
+      <div class="side">
+        <div class="tip learn">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><div class="lbl">Learn this</div><p>Writers try a clause in different places, then keep the one that builds the most tension.</p></div>
+        </div>
+        <div class="tip book">
+          <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+          <div><div class="lbl">In your book</div><p>Rewrite one sentence under your writing. Label it <em>Before</em> and <em>After</em>.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Finish &rarr;</button></div>
+  </div>
+</section>
+
+<!-- ================= 8. FINISH + GO DEEPER ================= -->
+<section class="screen" data-bg="#FFD23F" data-name="finish">
+  <div class="wrap finish-grid">
+    <div>
+      <div class="burst-wrap"><div class="burst-spin"><div class="burst" id="burst"></div><div class="burst-fill" id="burstFill"></div></div><div class="burst-text">You made them wait!</div></div>
+      <div class="star-box">
+        <div class="star-row" id="starRow" aria-hidden="true"></div>
+        <p class="star-sum" id="starSum"></p>
+      </div>
+    </div>
+    <div class="panel">
+      <h2 style="font-size:clamp(30px,2.8vw,48px)">Remember</h2>
+      <div class="recap">
+        <div><b>Spot it</b>The dependent clause starts with a tension word and can't stand alone.</div>
+        <div><b>Pick it</b>Choose the word that fits: when, while, because or although.</div>
+        <div><b>Flip it</b>Dependent clause first, then a comma. The reader waits for the action.</div>
+      </div>
+      <div class="tip book" style="margin-top:16px">
+        <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+        <div><div class="lbl">In your book</div><p>Check your Before and After are labelled. Be ready to read them to the class.</p></div>
+      </div>
+      <div class="ff-call">
+        <svg><use href="#i-bolt"/></svg>
+        <div><b>Finished early?</b>Rewrite a choppy passage and make the reader hold their breath.</div>
+        <button class="btn pink" data-go="8">Fast finishers &rarr;</button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small go" data-go="next">Fast finishers &rarr;</button></div></div>
+</section>
+
+<!-- ================= 9. FAST FINISHERS ================= -->
+<section class="screen" data-bg="#7FE3D2" data-name="fast">
+  <div class="wrap">
+    <div class="screen-head">
+      <span class="badge"><span class="bi"><svg><use href="#i-bolt"/></svg></span>Fast finishers</span>
+      <h2 class="big">Rewrite the passage</h2>
+    </div>
+    <div class="write-grid">
+      <div>
+        <div class="passage">
+          <div class="pl">The choppy version</div>
+          <div class="ptitle">The Last One Out</div>
+          <p class="ptext"><span class="ps"><span class="nw"><i class="snm">1</i>Isla</span> stayed back in the library.</span> <span class="ps"><span class="nw"><i class="snm">2</i>Everyone</span> else had gone home.</span> <span class="ps"><span class="nw"><i class="snm">3</i>The</span> lights hummed.</span> <span class="ps"><span class="nw"><i class="snm">4</i>She</span> packed her bag.</span> <span class="ps"><span class="nw"><i class="snm">5</i>Something</span> thumped onto the floor.</span> <span class="ps"><span class="nw"><i class="snm">6</i>A</span> book had fallen off a shelf.</span> <span class="ps"><span class="nw"><i class="snm">7</i>Nobody</span> was there.</span> <span class="ps"><span class="nw"><i class="snm">8</i>Isla</span> was scared.</span> <span class="ps"><span class="nw"><i class="snm">9</i>She</span> walked towards the shelf.</span> <span class="ps"><span class="nw"><i class="snm">10</i>The</span> door slammed shut behind her.</span></p>
+          <p class="pnote">Ten short sentences. Every one starts the same way, so the tension never builds.</p>
+        </div>
+        <div class="tip book" style="margin-top:18px">
+          <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+          <div><div class="lbl">In your book</div><p>Rewrite the passage so the reader holds their breath. Join sentences with <em>tension words</em> and move the clauses around. Keep every event, in the same order.</p></div>
+        </div>
+        <div class="checks" id="fastChecks">
+          <button class="check" type="button"><span class="bx"><svg><use href="#i-tick"/></svg></span>I kept every event, in the same order.</button>
+          <button class="check" type="button"><span class="bx"><svg><use href="#i-tick"/></svg></span>I used at least three different tension words.</button>
+          <button class="check" type="button"><span class="bx"><svg><use href="#i-tick"/></svg></span>At least one dependent clause comes first, with a comma.</button>
+          <button class="check" type="button"><span class="bx"><svg><use href="#i-tick"/></svg></span>At least one dependent clause comes last.</button>
+          <button class="check" type="button"><span class="bx"><svg><use href="#i-tick"/></svg></span>I read it to my partner. They held their breath!</button>
+        </div>
+      </div>
+      <div>
+        <div class="art">
+          <svg viewBox="0 0 640 340" role="img" aria-label="An empty library with colourful bookshelves, a gap where a book is missing, a book lying open on the floor and a door that has just slammed shut">
+            <rect width="640" height="262" fill="#FFF3C4"/>
+            <rect y="262" width="640" height="78" fill="#FFD1E2"/>
+            <path d="M0 262H640" stroke="#231942" stroke-width="5"/>
+            <path d="M190 0v34M430 0v34" stroke="#231942" stroke-width="4"/>
+            <path d="M162 34h56l14 22h-84Z" fill="#fff" stroke="#231942" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M402 34h56l14 22h-84Z" fill="#fff" stroke="#231942" stroke-width="4" stroke-linejoin="round"/>
+            <g class="flicker"><path d="M148 56h84l40 70H108Z" fill="#FFD23F" opacity=".35"/></g>
+            <g stroke="#231942" stroke-width="5" stroke-linejoin="round">
+              <rect x="36" y="70" width="230" height="192" fill="#E9B872"/>
+              <rect x="290" y="70" width="150" height="192" fill="#E9B872"/>
+            </g>
+            <g stroke="#231942" stroke-width="4">
+              <path d="M36 132H266M36 196H266M290 132H440M290 196H440"/>
+            </g>
+            <g stroke="#231942" stroke-width="3" stroke-linejoin="round">
+              <rect x="48" y="84" width="20" height="48" fill="#FF4F8B"/><rect x="68" y="92" width="16" height="40" fill="#1FB5E9"/><rect x="84" y="80" width="24" height="52" fill="#5CC94A"/><rect x="108" y="88" width="18" height="44" fill="#8B5CF6"/><rect x="154" y="84" width="22" height="48" fill="#FF8A3D"/><rect x="176" y="94" width="16" height="38" fill="#FFD23F"/><rect x="192" y="82" width="24" height="50" fill="#FF4F8B"/><rect x="216" y="90" width="18" height="42" fill="#1FB5E9"/><rect x="234" y="86" width="20" height="46" fill="#5CC94A"/>
+              <rect x="48" y="150" width="22" height="46" fill="#8B5CF6"/><rect x="70" y="156" width="18" height="40" fill="#FFD23F"/><rect x="88" y="146" width="24" height="50" fill="#1FB5E9"/><rect x="112" y="154" width="16" height="42" fill="#FF4F8B"/><rect x="128" y="150" width="22" height="46" fill="#5CC94A"/><rect x="150" y="158" width="18" height="38" fill="#FF8A3D"/><rect x="168" y="148" width="24" height="48" fill="#8B5CF6"/><rect x="192" y="154" width="20" height="42" fill="#FFD23F"/><rect x="212" y="150" width="22" height="46" fill="#1FB5E9"/><rect x="234" y="156" width="20" height="40" fill="#FF4F8B"/>
+              <rect x="48" y="214" width="24" height="48" fill="#FF8A3D"/><rect x="72" y="220" width="18" height="42" fill="#5CC94A"/><rect x="90" y="212" width="22" height="50" fill="#FF4F8B"/><rect x="112" y="218" width="20" height="44" fill="#1FB5E9"/><rect x="132" y="214" width="16" height="48" fill="#FFD23F"/><rect x="148" y="222" width="24" height="40" fill="#8B5CF6"/><rect x="172" y="214" width="20" height="48" fill="#5CC94A"/><rect x="192" y="218" width="22" height="44" fill="#FF8A3D"/><rect x="214" y="212" width="18" height="50" fill="#FF4F8B"/><rect x="232" y="220" width="22" height="42" fill="#1FB5E9"/>
+              <rect x="300" y="86" width="20" height="46" fill="#5CC94A"/><rect x="320" y="80" width="24" height="52" fill="#FF8A3D"/><rect x="344" y="90" width="18" height="42" fill="#8B5CF6"/><rect x="390" y="84" width="22" height="48" fill="#1FB5E9"/><rect x="412" y="92" width="18" height="40" fill="#FF4F8B"/>
+              <rect x="300" y="152" width="22" height="44" fill="#FFD23F"/><rect x="322" y="146" width="18" height="50" fill="#FF4F8B"/><rect x="340" y="154" width="24" height="42" fill="#1FB5E9"/><rect x="364" y="148" width="20" height="48" fill="#5CC94A"/><rect x="384" y="156" width="22" height="40" fill="#8B5CF6"/><rect x="406" y="150" width="22" height="46" fill="#FF8A3D"/>
+              <rect x="300" y="216" width="18" height="46" fill="#8B5CF6"/><rect x="318" y="212" width="24" height="50" fill="#FFD23F"/><rect x="342" y="220" width="20" height="42" fill="#FF4F8B"/><rect x="362" y="214" width="22" height="48" fill="#5CC94A"/><rect x="384" y="218" width="18" height="44" fill="#1FB5E9"/><rect x="402" y="212" width="26" height="50" fill="#FF8A3D"/>
+            </g>
+            <rect x="490" y="84" width="112" height="178" rx="4" fill="#8B5CF6" stroke="#231942" stroke-width="5"/>
+            <path d="M504 102h84v64h-84ZM504 180h84v68h-84Z" fill="none" stroke="#231942" stroke-width="3" opacity=".45"/>
+            <circle cx="586" cy="178" r="7" fill="#FFD23F" stroke="#231942" stroke-width="3"/>
+            <path d="M470 110l-14-6M468 150h-18M470 190l-14 6M622 110l14-6M624 150h12M622 190l14 6" stroke="#231942" stroke-width="4" stroke-linecap="round"/>
+            <g transform="translate(330 300) rotate(-8)" stroke="#231942" stroke-width="4" stroke-linejoin="round">
+              <path d="M0 0 L-46 -10 L-50 18 L-2 26Z" fill="#fff"/>
+              <path d="M0 0 L46 -10 L50 18 L2 26Z" fill="#DCF4FF"/>
+              <path d="M-38 0h28M-38 9h26M10 -2h28M10 7h26" stroke-width="2.5" opacity=".5"/>
+            </g>
+            <path d="M266 300c-10-4-16-2-22 2M394 296c10-6 18-4 24 0" stroke="#231942" stroke-width="3" stroke-linecap="round" fill="none" opacity=".5"/>
+          </svg>
+        </div>
+        <div class="tip learn" style="margin-top:18px">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><div class="lbl">Learn this</div><p>Rewriting is where tension is built. Join choppy sentences, then move each clause until the scariest part lands in the best place.</p></div>
+        </div>
+        <details class="help">
+          <summary>Need a hint? Sentences that could join</summary>
+          <div class="hb"><div class="frames"><span>1 and 2</span><span>3 and 4</span><span>4 and 5</span><span>8 and 9</span><span>9 and 10</span></div><p style="margin-top:8px">Sentence 7 is short and spooky. You could keep it short for punch. Can you show that Isla was scared, instead of telling us?</p></div>
+        </details>
+        <details class="help">
+          <summary>Finished? See a model</summary>
+          <div class="hb">
+            <button class="btn white small" type="button" data-model="fastModel">We have finished. Show the model.</button>
+            <div class="model" id="fastModel">
+              <div class="mtext"><span class="md">Although everyone else had gone home</span><span class="mc">,</span> Isla stayed back in the library. <span class="md">While the lights hummed above her</span><span class="mc">,</span> she packed her bag. She was zipping it up <span class="md">when something thumped onto the floor</span>. A book had fallen off a shelf. Nobody was there. <span class="md">Although her heart was pounding</span><span class="mc">,</span> Isla walked towards the shelf. <span class="md">As she reached it</span><span class="mc">,</span> the door slammed shut behind her.</div>
+              <ol>
+                <li>Four dependent clauses come first, each followed by a comma.</li>
+                <li>One comes last: <b>when something thumped onto the floor</b>. The surprise lands at the end of the sentence.</li>
+                <li>Two sentences stay short. Mixing long and short sentences adds punch.</li>
+                <li>"Isla was scared" became "her heart was pounding". Show, don't tell!</li>
+                <li>The passage ends on the action: the door slams.</li>
+              </ol>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="panel gd-panel">
+      <h3 class="gd-intro">Still going?</h3>
+      <p class="gd-introp">Three thinking challenges about where the dependent clause belongs. Talk them through with your partner.</p>
+      <div class="gd-lock" id="gdLock"><svg><use href="#i-lock"/></svg><span id="gdLockText">Go Deeper unlocks when you finish Spot it, Pick the word and Flip it.</span></div>
+      <div class="btn-row hide" id="gdOpenRow"><button class="btn violet" type="button" id="gdOpen"><svg><use href="#i-deeper"/></svg>Go Deeper</button></div>
+      <div class="deeper" id="deeper">
+        <h3>Go Deeper: does it always go first?</h3>
+        <p>Talk each one through with your partner, then jot your ideas in your book.</p>
+
+        <div class="gd-task">
+          <span class="gd-label">Specialising</span>
+          <p class="gd-q">Read both sentences aloud. Which one gives you more of a shock?</p>
+          <div class="gd-pair"><div><b>A</b>When someone tapped her on the shoulder, Ruby froze.</div><div><b>B</b>Ruby froze when someone tapped her on the shoulder.</div></div>
+          <p class="gd-sub">Find the scariest words in each sentence. Are they at the start or the end?</p>
+          <button class="btn white small gd-reveal" type="button">See how a writer thought about it</button>
+          <div class="gd-model">
+            <div class="ml">A writer's thinking</div>
+            <p>My first thought was A, because we practised putting the dependent clause first. Then I read them both aloud.</p>
+            <p>In A, the tap on the shoulder comes first, so by the time I read "Ruby froze", I already know what happened. In B, I read "Ruby froze" and wonder why. The tap on the shoulder lands right at the end, like a jump scare.</p>
+            <p>So B gives me more of a shock, even though its dependent clause comes last.</p>
+          </div>
+          <div class="writer-box"><b>Writer's thinking:</b> You are <em>specialising</em>. That means you are trying out examples to gather evidence before you make a rule.</div>
+        </div>
+
+        <div class="gd-task">
+          <span class="gd-label">Conjecturing</span>
+          <p class="gd-q">Always, sometimes or never? "Putting the dependent clause first always builds more tension."</p>
+          <p class="gd-sub">Use Ruby's sentences and one sentence from Flip it as your evidence.</p>
+          <button class="btn white small gd-reveal" type="button">See how a writer thought about it</button>
+          <div class="gd-model">
+            <div class="ml">A writer's thinking</div>
+            <p>I started by saying always, because every sentence in Flip it got tenser when I flipped it. Then Ruby's sentence broke my rule.</p>
+            <p>When the scary part is in the main clause, like "the door slowly creaked open", putting the dependent clause first makes us wait for it. When the scary part is in the dependent clause, like "someone tapped her on the shoulder", it works best at the end.</p>
+            <p>So my answer is sometimes.</p>
+          </div>
+          <div class="writer-box"><b>Writer's thinking:</b> You are <em>conjecturing</em>. That means you are making a claim from your evidence, knowing it might still need testing.</div>
+        </div>
+
+        <div class="gd-task">
+          <span class="gd-label">Generalising</span>
+          <p class="gd-q">Make a rule for where the scariest part of a sentence should go. Test it: write one sentence where the dependent clause belongs at the start, and one where it belongs at the end.</p>
+          <p class="gd-sub">Swap with your partner. Does your rule work for their sentences too?</p>
+          <button class="btn white small gd-reveal" type="button">See how a writer thought about it</button>
+          <div class="gd-model">
+            <div class="ml">A writer's thinking</div>
+            <p>My first rule was "the dependent clause always goes first", but that made Ruby's sentence weaker, so I threw it out.</p>
+            <p>My new rule: save the scariest part for the end of the sentence. If the scary part is the main clause, put the dependent clause first. If the scary part is the dependent clause, put it last.</p>
+            <p>Test 1: "Although she was shaking, Ava reached for the handle." The action is in the main clause, so the dependent clause goes first.</p>
+            <p>Test 2: "Ava gasped as the handle began to turn." The surprise is in the dependent clause, so it goes last. My rule works for both.</p>
+          </div>
+          <div class="writer-box"><b>Writer's thinking:</b> You are <em>generalising</em>. That means you are making a rule that works every time, not just for one example.</div>
+        </div>
+      </div>
+    </div>
+    <div class="snav"><button class="btn small" data-go="prev">&larr; Previous card</button><button class="btn small white" data-go="0">Back to start</button></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+/* ================= HELPERS ================= */
+var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function icon(id){ return '<svg><use href="#'+id+'"/></svg>'; }
+function cap(w){ return w.charAt(0).toUpperCase()+w.slice(1); }
+function each(list,fn){ Array.prototype.forEach.call(list,fn); }
+var PRAISE=['Spot on!','Yes!','Nailed it!','Great thinking!','You got it!'];
+var praiseI=0;
+function praise(){ return PRAISE[(praiseI++)%PRAISE.length]; }
+var TRY_AGAIN='<span class="tryagain">Tap Undo to have another go.</span>';
+
+function showFb(id,kind,title,html){
+  var el=$(id);
+  var ic = kind==='bad' ? icon('i-cross') : (kind==='ok' ? '<svg><use href="#i-bang"/></svg>' : icon('i-tick'));
+  el.className='fb '+kind;
+  el.innerHTML='<span class="ic">'+ic+'</span><div><span class="say">'+title+'</span>'+html+'</div>';
+  void el.offsetWidth;
+  el.classList.add('on');
+}
+function hideFb(id){ var el=$(id); el.className='fb'; el.innerHTML=''; }
+
+/* ================= CARDS ================= */
+var screens = Array.prototype.slice.call(document.querySelectorAll('.screen'));
+var stops = Array.prototype.slice.call(document.querySelectorAll('.stop'));
+var cur = 0;
+var enterHooks = {};
+function go(n){
+  if(isNaN(n) || n<0 || n>=screens.length || n===cur) return;
+  screens[cur].classList.remove('on');
+  cur = n;
+  screens[cur].classList.add('on');
+  document.body.style.backgroundColor = screens[cur].getAttribute('data-bg');
+  stops.forEach(function(s,i){ s.classList.toggle('on', i===cur); });
+  window.scrollTo(0,0);
+  if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
+  var hook = enterHooks[screens[cur].getAttribute('data-name')];
+  if(hook) hook();
+}
+document.addEventListener('click',function(e){
+  var t = e.target.closest('[data-go]');
+  if(!t) return;
+  var v = t.getAttribute('data-go');
+  if(v==='next') go(cur+1);
+  else if(v==='prev') go(cur-1);
+  else go(parseInt(v,10));
+});
+/* Clicker and keyboard: arrows and Page keys move between cards */
+document.addEventListener('keydown',function(e){
+  var tag = document.activeElement ? document.activeElement.tagName : '';
+  if(tag==='INPUT' || tag==='TEXTAREA' || tag==='SELECT') return;
+  if(e.key==='ArrowRight' || e.key==='PageDown'){ e.preventDefault(); go(cur+1); }
+  else if(e.key==='ArrowLeft' || e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
+}, true);
+
+/* ================= LISC + TEACHER NOTES ================= */
+function toggleLearningSection(){
+  var content = $('learningContent'), toggle = $('learningToggle');
+  content.classList.toggle('open');
+  toggle.style.transform = content.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+}
+document.querySelector('.learning-card h2').addEventListener('keydown',function(e){
+  if(e.key==='Enter' || e.key===' '){ e.preventDefault(); toggleLearningSection(); }
+});
+$('teacherBtn').addEventListener('click',function(){
+  var open = $('teacherPanel').classList.toggle('open');
+  this.textContent = open ? 'Hide teacher notes' : 'Teacher notes';
+});
+
+/* ================= PARTNERS AND TURNS ================= */
+function nameOf(k){
+  var v = ($(k===0?'nameA':'nameB').value || '').trim();
+  return v || (k===0 ? 'Partner A' : 'Partner B');
+}
+/* Jobs are tied to the question number, so going back keeps the same pair of jobs */
+function paintTurn(id,qn){
+  var c = qn % 2, x = 1 - c;
+  $(id).innerHTML =
+    '<span class="t-talk"><i>'+icon('i-talk')+'</i><b>'+esc(nameOf(x))+'</b>&nbsp;explains first</span>'+
+    '<span class="t-click"><i>'+icon('i-click')+'</i><b>'+esc(nameOf(c))+'</b>&nbsp;clicks</span>';
+}
+function paintCount(id,i,list){
+  var h='';
+  for(var k=0;k<list.length;k++){ h+='<span class="pip'+(list[k]?' done':'')+(k===i?' cur':'')+'"></span>'; }
+  $(id).innerHTML = '<span>'+(i+1)+' of '+list.length+'</span>'+h;
+}
+
+/* ================= THE TRICK (worked example) ================= */
+function flipMove(mover, other, mutate, dur){
+  var b1 = mover.getBoundingClientRect(), b2 = other.getBoundingClientRect();
+  mutate();
+  var a1 = mover.getBoundingClientRect(), a2 = other.getBoundingClientRect();
+  if(reduceMotion || !mover.animate) return;
+  var d = dur || 900;
+  var dx1=b1.left-a1.left, dy1=b1.top-a1.top, dx2=b2.left-a2.left, dy2=b2.top-a2.top;
+  mover.animate([
+    {transform:'translate('+dx1+'px,'+dy1+'px)'},
+    {transform:'translate('+(dx1/2)+'px,'+(dy1/2-70)+'px) rotate(-4deg) scale(1.06)',offset:.5},
+    {transform:'translate(0,0)'}
+  ],{duration:d,easing:'cubic-bezier(.35,.6,.25,1)'});
+  other.animate([
+    {transform:'translate('+dx2+'px,'+dy2+'px)'},
+    {transform:'translate('+(dx2/2)+'px,'+(dy2/2+26)+'px) rotate(2deg)',offset:.5},
+    {transform:'translate(0,0)'}
+  ],{duration:d,easing:'cubic-bezier(.35,.6,.25,1)'});
+}
+var demoStep = 0;
+var DEMO_NOTES = [
+  'Two short sentences. Read them aloud. They feel a bit choppy.',
+  'Joined with the tension word <b>as</b>. The waiting part goes first, then a <b>comma</b>.',
+  'The <b>dependent clause</b> can\'t stand alone. The <b>main clause</b> makes sense by itself.',
+  'The <b>dependent clause</b> can\'t stand alone. The <b>main clause</b> makes sense by itself.'
+];
+var DEMO_BTN = ['Join them','Label the parts','Why does it work?'];
+function demoJoin(){
+  var A=$('dA'), B=$('dB');
+  $('demoStage').insertBefore(B, A);
+  B.querySelector('.tx').innerHTML='<span class="as-in">As</span> she reached for the handle<span class="cm-in">,</span>';
+  A.querySelector('.tx').textContent='the lights flickered.';
+}
+function demoApply(n){
+  var A=$('dA'), B=$('dB'), st=$('demoStage');
+  st.insertBefore(A, B);
+  A.className='dchunk'; B.className='dchunk';
+  A.querySelector('.tx').textContent='The lights flickered.';
+  B.querySelector('.tx').textContent='She reached for the handle.';
+  st.classList.remove('labelled');
+  $('demoWhy').classList.remove('on');
+  if(n>=1) demoJoin();
+  if(n>=2){ B.classList.add('dep'); A.classList.add('main'); st.classList.add('labelled'); }
+  if(n>=3) $('demoWhy').classList.add('on');
+  demoUI();
+}
+function demoUI(){
+  $('demoNote').innerHTML = DEMO_NOTES[demoStep];
+  $('demoBtn').classList.toggle('hide', demoStep>=3);
+  if(demoStep<3) $('demoBtn').textContent = DEMO_BTN[demoStep];
+  $('demoReset').classList.toggle('hide', demoStep<3);
+  $('demoBack').disabled = demoStep===0;
+}
+$('demoBtn').addEventListener('click',function(){
+  if(demoStep===0){ flipMove($('dB'), $('dA'), demoJoin); demoStep=1; demoUI(); }
+  else { demoStep++; demoApply(demoStep); }
+});
+$('demoBack').addEventListener('click',function(){ if(demoStep>0){ demoStep--; demoApply(demoStep); } });
+$('demoReset').addEventListener('click',function(){ demoStep=0; demoApply(0); });
+
+/* ================= PRACTICE DATA ================= */
+var SPOT = [
+  {a:'When the footsteps stopped,', b:'the door slowly creaked open.', dep:0,
+   yes:'Read it alone: “When the footsteps stopped.” It leaves you hanging! It starts with the tension word <b>when</b>, so it is the dependent clause. “The door slowly creaked open” makes sense by itself, so it is the main clause.',
+   no:'“The door slowly creaked open” makes sense all by itself, so it is the main clause. The dependent clause is “When the footsteps stopped”. It starts with <b>when</b> and leaves you waiting for more.'},
+  {a:'Mia stayed hidden beneath the stairs', b:'although she heard a voice behind her.', dep:1,
+   yes:'“Although she heard a voice behind her” starts with <b>although</b>. On its own it leaves you hanging, so it is the dependent clause. Dependent clauses can come at the end of a sentence too.',
+   no:'“Mia stayed hidden beneath the stairs” makes sense on its own, so it is the main clause. The dependent clause is “although she heard a voice behind her”. It starts with <b>although</b> and needs the main clause to finish the idea.'},
+  {a:'While the old clock ticked,', b:'Ava crept along the hallway.', dep:0,
+   yes:'“While the old clock ticked” starts with <b>while</b> and cannot stand alone. See the comma after it? It is there because the dependent clause comes first.',
+   no:'“Ava crept along the hallway” makes sense alone, so it is the main clause. The dependent clause is “While the old clock ticked”. It starts with <b>while</b> and leaves you asking: what happened?'},
+  {a:'The torch went dark', b:'because the batteries were flat.', dep:1,
+   yes:'“because the batteries were flat” starts with <b>because</b> and gives a reason. It cannot stand on its own, so it is the dependent clause.',
+   no:'“The torch went dark” is a complete thought, so it is the main clause. The dependent clause is “because the batteries were flat”. It starts with <b>because</b> and gives the reason, so it needs the main clause.'}
+];
+var WORDS = ['when','while','because','although'];
+var PICK = [
+  {rest:' she was terrified, Zara opened the cupboard door.', v:{
+    although:['best','“Although she was terrified, Zara opened the cupboard door.” <b>Although</b> shows a surprise: she is scared, yet she still does it. That makes the reader worry for her.'],
+    'while':['ok','<b>While</b> can work here, because it can mean “even though”. <b>Although</b> is clearer: it shows Zara is brave even though she is scared.'],
+    when:['no','<b>When</b> tells us the moment something happens. This sentence needs a word that shows Zara is brave even though she is scared. Try another word.'],
+    because:['no','Being terrified is not a reason to open a door! <b>Because</b> gives a reason, so this does not make sense. Try another word.']}},
+  {rest:' the wind was howling, Grace did not hear the footsteps behind her.', v:{
+    because:['best','<b>Because</b> gives the reason: the wind was so loud that Grace could not hear. That is why the footsteps will be a shock.'],
+    when:['ok','<b>When</b> works: it tells us the wind was howling at that moment. <b>Because</b> is even stronger, since the wind is the reason she could not hear.'],
+    'while':['ok','<b>While</b> works: it shows two things happening at the same time. <b>Because</b> is even stronger, since the wind is the reason she could not hear.'],
+    although:['no','<b>Although</b> needs a surprise. A howling wind would stop anyone hearing, so not hearing is no surprise. Try another word.']}},
+  {rest:' Ella tiptoed down the stairs, the clock struck midnight.', v:{
+    'while':['best','<b>While</b> shows two things happening at the same time. Ella is on the stairs right as the clock strikes. Spooky timing!'],
+    when:['ok','<b>When</b> works: it pins the clock strike to that moment. <b>While</b> is even better, because the tiptoeing and the clock striking happen at the same time.'],
+    because:['no','Ella tiptoeing did not make the clock strike! <b>Because</b> needs a reason. Try another word.'],
+    although:['no','<b>Although</b> needs a surprise or a contrast. Tiptoeing and a clock striking are not opposites. Try another word.']}},
+  {rest:' the door slammed shut, Mia dropped her torch.', v:{
+    when:['best','<b>When</b> pins the exact moment: the door slams and, right then, Mia drops her torch.'],
+    because:['ok','<b>Because</b> works: the slam gave her a fright, so she dropped the torch. <b>When</b> is even sharper, because it shows it all happened in one instant.'],
+    'while':['no','<b>While</b> is for something that lasts a while. A slam is over in a second. Try another word.'],
+    although:['no','<b>Although</b> needs a surprise. Dropping a torch after a big fright is not surprising at all. Try another word.']}}
+];
+var FLIP = [
+  {main:'The door slowly creaked open', dep:'when the footsteps stopped', depCap:'When the footsteps stopped', mainLow:'the door slowly creaked open',
+   why:'The reader now has to wait through “When the footsteps stopped...” before finding out what happens. The creaking door arrives last.'},
+  {main:'Priya froze on the top step', dep:'while the lights flickered', depCap:'While the lights flickered', mainLow:'Priya froze on the top step',
+   note:' Notice that <b>Priya</b> keeps her capital letter. It is a name, so it always has one.',
+   why:'The flickering lights set the scene first. The reader waits, then sees Priya freeze.'},
+  {main:'Grace kept walking', dep:'although her knees were shaking', depCap:'Although her knees were shaking', mainLow:'Grace kept walking',
+   why:'Now the reader worries first: her knees are shaking! Then we find out she is brave and keeps going.'},
+  {main:'The hallway went completely silent', dep:'because the music had stopped', depCap:'Because the music had stopped', mainLow:'the hallway went completely silent',
+   why:'The reason comes first, so the reader wonders what will happen next. The silence lands at the end.'}
+];
+
+/* ================= SAVED ANSWERS (one record per question) =================
+   missed stays true once a question has had a wrong try, even after Undo,
+   so stars only ever count first tries. */
+var ST = {
+  spot: SPOT.map(function(){ return {k:null, missed:false, say:''}; }),
+  pick: PICK.map(function(){ return {tried:[], word:null, missed:false, say:''}; }),
+  flip: FLIP.map(function(){ return {phase:0, misses:0, why:false, missed:false, say:''}; })
+};
+var LEVELS = ['spot','pick','flip'];
+var LCOL = {spot:'#FF4F8B', pick:'#3fae31', flip:'#FF8A3D'};
+var LV = {
+  spot:{i:0, started:false, stop:2, base:0, done:'Finish Level 1'},
+  pick:{i:0, started:false, stop:3, base:4, done:'Finish Level 2'},
+  flip:{i:0, started:false, stop:4, base:8, done:'Finish Level 3'}
+};
+var levelDone = {spot:false, pick:false, flip:false};
+function answered(l,i){
+  var s=ST[l][i];
+  if(l==='spot') return s.k!==null;
+  if(l==='pick') return s.word!==null;
+  return s.phase===3;
+}
+function starred(l,i){
+  var s=ST[l][i];
+  if(!answered(l,i) || s.missed) return false;
+  return l==='spot' ? s.k===SPOT[i].dep : true;
+}
+function answeredList(l){ return ST[l].map(function(_,i){ return answered(l,i); }); }
+function countStars(l){ var c=0; ST[l].forEach(function(_,i){ if(starred(l,i)) c++; }); return c; }
+function totalStars(){ return LEVELS.reduce(function(a,l){ return a+countStars(l); },0); }
+function canUndo(l){
+  var s=ST[l][LV[l].i];
+  if(l==='spot') return s.k!==null;
+  if(l==='pick') return s.word!==null || s.tried.length>0;
+  return s.phase===2 || s.phase===3;
+}
+
+/* ================= PROGRESS FOOTPRINTS ================= */
+var TOTAL = 12, litPrev = [];
+(function(){
+  var h='';
+  for(var i=0;i<TOTAL;i++) h+='<svg viewBox="0 0 24 44"><use href="#fp"/></svg>';
+  $('prints').innerHTML = h;
+})();
+function refreshProgress(){
+  var kids=$('prints').children;
+  LEVELS.forEach(function(l,li){
+    ST[l].forEach(function(_,i){
+      var idx=li*4+i, on=answered(l,i), p=kids[idx];
+      p.style.color = on ? LCOL[l] : '';
+      if(on && !litPrev[idx]){ p.classList.remove('pop'); void p.getBoundingClientRect(); p.classList.add('pop'); }
+      litPrev[idx]=on;
+    });
+  });
+}
+function starRow(id,lit,n){
+  var h='';
+  for(var i=0;i<n;i++) h+='<svg class="'+(i<lit?'lit':'')+'" style="animation-delay:'+(i*0.12)+'s"><use href="#i-star"/></svg>';
+  $(id).innerHTML = h;
+}
+
+/* ================= SHARED LEVEL CONTROLS ================= */
+var RENDER = {}, UNDO = {};
+function controls(l){
+  var v=LV[l];
+  $(l+'Back').disabled = v.i===0;
+  $(l+'Undo').disabled = !canUndo(l);
+  var nb=$(l+'Next');
+  nb.classList.toggle('hide', !answered(l,v.i) || (l==='flip' && !ST.flip[v.i].why));
+  nb.textContent = v.i < ST[l].length-1 ? 'Next sentence →' : v.done;
+  refreshProgress();
+}
+function flipParts(b){
+  $('partA').classList.toggle('on', !b);
+  $('partA').classList.toggle('done', levelDone.flip);
+  $('partB').classList.toggle('on', b);
+  document.querySelector('[data-name=flip]').classList.toggle('partb', b);
+}
+function goQ(l,i){
+  LV[l].i=i;
+  if(l==='flip') flipParts(false);
+  $(l+'Play').classList.remove('hide');
+  $(l+'Done').classList.remove('on');
+  RENDER[l]();
+}
+function levelComplete(l){
+  var first=answeredList(l).indexOf(false);
+  if(first>-1){ goQ(l,first); return; }
+  levelDone[l]=true;
+  $(l+'Play').classList.add('hide');
+  $(l+'Done').classList.add('on');
+  starRow(l+'Stars', countStars(l), 4);
+  stops[LV[l].stop].classList.add('done');
+  if(l==='flip'){ flipParts(true); window.scrollTo(0,0); }
+  checkUnlock();
+}
+LEVELS.forEach(function(l){
+  $(l+'Back').addEventListener('click',function(){ if(LV[l].i>0) goQ(l, LV[l].i-1); });
+  $(l+'Undo').addEventListener('click',function(){ if(canUndo(l)){ UNDO[l](); RENDER[l](); } });
+  $(l+'Next').addEventListener('click',function(){
+    if(LV[l].i < ST[l].length-1) goQ(l, LV[l].i+1); else levelComplete(l);
+  });
+  $(l+'Review').addEventListener('click',function(){ goQ(l, ST[l].length-1); });
+  enterHooks[l]=function(){
+    if(!LV[l].started){ LV[l].started=true; RENDER[l](); }
+    else if(!$(l+'Play').classList.contains('hide')) paintTurn(l+'Turn', LV[l].base+LV[l].i);
+  };
+});
+
+/* ================= LEVEL 1: SPOT IT ================= */
+RENDER.spot = function(){
+  var i=LV.spot.i, q=SPOT[i], s=ST.spot[i];
+  paintTurn('spotTurn', i);
+  paintCount('spotCount', i, answeredList('spot'));
+  var box=$('spotSent'); box.innerHTML='';
+  [q.a, q.b].forEach(function(txt,k){
+    var b=document.createElement('button');
+    b.type='button'; b.className='chunk';
+    b.innerHTML='<span class="ct">'+txt+'</span><span class="tag">'+(k===q.dep?'Dependent clause: can\'t stand alone':'Main clause: stands alone')+'</span>';
+    if(s.k!==null){
+      b.classList.add('locked', k===q.dep?'is-dep':'is-main');
+      if(k===s.k) b.classList.add('picked');
+    }
+    b.addEventListener('click',function(){ spotPick(k); });
+    box.appendChild(b);
+  });
+  if(s.k===null) hideFb('spotFb');
+  else if(s.k===q.dep) showFb('spotFb','good',s.say,q.yes);
+  else showFb('spotFb','bad',s.say,q.no+TRY_AGAIN);
+  controls('spot');
+};
+function spotPick(k){
+  var i=LV.spot.i, s=ST.spot[i], right=(k===SPOT[i].dep);
+  if(s.k!==null) return;
+  s.k=k;
+  if(!right) s.missed=true;
+  s.say = right ? (s.missed ? 'Yes, that\'s it!' : praise()) : 'Not quite';
+  RENDER.spot();
+}
+UNDO.spot = function(){ ST.spot[LV.spot.i].k=null; };
+
+/* ================= LEVEL 2: PICK THE WORD ================= */
+RENDER.pick = function(shake){
+  var i=LV.pick.i, q=PICK[i], s=ST.pick[i];
+  paintTurn('pickTurn', 4+i);
+  paintCount('pickCount', i, answeredList('pick'));
+  $('pickSent').innerHTML='<span class="gap'+(s.word?' filled':'')+(shake===true?' shake':'')+'" id="pickGap">'+(s.word?cap(s.word):'?')+'</span>'+q.rest;
+  var c=$('pickChips'); c.innerHTML='';
+  WORDS.forEach(function(w){
+    var b=document.createElement('button');
+    b.type='button'; b.className='wchip'; b.textContent=w;
+    if(s.tried.indexOf(w)>-1){ b.classList.add('nope'); b.setAttribute('aria-disabled','true'); }
+    else if(s.word){ b.classList.add(w===s.word?'yes':'spent'); }
+    b.addEventListener('click',function(){ pickTry(w); });
+    c.appendChild(b);
+  });
+  if(s.word){
+    var v=q.v[s.word];
+    showFb('pickFb', v[0]==='best'?'good':'ok', s.say, v[1]);
+  } else if(s.tried.length){
+    showFb('pickFb','bad','Not that one', q.v[s.tried[s.tried.length-1]][1]);
+  } else hideFb('pickFb');
+  controls('pick');
+};
+function pickTry(w){
+  var i=LV.pick.i, q=PICK[i], s=ST.pick[i];
+  if(s.word || s.tried.indexOf(w)>-1) return;
+  var v=q.v[w];
+  if(v[0]==='no'){ s.tried.push(w); s.missed=true; RENDER.pick(true); return; }
+  s.word=w;
+  s.say = v[0]==='best' ? praise() : 'That works!';
+  RENDER.pick();
+}
+UNDO.pick = function(){
+  var s=ST.pick[LV.pick.i];
+  if(s.word) s.word=null; else s.tried.pop();
+};
+
+/* ================= LEVEL 3: FLIP IT ================= */
+function flipCut(q){ return q.depCap.split(' ').length-1; }
+function buildTokens(q){
+  var dw=q.depCap.split(' '), mw=(q.mainLow+'.').split(' ');
+  var words=dw.concat(mw), cut=dw.length-1, el=$('flipSent');
+  el.className='tokens'; el.innerHTML='';
+  words.forEach(function(w,i){
+    var t=document.createElement('span');
+    t.className='tok'+((i===0||i===cut+1)?' s':'')+((i===cut||i===words.length-1)?' e':'');
+    t.setAttribute('data-part', i<=cut?'dep':'main'); t.textContent=w;
+    el.appendChild(t);
+    if(i<words.length-1){
+      var b=document.createElement('button');
+      b.type='button'; b.className='slot'; b.setAttribute('aria-label','Put the comma after "'+w+'"');
+      b.setAttribute('data-part', i<cut?'dep':(i>cut?'main':'edge'));
+      b.addEventListener('click',function(){ tryComma(i,b); });
+      el.appendChild(b);
+    }
+  });
+}
+function highlightParts(){
+  each($('flipSent').querySelectorAll('.tok,.slot'),function(t){
+    var p=t.getAttribute('data-part'); if(p && p!=='edge') t.classList.add(p);
+  });
+}
+function applyWhy(){
+  $('flipWhyBtn').classList.add('hide');
+  $('flipWhy').classList.add('on');
+  $('flipBA').classList.add('why-on');
+  setTimeout(function(){ $('mBefore').style.width='38%'; $('mAfter').style.width='88%'; },60);
+}
+RENDER.flip = function(){
+  var i=LV.flip.i, q=FLIP[i], s=ST.flip[i];
+  if(s.phase===1) s.phase=0;
+  paintTurn('flipTurn', 8+i);
+  paintCount('flipCount', i, answeredList('flip'));
+  $('flipBA').classList.remove('on','why-on');
+  $('flipWhy').classList.remove('on');
+  $('flipWhyBtn').classList.remove('hide');
+  $('mBefore').style.width='0'; $('mAfter').style.width='0';
+  hideFb('flipFb');
+  if(s.phase===0){
+    var el=$('flipSent');
+    el.className='fsent';
+    el.innerHTML='<span class="fchunk main" id="fMain">'+q.main+'</span><span class="fchunk dep" id="fDep">'+q.dep+'.</span>';
+    $('flipAskTop').textContent='Flip the pink dependent clause to the front.';
+    $('flipAsk').classList.remove('on');
+    $('flipBtnRow').classList.remove('hide');
+  } else {
+    buildTokens(q);
+    $('flipBtnRow').classList.add('hide');
+    if(s.phase===2){
+      $('flipAskTop').textContent='Where does the comma go?';
+      $('flipAsk').classList.add('on');
+      if(s.misses>=2) highlightParts();
+    } else {
+      var slot=$('flipSent').querySelectorAll('.slot')[flipCut(q)];
+      slot.classList.add('comma'); slot.innerHTML='<span class="cm">,</span>';
+      each($('flipSent').querySelectorAll('.slot'),function(x){ if(x!==slot) x.classList.add('off'); });
+      highlightParts();
+      $('flipAskTop').textContent='Flipped!';
+      $('flipAsk').classList.remove('on');
+      showFb('flipFb', s.missed?'ok':'good', s.say, 'The comma goes at the end of the dependent clause, right before the main clause. It is the pause before the action.'+(q.note||''));
+      $('baBefore').textContent = q.main+' '+q.dep+'.';
+      $('baAfter').innerHTML = esc(q.depCap)+'<b style="color:#FF4F8B">,</b> '+esc(q.mainLow)+'.';
+      $('flipWhyText').textContent = q.why;
+      $('flipBA').classList.add('on');
+      if(s.why) applyWhy();
+    }
+  }
+  controls('flip');
+};
+function doFlip(){
+  var i=LV.flip.i, q=FLIP[i], s=ST.flip[i];
+  if(s.phase!==0) return;
+  s.phase=1;
+  $('flipBtnRow').classList.add('hide');
+  $('flipUndo').disabled=true;
+  var m=$('fMain'), d=$('fDep');
+  flipMove(d, m, function(){
+    $('flipSent').insertBefore(d, m);
+    d.textContent = q.depCap;
+    m.textContent = q.mainLow+'.';
+  }, 950);
+  setTimeout(function(){
+    if(LV.flip.i===i && ST.flip[i].phase===1){ ST.flip[i].phase=2; RENDER.flip(); }
+  }, reduceMotion ? 50 : 1150);
+}
+function tryComma(k,b){
+  var i=LV.flip.i, q=FLIP[i], s=ST.flip[i];
+  if(s.phase!==2) return;
+  if(k===flipCut(q)){
+    s.phase=3;
+    s.say = s.missed ? 'Got there!' : praise();
+    RENDER.flip();
+    return;
+  }
+  s.misses++; s.missed=true;
+  b.classList.remove('miss'); void b.offsetWidth; b.classList.add('miss');
+  if(s.misses===1){
+    showFb('flipFb','bad','Not there','A comma there would split a clause in half. Read the sentence aloud. Where does the waiting part end and the action begin?');
+  } else if(s.misses===2){
+    highlightParts();
+    showFb('flipFb','bad','Here is a clue','The dependent clause is now pink. The comma goes straight after it.');
+  } else {
+    s.phase=3; s.say='Here it is';
+    RENDER.flip();
+  }
+  controls('flip');
+}
+UNDO.flip = function(){
+  var s=ST.flip[LV.flip.i];
+  if(s.phase===3){ s.phase=2; s.why=false; }
+  else if(s.phase===2){ s.phase=0; s.misses=0; }
+};
+$('flipBtn').addEventListener('click',doFlip);
+$('flipWhyBtn').addEventListener('click',function(){
+  ST.flip[LV.flip.i].why=true;
+  applyWhy();
+  controls('flip');
+});
+
+/* Flip it Part B: reveal each answer after it is written */
+each(document.querySelectorAll('.bcheck'),function(b){
+  b.addEventListener('click',function(){
+    var li=b.closest('.bflip'), open=li.classList.toggle('open');
+    b.textContent = open ? 'Hide' : 'Check';
+  });
+});
+
+/* ================= WRITE IT + FAST FINISHERS ================= */
+each(document.querySelectorAll('.checks .check'),function(c){
+  c.addEventListener('click',function(){ c.classList.toggle('on'); c.setAttribute('aria-pressed', c.classList.contains('on')); });
+});
+each(document.querySelectorAll('[data-model]'),function(b){
+  b.addEventListener('click',function(){ b.classList.add('hide'); $(b.getAttribute('data-model')).classList.add('on'); });
+});
+(function(){
+  /* Footprints walking down the hallway */
+  var g=$('hallPrints'), h='';
+  for(var i=0;i<7;i++){
+    var s=1-i*0.11, side=(i%2?1:-1)*(13-i*1.4);
+    var w=20*s, ht=36*s, x=318+side-w/2, y=402-i*18.5-ht;
+    h+='<use class="hall-fp" href="#fp" x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+ht.toFixed(1)+'" style="animation-delay:'+(i*0.45)+'s"/>';
+  }
+  g.innerHTML=h;
+  /* Footprints on the start card */
+  var hp=$('heroPrints'), hh='';
+  for(var j=0;j<7;j++){
+    var px=40+j*46, py=300-j*4+(j%2?-11:9);
+    hh+='<use href="#fp" width="20" height="36" transform="translate('+px+' '+py+') rotate(84)" opacity="'+(0.45+j*0.08).toFixed(2)+'"/>';
+  }
+  hp.innerHTML=hh;
+})();
+/* Writing timer */
+var tTotal=240, tLeft=240, tId=null;
+function tPaint(){
+  var m=Math.floor(tLeft/60), s=tLeft%60, d=$('tDisplay');
+  d.textContent=m+':'+(s<10?'0':'')+s;
+  d.classList.toggle('warn', tLeft>0 && tLeft<=30);
+  d.classList.toggle('end', tLeft===0);
+}
+function tStop(){ if(tId){ clearInterval(tId); tId=null; } $('tStart').textContent='Start'; }
+each(document.querySelectorAll('#timer [data-mins]'),function(b){
+  b.addEventListener('click',function(){
+    tStop(); tTotal=parseInt(b.getAttribute('data-mins'),10)*60; tLeft=tTotal;
+    each(document.querySelectorAll('#timer [data-mins]'),function(x){ x.classList.remove('sel'); });
+    b.classList.add('sel'); tPaint();
+  });
+});
+$('tStart').addEventListener('click',function(){
+  if(tId){ tStop(); return; }
+  if(tLeft<=0) tLeft=tTotal;
+  this.textContent='Pause';
+  tId=setInterval(function(){ tLeft--; if(tLeft<=0){ tLeft=0; tStop(); } tPaint(); },1000);
+});
+
+/* ================= PARTNER CHECK ================= */
+each(document.querySelectorAll('#checkSteps .step'),function(s){
+  s.addEventListener('click',function(){ s.classList.toggle('on'); s.setAttribute('aria-pressed', s.classList.contains('on')); });
+});
+
+/* ================= FINISH + GO DEEPER ================= */
+(function(){
+  /* Star burst shape */
+  var pts=[], n=22;
+  for(var i=0;i<n*2;i++){
+    var r = i%2 ? 40 : 50, a = Math.PI*i/n - Math.PI/2;
+    pts.push((50+r*Math.cos(a)).toFixed(2)+'% '+(50+r*Math.sin(a)).toFixed(2)+'%');
+  }
+  var cp='polygon('+pts.join(',')+')';
+  $('burst').style.clipPath=cp; $('burstFill').style.clipPath=cp;
+})();
+function checkUnlock(){
+  var left=[];
+  if(!levelDone.spot) left.push('Spot it');
+  if(!levelDone.pick) left.push('Pick the word');
+  if(!levelDone.flip) left.push('Flip it');
+  if(left.length===0){
+    $('gdLock').classList.add('hide');
+    if(!$('deeper').classList.contains('on')) $('gdOpenRow').classList.remove('hide');
+  } else {
+    $('gdLockText').textContent = 'Go Deeper unlocks when you finish '+(left.length===1?left[0]:left.slice(0,-1).join(', ')+' and '+left[left.length-1])+'.';
+  }
+}
+$('gdOpen').addEventListener('click',function(){
+  $('gdOpenRow').classList.add('hide');
+  $('deeper').classList.add('on');
+  $('deeper').scrollIntoView({behavior: reduceMotion?'auto':'smooth', block:'start'});
+});
+each(document.querySelectorAll('.gd-reveal'),function(b){
+  b.addEventListener('click',function(){
+    var m=b.nextElementSibling, open=m.classList.toggle('on');
+    b.textContent = open ? 'Hide the writer\'s thinking' : 'See how a writer thought about it';
+  });
+});
+function confetti(){
+  if(reduceMotion) return;
+  var cols=['#FF4F8B','#1FB5E9','#5CC94A','#FF8A3D','#8B5CF6','#fff'];
+  for(var i=0;i<46;i++){
+    var c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=(Math.random()*100)+'vw';
+    c.style.background=cols[i%cols.length];
+    c.style.setProperty('--rot',(Math.random()*720-360)+'deg');
+    c.style.animationDuration=(2.4+Math.random()*2)+'s';
+    c.style.animationDelay=(Math.random()*0.6)+'s';
+    document.body.appendChild(c);
+    (function(el){ setTimeout(function(){ el.remove(); },5200); })(c);
+  }
+}
+enterHooks.finish = function(){
+  var st=totalStars();
+  starRow('starRow', st, TOTAL);
+  $('starSum').textContent = st+' of '+TOTAL+' first-go stars. Every footprint counts!';
+  confetti();
+};
+enterHooks.fast = checkUnlock;
+checkUnlock();
+
+/* ================= BACKGROUND FOOTPRINT TRAILS ================= */
+function walkTrail(){
+  if(document.hidden) return;
+  var layer=$('trails'), W=window.innerWidth, H=window.innerHeight;
+  var x=W*(0.08+Math.random()*0.84), y=H*(0.2+Math.random()*0.7);
+  var ang=Math.random()*Math.PI*2, step=46, n=9;
+  for(var i=0;i<n;i++){
+    var side=(i%2?1:-1)*10;
+    var px=x+Math.cos(ang)*step*i+Math.cos(ang+Math.PI/2)*side;
+    var py=y+Math.sin(ang)*step*i+Math.sin(ang+Math.PI/2)*side;
+    var el=document.createElement('span');
+    el.className='trail-fp';
+    el.innerHTML='<svg viewBox="0 0 24 44"><use href="#fp"/></svg>';
+    el.style.left=px+'px'; el.style.top=py+'px';
+    el.style.setProperty('--t','rotate('+(ang*180/Math.PI+90).toFixed(1)+'deg)');
+    el.style.animationDelay=(i*0.4)+'s';
+    layer.appendChild(el);
+    (function(e,delay){ setTimeout(function(){ e.remove(); }, 5600+delay); })(el, i*400);
+  }
+}
+if(!reduceMotion){ walkTrail(); setInterval(walkTrail, 6000); }
+</script>
+</body>
+</html>
