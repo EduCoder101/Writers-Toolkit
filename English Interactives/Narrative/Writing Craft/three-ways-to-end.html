@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Three Ways to End: a quick Writer's Toolkit practice lesson on climax, resolution and endings for Stage 3 narrative writing. Reflective, circular and twist endings, with three writing bursts.">
+<title>Three Ways to End | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#efe7df;--paper-2:#e7dbd2;--paper-3:#ded0c8;--paperlight:#f6f0e7;
+  --stone:#b4a4ac;--rose:#c2898d;--rose-deep:#a86d72;
+  --plum:#43343f;--plum-soft:#6c5b67;--line:#cdbcb8;
+  --dusk:#33424f;--sky:#2f87a6;--sky-light:#9fd2e0;--gold:#d8b15a;
+  --green:#4f8a5b;--green-light:#dcebdd;--red:#b54a3c;
+  --shadow:0 18px 40px -24px rgba(67,52,63,.55);
+  --shell:1480px;
+  /* story palette defaults (overridden per story) */
+  --s-paper:#efe7df;--s-paper2:#e7dbd2;--s-light:#f6f0e7;--s-accent:#c2898d;--s-deep:#a86d72;--s-ink:#43343f;--s-line:#cdbcb8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--plum);font-family:"Inter",system-ui,sans-serif;font-size:20px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(120% 80% at 85% -10%, rgba(194,137,141,.10), transparent 60%),
+             radial-gradient(90% 70% at -10% 8%, rgba(180,164,172,.14), transparent 55%)}
+.wrap{position:relative;z-index:1}
+#bar{position:fixed;top:0;left:0;height:4px;width:0;z-index:60;background:linear-gradient(90deg,var(--rose),var(--gold));transition:width .12s linear}
+
+h1,h2,h3{font-family:"Fraunces",serif;font-weight:600;line-height:1.08;margin:0}
+h2.big{font-size:clamp(2rem,3.4vw,3.2rem);margin-bottom:.4rem}
+.subhead{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.4rem,2vw,1.9rem);margin:0 0 .5rem}
+.eyebrow{font-weight:600;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-deep);display:flex;align-items:center;gap:.7rem;margin:0 0 1rem;flex-wrap:wrap}
+.eyebrow .min{font-weight:700;color:var(--plum);background:var(--paper-3);border:1px solid var(--line);border-radius:100px;padding:.16rem .65rem;letter-spacing:.04em;font-size:.78rem}
+.eyebrow .mode{font-weight:700;color:var(--paperlight);background:var(--plum);border-radius:100px;padding:.16rem .7rem;letter-spacing:.06em;font-size:.74rem}
+.lead{font-size:clamp(1.15rem,1.5vw,1.45rem);color:var(--plum-soft);max-width:60ch}
+
+/* top nav */
+.topnav{position:sticky;top:0;z-index:50;background:rgba(239,231,223,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topnav .in{max-width:var(--shell);margin:0 auto;padding:.55rem 48px;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+.topnav .brand{font-family:"Fraunces",serif;font-weight:600;font-size:1.05rem;color:var(--plum);text-decoration:none;white-space:nowrap}
+.topnav .brand span{color:var(--rose-deep)}
+.topnav .links{display:flex;gap:.2rem;flex-wrap:wrap;margin-left:auto}
+.topnav a.l{font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--plum-soft);text-decoration:none;padding:.3rem .7rem;border-radius:100px}
+.topnav a.l:hover{background:var(--paper-3);color:var(--plum)}
+.topnav a.l .n{font-family:"Fraunces",serif;color:var(--rose-deep);margin-right:.3rem}
+
+section{position:relative}
+.shell{max-width:var(--shell);margin:0 auto;padding:80px 48px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.split.wide-left{grid-template-columns:1.15fr .85fr}
+.split.wide-right{grid-template-columns:.85fr 1.15fr}
+.stack>*+*{margin-top:1.2rem}
+.sticky{position:sticky;top:78px}
+.wall{height:30px;width:100%;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:linear-gradient(var(--paper-3),var(--paper-3)),repeating-linear-gradient(90deg,transparent 0 58px,rgba(67,52,63,.10) 58px 60px);opacity:.9}
+
+/* HERO */
+.hero .shell{padding-top:72px;padding-bottom:64px;display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
+.hero .meta{font-size:.84rem;letter-spacing:.16em;text-transform:uppercase;color:var(--plum-soft);font-weight:600;margin-bottom:1.2rem}
+.hero h1{font-size:clamp(3.4rem,7vw,6.4rem);letter-spacing:-.01em}
+.hero h1 .sub{display:block;font-size:.3em;font-weight:500;font-style:italic;color:var(--rose-deep);letter-spacing:0;margin-top:.5rem}
+.hero .li{margin-top:1.6rem;font-size:clamp(1.2rem,1.7vw,1.6rem);line-height:1.5;color:var(--plum);max-width:36ch}
+.hero .li b{color:var(--rose-deep);font-weight:600}
+.hero .pills{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.8rem}
+.pill{font-size:.9rem;font-weight:600;color:var(--plum);background:var(--paperlight);border:1px solid var(--line);border-radius:100px;padding:.4rem .95rem}
+.mountain{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:1.2rem 1.2rem .8rem}
+.mountain svg{width:100%;height:auto;display:block}
+.mountain .cap{font-size:.86rem;color:var(--plum-soft);font-style:italic;margin:.5rem .2rem 0}
+
+/* SUCCESS CRITERIA */
+.sc{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sc .shell{padding:56px 48px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:1.4rem}
+.sc-card{background:var(--paperlight);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.5rem;box-shadow:var(--shadow);font-size:1.08rem;line-height:1.5}
+.sc-card .tag{display:block;width:16px;height:16px;border-radius:4px;background:var(--rose);box-shadow:0 0 0 5px rgba(194,137,141,.18);margin-bottom:.9rem}
+
+/* shared bits */
+.script{background:var(--paperlight);border:1px solid var(--line);border-left:5px solid var(--rose);border-radius:8px;padding:1.3rem 1.6rem;font-family:"Fraunces",serif;font-size:clamp(1.25rem,1.75vw,1.7rem);line-height:1.55;color:var(--plum)}
+.script .who{display:block;font-family:"Inter",sans-serif;font-style:normal;font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:.5rem}
+.script p{margin:0 0 .7rem}
+.script p:last-child{margin-bottom:0}
+.card{background:var(--paperlight);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.6rem;box-shadow:var(--shadow)}
+.note{font-size:.98rem;color:var(--plum-soft)}
+.keyq{background:var(--paper-2);border:1px dashed var(--rose);border-radius:12px;padding:1.1rem 1.4rem;font-size:1.12rem}
+.keyq b{color:var(--rose-deep)}
+.keyq .lbl,.bookbox .lbl,.learnbox .lbl{display:block;font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.4rem}
+.keyq .lbl{color:var(--rose-deep)}
+.bookbox{background:#f7efd9;border:1px solid #e3cf98;border-left:5px solid var(--gold);border-radius:12px;padding:1.1rem 1.4rem;font-size:1.1rem}
+.bookbox .lbl{color:#8a6a1a}
+.bookbox em{font-style:normal;background:rgba(255,255,255,.8);padding:.05rem .5rem;border-radius:5px}
+.learnbox{background:#e3edf2;border:1px solid #b9d2dd;border-left:5px solid var(--sky);border-radius:12px;padding:1.1rem 1.4rem;font-size:1.1rem}
+.learnbox .lbl{color:#1f6a84}
+
+/* buttons */
+.btn{font-family:"Inter",sans-serif;font-size:1rem;font-weight:600;padding:.75rem 1.5rem;border:none;border-radius:100px;cursor:pointer;background:var(--plum);color:#fff;transition:transform .15s,box-shadow .15s;display:inline-flex;align-items:center;gap:.5rem}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.btn.rose{background:var(--rose-deep)}
+.btn.ghost{background:transparent;color:var(--plum);border:1.5px solid var(--plum)}
+.btn.accent{background:var(--s-deep)}
+.btn.done{display:none}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.btnrow{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin-top:1.2rem}
+
+/* reveal */
+.reveal-step{opacity:0;max-height:0;overflow:hidden;transition:opacity .45s ease,max-height .5s ease,margin .45s ease;margin-top:0}
+.reveal-step.visible{opacity:1;max-height:4000px;margin-top:1.2rem;overflow:visible}
+
+/* banned endings */
+.banned{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:.4rem}
+.ban{background:var(--paperlight);border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.3rem;position:relative;box-shadow:var(--shadow)}
+.ban .x{position:absolute;top:-14px;right:-10px;width:38px;height:38px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:700;font-size:1.2rem;box-shadow:0 4px 10px rgba(0,0,0,.15)}
+.ban .q{font-family:"Fraunces",serif;font-style:italic;font-size:1.15rem;line-height:1.4;text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:2.5px;color:var(--plum-soft)}
+.ban .why{font-size:.95rem;margin-top:.6rem;color:var(--plum)}
+.ban .name{font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:.4rem}
+
+/* journey strip */
+.journey{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;margin-top:1.4rem}
+.jstone{border-radius:12px;padding:.8rem .7rem;text-align:center;background:var(--paper-3);color:var(--plum-soft);border:1px solid var(--line)}
+.jstone .j-n{font-family:"Fraunces",serif;font-weight:600;font-size:.85rem}
+.jstone .j-t{font-weight:600;font-size:.98rem;line-height:1.2;margin:.15rem 0;color:var(--plum)}
+.jstone .j-l{font-size:.78rem}
+.jstone.done{background:var(--green-light);border-color:#b9d4bd;color:#2f5e38}
+.jstone.done .j-t{color:#2f5e38}
+.jstone.now{background:var(--rose);border-color:var(--rose-deep);color:#fff;box-shadow:0 0 0 4px rgba(194,137,141,.25)}
+.jstone.now .j-t,.jstone.now .j-n,.jstone.now .j-l{color:#fff}
+
+/* three endings */
+.endings{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:.5rem}
+.ending{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);height:100%}
+.ending .head{padding:.9rem 1.3rem;color:#fff;display:flex;align-items:center;gap:.8rem}
+.ending .head .big{font-family:"Fraunces",serif;font-size:1.5rem;font-weight:600}
+.ending .head .def{font-size:.9rem;opacity:.95;line-height:1.25}
+.ending .ex{padding:1.1rem 1.3rem .4rem;font-family:"Fraunces",serif;font-style:italic;font-size:1.15rem;line-height:1.5}
+.ending .why{padding:.4rem 1.3rem 1.2rem;font-size:.95rem;color:var(--plum-soft)}
+.ending .why b{color:var(--plum)}
+.e-reflect .head{background:#7a5c8a}
+.e-circle .head{background:#2f87a6}
+.e-twist .head{background:#c76b3a}
+.e-reflect .ex{border-left:5px solid #7a5c8a;margin-left:0}
+.e-circle .ex{border-left:5px solid #2f87a6}
+.e-twist .ex{border-left:5px solid #c76b3a}
+.ending-icon{width:34px;height:34px;flex:0 0 auto}
+
+/* which is which (we do) */
+.guess{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:.6rem}
+.g{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.3rem;box-shadow:var(--shadow);position:relative}
+.g .n{font-family:"Fraunces",serif;font-weight:600;color:var(--rose-deep);font-size:1.1rem;margin-bottom:.4rem}
+.g .ex{font-family:"Fraunces",serif;font-style:italic;font-size:1.15rem;line-height:1.5}
+.g .ans{display:none;margin-top:.9rem;padding:.6rem .9rem;border-radius:8px;color:#fff;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.8rem}
+.g .ans small{display:block;font-weight:500;text-transform:none;letter-spacing:0;font-size:.92rem;margin-top:.25rem;opacity:.95}
+.g.show .ans{display:block}
+.g .ans.r{background:#7a5c8a}.g .ans.c{background:#2f87a6}.g .ans.t{background:#c76b3a}
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem}
+.chip{font-size:.86rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;border-radius:100px;padding:.3rem .8rem}
+.chip.r{background:#7a5c8a}.chip.c{background:#2f87a6}.chip.t{background:#c76b3a}
+
+/* annotated model (climax + resolution) */
+.manu{display:grid;grid-template-columns:150px 1fr;gap:0 1.4rem}
+.manu .tag{font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rose-deep);padding-top:.5rem;border-top:2px solid var(--rose);margin-top:.5rem}
+.manu .tag.start{color:var(--plum-soft);border-top-color:var(--stone)}
+.manu .tag.boulder{color:var(--red);border-top-color:var(--red)}
+.manu .tag.climax{color:var(--rose-deep);border-top-color:var(--rose-deep)}
+.manu .tag.res{color:var(--green);border-top-color:var(--green)}
+.manu p{margin:.5rem 0 .9rem;font-family:"Fraunces",serif;font-size:clamp(1.2rem,1.6vw,1.55rem);line-height:1.55}
+.manu .tag small{display:block;font-weight:500;letter-spacing:0;text-transform:none;font-size:.82rem;color:var(--plum-soft);margin-top:.2rem}
+.manu .gap{grid-column:2;border:2px dashed var(--s-accent);border-radius:10px;padding:.8rem 1rem;font-family:"Inter",sans-serif;font-size:1rem;color:var(--plum-soft);margin:.3rem 0 .8rem}
+
+/* STORY SECTIONS */
+.story{background:var(--s-paper);color:var(--s-ink);border-top:1px solid var(--s-line)}
+.story .eyebrow{color:var(--s-deep)}
+.story .eyebrow .min{background:var(--s-paper2);border-color:var(--s-line);color:var(--s-ink)}
+.story .eyebrow .mode{background:var(--s-deep)}
+.story h2.big{color:var(--s-ink)}
+.story .lead{color:var(--s-ink);opacity:.8}
+.story .card{background:var(--s-light);border-color:var(--s-line)}
+.story .manu .tag{color:var(--s-deep);border-top-color:var(--s-accent)}
+.story .manu .tag.start{color:var(--s-ink);opacity:.6;border-top-color:var(--s-line)}
+.story .manu .tag.boulder{color:var(--s-deep);border-top-color:var(--s-deep)}
+.story .manu .tag.res{color:var(--s-deep)}
+.story .manu .tag small{color:var(--s-ink);opacity:.7}
+.story .manu p{color:var(--s-ink)}
+.story .btn.ghost{color:var(--s-ink);border-color:var(--s-deep)}
+.story .keyq{background:var(--s-paper2);border-color:var(--s-accent)}
+.story .keyq .lbl,.story .keyq b{color:var(--s-deep)}
+.story-art{border-radius:14px;overflow:hidden;box-shadow:var(--shadow);border:6px solid #fff;background:var(--s-paper2);margin-bottom:1.2rem}
+.story-art svg{display:block;width:100%;height:auto}
+.first-line{font-family:"Fraunces",serif;font-style:italic;font-size:1.05rem;background:var(--s-paper2);border-radius:8px;padding:.6rem .9rem;margin-top:.6rem}
+
+/* writing area */
+.write{background:var(--s-light);border:1px solid var(--s-line);border-radius:14px;padding:1.3rem 1.5rem;box-shadow:var(--shadow)}
+.write .wl{font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--s-deep);margin-bottom:.4rem}
+.write .task{font-family:"Fraunces",serif;font-size:clamp(1.2rem,1.6vw,1.5rem);line-height:1.4;margin:0 0 .8rem}
+textarea{width:100%;min-height:200px;resize:vertical;font-family:"Fraunces",serif;font-size:1.25rem;line-height:1.55;color:var(--s-ink);background:#fff;border:1.5px solid var(--s-line);border-radius:10px;padding:1rem 1.1rem;outline:none}
+textarea:focus{border-color:var(--s-accent);box-shadow:0 0 0 4px rgba(0,0,0,.05)}
+.wmeta{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:.6rem;font-size:.92rem;color:var(--s-ink);opacity:.85}
+.wmeta .count b{font-family:"Fraunces",serif;font-size:1.2rem;color:var(--s-deep)}
+.wmeta .count.ok b{color:var(--green)}
+.orbook{font-size:.9rem;opacity:.75;font-style:italic}
+
+/* scaffold panel */
+.scaf{margin-top:1.1rem}
+.sugg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:.9rem}
+.sg{background:#fff;border:1px solid var(--s-line);border-radius:12px;padding:1rem 1.1rem;border-top:6px solid #999}
+.sg.r{border-top-color:#7a5c8a}.sg.c{border-top-color:#2f87a6}.sg.t{border-top-color:#c76b3a}
+.sg .n{font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.4rem}
+.sg.r .n{color:#7a5c8a}.sg.c .n{color:#2f87a6}.sg.t .n{color:#c76b3a}
+.sg p{margin:0;font-size:1rem;line-height:1.45}
+.sg .echo{font-family:"Fraunces",serif;font-style:italic;background:var(--s-paper2);border-radius:6px;padding:.35rem .6rem;display:inline-block;margin-top:.5rem;font-size:.95rem}
+details.helper{background:#fff;border:1px solid var(--s-line);border-radius:12px;margin-top:.8rem}
+details.helper summary{cursor:pointer;list-style:none;padding:.8rem 1.1rem;font-weight:600;font-size:1rem;display:flex;align-items:center;gap:.7rem;color:var(--s-ink)}
+details.helper summary::-webkit-details-marker{display:none}
+details.helper summary::before{content:"+";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--s-deep);color:#fff;font-weight:700;flex:0 0 auto}
+details.helper[open] summary::before{content:"\2212"}
+details.helper .hb{padding:0 1.2rem 1rem 3rem}
+.bank{display:flex;flex-wrap:wrap;gap:.45rem}
+.bank span{background:var(--s-paper2);border:1px solid var(--s-line);border-radius:100px;padding:.25rem .75rem;font-size:.95rem}
+.bank .grp{flex-basis:100%;font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-top:.5rem;color:var(--s-deep)}
+.starters{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.starters li{background:var(--s-paper2);border:1px dashed var(--s-line);border-radius:6px;padding:.5rem .85rem;font-family:"Fraunces",serif;font-style:italic;font-size:1.02rem}
+.checklist{list-style:none;padding:0;margin:0;display:grid;gap:.5rem}
+.checklist li{display:flex;gap:.6rem;align-items:flex-start;font-size:1rem}
+.checklist li::before{content:"";width:17px;height:17px;border:2px solid var(--s-deep);border-radius:4px;flex:0 0 auto;margin-top:.3rem}
+.helpers2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.helpers2 details.helper{margin-top:0}
+
+/* timer */
+.timer{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;background:var(--s-paper2);border:1px solid var(--s-line);border-radius:12px;padding:.7rem 1rem;margin-top:1rem}
+.timer .td{font-family:"Fraunces",serif;font-weight:600;font-size:2.2rem;letter-spacing:.04em;color:var(--s-deep);min-width:5.2ch}
+.timer .td.warn{color:var(--red)}
+.timer .td.fin{color:var(--green)}
+.timer .btn{padding:.5rem 1.1rem;font-size:.9rem}
+
+/* exit */
+.exit{background:var(--rose);color:#fff;border-radius:14px;padding:2rem 2.4rem;box-shadow:var(--shadow)}
+.exit .eyebrow{color:rgba(255,255,255,.85)}
+.exit .eyebrow .min{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.3);color:#fff}
+.exit h2{color:#fff}
+.exit .q{font-family:"Fraunces",serif;font-size:clamp(1.3rem,2vw,1.8rem);line-height:1.45;margin:.8rem 0}
+.exit .q .n{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#fff;color:var(--rose-deep);font-weight:600;font-size:1.1rem;margin-right:.7rem;vertical-align:middle}
+
+/* teacher notes */
+.tbtn{font-family:"Inter",sans-serif;font-size:.8rem;font-weight:600;color:var(--plum-soft);background:transparent;border:1px dashed var(--line);border-radius:100px;padding:.35rem .9rem;cursor:pointer;margin-left:auto}
+.tbtn:hover{background:var(--paper-3)}
+.tpanel{display:none;background:rgba(255,255,255,.5);border:1px dashed var(--line);border-radius:12px;padding:1rem 1.3rem;margin-top:1rem;font-size:.98rem}
+.tpanel.open{display:block}
+.tpanel .tt{font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--plum-soft);margin:.3rem 0 .3rem}
+.tpanel ul{margin:.2rem 0 .5rem;padding-left:1.2rem}
+.tpanel li{margin:.2rem 0}
+
+footer{padding:48px 28px;text-align:center;color:var(--plum-soft);font-size:.88rem}
+footer a{color:var(--rose-deep)}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1!important;transform:none!important}}
+
+@media (max-width:1100px){
+  .split,.split.wide-left,.split.wide-right{grid-template-columns:1fr;gap:34px}
+  .sticky{position:static}
+  .grid3,.endings,.guess,.sugg,.banned{grid-template-columns:1fr}
+  .hero .shell{grid-template-columns:1fr;gap:34px}
+  .journey{grid-template-columns:repeat(4,1fr)}
+  .helpers2{grid-template-columns:1fr}
+  .shell{padding:56px 24px}
+  .topnav .in{padding:.5rem 20px}
+  body{font-size:18px}
+  .manu{grid-template-columns:1fr}
+  .manu .tag{margin-top:.8rem}
+  .manu .gap{grid-column:1}
+}
+
+/* print: just the three endings */
+#printsheet{display:none}
+@media print{
+  body{background:#fff;color:#000}
+  body::before,#bar,.topnav,.wrap{display:none!important}
+  #printsheet{display:block;font-family:"Fraunces",serif;padding:0 1cm}
+  #printsheet h1{font-size:1.6rem;margin:0 0 .3rem}
+  #printsheet .p-meta{font-family:"Inter",sans-serif;font-size:.9rem;color:#444;margin-bottom:1rem}
+  #printsheet .p-story{margin:0 0 1.2rem;page-break-inside:avoid}
+  #printsheet .p-story h2{font-size:1.2rem;margin:0 0 .3rem}
+  #printsheet .p-story .p-lead{font-size:.95rem;color:#444;margin:0 0 .4rem;font-style:italic}
+  #printsheet .p-story .p-txt{white-space:pre-wrap;border:1px solid #bbb;border-radius:6px;padding:.6rem .8rem;min-height:3cm;font-size:1.05rem;line-height:1.5}
+}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-reflect" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#fff" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-circle" viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2.1-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M17 3v4h-4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-twist" viewBox="0 0 24 24"><path d="M4 17c4 0 4-10 8-10s4 10 8 10" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M17 14l3 3-3 3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<nav class="topnav">
+  <div class="in">
+    <a class="brand" href="https://educoder101.github.io/Writers-Toolkit"><span>Writer's Toolkit</span> &middot; Three Ways to End</a>
+    <div class="links">
+      <a class="l" href="#hook"><span class="n">1</span>Hook</a>
+      <a class="l" href="#model"><span class="n">2</span>Lily's ending</a>
+      <a class="l" href="#wedo"><span class="n">3</span>Which is which?</a>
+      <a class="l" href="#story1"><span class="n">4</span>Burst 1</a>
+      <a class="l" href="#story2"><span class="n">5</span>Burst 2</a>
+      <a class="l" href="#story3"><span class="n">6</span>Burst 3</a>
+      <a class="l" href="#exit"><span class="n">7</span>Exit</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="shell">
+    <div>
+      <div class="meta">Writer's Toolkit &middot; Narrative &middot; Lesson 5</div>
+      <h1>Three Ways to End<span class="sub">Climax, resolution, and the last line</span></h1>
+      <p class="li">We are learning that a strong ending is <b>earned</b>: the main character solves the boulder herself, and the last few sentences leave the reader with a feeling.</p>
+      <div class="pills"><span class="pill">25 minutes</span><span class="pill">Quick practice lesson</span><span class="pill">Three writing bursts</span><span class="pill">Reflective &middot; Circular &middot; Twist</span></div>
+    </div>
+    <div class="mountain">
+      <svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The story mountain: sizzling start, pebble, rock, boulder, climax at the peak, then resolution and ending on the way down">
+        <defs><linearGradient id="mg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#c2898d"/><stop offset="1" stop-color="#e7dbd2"/></linearGradient></defs>
+        <path d="M10 270 L70 230 L130 215 L200 160 L300 50 L380 150 L470 215 L510 270 Z" fill="url(#mg)" opacity=".9"/>
+        <path d="M10 270 L70 230 L130 215 L200 160 L300 50 L380 150 L470 215 L510 270" fill="none" stroke="#43343f" stroke-width="3" stroke-linejoin="round"/>
+        <g font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#43343f">
+          <circle cx="70" cy="230" r="7" fill="#fff" stroke="#43343f" stroke-width="2.5"/><text x="54" y="258">Sizzling start</text>
+          <circle cx="130" cy="215" r="7" fill="#fff" stroke="#43343f" stroke-width="2.5"/><text x="106" y="200">Pebble</text>
+          <circle cx="200" cy="160" r="7" fill="#fff" stroke="#43343f" stroke-width="2.5"/><text x="150" y="150">Rock</text>
+          <circle cx="252" cy="103" r="7" fill="#fff" stroke="#43343f" stroke-width="2.5"/><text x="178" y="92">Boulder</text>
+          <circle cx="300" cy="50" r="9" fill="#c2898d" stroke="#43343f" stroke-width="2.5"/><text x="274" y="32" font-size="15">Climax</text>
+          <circle cx="380" cy="150" r="7" fill="#fff" stroke="#43343f" stroke-width="2.5"/><text x="392" y="140">Resolution</text>
+          <circle cx="470" cy="215" r="9" fill="#d8b15a" stroke="#43343f" stroke-width="2.5"/><text x="420" y="248" font-size="15">Ending</text>
+        </g>
+        <g transform="translate(300 50)"><path d="M0 -16 L0 -46" stroke="#43343f" stroke-width="2.5"/><path d="M0 -46 L26 -38 L0 -30 Z" fill="#43343f"/></g>
+        <rect x="408" y="258" width="92" height="26" rx="13" fill="#43343f"/><text x="454" y="276" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="#fff">TODAY</text>
+      </svg>
+      <p class="cap">Your sizzling start, pebble, rock and boulder are done. Today we climb to the top and come back down.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SUCCESS CRITERIA ================= -->
+<section class="sc">
+  <div class="shell">
+    <div class="eyebrow">Success criteria</div>
+    <div class="grid3">
+      <div class="sc-card"><span class="tag"></span>I can say who solves the boulder in a story: the main character, not somebody else.</div>
+      <div class="sc-card"><span class="tag"></span>I can name three kinds of ending, reflective, circular and twist, and tell them apart.</div>
+      <div class="sc-card"><span class="tag"></span>I can write the last four or five sentences of a story so the reader is left with a feeling.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 1. HOOK ================= -->
+<section id="hook">
+  <div class="shell">
+    <div class="eyebrow"><span>1 &middot; Hook</span><span class="min">3 min</span><span class="mode">Talk</span><button class="tbtn" onclick="toggleTeacher(this)">Teacher notes</button></div>
+    <h2 class="big">How did that feel?</h2>
+    <p class="lead">A story has built and built. The boulder has arrived. Here come the last lines.</p>
+    <div class="split wide-left" style="margin-top:1.6rem">
+      <div>
+        <div class="script">
+          <span class="who">Read this aloud</span>
+          <p>The dragon opened its jaws. Fire roared towards Sophie. She screamed and closed her eyes&hellip; and then she woke up in bed. It was all a dream. The end.</p>
+        </div>
+        <div class="reveal-step">
+          <div class="keyq"><span class="lbl">Thumbs, then talk</span>Thumbs up if that ending landed. Thumbs down if it did not. <b>Tell your partner what the writer just did to you.</b></div>
+        </div>
+        <div class="reveal-step">
+          <div class="card">
+            <p style="margin:0;font-size:1.15rem">The writer took the easy way out. The dragon never mattered, Sophie never had to be brave, and every worry you felt was for nothing. Readers feel cheated, and we never use these three:</p>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="banned">
+            <div class="ban"><div class="x">&times;</div><div class="name">The dream</div><div class="q">&hellip;and then I woke up. It was all a dream.</div><div class="why">Nothing that happened was real, so none of it counted.</div></div>
+            <div class="ban"><div class="x">&times;</div><div class="name">The dinner</div><div class="q">&hellip;and then we went home and had dinner.</div><div class="why">The story just stops. No feeling, no echo, no surprise.</div></div>
+            <div class="ban"><div class="x">&times;</div><div class="name">The swoop-in rescue</div><div class="q">Then Mum arrived and fixed everything.</div><div class="why">Somebody else solves the problem. The main character did nothing.</div></div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="bookbox"><span class="lbl">In your book</span>Write the date and the title <em>Three Ways to End</em>. Underneath, copy: <em>The main character solves the boulder herself. Never a dream, never dinner, never a rescue.</em></div>
+        </div>
+        <div class="btnrow"><button class="btn rose" onclick="revealNext(this)">Reveal</button></div>
+      </div>
+      <div class="sticky">
+        <div class="card">
+          <div class="journey" style="grid-template-columns:1fr 1fr;margin-top:0">
+            <div class="jstone done"><div class="j-n">01</div><div class="j-t">Sizzling start</div><div class="j-l">Lesson 1</div></div>
+            <div class="jstone done"><div class="j-n">02</div><div class="j-t">Backfill</div><div class="j-l">Lesson 2</div></div>
+            <div class="jstone done"><div class="j-n">03</div><div class="j-t">Pebble and rock</div><div class="j-l">Lesson 3</div></div>
+            <div class="jstone done"><div class="j-n">04</div><div class="j-t">Boulder</div><div class="j-l">Lesson 4</div></div>
+            <div class="jstone now" style="grid-column:1 / -1"><div class="j-n">05</div><div class="j-t">Climax, resolution and ending</div><div class="j-l">Today</div></div>
+          </div>
+          <p class="note" style="margin:.9rem 0 0">Climax: the peak, where the boulder is faced. Resolution: how she gets through it. Ending: the last four or five sentences.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tpanel">
+      <div class="tt">Say and ask</div>
+      <p style="margin:.2rem 0">Read Sophie's dragon in your most dramatic voice, then flatten completely for "It was all a dream." Let the groan happen. The class already knows the rule from earlier lessons, so keep this to three minutes: one quick talk, the three banned endings, write the rule, move on.</p>
+      <div class="tt">Timing (25 minutes)</div>
+      <p style="margin:.2rem 0">Hook 3 &middot; Lily's ending 5 &middot; Which is which 3 &middot; Three writing bursts 4 each, 12 total &middot; Exit 2.</p>
+    </div>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ================= 2. I DO: LILY ================= -->
+<section id="model">
+  <div class="shell">
+    <div class="eyebrow"><span>2 &middot; I do</span><span class="min">5 min</span><span class="mode">Watch and talk</span><button class="tbtn" onclick="toggleTeacher(this)">Teacher notes</button></div>
+    <h2 class="big">Lily's climax and resolution</h2>
+    <p class="lead">Lily is lost in the dark on camp with little Ava, and a storm has rolled in. That is her boulder. Watch how the peak of the story works, then see three ways the same story could end.</p>
+    <div class="split wide-left" style="margin-top:1.6rem">
+      <div>
+        <div class="card">
+          <div class="manu">
+            <div class="tag climax">Climax<small>The peak. The boulder is faced.</small></div>
+            <p>Lightning lit up the bush. Ava screamed. I grabbed her hand. <em>Think, Lily. Think.</em> Then I remembered Mr Patel's voice at orientation: "If you're ever lost, follow the creek downhill. It runs right past the dining hall." I could hear it, rushing somewhere below us.</p>
+          </div>
+          <div class="reveal-step">
+            <div class="manu">
+              <div class="tag res">Resolution<small>How she gets through it.</small></div>
+              <p>"Climb on," I said, crouching down. Ava wrapped her arms around my neck. Step by slippery step, I followed the sound of the water. My legs burned. Twice I nearly fell. Then, through the rain, a yellow light. The dining hall. "LILY!" Mr Patel was running towards us.</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="keyq"><span class="lbl">Talk to your partner</span><b>Who solved the problem?</b> Mr Patel is in the story twice. Did he rescue Lily?</div>
+        </div>
+        <div class="reveal-step">
+          <div class="learnbox"><span class="lbl">Learn this</span>Lily solved it. She remembered, she decided, she carried Ava, she followed the creek. Mr Patel only appears <b>after</b> the hard part is done. The main character does the solving, and adults can arrive at the end.</div>
+        </div>
+        <div class="btnrow"><button class="btn rose" onclick="revealNext(this)">Reveal</button></div>
+      </div>
+      <div class="sticky">
+        <div class="card">
+          <div class="subhead">Lily's story so far</div>
+          <ul style="margin:.4rem 0 0;padding-left:1.2rem;font-size:1.02rem;line-height:1.5">
+            <li><b>Sizzling start:</b> "My torch flickered twice, then died."</li>
+            <li><b>Pebble:</b> walking back from the toilet block in the dark.</li>
+            <li><b>Rock:</b> she takes the wrong track and gets lost. Little Ava is with her.</li>
+            <li><b>Boulder:</b> the storm hits. Ava is crying. Nobody knows where they are.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:3rem">
+      <div class="subhead">Now the story needs its last lines. Here are three ways to end it.</div>
+      <p class="note" style="margin:.2rem 0 1rem">Same story, same resolution. Only the last four or five sentences change. Which one do you like best?</p>
+      <div class="endings">
+        <div class="reveal-step">
+          <div class="ending e-reflect">
+            <div class="head"><svg class="ending-icon"><use href="#i-reflect"/></svg><div><div class="big">Reflective</div><div class="def">She thinks about what she learned.</div></div></div>
+            <div class="ex">Mr Patel wrapped us both in a blanket. Ava fell asleep against my shoulder before we even reached the cabins. I used to think being brave meant not being scared. Now I know it means being scared and doing it anyway.</div>
+            <div class="why"><b>What it does:</b> steps back from the action and tells us what the character understands now that she did not before.</div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="ending e-circle">
+            <div class="head"><svg class="ending-icon"><use href="#i-circle"/></svg><div><div class="big">Circular</div><div class="def">The ending echoes the sizzling start.</div></div></div>
+            <div class="ex">The next morning, Ava found me at breakfast. I pressed something into her hand: a brand-new torch from the camp shop, with fresh batteries. "Just in case," I said. She flicked it on. It did not flicker once.</div>
+            <div class="why"><b>What it does:</b> the story began with a torch dying. It ends with a torch that works. The reader feels the circle close.</div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="ending e-twist">
+            <div class="head"><svg class="ending-icon"><use href="#i-twist"/></svg><div><div class="big">Twist</div><div class="def">A small surprise that still makes sense.</div></div></div>
+            <div class="ex">On the last morning, Mr Patel called my name in front of everyone. He handed me a badge. It said <em>Camp Leader</em>. Next year, I would be the one the little ones followed through the dark.</div>
+            <div class="why"><b>What it does:</b> something we did not expect, that fits everything that came before. Not a dragon, not a dream. A badge.</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-step">
+        <div class="bookbox"><span class="lbl">In your book</span>Write the three names with a short definition for each: <em>Reflective: what she learned</em> <em>Circular: echoes the start</em> <em>Twist: a small surprise that fits</em></div>
+      </div>
+      <div class="btnrow"><button class="btn rose" onclick="revealNext(this)">Show an ending</button></div>
+    </div>
+    <div class="tpanel">
+      <div class="tt">Say and ask</div>
+      <ul>
+        <li>Read the climax, pause, and ask what Lily is doing at the peak: thinking, remembering, deciding. Reveal the resolution and ask "Who solved it?" before you reveal the answer. Expect a few students to say Mr Patel; that is the point of the question.</li>
+        <li>Reveal the three endings one at a time and read each aloud. After all three, take a quick vote. There is no right answer. The aim is that students hear the same story end three different ways.</li>
+        <li>Point out that every ending still gives Lily the win. The swoop-in rescue is banned, but an adult arriving after the character has done the work is fine.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ================= 3. WE DO: WHICH IS WHICH ================= -->
+<section id="wedo">
+  <div class="shell">
+    <div class="eyebrow"><span>3 &middot; We do</span><span class="min">3 min</span><span class="mode">Thumbs</span></div>
+    <h2 class="big">Which is which?</h2>
+    <p class="lead">A new story, a new climax and resolution. Three endings follow, unlabelled. Decide with your partner which is reflective, which is circular and which is a twist.</p>
+    <div class="split wide-left" style="margin-top:1.6rem">
+      <div class="card">
+        <div class="manu">
+          <div class="tag start">Start<small>The sizzling start.</small></div>
+          <p>The back gate was swinging in the wind. Grace stared at it. Then she stared at the empty spot on the lawn where Biscuit should have been.</p>
+          <div class="tag boulder">Boulder</div>
+          <p>She found him at the end of the street, trotting straight towards the main road, tail up, as if it were the best day of his life. A truck was coming. He did not look. He never looked.</p>
+          <div class="tag climax">Climax</div>
+          <p>Grace opened her mouth to scream his name and stopped. Shouting made him run faster. Everyone knew that. Then she remembered the dinner whistle, the two notes Dad used every night at six, and she put her fingers to her lips and whistled them as loud as she could.</p>
+          <div class="tag res">Resolution</div>
+          <p>Biscuit skidded. His ears went up. He spun around and came galloping back up the footpath so fast he nearly knocked her over, and she clipped the lead onto his collar with hands that would not stop shaking. The truck rumbled past behind them.</p>
+        </div>
+      </div>
+      <div>
+        <div class="keyq" style="margin-bottom:1rem"><span class="lbl">Partner challenge</span>Read the three endings. Point to the one you think is the <b>twist</b>, then the <b>circular</b> one, then the <b>reflective</b> one.</div>
+        <div class="guess" style="grid-template-columns:1fr">
+          <div class="g" id="g1"><div class="n">Ending A</div><div class="ex">That night, Grace checked the back gate before dinner. Then she checked it again after dinner. Then once more before bed, just to be sure. It did not swing again.</div><div class="ans c">Circular<small>The story began with the swinging gate. It ends with the gate shut, checked three times.</small></div></div>
+          <div class="g" id="g2"><div class="n">Ending B</div><div class="ex">Dad came out to see what the fuss was about. Biscuit sat, wagged, and dropped something at his feet. It was the sausage from last night's barbecue. He had not run away at all. He had been shopping.</div><div class="ans t">Twist<small>A small surprise that still fits. He really was heading somewhere, just not where she feared.</small></div></div>
+          <div class="g" id="g3"><div class="n">Ending C</div><div class="ex">Grace had always thought a gate was just a gate. Now she knew it was the only thing standing between Biscuit and the road. Some small jobs are not small at all.</div><div class="ans r">Reflective<small>She steps back and tells us what she understands now.</small></div></div>
+        </div>
+        <div class="btnrow"><button class="btn rose" id="gBtn" onclick="revealGuess()">Reveal the answers</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ================= 4. BURST 1: THE VOLCANO ================= -->
+<section class="story" id="story1" style="--s-paper:#f8ebe1;--s-paper2:#f1dccb;--s-light:#fdf6f0;--s-accent:#d9643a;--s-deep:#8f3b1d;--s-ink:#3b2a22;--s-line:#e4c9b6">
+  <div class="shell">
+    <div class="eyebrow"><span>4 &middot; Writing burst 1 of 3</span><span class="min">4 min</span><span class="mode">You write</span><button class="tbtn" onclick="toggleTeacher(this)">Teacher notes</button></div>
+    <h2 class="big">The Volcano</h2>
+    <p class="lead">Read the story. It stops right after the resolution. Your job: write the last four or five sentences.</p>
+    <div class="split" style="margin-top:1.6rem">
+      <div>
+        <div class="story-art">
+          <svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A model volcano on a table, erupting red foam">
+            <rect width="600" height="260" fill="#f1dccb"/>
+            <rect x="0" y="200" width="600" height="60" fill="#d9b89c"/>
+            <rect x="120" y="186" width="360" height="16" rx="4" fill="#8f3b1d"/>
+            <rect x="140" y="202" width="14" height="58" fill="#8f3b1d"/><rect x="446" y="202" width="14" height="58" fill="#8f3b1d"/>
+            <path d="M200 186 L270 70 L330 70 L400 186 Z" fill="#6b4a36"/>
+            <path d="M212 186 L300 100 L388 186 Z" fill="#7d5a44"/>
+            <ellipse cx="300" cy="70" rx="30" ry="9" fill="#3b2a22"/>
+            <path d="M276 68 C262 40 290 24 300 36 C312 16 344 36 326 66 Z" fill="#d9643a"/>
+            <path d="M284 66 C278 52 294 44 300 52 C306 42 322 50 316 66 Z" fill="#f29a6a"/>
+            <path d="M270 72 Q250 120 230 186" fill="none" stroke="#d9643a" stroke-width="10" stroke-linecap="round"/>
+            <path d="M330 72 Q352 110 356 186" fill="none" stroke="#d9643a" stroke-width="8" stroke-linecap="round"/>
+            <circle cx="262" cy="48" r="5" fill="#f29a6a"/><circle cx="346" cy="40" r="4" fill="#f29a6a"/><circle cx="300" cy="22" r="4" fill="#d9643a"/>
+            <rect x="470" y="140" width="54" height="46" rx="6" fill="#c23b2e"/><rect x="487" y="128" width="20" height="14" rx="3" fill="#8f3b1d"/>
+            <rect x="476" y="156" width="42" height="16" rx="3" fill="#fdf6f0"/><text x="497" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#8f3b1d">VINEGAR</text>
+            <rect x="60" y="120" width="70" height="66" rx="6" fill="#fdf6f0" stroke="#e4c9b6" stroke-width="3"/>
+            <text x="95" y="150" text-anchor="middle" font-family="Fraunces,serif" font-size="12" fill="#8f3b1d">Science</text>
+            <text x="95" y="168" text-anchor="middle" font-family="Fraunces,serif" font-size="12" fill="#8f3b1d">Fair</text>
+          </svg>
+        </div>
+        <div class="card">
+          <div class="manu">
+            <div class="tag start">Start</div>
+            <p>"Do not touch the red bottle," Priya said, for the third time that morning. Arjun grinned and backed away from the kitchen bench with his hands in the air.</p>
+            <div class="tag start">Build</div>
+            <p>By ten o'clock her volcano stood on the hall table, painted brown and dusted with grey chalk, with the red bottle of vinegar tucked behind it. Two tables down, Ben's robot arm was waving at everyone who walked past.</p>
+            <div class="tag boulder">Boulder</div>
+            <p>Then the judges arrived. Priya tipped the bicarb into the crater, lifted the red bottle, and poured. Nothing. Not a fizz. Not a bubble. She poured again. The judges waited. Somebody behind her giggled.</p>
+            <div class="tag climax">Climax</div>
+            <p>Priya sniffed the bottle. Water. Plain tap water. Her stomach dropped. Then, across the hall, she spotted the canteen hatch, and beside the chips and the salt, the big plastic bottle of vinegar. "One minute," she said, and ran.</p>
+            <div class="tag res">Resolution</div>
+            <p>She was back in forty seconds, breathless, clutching the canteen's vinegar. She poured. The crater hissed, foamed, and spilled red lava over the side of the table and onto the head judge's shoes. The judge looked down. Then she laughed.</p>
+            <div class="gap">Your four or five sentences go here.</div>
+          </div>
+        </div>
+      </div>
+      <div class="sticky">
+        <div class="write">
+          <div class="wl">Your ending</div>
+          <p class="task">Write the last four or five sentences of <em>The Volcano</em>.</p>
+          <textarea id="w1" placeholder="Start typing your ending here..." spellcheck="true"></textarea>
+          <div class="wmeta"><span class="count" id="c1"><b>0</b> sentences (aim for 4 or 5)</span><span class="orbook">Or write it in your book.</span></div>
+          <div class="btnrow" style="margin-top:.9rem"><button class="btn accent" onclick="toggleSugg(this,'s1')">Need an idea?</button><button class="btn ghost" onclick="toggleTimer(this)">Start 4 min</button><span class="td" style="font-family:Fraunces,serif;font-size:1.6rem;font-weight:600;color:var(--s-deep)">04:00</span></div>
+          <div class="scaf" id="s1" style="display:none">
+            <div class="sugg">
+              <div class="sg r"><div class="n">Reflective</div><p>What did Priya learn about what to do when things go wrong? (Not about volcanoes. About herself.)</p></div>
+              <div class="sg c"><div class="n">Circular</div><p>The story began with a red bottle and a grinning little brother. Could the last line come back to one of them?<span class="echo">"Do not touch the red bottle."</span></p></div>
+              <div class="sg t"><div class="n">Twist</div><p>Who is the one person who could have swapped the bottle? What might Priya find when she gets home? The twist still has to make sense.</p></div>
+            </div>
+            <div class="helpers2">
+              <details class="helper"><summary>Word bank</summary><div class="hb"><div class="bank">
+                <span class="grp">Reflective</span><span>realised</span><span>learned</span><span>used to think</span><span>now I know</span><span>after all</span><span>maybe</span>
+                <span class="grp">Circular</span><span>again</span><span>once more</span><span>this time</span><span>just like</span><span>the same</span>
+                <span class="grp">Twist</span><span>then</span><span>except</span><span>it turned out</span><span>not at all</span><span>only</span>
+                <span class="grp">Feelings</span><span>proud</span><span>relieved</span><span>lighter</span><span>calmer</span><span>braver</span><span>different</span>
+              </div></div></details>
+              <details class="helper"><summary>Sentence starters</summary><div class="hb"><ul class="starters">
+                <li>From that day on&hellip;</li><li>Now I know that&hellip;</li><li>I used to think&hellip;</li><li>As I looked back at&hellip;</li><li>I'll never forget&hellip;</li><li>Next time, I would&hellip;</li><li>Just in case, I&hellip;</li><li>That was when I noticed&hellip;</li><li>It turned out&hellip;</li><li>Nobody said anything about&hellip;</li>
+              </ul></div></details>
+            </div>
+            <details class="helper"><summary>Before you finish, check</summary><div class="hb"><ul class="checklist">
+              <li>Priya solved the problem herself. (She did. Keep it that way.)</li><li>Nobody woke up. Nobody went home for dinner.</li><li>Four or five sentences, not fifteen.</li><li>The last line leaves a feeling, an echo, or a surprise.</li>
+            </ul></div></details>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tpanel">
+      <div class="tt">Running the burst</div>
+      <ul>
+        <li>Read the story aloud once, quickly, with energy. Students may type on their own device or write in their books; the scaffolds work either way when projected.</li>
+        <li>Start the timer. Students who have an idea write at once. Students who are stuck press "Need an idea?" for one nudge per ending type. Push them to pick one and go, not to read all three and freeze.</li>
+        <li>With 30 seconds left, say "last sentence". Take two volunteers, and ask the class to name the ending type each one used.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5. BURST 2: TWENTY-TWO STROKES ================= -->
+<section class="story" id="story2" style="--s-paper:#e4f1f4;--s-paper2:#cfe4ea;--s-light:#f3f9fb;--s-accent:#2f9ab4;--s-deep:#155c6e;--s-ink:#1f333a;--s-line:#b7d4dc">
+  <div class="shell">
+    <div class="eyebrow"><span>5 &middot; Writing burst 2 of 3</span><span class="min">4 min</span><span class="mode">You write</span></div>
+    <h2 class="big">Twenty-Two Strokes</h2>
+    <p class="lead">A second story, a second ending. Try a different type from the one you just used.</p>
+    <div class="split" style="margin-top:1.6rem">
+      <div>
+        <div class="story-art">
+          <svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A swimming pool lane seen from above, with a swimmer mid-stroke and a pair of broken goggles">
+            <rect width="600" height="260" fill="#2f9ab4"/>
+            <g stroke="#155c6e" stroke-width="3" opacity=".5"><line x1="0" y1="60" x2="600" y2="60"/><line x1="0" y1="130" x2="600" y2="130"/><line x1="0" y1="200" x2="600" y2="200"/></g>
+            <g fill="#fff" opacity=".9"><circle cx="30" cy="60" r="6"/><circle cx="90" cy="60" r="6"/><circle cx="150" cy="60" r="6"/><circle cx="210" cy="60" r="6"/><circle cx="270" cy="60" r="6"/><circle cx="330" cy="60" r="6"/><circle cx="390" cy="60" r="6"/><circle cx="450" cy="60" r="6"/><circle cx="510" cy="60" r="6"/><circle cx="570" cy="60" r="6"/></g>
+            <g fill="#fff" opacity=".9"><circle cx="30" cy="200" r="6"/><circle cx="90" cy="200" r="6"/><circle cx="150" cy="200" r="6"/><circle cx="210" cy="200" r="6"/><circle cx="270" cy="200" r="6"/><circle cx="330" cy="200" r="6"/><circle cx="390" cy="200" r="6"/><circle cx="450" cy="200" r="6"/><circle cx="510" cy="200" r="6"/><circle cx="570" cy="200" r="6"/></g>
+            <path d="M0 130 H600" stroke="#1b4e5c" stroke-width="2" stroke-dasharray="20 14" opacity=".6"/>
+            <path d="M60 100 q30 -14 60 0 t60 0 t60 0" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/>
+            <path d="M330 160 q30 -14 60 0 t60 0 t60 0" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/>
+            <g transform="translate(260 128)"><ellipse cx="0" cy="0" rx="70" ry="16" fill="#f4c7a1"/><circle cx="74" cy="-2" r="14" fill="#f4c7a1"/><path d="M62 -12 q14 -12 26 0" fill="none" stroke="#155c6e" stroke-width="4"/><path d="M-20 -8 l-46 -26" stroke="#f4c7a1" stroke-width="12" stroke-linecap="round"/><path d="M-30 6 l-40 18" stroke="#f4c7a1" stroke-width="12" stroke-linecap="round"/><path d="M20 -6 l50 -34" stroke="#f4c7a1" stroke-width="12" stroke-linecap="round"/></g>
+            <g transform="translate(440 220)"><ellipse cx="0" cy="0" rx="18" ry="11" fill="none" stroke="#1f333a" stroke-width="4"/><ellipse cx="44" cy="0" rx="18" ry="11" fill="none" stroke="#1f333a" stroke-width="4"/><path d="M18 0 h8" stroke="#1f333a" stroke-width="4"/><path d="M-18 -4 q-30 -18 -56 -8" fill="none" stroke="#1f333a" stroke-width="4" stroke-linecap="round"/></g>
+            <rect x="560" y="0" width="40" height="260" fill="#e4f1f4"/><rect x="560" y="0" width="40" height="260" fill="none" stroke="#155c6e" stroke-width="3"/>
+            <g stroke="#155c6e" stroke-width="2" opacity=".5"><line x1="560" y1="40" x2="600" y2="40"/><line x1="560" y1="80" x2="600" y2="80"/><line x1="560" y1="120" x2="600" y2="120"/><line x1="560" y1="160" x2="600" y2="160"/><line x1="560" y1="200" x2="600" y2="200"/></g>
+          </svg>
+        </div>
+        <div class="card">
+          <div class="manu">
+            <div class="tag start">Start</div>
+            <p>"Take your marks." The starter's voice bounced off the water. I curled my toes over the edge of the block and stared at the far wall. Fifty metres. Two lengths. I had swum it a hundred times at training.</p>
+            <div class="tag boulder">Boulder</div>
+            <p>The whistle went. I dived. The moment I hit the water, my goggles snapped. The strap flicked loose, the cold flooded in, and everything went to blur. I could not see the lane rope. I could not see the wall. I could not see anything.</p>
+            <div class="tag climax">Climax</div>
+            <p>For two strokes I did nothing but panic. Then I heard Coach Dani's voice in my head, the thing she said every single Tuesday: "Count. Twenty-two strokes to the wall. You know this." So I counted. Eight. Nine. Ten. My hand brushed the lane rope and I shoved away from it. Twenty. Twenty-one. Twenty-two. I stretched out my arm.</p>
+            <div class="tag res">Resolution</div>
+            <p>Tiles. I flipped, pushed off, and counted again, all the way back. When my hand slapped the wall the second time, I ripped off the goggles and looked up at the board. Fourth. No ribbon. Mum was on her feet anyway, and so was Coach Dani.</p>
+            <div class="gap">Your four or five sentences go here.</div>
+          </div>
+        </div>
+      </div>
+      <div class="sticky">
+        <div class="write">
+          <div class="wl">Your ending</div>
+          <p class="task">Write the last four or five sentences of <em>Twenty-Two Strokes</em>.</p>
+          <textarea id="w2" placeholder="Start typing your ending here..." spellcheck="true"></textarea>
+          <div class="wmeta"><span class="count" id="c2"><b>0</b> sentences (aim for 4 or 5)</span><span class="orbook">Or write it in your book.</span></div>
+          <div class="btnrow" style="margin-top:.9rem"><button class="btn accent" onclick="toggleSugg(this,'s2')">Need an idea?</button><button class="btn ghost" onclick="toggleTimer(this)">Start 4 min</button><span class="td" style="font-family:Fraunces,serif;font-size:1.6rem;font-weight:600;color:var(--s-deep)">04:00</span></div>
+          <div class="scaf" id="s2" style="display:none">
+            <div class="sugg">
+              <div class="sg r"><div class="n">Reflective</div><p>Fourth place and no ribbon. What did the swimmer win instead? What does she understand now about racing, or about herself?</p></div>
+              <div class="sg c"><div class="n">Circular</div><p>The story began with "Take your marks" and a wall she stared at. What could the last line echo? The block, the wall, the voice, the counting?<span class="echo">"Take your marks."</span></p></div>
+              <div class="sg t"><div class="n">Twist</div><p>Coach Dani is on her feet. What is she holding, or about to say, that the swimmer does not expect? It must fit everything that came before.</p></div>
+            </div>
+            <div class="helpers2">
+              <details class="helper"><summary>Word bank</summary><div class="hb"><div class="bank">
+                <span class="grp">Reflective</span><span>realised</span><span>learned</span><span>used to think</span><span>now I know</span><span>after all</span><span>maybe</span>
+                <span class="grp">Circular</span><span>again</span><span>once more</span><span>this time</span><span>just like</span><span>the same</span>
+                <span class="grp">Twist</span><span>then</span><span>except</span><span>it turned out</span><span>not at all</span><span>only</span>
+                <span class="grp">Feelings</span><span>proud</span><span>relieved</span><span>lighter</span><span>calmer</span><span>braver</span><span>different</span>
+              </div></div></details>
+              <details class="helper"><summary>Sentence starters</summary><div class="hb"><ul class="starters">
+                <li>From that day on&hellip;</li><li>Now I know that&hellip;</li><li>I used to think&hellip;</li><li>As I looked back at&hellip;</li><li>I'll never forget&hellip;</li><li>Next time, I would&hellip;</li><li>Just in case, I&hellip;</li><li>That was when I noticed&hellip;</li><li>It turned out&hellip;</li><li>Nobody said anything about&hellip;</li>
+              </ul></div></details>
+            </div>
+            <details class="helper"><summary>Before you finish, check</summary><div class="hb"><ul class="checklist">
+              <li>The swimmer got herself to the wall. Nobody else did it for her.</li><li>Nobody woke up. Nobody went home for dinner.</li><li>Four or five sentences, not fifteen.</li><li>The last line leaves a feeling, an echo, or a surprise.</li>
+            </ul></div></details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6. BURST 3: NAN'S CAKE ================= -->
+<section class="story" id="story3" style="--s-paper:#f4e7ee;--s-paper2:#ead3df;--s-light:#fbf4f8;--s-accent:#b5476f;--s-deep:#6d2744;--s-ink:#352029;--s-line:#dcbfcd">
+  <div class="shell">
+    <div class="eyebrow"><span>6 &middot; Writing burst 3 of 3</span><span class="min">4 min</span><span class="mode">You write</span></div>
+    <h2 class="big">Nan's Cake</h2>
+    <p class="lead">Last one. If you have used two types already, this is your chance to try the third.</p>
+    <div class="split" style="margin-top:1.6rem">
+      <div>
+        <div class="story-art">
+          <svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A kitchen bench with a collapsed layer cake on the floor and a glass trifle bowl with strawberries on the table">
+            <rect width="600" height="260" fill="#ead3df"/>
+            <rect x="0" y="150" width="600" height="110" fill="#d7b9c9"/>
+            <rect x="0" y="150" width="600" height="8" fill="#b5476f"/>
+            <g transform="translate(90 170)"><path d="M0 60 Q10 30 40 34 Q50 10 80 20 Q100 0 120 24 Q150 18 150 48 Q160 62 140 66 L10 66 Z" fill="#5a3326"/><path d="M20 44 Q40 30 70 38 Q95 26 120 42" fill="none" stroke="#f3dce6" stroke-width="6" stroke-linecap="round"/><path d="M50 56 Q70 46 100 54" fill="none" stroke="#f3dce6" stroke-width="5" stroke-linecap="round"/><circle cx="30" cy="20" r="6" fill="#c8102e"/><circle cx="128" cy="10" r="6" fill="#c8102e"/></g>
+            <g transform="translate(330 30)"><path d="M0 30 L18 128 L142 128 L160 30 Z" fill="#fbf4f8" stroke="#6d2744" stroke-width="4"/><path d="M8 54 L152 54 L146 86 L14 86 Z" fill="#5a3326"/><path d="M12 86 L148 86 L142 108 L18 108 Z" fill="#fff4f8"/><path d="M6 44 L154 44 L152 54 L8 54 Z" fill="#f9e0e8"/><g fill="#c8102e"><circle cx="40" cy="40" r="9"/><circle cx="80" cy="36" r="9"/><circle cx="120" cy="40" r="9"/></g><g fill="#3f8a4f"><path d="M40 31 l-4 -8 l8 0 z"/><path d="M80 27 l-4 -8 l8 0 z"/><path d="M120 31 l-4 -8 l8 0 z"/></g><ellipse cx="80" cy="30" rx="80" ry="10" fill="none" stroke="#6d2744" stroke-width="4"/></g>
+            <g transform="translate(300 8)"><rect x="-6" y="0" width="12" height="28" rx="3" fill="#f6c453"/><path d="M0 0 q-6 -8 0 -16 q6 8 0 16" fill="#e8a33c"/></g>
+            <text x="560" y="60" text-anchor="middle" font-family="Fraunces,serif" font-size="46" font-weight="600" fill="#6d2744">80</text>
+            <path d="M0 150 L600 150" stroke="#6d2744" stroke-width="3"/>
+          </svg>
+        </div>
+        <div class="card">
+          <div class="manu">
+            <div class="tag start">Start</div>
+            <p>The cake slid. Zara watched it go: slowly at first, then all at once, three layers of chocolate sponge leaning like a tower and folding into a heap on the kitchen floor.</p>
+            <div class="tag start">Build</div>
+            <p>It was Nan's eightieth birthday. Twenty people were arriving in an hour. Mum was at the airport collecting Uncle Sam, and Zara had promised, promised, that the cake would be ready.</p>
+            <div class="tag boulder">Boulder</div>
+            <p>There was no more flour. There was no time to bake again anyway. The doorbell rang. The first guests were early.</p>
+            <div class="tag climax">Climax</div>
+            <p>Zara stared at the wreck on the floor. Then she looked at the bench. Cream. Strawberries. Chocolate sauce. The big glass bowl Nan used for Christmas trifle. She grabbed the biggest unbroken pieces of sponge, washed her hands, and started layering: sponge, cream, strawberries, sponge, cream, sauce.</p>
+            <div class="tag res">Resolution</div>
+            <p>When Nan walked in, the glass bowl sat in the middle of the table with one big candle on top. Nan looked at it for a long moment. "A trifle," she said. "My mother used to make trifle." She hugged Zara so hard that her glasses went crooked.</p>
+            <div class="gap">Your four or five sentences go here.</div>
+          </div>
+        </div>
+      </div>
+      <div class="sticky">
+        <div class="write">
+          <div class="wl">Your ending</div>
+          <p class="task">Write the last four or five sentences of <em>Nan's Cake</em>.</p>
+          <textarea id="w3" placeholder="Start typing your ending here..." spellcheck="true"></textarea>
+          <div class="wmeta"><span class="count" id="c3"><b>0</b> sentences (aim for 4 or 5)</span><span class="orbook">Or write it in your book.</span></div>
+          <div class="btnrow" style="margin-top:.9rem"><button class="btn accent" onclick="toggleSugg(this,'s3')">Need an idea?</button><button class="btn ghost" onclick="toggleTimer(this)">Start 4 min</button><span class="td" style="font-family:Fraunces,serif;font-size:1.6rem;font-weight:600;color:var(--s-deep)">04:00</span></div>
+          <div class="scaf" id="s3" style="display:none">
+            <div class="sugg">
+              <div class="sg r"><div class="n">Reflective</div><p>Zara promised a cake and made something else. What did she learn about promises, or about mistakes, or about Nan?</p></div>
+              <div class="sg c"><div class="n">Circular</div><p>The story began with a cake sliding to the floor. What is on the floor, or on the table, or in the bowl, at the very end?<span class="echo">The cake slid.</span></p></div>
+              <div class="sg t"><div class="n">Twist</div><p>What does Nan say or do next that nobody expects? What if the trifle, not the cake, is what the family asks for next year?</p></div>
+            </div>
+            <div class="helpers2">
+              <details class="helper"><summary>Word bank</summary><div class="hb"><div class="bank">
+                <span class="grp">Reflective</span><span>realised</span><span>learned</span><span>used to think</span><span>now I know</span><span>after all</span><span>maybe</span>
+                <span class="grp">Circular</span><span>again</span><span>once more</span><span>this time</span><span>just like</span><span>the same</span>
+                <span class="grp">Twist</span><span>then</span><span>except</span><span>it turned out</span><span>not at all</span><span>only</span>
+                <span class="grp">Feelings</span><span>proud</span><span>relieved</span><span>lighter</span><span>calmer</span><span>braver</span><span>different</span>
+              </div></div></details>
+              <details class="helper"><summary>Sentence starters</summary><div class="hb"><ul class="starters">
+                <li>From that day on&hellip;</li><li>Now I know that&hellip;</li><li>I used to think&hellip;</li><li>As I looked back at&hellip;</li><li>I'll never forget&hellip;</li><li>Next time, I would&hellip;</li><li>Just in case, I&hellip;</li><li>That was when I noticed&hellip;</li><li>It turned out&hellip;</li><li>Nobody said anything about&hellip;</li>
+              </ul></div></details>
+            </div>
+            <details class="helper"><summary>Before you finish, check</summary><div class="hb"><ul class="checklist">
+              <li>Zara solved the problem herself. Mum is still at the airport.</li><li>Nobody woke up. Nobody went home for dinner.</li><li>Four or five sentences, not fifteen.</li><li>The last line leaves a feeling, an echo, or a surprise.</li>
+            </ul></div></details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ================= 7. EXIT ================= -->
+<section id="exit">
+  <div class="shell">
+    <div class="split wide-left">
+      <div class="exit">
+        <div class="eyebrow"><span>7 &middot; Exit</span><span class="min">2 min</span></div>
+        <h2 class="big">Label your three endings</h2>
+        <p class="q"><span class="n">1</span>Next to each ending you wrote, put <b>R</b>, <b>C</b> or <b>T</b>. Did you use all three types, or did you keep going back to a favourite?</p>
+        <p class="q"><span class="n">2</span>Now open your own story plan. Look at your boulder. Which kind of ending will you choose for <b>your</b> story? Write the type next to <em>Conclusion</em>.</p>
+        <p class="q"><span class="n">3</span>Finish this sentence in your book: <em>My ending will leave the reader feeling&hellip;</em></p>
+      </div>
+      <div>
+        <div class="card">
+          <div class="subhead">Keep your endings</div>
+          <p class="note" style="margin:.3rem 0 1rem">If you typed your endings, print them now and glue them into your book. If you wrote in your book, you are already done.</p>
+          <div class="btnrow" style="margin-top:0"><button class="btn" onclick="printEndings()">Print my three endings</button><button class="btn ghost" id="clearBtn" onclick="clearEndings()">Clear</button></div>
+        </div>
+        <div class="card" style="margin-top:1rem">
+          <div class="eyebrow" style="margin-bottom:.5rem">For the teacher</div>
+          <p class="note" style="margin:0">Look for: four or five sentences, not a whole new scene; the main character still has the win; the type is recognisable. A student who writes three reflective endings has understood one type well; nudge them to a circular ending in their own story. A twist that does not fit the story is the most common wobble, so ask "Does that make sense with everything before it?"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Writer's Toolkit &middot; Three Ways to End &middot; Lesson 5 of the narrative unit &middot; <a href="https://educoder101.github.io/Writers-Toolkit">Back to the Toolkit</a></footer>
+
+</div>
+
+<div id="printsheet">
+  <h1>Three Ways to End: my endings</h1>
+  <div class="p-meta">Name: ______________________________ &nbsp; Date: ____________</div>
+  <div class="p-story"><h2>1. The Volcano</h2><p class="p-lead">Priya's volcano finally erupts, all over the head judge's shoes. Then she laughs.</p><div class="p-txt" id="p1"></div></div>
+  <div class="p-story"><h2>2. Twenty-Two Strokes</h2><p class="p-lead">Fourth place, no ribbon, goggles in hand. Mum and Coach Dani are on their feet.</p><div class="p-txt" id="p2"></div></div>
+  <div class="p-story"><h2>3. Nan's Cake</h2><p class="p-lead">"A trifle," Nan said. She hugged Zara so hard her glasses went crooked.</p><div class="p-txt" id="p3"></div></div>
+</div>
+
+<script>
+/* progress bar */
+var bar=document.getElementById('bar');
+function paintBar(){
+  var h=document.documentElement;
+  var max=h.scrollHeight-h.clientHeight;
+  bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+}
+document.addEventListener('scroll',paintBar,{passive:true});paintBar();
+
+/* progressive reveal: next hidden .reveal-step inside the button's section block */
+function revealNext(btn){
+  var root=btn.closest('section');
+  var scope=btn.parentElement.parentElement; /* the column or block holding the button */
+  var steps=scope.querySelectorAll('.reveal-step');
+  if(!steps.length){steps=root.querySelectorAll('.reveal-step');}
+  for(var i=0;i<steps.length;i++){
+    if(!steps[i].classList.contains('visible')){
+      steps[i].classList.add('visible');
+      var remaining=false;
+      for(var j=0;j<steps.length;j++){if(!steps[j].classList.contains('visible'))remaining=true;}
+      if(!remaining)btn.classList.add('done');
+      return;
+    }
+  }
+  btn.classList.add('done');
+}
+
+/* teacher notes */
+function toggleTeacher(btn){
+  var panel=btn.closest('.shell').querySelector('.tpanel');
+  var open=panel.classList.toggle('open');
+  btn.textContent=open?'Hide teacher notes':'Teacher notes';
+}
+
+/* which is which */
+var gShown=false;
+function revealGuess(){
+  var ids=['g1','g2','g3'];
+  if(!gShown){
+    ids.forEach(function(id){document.getElementById(id).classList.add('show');});
+    document.getElementById('gBtn').textContent='Hide the answers';gShown=true;
+  }else{
+    ids.forEach(function(id){document.getElementById(id).classList.remove('show');});
+    document.getElementById('gBtn').textContent='Reveal the answers';gShown=false;
+  }
+}
+
+/* suggestions */
+function toggleSugg(btn,id){
+  var el=document.getElementById(id);
+  var open=el.style.display==='none';
+  el.style.display=open?'block':'none';
+  btn.textContent=open?'Hide ideas':'Need an idea?';
+}
+
+/* sentence counter + autosave */
+function countSentences(t){
+  var s=t.replace(/\s+/g,' ').trim();
+  if(!s)return 0;
+  var parts=s.split(/[.!?]+(?:["')\]]*)\s+|[.!?]+(?:["')\]]*)$/).filter(function(p){return p.trim().length>0;});
+  return parts.length;
+}
+['1','2','3'].forEach(function(n){
+  var ta=document.getElementById('w'+n),c=document.getElementById('c'+n);
+  try{var saved=localStorage.getItem('twe-w'+n);if(saved)ta.value=saved;}catch(e){}
+  function paint(){
+    var k=countSentences(ta.value);
+    c.innerHTML='<b>'+k+'</b> sentence'+(k===1?'':'s')+' (aim for 4 or 5)';
+    c.classList.toggle('ok',k>=4&&k<=5);
+  }
+  ta.addEventListener('input',function(){paint();try{localStorage.setItem('twe-w'+n,ta.value);}catch(e){}});
+  paint();
+});
+
+/* timers: one per story, 4 minutes */
+function fmt(s){var m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r;}
+function toggleTimer(btn){
+  var row=btn.parentElement,d=row.querySelector('.td');
+  if(!row._t)row._t={left:240,id:null};
+  var t=row._t;
+  if(t.id){clearInterval(t.id);t.id=null;btn.textContent='Resume';return;}
+  if(t.left<=0){t.left=240;d.classList.remove('fin','warn');}
+  btn.textContent='Pause';
+  t.id=setInterval(function(){
+    t.left--;
+    d.textContent=fmt(t.left);
+    d.classList.toggle('warn',t.left>0&&t.left<=30);
+    if(t.left<=0){clearInterval(t.id);t.id=null;d.classList.add('fin');d.classList.remove('warn');d.textContent='Pens down';btn.textContent='Start 4 min';}
+  },1000);
+}
+
+/* print and clear */
+function printEndings(){
+  ['1','2','3'].forEach(function(n){
+    var v=document.getElementById('w'+n).value.trim();
+    document.getElementById('p'+n).textContent=v||'(written in my book)';
+  });
+  window.print();
+}
+var clearArmed=false;
+function clearEndings(){
+  var b=document.getElementById('clearBtn');
+  if(!clearArmed){clearArmed=true;b.textContent='Really clear all three?';setTimeout(function(){clearArmed=false;b.textContent='Clear';},4000);return;}
+  clearArmed=false;b.textContent='Clear';
+  ['1','2','3'].forEach(function(n){
+    var ta=document.getElementById('w'+n);ta.value='';
+    try{localStorage.removeItem('twe-w'+n);}catch(e){}
+    ta.dispatchEvent(new Event('input'));
+  });
+}
+
+/* scroll-in */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+</script>
+</body>
+</html>
