@@ -191,12 +191,6 @@ section{position:relative}
 .write{background:var(--s-light);border:1px solid var(--s-line);border-radius:14px;padding:1.3rem 1.5rem;box-shadow:var(--shadow)}
 .write .wl{font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--s-deep);margin-bottom:.4rem}
 .write .task{font-family:"Fraunces",serif;font-size:clamp(1.2rem,1.6vw,1.5rem);line-height:1.4;margin:0 0 .8rem}
-textarea{width:100%;min-height:200px;resize:vertical;font-family:"Fraunces",serif;font-size:1.25rem;line-height:1.55;color:var(--s-ink);background:#fff;border:1.5px solid var(--s-line);border-radius:10px;padding:1rem 1.1rem;outline:none}
-textarea:focus{border-color:var(--s-accent);box-shadow:0 0 0 4px rgba(0,0,0,.05)}
-.wmeta{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:.6rem;font-size:.92rem;color:var(--s-ink);opacity:.85}
-.wmeta .count b{font-family:"Fraunces",serif;font-size:1.2rem;color:var(--s-deep)}
-.wmeta .count.ok b{color:var(--green)}
-.orbook{font-size:.9rem;opacity:.75;font-style:italic}
 
 /* scaffold panel */
 .scaf{margin-top:1.1rem}
@@ -270,19 +264,6 @@ footer a{color:var(--rose-deep)}
   .manu .gap{grid-column:1}
 }
 
-/* print: just the three endings */
-#printsheet{display:none}
-@media print{
-  body{background:#fff;color:#000}
-  body::before,#bar,.topnav,.wrap{display:none!important}
-  #printsheet{display:block;font-family:"Fraunces",serif;padding:0 1cm}
-  #printsheet h1{font-size:1.6rem;margin:0 0 .3rem}
-  #printsheet .p-meta{font-family:"Inter",sans-serif;font-size:.9rem;color:#444;margin-bottom:1rem}
-  #printsheet .p-story{margin:0 0 1.2rem;page-break-inside:avoid}
-  #printsheet .p-story h2{font-size:1.2rem;margin:0 0 .3rem}
-  #printsheet .p-story .p-lead{font-size:.95rem;color:#444;margin:0 0 .4rem;font-style:italic}
-  #printsheet .p-story .p-txt{white-space:pre-wrap;border:1px solid #bbb;border-radius:6px;padding:.6rem .8rem;min-height:3cm;font-size:1.05rem;line-height:1.5}
-}
 </style>
 </head>
 <body>
@@ -579,9 +560,7 @@ footer a{color:var(--rose-deep)}
       <div class="sticky">
         <div class="write">
           <div class="wl">Your ending</div>
-          <p class="task">Write the last four or five sentences of <em>The Volcano</em>.</p>
-          <textarea id="w1" placeholder="Start typing your ending here..." spellcheck="true"></textarea>
-          <div class="wmeta"><span class="count" id="c1"><b>0</b> sentences (aim for 4 or 5)</span><span class="orbook">Or write it in your book.</span></div>
+          <div class="bookbox" style="margin-top:.2rem"><span class="lbl">In your book</span>Write the title <em>The Volcano</em>, then the last four or five sentences of the story. Finish where the story finishes, not with a whole new scene.</div>
           <div class="btnrow" style="margin-top:.9rem"><button class="btn accent" onclick="toggleSugg(this,'s1')">Need an idea?</button><button class="btn ghost" onclick="toggleTimer(this)">Start 4 min</button><span class="td" style="font-family:Fraunces,serif;font-size:1.6rem;font-weight:600;color:var(--s-deep)">04:00</span></div>
           <div class="scaf" id="s1" style="display:none">
             <div class="sugg">
@@ -610,8 +589,8 @@ footer a{color:var(--rose-deep)}
     <div class="tpanel">
       <div class="tt">Running the burst</div>
       <ul>
-        <li>Read the story aloud once, quickly, with energy. Students may type on their own device or write in their books; the scaffolds work either way when projected.</li>
-        <li>Start the timer. Students who have an idea write at once. Students who are stuck press "Need an idea?" for one nudge per ending type. Push them to pick one and go, not to read all three and freeze.</li>
+        <li>Read the story aloud once, quickly, with energy. Students write in their books. Keep the page projected so the story stays in front of them.</li>
+        <li>Start the timer. Students who have an idea write at once. For those who are stuck, press "Need an idea?" for one nudge per ending type, and open the word bank and sentence starters if the room needs them. Push them to pick one and go, not to read all three and freeze.</li>
         <li>With 30 seconds left, say "last sentence". Take two volunteers, and ask the class to name the ending type each one used.</li>
       </ul>
     </div>
@@ -658,9 +637,7 @@ footer a{color:var(--rose-deep)}
       <div class="sticky">
         <div class="write">
           <div class="wl">Your ending</div>
-          <p class="task">Write the last four or five sentences of <em>Twenty-Two Strokes</em>.</p>
-          <textarea id="w2" placeholder="Start typing your ending here..." spellcheck="true"></textarea>
-          <div class="wmeta"><span class="count" id="c2"><b>0</b> sentences (aim for 4 or 5)</span><span class="orbook">Or write it in your book.</span></div>
+          <div class="bookbox" style="margin-top:.2rem"><span class="lbl">In your book</span>Write the title <em>Twenty-Two Strokes</em>, then the last four or five sentences of the story. Finish where the story finishes, not with a whole new scene.</div>
           <div class="btnrow" style="margin-top:.9rem"><button class="btn accent" onclick="toggleSugg(this,'s2')">Need an idea?</button><button class="btn ghost" onclick="toggleTimer(this)">Start 4 min</button><span class="td" style="font-family:Fraunces,serif;font-size:1.6rem;font-weight:600;color:var(--s-deep)">04:00</span></div>
           <div class="scaf" id="s2" style="display:none">
             <div class="sugg">
@@ -728,9 +705,7 @@ footer a{color:var(--rose-deep)}
       <div class="sticky">
         <div class="write">
           <div class="wl">Your ending</div>
-          <p class="task">Write the last four or five sentences of <em>Nan's Cake</em>.</p>
-          <textarea id="w3" placeholder="Start typing your ending here..." spellcheck="true"></textarea>
-          <div class="wmeta"><span class="count" id="c3"><b>0</b> sentences (aim for 4 or 5)</span><span class="orbook">Or write it in your book.</span></div>
+          <div class="bookbox" style="margin-top:.2rem"><span class="lbl">In your book</span>Write the title <em>Nan's Cake</em>, then the last four or five sentences of the story. Finish where the story finishes, not with a whole new scene.</div>
           <div class="btnrow" style="margin-top:.9rem"><button class="btn accent" onclick="toggleSugg(this,'s3')">Need an idea?</button><button class="btn ghost" onclick="toggleTimer(this)">Start 4 min</button><span class="td" style="font-family:Fraunces,serif;font-size:1.6rem;font-weight:600;color:var(--s-deep)">04:00</span></div>
           <div class="scaf" id="s3" style="display:none">
             <div class="sugg">
@@ -774,11 +749,6 @@ footer a{color:var(--rose-deep)}
       </div>
       <div>
         <div class="card">
-          <div class="subhead">Keep your endings</div>
-          <p class="note" style="margin:.3rem 0 1rem">If you typed your endings, print them now and glue them into your book. If you wrote in your book, you are already done.</p>
-          <div class="btnrow" style="margin-top:0"><button class="btn" onclick="printEndings()">Print my three endings</button><button class="btn ghost" id="clearBtn" onclick="clearEndings()">Clear</button></div>
-        </div>
-        <div class="card" style="margin-top:1rem">
           <div class="eyebrow" style="margin-bottom:.5rem">For the teacher</div>
           <p class="note" style="margin:0">Look for: four or five sentences, not a whole new scene; the main character still has the win; the type is recognisable. A student who writes three reflective endings has understood one type well; nudge them to a circular ending in their own story. A twist that does not fit the story is the most common wobble, so ask "Does that make sense with everything before it?"</p>
         </div>
@@ -789,14 +759,6 @@ footer a{color:var(--rose-deep)}
 
 <footer>Writer's Toolkit &middot; Three Ways to End &middot; Lesson 5 of the narrative unit &middot; <a href="https://educoder101.github.io/Writers-Toolkit">Back to the Toolkit</a></footer>
 
-</div>
-
-<div id="printsheet">
-  <h1>Three Ways to End: my endings</h1>
-  <div class="p-meta">Name: ______________________________ &nbsp; Date: ____________</div>
-  <div class="p-story"><h2>1. The Volcano</h2><p class="p-lead">Priya's volcano finally erupts, all over the head judge's shoes. Then she laughs.</p><div class="p-txt" id="p1"></div></div>
-  <div class="p-story"><h2>2. Twenty-Two Strokes</h2><p class="p-lead">Fourth place, no ribbon, goggles in hand. Mum and Coach Dani are on their feet.</p><div class="p-txt" id="p2"></div></div>
-  <div class="p-story"><h2>3. Nan's Cake</h2><p class="p-lead">"A trifle," Nan said. She hugged Zara so hard her glasses went crooked.</p><div class="p-txt" id="p3"></div></div>
 </div>
 
 <script>
@@ -855,25 +817,6 @@ function toggleSugg(btn,id){
   btn.textContent=open?'Hide ideas':'Need an idea?';
 }
 
-/* sentence counter + autosave */
-function countSentences(t){
-  var s=t.replace(/\s+/g,' ').trim();
-  if(!s)return 0;
-  var parts=s.split(/[.!?]+(?:["')\]]*)\s+|[.!?]+(?:["')\]]*)$/).filter(function(p){return p.trim().length>0;});
-  return parts.length;
-}
-['1','2','3'].forEach(function(n){
-  var ta=document.getElementById('w'+n),c=document.getElementById('c'+n);
-  try{var saved=localStorage.getItem('twe-w'+n);if(saved)ta.value=saved;}catch(e){}
-  function paint(){
-    var k=countSentences(ta.value);
-    c.innerHTML='<b>'+k+'</b> sentence'+(k===1?'':'s')+' (aim for 4 or 5)';
-    c.classList.toggle('ok',k>=4&&k<=5);
-  }
-  ta.addEventListener('input',function(){paint();try{localStorage.setItem('twe-w'+n,ta.value);}catch(e){}});
-  paint();
-});
-
 /* timers: one per story, 4 minutes */
 function fmt(s){var m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r;}
 function toggleTimer(btn){
@@ -889,26 +832,6 @@ function toggleTimer(btn){
     d.classList.toggle('warn',t.left>0&&t.left<=30);
     if(t.left<=0){clearInterval(t.id);t.id=null;d.classList.add('fin');d.classList.remove('warn');d.textContent='Pens down';btn.textContent='Start 4 min';}
   },1000);
-}
-
-/* print and clear */
-function printEndings(){
-  ['1','2','3'].forEach(function(n){
-    var v=document.getElementById('w'+n).value.trim();
-    document.getElementById('p'+n).textContent=v||'(written in my book)';
-  });
-  window.print();
-}
-var clearArmed=false;
-function clearEndings(){
-  var b=document.getElementById('clearBtn');
-  if(!clearArmed){clearArmed=true;b.textContent='Really clear all three?';setTimeout(function(){clearArmed=false;b.textContent='Clear';},4000);return;}
-  clearArmed=false;b.textContent='Clear';
-  ['1','2','3'].forEach(function(n){
-    var ta=document.getElementById('w'+n);ta.value='';
-    try{localStorage.removeItem('twe-w'+n);}catch(e){}
-    ta.dispatchEvent(new Event('input'));
-  });
 }
 
 /* scroll-in */
