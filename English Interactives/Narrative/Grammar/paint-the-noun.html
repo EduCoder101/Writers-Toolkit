@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Paint the Noun: a 20-minute Writer's Toolkit refresher on expanded noun groups and appositives for Stage 3 narrative writing. Fix three bare sentences, then introduce a mysterious character or creature.">
+<title>Paint the Noun | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#efe7df;--paper-2:#e7dbd2;--paper-3:#ded0c8;--paperlight:#f6f0e7;
+  --plum:#43343f;--plum-soft:#6c5b67;--line:#cdbcb8;
+  --acc:#2f6f78;--acc-deep:#22545b;--acc-soft:#d4e6e6;
+  --ng:#2f87a6;--ng-bg:rgba(47,135,166,.13);
+  --ap:#b8892a;--ap-bg:rgba(216,177,90,.28);
+  --gold:#d8b15a;--green:#4f8a5b;--green-light:#dcebdd;--red:#b54a3c;
+  --shadow:0 18px 40px -24px rgba(67,52,63,.55);
+  --shell:1480px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--plum);font-family:"Inter",system-ui,sans-serif;font-size:20px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(120% 80% at 85% -10%, rgba(47,111,120,.10), transparent 60%),
+             radial-gradient(90% 70% at -10% 8%, rgba(216,177,90,.12), transparent 55%)}
+.wrap{position:relative;z-index:1}
+#bar{position:fixed;top:0;left:0;height:4px;width:0;z-index:60;background:linear-gradient(90deg,var(--ng),var(--gold));transition:width .12s linear}
+
+h1,h2,h3{font-family:"Fraunces",serif;font-weight:600;line-height:1.08;margin:0}
+h2.big{font-size:clamp(2rem,3.4vw,3.2rem);margin-bottom:.4rem}
+.subhead{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(1.4rem,2vw,1.9rem);margin:0 0 .5rem}
+.eyebrow{font-weight:600;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);display:flex;align-items:center;gap:.7rem;margin:0 0 1rem;flex-wrap:wrap}
+.eyebrow .min{font-weight:700;color:var(--plum);background:var(--paper-3);border:1px solid var(--line);border-radius:100px;padding:.16rem .65rem;letter-spacing:.04em;font-size:.78rem}
+.eyebrow .mode{font-weight:700;color:var(--paperlight);background:var(--plum);border-radius:100px;padding:.16rem .7rem;letter-spacing:.06em;font-size:.74rem}
+.lead{font-size:clamp(1.15rem,1.5vw,1.45rem);color:var(--plum-soft);max-width:62ch;margin:.2rem 0 0}
+
+/* top nav */
+.topnav{position:sticky;top:0;z-index:50;background:rgba(239,231,223,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topnav .in{max-width:var(--shell);margin:0 auto;padding:.55rem 48px;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap}
+.topnav .brand{font-family:"Fraunces",serif;font-weight:600;font-size:1.05rem;color:var(--plum);text-decoration:none;white-space:nowrap}
+.topnav .brand span{color:var(--acc)}
+.topnav .links{display:flex;gap:.2rem;flex-wrap:wrap;margin-left:auto}
+.topnav a.l{font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--plum-soft);text-decoration:none;padding:.3rem .7rem;border-radius:100px}
+.topnav a.l:hover{background:var(--paper-3);color:var(--plum)}
+.topnav a.l .n{font-family:"Fraunces",serif;color:var(--acc);margin-right:.3rem}
+
+section{position:relative;scroll-margin-top:56px}
+.shell{max-width:var(--shell);margin:0 auto;padding:76px 48px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.split.wide-left{grid-template-columns:1.15fr .85fr}
+.split.wide-right{grid-template-columns:.85fr 1.15fr}
+.sticky{position:sticky;top:78px}
+.wall{height:30px;width:100%;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:linear-gradient(var(--paper-3),var(--paper-3)),repeating-linear-gradient(90deg,transparent 0 58px,rgba(67,52,63,.10) 58px 60px);opacity:.9}
+
+/* the two marks: straight line = expanded noun group, wavy line = appositive */
+.ng,.ap{border-radius:4px;padding:0 .14em;-webkit-box-decoration-break:clone;box-decoration-break:clone;text-decoration-skip-ink:none}
+.ng{background:var(--ng-bg);text-decoration:underline solid var(--ng);text-decoration-thickness:3px;text-underline-offset:.24em}
+.ap{background:var(--ap-bg);text-decoration:underline wavy var(--ap);text-decoration-thickness:2.5px;text-underline-offset:.26em}
+.key{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center}
+.key .k{background:var(--paperlight);border:1px solid var(--line);border-radius:100px;padding:.35rem 1rem;font-size:.95rem;font-weight:600}
+
+/* HERO */
+.hero .shell{padding-top:68px;padding-bottom:60px;display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+.hero .meta{font-size:.84rem;letter-spacing:.16em;text-transform:uppercase;color:var(--plum-soft);font-weight:600;margin-bottom:1.2rem}
+.hero h1{font-size:clamp(3.4rem,7vw,6.4rem);letter-spacing:-.01em}
+.hero h1 .sub{display:block;font-size:.3em;font-weight:500;font-style:italic;color:var(--acc);letter-spacing:0;margin-top:.5rem}
+.hero .li{margin-top:1.6rem;font-size:clamp(1.2rem,1.7vw,1.6rem);line-height:1.5;color:var(--plum);max-width:38ch}
+.hero .li b{color:var(--acc);font-weight:600}
+.hero .pills{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1.8rem}
+.pill{font-size:.9rem;font-weight:600;color:var(--plum);background:var(--paperlight);border:1px solid var(--line);border-radius:100px;padding:.4rem .95rem}
+.hero-art{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:1rem 1rem 1.1rem}
+.hero-art .cap{font-family:"Fraunces",serif;font-size:clamp(1.15rem,1.6vw,1.45rem);line-height:1.7;margin:.9rem .4rem 0}
+
+/* SUCCESS CRITERIA */
+.sc{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sc .shell{padding:52px 48px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.sc .grid3{margin-top:1.2rem}
+.sc-card{background:var(--paperlight);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.5rem;box-shadow:var(--shadow);font-size:1.1rem;line-height:1.5}
+.sc-card .tag{display:block;width:16px;height:16px;border-radius:4px;background:var(--acc);box-shadow:0 0 0 5px rgba(47,111,120,.16);margin-bottom:.9rem}
+
+/* shared bits */
+.card{background:var(--paperlight);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.6rem;box-shadow:var(--shadow)}
+.note{font-size:.98rem;color:var(--plum-soft)}
+.keyq{background:var(--paper-2);border:1px dashed var(--acc);border-radius:12px;padding:1.1rem 1.4rem;font-size:1.12rem}
+.keyq b{color:var(--acc-deep)}
+.keyq .lbl,.bookbox .lbl,.learnbox .lbl{display:block;font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.4rem}
+.keyq .lbl{color:var(--acc)}
+.bookbox{background:#f7efd9;border:1px solid #e3cf98;border-left:5px solid var(--gold);border-radius:12px;padding:1.1rem 1.4rem;font-size:1.12rem}
+.bookbox .lbl{color:#8a6a1a}
+.bookbox em{font-style:normal;background:rgba(255,255,255,.85);padding:.05rem .5rem;border-radius:5px}
+.learnbox{background:#e3edf2;border:1px solid #b9d2dd;border-left:5px solid var(--ng);border-radius:12px;padding:1.1rem 1.4rem;font-size:1.12rem}
+.learnbox .lbl{color:#1f6a84}
+
+/* buttons */
+.btn{font-family:"Inter",sans-serif;font-size:1rem;font-weight:600;padding:.75rem 1.5rem;border:none;border-radius:100px;cursor:pointer;background:var(--plum);color:#fff;transition:transform .15s,box-shadow .15s;display:inline-flex;align-items:center;gap:.5rem}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.btn.acc{background:var(--acc)}
+.btn.ghost{background:transparent;color:var(--plum);border:1.5px solid var(--plum)}
+.btn.done{display:none}
+.btnrow{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin-top:1.2rem}
+
+/* reveal */
+.reveal-step{opacity:0;max-height:0;overflow:hidden;transition:opacity .45s ease,max-height .5s ease,margin .45s ease;margin-top:0}
+.reveal-step.visible{opacity:1;max-height:3000px;margin-top:1.2rem;overflow:visible}
+
+/* pictures: the reader's view sharpens as the nouns get detail */
+.pic{border-radius:14px;overflow:hidden;border:6px solid #fff;box-shadow:var(--shadow);background:var(--paper-3);line-height:0}
+.pic svg{display:block;width:100%;height:auto;transition:filter 1s ease,opacity 1s ease}
+.pic.b0 svg{filter:grayscale(1) blur(9px);opacity:.55}
+.pic.b1 svg{filter:grayscale(.5) blur(3.5px);opacity:.85}
+.pic-cap{font-size:.92rem;color:var(--plum-soft);font-style:italic;margin:.6rem .2rem 0}
+
+/* hook: chalkboard and sentence shape */
+.board{background:#2f3d37;color:#f3efe6;border:12px solid #8a6a40;border-radius:14px;padding:1.6rem 2.2rem;box-shadow:var(--shadow);font-family:"Fraunces",serif;font-size:clamp(1.9rem,3vw,2.8rem);line-height:1.55}
+.board .lbl{display:block;font-family:"Inter",sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#cfd8cf;opacity:.8;margin-bottom:.4rem}
+.board p{margin:0}
+.shape-row{display:flex;gap:.5rem;align-items:center;margin:.55rem 0;flex-wrap:wrap}
+.blk{font-family:"Fraunces",serif;font-size:1.35rem;padding:.3rem .9rem;border-radius:8px;background:var(--paper-3);border:1px solid var(--line)}
+.blk.n{background:#fff;border:2px dashed var(--red);position:relative}
+.blk.n::after{content:"?";position:absolute;top:-13px;right:-13px;width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-family:"Inter",sans-serif;font-size:.85rem;font-weight:700}
+.blur3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.blur3 .pic{border-width:4px}
+.blur3 .lab{font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--plum-soft);margin:0 0 .35rem .2rem}
+
+/* tool cards */
+.tool{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);height:100%}
+.tool .th{padding:1rem 1.4rem;color:#fff;display:flex;align-items:center;gap:.9rem}
+.tool .th .num{font-family:"Fraunces",serif;font-size:.95rem;opacity:.9}
+.tool .th .big{font-family:"Fraunces",serif;font-size:1.75rem;font-weight:600;line-height:1.1}
+.tool.t1 .th{background:var(--ng)}
+.tool.t2 .th{background:var(--ap)}
+.tool .tb{padding:1.2rem 1.5rem 1.4rem}
+.tool .def{font-size:1.18rem;margin:0 0 1rem}
+.tool-icon{width:40px;height:40px;flex:0 0 auto}
+.anat{display:flex;flex-wrap:wrap;gap:.55rem;align-items:flex-start;margin:.4rem 0 1rem}
+.part{text-align:center}
+.part .w{font-family:"Fraunces",serif;font-size:clamp(1.4rem,2vw,1.8rem);padding:.25rem .8rem;border-radius:8px;background:#fff;border:1px solid var(--line);white-space:nowrap}
+.part .q{font-size:.76rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--plum-soft);margin-top:.4rem;line-height:1.25}
+.part.noun .w{border:2px solid var(--ng)}
+.part.det .w{background:var(--ng-bg)}
+.part.app .w{background:var(--ap-bg);border:2px solid var(--ap)}
+.part.comma .w{border:none;background:none;padding:.25rem .1rem;color:var(--red);font-weight:700}
+.asks{display:flex;gap:.45rem;flex-wrap:wrap}
+.asks span{background:var(--paper-2);border:1px dashed var(--line);border-radius:100px;padding:.25rem .8rem;font-size:.95rem}
+.ex-line{font-family:"Fraunces",serif;font-size:clamp(1.25rem,1.7vw,1.55rem);line-height:1.7;margin:.9rem 0 0}
+.tests{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:.6rem}
+.test{background:#fff;border:1px solid #b9d2dd;border-radius:10px;padding:.9rem 1.1rem}
+.test .tn{font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:#1f6a84;margin-bottom:.3rem}
+.test i{font-family:"Fraunces",serif;font-style:italic;font-size:1.15rem}
+
+/* noun ladder */
+.ladder{display:flex;align-items:flex-end;gap:.5rem;flex-wrap:wrap;margin:.2rem 0 1rem}
+.rung{text-align:center}
+.rung .w{font-family:"Fraunces",serif;font-size:clamp(1.15rem,1.55vw,1.5rem);padding:.25rem .75rem;border-radius:8px;background:#fff;border:1px solid var(--line);white-space:nowrap}
+.rung .q{font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--plum-soft);margin-top:.4rem;line-height:1.25}
+.rung.ex .w{background:var(--ng-bg);border:2px solid var(--ng)}
+.rung.ex .q{color:#1f6a84}
+.ladder .arr{font-size:1.3rem;color:var(--plum-soft);padding-bottom:1.55rem}
+.tool .def b{font-family:"Fraunces",serif;font-weight:600;font-size:1.3em;display:block;margin-bottom:.15rem}
+.tool.t1 .def b{color:#1f6a84}
+.tool.t2 .def b{color:#8a6a1a}
+
+/* name tags: spot the difference */
+.ntag{position:relative;display:inline-block;font-family:"Fraunces",serif;font-size:clamp(1.15rem,1.6vw,1.5rem);line-height:1.25;padding:.28em .75em .28em 1.25em;border-radius:.25em .6em .6em .25em;background:#fff;border:2px solid var(--plum-soft);white-space:nowrap;color:var(--plum);box-shadow:0 4px 10px -6px rgba(0,0,0,.45)}
+.ntag::before{content:"";position:absolute;left:.42em;top:50%;width:.42em;height:.42em;margin-top:-.21em;border-radius:50%;border:2px solid currentColor;background:var(--paper)}
+.ntag.r{padding:.28em 1.25em .28em .75em;border-radius:.6em .25em .25em .6em}
+.ntag.r::before{left:auto;right:.42em}
+.ntag.app{background:#f6e9c8;border-color:var(--ap)}
+.ntag.ngt{background:#dcecf2;border-color:var(--ng)}
+.ntag.blank{border-style:dashed;background:transparent;color:var(--plum-soft);box-shadow:none}
+.ntag.blank{padding:.28em .75em}
+.ntag.blank::before{display:none}
+.diff{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.dcol{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.dpic{position:relative;line-height:0;container-type:inline-size;border-bottom:1px solid var(--line)}
+.dpic svg{display:block;width:100%;height:auto}
+.dpic .ntag{position:absolute;font-size:1.1rem;font-size:3.7cqi;transform:translate(-.63em,-50%)}
+.dpic .ntag.r{transform:translate(calc(-100% + .63em),-50%)}
+.dbody{padding:1.1rem 1.5rem 1.4rem}
+.dlabel{font-weight:700;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase}
+.dcol.e .dlabel{color:#1f6a84}
+.dcol.a .dlabel{color:#8a6a1a}
+.verdict{font-family:"Fraunces",serif;font-size:clamp(1.6rem,2.3vw,2.2rem);font-weight:600;line-height:1.1;margin:.15rem 0 .8rem}
+.eqrow{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.eq{font-family:"Fraunces",serif;font-weight:700;font-size:2.1rem;line-height:1;color:var(--acc-deep)}
+.dbody p{margin:.9rem 0 0;font-size:1.08rem}
+.eqline{font-size:1.02rem;margin:.55rem .3rem 0;color:var(--plum)}
+.eqline .tn{font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-right:.5rem}
+.eqline .eq{font-size:1.3rem;margin:0 .2rem;vertical-align:-.08em}
+
+/* quick check: which tool? */
+.sort{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:1rem}
+.srt{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.4rem 1.2rem;box-shadow:var(--shadow)}
+.srt .n{font-family:"Fraunces",serif;font-weight:600;color:var(--acc);font-size:1.05rem;margin-bottom:.25rem}
+.srt .s{font-family:"Fraunces",serif;font-size:clamp(1.3rem,1.9vw,1.7rem);line-height:1.5;margin:0}
+.srt .s b{font-weight:600;border-bottom:3px dotted var(--plum-soft)}
+.srt .ans{display:flex;gap:.8rem;align-items:baseline;flex-wrap:wrap}
+.chipa{flex:0 0 auto;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;border-radius:100px;padding:.3rem .85rem}
+.chipa.a{background:var(--ap)}
+.chipa.e{background:var(--ng)}
+.srt .why{font-size:1.04rem;line-height:1.5;flex:1 1 240px}
+.srt .why .eq{font-size:1.25rem;margin:0 .15rem;vertical-align:-.08em}
+
+/* model build */
+.manu{display:grid;grid-template-columns:170px 1fr;gap:0 1.4rem}
+.manu .tag{font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);padding-top:.55rem;border-top:2px solid var(--acc);margin-top:.5rem}
+.manu .tag small{display:block;font-weight:500;letter-spacing:0;text-transform:none;font-size:.85rem;color:var(--plum-soft);margin-top:.2rem}
+.manu .tag.start{color:var(--plum-soft);border-top-color:var(--line)}
+.manu .s{margin:.5rem 0 .4rem;font-family:"Fraunces",serif;font-size:clamp(1.35rem,2vw,1.8rem);line-height:1.6}
+.manu .think{grid-column:2;font-size:1.02rem;color:var(--plum-soft);background:var(--paper-2);border-radius:8px;padding:.6rem .95rem;margin:0 0 .9rem}
+.manu .think b{color:var(--plum)}
+
+/* we do: fix the hook */
+.fix{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:1rem 1rem 1.3rem;display:flex;flex-direction:column}
+.fix .pic{margin-bottom:1rem}
+.fix .lab{font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--plum-soft);margin:0 .3rem .25rem}
+.fix .before{font-family:"Fraunces",serif;font-size:clamp(1.6rem,2.4vw,2.2rem);margin:0 .3rem .7rem}
+.fix .asks{margin:0 .3rem}
+.fix .after{font-family:"Fraunces",serif;font-size:clamp(1.25rem,1.7vw,1.5rem);line-height:1.7;margin:0 .3rem}
+.fix .knows{font-size:1rem;color:var(--plum-soft);margin:.6rem .3rem 0}
+.fix .knows b{color:var(--plum)}
+.fix .btnrow{margin:1rem .3rem 0}
+
+/* you write */
+.scene{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:1rem 1rem 1.2rem}
+.scene .pic{margin-bottom:.9rem}
+.scene .kind{font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin:0 .3rem .2rem}
+.scene h3{font-size:clamp(1.5rem,2vw,1.9rem);margin:0 .3rem .6rem}
+.qs{list-style:none;padding:0;margin:0 .3rem;display:grid;gap:.45rem}
+.qs li{display:flex;gap:.65rem;align-items:flex-start;font-size:1.04rem;line-height:1.45}
+.qs li::before{content:"?";flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-size:.8rem;font-weight:700;margin-top:.1rem}
+details.helper{background:#fff;border:1px solid var(--line);border-radius:12px;margin-top:.9rem}
+details.helper summary{cursor:pointer;list-style:none;padding:.75rem 1.1rem;font-weight:600;font-size:1rem;display:flex;align-items:center;gap:.7rem;color:var(--plum)}
+details.helper summary::-webkit-details-marker{display:none}
+details.helper summary::before{content:"+";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--acc);color:#fff;font-weight:700;flex:0 0 auto}
+details.helper[open] summary::before{content:"\2212"}
+details.helper .hb{padding:0 1.2rem 1rem 1.2rem}
+.starter{font-family:"Fraunces",serif;font-style:italic;font-size:1.12rem;line-height:1.6;background:var(--paper-2);border:1px dashed var(--line);border-radius:8px;padding:.6rem .9rem;margin:0}
+.write{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:1.4rem 1.6rem;margin-top:28px}
+.write .wl{font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-bottom:.5rem}
+.bank{display:flex;flex-wrap:wrap;gap:.45rem}
+.bank span{background:var(--paper-2);border:1px solid var(--line);border-radius:100px;padding:.25rem .75rem;font-size:.98rem}
+.bank .grp{flex-basis:100%;background:none;border:none;padding:0;font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;margin-top:.55rem;color:var(--acc-deep)}
+.starters{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.starters li{background:var(--ap-bg);border:1px dashed var(--ap);border-radius:6px;padding:.45rem .85rem;font-family:"Fraunces",serif;font-style:italic;font-size:1.05rem}
+.checklist{list-style:none;padding:0;margin:0;display:grid;gap:.55rem}
+.checklist li{display:flex;gap:.65rem;align-items:flex-start;font-size:1.04rem;line-height:1.45}
+.checklist li::before{content:"";width:18px;height:18px;border:2px solid var(--acc);border-radius:4px;flex:0 0 auto;margin-top:.25rem}
+
+/* timer */
+.timer{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:.7rem 1rem;margin-top:1rem}
+.timer .td{font-family:"Fraunces",serif;font-weight:600;font-size:2.2rem;letter-spacing:.04em;color:var(--acc-deep);min-width:5.2ch}
+.timer .td.warn{color:var(--red)}
+.timer .td.fin{color:var(--green)}
+.timer .btn{padding:.5rem 1.1rem;font-size:.92rem}
+
+/* swap steps */
+.steps{list-style:none;padding:0;margin:0;display:grid;gap:.8rem}
+.steps li{display:flex;gap:1rem;align-items:flex-start;background:var(--paperlight);border:1px solid var(--line);border-radius:12px;padding:.95rem 1.2rem;box-shadow:var(--shadow);font-size:1.12rem;line-height:1.5}
+.steps .n{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-family:"Fraunces",serif;font-weight:600;font-size:1.15rem}
+.stems{list-style:none;padding:0;margin:.4rem 0 0;display:grid;gap:.5rem}
+.stems li{background:#fff;border:1px dashed var(--acc);border-radius:8px;padding:.55rem .9rem;font-family:"Fraunces",serif;font-style:italic;font-size:1.12rem}
+
+/* exit */
+.exit{background:var(--acc);color:#fff;border-radius:14px;padding:2rem 2.4rem;box-shadow:var(--shadow)}
+.exit .eyebrow{color:rgba(255,255,255,.85)}
+.exit .eyebrow .min{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.3);color:#fff}
+.exit h2{color:#fff}
+.exit .q{font-family:"Fraunces",serif;font-size:clamp(1.3rem,2vw,1.75rem);line-height:1.45;margin:.9rem 0}
+.exit .q .n{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#fff;color:var(--acc-deep);font-weight:600;font-size:1.1rem;margin-right:.7rem;vertical-align:middle}
+
+/* teacher notes */
+.tbtn{font-family:"Inter",sans-serif;font-size:.8rem;font-weight:600;color:var(--plum-soft);background:transparent;border:1px dashed var(--line);border-radius:100px;padding:.35rem .9rem;cursor:pointer;margin-left:auto;letter-spacing:.02em;text-transform:none}
+.tbtn:hover{background:var(--paper-3)}
+.tpanel{display:none;background:rgba(255,255,255,.55);border:1px dashed var(--line);border-radius:12px;padding:1rem 1.3rem;margin-top:1.4rem;font-size:.98rem}
+.tpanel.open{display:block}
+.tpanel .tt{font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--plum-soft);margin:.4rem 0 .3rem}
+.tpanel ul{margin:.2rem 0 .5rem;padding-left:1.2rem}
+.tpanel li{margin:.25rem 0}
+.tpanel p{margin:.2rem 0 .5rem}
+.tpanel a{color:var(--acc-deep)}
+
+footer{padding:48px 28px;text-align:center;color:var(--plum-soft);font-size:.88rem}
+footer a{color:var(--acc-deep)}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.pic svg{transition:none}}
+@media (max-width:1100px){
+  .split,.split.wide-left,.split.wide-right,.grid2,.tests{grid-template-columns:1fr;gap:30px}
+  .grid3,.diff,.sort{grid-template-columns:1fr}
+  .sticky{position:static}
+  .hero .shell{grid-template-columns:1fr;gap:34px}
+  .shell{padding:56px 22px}
+  .topnav .in{padding:.5rem 18px}
+  body{font-size:18px}
+  .manu{grid-template-columns:1fr}
+  .manu .think{grid-column:1}
+  .starters{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<!-- ================= SHARED PICTURES ================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="gTun" cx="50%" cy="68%" r="62%"><stop offset="0" stop-color="#050407"/><stop offset=".55" stop-color="#1c171d"/><stop offset="1" stop-color="#3d3239"/></radialGradient>
+    <linearGradient id="gRock" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#a39389"/><stop offset="1" stop-color="#7c6d64"/></linearGradient>
+    <linearGradient id="gDusk" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#34315a"/><stop offset="1" stop-color="#9b88a9"/></linearGradient>
+    <linearGradient id="gNight" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#121f34"/><stop offset="1" stop-color="#3a5574"/></linearGradient>
+    <pattern id="pFence" width="34" height="58" patternUnits="userSpaceOnUse"><path d="M10 58 V12 L16 2 L22 12 V58 Z" fill="#2e2a33"/><rect x="0" y="20" width="34" height="5" fill="#2e2a33"/><rect x="0" y="42" width="34" height="5" fill="#2e2a33"/></pattern>
+    <pattern id="pBooks" width="132" height="62" patternUnits="userSpaceOnUse">
+      <rect x="2" y="8" width="16" height="54" fill="#8f3b1d"/><rect x="19" y="2" width="14" height="60" fill="#2f87a6"/><rect x="34" y="12" width="18" height="50" fill="#d8b15a"/><rect x="53" y="4" width="12" height="58" fill="#4f8a5b"/><rect x="66" y="10" width="20" height="52" fill="#6c5b67"/><rect x="87" y="0" width="14" height="62" fill="#b54a3c"/><rect x="102" y="14" width="16" height="48" fill="#2f6f78"/><rect x="119" y="6" width="12" height="56" fill="#c2898d"/>
+      <g fill="#fff" opacity=".35"><rect x="5" y="18" width="10" height="3"/><rect x="22" y="12" width="8" height="3"/><rect x="69" y="20" width="14" height="3"/><rect x="105" y="24" width="10" height="3"/></g>
+    </pattern>
+    <pattern id="pBooks2" width="132" height="62" patternUnits="userSpaceOnUse">
+      <rect x="2" y="4" width="14" height="58" fill="#4f8a5b"/><rect x="17" y="12" width="18" height="50" fill="#b54a3c"/><rect x="36" y="0" width="12" height="62" fill="#d8b15a"/><rect x="49" y="8" width="20" height="54" fill="#2f6f78"/><rect x="70" y="2" width="14" height="60" fill="#c2898d"/><rect x="85" y="14" width="16" height="48" fill="#8f3b1d"/><rect x="102" y="6" width="14" height="56" fill="#6c5b67"/><rect x="117" y="10" width="14" height="52" fill="#2f87a6"/>
+      <g fill="#fff" opacity=".35"><rect x="52" y="20" width="14" height="3"/><rect x="88" y="26" width="10" height="3"/><rect x="4" y="16" width="10" height="3"/></g>
+    </pattern>
+    <pattern id="pStone" width="92" height="46" patternUnits="userSpaceOnUse">
+      <rect x="2" y="2" width="88" height="20" rx="3" fill="#a8a197" stroke="#837c73" stroke-width="2"/>
+      <rect x="-44" y="24" width="88" height="20" rx="3" fill="#9e978d" stroke="#837c73" stroke-width="2"/>
+      <rect x="48" y="24" width="88" height="20" rx="3" fill="#a39c92" stroke="#837c73" stroke-width="2"/>
+    </pattern>
+    <clipPath id="cDoor"><path d="M206 340 V182 Q208 84 300 80 Q366 83 378 140 V340 Z"/></clipPath>
+    <clipPath id="cTower"><path d="M222 322 L262 104 L338 104 L378 322 Z"/></clipPath>
+
+    <!-- Zara entering the tunnel -->
+    <symbol id="s-tunnel" viewBox="0 0 600 360">
+      <rect width="600" height="360" fill="url(#gRock)"/>
+      <g stroke="#7a6b62" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M40 52 l30 20 l-8 26 l24 18"/><path d="M512 34 l-20 30 l16 22"/><path d="M520 214 l30 24 l-6 30"/><path d="M58 246 l26 -18 l20 26"/><path d="M96 140 l26 8 l10 -12"/><path d="M478 136 l26 -10 l14 18"/></g>
+      <g fill="#6f6158"><ellipse cx="96" cy="346" rx="22" ry="9"/><ellipse cx="520" cy="342" rx="26" ry="10"/><ellipse cx="478" cy="354" rx="14" ry="6"/></g>
+      <path d="M140 360 L158 190 Q170 90 300 78 Q430 90 442 190 L460 360 Z" fill="#2d2429"/>
+      <path d="M168 360 L182 200 Q195 112 300 102 Q405 112 418 200 L432 360 Z" fill="url(#gTun)"/>
+      <path d="M222 360 L232 230 Q244 168 310 162 Q376 168 388 230 L398 360" fill="none" stroke="#3d3239" stroke-width="5" opacity=".7"/>
+      <path d="M262 360 L268 252 Q278 210 310 206 Q342 210 352 252 L358 360" fill="none" stroke="#3d3239" stroke-width="4" opacity=".6"/>
+      <ellipse cx="310" cy="270" rx="28" ry="42" fill="#060508"/>
+      <g fill="#8a7b72"><path d="M226 116 l8 28 l8 -26z"/><path d="M282 104 l6 22 l6 -21z"/><path d="M352 110 l7 26 l7 -24z"/><path d="M188 152 l6 18 l7 -16z"/></g>
+      <path d="M286 252 L294 172 L360 194 Z" fill="#ffe9a8" opacity=".3"/>
+      <ellipse cx="328" cy="184" rx="36" ry="14" fill="#ffe9a8" opacity=".18"/>
+      <g transform="translate(250 356) scale(1.35) translate(-300 -354)">
+        <rect x="288" y="320" width="10" height="34" rx="3" fill="#25252a"/><rect x="303" y="320" width="10" height="34" rx="3" fill="#25252a"/>
+        <path d="M279 326 Q279 286 300 281 Q321 286 321 326 Z" fill="#3e6670"/>
+        <rect x="285" y="287" width="30" height="31" rx="6" fill="#7a5233"/>
+        <rect x="290" y="295" width="20" height="8" rx="2" fill="#5f3f26"/>
+        <path d="M318 296 L325 282" stroke="#3e6670" stroke-width="7" stroke-linecap="round"/>
+        <rect x="322" y="270" width="7" height="14" rx="2" fill="#d6d0c6" transform="rotate(16 325 277)"/>
+        <circle cx="300" cy="270" r="12" fill="#4a2f1f"/>
+        <path d="M300 279 q-4 12 1 22" stroke="#4a2f1f" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="300" cy="262" rx="21" ry="5" fill="#8a6a40"/>
+        <path d="M289 262 Q291 246 300 245 Q309 246 311 262 Z" fill="#8a6a40"/>
+      </g>
+    </symbol>
+
+    <!-- The enormous, shaggy dog, the guardian of the old house -->
+    <symbol id="s-dog" viewBox="0 0 600 360">
+      <rect width="600" height="360" fill="url(#gDusk)"/>
+      <circle cx="522" cy="58" r="26" fill="#f4ecd6"/>
+      <rect x="510" y="58" width="18" height="44" fill="#3f3442"/>
+      <rect x="352" y="120" width="198" height="180" fill="#6f6270"/>
+      <path d="M336 124 L450 46 L566 128 Z" fill="#3f3442"/>
+      <rect x="374" y="150" width="40" height="46" fill="#26212e"/>
+      <rect x="488" y="150" width="40" height="46" fill="#26212e"/>
+      <path d="M488 173 h40 M508 150 v46" stroke="#4d4352" stroke-width="3"/>
+      <rect x="416" y="146" width="13" height="50" fill="#56495a" transform="rotate(16 416 146)"/>
+      <path d="M434 300 V244 Q451 226 468 244 V300 Z" fill="#2f2730"/>
+      <path d="M380 230 l26 0 l-4 10 l-20 0z" fill="#5c5060"/>
+      <rect x="0" y="292" width="600" height="68" fill="#4c5a3e"/>
+      <path d="M432 300 L470 300 L524 360 L382 360 Z" fill="#6e6a55"/>
+      <rect x="0" y="244" width="340" height="58" fill="url(#pFence)"/>
+      <g transform="translate(165 350) scale(1.2) translate(-150 -344)">
+      <path d="M270 268 q38 -18 32 -58" stroke="#a77f50" stroke-width="17" stroke-linecap="round" fill="none"/>
+      <g fill="#8f6a40"><rect x="236" y="294" width="21" height="50" rx="7"/><rect x="210" y="298" width="21" height="46" rx="7"/><rect x="126" y="298" width="21" height="46" rx="7"/><rect x="152" y="294" width="21" height="50" rx="7"/></g>
+      <ellipse cx="200" cy="280" rx="82" ry="42" fill="#b8915f"/>
+      <path d="M126 300 l10 16 l10 -16 l10 16 l10 -16 l10 16 l10 -16 l10 16 l10 -16 l10 16 l10 -16 l10 16 l10 -16 l10 16 l10 -16 Z" fill="#b8915f"/>
+      <path d="M140 252 l8 -13 l8 13 l8 -13 l8 13 l8 -13 l8 13 l8 -13 l8 13 l8 -13 l8 13 l8 -13 l8 13 Z" fill="#b8915f"/>
+      <circle cx="118" cy="238" r="40" fill="#b8915f"/>
+      <path d="M140 210 q28 6 20 48 q-16 -4 -24 -24 Z" fill="#8f6a40"/>
+      <ellipse cx="86" cy="254" rx="29" ry="17" fill="#d1ad7e"/>
+      <path d="M82 228 l6 -18 l8 13 l6 -18 l8 13 l6 -18 l8 13 l6 -18 l8 13 l6 -14 l2 24 Z" fill="#a37b4b"/>
+      <circle cx="104" cy="240" r="4.5" fill="#1f1a1f"/>
+      <ellipse cx="61" cy="246" rx="8.5" ry="6.5" fill="#231b20"/>
+      <path d="M60 262 q22 24 46 4 Z" fill="#7a2e2e"/>
+      <path d="M66 262 l4 7 l4 -7z" fill="#fff"/>
+      <g stroke="#f4ecd6" stroke-width="4.5" stroke-linecap="round" fill="none"><path d="M40 238 q-10 11 0 23"/><path d="M27 229 q-17 19 0 40"/><path d="M14 220 q-23 28 0 58"/></g>
+      </g>
+    </symbol>
+
+    <!-- Mrs Hart, the school librarian -->
+    <symbol id="s-librarian" viewBox="0 0 600 360">
+      <rect width="600" height="360" fill="#efe2cc"/>
+      <rect x="30" y="26" width="540" height="210" fill="#d9c4a2"/>
+      <rect x="30" y="40" width="540" height="62" fill="url(#pBooks)"/>
+      <rect x="30" y="102" width="540" height="10" fill="#8a6a40"/>
+      <rect x="30" y="122" width="540" height="62" fill="url(#pBooks2)"/>
+      <rect x="30" y="184" width="540" height="10" fill="#8a6a40"/>
+      <path d="M230 262 Q234 200 300 192 Q366 200 370 262 Z" fill="#4f7f86"/>
+      <path d="M283 196 L300 224 L317 196 Z" fill="#f6efe2"/>
+      <circle cx="300" cy="236" r="3.5" fill="#e8dcc8"/>
+      <rect x="290" y="176" width="20" height="22" fill="#d99d74"/>
+      <circle cx="300" cy="150" r="38" fill="#e2a87e"/>
+      <path d="M262 150 Q260 108 300 106 Q340 108 338 150 Q332 124 300 121 Q268 124 262 150 Z" fill="#b8b2b6"/>
+      <circle cx="300" cy="100" r="18" fill="#b8b2b6"/>
+      <path d="M275 132 q9 -7 18 0 M307 132 q9 -7 18 0" stroke="#7d767a" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <circle cx="284" cy="151" r="12" fill="#fff" fill-opacity=".3" stroke="#2b2026" stroke-width="3"/>
+      <circle cx="316" cy="151" r="12" fill="#fff" fill-opacity=".3" stroke="#2b2026" stroke-width="3"/>
+      <path d="M296 151 h8" stroke="#2b2026" stroke-width="3"/>
+      <circle cx="284" cy="146" r="3.6" fill="#2b2026"/><circle cx="316" cy="146" r="3.6" fill="#2b2026"/>
+      <path d="M290 172 q10 6 20 0" stroke="#9a5a44" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <rect x="40" y="262" width="520" height="98" fill="#7a5536"/>
+      <rect x="30" y="252" width="540" height="16" rx="4" fill="#94683f"/>
+      <g transform="translate(470 222)"><rect x="0" y="0" width="70" height="12" fill="#2f6f78"/><rect x="-6" y="12" width="80" height="12" fill="#8f3b1d"/><rect x="4" y="24" width="64" height="8" fill="#d8b15a"/></g>
+      <g transform="translate(300 250)">
+        <path d="M-90 6 L-4 -12 L-4 22 L-94 32 Z" fill="#6b3f22"/>
+        <path d="M90 6 L4 -12 L4 22 L94 32 Z" fill="#6b3f22"/>
+        <path d="M-82 4 L-4 -9 L-4 18 L-85 26 Z" fill="#f3e6c8"/>
+        <path d="M82 4 L4 -9 L4 18 L85 26 Z" fill="#f3e6c8"/>
+        <path d="M-70 8 L-14 -2 M-72 14 L-14 5 M-74 20 L-14 12 M14 -2 L70 8 M14 5 L72 14 M14 12 L60 19" stroke="#c9b48a" stroke-width="2"/>
+        <path d="M-92 28 l12 -3 l-3 7z M66 30 l14 -1 l-6 -6z" fill="#a1704a"/>
+        <path d="M94 32 L82 33 L91 22 Z" fill="#94683f"/>
+      </g>
+      <ellipse cx="214" cy="262" rx="13" ry="9" fill="#e2a87e"/><ellipse cx="386" cy="262" rx="13" ry="9" fill="#e2a87e"/>
+    </symbol>
+
+    <!-- The heavy oak door, the only entrance to the castle -->
+    <symbol id="s-door" viewBox="0 0 600 360">
+      <rect width="600" height="360" fill="url(#pStone)"/>
+      <rect y="330" width="600" height="30" fill="#6e6860"/>
+      <path d="M186 340 V176 Q188 62 300 58 Q412 62 414 176 V340 Z" fill="#7d766d"/>
+      <path d="M186 176 Q188 62 300 58 Q412 62 414 176" fill="none" stroke="#5f5951" stroke-width="3"/>
+      <path d="M206 340 V182 Q208 84 300 80 Q392 84 394 182 V340 Z" fill="#1d1715"/>
+      <path d="M378 340 V140 Q388 158 394 182 V340 Z" fill="#ffd27a"/>
+      <g clip-path="url(#cDoor)">
+        <rect x="200" y="76" width="200" height="270" fill="#7b4e2c"/>
+        <g stroke="#5d3a20" stroke-width="4"><path d="M234 80 V340 M262 80 V340 M290 80 V340 M318 80 V340 M346 80 V340"/></g>
+        <rect x="200" y="160" width="200" height="15" fill="#3b3638"/><rect x="200" y="282" width="200" height="15" fill="#3b3638"/>
+        <g fill="#6a6466"><circle cx="220" cy="167" r="3.5"/><circle cx="250" cy="167" r="3.5"/><circle cx="280" cy="167" r="3.5"/><circle cx="310" cy="167" r="3.5"/><circle cx="340" cy="167" r="3.5"/><circle cx="366" cy="167" r="3.5"/><circle cx="220" cy="289" r="3.5"/><circle cx="250" cy="289" r="3.5"/><circle cx="280" cy="289" r="3.5"/><circle cx="310" cy="289" r="3.5"/><circle cx="340" cy="289" r="3.5"/><circle cx="366" cy="289" r="3.5"/></g>
+        <circle cx="300" cy="228" r="7" fill="#2f2b2d"/><circle cx="300" cy="244" r="14" fill="none" stroke="#2f2b2d" stroke-width="5"/>
+      </g>
+      <rect x="194" y="334" width="212" height="10" fill="#5e5850"/>
+      <g><rect x="144" y="176" width="12" height="38" fill="#3b3638"/><path d="M150 174 q-13 -17 0 -36 q13 19 0 36z" fill="#f2a33a"/><path d="M150 171 q-6 -9 0 -18 q6 9 0 18z" fill="#ffe08a"/></g>
+      <g><rect x="444" y="176" width="12" height="38" fill="#3b3638"/><path d="M450 174 q-13 -17 0 -36 q13 19 0 36z" fill="#f2a33a"/><path d="M450 171 q-6 -9 0 -18 q6 9 0 18z" fill="#ffe08a"/></g>
+    </symbol>
+
+    <!-- Writing prompt: under the jetty -->
+    <symbol id="s-jetty" viewBox="0 0 600 360">
+      <rect width="600" height="360" fill="url(#gNight)"/>
+      <circle cx="486" cy="68" r="24" fill="#f1ead2"/>
+      <g fill="#f1ead2"><circle cx="80" cy="40" r="1.8"/><circle cx="200" cy="70" r="1.5"/><circle cx="330" cy="30" r="1.8"/><circle cx="560" cy="130" r="1.5"/><circle cx="400" cy="100" r="1.4"/></g>
+      <rect y="200" width="600" height="160" fill="#10263d"/>
+      <g stroke="#2a4e6e" stroke-width="3" fill="none" stroke-linecap="round"><path d="M450 244 h60"/><path d="M500 286 h50"/><path d="M60 326 h70"/><path d="M380 334 h80"/><path d="M200 300 h40"/></g>
+      <path d="M470 222 h24 M464 234 h36 M472 246 h20" stroke="#cfc7ad" stroke-width="3" opacity=".5" stroke-linecap="round"/>
+      <rect x="0" y="150" width="430" height="18" fill="#6b5442"/>
+      <rect x="0" y="146" width="430" height="6" fill="#806652"/>
+      <rect x="414" y="112" width="12" height="38" fill="#4e3d31"/>
+      <rect x="100" y="124" width="14" height="22" rx="2" fill="#f2c24f"/><circle cx="107" cy="134" r="18" fill="#f2c24f" opacity=".18"/>
+      <g fill="#3e3128"><rect x="30" y="168" width="16" height="192"/><rect x="140" y="168" width="16" height="192"/><rect x="250" y="168" width="16" height="192"/><rect x="360" y="168" width="16" height="192"/></g>
+      <rect x="0" y="168" width="430" height="74" fill="#04101b" opacity=".55"/>
+      <path d="M46 176 L140 228 M156 176 L250 228 M266 176 L360 228" stroke="#3e3128" stroke-width="6"/>
+      <g><circle cx="196" cy="208" r="17" fill="#d7f07a" opacity=".2"/><circle cx="228" cy="208" r="17" fill="#d7f07a" opacity=".2"/><ellipse cx="196" cy="208" rx="7.5" ry="5" fill="#e4f79a"/><ellipse cx="228" cy="208" rx="7.5" ry="5" fill="#e4f79a"/><ellipse cx="196" cy="208" rx="2" ry="4.2" fill="#10263d"/><ellipse cx="228" cy="208" rx="2" ry="4.2" fill="#10263d"/></g>
+      <g fill="#2f6d62"><path d="M292 304 Q322 254 352 304 Z"/><path d="M372 304 Q394 272 416 304 Z"/><path d="M434 304 q6 -30 30 -40 q-6 18 2 40 Z"/></g>
+      <g fill="#3f8a7c"><path d="M304 282 l4 -12 l5 10z"/><path d="M316 270 l4 -12 l5 11z"/><path d="M330 273 l4 -11 l5 12z"/><path d="M386 284 l3 -10 l4 9z"/></g>
+      <path d="M282 304 h196" stroke="#10263d" stroke-width="6"/>
+      <path d="M286 311 h40 M362 311 h40 M432 311 h40" stroke="#2a4e6e" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- Writing prompt: the lighthouse window -->
+    <symbol id="s-lighthouse" viewBox="0 0 600 360">
+      <rect width="600" height="360" fill="url(#gNight)"/>
+      <g fill="#f1ead2"><circle cx="60" cy="150" r="1.8"/><circle cx="130" cy="210" r="1.5"/><circle cx="470" cy="190" r="1.8"/><circle cx="540" cy="240" r="1.5"/><circle cx="420" cy="30" r="1.5"/><circle cx="160" cy="24" r="1.6"/></g>
+      <path d="M300 74 L0 18 L0 104 Z" fill="#ffe7a0" opacity=".16"/>
+      <path d="M300 74 L600 44 L600 132 Z" fill="#ffe7a0" opacity=".16"/>
+      <rect y="300" width="600" height="60" fill="#10263d"/>
+      <path d="M150 340 Q190 296 250 304 Q300 288 350 304 Q420 296 460 340 L460 360 L150 360 Z" fill="#2c2b33"/>
+      <g clip-path="url(#cTower)">
+        <rect x="210" y="100" width="180" height="230" fill="#ece6dc"/>
+        <rect x="210" y="140" width="180" height="36" fill="#b54a3c"/>
+        <rect x="210" y="246" width="180" height="36" fill="#b54a3c"/>
+      </g>
+      <rect x="250" y="96" width="100" height="12" fill="#2c2b33"/>
+      <circle cx="300" cy="74" r="40" fill="#ffe7a0" opacity=".25"/>
+      <rect x="276" y="58" width="48" height="38" fill="#ffd979"/>
+      <path d="M276 58 h48 M300 58 v38" stroke="#2c2b33" stroke-width="3"/>
+      <path d="M268 60 L300 30 L332 60 Z" fill="#2c2b33"/>
+      <circle cx="300" cy="212" r="34" fill="#ffd27a" opacity=".25"/>
+      <path d="M284 238 V206 Q300 186 316 206 V238 Z" fill="#ffd27a" stroke="#2c2b33" stroke-width="3"/>
+      <circle cx="300" cy="214" r="6.5" fill="#2b2026"/>
+      <path d="M288 238 Q289 224 300 222 Q311 224 312 238 Z" fill="#2b2026"/>
+      <path d="M288 322 V302 Q300 290 312 302 V322 Z" fill="#3b3638"/>
+    </symbol>
+
+    <!-- Writing prompt: the end of the tunnel -->
+    <symbol id="s-tunnel-end" viewBox="0 0 600 360">
+      <rect width="600" height="360" fill="#0b090d"/>
+      <path d="M0 360 V120 Q0 0 300 0 Q600 0 600 120 V360 Z" fill="#3a3036"/>
+      <path d="M60 360 V150 Q70 40 300 36 Q530 40 540 150 V360 Z" fill="#2c242a"/>
+      <path d="M130 360 V180 Q140 86 300 82 Q460 86 470 180 V360 Z" fill="#1f191e"/>
+      <path d="M200 360 V210 Q210 134 300 130 Q390 134 400 210 V360 Z" fill="#141015"/>
+      <path d="M250 360 V236 Q258 178 300 176 Q342 178 350 236 V360 Z" fill="#09070a"/>
+      <g fill="#4a3f46"><path d="M110 62 l8 26 l8 -24z"/><path d="M470 60 l7 24 l8 -22z"/><path d="M220 140 l6 18 l6 -16z"/><path d="M372 142 l6 18 l6 -16z"/></g>
+      <path d="M0 360 L262 292 L290 336 L90 360 Z" fill="#ffe9a8" opacity=".12"/>
+      <path d="M232 340 Q228 262 276 246 Q300 222 324 246 Q372 262 368 340 Z" fill="#1d171f" stroke="#33292f" stroke-width="2"/>
+      <path d="M276 246 q-14 -22 -4 -36 M324 246 q14 -22 4 -36" stroke="#33292f" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <circle cx="286" cy="270" r="12" fill="#f2b33a" opacity=".2"/><circle cx="314" cy="270" r="12" fill="#f2b33a" opacity=".2"/>
+      <ellipse cx="286" cy="270" rx="7" ry="4.5" fill="#f2b33a"/><ellipse cx="314" cy="270" rx="7" ry="4.5" fill="#f2b33a"/>
+      <path d="M346 304 L349 314 L359 317 L349 320 L346 330 L343 320 L333 317 L343 314 Z" fill="#fff3c4"/>
+    </symbol>
+
+    <!-- icons -->
+    <symbol id="i-brush" viewBox="0 0 24 24"><path d="M14 3.5l6.5 6.5-7.5 7.5-6.5-6.5z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M6.4 11.6C4 11.8 3 13.6 3 15.6S2 19 2 19s4 .5 5.6-.9c1.2-1 1.6-2.5 1.4-3.6" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.5" fill="none" stroke="#fff" stroke-width="2"/><path d="M3 10.5h18" stroke="#fff" stroke-width="2"/><path d="M7 15h10" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M10 6V4h4v2" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<nav class="topnav">
+  <div class="in">
+    <a class="brand" href="https://educoder101.github.io/Writers-Toolkit"><span>Writer's Toolkit</span> &middot; Paint the Noun</a>
+    <div class="links">
+      <a class="l" href="#hook"><span class="n">1</span>Hook</a>
+      <a class="l" href="#tools"><span class="n">2</span>Two tools</a>
+      <a class="l" href="#fix"><span class="n">3</span>Fix the hook</a>
+      <a class="l" href="#write"><span class="n">4</span>Write</a>
+      <a class="l" href="#swap"><span class="n">5</span>Swap and check</a>
+      <a class="l" href="#exit"><span class="n">6</span>Exit</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ================= HERO ================= -->
+<section class="hero" data-stop>
+  <div class="shell">
+    <div>
+      <div class="meta">Writer's Toolkit &middot; Grammar &middot; Refresher</div>
+      <h1>Paint the Noun<span class="sub">Expanded noun groups and appositives</span></h1>
+      <p class="li">We are learning to <b>expand a noun</b> with specific detail and add an <b>appositive</b>: a noun group that renames or explains another noun.</p>
+      <div class="pills"><span class="pill">20 minutes</span><span class="pill">Refresher</span><span class="pill">One quick writing burst</span></div>
+      <div class="key" style="margin-top:1rem"><span class="k"><span class="ng">straight line</span> = expanded noun group</span><span class="k"><span class="ap">wavy line</span> = appositive</span></div>
+    </div>
+    <div class="hero-art">
+      <div class="pic"><svg viewBox="0 0 600 360" role="img" aria-label="A young explorer in a hat, with a backpack and a torch, stepping into a narrow, dark tunnel in a rock face"><use href="#s-tunnel"/></svg></div>
+      <p class="cap">Zara, <span class="ap">the youngest explorer</span>, entered <span class="ng">the narrow, shadowy tunnel</span>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SUCCESS CRITERIA ================= -->
+<section class="sc" data-stop>
+  <div class="shell">
+    <div class="eyebrow">Success criteria</div>
+    <div class="grid3">
+      <div class="sc-card"><span class="tag"></span>I can spot an expanded noun group and an appositive in a sentence.</div>
+      <div class="sc-card"><span class="tag"></span>I can use both accurately in my own narrative, with commas around my appositive.</div>
+      <div class="sc-card"><span class="tag"></span>I can explain how each one helps the reader picture the story.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 1. HOOK ================= -->
+<section id="hook" data-stop>
+  <div class="shell">
+    <div class="eyebrow"><span>1 &middot; Hook</span><span class="min">2 min</span><span class="mode">Talk</span><button class="tbtn" onclick="toggleTeacher(this)">Teacher notes</button></div>
+    <h2 class="big">Which dog?</h2>
+    <p class="lead">Three sentences. Every one of them is correct. The reader still cannot picture a thing.</p>
+    <div class="split wide-left" style="margin-top:1.6rem">
+      <div data-reveal>
+        <div class="board">
+          <span class="lbl">On the board</span>
+          <p>The dog barked.</p>
+          <p>The teacher looked up.</p>
+          <p>The door opened.</p>
+        </div>
+        <div class="reveal-step">
+          <div class="keyq"><span class="lbl">Talk to your partner</span>What is <b>unclear</b>? What does the reader not know yet? What sounds <b>repetitive</b>? Be ready with one quick suggestion.</div>
+        </div>
+        <div class="reveal-step">
+          <div class="card">
+            <div class="subhead" style="font-size:1.35rem">Look at the shape</div>
+            <div class="shape-row"><span class="blk">The</span><span class="blk n">dog</span><span class="blk">barked.</span></div>
+            <div class="shape-row"><span class="blk">The</span><span class="blk n">teacher</span><span class="blk">looked up.</span></div>
+            <div class="shape-row"><span class="blk">The</span><span class="blk n">door</span><span class="blk">opened.</span></div>
+            <p class="note" style="margin:.8rem 0 0">The same shape three times, and every noun is bare. Which dog? Which teacher? What kind of door?</p>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="learnbox"><span class="lbl">Learn this</span>Correct is not the same as clear. A bare noun gives the reader a blur. You already own two tools that fix this. Can you remember what they are called?</div>
+        </div>
+        <div class="btnrow"><button class="btn acc rv" onclick="revealNext(this)">Reveal</button></div>
+      </div>
+      <div class="sticky">
+        <div class="card">
+          <div class="subhead" style="font-size:1.35rem">What the reader can see</div>
+          <div class="blur3">
+            <div><div class="lab">The dog</div><div class="pic b0"><svg viewBox="0 0 600 360" role="img" aria-label="A blurred, grey picture"><use href="#s-dog"/></svg></div></div>
+            <div><div class="lab">The teacher</div><div class="pic b0"><svg viewBox="0 0 600 360" role="img" aria-label="A blurred, grey picture"><use href="#s-librarian"/></svg></div></div>
+            <div><div class="lab">The door</div><div class="pic b0"><svg viewBox="0 0 600 360" role="img" aria-label="A blurred, grey picture"><use href="#s-door"/></svg></div></div>
+          </div>
+          <p class="pic-cap">Bare nouns, blurry pictures. Hold that thought.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tpanel">
+      <div class="tt">Say and ask</div>
+      <p>Write the three sentences on the board, or leave this projected. Ask the program's question: what is unclear, repetitive or incorrect? Nothing is incorrect, and it is worth saying so out loud: correct is not the same as clear. Take two quick suggestions only, then reveal the shape.</p>
+      <p>The last reveal asks students to recall the names of the tools before you show them. Let a few call out "appositive" before moving on.</p>
+      <div class="tt">Timing (20 minutes)</div>
+      <p>Hook 2 &middot; Two tools 5 &middot; Fix the hook 3 &middot; Write 5 &middot; Swap and check 3 &middot; Exit 2.</p>
+      <div class="tt">Driving the page</div>
+      <p>The right arrow key (or a clicker that sends it) reveals the next step in the section you are on, then moves to the next section. The left arrow goes back a section.</p>
+    </div>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ================= 2. I DO: TWO TOOLS ================= -->
+<section id="tools" data-stop>
+  <div class="shell">
+    <div class="eyebrow"><span>2 &middot; I do</span><span class="min">5 min</span><span class="mode">Watch and talk</span><button class="tbtn" onclick="toggleTeacher(this)">Teacher notes</button></div>
+    <h2 class="big">Two tools you already own</h2>
+    <p class="lead">Both tools work on nouns, and both are made of noun groups. The difference is their job: one gives a noun <b>more detail</b>, the other gives it <b>a second name</b>.</p>
+
+    <div data-reveal style="margin-top:1.4rem">
+      <div class="grid2">
+        <div class="reveal-step" style="margin-top:0">
+          <div class="tool t1">
+            <div class="th"><svg class="tool-icon"><use href="#i-brush"/></svg><div><div class="num">Tool 1</div><div class="big">Expanded noun group</div></div></div>
+            <div class="tb">
+              <p class="def"><b>One name, more detail.</b>Describing words packed around one noun so the reader can picture it.</p>
+              <div class="ladder">
+                <div class="rung"><div class="w">tunnel</div><div class="q">noun</div></div>
+                <div class="arr">&rarr;</div>
+                <div class="rung"><div class="w">the tunnel</div><div class="q">noun group</div></div>
+                <div class="arr">&rarr;</div>
+                <div class="rung ex"><div class="w">the narrow, shadowy tunnel</div><div class="q">expanded noun group</div></div>
+              </div>
+              <div class="asks"><span>Which one?</span><span>What is it like?</span><span>What is it made of?</span><span>What does it have?</span></div>
+              <p class="note" style="margin:.9rem 0 0">Still only one name for one thing: the tunnel. Detail can come after the noun too: <span class="ng">the tunnel with dripping walls</span>.</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal-step" style="margin-top:0">
+          <div class="tool t2">
+            <div class="th"><svg class="tool-icon"><use href="#i-tag"/></svg><div><div class="num">Tool 2</div><div class="big">Appositive</div></div></div>
+            <div class="tb">
+              <p class="def"><b>A second name for the same thing.</b>A noun group that comes straight after a noun and means the same person or thing.</p>
+              <div class="anat">
+                <div class="part noun"><div class="w">Zara</div><div class="q">first name</div></div>
+                <div class="part comma"><div class="w">,</div></div>
+                <div class="part app"><div class="w">the youngest explorer</div><div class="q">second name:<br>same person</div></div>
+                <div class="part comma"><div class="w">,</div></div>
+                <div class="part"><div class="w">entered</div><div class="q">&nbsp;</div></div>
+              </div>
+              <div class="asks"><span>Who is it?</span><span>What is its job?</span><span>What is it the only one of?</span></div>
+              <p class="note" style="margin:.9rem 0 0">Commas hold it in place: one before, and one after (unless a full stop comes next).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-step">
+        <div class="keyq"><span class="lbl">Spot the difference</span><b>the youngest explorer</b> and <b>the narrow, shadowy tunnel</b> look alike: <i>the</i>, a describing word, a noun. So why is only one of them an appositive? Tell your partner.</div>
+      </div>
+      <div class="reveal-step">
+        <div class="diff">
+          <div class="dcol e">
+            <div class="dpic">
+              <svg viewBox="60 40 480 240" role="img" aria-label="The tunnel with a single name tag hanging from it: the narrow, shadowy tunnel"><use href="#s-tunnel" width="600" height="360"/>
+                <path d="M312 72 Q372 84 392 132" fill="none" stroke="#2f87a6" stroke-width="3.5" stroke-linecap="round"/><circle cx="392" cy="134" r="4.5" fill="#2f87a6"/>
+              </svg>
+              <span class="ntag ngt r" style="left:52.5%;top:13.3%">the narrow, shadowy tunnel</span>
+            </div>
+            <div class="dbody">
+              <div class="dlabel">Expanded noun group</div>
+              <div class="verdict">One name, more detail</div>
+              <div class="eqrow"><span class="ntag ngt">the narrow, shadowy tunnel</span><span class="eq">=</span><span class="ntag blank">?</span></div>
+              <p>Nothing else in the sentence names the tunnel. The extra words just describe it.</p>
+            </div>
+          </div>
+          <div class="dcol a">
+            <div class="dpic">
+              <svg viewBox="0 156 400 200" role="img" aria-label="Zara in the tunnel wearing two name tags: Zara, and the youngest explorer"><use href="#s-tunnel" width="600" height="360"/>
+                <g fill="none" stroke-width="3" stroke-linecap="round"><path d="M196 196 Q214 204 226 230" stroke="#6c5b67"/><path d="M196 254 Q212 262 224 282" stroke="#b8892a"/></g>
+                <circle cx="226" cy="232" r="3.5" fill="#6c5b67"/><circle cx="224" cy="284" r="3.5" fill="#b8892a"/>
+              </svg>
+              <span class="ntag noun r" style="left:49%;top:20%">Zara</span>
+              <span class="ntag app r" style="left:49%;top:49%">the youngest explorer</span>
+            </div>
+            <div class="dbody">
+              <div class="dlabel">Appositive</div>
+              <div class="verdict">Two names, one person</div>
+              <div class="eqrow"><span class="ntag noun">Zara</span><span class="eq">=</span><span class="ntag app">the youngest explorer</span></div>
+              <p>The second name comes straight after the first, and both mean the same person.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-step">
+        <div class="learnbox"><span class="lbl">Learn this: two checks for an appositive</span>
+          <div class="tests">
+            <div class="test"><div class="tn">1 &middot; Equals test</div>Put = between the noun and the noun group straight after it: <i>Zara = the youngest explorer.</i> Same person or thing? It is an appositive.</div>
+            <div class="test"><div class="tn">2 &middot; Lift it out</div>Take the appositive out with its commas: <i>Zara entered the tunnel.</i> Still a sentence? Your commas are in the right place.</div>
+          </div>
+        </div>
+      </div>
+      <div class="btnrow"><button class="btn acc rv" onclick="revealNext(this)">Reveal</button></div>
+    </div>
+
+    <div class="split wide-left" style="margin-top:3rem">
+      <div data-reveal>
+        <div class="subhead">Watch me build it</div>
+        <div class="card">
+          <div class="manu">
+            <div class="tag start">Start<small>A bare sentence.</small></div>
+            <p class="s">The explorer entered.</p>
+          </div>
+          <div class="reveal-step" data-sharpen="picTunnel:b1">
+            <div class="manu">
+              <div class="tag">Rename<small>Add an appositive.</small></div>
+              <p class="s">Zara, <span class="ap">the youngest explorer</span>, entered.</p>
+              <p class="think"><b>Thinking aloud:</b> the reader does not know who this is. I give her a name, and keep <i>the youngest explorer</i> right beside it to explain her. Now we know she is young, and that there are other explorers.</p>
+            </div>
+          </div>
+          <div class="reveal-step" data-sharpen="picTunnel:">
+            <div class="manu">
+              <div class="tag">Expand<small>Paint the noun.</small></div>
+              <p class="s">Zara, <span class="ap">the youngest explorer</span>, entered <span class="ng">the narrow, shadowy tunnel</span>.</p>
+              <p class="think"><b>Thinking aloud:</b> entered what? I add the noun <i>tunnel</i>, then pack detail around it. <i>Narrow</i> makes it tight. <i>Shadowy</i> makes it dark. The reader starts to worry for her.</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal-step">
+          <div class="keyq"><span class="lbl">Talk to your partner</span>What does the reader <b>know now</b> that they did not know from <i>The explorer entered</i>?</div>
+        </div>
+        <div class="reveal-step">
+          <div class="bookbox"><span class="lbl">In your book</span>Write the date and the title <em>Paint the Noun</em>. Copy the two rules: <em>Expanded noun group: one name, more detail.</em> <em>Appositive: a second name for the same thing.</em> Then copy the Zara sentence. Rule a straight line under the expanded noun group and draw a wavy line under the appositive.</div>
+        </div>
+        <div class="btnrow"><button class="btn acc rv" onclick="revealNext(this)">Next step</button></div>
+      </div>
+      <div class="sticky">
+        <div class="card">
+          <div class="pic b0" id="picTunnel"><svg viewBox="0 0 600 360" role="img" aria-label="Zara stepping into the tunnel, which comes into focus as the sentence gains detail"><use href="#s-tunnel"/></svg></div>
+          <p class="pic-cap">Watch the picture as the sentence grows.</p>
+        </div>
+      </div>
+    </div>
+
+    <div data-reveal style="margin-top:3rem">
+      <div class="subhead">Quick check: which tool?</div>
+      <div class="keyq"><span class="lbl">Thumbs</span>Thumbs up for an <b>appositive</b>. Thumbs sideways for an <b>expanded noun group</b>. Use the equals test.</div>
+      <div class="sort">
+        <div class="srt">
+          <div class="n">1</div>
+          <p class="s">Mr Lee, <b>our new neighbour</b>, waved from his garden.</p>
+          <div class="reveal-step"><div class="ans"><span class="chipa a">Appositive</span><span class="why">Mr Lee <span class="eq">=</span> our new neighbour. Same person, two names.</span></div></div>
+        </div>
+        <div class="srt">
+          <div class="n">2</div>
+          <p class="s"><b>The rusty old bike</b> leaned against the fence.</p>
+          <div class="reveal-step"><div class="ans"><span class="chipa e">Expanded noun group</span><span class="why">One name, more detail. There is nothing to put = with.</span></div></div>
+        </div>
+        <div class="srt">
+          <div class="n">3</div>
+          <p class="s">After lunch we shared a pavlova, <b>Nan's famous party dessert</b>.</p>
+          <div class="reveal-step"><div class="ans"><span class="chipa a">Appositive</span><span class="why">a pavlova <span class="eq">=</span> Nan's famous party dessert. At the end of a sentence it needs only one comma.</span></div></div>
+        </div>
+        <div class="srt">
+          <div class="n">4</div>
+          <p class="s"><b>A tiny spider with hairy legs</b> crept up the wall.</p>
+          <div class="reveal-step"><div class="ans"><span class="chipa e">Expanded noun group</span><span class="why">The detail comes after the noun, but it is still one name: a spider. No second name, so no commas.</span></div></div>
+        </div>
+      </div>
+      <div class="btnrow"><button class="btn acc rv" onclick="revealNext(this)">Reveal next answer</button></div>
+    </div>
+
+    <div class="tpanel">
+      <div class="tt">This is a refresher</div>
+      <p>Students met appositives in <a href="appositives-lesson.html">Writing with Appositives</a>. Ask before you tell: show each tool card and get the class to name it, explain it and give an example before you read the card.</p>
+      <div class="tt">The one idea to land</div>
+      <p>An appositive and an expanded noun group can look identical. The difference is the job, not the shape. Expanded noun group: one name, more detail. Appositive: a second name for the same thing, straight after the first. The equals test is the quickest way for students to tell them apart. Give the "Spot the difference" question a full partner turn before you show the name tags.</p>
+      <div class="tt">A tidy-up from last time</div>
+      <p>The word bank in the earlier lesson included <i>who&hellip;</i>, <i>with&hellip;</i> and <i>known for&hellip;</i> starters. Those make good sentences, but they are not appositives (<i>who loved to read</i> is a relative clause). The equals test sorts them out: <i>Mia = who loved to read</i> makes no sense, so it is not an appositive. Quick check 4 (<i>a tiny spider with hairy legs</i>) is there for the same reason: <i>with&hellip;</i> adds detail to one noun, so it belongs to the expanded noun group. Today, keep appositives to noun groups, as the program defines them. If a student writes <i>Zara, who was the youngest, entered&hellip;</i>, praise the sentence and ask them to turn the middle into a noun group: <i>Zara, the youngest explorer, entered&hellip;</i></p>
+      <div class="tt">If they ask</div>
+      <ul>
+        <li><b>Is the appositive a noun group too?</b> Yes. Every appositive is a noun group, and often an expanded one: <i>the guardian of the old house</i> has detail after its noun. What makes it an appositive is its job: it comes straight after another noun and is a second name for the same thing. That is why it gets the wavy line.</li>
+        <li><b>Why a comma in <i>narrow, shadowy</i>?</b> Put a comma between two describing words when you could say "and" between them: narrow and shadowy. <i>The heavy oak door</i> has no comma, because "heavy and oak door" sounds wrong.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ================= 3. WE DO: FIX THE HOOK ================= -->
+<section id="fix" data-stop>
+  <div class="shell">
+    <div class="eyebrow"><span>3 &middot; We do</span><span class="min">3 min</span><span class="mode">Together</span><button class="tbtn" onclick="toggleTeacher(this)">Teacher notes</button></div>
+    <h2 class="big">Fix the hook together</h2>
+    <p class="lead">Back to the three bare sentences. Offer a noun group and an appositive for each one first. Then see one writer's version, and watch the picture sharpen.</p>
+    <div class="key" style="margin-top:1rem"><span class="k"><span class="ng">straight line</span> = expanded noun group</span><span class="k"><span class="ap">wavy line</span> = appositive</span></div>
+    <div class="grid3" style="margin-top:1.4rem">
+      <div class="fix" data-reveal>
+        <div class="pic b0" id="picDog"><svg viewBox="0 0 600 360" role="img" aria-label="A huge, shaggy dog barking in front of a gate and a crooked old house at dusk"><use href="#s-dog"/></svg></div>
+        <div class="lab">Before</div>
+        <p class="before">The dog barked.</p>
+        <div class="asks"><span>Which dog?</span><span>What is it like?</span><span>What is its job?</span></div>
+        <div class="reveal-step" data-sharpen="picDog:">
+          <div class="lab">One writer's version</div>
+          <p class="after"><span class="ng">The enormous, shaggy dog</span>, <span class="ap">the guardian of the old house</span>, barked fiercely.</p>
+          <p class="eqline"><span class="tn">Equals test</span>the dog <span class="eq">=</span> the guardian of the old house</p>
+          <p class="knows"><b>Now we know:</b> it is huge and scruffy, and it is guarding something.</p>
+        </div>
+        <div class="btnrow"><button class="btn acc rv" onclick="revealNext(this)">Show a version</button></div>
+      </div>
+      <div class="fix" data-reveal>
+        <div class="pic b0" id="picLib"><svg viewBox="0 0 600 360" role="img" aria-label="A librarian with grey hair in a bun and round glasses, looking up from a worn leather book at her desk, with full bookshelves behind"><use href="#s-librarian"/></svg></div>
+        <div class="lab">Before</div>
+        <p class="before">The teacher looked up.</p>
+        <div class="asks"><span>Which teacher?</span><span>Where are we?</span><span>Looked up from what?</span></div>
+        <div class="reveal-step" data-sharpen="picLib:">
+          <div class="lab">One writer's version</div>
+          <p class="after">Mrs Hart, <span class="ap">the school librarian</span>, looked up from <span class="ng">her battered leather book</span>.</p>
+          <p class="eqline"><span class="tn">Equals test</span>Mrs Hart <span class="eq">=</span> the school librarian</p>
+          <p class="knows"><b>Now we know:</b> who she is, where we are, and that her book has been read many, many times.</p>
+        </div>
+        <div class="btnrow"><button class="btn acc rv" onclick="revealNext(this)">Show a version</button></div>
+      </div>
+      <div class="fix" data-reveal>
+        <div class="pic b0" id="picDoor"><svg viewBox="0 0 600 360" role="img" aria-label="A heavy wooden door with iron bands in a stone castle arch, open just a crack, with torches on each side"><use href="#s-door"/></svg></div>
+        <div class="lab">Before</div>
+        <p class="before">The door opened.</p>
+        <div class="asks"><span>What kind of door?</span><span>What is it made of?</span><span>Where does it lead?</span></div>
+        <div class="reveal-step" data-sharpen="picDoor:">
+          <div class="lab">One writer's version</div>
+          <p class="after"><span class="ng">The heavy oak door</span>, <span class="ap">the only entrance to the castle</span>, creaked open.</p>
+          <p class="eqline"><span class="tn">Equals test</span>the door <span class="eq">=</span> the only entrance to the castle</p>
+          <p class="knows"><b>Now we know:</b> it is solid and old, and it is the only way in. Someone is coming.</p>
+        </div>
+        <div class="btnrow"><button class="btn acc rv" onclick="revealNext(this)">Show a version</button></div>
+      </div>
+    </div>
+    <div class="keyq" style="margin-top:1.6rem"><span class="lbl">Quick vote</span>Which version gives the reader the <b>strongest picture</b>? Point to the one word doing the most work.</div>
+    <div class="tpanel">
+      <div class="tt">Running the we do</div>
+      <ul>
+        <li>For each card, take one noun group and one appositive from the class before you press "Show a version". Write the best class idea on the board beside the bare sentence.</li>
+        <li>The revealed sentence is one writer's choice, not the answer. If the class version is stronger, say so.</li>
+        <li>After each reveal, ask "What does the reader know now?" before reading the answer under it.</li>
+        <li><i>Fiercely</i> and <i>creaked</i> are bonus detail in the verbs. Praise them if noticed, but keep the focus on the nouns.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ================= 4. YOU WRITE ================= -->
+<section id="write" data-stop>
+  <div class="shell">
+    <div class="eyebrow"><span>4 &middot; You write</span><span class="min">5 min</span><span class="mode">In your book</span><button class="tbtn" onclick="toggleTeacher(this)">Teacher notes</button></div>
+    <h2 class="big">Something mysterious</h2>
+    <p class="lead">Introduce a mysterious character or creature in two or three connected sentences. Use the tools at least twice: at least one expanded noun group and at least one appositive.</p>
+    <p class="note" style="margin:.8rem 0 0;font-size:1.05rem">Pick a picture, or use your own idea.</p>
+    <div class="grid3" style="margin-top:1rem">
+      <div class="scene">
+        <div class="pic"><svg viewBox="0 0 600 360" role="img" aria-label="Night under a wooden jetty: two glowing eyes in the shadows and a curling tail in the water"><use href="#s-jetty"/></svg></div>
+        <div class="kind">A creature</div>
+        <h3>Under the jetty</h3>
+        <ul class="qs">
+          <li>What is it? What does its skin, scales or fur look like?</li>
+          <li>What second name could it have? The last of something? The guardian of something?</li>
+          <li>What is it watching?</li>
+        </ul>
+        <details class="helper"><summary>Need a starter?</summary><div class="hb"><p class="starter">Beneath the slimy wooden jetty, something stirred. The creature, the last ________ of ________, &hellip;</p></div></details>
+      </div>
+      <div class="scene">
+        <div class="pic"><svg viewBox="0 0 600 360" role="img" aria-label="A red and white lighthouse at night, with one lit window showing the outline of a person"><use href="#s-lighthouse"/></svg></div>
+        <div class="kind">A character</div>
+        <h3>The lighthouse window</h3>
+        <ul class="qs">
+          <li>Who is at the window? What is their name?</li>
+          <li>What is their job, or what are they the keeper of?</li>
+          <li>What are they holding? What is the room like?</li>
+        </ul>
+        <details class="helper"><summary>Need a starter?</summary><div class="hb"><p class="starter">High in the lighthouse, a single window glowed. Old Morrow, the ________ of ________, &hellip;</p></div></details>
+      </div>
+      <div class="scene">
+        <div class="pic"><svg viewBox="0 0 600 360" role="img" aria-label="Deep inside a dark tunnel: a hunched shape with two amber eyes and something glinting on the ground"><use href="#s-tunnel-end"/></svg></div>
+        <div class="kind">Zara's story</div>
+        <h3>The end of the tunnel</h3>
+        <ul class="qs">
+          <li>What is waiting for Zara at the end of the tunnel?</li>
+          <li>What could it be called? What is it the only one of?</li>
+          <li>What does Zara notice first: eyes, horns, a glint?</li>
+        </ul>
+        <details class="helper"><summary>Need a starter?</summary><div class="hb"><p class="starter">At the end of the tunnel, Zara froze. In front of her crouched a ________, ________ creature, the ________ &hellip;</p></div></details>
+      </div>
+    </div>
+
+    <div class="write">
+      <div class="split" style="gap:40px">
+        <div>
+          <div class="wl">Your turn</div>
+          <div class="bookbox"><span class="lbl">In your book</span>Write the title <em>Something Mysterious</em>. Write two or three connected sentences about one character or creature. Use at least one expanded noun group and at least one appositive. Skip a line underneath for later.</div>
+          <div class="timer" data-secs="300"><button class="btn ghost" onclick="toggleTimer(this)">Start 5 min</button><span class="td">05:00</span></div>
+          <details class="helper"><summary>Before you finish, check</summary><div class="hb"><ul class="checklist">
+            <li>One noun has detail packed around it (an expanded noun group).</li>
+            <li>One noun has a second name right beside it (an appositive).</li>
+            <li>The appositive has a comma before it and a comma after it, unless a full stop comes next.</li>
+            <li>Equals test: your noun = your appositive? Same person or thing?</li>
+            <li>Every sentence is about the same character or creature, so they connect.</li>
+          </ul></div></details>
+        </div>
+        <div>
+          <details class="helper" style="margin-top:0"><summary>Word bank: detail for your nouns</summary><div class="hb"><div class="bank">
+            <span class="grp">Size</span><span>towering</span><span>enormous</span><span>hulking</span><span>tiny</span><span>stubby</span>
+            <span class="grp">Skin and texture</span><span>scaly</span><span>slimy</span><span>knobbly</span><span>matted</span><span>bristly</span><span>velvety</span>
+            <span class="grp">Colour and light</span><span>inky</span><span>pale</span><span>silver</span><span>moss-green</span><span>glowing</span><span>rust-red</span>
+            <span class="grp">Age</span><span>ancient</span><span>crumbling</span><span>battered</span><span>rusted</span><span>patched</span><span>moth-eaten</span>
+            <span class="grp">Detail after the noun</span><span>with a crooked tail</span><span>with salt in its whiskers</span><span>with one cloudy eye</span><span>with a ring of iron keys</span>
+          </div></div></details>
+          <details class="helper"><summary>Appositive starters (all noun groups)</summary><div class="hb"><ul class="starters">
+            <li>the last ____ of ____</li><li>the only ____ in ____</li><li>the keeper of ____</li><li>the guardian of ____</li><li>a creature older than ____</li><li>an old ____ with ____</li><li>her oldest ____</li><li>the ____ of the ____</li>
+          </ul></div></details>
+        </div>
+      </div>
+    </div>
+    <div class="tpanel">
+      <div class="tt">Running the burst</div>
+      <ul>
+        <li>Students write in their books. Keep the pictures projected. Top writers go straight in with their own idea; point support students to a picture and its starter.</li>
+        <li>Start the timer once most pencils are moving. Walk the room looking for commas around the appositive: that is the most common wobble.</li>
+        <li>"Two or three connected sentences" means one character or creature across all of them. If a student writes three unrelated sentences, ask "Who is your second sentence about?"</li>
+        <li>With 30 seconds left, say "last sentence".</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ================= 5. SWAP AND CHECK ================= -->
+<section id="swap" data-stop>
+  <div class="shell">
+    <div class="eyebrow"><span>5 &middot; Partner check</span><span class="min">3 min</span><span class="mode">Swap books</span><button class="tbtn" onclick="toggleTeacher(this)">Teacher notes</button></div>
+    <h2 class="big">Swap and check</h2>
+    <p class="lead">Swap books with your partner. First you are the detective, then the coach.</p>
+    <div class="split wide-left" style="margin-top:1.6rem">
+      <div>
+        <ol class="steps">
+          <li><span class="n">1</span><span>In pencil, rule a <span class="ng">straight line</span> under each expanded noun group and draw a <span class="ap">wavy line</span> under each appositive.</span></li>
+          <li><span class="n">2</span><span>Check the commas around each appositive. Is there one before it and one after it?</span></li>
+          <li><span class="n">3</span><span>Tell your partner <b>one</b> specific improvement. Use a coach stem.</span></li>
+          <li><span class="n">4</span><span>Swap back. Rewrite one sentence, making the change.</span></li>
+        </ol>
+        <div class="bookbox" style="margin-top:1.2rem"><span class="lbl">In your book</span>Under your writing, write <em>Revised:</em> and rewrite one sentence with your partner's improvement.</div>
+        <div class="timer" data-secs="180"><button class="btn ghost" onclick="toggleTimer(this)">Start 3 min</button><span class="td">03:00</span></div>
+      </div>
+      <div class="sticky">
+        <div class="keyq">
+          <span class="lbl">Coach stems</span>
+          <ul class="stems">
+            <li>Your ____ is still a blur. Which ____ is it?</li>
+            <li>What could be a second name for ____?</li>
+            <li>Could ____ be more specific than ____?</li>
+            <li>You need a comma after ____.</li>
+          </ul>
+        </div>
+        <div class="pic" style="margin-top:1.2rem;background:var(--paperlight)">
+          <svg viewBox="0 0 600 300" role="img" aria-label="Two open exercise books swapping places, with a straight line and a wavy line drawn under the writing">
+            <rect width="600" height="300" fill="#f6f0e7"/>
+            <path d="M206 58 Q300 14 394 58" stroke="#2f6f78" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <path d="M378 42 L396 59 L373 64" stroke="#2f6f78" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M394 254 Q300 296 206 254" stroke="#2f6f78" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <path d="M222 270 L204 253 L227 248" stroke="#2f6f78" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <g>
+              <rect x="30" y="74" width="240" height="164" rx="8" fill="#2f6f78"/>
+              <rect x="38" y="80" width="110" height="150" rx="4" fill="#fffdf8"/><rect x="152" y="80" width="110" height="150" rx="4" fill="#fffdf8"/>
+              <g fill="#c9bfc1"><rect x="50" y="100" width="86" height="7" rx="3.5"/><rect x="50" y="126" width="72" height="7" rx="3.5"/><rect x="50" y="152" width="82" height="7" rx="3.5"/><rect x="50" y="178" width="60" height="7" rx="3.5"/><rect x="164" y="100" width="84" height="7" rx="3.5"/><rect x="164" y="126" width="70" height="7" rx="3.5"/><rect x="164" y="152" width="80" height="7" rx="3.5"/></g>
+              <path d="M54 113 H118" stroke="#2f87a6" stroke-width="3.5" stroke-linecap="round"/>
+              <path d="M54 165 q4 -6 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" stroke="#b8892a" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <path d="M168 139 H226" stroke="#2f87a6" stroke-width="3.5" stroke-linecap="round"/>
+            </g>
+            <g>
+              <rect x="330" y="74" width="240" height="164" rx="8" fill="#b8892a"/>
+              <rect x="338" y="80" width="110" height="150" rx="4" fill="#fffdf8"/><rect x="452" y="80" width="110" height="150" rx="4" fill="#fffdf8"/>
+              <g fill="#c9bfc1"><rect x="350" y="100" width="80" height="7" rx="3.5"/><rect x="350" y="126" width="86" height="7" rx="3.5"/><rect x="350" y="152" width="66" height="7" rx="3.5"/><rect x="464" y="100" width="76" height="7" rx="3.5"/><rect x="464" y="126" width="84" height="7" rx="3.5"/><rect x="464" y="152" width="62" height="7" rx="3.5"/></g>
+              <path d="M354 139 q4 -6 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" stroke="#b8892a" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <path d="M468 113 H530" stroke="#2f87a6" stroke-width="3.5" stroke-linecap="round"/>
+              <g transform="rotate(-32 500 200)"><rect x="440" y="194" width="110" height="14" rx="3" fill="#d8b15a"/><rect x="530" y="194" width="16" height="14" fill="#c2898d"/><path d="M440 194 L420 201 L440 208 Z" fill="#e8c9a0"/><path d="M426 199 L420 201 L426 203 Z" fill="#43343f"/></g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="tpanel">
+      <div class="tt">Keep it tight</div>
+      <ul>
+        <li>Pencil only, and one suggestion, not five. The writer chooses whether to take it.</li>
+        <li>If a partner finds no appositive, that is the improvement: "What could be a second name for ____?"</li>
+        <li>While pairs work, find two students with a clear before and after for the exit.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="wall"></div>
+
+<!-- ================= 6. EXIT ================= -->
+<section id="exit" data-stop>
+  <div class="shell">
+    <div class="split wide-left">
+      <div class="exit">
+        <div class="eyebrow"><span>6 &middot; Exit</span><span class="min">2 min</span></div>
+        <h2 class="big">Before and after</h2>
+        <p class="q"><span class="n">1</span>Two volunteers: read your <b>before</b> sentence, then your <b>after</b> sentence.</p>
+        <p class="q"><span class="n">2</span>Which choice was more effective, and why? What does the reader know now that they did not know before?</p>
+        <p class="q"><span class="n">3</span>Thumbs for each success criterion: I can spot them. I can use them. I can explain how they help.</p>
+      </div>
+      <div>
+        <div class="card">
+          <div class="eyebrow" style="margin-bottom:.5rem">This week</div>
+          <p style="margin:0;font-size:1.12rem">Keep both tools switched on. In your writing and your spelling sentences this week, paint at least one noun every time you write.</p>
+        </div>
+        <div class="card" style="margin-top:1.2rem">
+          <div class="eyebrow" style="margin-bottom:.5rem">For the teacher</div>
+          <p class="note" style="margin:0">Look for: an appositive that is a noun group (not a <i>who&hellip;</i> clause), commas on both sides, and detail that is specific rather than piled on. "The big, huge, giant dog" is three words doing one job; ask which one word paints it best. A student who explains <b>what the reader now knows</b> has met the third success criterion.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Writer's Toolkit &middot; Paint the Noun &middot; Grammar refresher &middot; <a href="https://educoder101.github.io/Writers-Toolkit">Back to the Toolkit</a></footer>
+
+</div>
+
+<script>
+/* progress bar */
+var bar=document.getElementById('bar');
+function paintBar(){
+  var h=document.documentElement;
+  var max=h.scrollHeight-h.clientHeight;
+  bar.style.width=(max>0?(h.scrollTop/max*100):0)+'%';
+}
+document.addEventListener('scroll',paintBar,{passive:true});paintBar();
+
+/* progressive reveal inside the nearest [data-reveal] block */
+function revealNext(btn){
+  var scope=btn.closest('[data-reveal]');
+  var steps=scope.querySelectorAll('.reveal-step');
+  for(var i=0;i<steps.length;i++){
+    if(!steps[i].classList.contains('visible')){
+      var step=steps[i];
+      step.classList.add('visible');
+      var s=step.getAttribute('data-sharpen');
+      if(s){
+        var p=s.split(':');var pic=document.getElementById(p[0]);
+        if(pic){pic.classList.remove('b0','b1');if(p[1])pic.classList.add(p[1]);}
+      }
+      if(i===steps.length-1)btn.classList.add('done');
+      setTimeout(function(){
+        var r=step.getBoundingClientRect();
+        if(r.bottom>window.innerHeight-20)step.scrollIntoView({behavior:'smooth',block:'nearest'});
+      },420);
+      btn.blur();
+      return;
+    }
+  }
+  btn.classList.add('done');
+}
+
+/* teacher notes */
+function toggleTeacher(btn){
+  var panel=btn.closest('.shell').querySelector('.tpanel');
+  var open=panel.classList.toggle('open');
+  btn.textContent=open?'Hide teacher notes':'Teacher notes';
+  btn.blur();
+}
+
+/* timers */
+function fmt(s){var m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r;}
+function toggleTimer(btn){
+  var row=btn.closest('.timer'),d=row.querySelector('.td'),secs=parseInt(row.getAttribute('data-secs'),10);
+  if(!row._t)row._t={left:secs,id:null};
+  var t=row._t;
+  btn.blur();
+  if(t.id){clearInterval(t.id);t.id=null;btn.textContent='Resume';return;}
+  if(t.left<=0){t.left=secs;d.textContent=fmt(secs);d.classList.remove('fin','warn');}
+  btn.textContent='Pause';
+  t.id=setInterval(function(){
+    t.left--;
+    d.textContent=fmt(t.left);
+    d.classList.toggle('warn',t.left>0&&t.left<=30);
+    if(t.left<=0){clearInterval(t.id);t.id=null;d.classList.add('fin');d.classList.remove('warn');d.textContent='Pens down';btn.textContent='Restart';}
+  },1000);
+}
+
+/* keyboard and clicker: right arrow reveals the next step here, then moves on; left arrow goes back a section */
+var stops=Array.prototype.slice.call(document.querySelectorAll('[data-stop]'));
+function currentStop(){
+  var line=window.innerHeight*0.35,cur=0;
+  for(var i=0;i<stops.length;i++){if(stops[i].getBoundingClientRect().top<=line)cur=i;}
+  return cur;
+}
+document.addEventListener('keydown',function(e){
+  if(e.altKey||e.ctrlKey||e.metaKey)return;
+  var tag=(document.activeElement&&document.activeElement.tagName)||'';
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;
+  if(e.key==='ArrowRight'){
+    e.preventDefault();
+    var i=currentStop(),btns=stops[i].querySelectorAll('button.rv');
+    for(var k=0;k<btns.length;k++){
+      if(!btns[k].classList.contains('done')&&btns[k].offsetParent!==null){btns[k].click();return;}
+    }
+    if(stops[i+1])stops[i+1].scrollIntoView({behavior:'smooth',block:'start'});
+  }else if(e.key==='ArrowLeft'){
+    e.preventDefault();
+    var j=currentStop(),target=stops[j];
+    if(target.getBoundingClientRect().top>-30&&stops[j-1])target=stops[j-1];
+    target.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+},true);
+</script>
+</body>
+</html>
