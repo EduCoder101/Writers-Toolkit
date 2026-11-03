@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Slow Motion: a short Writer's Toolkit lesson on show, don't tell. A five-minute teacher demonstration, then a fifteen-minute slow-motion writing challenge. Stage 3 narrative writing.">
+<title>Slow Motion | Writer's Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!--
+    Slow Motion (narrative writing, show don't tell)
+    WHAT: Card-by-card projector lesson. Cards 2 to 4 are the five-minute teacher demonstration
+          (hook, Lily's tools, the toast demo). Card 7 is the fifteen-minute writing challenge with a big timer.
+    LOOK: Same paper, plum and rose palette and Fraunces + Inter type as Three Ways to End, so the narrative
+          unit hangs together. Tool colours match the Lesson 7 Slow-Motion Toolkit poster.
+    NAV:  Clicker or arrow keys. Right / Page Down shows the next step on a card, then moves to the next card.
+          Left / Page Up steps back. Keydown listener uses capture; nav buttons are tabindex -1.
+-->
+<style>
+:root{
+  --paper:#efe7df;--paper-2:#e7dbd2;--paper-3:#ded0c8;--paperlight:#f6f0e7;--stone:#b4a4ac;
+  --rose:#c2898d;--rose-deep:#a86d72;--plum:#43343f;--plum-soft:#6c5b67;--line:#cdbcb8;
+  --gold:#d8b15a;--gold-soft:#f7efd9;--gold-line:#e3cf98;--gold-deep:#8a6a1a;
+  --sky:#2f87a6;--sky-soft:#e3edf2;--sky-line:#b9d2dd;--sky-deep:#1f6a84;
+  --red:#b54a3c;--red-soft:#f6e1dc;
+  --t-short:#fde3d6;--t-short-d:#b8592f;
+  --t-senses:#e0eed6;--t-senses-d:#467a33;
+  --t-thoughts:#ebe0f2;--t-thoughts-d:#6f4f80;
+  --t-body:#d9e8f5;--t-body-d:#2b6594;
+  --t-oneline:#fff0c4;--t-oneline-d:#946b0c;
+  --shadow:0 18px 40px -24px rgba(67,52,63,.55);
+  --bar:3.1rem;
+}
+html{font-size:clamp(13px,min(1.12vw,2.02vh),26px)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--plum);font-family:"Inter",system-ui,sans-serif;font-size:1rem;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(120% 80% at 85% -10%,rgba(194,137,141,.12),transparent 60%),
+             radial-gradient(90% 70% at -10% 8%,rgba(180,164,172,.16),transparent 55%)}
+h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:600;line-height:1.06;margin:0}
+button{font-family:inherit}
+[data-tool="short"]{--tb:var(--t-short);--td:var(--t-short-d)}
+[data-tool="senses"]{--tb:var(--t-senses);--td:var(--t-senses-d)}
+[data-tool="thoughts"]{--tb:var(--t-thoughts);--td:var(--t-thoughts-d)}
+[data-tool="body"]{--tb:var(--t-body);--td:var(--t-body-d)}
+[data-tool="oneline"]{--tb:var(--t-oneline);--td:var(--t-oneline-d)}
+
+/* ===== Top bar ===== */
+.topbar{position:sticky;top:0;z-index:40;height:var(--bar);display:flex;align-items:center;gap:1rem;padding:0 1.6rem;background:rgba(239,231,223,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.brand{font-family:"Fraunces",serif;font-weight:600;font-size:1rem;white-space:nowrap}
+.brand span{color:var(--rose-deep)}
+.stops{display:flex;gap:.25rem;margin:0 auto;min-width:0}
+.stop{font-weight:600;font-size:.74rem;color:var(--plum-soft);background:transparent;border:1px solid transparent;border-radius:100px;padding:.22rem .3rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;white-space:nowrap}
+.stop .n{width:1.45rem;height:1.45rem;border-radius:50%;background:var(--paper-3);color:var(--plum);display:grid;place-items:center;font-family:"Fraunces",serif;font-size:.8rem}
+.stop .l{display:none}
+.stop:hover{background:var(--paper-3)}
+.stop.seen .n{background:var(--rose);color:#fff}
+.stop.on{background:var(--plum);color:#fff;padding-right:.8rem}
+.stop.on .n{background:var(--rose);color:#fff}
+.stop.on .l{display:inline}
+.bar-right{display:flex;gap:.5rem;align-items:center}
+.runpill{display:none;align-items:center;gap:.4rem;font-weight:700;font-size:.85rem;font-variant-numeric:tabular-nums;background:var(--plum);color:#fff;border:none;border-radius:100px;padding:.3rem .8rem;cursor:pointer}
+.runpill.show{display:inline-flex}
+.runpill svg{width:1rem;height:1rem}
+.ibtn{display:inline-flex;align-items:center;gap:.4rem;font-weight:600;font-size:.78rem;color:var(--plum-soft);background:transparent;border:1px dashed var(--line);border-radius:100px;padding:.3rem .8rem;cursor:pointer;white-space:nowrap}
+.ibtn:hover{background:var(--paper-3);color:var(--plum)}
+.ibtn svg{width:1rem;height:1rem}
+
+/* ===== Screens ===== */
+main{position:relative;z-index:1}
+.screen{display:none;min-height:calc(100vh - var(--bar));padding:1.2rem 2.2rem 0;flex-direction:column}
+.screen.on{display:flex;animation:screenIn .45s ease}
+@keyframes screenIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.content{flex:1}
+.head{margin-bottom:1rem}
+.eyebrow{font-weight:700;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-deep);display:flex;align-items:center;gap:.6rem;margin-bottom:.45rem;flex-wrap:wrap}
+.eyebrow .min{color:var(--plum);background:var(--paper-3);border:1px solid var(--line);border-radius:100px;padding:.12rem .6rem;letter-spacing:.04em}
+.eyebrow .mode{color:var(--paperlight);background:var(--plum);border-radius:100px;padding:.12rem .65rem;letter-spacing:.06em}
+h2.big{font-size:2.7rem}
+.snav{display:flex;align-items:center;gap:.7rem;padding:.75rem 0 .9rem;margin-top:1rem;border-top:1px solid var(--line)}
+.snav .grow{flex:1}
+.snav .hint{font-size:.78rem;color:var(--plum-soft)}
+.snav .stepinfo{font-size:.8rem;font-weight:700;color:var(--plum-soft);font-variant-numeric:tabular-nums}
+
+/* ===== Shared pieces ===== */
+.panel{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:1.1rem 1.4rem}
+.btn{font-weight:600;font-size:.9rem;padding:.6rem 1.2rem;border:none;border-radius:100px;cursor:pointer;background:var(--plum);color:#fff;display:inline-flex;align-items:center;gap:.45rem;transition:transform .15s,box-shadow .15s;line-height:1.2}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.btn.rose{background:var(--rose-deep)}
+.btn.ghost{background:transparent;color:var(--plum);border:1.5px solid var(--plum)}
+.btn.soft{background:var(--paper-3);color:var(--plum)}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.btn svg{width:1.05em;height:1.05em}
+.btn.glow{animation:glow 1.8s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(168,109,114,0)}50%{box-shadow:0 0 0 6px rgba(168,109,114,.3)}}
+
+.tip{display:flex;gap:.8rem;align-items:flex-start;border-radius:12px;padding:.8rem 1.1rem;font-size:.98rem;line-height:1.45}
+.tip .ic{width:2.2rem;height:2.2rem;border-radius:10px;display:grid;place-items:center;flex:0 0 auto}
+.tip .ic svg{width:1.35rem;height:1.35rem}
+.tip .lbl{display:block;font-weight:700;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.12rem}
+.tip p{margin:0}
+.tip.book{background:var(--gold-soft);border:1px solid var(--gold-line);border-left:5px solid var(--gold)}
+.tip.book .ic{background:var(--gold)}
+.tip.book .lbl{color:var(--gold-deep)}
+.tip.book em{font-style:normal;font-weight:600;background:#fff;padding:0 .35em;border-radius:5px;white-space:nowrap}
+.tip.book.none{background:var(--paper-2);border-color:var(--line);border-left-color:var(--stone)}
+.tip.book.none .ic{background:var(--paper-3)}
+.tip.book.none .lbl{color:var(--plum-soft)}
+.tip.learn{background:var(--sky-soft);border:1px solid var(--sky-line);border-left:5px solid var(--sky)}
+.tip.learn .ic{background:var(--sky)}
+.tip.learn .lbl{color:var(--sky-deep)}
+.tip.learn em{font-style:normal;font-weight:700;color:var(--sky-deep)}
+.stack{display:grid;gap:.8rem;align-content:start}
+
+/* Reveal steps */
+.rv{opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease,visibility 0s linear .45s}
+.rv.on{opacity:1;visibility:visible;transform:none;transition:opacity .45s ease,transform .45s ease,visibility 0s}
+
+/* ===== 1. Start ===== */
+.start{display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center;padding:.2rem 0}
+.kick{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--plum-soft);font-weight:700}
+h1.title{font-size:5.6rem;letter-spacing:-.01em;margin:.4rem 0 0}
+h1.title .sub{display:block;font-size:.3em;font-style:italic;font-weight:500;color:var(--rose-deep);margin-top:.7rem;letter-spacing:0}
+.li{font-size:1.35rem;line-height:1.45;margin:1.3rem 0 0;max-width:34ch}
+.li b{color:var(--rose-deep);font-weight:600}
+.pills{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.1rem}
+.pill{font-size:.84rem;font-weight:600;background:var(--paperlight);border:1px solid var(--line);border-radius:100px;padding:.32rem .9rem}
+.sc{margin-top:1.3rem}
+.sc .sch{font-weight:700;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:.4rem}
+.sc ul{list-style:none;margin:0;padding:0;display:grid;gap:.4rem}
+.sc li{display:flex;gap:.7rem;align-items:center;font-size:1.05rem;background:var(--paperlight);border:1px solid var(--line);border-radius:10px;padding:.5rem .9rem}
+.sc li i{width:.9rem;height:.9rem;border-radius:4px;background:var(--rose);flex:0 0 auto;box-shadow:0 0 0 4px rgba(194,137,141,.2)}
+.start .tip.book{margin-top:1rem}
+.hero-art{background:var(--paperlight);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:1rem 1rem .8rem}
+.hero-art svg{display:block;width:100%;height:auto}
+.hero-art .cap{font-size:.95rem;color:var(--plum-soft);font-style:italic;margin:.5rem .3rem 0}
+.foot-link{display:inline-block;margin-top:1rem;font-size:.82rem;font-weight:600;color:var(--rose-deep)}
+
+/* ===== 2. How long? ===== */
+.g2{display:grid;grid-template-columns:1.4fr .9fr;gap:2rem;align-items:start}
+.version{background:var(--paperlight);border:1px solid var(--line);border-left:6px solid var(--rose);border-radius:10px;padding:.85rem 1.3rem;font-family:"Fraunces",serif;line-height:1.5;box-shadow:var(--shadow)}
+.version .who{display:block;font-family:"Inter",sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:.25rem}
+.version.fast{font-size:1.55rem}
+.version.slow{font-size:1.34rem;border-left-color:var(--sky)}
+.version.slow .who{color:var(--sky-deep)}
+.version p{margin:0 0 .3rem}
+.version p:last-child{margin-bottom:0}
+.qa{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin:.55rem 0 .85rem}
+.qa .q{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:1.02rem;background:var(--paper-2);border:1px dashed var(--rose);border-radius:10px;padding:.45rem .9rem}
+.qa .q svg{width:1.2rem;height:1.2rem;color:var(--rose-deep)}
+.qa .a{display:inline-flex;align-items:center;gap:.6rem;font-size:1.08rem;background:#fff;border:1px solid var(--line);border-radius:10px;padding:.4rem .9rem;box-shadow:var(--shadow)}
+.qa .a b{font-family:"Fraunces",serif;font-size:1.3em;color:var(--rose-deep);font-weight:600}
+.qa .a svg{width:1.4rem;height:1.4rem;color:var(--plum)}
+.cmp h3{font-size:1.45rem;margin-bottom:.2rem}
+.cmp .sub{font-size:.9rem;color:var(--plum-soft);margin:0 0 .8rem}
+.cg{margin-bottom:.9rem}
+.cg .ct{font-weight:700;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--plum-soft);margin-bottom:.35rem}
+.brow{display:grid;grid-template-columns:1.6rem 1fr 6.4rem;gap:.6rem;align-items:center;margin-bottom:.4rem}
+.brow .k{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--plum);color:#fff;display:grid;place-items:center;font-family:"Fraunces",serif;font-size:.85rem}
+.brow .k.b{background:var(--sky)}
+.track{height:1.3rem;border-radius:8px;background:var(--paper-3);overflow:hidden}
+.track i{display:block;height:100%;width:0;border-radius:8px;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.track i.on{width:var(--w)}
+.cg.words .track i{background:var(--plum)}
+.cg.time .track i{background:var(--rose)}
+.brow .v{font-weight:700;font-size:.95rem;font-variant-numeric:tabular-nums}
+
+/* ===== 3. Lily's tools ===== */
+.g3{display:grid;grid-template-columns:1.35fr .85fr;gap:2rem;align-items:start}
+.exemplar{font-family:"Fraunces",serif;font-size:1.72rem;line-height:1.55;padding:1.2rem 1.6rem}
+.exemplar p{margin:0 0 .75rem}
+.exemplar p:last-child{margin-bottom:0}
+.ex-s{border-radius:6px;padding:.02em 0;transition:background-color .35s,opacity .35s,box-shadow .35s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.exemplar.has-tool .ex-s{opacity:.4}
+.exemplar.has-tool .ex-s.hit{opacity:1;background:var(--tb);box-shadow:inset 0 -.16em 0 var(--td)}
+.tools-h{font-weight:700;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--plum-soft);margin-bottom:.1rem}
+.tools{display:grid;gap:.45rem}
+.tool{display:flex;align-items:center;gap:.7rem;width:100%;text-align:left;font-weight:600;font-size:1.05rem;color:var(--plum);background:#fff;border:2px solid var(--line);border-radius:12px;padding:.42rem .8rem;cursor:pointer;transition:background-color .25s,border-color .25s,transform .15s}
+.tool:hover{transform:translateX(3px)}
+.tool .ti{width:2rem;height:2rem;border-radius:9px;display:grid;place-items:center;background:var(--tb);color:var(--td);flex:0 0 auto}
+.tool .ti svg{width:1.25rem;height:1.25rem}
+.tool.on{background:var(--tb);border-color:var(--td);box-shadow:var(--shadow)}
+.tool.on .ti{background:#fff}
+.tool-say{border-radius:12px;padding:.75rem 1rem;font-size:1rem;line-height:1.45;background:var(--paper-2);border:1px dashed var(--line);min-height:5.6rem}
+.tool-say.lit{background:var(--tb);border:2px solid var(--td)}
+.tool-say b{color:var(--td)}
+
+/* ===== 4. Watch me ===== */
+.g4{display:grid;grid-template-columns:1.5fr .8fr;gap:2rem;align-items:start}
+.fastline{display:flex;align-items:center;gap:1rem;background:var(--paper-2);border:1px dashed var(--rose);border-radius:10px;padding:.55rem 1rem;margin-bottom:.8rem}
+.fastline .k{font-weight:700;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rose-deep);white-space:nowrap}
+.fastline .t{font-family:"Fraunces",serif;font-size:1.45rem}
+.fastline .wc{margin-left:auto;font-weight:700;font-size:.9rem;color:var(--plum-soft);white-space:nowrap}
+.slowbox{position:relative;background:var(--paperlight);border:1px solid var(--line);border-left:6px solid var(--sky);border-radius:10px;padding:.8rem 1.4rem .9rem;font-family:"Fraunces",serif;font-size:1.27rem;line-height:1.6;box-shadow:var(--shadow)}
+.slowbox .who{display:block;font-family:"Inter",sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sky-deep);margin-bottom:.2rem}
+.slowbox p{margin:0 0 .5rem}
+.slowbox p:last-child{margin-bottom:0}
+.ds{opacity:0;border-radius:5px;padding:.02em 0;transition:opacity .5s ease,background-color .4s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.ds.on{opacity:1;box-shadow:inset 0 -.13em 0 var(--td)}
+.ds.latest{background:var(--tb)}
+.slow-hint{position:absolute;top:2.6rem;left:1.4rem;font-family:"Inter",sans-serif;font-size:1rem;color:var(--plum-soft);font-style:italic;transition:opacity .3s}
+.slow-hint.gone{opacity:0}
+.g4 .tip.learn{margin-top:.9rem}
+.meter{display:grid;gap:.7rem}
+.toaster{position:relative;background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:.5rem .8rem .6rem;display:flex;align-items:center;gap:.8rem}
+.toaster svg{width:9.5rem;height:auto;flex:0 0 auto}
+.toaster .pk{font-weight:700;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--plum-soft)}
+.toaster .pv{font-family:"Fraunces",serif;font-size:1.7rem;color:var(--red);line-height:1.1}
+.stamp{position:absolute;right:.6rem;bottom:.5rem;transform:rotate(-10deg);border:3px solid var(--red);color:var(--red);font-weight:800;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .6rem;border-radius:8px;background:rgba(255,255,255,.9);transform-origin:center}
+.stamp.rv{transform:rotate(-10deg) scale(1.6)}
+.stamp.rv.on{transform:rotate(-10deg) scale(1)}
+.heat path{animation:heat 1.6s ease-in-out infinite alternate}
+.heat path:nth-child(2){animation-delay:.5s}
+@keyframes heat{from{opacity:.25;transform:translateY(3px)}to{opacity:.9;transform:translateY(-3px)}}
+.lever.shake{animation:shake .35s ease-in-out 4}
+@keyframes shake{0%,100%{transform:translateY(0)}25%{transform:translateY(-2px)}75%{transform:translateY(2px)}}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:.55rem .8rem;display:flex;align-items:center;gap:.7rem}
+.stat .sk{font-weight:700;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--plum-soft)}
+.stat .num{font-weight:800;font-size:2.3rem;line-height:1;font-variant-numeric:tabular-nums;color:var(--plum)}
+.stat .unit{font-size:.85rem;color:var(--plum-soft)}
+.stat svg{width:3.4rem;height:auto;flex:0 0 auto}
+#swHand{transform-box:view-box;transform-origin:60px 68px;transition:transform .7s cubic-bezier(.3,1.4,.5,1)}
+.nowtool{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;font-size:.95rem;font-weight:600}
+.nowtool .chip{display:inline-flex;align-items:center;gap:.4rem;border-radius:100px;padding:.3rem .8rem;background:var(--paper-3);color:var(--plum-soft);font-weight:700}
+.nowtool .chip.lit{background:var(--tb);color:var(--td);box-shadow:inset 0 0 0 2px var(--td)}
+.used{display:flex;gap:.35rem;flex-wrap:wrap}
+.used span{display:inline-flex;align-items:center;gap:.3rem;font-weight:600;font-size:.78rem;padding:.22rem .6rem;border-radius:100px;background:var(--paper-3);color:var(--plum-soft);opacity:.55;transition:all .3s}
+.used span svg{width:.95rem;height:.95rem}
+.used span.lit{background:var(--tb);color:var(--td);opacity:1;box-shadow:inset 0 0 0 2px var(--td)}
+.mh{font-weight:700;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--plum-soft);margin-bottom:.3rem}
+
+/* ===== 5. Challenge ===== */
+.g5{display:grid;grid-template-columns:1.3fr .9fr;gap:2rem;align-items:start}
+.rules{list-style:none;margin:0;padding:0;display:grid;gap:.55rem}
+.rule{display:flex;gap:1rem;align-items:center;background:var(--paperlight);border:1px solid var(--line);border-radius:12px;padding:.6rem 1.1rem;box-shadow:var(--shadow)}
+.rule .n{flex:0 0 auto;width:2.4rem;height:2.4rem;border-radius:50%;background:var(--plum);color:#fff;display:grid;place-items:center;font-family:"Fraunces",serif;font-size:1.3rem}
+.rule b{display:block;font-family:"Fraunces",serif;font-weight:600;font-size:1.38rem;line-height:1.15}
+.rule span{display:block;font-size:.98rem;color:var(--plum-soft);margin-top:.1rem}
+.rule.key{border:2px solid var(--red);background:var(--red-soft)}
+.rule.key .n{background:var(--red)}
+.prize{display:flex;align-items:center;gap:1.1rem;background:var(--plum);color:#fff;border-radius:14px;padding:1rem 1.3rem;box-shadow:var(--shadow)}
+.prize svg{width:5.2rem;height:auto;flex:0 0 auto}
+.prize p{font-family:"Fraunces",serif;font-size:1.65rem;line-height:1.2;margin:0}
+.prize b{color:var(--gold);font-weight:600}
+.counts{background:#fff;border:2px dashed var(--rose-deep);border-radius:12px;padding:.8rem 1rem;font-size:1rem;line-height:1.45}
+.counts .lbl{display:block;font-weight:700;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:.15rem}
+
+/* ===== 6. Scenes ===== */
+.scenes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem}
+.scene{background:var(--paperlight);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.scene svg{display:block;width:100%;height:auto;max-height:35vh;border-bottom:1px solid var(--line)}
+.scene .sb{padding:.7rem 1.15rem .9rem;display:flex;flex-direction:column;gap:.4rem;flex:1}
+.scene h3{font-size:1.5rem;display:flex;align-items:center;gap:.6rem}
+.let{width:2rem;height:2rem;border-radius:50%;background:var(--plum);color:#fff;display:inline-grid;place-items:center;font-family:"Fraunces",serif;font-size:1.05rem;flex:0 0 auto}
+.scene p{margin:0;font-size:1rem;line-height:1.45}
+.never{margin-top:auto;display:flex;gap:.6rem;align-items:center;background:var(--red-soft);border:1.5px dashed var(--red);border-radius:10px;padding:.45rem .8rem;font-size:.98rem}
+.never .x{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--red);display:grid;place-items:center;flex:0 0 auto}
+.never .x svg{width:.9rem;height:.9rem}
+.never b{color:var(--red)}
+.foot2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:.9rem}
+
+/* ===== 7. Write ===== */
+.g7{display:grid;grid-template-columns:1.05fr .95fr;gap:1.6rem;align-items:stretch}
+.timer{background:var(--plum);color:#fff;border-radius:16px;padding:.9rem 1.4rem 1rem;box-shadow:var(--shadow)}
+.timer .tl{font-weight:700;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#e7c4c6}
+.timer .td{font-weight:800;font-size:7.6rem;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin:.15rem 0 .55rem;transition:color .3s}
+.timer .td.warn{color:#f3b2a6}
+.timer .td.end{color:var(--gold)}
+.tbar{height:.55rem;border-radius:10px;background:rgba(255,255,255,.18);overflow:hidden;margin-bottom:.8rem}
+.tbar i{display:block;height:100%;width:100%;background:var(--gold);transition:width .9s linear}
+.tctl{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.timer .btn{background:#fff;color:var(--plum)}
+.timer .btn.go{background:var(--gold);color:var(--plum)}
+.timer .btn.line{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.6)}
+.tcall{margin-top:.8rem;font-size:1.05rem;line-height:1.4;min-height:1.5em;color:#f7efd9}
+.tcall.flash{animation:flash .8s ease 3}
+@keyframes flash{50%{color:var(--gold)}}
+.loop{padding:.6rem 1rem;display:flex;flex-direction:column;justify-content:center}
+.loop svg{display:block;width:100%;height:15.5rem}
+.w7{display:grid;grid-template-columns:.75fr 1.6fr;gap:1rem;margin-top:1rem;align-items:stretch}
+.remind{margin-top:.8rem}
+.helps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;margin-top:.8rem;align-items:start}
+.helps details.help .hb{padding:0 .9rem .8rem 1rem}
+.loop .cap{font-size:.9rem;color:var(--plum-soft);text-align:center;margin:.3rem 0 0}
+.toolstrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.45rem}
+.ts{background:var(--tb);border:2px solid var(--td);border-radius:10px;padding:.45rem .55rem}
+.ts b{display:flex;align-items:center;gap:.3rem;color:var(--td);font-size:.82rem;line-height:1.2}
+.ts b svg{width:1rem;height:1rem;flex:0 0 auto}
+.ts i{display:block;font-family:"Fraunces",serif;font-size:.86rem;line-height:1.3;margin-top:.2rem}
+.remind{display:flex;gap:.6rem;align-items:center;background:var(--red-soft);border:1.5px dashed var(--red);border-radius:10px;padding:.5rem .9rem;font-size:1rem;font-weight:600}
+.remind .x{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--red);display:grid;place-items:center;flex:0 0 auto}
+.remind .x svg{width:.9rem;height:.9rem}
+details.help{background:#fff;border:1px solid var(--line);border-radius:12px}
+details.help summary{cursor:pointer;list-style:none;padding:.55rem 1rem;font-weight:600;font-size:1rem;display:flex;align-items:center;gap:.7rem}
+details.help summary::-webkit-details-marker{display:none}
+details.help summary::before{content:"+";display:inline-grid;place-items:center;width:1.4rem;height:1.4rem;border-radius:50%;background:var(--plum);color:#fff;font-weight:700;flex:0 0 auto}
+details.help[open] summary::before{content:"\2212"}
+details.help .hb{padding:0 1.1rem .8rem 3.1rem;font-size:1rem;line-height:1.5}
+details.help ul{margin:0;padding-left:1.1rem}
+details.help li{margin:.1rem 0}
+.starters{display:flex;flex-wrap:wrap;gap:.4rem}
+.starters span{font-family:"Fraunces",serif;font-style:italic;background:var(--paper-2);border:1px dashed var(--line);border-radius:6px;padding:.25rem .7rem}
+
+/* ===== 8. Count up ===== */
+.steps8{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1rem}
+.st8{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;padding:1rem 1.1rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:.5rem}
+.st8 .n{width:2.6rem;height:2.6rem;border-radius:50%;background:var(--rose-deep);color:#fff;display:grid;place-items:center;font-family:"Fraunces",serif;font-size:1.4rem}
+.st8 b{font-family:"Fraunces",serif;font-weight:600;font-size:1.4rem;line-height:1.1}
+.st8 p{margin:0;font-size:1rem;line-height:1.45}
+.st8.key{border:2px solid var(--red);background:var(--red-soft)}
+.st8.key .n{background:var(--red)}
+.foot8{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:1.2rem;margin-top:1.3rem;align-items:stretch}
+.winner{display:flex;gap:1rem;align-items:center;background:var(--plum);color:#fff;border-radius:14px;padding:1rem 1.2rem;box-shadow:var(--shadow)}
+.winner svg{width:4.4rem;height:auto;flex:0 0 auto}
+.winner p{margin:0;font-size:1.05rem;line-height:1.4}
+.winner b{display:block;font-family:"Fraunces",serif;font-weight:600;font-size:1.45rem;color:var(--gold);margin-bottom:.1rem}
+
+/* ===== Teacher notes drawer ===== */
+.drawer{position:fixed;top:var(--bar);right:0;bottom:0;width:min(30rem,92vw);background:#fffdf8;border-left:1px solid var(--line);box-shadow:-20px 0 40px -30px rgba(0,0,0,.45);transform:translateX(105%);transition:transform .35s ease;z-index:45;padding:1.2rem 1.4rem 2rem;overflow:auto}
+.drawer.open{transform:none}
+.drawer h3{font-size:1.4rem;margin-bottom:.6rem}
+.drawer .tt{font-weight:700;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rose-deep);margin:.9rem 0 .3rem}
+.drawer ul{margin:.2rem 0;padding-left:1.1rem}
+.drawer li{margin:.3rem 0;font-size:.95rem;line-height:1.5}
+.drawer .x{position:absolute;top:.8rem;right:1rem}
+.tnotes{display:none}
+
+/* ===== Smaller screens ===== */
+@media (max-width:980px){
+  html{font-size:15px}
+  .start,.g2,.g3,.g4,.g5,.g7,.w7,.foot2,.foot8{grid-template-columns:1fr}
+  .helps{grid-template-columns:1fr 1fr}
+  .scenes{grid-template-columns:1fr}
+  .steps8{grid-template-columns:1fr 1fr}
+  .toolstrip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .screen{padding:1rem 1rem 0}
+  .snav .hint,.brand{display:none}
+  h1.title{font-size:4rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- Shared icons -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M15.5 4.5l4 4L9 19l-5 1 1-5Z" fill="#fff" stroke="#43343f" stroke-width="2" stroke-linejoin="round"/><path d="M13.5 6.5l4 4" stroke="#43343f" stroke-width="2"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 17h6M10 20.5h4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.3 1 2.2h5.2c0-.9.4-1.7 1-2.2A6 6 0 0 0 12 3Z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-ear-talk" viewBox="0 0 24 24"><path d="M20.5 11.5a8 8 0 0 1-11.6 7.1L3.5 20l1.2-4.6A8 8 0 1 1 20.5 11.5Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="8.5" cy="11.5" r="1.2" fill="currentColor"/><circle cx="12.5" cy="11.5" r="1.2" fill="currentColor"/><circle cx="16.5" cy="11.5" r="1.2" fill="currentColor"/></symbol>
+    <symbol id="i-talk" viewBox="0 0 24 24"><path d="M20.5 11.5a8 8 0 0 1-11.6 7.1L3.5 20l1.2-4.6A8 8 0 1 1 20.5 11.5Z" fill="none" stroke="#43343f" stroke-width="2.2" stroke-linejoin="round"/><circle cx="8.5" cy="11.5" r="1.2" fill="#43343f"/><circle cx="12.5" cy="11.5" r="1.2" fill="#43343f"/><circle cx="16.5" cy="11.5" r="1.2" fill="#43343f"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 8.5V13l3 2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 2.5h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-short" viewBox="0 0 24 24"><path d="M3.5 7h7M3.5 12h10M3.5 17h5.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="13.6" cy="7" r="1.5" fill="currentColor"/><circle cx="16.6" cy="12" r="1.5" fill="currentColor"/><circle cx="12.1" cy="17" r="1.5" fill="currentColor"/></symbol>
+    <symbol id="i-senses" viewBox="0 0 24 24"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></symbol>
+    <symbol id="i-thoughts" viewBox="0 0 24 24"><path d="M6.5 13.5C3.7 13.3 3.6 9.3 6.3 9c.3-3 4.4-4 6-1.8 2-1.9 5.6-.6 5.3 2.1 2.6.4 2.6 4.2-.1 4.4-.6 2-3.6 2.3-4.8.9-1.4 1.4-4.6 1-6.2-1.1Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="6" cy="17.2" r="1.5" fill="currentColor"/><circle cx="3.6" cy="20.4" r="1" fill="currentColor"/></symbol>
+    <symbol id="i-body" viewBox="0 0 24 24"><path d="M12 20.5C5.5 16.3 3 12.6 3.4 9.2 3.8 6.3 6.2 4.5 8.6 4.6c1.5.1 2.7.9 3.4 2.1.7-1.2 1.9-2 3.4-2.1 2.4-.1 4.8 1.7 5.2 4.6.4 3.4-2.1 7.1-8.6 11.3Z" fill="currentColor"/></symbol>
+    <symbol id="i-oneline" viewBox="0 0 24 24"><rect x="4.5" y="3" width="15" height="18" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.1"/><path d="M8.5 12h7" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5Z" fill="currentColor"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6.5" y="5.5" width="4" height="13" rx="1" fill="currentColor"/><rect x="13.5" y="5.5" width="4" height="13" rx="1" fill="currentColor"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 0 2.1-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M5 4v4h4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-notes" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 3h6v3H9Z" fill="currentColor"/><path d="M8.5 11h7M8.5 15h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <div class="brand"><span>Writer's Toolkit</span> &middot; Slow Motion</div>
+  <nav class="stops" id="stops" aria-label="Lesson cards"></nav>
+  <div class="bar-right">
+    <button class="runpill" id="runPill" type="button" tabindex="-1" title="Back to the writing timer"><svg><use href="#i-clock"/></svg><span id="runTxt">15:00</span></button>
+    <button class="ibtn" id="notesBtn" type="button" tabindex="-1"><svg><use href="#i-notes"/></svg>Teacher notes</button>
+    <button class="ibtn" id="fsBtn" type="button" tabindex="-1" title="Full screen"><svg><use href="#i-full"/></svg>Full screen</button>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= 1. START ================= -->
+<section class="screen on" data-name="start" data-title="Start">
+  <div class="content start">
+    <div>
+      <div class="kick">Writer's Toolkit &middot; Narrative writing &middot; Show, don't tell</div>
+      <h1 class="title">Slow Motion<span class="sub">Make one second last a whole page.</span></h1>
+      <p class="li">We are learning to <b>slow a moment right down</b>, so the reader feels every second of it.</p>
+      <div class="pills"><span class="pill">5 minutes: watch</span><span class="pill">15 minutes: write</span><span class="pill">1 challenge</span></div>
+      <div class="sc">
+        <div class="sch">Success criteria</div>
+        <ul>
+          <li><i></i>I can stretch one tiny moment without skipping ahead.</li>
+          <li><i></i>I can use at least three slow-motion tools.</li>
+          <li><i></i>I can show a feeling without naming it.</li>
+        </ul>
+      </div>
+      <div class="tip book">
+        <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+        <div><span class="lbl">In your book</span><p>Write the date and the title <em>Slow Motion</em>.</p></div>
+      </div>
+      <a class="foot-link" href="https://educoder101.github.io/Writers-Toolkit">&larr; Back to the Writer's Toolkit</a>
+    </div>
+    <div class="hero-art">
+      <svg viewBox="0 36 640 330" role="img" aria-label="A strip of film with five frames of one water drop falling and splashing, and a stopwatch showing one second">
+        <defs>
+          <pattern id="spr" width="31" height="10" patternUnits="userSpaceOnUse"><rect x="7" y="0" width="17" height="10" rx="3" fill="#efe7df"/></pattern>
+          <linearGradient id="frSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9eef4"/><stop offset="1" stop-color="#9fd2e0"/></linearGradient>
+        </defs>
+        <g transform="rotate(-4 320 175)">
+          <rect x="-10" y="70" width="660" height="200" rx="12" fill="#43343f"/>
+          <rect x="-10" y="80" width="660" height="10" fill="url(#spr)"/>
+          <rect x="-10" y="250" width="660" height="10" fill="url(#spr)"/>
+          <g transform="translate(8 100)">
+            <rect width="116" height="140" fill="url(#frSky)"/><rect y="100" width="116" height="40" fill="#2f87a6"/>
+            <path d="M58 22 C64 32 68 38 68 44 A10 10 0 0 1 48 44 C48 38 52 32 58 22Z" fill="#2f87a6"/><ellipse cx="54" cy="42" rx="2.5" ry="4" fill="#fff" opacity=".7"/>
+          </g>
+          <g transform="translate(133 100)">
+            <rect width="116" height="140" fill="url(#frSky)"/><rect y="100" width="116" height="40" fill="#2f87a6"/>
+            <g transform="translate(0 30)"><path d="M58 22 C64 32 68 38 68 44 A10 10 0 0 1 48 44 C48 38 52 32 58 22Z" fill="#2f87a6"/><ellipse cx="54" cy="42" rx="2.5" ry="4" fill="#fff" opacity=".7"/></g>
+          </g>
+          <g transform="translate(258 100)">
+            <rect width="116" height="140" fill="url(#frSky)"/><rect y="100" width="116" height="40" fill="#2f87a6"/>
+            <g transform="translate(0 47)"><path d="M58 22 C64 32 68 38 68 44 A10 10 0 0 1 48 44 C48 38 52 32 58 22Z" fill="#2f87a6"/></g>
+            <path d="M40 100 Q58 108 76 100" fill="none" stroke="#5bb6cf" stroke-width="3"/>
+          </g>
+          <g transform="translate(383 100)">
+            <rect width="116" height="140" fill="url(#frSky)"/><rect y="100" width="116" height="40" fill="#2f87a6"/>
+            <path d="M32 101 L39 80 L46 96 L52 70 L58 94 L64 70 L70 96 L77 80 L84 101Z" fill="#5bb6cf"/>
+            <g fill="#2f87a6"><circle cx="38" cy="66" r="3.5"/><circle cx="58" cy="54" r="4.5"/><circle cx="78" cy="64" r="3.5"/><circle cx="47" cy="58" r="2.5"/><circle cx="69" cy="57" r="2.5"/></g>
+          </g>
+          <g transform="translate(508 100)">
+            <rect width="116" height="140" fill="url(#frSky)"/><rect y="100" width="116" height="40" fill="#2f87a6"/>
+            <g fill="none" stroke="#d9eef4" stroke-width="2.5"><ellipse cx="58" cy="108" rx="44" ry="6"/><ellipse cx="58" cy="108" rx="24" ry="3.5"/></g>
+          </g>
+        </g>
+        <g transform="translate(556 300)">
+          <rect x="-9" y="-74" width="18" height="15" rx="4" fill="#43343f"/>
+          <rect x="-4" y="-61" width="8" height="9" fill="#43343f"/>
+          <circle r="54" fill="#f6f0e7" stroke="#43343f" stroke-width="7"/>
+          <g stroke="#43343f" stroke-width="3" stroke-linecap="round"><path d="M0 -44 V-36 M44 0 H36 M0 44 V36 M-44 0 H-36"/></g>
+          <path d="M0 0 L4.2 -38" stroke="#b54a3c" stroke-width="5" stroke-linecap="round"/>
+          <circle r="6" fill="#43343f"/>
+          <text y="27" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-size="15" font-weight="600" fill="#43343f">1 second</text>
+        </g>
+      </svg>
+      <p class="cap">A slow-motion camera takes hundreds of photos of one single second. Today, your pencil is the camera.</p>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <div class="tt">The lesson at a glance (about 25 minutes)</div>
+    <ul>
+      <li>Cards 2, 3 and 4 are your five minutes up front: the hook, Lily's tools, then your toast demonstration.</li>
+      <li>Cards 5 and 6: the challenge rules and the scene choice, about two minutes.</li>
+      <li>Card 7: fifteen minutes of writing in books, with a big timer.</li>
+      <li>Card 8: partners count the words that work, about four minutes.</li>
+    </ul>
+    <div class="tt">Driving it</div>
+    <ul>
+      <li>A clicker or the arrow keys work throughout. Each click shows the next step on a card, then moves on to the next card. Left steps back.</li>
+      <li>The full screen button is in the top bar.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 2. HOW LONG? ================= -->
+<section class="screen" data-name="how" data-title="How long?" data-labels="Reveal the answer|Show Version B|Reveal the answer|Compare them">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>2 &middot; Hook</span><span class="min">2 min</span><span class="mode">Talk</span></div>
+      <h2 class="big">How much time passes?</h2>
+    </div>
+    <div class="g2">
+      <div>
+        <div class="version fast"><span class="who">Version A</span><span class="vt" id="verA">Lily saw the lightning and was scared but she remembered the creek and carried Ava back to camp.</span></div>
+        <div class="qa">
+          <span class="q"><svg><use href="#i-ear-talk"/></svg>Tell your partner: how much time passes?</span>
+          <span class="a rv" data-step="1"><svg><use href="#i-clock"/></svg><b>About half an hour.</b></span>
+        </div>
+        <div class="version slow rv" data-step="2"><span class="who">Version B</span>
+          <div class="vt" id="verB">
+            <p>Lightning split the sky. Ava screamed and gripped my arm. For a second, I couldn&rsquo;t move. Rain stung my eyes. <em>Think, Lily. Think.</em></p>
+            <p>Then, under the thunder, I heard it: water, rushing somewhere downhill.</p>
+            <p>The creek.</p>
+            <p>Mr Patel&rsquo;s words came back to me: &ldquo;Follow the creek. It runs right past the dining hall.&rdquo;</p>
+          </div>
+        </div>
+        <div class="qa rv" data-step="2">
+          <span class="q"><svg><use href="#i-ear-talk"/></svg>Now how much time passes?</span>
+          <span class="a rv" data-step="3"><svg><use href="#i-clock"/></svg><b>About ten seconds.</b></span>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="panel cmp">
+          <h3>Words and time</h3>
+          <p class="sub">Watch what happens to each bar.</p>
+          <div class="cg words">
+            <div class="ct">Words</div>
+            <div class="brow"><span class="k">A</span><div class="track"><i id="barWA" data-step="1"></i></div><span class="v rv" data-step="1"><span class="wcA">18</span> words</span></div>
+            <div class="brow"><span class="k b">B</span><div class="track"><i style="--w:100%" data-step="3"></i></div><span class="v rv" data-step="3"><span class="wcB">53</span> words</span></div>
+          </div>
+          <div class="cg time">
+            <div class="ct">Time</div>
+            <div class="brow"><span class="k">A</span><div class="track"><i style="--w:100%" data-step="1"></i></div><span class="v rv" data-step="1">30 minutes</span></div>
+            <div class="brow"><span class="k b">B</span><div class="track"><i style="--w:2%" data-step="3"></i></div><span class="v rv" data-step="3">10 seconds</span></div>
+          </div>
+        </div>
+        <div class="tip learn rv" data-step="4">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><span class="lbl">Learn this</span><p>Slow motion means <em>more words, less time</em>. In Version B, Lily has not even taken a step yet.</p></div>
+        </div>
+        <div class="tip book none">
+          <div class="ic"><svg><use href="#i-talk"/></svg></div>
+          <div><span class="lbl">In your book</span><p>Nothing to write yet. Talk to your partner, then listen.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>Read Version A flatly, then ask how much time passes. Take two or three guesses before you click.</li>
+      <li>Read Version B slowly, leaning on every full stop. Ask the same question again.</li>
+      <li>Land the comparison: Version B has nearly three times the words and covers about ten seconds. Lily has not even started walking.</li>
+      <li>Lily, Ava and the creek come from the camp story the class has already met.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 3. LILY'S TOOLS ================= -->
+<section class="screen" data-name="tools" data-title="Lily's tools" data-labels="Show how we know|Short sentences|The senses|Thoughts|One-line paragraph">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>3 &middot; I do</span><span class="min">1 min</span><span class="mode">Spot</span></div>
+      <h2 class="big">Lily never says &ldquo;scared&rdquo;. How do we know?</h2>
+    </div>
+    <div class="g3">
+      <div class="panel exemplar" id="exemplar">
+        <p><span class="ex-s" data-tools="short senses">Lightning split the sky.</span> <span class="ex-s" data-tools="senses">Ava screamed and gripped my arm.</span> <span class="ex-s" data-tools="body">For a second, I couldn&rsquo;t move.</span> <span class="ex-s" data-tools="short senses">Rain stung my eyes.</span> <span class="ex-s" data-tools="thoughts short"><em>Think, Lily. Think.</em></span></p>
+        <p><span class="ex-s" data-tools="senses">Then, under the thunder, I heard it: water, rushing somewhere downhill.</span></p>
+        <p><span class="ex-s" data-tools="oneline short">The creek.</span></p>
+        <p><span class="ex-s" data-tools="thoughts">Mr Patel&rsquo;s words came back to me: &ldquo;Follow the creek. It runs right past the dining hall.&rdquo;</span></p>
+      </div>
+      <div class="stack">
+        <div class="tools-h">The Slow-Motion Toolkit</div>
+        <div class="tools" id="toolBtns">
+          <button class="tool" type="button" tabindex="-1" data-tool="short"><span class="ti"><svg><use href="#i-short"/></svg></span>Short sentences</button>
+          <button class="tool" type="button" tabindex="-1" data-tool="senses"><span class="ti"><svg><use href="#i-senses"/></svg></span>The senses</button>
+          <button class="tool" type="button" tabindex="-1" data-tool="thoughts"><span class="ti"><svg><use href="#i-thoughts"/></svg></span>Thoughts</button>
+          <button class="tool" type="button" tabindex="-1" data-tool="body"><span class="ti"><svg><use href="#i-body"/></svg></span>Body reactions</button>
+          <button class="tool" type="button" tabindex="-1" data-tool="oneline"><span class="ti"><svg><use href="#i-oneline"/></svg></span>One-line paragraph</button>
+        </div>
+        <div class="tool-say" id="toolSay"></div>
+        <div class="tip book">
+          <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+          <div><span class="lbl">In your book</span><p>Write the five tools down the side of your page: <em>Short</em> <em>Senses</em> <em>Thoughts</em> <em>Body</em> <em>One-liner</em>. You will tick each one when you use it.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>Ask the question in the title before you click: Lily never says she was scared, so how do we know? Take answers.</li>
+      <li>The first click lights up &ldquo;For a second, I couldn&rsquo;t move.&rdquo; Each click after that lights up one tool. Ask students to point to an example before you click.</li>
+      <li>You can also tap any tool on the right to light it up out of order.</li>
+      <li>The five tools and their colours match the Slow-Motion Toolkit poster in the Lesson 7 resources.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 4. WATCH ME ================= -->
+<section class="screen" data-name="demo" data-title="Watch me" data-labels="Add a line|Add a line|Add a line|Add a line|Add a line|Add a line|Add a line|Add a line|Add a line|Add a line|Add a line|Did the toast pop?">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>4 &middot; I do</span><span class="min">2 min</span><span class="mode">Watch</span></div>
+      <h2 class="big">Watch me stretch it</h2>
+    </div>
+    <div class="g4">
+      <div>
+        <div class="fastline"><span class="k">Fast version</span><span class="t" id="fastT">I waited for my toast to pop.</span><span class="wc"><span id="fastWc">7</span> words</span></div>
+        <div class="slowbox" id="slowbox">
+          <span class="who">Slow-motion version</span>
+          <span class="slow-hint" id="slowHint">Each click adds one sentence. Guess the tool before it appears.</span>
+          <p><span class="ds" data-step="1" data-tool="short" data-label="Short sentence">The toaster ticked on the bench.</span> <span class="ds" data-step="2" data-tool="senses" data-label="Senses: touch">I stood in front of it in my socks, the kitchen tiles icy under my feet.</span> <span class="ds" data-step="3" data-tool="senses" data-label="Senses: sight">Through the slots, the wires glowed orange.</span></p>
+          <p><span class="ds" data-step="4" data-tool="senses" data-label="Senses: smell">Then the smell arrived: warm and nutty, with a tiny edge of burnt.</span> <span class="ds" data-step="5" data-tool="body" data-label="Body reaction">My stomach growled so loudly that I checked the doorway in case anyone had heard.</span></p>
+          <p><span class="ds" data-step="6" data-tool="thoughts" data-label="Thoughts"><em>Don&rsquo;t touch it,</em> I told myself. <em>A watched toaster never pops.</em></span></p>
+          <p><span class="ds" data-step="7" data-tool="short" data-label="Short sentence">I leaned closer.</span> <span class="ds" data-step="8" data-tool="senses" data-label="Senses: zoom right in">A single crumb trembled on the edge of the slot.</span> <span class="ds" data-step="9" data-tool="body" data-label="Body reaction">My fingers hovered over the lever.</span> <span class="ds" data-step="10" data-tool="short" data-label="Short sentence">The ticking slowed.</span></p>
+          <p><span class="ds" data-step="11" data-tool="oneline" data-label="One-line paragraph">Any second now.</span></p>
+        </div>
+        <div class="tip learn rv" data-step="12">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><span class="lbl">Learn this</span><p>The toast never pops. <em><span class="dWords2">93</span> words, about ten seconds,</em> and almost nothing happened. You still wanted to know what came next. That is slow motion.</p></div>
+        </div>
+      </div>
+      <div class="meter">
+        <div class="toaster">
+          <svg viewBox="0 0 220 160" aria-hidden="true">
+            <g class="heat" fill="none" stroke="#e8955a" stroke-width="4" stroke-linecap="round"><path d="M80 30 q-7 -8 0 -15 q7 -7 0 -14"/><path d="M140 30 q-7 -8 0 -15 q7 -7 0 -14"/></g>
+            <rect x="28" y="52" width="164" height="92" rx="28" fill="#d5dbe1" stroke="#43343f" stroke-width="4"/>
+            <path d="M46 74 V118" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".8"/>
+            <rect x="56" y="47" width="48" height="12" rx="6" fill="#43343f"/>
+            <rect x="116" y="47" width="48" height="12" rx="6" fill="#43343f"/>
+            <path d="M62 56 V45 Q62 35 80 35 Q98 35 98 45 V56Z" fill="#e9b872" stroke="#43343f" stroke-width="3"/>
+            <path d="M122 56 V45 Q122 35 140 35 Q158 35 158 45 V56Z" fill="#e9b872" stroke="#43343f" stroke-width="3"/>
+            <rect x="57" y="54" width="46" height="5" fill="#43343f"/><rect x="117" y="54" width="46" height="5" fill="#43343f"/>
+            <rect x="62" y="56" width="36" height="2" fill="#f08a4b"/><rect x="122" y="56" width="36" height="2" fill="#f08a4b"/>
+            <rect x="192" y="74" width="8" height="52" rx="4" fill="#9aa4ae"/>
+            <rect class="lever" id="lever" x="186" y="112" width="24" height="12" rx="5" fill="#43343f"/>
+            <circle cx="62" cy="122" r="9" fill="#fff" stroke="#43343f" stroke-width="3"/><path d="M62 122 L66 116" stroke="#43343f" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="48" y="142" width="22" height="10" rx="4" fill="#43343f"/><rect x="150" y="142" width="22" height="10" rx="4" fill="#43343f"/>
+          </svg>
+          <div><div class="pk">Has it popped?</div><div class="pv" id="dPop">Not yet</div></div>
+          <span class="stamp rv" data-step="12">Still not popped</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div><div class="sk">Words</div><div class="num" id="dWords">0</div></div></div>
+          <div class="stat">
+            <svg viewBox="0 0 120 130" aria-hidden="true">
+              <rect x="52" y="4" width="16" height="12" rx="3" fill="#43343f"/><rect x="56" y="14" width="8" height="8" fill="#43343f"/>
+              <circle cx="60" cy="68" r="46" fill="#fff" stroke="#43343f" stroke-width="6"/>
+              <g stroke="#43343f" stroke-width="3" stroke-linecap="round"><path d="M60 30 V36 M98 68 H92 M60 106 V100 M22 68 H28"/></g>
+              <g id="swHand"><path d="M60 68 V34" stroke="#b54a3c" stroke-width="5" stroke-linecap="round"/></g>
+              <circle cx="60" cy="68" r="5" fill="#43343f"/>
+            </svg>
+            <div><div class="sk">Time passed</div><div class="num" id="dSecs">0</div><div class="unit">seconds</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="mh">Tool just used</div>
+          <div class="nowtool"><span class="chip" id="dNow">None yet</span></div>
+        </div>
+        <div>
+          <div class="mh">Tools so far</div>
+          <div class="used" id="dUsed">
+            <span data-tool="short"><svg><use href="#i-short"/></svg>Short</span>
+            <span data-tool="senses"><svg><use href="#i-senses"/></svg>Senses</span>
+            <span data-tool="thoughts"><svg><use href="#i-thoughts"/></svg>Thoughts</span>
+            <span data-tool="body"><svg><use href="#i-body"/></svg>Body</span>
+            <span data-tool="oneline"><svg><use href="#i-oneline"/></svg>One-liner</span>
+          </div>
+        </div>
+        <div class="tip book none">
+          <div class="ic"><svg><use href="#i-talk"/></svg></div>
+          <div><span class="lbl">In your book</span><p>Nothing to write. Guess the next tool before each line appears.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>Read each line aloud as it appears and think aloud: &ldquo;My feet are cold. That's touch.&rdquo;</li>
+      <li>Before each click, ask the class to guess which tool comes next. The meter on the right counts the words and the seconds as you go.</li>
+      <li>Prefer to model live? Stretch the fast sentence on the board with the class first, then click through this version as a comparison.</li>
+      <li>The last click is the point of the whole lesson: lots of words, about ten seconds, and the toast never pops. That is exactly what they are about to do.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 5. THE CHALLENGE ================= -->
+<section class="screen" data-name="rules" data-title="The challenge" data-labels="Rule 1|Rule 2|Rule 3|Rule 4|Rule 5|What counts?">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>5 &middot; Your turn</span><span class="min">1 min</span><span class="mode">Listen</span></div>
+      <h2 class="big">The Slow-Motion Challenge</h2>
+    </div>
+    <div class="g5">
+      <ol class="rules">
+        <li class="rule rv" data-step="1"><span class="n">1</span><div><b>Pick one scene. Stay in it.</b><span>You will choose from three on the next card.</span></div></li>
+        <li class="rule rv" data-step="2"><span class="n">2</span><div><b>Stay inside the moment.</b><span>No &ldquo;later&rdquo;, no &ldquo;after a while&rdquo;, no &ldquo;the next day&rdquo;. Every sentence happens in the same few seconds.</span></div></li>
+        <li class="rule key rv" data-step="3"><span class="n">3</span><div><b>The big thing must not happen.</b><span>Your scene tells you what it is. Hold it off until your very last line, or never let it happen at all.</span></div></li>
+        <li class="rule rv" data-step="4"><span class="n">4</span><div><b>Show, don't tell.</b><span>No &ldquo;I was scared&rdquo;, &ldquo;I was nervous&rdquo; or &ldquo;I was excited&rdquo;. Let your body and your thoughts show it.</span></div></li>
+        <li class="rule rv" data-step="5"><span class="n">5</span><div><b>Use all five tools.</b><span>Tick them down the side of your page as you go.</span></div></li>
+      </ol>
+      <div class="stack">
+        <div class="prize">
+          <svg viewBox="0 0 120 130" aria-hidden="true">
+            <path d="M30 14 H90 V44 C90 66 76 78 60 78 C44 78 30 66 30 44Z" fill="#d8b15a" stroke="#f6f0e7" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M30 22 H16 C14 40 22 50 34 54 M90 22 H104 C106 40 98 50 86 54" fill="none" stroke="#f6f0e7" stroke-width="4" stroke-linecap="round"/>
+            <rect x="52" y="78" width="16" height="16" fill="#d8b15a" stroke="#f6f0e7" stroke-width="4"/>
+            <rect x="36" y="94" width="48" height="12" rx="3" fill="#a86d72" stroke="#f6f0e7" stroke-width="4"/>
+            <rect x="28" y="106" width="64" height="14" rx="3" fill="#f6f0e7"/>
+            <path d="M60 26 l5 10 11 1.6 -8 7.6 2 11 -10 -5.4 -10 5.4 2 -11 -8 -7.6 11 -1.6Z" fill="#fff"/>
+          </svg>
+          <p>The longest piece of writing <b>that works</b> wins.</p>
+        </div>
+        <div class="counts rv" data-step="6"><span class="lbl">What counts?</span>Only sentences that work. At the end, your partner crosses out any sentence that breaks a rule. Then you count the words that are left.</div>
+        <div class="tip learn">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><span class="lbl">Learn this</span><p>Long is easy. <em>Long and slow</em> is the skill.</p></div>
+        </div>
+        <div class="tip book none">
+          <div class="ic"><svg><use href="#i-talk"/></svg></div>
+          <div><span class="lbl">In your book</span><p>Nothing to write yet. Listen to the rules.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>One click per rule. Rule 3 is the heart of it: once the big thing happens, the moment is over, so it never happens, or only in the very last line.</li>
+      <li>&ldquo;That works&rdquo; is what stops a list of random sentences from winning. The partner check on card 8 enforces it.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 6. PICK A SCENE ================= -->
+<section class="screen" data-name="scenes" data-title="Pick a scene">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>6 &middot; Choose</span><span class="min">30 sec</span><span class="mode">Choose</span></div>
+      <h2 class="big">Pick your scene</h2>
+    </div>
+    <div class="scenes">
+      <article class="scene">
+        <svg viewBox="0 0 400 244" preserveAspectRatio="xMidYMin slice" role="img" aria-label="A swimmer in a yellow cap standing at the very end of a high diving board, far above the pool, with the crowd watching from the grandstand">
+          <defs>
+            <linearGradient id="aSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fcde0"/><stop offset="1" stop-color="#e3f3f7"/></linearGradient>
+            <linearGradient id="aWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5bb6cf"/><stop offset="1" stop-color="#2f87a6"/></linearGradient>
+          </defs>
+          <rect width="400" height="260" fill="url(#aSky)"/>
+          <circle cx="352" cy="36" r="20" fill="#f6d27a"/>
+          <g fill="#fff" opacity=".95"><ellipse cx="256" cy="34" rx="30" ry="9"/><ellipse cx="274" cy="27" rx="18" ry="9"/><ellipse cx="320" cy="72" rx="22" ry="6"/></g>
+          <path d="M112 150 V112 L400 98 V150Z" fill="#ded0c8" stroke="#43343f" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M112 124 L400 111 M112 137 L400 125" stroke="#cdbcb8" stroke-width="2.5"/>
+          <g id="crowdA"></g>
+          <rect y="150" width="400" height="110" fill="url(#aWater)"/>
+          <rect x="-4" y="145" width="408" height="9" fill="#f6f0e7" stroke="#43343f" stroke-width="3"/>
+          <path d="M0 190 H400" stroke="#f6f0e7" stroke-width="5" stroke-dasharray="9 7"/>
+          <path d="M0 228 H400" stroke="#c2898d" stroke-width="5" stroke-dasharray="9 7"/>
+          <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".55"><path d="M150 208 q10 -6 20 0 t20 0"/><path d="M262 246 q10 -6 20 0 t20 0"/><path d="M300 172 q10 -6 20 0 t20 0"/></g>
+          <g stroke="#43343f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+            <rect x="26" y="70" width="12" height="190" fill="#f6f0e7"/>
+            <rect x="62" y="70" width="12" height="190" fill="#f6f0e7"/>
+            <path d="M38 92 H62 M38 116 H62 M38 140 H62 M38 164 H62 M38 188 H62 M38 212 H62 M38 236 H62" fill="none"/>
+            <path d="M24 64 V40 M78 64 V40 M24 46 H78" fill="none"/>
+            <rect x="18" y="62" width="64" height="10" rx="3" fill="#a86d72"/>
+            <path d="M82 63 L236 68 L236 76 L82 72Z" fill="#d8b15a"/>
+          </g>
+          <g stroke="#43343f" stroke-width="2.5" stroke-linejoin="round">
+            <rect x="211" y="47" width="6.5" height="21" rx="3.2" fill="#c98b62"/>
+            <rect x="220" y="47" width="6.5" height="21" rx="3.2" fill="#c98b62"/>
+            <rect x="201" y="25" width="6" height="23" rx="3" fill="#c98b62" transform="rotate(8 204 25)"/>
+            <rect x="230" y="25" width="6" height="23" rx="3" fill="#c98b62" transform="rotate(-8 233 25)"/>
+            <rect x="206" y="22" width="26" height="28" rx="10" fill="#7a5c8a"/>
+            <circle cx="219" cy="13" r="9" fill="#c98b62"/>
+            <path d="M210 13 A9 9 0 0 1 228 13Z" fill="#d8b15a"/>
+          </g>
+          <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M244 24 q8 -4 16 0"/><path d="M250 36 q7 -3 12 0"/></g>
+        </svg>
+        <div class="sb">
+          <h3><span class="let">A</span>The Diving Board</h3>
+          <p>You are standing at the very end of the high diving board at the swimming carnival. Your toes curl over the edge. The whole school is watching.</p>
+          <div class="never"><span class="x"><svg><use href="#i-cross"/></svg></span><span><b>Must not happen:</b> you jump.</span></div>
+        </div>
+      </article>
+      <article class="scene">
+        <svg viewBox="0 6 400 244" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A hand holding a pink ice cream cone on a hot beach day, with a drip sliding down towards the fingers, a thermometer showing 38 degrees and a seagull watching">
+          <defs>
+            <linearGradient id="bSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffcf9a"/><stop offset="1" stop-color="#fff0dc"/></linearGradient>
+            <clipPath id="bCone"><path d="M160 120 L240 120 L200 238Z"/></clipPath>
+          </defs>
+          <rect width="400" height="260" fill="url(#bSky)"/>
+          <g transform="translate(344 46)"><circle r="24" fill="#f6b84a"/><path d="M0 -33 V-43 M0 33 V43 M-33 0 H-43 M33 0 H43 M23 23 L30 30 M-23 23 L-30 30 M23 -23 L30 -30 M-23 -23 L-30 -30" stroke="#f6b84a" stroke-width="5" stroke-linecap="round"/></g>
+          <g fill="none" stroke="#e8955a" stroke-width="3" stroke-linecap="round" opacity=".55"><path d="M96 46 q8 -8 16 0 t16 0 t16 0"/><path d="M262 104 q8 -8 16 0 t16 0 t16 0"/><path d="M112 76 q8 -8 16 0 t16 0"/></g>
+          <path d="M0 194 H400 V214 H0Z" fill="#5bb6cf"/>
+          <path d="M0 212 Q100 202 200 210 T400 208 V260 H0Z" fill="#f1d9a8"/>
+          <g transform="translate(46 112)">
+            <rect x="-8" y="-58" width="16" height="78" rx="8" fill="#fff" stroke="#43343f" stroke-width="3"/>
+            <rect x="-3.5" y="-48" width="7" height="62" rx="3.5" fill="#b54a3c"/>
+            <circle cx="0" cy="24" r="12" fill="#b54a3c" stroke="#43343f" stroke-width="3"/>
+            <text x="16" y="-40" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="20" fill="#43343f">38&#176;</text>
+          </g>
+          <g stroke="#43343f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M326 222 V238 M338 222 V238" stroke="#e8955a" stroke-width="3"/>
+            <ellipse cx="334" cy="212" rx="26" ry="14" fill="#fff"/>
+            <path d="M338 204 Q356 200 362 212 Q348 218 334 214Z" fill="#b7bec6"/>
+            <path d="M358 208 L374 202 L370 214Z" fill="#b7bec6"/>
+            <circle cx="312" cy="194" r="11" fill="#fff"/>
+            <path d="M302 192 L289 196 L302 199Z" fill="#e8955a"/>
+            <circle cx="309" cy="191" r="2.2" fill="#43343f" stroke="none"/>
+          </g>
+          <path d="M160 120 L240 120 L200 238Z" fill="#e2a35a" stroke="#43343f" stroke-width="3" stroke-linejoin="round"/>
+          <g clip-path="url(#bCone)" stroke="#b8782f" stroke-width="2.2">
+            <path d="M30 100 L190 260 M44 100 L204 260 M58 100 L218 260 M72 100 L232 260 M86 100 L246 260 M100 100 L260 260 M114 100 L274 260 M128 100 L288 260 M142 100 L302 260 M156 100 L316 260 M170 100 L330 260 M184 100 L344 260 M198 100 L358 260 M212 100 L372 260"/>
+            <path d="M184 100 L24 260 M198 100 L38 260 M212 100 L52 260 M226 100 L66 260 M240 100 L80 260 M254 100 L94 260 M268 100 L108 260 M282 100 L122 260 M296 100 L136 260 M310 100 L150 260 M324 100 L164 260 M338 100 L178 260 M352 100 L192 260 M366 100 L206 260"/>
+          </g>
+          <path d="M150 122 C136 86 164 52 202 52 C240 52 266 86 252 122 C246 130 238 124 232 130 C224 136 216 126 208 132 C200 138 192 126 184 132 C176 136 168 126 160 130 C154 132 150 128 150 122Z" fill="#f4a6b8" stroke="#43343f" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M176 74 C184 64 196 61 206 62" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".7"/>
+          <g stroke-width="3.5" stroke-linecap="round"><path d="M214 80 l8 -3" stroke="#2f6f9e"/><path d="M186 96 l7 4" stroke="#d8b15a"/><path d="M228 102 l3 7" stroke="#467a33"/><path d="M200 108 l-7 2" stroke="#fff"/><path d="M238 82 l6 4" stroke="#d8b15a"/><path d="M170 108 l5 -5" stroke="#2f6f9e"/></g>
+          <path d="M234 126 C236 136 233 144 230 152" fill="none" stroke="#43343f" stroke-width="10" stroke-linecap="round"/>
+          <path d="M234 126 C236 136 233 144 230 152" fill="none" stroke="#f4a6b8" stroke-width="5" stroke-linecap="round"/>
+          <path d="M229.5 148 C234.5 155 235.5 160 229.5 163 C223.5 160 224.5 155 229.5 148Z" fill="#f4a6b8" stroke="#43343f" stroke-width="2.5"/>
+          <path d="M244 138 h7 M245 150 h7" stroke="#43343f" stroke-width="2.5" stroke-linecap="round"/>
+          <g stroke="#43343f" stroke-width="2.5" stroke-linejoin="round">
+            <path d="M226 164 C252 158 278 170 286 196 L304 262 H248 L232 226Z" fill="#c98b62"/>
+            <rect x="178" y="166" width="58" height="15" rx="7.5" fill="#c98b62"/>
+            <rect x="180" y="182" width="54" height="15" rx="7.5" fill="#c98b62"/>
+            <rect x="184" y="198" width="48" height="14" rx="7" fill="#c98b62"/>
+            <rect x="190" y="213" width="40" height="12" rx="6" fill="#c98b62"/>
+          </g>
+        </svg>
+        <div class="sb">
+          <h3><span class="let">B</span>The Last Drip</h3>
+          <p>It is 38 degrees at the beach. A drip of melting ice cream is sliding down your cone, heading straight for your fingers.</p>
+          <div class="never"><span class="x"><svg><use href="#i-cross"/></svg></span><span><b>Must not happen:</b> it reaches your hand.</span></div>
+        </div>
+      </article>
+      <article class="scene">
+        <svg viewBox="0 6 400 244" preserveAspectRatio="xMidYMin slice" role="img" aria-label="A dark lounge room with balloons and bunting, five pairs of eyes peeking over the back of a couch, and light glowing under the front door">
+          <rect width="400" height="260" fill="#2c2a46"/>
+          <rect y="216" width="400" height="44" fill="#232139"/>
+          <rect x="196" y="44" width="60" height="70" rx="4" fill="#38365a" stroke="#1a1930" stroke-width="3"/>
+          <path d="M226 44 V114 M196 79 H256" stroke="#1a1930" stroke-width="3"/>
+          <circle cx="243" cy="60" r="7" fill="#e9e3c4" opacity=".7"/>
+          <path d="M0 20 Q90 46 180 24 T400 26" fill="none" stroke="#5c5884" stroke-width="2"/>
+          <g opacity=".8">
+            <path d="M11 25 H29 L20 43Z" fill="#a86d72"/><path d="M46 31 H64 L55 49Z" fill="#2f6f9e"/><path d="M81 34 H99 L90 52Z" fill="#a87b12"/><path d="M116 32 H134 L125 50Z" fill="#6f4f80"/><path d="M151 27 H169 L160 45Z" fill="#467a33"/>
+            <path d="M206 21 H224 L215 39Z" fill="#a86d72"/><path d="M241 21 H259 L250 39Z" fill="#2f6f9e"/><path d="M281 25 H299 L290 43Z" fill="#a87b12"/><path d="M316 28 H334 L325 46Z" fill="#6f4f80"/><path d="M351 28 H369 L360 46Z" fill="#467a33"/>
+          </g>
+          <g opacity=".85">
+            <path d="M44 104 q-8 30 4 60" fill="none" stroke="#6c6690" stroke-width="1.5"/><ellipse cx="44" cy="80" rx="19" ry="24" fill="#a86d72"/><path d="M41 104 l3 5 l3 -5Z" fill="#a86d72"/>
+            <path d="M80 90 q8 30 -2 64" fill="none" stroke="#6c6690" stroke-width="1.5"/><ellipse cx="80" cy="68" rx="17" ry="22" fill="#2f6f9e"/><path d="M77 90 l3 5 l3 -5Z" fill="#2f6f9e"/>
+            <path d="M118 104 q-6 26 2 50" fill="none" stroke="#6c6690" stroke-width="1.5"/><ellipse cx="118" cy="86" rx="15" ry="19" fill="#a87b12"/><path d="M115 105 l3 5 l3 -5Z" fill="#a87b12"/>
+          </g>
+          <rect x="296" y="62" width="80" height="154" fill="#3d3a64" stroke="#14132a" stroke-width="3"/>
+          <path d="M306 74 H366 V134 H306Z M306 146 H366 V204 H306Z" fill="none" stroke="#14132a" stroke-width="2" opacity=".6"/>
+          <rect x="298" y="211" width="76" height="5" fill="#ffd98a"/>
+          <path d="M298 216 H374 L398 242 H272Z" fill="#ffd98a" opacity=".2"/>
+          <circle cx="309" cy="140" r="5" fill="#d8b15a" stroke="#14132a" stroke-width="2"/>
+          <g fill="none" stroke="#ffd98a" stroke-width="2.5" stroke-linecap="round"><path d="M290 128 a14 14 0 0 0 0 24"/><path d="M282 122 a22 22 0 0 0 0 36"/></g>
+          <g fill="#6b5f8e">
+            <circle cx="48" cy="160" r="22"/><circle cx="94" cy="160" r="22"/><circle cx="140" cy="160" r="22"/><circle cx="186" cy="160" r="22"/><circle cx="232" cy="160" r="22"/>
+          </g>
+          <path d="M128 141 L140 110 L152 141Z" fill="#a87b12" stroke="#14132a" stroke-width="2"/>
+          <circle cx="140" cy="110" r="4.5" fill="#f6f0e7"/>
+          <g fill="#fff">
+            <ellipse cx="45" cy="148" rx="4" ry="5.2"/><ellipse cx="57" cy="148" rx="4" ry="5.2"/>
+            <ellipse cx="91" cy="148" rx="4" ry="5.2"/><ellipse cx="103" cy="148" rx="4" ry="5.2"/>
+            <ellipse cx="137" cy="148" rx="4" ry="5.2"/><ellipse cx="149" cy="148" rx="4" ry="5.2"/>
+            <ellipse cx="183" cy="148" rx="4" ry="5.2"/><ellipse cx="195" cy="148" rx="4" ry="5.2"/>
+            <ellipse cx="229" cy="148" rx="4" ry="5.2"/><ellipse cx="241" cy="148" rx="4" ry="5.2"/>
+          </g>
+          <g fill="#14132a">
+            <circle cx="47" cy="149" r="2.2"/><circle cx="59" cy="149" r="2.2"/><circle cx="93" cy="149" r="2.2"/><circle cx="105" cy="149" r="2.2"/><circle cx="139" cy="149" r="2.2"/><circle cx="151" cy="149" r="2.2"/><circle cx="185" cy="149" r="2.2"/><circle cx="197" cy="149" r="2.2"/><circle cx="231" cy="149" r="2.2"/><circle cx="243" cy="149" r="2.2"/>
+          </g>
+          <path d="M16 178 Q16 156 38 156 H262 Q284 156 284 178 V220 H16Z" fill="#4c4170" stroke="#14132a" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M110 160 V198 M190 160 V198" stroke="#14132a" stroke-width="2" opacity=".45"/>
+          <rect x="6" y="190" width="40" height="38" rx="14" fill="#574a7d" stroke="#14132a" stroke-width="3"/>
+          <rect x="254" y="190" width="40" height="38" rx="14" fill="#574a7d" stroke="#14132a" stroke-width="3"/>
+          <rect x="34" y="200" width="232" height="26" rx="8" fill="#5f5186" stroke="#14132a" stroke-width="3"/>
+        </svg>
+        <div class="sb">
+          <h3><span class="let">C</span>The Surprise</h3>
+          <p>The lights are off. You are squashed behind the couch with twenty people, waiting to shout &ldquo;Surprise!&rdquo; A key scrapes in the front door.</p>
+          <div class="never"><span class="x"><svg><use href="#i-cross"/></svg></span><span><b>Must not happen:</b> the lights come on.</span></div>
+        </div>
+      </article>
+    </div>
+    <div class="foot2">
+      <div class="tip learn">
+        <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+        <div><span class="lbl">Learn this</span><p>Choose the moment you can <em>picture most clearly</em>. You will be living inside it for fifteen minutes.</p></div>
+      </div>
+      <div class="tip book">
+        <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+        <div><span class="lbl">In your book</span><p>Write your scene's name as your title, for example <em>The Last Drip</em>.</p></div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>Give 30 seconds to choose. No swapping once the timer starts.</li>
+      <li>For anyone who cannot decide: the ice cream is the easiest way in, the diving board has the most tension, and the surprise has the most sounds.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 7. WRITE ================= -->
+<section class="screen" data-name="write" data-title="Write">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>7 &middot; You write</span><span class="min">15 min</span><span class="mode">Write</span></div>
+      <h2 class="big">Slow it right down</h2>
+    </div>
+    <div class="g7">
+      <div class="timer">
+        <div class="tl">Writing time</div>
+        <div class="td" id="tDisp">15:00</div>
+        <div class="tbar"><i id="tBar"></i></div>
+        <div class="tctl">
+          <button class="btn go" id="tGo" type="button" tabindex="-1"></button>
+          <button class="btn line" id="tReset" type="button" tabindex="-1"><svg><use href="#i-reset"/></svg>Reset</button>
+          <button class="btn line" id="tMinus" type="button" tabindex="-1">&minus;1 min</button>
+          <button class="btn line" id="tPlus" type="button" tabindex="-1">+1 min</button>
+        </div>
+        <div class="tcall" id="tCall">Press Start when every title is written.</div>
+      </div>
+      <div class="panel loop">
+        <svg viewBox="0 0 520 430" role="img" aria-label="The slow-motion loop: look, listen, touch, smell, body, think, then go round again and zoom in closer">
+          <circle cx="260" cy="215" r="150" fill="none" stroke="#cdbcb8" stroke-width="4" stroke-dasharray="2 11" stroke-linecap="round"/>
+          <g fill="none" stroke="#a86d72" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M-8 -8 L4 0 L-8 8" transform="translate(335 85.1) rotate(30)"/>
+            <path d="M-8 -8 L4 0 L-8 8" transform="translate(410 215) rotate(90)"/>
+            <path d="M-8 -8 L4 0 L-8 8" transform="translate(335 344.9) rotate(150)"/>
+            <path d="M-8 -8 L4 0 L-8 8" transform="translate(185 344.9) rotate(210)"/>
+            <path d="M-8 -8 L4 0 L-8 8" transform="translate(110 215) rotate(270)"/>
+            <path d="M-8 -8 L4 0 L-8 8" transform="translate(185 85.1) rotate(330)"/>
+          </g>
+          <circle cx="260" cy="215" r="84" fill="#f6f0e7" stroke="#cdbcb8" stroke-width="2"/>
+          <text x="260" y="198" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-size="32" font-weight="600" fill="#43343f">Stuck?</text>
+          <text x="260" y="230" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#6c5b67">Go round again,</text>
+          <text x="260" y="254" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="#6c5b67">zooming in closer.</text>
+          <g transform="translate(260 65)">
+            <circle r="46" fill="#e0eed6" stroke="#467a33" stroke-width="4"/>
+            <path d="M-20 -9 Q0 -27 20 -9 Q0 9 -20 -9Z" fill="#fff" stroke="#43343f" stroke-width="3" stroke-linejoin="round"/><circle cx="0" cy="-9" r="6" fill="#43343f"/><circle cx="2" cy="-11" r="1.8" fill="#fff"/>
+            <text y="29" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#467a33">Look</text>
+          </g>
+          <g transform="translate(389.9 140)">
+            <circle r="46" fill="#e0eed6" stroke="#467a33" stroke-width="4"/>
+            <path d="M-5 7 C-15 1 -15 -27 1 -27 C13 -27 17 -14 9 -6 C4 -1 5 4 0 8 C-2 10 -4 9 -5 7Z" fill="#fff" stroke="#43343f" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M-2 -16 C1 -21 8 -18 5 -11" fill="none" stroke="#43343f" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M17 -20 q5 6 0 12 M23 -24 q8 10 0 20" fill="none" stroke="#467a33" stroke-width="2.5" stroke-linecap="round"/>
+            <text y="29" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#467a33">Listen</text>
+          </g>
+          <g transform="translate(389.9 290)">
+            <circle r="46" fill="#e0eed6" stroke="#467a33" stroke-width="4"/>
+            <g fill="#fff" stroke="#43343f" stroke-width="2.5" stroke-linejoin="round">
+              <rect x="-11" y="-27" width="5.5" height="18" rx="2.75"/><rect x="-5" y="-30" width="5.5" height="21" rx="2.75"/><rect x="1" y="-29" width="5.5" height="20" rx="2.75"/><rect x="7" y="-25" width="5.5" height="16" rx="2.75"/>
+              <rect x="-19" y="-14" width="6" height="15" rx="3" transform="rotate(-35 -16 -6)"/>
+              <rect x="-12" y="-14" width="25" height="19" rx="8"/>
+            </g>
+            <text y="29" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#467a33">Touch</text>
+          </g>
+          <g transform="translate(260 365)">
+            <circle r="46" fill="#e0eed6" stroke="#467a33" stroke-width="4"/>
+            <path d="M0 -26 C0 -14 -10 -6 -10 0 C-10 5 -5 6 -2 4 M0 -26 C0 -14 10 -6 10 0 C10 5 5 6 2 4" fill="none" stroke="#43343f" stroke-width="3" stroke-linecap="round"/>
+            <path d="M-24 -6 q4 -4 0 -8 q-4 -4 0 -8 M24 -6 q4 -4 0 -8 q-4 -4 0 -8" fill="none" stroke="#467a33" stroke-width="2.5" stroke-linecap="round"/>
+            <text y="29" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#467a33">Smell</text>
+          </g>
+          <g transform="translate(130.1 290)">
+            <circle r="46" fill="#d9e8f5" stroke="#2b6594" stroke-width="4"/>
+            <path d="M0 6 C-16 -4 -20 -14 -14 -21 C-8 -27 -2 -24 0 -18 C2 -24 8 -27 14 -21 C20 -14 16 -4 0 6Z" fill="#c95a5a" stroke="#43343f" stroke-width="2.5" stroke-linejoin="round"/>
+            <text y="29" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#2b6594">Body</text>
+          </g>
+          <g transform="translate(130.1 140)">
+            <circle r="46" fill="#ebe0f2" stroke="#6f4f80" stroke-width="4"/>
+            <path d="M-14 -4 C-21 -5 -21 -16 -13 -17 C-12 -25 -1 -27 3 -21 C9 -26 19 -21 16 -13 C22 -10 19 -2 12 -2 C9 3 -1 3 -3 -1 C-7 2 -13 1 -14 -4Z" fill="#fff" stroke="#43343f" stroke-width="2.5" stroke-linejoin="round"/>
+            <circle cx="-15" cy="5" r="2.8" fill="#fff" stroke="#43343f" stroke-width="2"/><circle cx="-20" cy="11" r="1.7" fill="#43343f"/>
+            <g fill="#43343f"><circle cx="-5" cy="-11" r="1.7"/><circle cx="1" cy="-11" r="1.7"/><circle cx="7" cy="-11" r="1.7"/></g>
+            <text y="29" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#6f4f80">Think</text>
+          </g>
+        </svg>
+        <p class="cap">Add a short sentence or a one-liner whenever the moment needs a pause.</p>
+      </div>
+    </div>
+    <div class="w7">
+      <div class="tip book">
+        <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+        <div><span class="lbl">In your book</span><p>Write without stopping. <em>Tick each tool</em> down the side of your page when you use it.</p></div>
+      </div>
+      <div class="toolstrip">
+        <div class="ts" data-tool="short"><b><svg><use href="#i-short"/></svg>Short</b><i>The ticking slowed.</i></div>
+        <div class="ts" data-tool="senses"><b><svg><use href="#i-senses"/></svg>Senses</b><i>Rain stung my eyes.</i></div>
+        <div class="ts" data-tool="thoughts"><b><svg><use href="#i-thoughts"/></svg>Thoughts</b><i>Think, Lily. Think.</i></div>
+        <div class="ts" data-tool="body"><b><svg><use href="#i-body"/></svg>Body</b><i>My fingers hovered over the lever.</i></div>
+        <div class="ts" data-tool="oneline"><b><svg><use href="#i-oneline"/></svg>One-liner</b><i>Any second now.</i></div>
+      </div>
+    </div>
+    <div class="remind"><span class="x"><svg><use href="#i-cross"/></svg></span>Check: has the big thing happened? It must not. Not yet.</div>
+    <div class="helps">
+      <details class="help">
+        <summary>Stuck? A &middot; Diving Board</summary>
+        <div class="hb"><ul>
+          <li>What does the board feel like under your toes?</li>
+          <li>What can you see when you look straight down?</li>
+          <li>Who can you spot in the crowd? What are they doing?</li>
+          <li>What are your stomach, knees and hands doing?</li>
+          <li>What are you telling yourself?</li>
+        </ul></div>
+      </details>
+      <details class="help">
+        <summary>Stuck? B &middot; Last Drip</summary>
+        <div class="hb"><ul>
+          <li>How fast is the drip moving? What colour is it?</li>
+          <li>What does the sun feel like on the back of your neck?</li>
+          <li>What can you hear and smell at the beach?</li>
+          <li>Is anything else interested in your ice cream?</li>
+          <li>What are you thinking: lick it now, or not yet?</li>
+        </ul></div>
+      </details>
+      <details class="help">
+        <summary>Stuck? C &middot; Surprise</summary>
+        <div class="hb"><ul>
+          <li>What can you make out in the dark?</li>
+          <li>Who is squashed next to you? What can you smell?</li>
+          <li>What does the carpet feel like under your knees?</li>
+          <li>What can you hear on the other side of the door?</li>
+          <li>What are you trying very hard not to do?</li>
+        </ul></div>
+      </details>
+      <details class="help">
+        <summary>Sentence starters</summary>
+        <div class="hb"><div class="starters"><span>For a second, &hellip;</span><span>Somewhere behind me, &hellip;</span><span>Out of the corner of my eye, &hellip;</span><span>I could feel &hellip;</span><span>My ___ would not stop ___.</span><span>I told myself, &hellip;</span><span>Even closer, I noticed &hellip;</span><span>Not yet.</span></div></div>
+      </details>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>Start the timer and keep the room silent for the first five minutes.</li>
+      <li>The timer calls out at five minutes and at one minute. When students run dry, point to the loop: go round the senses, the body and the thoughts again, closer each time.</li>
+      <li>Circulate with one question: &ldquo;Has the big thing happened yet?&rdquo;</li>
+      <li>The scene questions and sentence starters stay closed. Open one for a student who is stuck, not for the whole room.</li>
+      <li>If you change cards, the timer keeps running and shows in the top bar. Tap it to come back.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 8. COUNT UP ================= -->
+<section class="screen" data-name="count" data-title="Count up" data-labels="Step 1|Step 2|Step 3|Step 4|Step 5">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>8 &middot; Count up</span><span class="min">4 min</span><span class="mode">Partners</span></div>
+      <h2 class="big">Count what works</h2>
+    </div>
+    <div class="steps8">
+      <div class="st8 rv" data-step="1"><span class="n">1</span><b>Pens down</b><p>Finish the sentence you are on. Do not end the moment.</p></div>
+      <div class="st8 rv" data-step="2"><span class="n">2</span><b>Swap books</b><p>Read your partner's writing quietly, all the way through.</p></div>
+      <div class="st8 key rv" data-step="3"><span class="n">3</span><b>Cross out</b><p>One light pencil line through any sentence that breaks a rule: it skips ahead, names a feeling, or lets the big thing happen.</p></div>
+      <div class="st8 rv" data-step="4"><span class="n">4</span><b>Count what works</b><p>Count the words that are left. Put a small dot every ten words so you do not lose your place.</p></div>
+      <div class="st8 rv" data-step="5"><span class="n">5</span><b>Top three read</b><p>The highest counts read aloud. The class decides: does every sentence stay inside the moment?</p></div>
+    </div>
+    <div class="foot8">
+      <div class="winner">
+        <svg viewBox="0 0 120 130" aria-hidden="true">
+          <path d="M30 14 H90 V44 C90 66 76 78 60 78 C44 78 30 66 30 44Z" fill="#d8b15a" stroke="#f6f0e7" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M30 22 H16 C14 40 22 50 34 54 M90 22 H104 C106 40 98 50 86 54" fill="none" stroke="#f6f0e7" stroke-width="4" stroke-linecap="round"/>
+          <rect x="52" y="78" width="16" height="16" fill="#d8b15a" stroke="#f6f0e7" stroke-width="4"/>
+          <rect x="36" y="94" width="48" height="12" rx="3" fill="#a86d72" stroke="#f6f0e7" stroke-width="4"/>
+          <rect x="28" y="106" width="64" height="14" rx="3" fill="#f6f0e7"/>
+          <path d="M60 26 l5 10 11 1.6 -8 7.6 2 11 -10 -5.4 -10 5.4 2 -11 -8 -7.6 11 -1.6Z" fill="#fff"/>
+        </svg>
+        <p><b>Longest that works wins</b>Long is easy. Long and slow is the skill.</p>
+      </div>
+      <div class="tip learn">
+        <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+        <div><span class="lbl">Learn this</span><p>Writers slow down the moments that matter most. Next, you will <em>slow down the climax</em> of your own story with at least two tools.</p></div>
+      </div>
+      <div class="tip book">
+        <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+        <div><span class="lbl">In your book</span><p>Write your word count at the bottom of your writing and <em>circle it</em>.</p></div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>Partners cross out in light pencil, so the writer can see what broke a rule: a jump forward in time, a named feeling, or the big thing happening early.</li>
+      <li>A dot every ten words keeps the counting quick and checkable.</li>
+      <li>The top three read aloud. The class judges whether every sentence stays inside the moment, which is the real success criterion.</li>
+      <li>Link forward: the Lesson 7 draft checklist asks for the climax slowed down with two or more tools. Today was the practice for that.</li>
+    </ul>
+  </aside>
+</section>
+
+</main>
+
+<aside class="drawer" id="drawer" aria-label="Teacher notes">
+  <button class="ibtn x" id="drawerX" type="button" tabindex="-1">Close</button>
+  <h3 id="drawerH">Teacher notes</h3>
+  <div id="drawerBody"></div>
+</aside>
+
+<script>
+(function(){
+  var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function $(id){ return document.getElementById(id); }
+  function each(list, fn){ Array.prototype.forEach.call(list, fn); }
+  function ic(id){ return '<svg><use href="#'+id+'"/></svg>'; }
+  function wc(t){ return (String(t).trim().match(/\S+/g) || []).length; }
+
+  var screens = Array.prototype.slice.call(document.querySelectorAll('.screen'));
+  var cur = 0;
+  var HOOK = {};
+
+  /* ---------- Top bar stops ---------- */
+  var stopsEl = $('stops');
+  screens.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'stop' + (i === 0 ? ' on' : ''); b.tabIndex = -1;
+    b.innerHTML = '<span class="n">'+(i+1)+'</span><span class="l">'+s.getAttribute('data-title')+'</span>';
+    b.addEventListener('click', function(){ go(i); });
+    stopsEl.appendChild(b);
+  });
+  var stops = Array.prototype.slice.call(stopsEl.children);
+
+  /* ---------- Steps on each card ---------- */
+  var S = screens.map(function(s){
+    var m = 0;
+    each(s.querySelectorAll('[data-step]'), function(e){ m = Math.max(m, +e.getAttribute('data-step')); });
+    var lab = s.getAttribute('data-labels');
+    var labels = lab ? lab.split('|') : [];
+    return { step:0, max:Math.max(m, labels.length), labels: labels };
+  });
+
+  /* ---------- Bottom nav on each card ---------- */
+  screens.forEach(function(s, i){
+    var nav = document.createElement('div');
+    nav.className = 'snav';
+    var next = screens[i+1] ? screens[i+1].getAttribute('data-title') : null;
+    var h = '';
+    h += i > 0 ? '<button class="btn ghost" type="button" tabindex="-1" data-act="prev">&larr; Previous card</button>' : '';
+    h += '<span class="hint">Clicker or arrow keys</span><span class="grow"></span>';
+    if(S[i].max){
+      h += '<span class="stepinfo"></span>';
+      h += '<button class="btn soft" type="button" tabindex="-1" data-act="back">Back a step</button>';
+      h += '<button class="btn rose" type="button" tabindex="-1" data-act="reveal"></button>';
+    }
+    if(next) h += '<button class="btn" type="button" tabindex="-1" data-act="next">Next: '+next+' &rarr;</button>';
+    nav.innerHTML = h;
+    s.appendChild(nav);
+  });
+
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-act]');
+    if(!b) return;
+    var a = b.getAttribute('data-act');
+    if(a === 'prev') go(cur-1);
+    else if(a === 'next') go(cur+1);
+    else if(a === 'reveal') stepFwd();
+    else if(a === 'back') stepBack();
+  });
+
+  function paintNav(){
+    var s = screens[cur], st = S[cur], nav = s.querySelector('.snav');
+    var r = nav.querySelector('[data-act=reveal]'), bk = nav.querySelector('[data-act=back]');
+    var info = nav.querySelector('.stepinfo'), nx = nav.querySelector('[data-act=next]');
+    if(r){
+      r.hidden = st.step >= st.max;
+      r.textContent = (st.labels[st.step] || 'Show next');
+      bk.disabled = st.step === 0;
+      info.textContent = 'Step ' + st.step + ' of ' + st.max;
+    }
+    if(nx) nx.classList.toggle('glow', st.step >= st.max && s.getAttribute('data-name') !== 'write');
+  }
+  function applyStep(i){
+    var s = screens[i], n = S[i].step;
+    each(s.querySelectorAll('[data-step]'), function(e){ e.classList.toggle('on', +e.getAttribute('data-step') <= n); });
+    var h = HOOK[s.getAttribute('data-name')];
+    if(h) h(n);
+    if(i === cur) paintNav();
+  }
+  function stepFwd(){
+    var st = S[cur];
+    if(st.step < st.max){ st.step++; applyStep(cur); }
+    else go(cur+1);
+  }
+  function stepBack(){
+    var st = S[cur];
+    if(st.step > 0){ st.step--; applyStep(cur); }
+    else go(cur-1);
+  }
+  function go(n){
+    if(isNaN(n) || n < 0 || n >= screens.length || n === cur) return;
+    screens[cur].classList.remove('on');
+    cur = n;
+    screens[cur].classList.add('on');
+    stops.forEach(function(b, k){ b.classList.toggle('on', k === cur); if(k < cur) b.classList.add('seen'); });
+    window.scrollTo(0, 0);
+    if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    paintNav(); paintNotes(); paintRun();
+  }
+  /* Clicker and keyboard */
+  document.addEventListener('keydown', function(e){
+    var t = document.activeElement, tag = t ? t.tagName : '';
+    if(tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    if(e.key === 'ArrowRight' || e.key === 'PageDown'){ e.preventDefault(); stepFwd(); }
+    else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); stepBack(); }
+    else if(e.key === 'Escape'){ $('drawer').classList.remove('open'); }
+  }, true);
+
+  /* ---------- Teacher notes drawer ---------- */
+  function paintNotes(){
+    var s = screens[cur], tn = s.querySelector('.tnotes');
+    $('drawerH').textContent = 'Card ' + (cur+1) + ': ' + s.getAttribute('data-title');
+    $('drawerBody').innerHTML = tn ? tn.innerHTML : '<p>No notes for this card.</p>';
+  }
+  $('notesBtn').addEventListener('click', function(){ paintNotes(); $('drawer').classList.toggle('open'); });
+  $('drawerX').addEventListener('click', function(){ $('drawer').classList.remove('open'); });
+
+  /* ---------- Full screen ---------- */
+  $('fsBtn').addEventListener('click', function(){
+    var d = document;
+    if(!d.fullscreenElement){ if(d.documentElement.requestFullscreen) d.documentElement.requestFullscreen(); }
+    else if(d.exitFullscreen) d.exitFullscreen();
+  });
+
+  /* ---------- Card 2: word counts ---------- */
+  var wA = wc($('verA').textContent), wB = wc($('verB').textContent);
+  each(document.querySelectorAll('.wcA'), function(e){ e.textContent = wA; });
+  each(document.querySelectorAll('.wcB'), function(e){ e.textContent = wB; });
+  $('barWA').style.setProperty('--w', Math.round(wA / wB * 100) + '%');
+
+  /* ---------- Card 3: Lily's tools ---------- */
+  var ORDER = ['body', 'short', 'senses', 'thoughts', 'oneline'];
+  var TOOLTXT = {
+    short: '<b>Short sentences.</b> Each one is a single beat. Short sentences in a row feel like single frames of film.',
+    senses: '<b>The senses.</b> Lightning she sees, rain she feels, water she hears. Each sense adds another frame to the same few seconds.',
+    thoughts: '<b>Thoughts.</b> We hear inside Lily’s head, right as it happens: <i>Think, Lily. Think.</i>',
+    body: '<b>Body reactions.</b> “For a second, I couldn’t move.” We know Lily is terrified, and the writer never says so.',
+    oneline: '<b>One-line paragraph.</b> “The creek.” sits all by itself, so the reader stops. It is the moment Lily works out what to do.'
+  };
+  var exEl = $('exemplar'), sayEl = $('toolSay');
+  var toolBtns = Array.prototype.slice.call(document.querySelectorAll('#toolBtns .tool'));
+  var activeTool = null;
+  function setTool(t){
+    activeTool = t;
+    exEl.classList.toggle('has-tool', !!t);
+    if(t) exEl.setAttribute('data-tool', t); else exEl.removeAttribute('data-tool');
+    each(exEl.querySelectorAll('.ex-s'), function(s){
+      s.classList.toggle('hit', !!t && s.getAttribute('data-tools').split(' ').indexOf(t) > -1);
+    });
+    toolBtns.forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-tool') === t); });
+    if(t){ sayEl.setAttribute('data-tool', t); sayEl.classList.add('lit'); sayEl.innerHTML = TOOLTXT[t]; }
+    else { sayEl.removeAttribute('data-tool'); sayEl.classList.remove('lit'); sayEl.innerHTML = 'Find the proof in Lily’s writing first. Then click to check.'; }
+  }
+  toolBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var t = b.getAttribute('data-tool');
+      setTool(activeTool === t ? null : t);
+    });
+  });
+  HOOK.tools = function(n){ setTool(n ? ORDER[n-1] : null); };
+
+  /* ---------- Card 4: the toast demo ---------- */
+  var DS = Array.prototype.slice.call(document.querySelectorAll('.ds'));
+  var LAST = DS.length;
+  $('fastWc').textContent = wc($('fastT').textContent);
+  var totalWords = DS.reduce(function(a, d){ return a + wc(d.textContent); }, 0);
+  each(document.querySelectorAll('.dWords2'), function(e){ e.textContent = totalWords; });
+  function countTo(el, to){
+    var from = +el.getAttribute('data-v') || 0;
+    el.setAttribute('data-v', to);
+    if(reduce || from === to){ el.textContent = to; return; }
+    var t0 = null, dur = 550;
+    function f(t){
+      if(!t0) t0 = t;
+      var p = Math.min(1, (t - t0) / dur);
+      el.textContent = Math.round(from + (to - from) * p);
+      if(p < 1) requestAnimationFrame(f);
+    }
+    requestAnimationFrame(f);
+  }
+  HOOK.demo = function(n){
+    var words = 0, used = {}, latest = null, k = Math.min(n, LAST);
+    DS.forEach(function(d){
+      var s = +d.getAttribute('data-step');
+      d.classList.remove('latest');
+      if(s <= n){ words += wc(d.textContent); used[d.getAttribute('data-tool')] = 1; if(s === k) latest = d; }
+    });
+    if(latest && n <= LAST) latest.classList.add('latest');
+    $('slowHint').classList.toggle('gone', n > 0);
+    countTo($('dWords'), words);
+    var secs = Math.round(k * 10 / LAST);
+    $('dSecs').textContent = secs;
+    $('swHand').style.transform = 'rotate(' + (secs * 6) + 'deg)';
+    var now = $('dNow');
+    if(latest){
+      now.setAttribute('data-tool', latest.getAttribute('data-tool'));
+      now.classList.add('lit');
+      now.textContent = latest.getAttribute('data-label');
+    } else { now.removeAttribute('data-tool'); now.classList.remove('lit'); now.textContent = 'None yet'; }
+    each(document.querySelectorAll('#dUsed span'), function(c){ c.classList.toggle('lit', !!used[c.getAttribute('data-tool')]); });
+    $('dPop').textContent = n > LAST ? 'Never!' : 'Not yet';
+    var lever = $('lever');
+    lever.classList.remove('shake');
+    if(n > LAST && !reduce){ void lever.getBoundingClientRect(); lever.classList.add('shake'); }
+  };
+
+  /* ---------- Card 6: the crowd in the grandstand ---------- */
+  (function(){
+    var g = $('crowdA'), cols = ['#a86d72','#2b6594','#d8b15a','#6f4f80','#467a33','#f6f0e7','#b8592f'], h = '', c = 0;
+    [9, 21, 33].forEach(function(off, row){
+      for(var x = 120 + (row % 2) * 5; x < 396; x += 11){
+        var top = 112 - (x - 112) * (14 / 288);
+        h += '<circle cx="' + x + '" cy="' + (top + off).toFixed(1) + '" r="4.2" fill="' + cols[(c++ * 3) % cols.length] + '"/>';
+      }
+    });
+    g.innerHTML = h;
+  })();
+
+  /* ---------- Card 7: writing timer ---------- */
+  var T = { total:900, left:900, id:null, end:0 };
+  var writeIndex = screens.map(function(s){ return s.getAttribute('data-name'); }).indexOf('write');
+  function fmt(s){ var m = Math.floor(s / 60), r = s % 60; return m + ':' + (r < 10 ? '0' : '') + r; }
+  function call(msg){
+    var c = $('tCall');
+    c.textContent = msg;
+    c.classList.remove('flash'); void c.offsetWidth; c.classList.add('flash');
+  }
+  function tPaint(){
+    var d = $('tDisp');
+    d.textContent = fmt(T.left);
+    d.classList.toggle('warn', T.left > 0 && T.left <= 60);
+    d.classList.toggle('end', T.left === 0);
+    $('tBar').style.width = (T.total ? T.left / T.total * 100 : 0) + '%';
+    $('tGo').innerHTML = T.id ? ic('i-pause') + 'Pause' : ic('i-play') + (T.left < T.total && T.left > 0 ? 'Resume' : 'Start');
+    paintRun();
+  }
+  function tick(){
+    var prev = T.left;
+    T.left = Math.max(0, Math.round((T.end - Date.now()) / 1000));
+    if(T.left === prev) return;
+    if(prev > 300 && T.left <= 300) call('Five minutes left. Run dry? Go round the loop again, closer this time.');
+    if(prev > 60 && T.left <= 60) call('One minute. Keep the moment going. The big thing still does not happen.');
+    if(T.left <= 0){ tStop(); call('Pens down. Finish the sentence you are on.'); }
+    tPaint();
+  }
+  function tStart(){
+    if(T.left <= 0){ T.left = T.total; }
+    if(T.left === T.total) call('Writing. Stay inside the moment.');
+    T.end = Date.now() + T.left * 1000;
+    T.id = setInterval(tick, 250);
+    tPaint();
+  }
+  function tStop(){ if(T.id){ clearInterval(T.id); T.id = null; } tPaint(); }
+  $('tGo').addEventListener('click', function(){ if(T.id) tStop(); else tStart(); });
+  $('tReset').addEventListener('click', function(){ tStop(); T.total = 900; T.left = 900; call('Press Start when every title is written.'); tPaint(); });
+  function adjust(sec){
+    var nl = Math.max(60, Math.min(3600, T.left + sec));
+    var diff = nl - T.left;
+    T.left = nl; T.total = Math.max(60, T.total + diff);
+    if(T.id) T.end += diff * 1000;
+    tPaint();
+  }
+  $('tMinus').addEventListener('click', function(){ adjust(-60); });
+  $('tPlus').addEventListener('click', function(){ adjust(60); });
+  function paintRun(){
+    var show = (T.id || (T.left > 0 && T.left < T.total)) && cur !== writeIndex;
+    $('runPill').classList.toggle('show', !!show);
+    $('runTxt').textContent = fmt(T.left);
+  }
+  $('runPill').addEventListener('click', function(){ go(writeIndex); });
+
+  /* ---------- Start ---------- */
+  screens.forEach(function(_, i){ applyStep(i); });
+  tPaint();
+  paintNav();
+  paintNotes();
+})();
+</script>
+</body>
+</html>
