@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Red Pen: editing like a writer. Model six kinds of edit (word choice, grammar, sentences, dialogue, show don't tell, punctuation), red pen a double-spaced story, then type it up and compare the before and after. Writer's Toolkit, Stage 3 English.">
+<title>The Red Pen | Writer's Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Patrick+Hand&family=Caveat:wght@600;700&family=Lexend:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF8F5;--ink:#2D3436;--ink-light:#636E72;
+  --teal:#4ECDC4;--teal-light:#d0f0ec;--teal-dark:#1f9c92;
+  --coral:#FF6B6B;--coral-light:#ffe0e0;--coral-dark:#c0392b;
+  --gold:#FFD93D;--gold-light:#fdf2d0;--gold-dark:#9a7400;
+  --orange:#FF9F43;--orange-light:#ffe8d1;
+  --purple:#9B5DE5;--purple-light:#f0e6ff;--purple-dark:#6a3fc9;
+  --sky:#3A86FF;--sky-light:#dce8ff;--sky-dark:#1f5fd1;
+  --green:#27AE60;--green-light:#d3f9d8;
+  --red:#d62828;--red-light:#fde4e4;--red-dark:#9e1b1b;
+  --card:#fff;
+  --shadow:0 4px 20px rgba(0,0,0,0.06);
+  --shadow-hover:0 8px 32px rgba(0,0,0,0.12);
+  --radius:18px;
+  --sidebar-bg:#2D3436;--sidebar-w:250px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Fredoka',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+.num{font-family:'Space Mono',monospace;}
+
+.bg-shapes{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.bg-shape{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.14;}
+.bg-shape:nth-child(1){width:500px;height:500px;top:-10%;left:-5%;background:var(--coral);}
+.bg-shape:nth-child(2){width:400px;height:400px;top:20%;right:-8%;background:var(--gold);}
+.bg-shape:nth-child(3){width:350px;height:350px;bottom:15%;left:10%;background:var(--sky);}
+.bg-shape:nth-child(4){width:450px;height:450px;bottom:-5%;right:15%;background:var(--coral);}
+.bg-shape:nth-child(5){width:300px;height:300px;top:50%;left:40%;background:var(--teal);}
+
+/* Top bar */
+.top-bar{background:var(--sidebar-bg);color:#fff;position:sticky;top:0;z-index:200;display:flex;align-items:center;height:48px;border-bottom:2px solid rgba(255,255,255,0.08);}
+.sidebar-toggle{background:none;border:none;border-right:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:22px;cursor:pointer;height:100%;padding:0 16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;}
+.sidebar-toggle:hover{color:#fff;background:rgba(255,255,255,0.08);}
+.top-bar-title{font-weight:600;font-size:0.95rem;padding:0 22px;letter-spacing:0.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.top-bar-title span{color:var(--gold);}
+.top-bar .back-link{margin-left:auto;color:var(--gold);font-size:0.8rem;font-weight:600;text-decoration:none;padding:0 20px;white-space:nowrap;opacity:0.75;transition:opacity 0.2s;}
+.top-bar .back-link:hover{opacity:1;}
+
+/* Sidebar */
+.sidebar{position:fixed;left:0;top:48px;width:var(--sidebar-w);height:calc(100vh - 48px);background:var(--sidebar-bg);color:#fff;z-index:100;overflow-y:auto;transition:width 0.3s ease;}
+.sidebar.collapsed{width:0;overflow:hidden;}
+.sidebar-content{padding:14px 0 30px;}
+.sidebar-section{margin-bottom:8px;}
+.sidebar-section-title{font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 18px 5px;}
+.sidebar-item{background:none;border:none;color:rgba(255,255,255,0.62);font-family:'Fredoka',sans-serif;font-size:0.86rem;font-weight:500;cursor:pointer;padding:8px 18px;width:100%;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:10px;}
+.sidebar-item:hover{background:rgba(255,255,255,0.08);color:#fff;}
+.sidebar-item.active{background:rgba(255,217,61,0.14);color:#fff;border-left:4px solid var(--gold);padding-left:14px;}
+.sidebar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sidebar-code{font-family:'Caveat',cursive;font-weight:700;font-size:1.05rem;color:#ff8a8a;min-width:30px;}
+
+/* Main */
+main{margin-left:var(--sidebar-w);transition:margin-left 0.3s ease;padding:30px 56px 80px;position:relative;z-index:1;}
+.sidebar.collapsed~main{margin-left:0;}
+.slide{display:none;max-width:1600px;margin:0 auto;animation:fadeIn 0.4s ease;}
+.slide.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* Card */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:34px 46px 38px;margin-bottom:22px;position:relative;}
+.card h2{font-size:clamp(30px,3.3vw,46px);font-weight:700;margin-bottom:12px;line-height:1.12;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.card p,.card li{font-size:clamp(18px,1.8vw,24px);line-height:1.5;}
+.card-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px;padding-right:150px;}
+.eyebrow{font-size:clamp(13px,1.05vw,16px);letter-spacing:2.5px;text-transform:uppercase;font-weight:700;color:var(--red);}
+.lead{color:var(--ink-light);margin-bottom:14px;max-width:1250px;}
+
+/* Mode chips */
+.mode{display:inline-flex;align-items:center;gap:8px;border-radius:30px;padding:6px 14px 6px 8px;font-size:clamp(13px,1.05vw,16px);font-weight:600;}
+.mode svg{width:22px;height:22px;border-radius:50%;padding:3px;}
+.mode.m-talk{background:var(--sky-light);color:var(--sky-dark);} .mode.m-talk svg{background:var(--sky);}
+.mode.m-book{background:var(--gold-light);color:var(--gold-dark);} .mode.m-book svg{background:#e0b400;}
+.mode.m-pen{background:var(--red-light);color:var(--red-dark);} .mode.m-pen svg{background:var(--red);}
+.mode.m-laptop{background:var(--teal-light);color:var(--teal-dark);} .mode.m-laptop svg{background:var(--teal-dark);}
+
+/* LISC */
+.lisc{background:linear-gradient(135deg,#fff,#fff5f3);border-radius:var(--radius);box-shadow:var(--shadow);padding:34px 46px;margin-bottom:22px;border-left:6px solid var(--red);position:relative;}
+.lisc-top{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:start;}
+.lisc-li{font-size:clamp(20px,2vw,26px);font-weight:600;margin:0 0 8px;color:var(--red-dark);}
+.lisc-li-text{color:var(--ink);font-weight:500;font-size:clamp(23px,2.4vw,33px);line-height:1.35;}
+.lisc-sc-title{font-size:clamp(13px,1.05vw,16px);letter-spacing:2.5px;text-transform:uppercase;color:var(--red-dark);font-weight:700;margin:22px 0 8px;}
+.lisc ul{margin:0;padding-left:26px;}
+.lisc li{font-size:clamp(18px,1.8vw,24px);color:var(--ink);margin:7px 0;line-height:1.45;}
+.lisc-pen{width:clamp(120px,13vw,200px);}
+
+/* Slide nav */
+.slide-nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;padding-top:14px;border-top:1px solid #eee;}
+.nav-btn{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:12px 30px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;background:var(--ink);color:#fff;}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.nav-btn:disabled{opacity:0.25;cursor:not-allowed;transform:none;box-shadow:none;}
+.slide-counter{font-size:0.95rem;color:var(--ink-light);letter-spacing:1px;}
+
+/* Buttons */
+.btn{font-family:'Fredoka',sans-serif;font-size:clamp(16px,1.35vw,20px);font-weight:600;padding:13px 30px;border:none;border-radius:30px;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.btn-red{background:var(--red);color:#fff;}
+.btn-sky{background:var(--sky);color:#fff;}
+.btn-gold{background:var(--gold);color:var(--ink);}
+.btn-teal{background:var(--teal-dark);color:#fff;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-outline{background:#fff;color:var(--ink);border:2px solid #ddd;}
+.btn.small{padding:8px 18px;font-size:clamp(14px,1.15vw,17px);}
+.btn.done{display:none;}
+.btn-row{text-align:center;margin-top:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center;}
+
+/* Reveal */
+.reveal-step{opacity:0;max-height:0;overflow:hidden;transition:opacity 0.45s ease,max-height 0.5s ease,margin 0.45s ease;margin-top:0;}
+.reveal-step.visible{opacity:1;max-height:3000px;margin-top:14px;}
+
+/* Boxes */
+.book-box,.learn-box{display:flex;gap:16px;align-items:flex-start;border-radius:14px;padding:16px 20px;margin:14px 0 0;}
+.book-box{background:var(--gold-light);border:2px solid var(--gold);}
+.learn-box{background:var(--sky-light);border:2px solid var(--sky);}
+.box-icon{flex-shrink:0;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;}
+.book-box .box-icon{background:#e0b400;}
+.learn-box .box-icon{background:var(--sky);}
+.box-icon svg{width:25px;height:25px;}
+.box-label{font-size:clamp(13px,1.05vw,16px);letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:3px;}
+.book-box .box-label{color:var(--gold-dark);}
+.learn-box .box-label{color:var(--sky-dark);}
+.box-text{font-size:clamp(17px,1.65vw,22px);line-height:1.45;font-weight:500;}
+.box-text em,.book-steps em{font-style:normal;background:rgba(255,255,255,0.85);padding:1px 7px;border-radius:5px;}
+.book-steps{list-style:none;margin:6px 0 0;padding:0;counter-reset:bs;}
+.book-steps li{counter-increment:bs;display:flex;gap:12px;align-items:flex-start;font-size:clamp(17px,1.6vw,22px);line-height:1.45;font-weight:500;margin:7px 0;}
+.book-steps li::before{content:counter(bs);font-family:'Space Mono',monospace;font-weight:700;flex-shrink:0;width:30px;height:30px;border-radius:50%;background:#fff;color:var(--gold-dark);display:flex;align-items:center;justify-content:center;font-size:15px;margin-top:2px;}
+.think-step{background:#f8f9fa;border-left:5px solid var(--sky);border-radius:0 14px 14px 0;padding:14px 22px;margin:10px 0;font-size:clamp(18px,1.75vw,24px);line-height:1.45;}
+.think-label{font-size:clamp(13px,1.05vw,16px);letter-spacing:2px;text-transform:uppercase;color:var(--sky-dark);font-weight:700;margin-bottom:3px;}
+.think-step.big-idea{border-left-color:var(--red);background:#fff8f6;}
+.think-step.big-idea .think-label{color:var(--red-dark);}
+.boxes-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;}
+.boxes-2 .book-box,.boxes-2 .learn-box{margin-top:0;height:100%;}
+
+/* Teacher notes */
+.teacher-btn{position:absolute;top:18px;right:22px;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;color:var(--ink-light);background:#f3f1ee;border:1px dashed #c9c3bb;border-radius:20px;padding:6px 14px;cursor:pointer;z-index:2;}
+.teacher-btn:hover{background:#ebe7e1;}
+.teacher-panel{display:none;background:#fbfaf7;border:2px dashed #d5cec4;border-radius:14px;padding:18px 24px;margin-top:18px;}
+.teacher-panel.open{display:block;animation:fadeIn 0.3s ease;}
+.teacher-panel .tp-title{font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--ink-light);margin:10px 0 6px;}
+.teacher-panel .tp-title:first-child{margin-top:0;}
+.teacher-panel p,.teacher-panel li{font-size:clamp(15px,1.3vw,18px);line-height:1.55;color:#4a4f52;}
+.teacher-panel ul{padding-left:22px;margin:4px 0 8px;}
+.teacher-panel li{margin:3px 0;}
+.teacher-panel b{color:var(--ink);}
+.teacher-panel a{color:var(--red-dark);font-weight:600;}
+.keygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px;}
+.keycol{background:#fff;border:1px solid #e6e0d8;border-radius:12px;padding:12px 14px;}
+.keycol h4{font-size:16px;margin-bottom:6px;}
+.keycol p{font-size:14.5px !important;line-height:1.45 !important;margin:4px 0;}
+.keycol .kc{font-family:'Caveat',cursive;font-weight:700;color:var(--red);font-size:18px;margin-right:4px;}
+
+/* Code badge (hand-drawn red circle) */
+.codebadge{display:inline-flex;align-items:center;justify-content:center;min-width:1.9em;height:1.5em;padding:0 0.32em;border:0.08em solid var(--red);border-radius:50% 46% 52% 48% / 52% 48% 50% 50%;font-family:'Caveat',cursive;font-weight:700;color:var(--red);line-height:1;transform:rotate(-4deg);background:#fff;}
+
+/* Look-for chips */
+.lookfor{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 14px;}
+.lookfor .lf{font-size:clamp(13px,1.05vw,16px);letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--ink-light);margin-right:4px;}
+.lookfor span.t{background:var(--red-light);color:var(--red-dark);border-radius:20px;padding:4px 14px;font-weight:600;font-size:clamp(15px,1.3vw,19px);}
+
+/* ===== Red pen paper ===== */
+.paper{background:#fff;border-radius:6px 16px 16px 6px;box-shadow:0 6px 24px rgba(0,0,0,0.10);padding:14px 22px 16px 92px;position:relative;}
+.paper::before{content:"";position:absolute;left:76px;top:0;bottom:0;width:2px;background:#f2a7a7;}
+.draft{position:relative;font-family:'Patrick Hand',cursive;color:#3a3f44;font-size:clamp(24px,2.35vw,38px);line-height:2.75;padding-right:110px;
+  background-image:linear-gradient(to bottom,transparent 1.93em,#dbe7f5 1.93em,#dbe7f5 calc(1.93em + 2px),transparent calc(1.93em + 2px));background-size:100% 2.75em;}
+.draft .who{position:absolute;left:-84px;top:0.95em;font-family:'Fredoka',sans-serif;line-height:1.2;}
+.who{display:inline-block;border-radius:14px;padding:2px 10px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;}
+.who.i{background:var(--purple-light);color:var(--purple-dark);}
+.who.we{background:var(--sky-light);color:var(--sky-dark);}
+.who.d{background:#eef0f2;color:var(--ink-light);}
+.ed{position:relative;display:inline-block;white-space:nowrap;}
+.del{background-image:linear-gradient(var(--red),var(--red));background-repeat:no-repeat;background-position:0 60%;background-size:0% 0.1em;transition:background-size 0.45s ease;transition-delay:calc(var(--i) * 0.38s);}
+.ins{position:absolute;left:0;top:0.14em;font-family:'Caveat',cursive;font-weight:700;color:var(--red);font-size:0.82em;line-height:1;white-space:nowrap;opacity:0;transform:translateY(6px);transition:opacity 0.35s ease,transform 0.35s ease;transition-delay:calc(var(--i) * 0.38s + 0.25s);pointer-events:none;}
+.ed.add{display:inline-block;width:0;}
+.ed.add .ins{left:-0.42em;}
+.car{position:absolute;left:-0.2em;top:1.82em;width:0.4em;height:0.4em;border-left:0.09em solid var(--red);border-top:0.09em solid var(--red);transform:rotate(45deg);opacity:0;transition:opacity 0.3s ease;transition-delay:calc(var(--i) * 0.38s);}
+.ed.para{display:inline-block;width:0;}
+.ed.para .pm{position:absolute;left:-0.35em;top:0.05em;font-family:'Caveat',cursive;font-weight:700;color:var(--red);font-size:0.95em;line-height:1;opacity:0;transition:opacity 0.35s ease;transition-delay:calc(var(--i) * 0.38s);}
+.mcodes{position:absolute;right:0;top:0.65em;display:flex;flex-direction:column;gap:6px;align-items:flex-end;}
+.mcodes .codebadge{font-size:0.95em;opacity:0;transform:rotate(-8deg) scale(0.6);transition:opacity 0.35s ease,transform 0.35s ease;transition-delay:calc(var(--n) * 0.38s + 0.4s);}
+.pen.visible .del{background-size:100% 0.1em;}
+.pen.visible .ins{opacity:1;transform:none;}
+.pen.visible .car,.pen.visible .pm{opacity:1;}
+.pen.visible .mcodes .codebadge{opacity:1;transform:rotate(-8deg) scale(1);}
+.clean{position:relative;z-index:1;font-family:'Fredoka',sans-serif;font-weight:500;font-size:clamp(19px,1.85vw,27px);line-height:1.5;background:#fffdf8;border:2px solid #eee3d3;border-radius:12px;padding:10px 16px;margin-left:-70px;}
+.clean small{display:block;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--ink-light);margin-bottom:2px;}
+.clean .chg{background:var(--red-light);color:var(--red-dark);border-radius:5px;padding:0 3px;}
+.reveal-step.visible.clean{margin-top:4px;margin-bottom:6px;}
+.wedo-wrap.reveal-step.visible{margin-top:10px;overflow:visible;}
+
+/* Overview tiles */
+.six{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px;}
+.six .tile{background:#fff;border:2px solid #f3d6d6;border-radius:16px;padding:16px 18px;display:flex;gap:16px;align-items:flex-start;}
+.six .tile .codebadge{font-size:clamp(26px,2.6vw,40px);flex-shrink:0;}
+.six .tn{font-size:clamp(20px,1.9vw,27px);font-weight:700;line-height:1.15;}
+.six .tl{font-size:clamp(14px,1.25vw,18px);color:var(--ink-light);line-height:1.4;margin-top:4px;}
+.six .tx{font-family:'Patrick Hand',cursive;font-size:clamp(17px,1.55vw,22px);margin-top:6px;color:#3a3f44;}
+.six .tx s{text-decoration-color:var(--red);text-decoration-thickness:2px;}
+.six .tx b{font-family:'Caveat',cursive;color:var(--red);font-weight:700;font-size:1.15em;}
+
+/* Story tiles */
+.stories{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:14px;}
+.story{border-radius:18px;overflow:hidden;background:#fff;border:2px solid #eee;box-shadow:var(--shadow);display:flex;flex-direction:column;}
+.story .banner{height:clamp(130px,13vw,200px);position:relative;}
+.story .banner svg{width:100%;height:100%;display:block;}
+.story .sb{padding:14px 18px 18px;}
+.story .sl{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+.story .letter{font-family:'Space Mono',monospace;font-weight:700;width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:18px;}
+.story .kind{font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:700;}
+.story .st{font-size:clamp(22px,2.1vw,30px);font-weight:700;line-height:1.15;}
+.story .sd{font-size:clamp(16px,1.45vw,20px);color:var(--ink-light);margin-top:4px;line-height:1.4;}
+.story.teal{border-color:var(--teal);} .story.teal .letter{background:var(--teal-dark);} .story.teal .kind{color:var(--teal-dark);}
+.story.purple{border-color:var(--purple);} .story.purple .letter{background:var(--purple-dark);} .story.purple .kind{color:var(--purple-dark);}
+.story.sky{border-color:var(--sky);} .story.sky .letter{background:var(--sky-dark);} .story.sky .kind{color:var(--sky-dark);}
+
+/* Hunt list */
+.hunt{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;}
+.hunt label{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid #f3d6d6;border-radius:12px;padding:8px 12px;cursor:pointer;font-size:clamp(15px,1.35vw,19px);font-weight:600;}
+.hunt input{width:22px;height:22px;accent-color:var(--red);flex-shrink:0;}
+.hunt .codebadge{font-size:clamp(18px,1.6vw,24px);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start;}
+.two-col.task{grid-template-columns:1.15fr 1fr;gap:28px;}
+.sheet-label{font-size:clamp(13px,1.05vw,16px);letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--ink-light);margin-bottom:8px;}
+.paper.mini{padding:8px 16px 10px 70px;}
+.paper.mini::before{left:56px;}
+.paper.mini .draft{font-size:clamp(20px,1.85vw,28px);padding-right:70px;}
+.paper.mini .draft .who{left:-64px;}
+.paper.mini .mcodes{flex-direction:column;gap:2px;top:0.4em;}
+.paper.mini .mcodes .codebadge{font-size:0.8em;}
+
+/* Helpers */
+details.helper{background:#fff;border:2px solid #e9e4dd;border-radius:14px;margin:10px 0 0;}
+details.helper summary{cursor:pointer;list-style:none;padding:11px 16px;font-weight:600;font-size:clamp(16px,1.45vw,20px);display:flex;align-items:center;gap:10px;color:var(--ink);}
+details.helper summary::-webkit-details-marker{display:none;}
+details.helper summary::before{content:"+";display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-weight:700;flex-shrink:0;}
+details.helper[open] summary::before{content:"\2212";}
+details.helper .h-body{padding:0 18px 14px 52px;}
+details.helper .h-body li,details.helper .h-body p{font-size:clamp(15px,1.4vw,19px);line-height:1.5;}
+details.helper .h-body ul{padding-left:20px;}
+details.helper .h-body b{color:var(--red-dark);}
+.helpers{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start;margin-top:12px;}
+.helpers details.helper{margin:0;}
+
+/* Timer */
+.timer-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;background:#f8f9fa;border-radius:16px;padding:14px 16px;margin-top:14px;}
+.timer-display{font-family:'Space Mono',monospace;font-size:clamp(44px,5.2vw,82px);font-weight:700;letter-spacing:4px;color:var(--ink);line-height:1;}
+.timer-display.warn{color:var(--coral);}
+.timer-display.done{color:var(--green);}
+.timer-presets{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.timer-presets .btn{padding:7px 15px;}
+.timer-presets .btn.sel{outline:3px solid var(--ink);}
+
+/* ===== Compare tool ===== */
+.cmp-steps{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 14px;}
+.cmp-steps span{display:flex;align-items:center;gap:10px;background:var(--teal-light);color:#145e58;border-radius:30px;padding:7px 16px 7px 8px;font-weight:600;font-size:clamp(15px,1.35vw,19px);}
+.cmp-steps .num{width:28px;height:28px;border-radius:50%;background:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;}
+.picks{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.pick{font-family:'Fredoka',sans-serif;font-weight:600;font-size:clamp(16px,1.4vw,20px);border-radius:30px;padding:9px 20px 9px 9px;border:2px solid #ddd;background:#fff;cursor:pointer;display:flex;align-items:center;gap:10px;color:var(--ink);}
+.pick .letter{font-family:'Space Mono',monospace;font-weight:700;width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:15px;}
+.pick.teal .letter{background:var(--teal-dark);} .pick.purple .letter{background:var(--purple-dark);} .pick.sky .letter{background:var(--sky-dark);}
+.pick.on.teal{border-color:var(--teal-dark);background:var(--teal-light);}
+.pick.on.purple{border-color:var(--purple-dark);background:var(--purple-light);}
+.pick.on.sky{border-color:var(--sky-dark);background:var(--sky-light);}
+.cmp-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.cmp-cols .pane-label{font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--ink-light);margin-bottom:6px;}
+.orig{background:#fffdf8;border:2px solid #eee3d3;border-radius:14px;padding:14px 18px;height:clamp(260px,34vh,420px);overflow:auto;font-family:'Lexend',sans-serif;font-size:clamp(15px,1.3vw,19px);line-height:1.75;}
+.orig p{margin:0 0 10px;font-size:inherit;line-height:inherit;}
+.orig .empty{color:#a7a29b;font-family:'Fredoka',sans-serif;}
+textarea.typed{width:100%;height:clamp(260px,34vh,420px);border:2px solid #cfe9e6;border-radius:14px;padding:14px 18px;font-family:'Lexend',sans-serif;font-size:clamp(15px,1.3vw,19px);line-height:1.75;color:var(--ink);resize:vertical;background:#fff;}
+textarea.typed:focus{outline:none;border-color:var(--teal-dark);box-shadow:0 0 0 4px var(--teal-light);}
+.cmp-msg{text-align:center;color:var(--coral-dark);font-weight:600;font-size:17px;min-height:24px;margin-top:8px;}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 12px;align-items:center;}
+.stat{background:#f8f9fa;border-radius:14px;padding:8px 16px;display:flex;align-items:baseline;gap:8px;}
+.stat .num{font-size:clamp(24px,2.4vw,34px);font-weight:700;}
+.stat span{font-size:14px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:var(--ink-light);}
+.stat.hot .num{color:var(--red);}
+.viewtog{margin-left:auto;display:flex;gap:6px;}
+.viewtog button{font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;border:2px solid #ddd;background:#fff;border-radius:20px;padding:6px 14px;cursor:pointer;}
+.viewtog button.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+.diff{background:#fff;border:2px solid #eee;border-radius:14px;padding:16px 20px;font-family:'Lexend',sans-serif;font-size:clamp(16px,1.4vw,20px);line-height:2.05;}
+.diff p{margin:0 0 10px;font-size:inherit;line-height:inherit;}
+.diff .rm{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:2px;color:#9a8f8f;}
+.diff .ad{font-family:'Caveat',cursive;font-weight:700;color:var(--red);font-size:1.3em;background:var(--red-light);border-radius:6px;padding:0 4px;}
+.diff .pmk{font-family:'Caveat',cursive;font-weight:700;color:var(--red);}
+.side{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.side .diff h4{font-family:'Fredoka',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:15px;color:var(--ink-light);margin:8px 0 0;}
+.legend .rm{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:2px;}
+.legend .ad{font-family:'Caveat',cursive;font-weight:700;color:var(--red);font-size:1.2em;background:var(--red-light);border-radius:6px;padding:0 4px;}
+#cmpResults[hidden],#edResults[hidden]{display:none;}
+
+/* Exit slip */
+.frame-big{background:#fffdf8;border:3px dashed var(--red);border-radius:18px;padding:24px 32px;font-size:clamp(23px,2.5vw,36px);font-weight:600;line-height:1.75;margin:12px 0 6px;}
+.frame-big .gap{display:inline-block;min-width:4.5em;border-bottom:4px solid var(--ink);line-height:1;}
+.check-list{list-style:none;padding:0;margin:10px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.check-list li{background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:12px 16px;display:flex;gap:12px;align-items:flex-start;font-size:clamp(16px,1.5vw,21px);margin:0;line-height:1.4;}
+.check-list li .tick{flex-shrink:0;width:26px;height:26px;border-radius:7px;border:3px solid var(--green);margin-top:2px;}
+
+@media(max-width:1100px){
+  .two-col,.two-col.task,.boxes-2,.cmp-cols,.side{grid-template-columns:1fr;}
+  .six,.stories{grid-template-columns:repeat(2,1fr);}
+  .helpers,.check-list,.keygrid{grid-template-columns:1fr;}
+  .hunt{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:900px){
+  main{padding:20px 16px 60px;margin-left:0;}
+  .sidebar{width:0;overflow:hidden;}
+  .sidebar.open{width:var(--sidebar-w);}
+  .card,.lisc{padding:24px 18px;}
+  .card-head{padding-right:0;}
+  .teacher-btn{position:static;margin-bottom:10px;}
+  .six,.stories{grid-template-columns:1fr;}
+  .lisc-top{grid-template-columns:1fr;}
+  .lisc-pen{display:none;}
+  .paper{padding:10px 12px 12px 18px;}
+  .paper::before{left:8px;}
+  .draft{padding-right:58px;font-size:22px;}
+  .ed{white-space:normal;}
+  .draft .who{position:static;display:inline-block;margin-right:8px;}
+  .clean{margin-left:0;}
+  .mcodes .codebadge{font-size:0.75em;}
+  .viewtog{margin-left:0;}
+}
+@media print{
+  .top-bar,.sidebar,.bg-shapes,.slide-nav,.teacher-btn,.teacher-panel,.cmp-steps,.picks,.cmp-cols,.cmp-msg,.btn-row,.book-box,.viewtog,.card-head,.no-print{display:none !important;}
+  main{margin:0 !important;padding:0 !important;}
+  .slide{display:none !important;}
+  .slide.active{display:block !important;}
+  .card{box-shadow:none;padding:0;}
+  .reveal-step{max-height:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes">
+  <div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div><div class="bg-shape"></div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-talk" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 20h9" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-learn" viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 11-6-11-6Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M5 11.5V17c0 1 3 3 7 3s7-2 7-3v-5.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1.2-4.6L15.6 5a2 2 0 0 1 2.8 0l.6.6a2 2 0 0 1 0 2.8L8.6 18.8Z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M13.5 7l3.5 3.5" stroke="#fff" stroke-width="2.2"/></symbol>
+    <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="4.5" y="5" width="15" height="10" rx="1.5" fill="none" stroke="#fff" stroke-width="2.2"/><path d="M2.5 19h19" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="redpen" viewBox="0 0 200 200">
+      <g transform="rotate(-38 100 100)">
+        <rect x="40" y="82" width="120" height="36" rx="8" fill="#d62828"/>
+        <rect x="128" y="80" width="40" height="40" rx="7" fill="#9e1b1b"/>
+        <rect x="70" y="74" width="62" height="9" rx="4.5" fill="#9e1b1b"/>
+        <path d="M40 82 L10 100 L40 118 Z" fill="#f4d9b4"/>
+        <path d="M18 95 L10 100 L18 105 Z" fill="#d62828"/>
+        <rect x="52" y="90" width="64" height="6" rx="3" fill="#fff" opacity="0.35"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="top-bar">
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar" tabindex="-1">&#9776;</button>
+  <div class="top-bar-title"><span>Writer's Toolkit</span> &middot; The Red Pen: editing like a writer</div>
+  <a href="https://educoder101.github.io/Writers-Toolkit" class="back-link">&larr; Back to Toolkit</a>
+</div>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-content">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Learning</div>
+      <button class="sidebar-item active" onclick="goToSlide(0)" tabindex="-1"><span class="sidebar-dot" style="background:var(--red)"></span>LISC</button>
+      <button class="sidebar-item" onclick="goToSlide(1)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold)"></span>What would you change?</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Edit for</div>
+      <button class="sidebar-item" onclick="goToSlide(2)" tabindex="-1"><span class="sidebar-dot" style="background:var(--coral)"></span>Six things to hunt for</button>
+      <button class="sidebar-item" onclick="goToSlide(3)" tabindex="-1"><span class="sidebar-code">WC</span>Word choice</button>
+      <button class="sidebar-item" onclick="goToSlide(4)" tabindex="-1"><span class="sidebar-code">G</span>Grammar</button>
+      <button class="sidebar-item" onclick="goToSlide(5)" tabindex="-1"><span class="sidebar-code">S</span>Sentences</button>
+      <button class="sidebar-item" onclick="goToSlide(6)" tabindex="-1"><span class="sidebar-code">D</span>Dialogue</button>
+      <button class="sidebar-item" onclick="goToSlide(7)" tabindex="-1"><span class="sidebar-code">SDT</span>Show, don't tell</button>
+      <button class="sidebar-item" onclick="goToSlide(8)" tabindex="-1"><span class="sidebar-code">P</span>Punctuation</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">You do</div>
+      <button class="sidebar-item" onclick="goToSlide(9)" tabindex="-1"><span class="sidebar-dot" style="background:var(--purple)"></span>Choose your story</button>
+      <button class="sidebar-item" onclick="goToSlide(10)" tabindex="-1"><span class="sidebar-dot" style="background:var(--red)"></span>Red pen time</button>
+      <button class="sidebar-item" onclick="goToSlide(11)" tabindex="-1"><span class="sidebar-dot" style="background:var(--teal)"></span>Type up and compare</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Reflect</div>
+      <button class="sidebar-item" onclick="goToSlide(12)" tabindex="-1"><span class="sidebar-dot" style="background:var(--gold)"></span>My best edit</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ 0: LISC ============ -->
+<div class="slide active" id="slide0">
+  <div class="lisc">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="lisc-top">
+      <div>
+        <p class="lisc-li">Learning Intention</p>
+        <p class="lisc-li-text">We are learning to edit a draft so it is clearer, more correct and more interesting to read.</p>
+        <p class="lisc-sc-title">Success Criteria</p>
+        <ul>
+          <li>I can find and fix grammar, punctuation and dialogue mistakes.</li>
+          <li>I can swap weak words and fix sentences that are too short or too long.</li>
+          <li>I can change telling into showing.</li>
+          <li>I can explain why my best edit makes the writing better.</li>
+        </ul>
+      </div>
+      <svg class="lisc-pen" viewBox="0 0 200 200" aria-hidden="true"><use href="#redpen"/></svg>
+    </div>
+    <div class="teacher-panel">
+      <div class="tp-title">Before the lesson</div>
+      <ul>
+        <li><a href="red-pen-stories.pdf" target="_blank" rel="noopener">Print the stories PDF</a>. Each story is one double-spaced page with a margin for codes. Students choose, so print roughly a third of a class set of each story, plus a few spares.</li>
+        <li>Every student needs a red pen (or red pencil) and their English book.</li>
+        <li>Laptops for card 12, Type up and compare. Students open this page and click <b>Type up and compare</b> in the sidebar, or add <b>#compare</b> to the end of the link.</li>
+      </ul>
+      <div class="tp-title">Vocabulary</div>
+      <p>Edit, draft, precise, tense, speech marks, apostrophe.</p>
+      <div class="tp-title">Suggested timing (30 minutes)</div>
+      <p>What would you change: 2 &middot; Six things to hunt for: 1 &middot; Six modelling cards: 7 &middot; Choose your story: 1 &middot; Red pen time: 12 &middot; Type up and compare: 5 &middot; My best edit: 2</p>
+      <div class="tp-title">Keep in mind</div>
+      <p>A messy page is a good page. Every crossing-out shows thinking. Editing is not only fixing mistakes; it is making better choices.</p>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ 1: HOOK ============ -->
+<div class="slide" id="slide1">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">Hook</div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Talk</span><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
+    <h2>What would you change?</h2>
+    <div class="paper" data-model="hook"></div>
+    <div class="boxes-2" style="margin-top:16px">
+      <div class="think-step" style="margin:0">
+        <div class="think-label">Talk to your partner</div>
+        This is a first draft. Find two things you would change. Why?
+      </div>
+      <div class="book-box" style="margin:0">
+        <div class="box-icon"><svg><use href="#i-book"/></svg></div>
+        <div><div class="box-label">In your book</div><div class="box-text">Write the date and the title <em>The red pen: editing like a writer</em>.</div></div>
+      </div>
+    </div>
+    <div class="reveal-step">
+      <div class="think-step big-idea">
+        <div class="think-label">Every writer edits</div>
+        Writers never get it right the first time. Every book you have read was edited many times before it was printed.
+      </div>
+      <div class="learn-box">
+        <div class="box-icon"><svg><use href="#i-learn"/></svg></div>
+        <div><div class="box-label">Learn this</div><div class="box-text">Editing means making <em>better choices</em>, not just fixing mistakes.</div></div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn btn-red" data-labels="Red pen it|Clean copy|Every writer edits" onclick="revealNext(this)">Red pen it</button></div>
+    <div class="teacher-panel">
+      <div class="tp-title">Run it</div>
+      <ul>
+        <li>Read the draft aloud. Partners find two things to change before you reveal anything.</li>
+        <li>Take three or four ideas, then click <b>Red pen it</b>. The edits appear one at a time, so you can name each one as it lands.</li>
+        <li>Ask: which change made the biggest difference? Most students pick “I bit my lip” or “shrieked”. That is the point: the best edits are choices, not corrections.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ 2: SIX THINGS ============ -->
+<div class="slide" id="slide2">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">Edit for</div><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
+    <h2>Six things editors hunt for</h2>
+    <div class="book-box" style="margin-top:4px">
+      <div class="box-icon"><svg><use href="#i-book"/></svg></div>
+      <div><div class="box-label">In your book</div><div class="box-text">Under your title, write the six codes down the page: <em>WC</em> <em>G</em> <em>S</em> <em>D</em> <em>SDT</em> <em>P</em>. Leave a line next to each one.</div></div>
+    </div>
+    <div class="six">
+      <div class="tile"><span class="codebadge">WC</span><div><div class="tn">Word choice</div><div class="tl">went, got, said, nice, very, really</div><div class="tx"><s>went</s> <b>bounded</b></div></div></div>
+      <div class="tile"><span class="codebadge">G</span><div><div class="tn">Grammar</div><div class="tl">we was, me and Ava, could of, mixed-up tense</div><div class="tx"><s>we was</s> <b>we were</b></div></div></div>
+      <div class="tile"><span class="codebadge">S</span><div><div class="tn">Sentences</div><div class="tl">lots of short sentences in a row, long “and then” sentences</div><div class="tx">join with <b>when</b> or <b>although</b></div></div></div>
+      <div class="tile"><span class="codebadge">D</span><div><div class="tn">Dialogue</div><div class="tl">missing speech marks, punctuation outside them, two speakers on one line</div><div class="tx">new speaker, <b>new line</b></div></div></div>
+      <div class="tile"><span class="codebadge">SDT</span><div><div class="tn">Show, don't tell</div><div class="tl">was scared, was happy, was angry</div><div class="tx"><s>She was scared.</s> <b>Her hands shook.</b></div></div></div>
+      <div class="tile"><span class="codebadge">P</span><div><div class="tn">Punctuation</div><div class="tl">missing capitals, apostrophes and commas in lists</div><div class="tx"><s>emmas</s> <b>Emma&rsquo;s</b></div></div></div>
+    </div>
+    <div class="teacher-panel">
+      <div class="tp-title">Run it</div>
+      <ul>
+        <li>Keep this quick. Students copy the six codes now; they add a note next to each code on the next six cards.</li>
+        <li>Tell them the codes will go in the margin of their story sheet, next to every edit they make.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ 9: CHOOSE ============ -->
+<div class="slide" id="slide9">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">You do</div><span class="mode m-pen"><svg><use href="#i-pen"/></svg>Red pen</span></div>
+    <h2>Choose your story</h2>
+    <div class="stories">
+      <div class="story teal">
+        <div class="banner" style="background:#d0f0ec">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="200" fill="#d0f0ec"/>
+            <circle cx="345" cy="48" r="24" fill="#FFD93D"/>
+            <path d="M0 150 Q100 110 200 140 T400 130 V200 H0 Z" fill="#7fcf8f"/>
+            <path d="M0 170 Q120 150 230 168 T400 160 V200 H0 Z" fill="#5fb873"/>
+            <g stroke="#a0784f" stroke-width="5" stroke-linecap="round"><path d="M20 120v50M60 118v52M100 122v48"/><path d="M14 136h92M14 154h92"/></g>
+            <g transform="translate(200 98)">
+              <ellipse cx="0" cy="40" rx="52" ry="30" fill="#9c6b3f"/>
+              <rect x="-38" y="58" width="10" height="34" rx="4" fill="#7d5230"/><rect x="-14" y="62" width="10" height="30" rx="4" fill="#7d5230"/>
+              <rect x="18" y="60" width="10" height="32" rx="4" fill="#7d5230"/><rect x="38" y="56" width="10" height="34" rx="4" fill="#7d5230"/>
+              <path d="M44 26 Q70 0 88 18 Q96 38 76 46 Q60 50 48 44 Z" fill="#9c6b3f"/>
+              <path d="M66 8 Q60 -12 44 -14 M76 8 Q74 -16 58 -22" fill="none" stroke="#b9a585" stroke-width="7" stroke-linecap="round"/><ellipse cx="90" cy="14" rx="12" ry="6" fill="#7d5230" transform="rotate(25 90 14)"/>
+              <circle cx="78" cy="20" r="3.5" fill="#2D3436"/>
+              <path d="M84 44 Q86 58 78 62" fill="none" stroke="#7d5230" stroke-width="6" stroke-linecap="round"/>
+              <path d="M-52 34 Q-66 26 -62 14" fill="none" stroke="#7d5230" stroke-width="6" stroke-linecap="round"/>
+              <g transform="translate(96 36) rotate(18)"><ellipse cx="0" cy="8" rx="30" ry="7" fill="#f2c94c"/><path d="M-16 8 Q-14 -14 0 -14 Q14 -14 16 8 Z" fill="#f2c94c"/><rect x="-15" y="0" width="30" height="5" fill="#d62828"/></g>
+            </g>
+          </svg>
+        </div>
+        <div class="sb"><div class="sl"><span class="letter">A</span><span class="kind">Funny</span></div><div class="st">The Great Goat Escape</div><div class="sd">A school excursion, a hungry goat and a farm caf&eacute;.</div></div>
+      </div>
+      <div class="story purple">
+        <div class="banner" style="background:#f0e6ff">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="200" fill="#e7dcf7"/>
+            <path d="M0 0 L200 -10 L400 0 V40 L200 4 L0 40 Z" fill="#c9b6e8"/>
+            <path d="M40 0 L120 200 M360 0 L280 200" stroke="#b7a0dd" stroke-width="10"/>
+            <rect x="0" y="176" width="400" height="24" fill="#a88bd6"/>
+            <path d="M174 34 h52 v40 h-52 Z" fill="#fff6d6" stroke="#a88bd6" stroke-width="5"/>
+            <path d="M200 34 v40 M174 54 h52" stroke="#a88bd6" stroke-width="4"/>
+            <rect x="120" y="108" width="110" height="68" rx="6" fill="#a8743f"/>
+            <rect x="120" y="108" width="110" height="20" rx="6" fill="#8a5c2e"/>
+            <rect x="166" y="120" width="18" height="22" rx="3" fill="#FFD93D" stroke="#9a7400" stroke-width="2"/>
+            <circle cx="175" cy="129" r="3" fill="#7a5a00"/>
+            <g transform="translate(250 120) rotate(-8)">
+              <rect x="0" y="0" width="100" height="62" rx="4" fill="#fdf2d0" stroke="#d9c38a" stroke-width="3"/>
+              <path d="M12 46 Q34 18 52 34 T86 20" fill="none" stroke="#9a7400" stroke-width="3" stroke-dasharray="6 6"/>
+              <path d="M74 10 l14 14 M88 10 l-14 14" stroke="#d62828" stroke-width="5" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+        <div class="sb"><div class="sl"><span class="letter">B</span><span class="kind">Mystery</span></div><div class="st">The Box in the Attic</div><div class="sd">A locked box, a hidden key and a very old map.</div></div>
+      </div>
+      <div class="story sky">
+        <div class="banner" style="background:#dce8ff">
+          <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="200" fill="#9cc4ff"/>
+            <rect width="400" height="200" fill="url(#none)"/>
+            <path d="M0 40 Q50 30 100 40 T200 40 T300 40 T400 40" fill="none" stroke="#c8deff" stroke-width="6"/>
+            <path d="M0 160 Q50 150 100 160 T200 160 T300 160 T400 160" fill="none" stroke="#c8deff" stroke-width="6"/>
+            <g fill="#ff6b6b"><circle cx="20" cy="70" r="7"/><circle cx="60" cy="70" r="7"/><circle cx="100" cy="70" r="7"/><circle cx="140" cy="70" r="7"/><circle cx="180" cy="70" r="7"/><circle cx="220" cy="70" r="7"/><circle cx="260" cy="70" r="7"/><circle cx="300" cy="70" r="7"/><circle cx="340" cy="70" r="7"/><circle cx="380" cy="70" r="7"/></g>
+            <g fill="#ffffff"><circle cx="40" cy="70" r="7"/><circle cx="80" cy="70" r="7"/><circle cx="120" cy="70" r="7"/><circle cx="160" cy="70" r="7"/><circle cx="200" cy="70" r="7"/><circle cx="240" cy="70" r="7"/><circle cx="280" cy="70" r="7"/><circle cx="320" cy="70" r="7"/><circle cx="360" cy="70" r="7"/></g>
+            <g fill="#ff6b6b"><circle cx="20" cy="140" r="7"/><circle cx="60" cy="140" r="7"/><circle cx="100" cy="140" r="7"/><circle cx="140" cy="140" r="7"/><circle cx="180" cy="140" r="7"/><circle cx="220" cy="140" r="7"/><circle cx="260" cy="140" r="7"/><circle cx="300" cy="140" r="7"/><circle cx="340" cy="140" r="7"/><circle cx="380" cy="140" r="7"/></g>
+            <g fill="#ffffff"><circle cx="40" cy="140" r="7"/><circle cx="80" cy="140" r="7"/><circle cx="120" cy="140" r="7"/><circle cx="160" cy="140" r="7"/><circle cx="200" cy="140" r="7"/><circle cx="240" cy="140" r="7"/><circle cx="280" cy="140" r="7"/><circle cx="320" cy="140" r="7"/><circle cx="360" cy="140" r="7"/></g>
+            <rect x="372" y="78" width="28" height="54" fill="#2f6fd6"/>
+            <g transform="translate(250 105)">
+              <path d="M-90 4 Q-60 -8 -30 4 Q0 14 20 2" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+              <ellipse cx="0" cy="4" rx="34" ry="11" fill="#2D3436" opacity="0.25"/>
+              <circle cx="34" cy="-2" r="16" fill="#3a3f44"/>
+              <path d="M22 -8 a14 14 0 0 1 24 0" fill="#d62828"/>
+              <rect x="30" y="-6" width="14" height="6" rx="3" fill="#bfe0ff" stroke="#2D3436" stroke-width="2"/>
+              <path d="M18 -10 Q40 -50 70 -26" fill="none" stroke="#f2c9a0" stroke-width="11" stroke-linecap="round"/>
+              <g fill="#fff"><circle cx="-56" cy="-6" r="5"/><circle cx="-70" cy="2" r="4"/><circle cx="-44" cy="10" r="4"/><circle cx="80" cy="-14" r="4"/></g>
+            </g>
+          </svg>
+        </div>
+        <div class="sb"><div class="sl"><span class="letter">C</span><span class="kind">Sport</span></div><div class="st">The Last Lap</div><div class="sd">A swimming final, lane four and the fastest girl in school.</div></div>
+      </div>
+    </div>
+    <div class="boxes-2" style="margin-top:16px">
+      <div class="book-box" style="margin:0">
+        <div class="box-icon"><svg><use href="#i-pen"/></svg></div>
+        <div><div class="box-label">Your sheet</div><div class="box-text">Take the sheet for the story you choose. Write your name at the top.</div></div>
+      </div>
+      <div class="think-step" style="margin:0">
+        <div class="think-label">Choose for you</div>
+        Pick the story you want to read, not the one your friend picks. Every story needs the same red pen.
+      </div>
+    </div>
+    <div class="teacher-panel">
+      <div class="tp-title">About the stories</div>
+      <ul>
+        <li><a href="red-pen-stories.pdf" target="_blank" rel="noopener">Open the stories PDF</a> to print more copies.</li>
+        <li>All three are first drafts written to sound like a Year 5 student. Each one hides at least two of every kind of edit, so any choice works.</li>
+        <li>Each one also breaks one of our opening rules (One day, the weather, a sound word on its own). That is a <b>Go further</b> challenge on the next card.</li>
+        <li>The attic story (B) is a little longer. The swimming story (C) has the most dialogue to fix.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ 10: RED PEN TIME ============ -->
+<div class="slide" id="slide10">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">You do</div><span class="mode m-pen"><svg><use href="#i-pen"/></svg>Red pen</span></div>
+    <h2>Red pen time</h2>
+    <div class="two-col task">
+      <div>
+        <div class="book-box" style="margin-top:0">
+          <div class="box-icon"><svg><use href="#i-pen"/></svg></div>
+          <div>
+            <div class="box-label">On your sheet</div>
+            <ol class="book-steps">
+              <li><span>Read your story once, pen down.</span></li>
+              <li><span>Red pen it: cross out, add with <em>^</em>, write your change above.</span></li>
+              <li><span>Write a code in the margin next to every edit.</span></li>
+              <li><span>Hunt for every kind. Your story hides at least <em>2 of each</em>.</span></li>
+            </ol>
+          </div>
+        </div>
+        <div class="hunt">
+          <label><input type="checkbox"><span class="codebadge">WC</span>Word choice</label>
+          <label><input type="checkbox"><span class="codebadge">G</span>Grammar</label>
+          <label><input type="checkbox"><span class="codebadge">S</span>Sentences</label>
+          <label><input type="checkbox"><span class="codebadge">D</span>Dialogue</label>
+          <label><input type="checkbox"><span class="codebadge">SDT</span>Show, don't tell</label>
+          <label><input type="checkbox"><span class="codebadge">P</span>Punctuation</label>
+        </div>
+        <div class="helpers">
+          <details class="helper">
+            <summary>Stuck?</summary>
+            <div class="h-body">
+              <ul>
+                <li>Hunt for <b>one code at a time</b>. Read once just for P, then again just for D.</li>
+                <li>Circle these words: <b>went, got, said, really, very</b>.</li>
+                <li>Find every <b>was</b> + a feeling. That is telling.</li>
+                <li>Whisper it. Where do you run out of breath? That sentence is too long.</li>
+              </ul>
+            </div>
+          </details>
+          <details class="helper">
+            <summary>Go further</summary>
+            <div class="h-body">
+              <p>Your story breaks one of our <b>opening rules</b>. Find it and rewrite the first sentence as a sizzling start.</p>
+              <p>Then fix the <b>last sentence</b> so the ending is not just “a good day”.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+      <div>
+        <div class="sheet-label">What your sheet should look like</div>
+        <div class="paper mini" data-model="sample"></div>
+        <div class="timer-wrap" data-mins="12">
+          <div class="timer-display">12:00</div>
+          <div class="timer-presets">
+            <button class="btn btn-outline" onclick="timerSet(this,10)">10 min</button>
+            <button class="btn btn-outline sel" onclick="timerSet(this,12)">12 min</button>
+            <button class="btn btn-outline" onclick="timerSet(this,15)">15 min</button>
+          </div>
+          <div class="btn-row" style="margin-top:2px">
+            <button class="btn btn-green t-start" onclick="timerToggle(this)">Start</button>
+            <button class="btn btn-outline" onclick="timerReset(this)">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="teacher-panel">
+      <div class="tp-title">While they edit</div>
+      <ul>
+        <li>Push for red pen all over the page. Praise crossing-out and arrows; a clean sheet means not enough editing.</li>
+        <li>Ask: “Which code is that edit? Why is your word better than the old one?”</li>
+        <li>Support: sit with a group and hunt one code together using the Stuck? box. Extension: Go further.</li>
+      </ul>
+      <div class="tp-title">What each story hides</div>
+      <div class="keygrid" id="keygrid"></div>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ 11: TYPE UP AND COMPARE ============ -->
+<div class="slide" id="slide11">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">You do</div><span class="mode m-laptop"><svg><use href="#i-laptop"/></svg>Laptop</span><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>
+    <h2>Type up and compare</h2>
+    <div class="cmp-steps">
+      <span><b class="num">1</b>Choose your story</span>
+      <span><b class="num">2</b>Type your edited story, with every red pen change</span>
+      <span><b class="num">3</b>Press Show my changes</span>
+    </div>
+    <div class="picks" id="picks"></div>
+    <div class="cmp-cols">
+      <div>
+        <div class="pane-label">The first draft</div>
+        <div class="orig" id="origPane"><p class="empty">Choose your story above.</p></div>
+      </div>
+      <div>
+        <div class="pane-label">My edited story</div>
+        <textarea class="typed" id="typed" placeholder="Type your edited story here. Leave a blank line between paragraphs." spellcheck="true"></textarea>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-outline small" onclick="startWithOriginal()">Start with the first draft</button>
+      <button class="btn btn-red" onclick="showChanges()">Show my changes</button>
+      <button class="btn btn-outline small" onclick="clearTyped()">Clear</button>
+    </div>
+    <div class="cmp-msg" id="cmpMsg"></div>
+    <div id="cmpResults" hidden>
+      <div class="stats">
+        <div class="stat"><b class="num" id="stBefore">0</b><span>words before</span></div>
+        <div class="stat"><b class="num" id="stAfter">0</b><span>words after</span></div>
+        <div class="stat hot"><b class="num" id="stChanges">0</b><span>changes</span></div>
+        <div class="viewtog"><button class="on" data-v="inline" onclick="setView(this)">Red pen view</button><button data-v="side" onclick="setView(this)">Side by side</button></div>
+      </div>
+      <div id="diffOut"></div>
+      <div class="legend"><span><span class="rm">crossed out</span> you took this out</span><span><span class="ad">red</span> you added this</span></div>
+      <div class="book-box">
+        <div class="box-icon"><svg><use href="#i-book"/></svg></div>
+        <div><div class="box-label">In your book</div><div class="box-text">Next to your codes, write how many changes you made. Copy your favourite change: <em>old words</em> &rarr; <em>new words</em>.</div></div>
+      </div>
+      <div class="btn-row no-print">
+        <button class="btn btn-sky" onclick="showEditor(this)">See an editor's version</button>
+        <button class="btn btn-outline small" onclick="window.print()">Print my changes</button>
+      </div>
+      <div id="edResults" hidden>
+        <div class="think-step big-idea">
+          <div class="think-label">Compare with an editor</div>
+          What did you find that the editor missed? What did the editor change that you did not? There is more than one good way to edit.
+        </div>
+        <div id="edOut"></div>
+      </div>
+    </div>
+    <div class="teacher-panel">
+      <div class="tp-title">Two ways to type up</div>
+      <ul>
+        <li><b>Start with the first draft</b> copies the original into the box so students edit it in place. This is quickest and keeps the comparison clean.</li>
+        <li>Typing from scratch takes longer but is good practice. Any new typos will also show up as changes, which is worth talking about.</li>
+      </ul>
+      <div class="tp-title">Good to know</div>
+      <ul>
+        <li>Each student's typing is kept in their own browser, so they can come back to it later on the same laptop. Nothing is sent anywhere.</li>
+        <li>On the board, open this card on your computer and paste in a student's version to compare it with the class.</li>
+        <li>The editor's version is one possible edit, not the answer. Ask students to defend a change they made that the editor did not.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+<!-- ============ 12: MY BEST EDIT ============ -->
+<div class="slide" id="slide12">
+  <div class="card">
+    <button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>
+    <div class="card-head"><div class="eyebrow">Reflect</div><span class="mode m-book"><svg><use href="#i-book"/></svg>On your own</span></div>
+    <h2>My best edit</h2>
+    <p class="lead">Look at your sheet. Which change made the biggest difference? Copy and finish this in your book.</p>
+    <div class="frame-big">My best edit was changing &ldquo;<span class="gap"></span>&rdquo; to &ldquo;<span class="gap"></span>&rdquo; because it <span class="gap"></span>.</div>
+    <div class="reveal-step">
+      <div class="think-label" style="margin-top:6px">Check your work</div>
+      <ul class="check-list">
+        <li><span class="tick"></span><span>I used my red pen on all six kinds of edit.</span></li>
+        <li><span class="tick"></span><span>I wrote a code in the margin next to every edit.</span></li>
+        <li><span class="tick"></span><span>I explained how my best edit helps the reader.</span></li>
+      </ul>
+    </div>
+    <div class="btn-row"><button class="btn btn-gold" onclick="revealNext(this)">Show the checklist</button></div>
+    <div class="teacher-panel">
+      <div class="tp-title">Share</div>
+      <ul>
+        <li>Invite two students to show their red pen view on the board and read their sentence.</li>
+        <li>Celebrate the messiest sheet in the room.</li>
+      </ul>
+      <div class="tp-title">Assessment check</div>
+      <p>Look for edits across all six codes, not just punctuation, and a reason that talks about the reader (“it shows she is nervous”, “it is easier to follow”).</p>
+    </div>
+  </div>
+  <div class="slide-nav">
+    <button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button>
+    <span class="slide-counter"></span>
+    <button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+var STORIES = [{"id":"goat","letter":"A","title":"The Great Goat Escape","kind":"Funny","teaser":"A school excursion, a hungry goat and a farm café.","theme":"teal","opening":"Starts with “One day”","original":["One day me and my best friend Priya went on a excursion to Sunny Hill Farm. The farmer was a really nice man called mr Dawson. He said we could feed the goats. I was really excited.","The biggest goat was called Biscuit. He was brown. He had a beard. He had very big horns. When Priya open the gate to give him some hay, he run straight past her and he went across the field and then he went through the vegetable patch and then he went into the barn.","stop that goat yelled Mr Dawson. We chased Biscuit everywhere. He grabbed Mr Dawsons hat and started chewing it. where is he going now said Priya. He’s going to the café I said.","Biscuit trotted into the café and jumped onto a table. He gobbled a sandwich a muffin and a banana. The café lady was angry.","In the end we got Biscuit back into his pen. Mr Dawson said we could of lost him forever. It was a good day."],"editor":["My best friend Priya and I had only been on our excursion to Sunny Hill Farm for ten minutes when the trouble began. The farmer, a cheerful man called Mr Dawson, said we could feed the goats. I bounced on my toes and grinned at Priya.","Biscuit, the biggest goat, was brown and bearded with enormous curly horns. When Priya opened the gate to give him some hay, he charged straight past her. He galloped across the field, trampled through the vegetable patch and vanished into the barn.","“Stop that goat!” bellowed Mr Dawson.","We chased Biscuit everywhere. He snatched Mr Dawson’s hat and started chewing it.","“Where is he going now?” panted Priya.","“He’s heading for the café!” I gasped.","Biscuit trotted into the café and leapt onto a table. He gobbled a sandwich, a muffin and a banana. The café lady’s face turned bright red and she flapped her tea towel at him.","In the end, we coaxed Biscuit back into his pen. Mr Dawson chuckled that we could have lost him forever. None of us will ever forget the day Biscuit escaped."],"key":{"WC":"really nice · very big horns · went (three times in the escape) · got Biscuit back · a good day","G":"me and my best friend Priya · a excursion · open (opened) · run (ran) · could of (could have)","S":"four short sentences about Biscuit (join them) · the long “and then” escape sentence (split it)","D":"Mr Dawson’s shout and the Priya conversation: speech marks, punctuation inside, new speaker on a new line, a better word than said","SDT":"I was really excited · The café lady was angry","P":"mr Dawson · Mr Dawsons hat · commas in the list of food · capitals to start the speech"}},{"id":"attic","letter":"B","title":"The Box in the Attic","kind":"Mystery","teaser":"A locked box, a hidden key and a very old map.","theme":"purple","opening":"Starts with the weather","original":["It was a dark and stormy night when I found the box. Nana sent me up to the attic to get the christmas decorations. The attic was very scary.","The box was under a old blanket in the corner. It was small. It was wooden. It had a gold lock. I tried to open it but it was locked so I looked everywhere for the key and I looked in the cupboard and under the rug and then I found it inside a old boot.","Inside the box their was a map. It had a red X on it and some writing I couldnt read.","nana come up here I shouted. Nana climbed the stairs. what did you find she said. A map I said.","Nana looked at the map for a long time. She was surprised. Your great-grandad drawed this when he was a boy she said. He always said there was treasure buried in the garden.","The next morning we went outside with a shovel a torch and Nanas old compass. We digged and digged. Then the shovel hit something hard."],"editor":["I found the box on the night Nana sent me up to the attic to fetch the Christmas decorations. Shadows crept across the dusty floor and every floorboard groaned under my feet.","The box was hiding under an old blanket in the corner. It was a small wooden box with a gold lock. When I tried to open it, the lock would not budge. I searched the cupboard and peered under the rug. At last, I found the key tucked inside an old boot.","Inside the box there was a map. It had a red X on it and some faded writing I couldn’t read.","“Nana, come up here!” I shouted.","Nana puffed up the stairs. “What did you find?” she asked.","“A map,” I whispered.","Nana stared at the map for a long time. Her eyebrows shot up and she pressed a hand to her mouth. “Your great-grandad drew this when he was a boy,” she murmured. “He always said there was treasure buried in the garden.”","The next morning, we crept outside with a shovel, a torch and Nana’s old compass. We dug and dug. Suddenly, the shovel clanged against something hard."],"key":{"WC":"get the decorations · very scary · said (three times in the conversation) · looked · went outside · hit","G":"a old (twice) · their was (there was) · drawed (drew) · digged (dug)","S":"three short sentences about the box (join them) · the long “so … and … and then” key sentence (split it)","D":"the conversation with Nana: speech marks, punctuation inside, new speaker on a new line, better words than said","SDT":"The attic was very scary · She was surprised","P":"christmas · couldnt · Nanas compass · commas in the list · capitals to start the speech"}},{"id":"swim","letter":"C","title":"The Last Lap","kind":"Sport","teaser":"A swimming final, lane four and the fastest girl in school.","theme":"sky","opening":"Starts with a sound word on its own","original":["BANG! The race started and I dived into the pool. The water was really cold.","It was the final of the 50 metre freestyle at the swimming carnival. I was in lane four. Mia was in lane five. Mia was the fastest swimmer in our school and she had won every race that year.","I swam as fast as I could. At the wall I turn and push off and I could see Mias feet in front of me and I knew I had to go faster. My coach was on the side of the pool. go go go he yelled. My friends was cheering and jumping up and down.","I was very tired. My arms felt like they was going to fall off. Then I touched the wall. who won I asked the judge. you did she said.","Me and Mia looked at each other. I was so happy. Mia said good race. I said thanks you were really good too. i got a gold medal. It was a really good day."],"editor":["The crack of the starting gun echoed across the pool and I dived in. The icy water stole my breath.","It was the final of the 50 metre freestyle at the swimming carnival. I was in lane four, right beside Mia in lane five. Mia was the fastest swimmer in our school and she had won every race that year.","I swam as fast as I could. At the wall, I turned and pushed off. Mia’s feet were churning the water ahead of me, so I knew I had to go faster. My coach paced along the side of the pool.","“Go, go, go!” he roared.","My friends were cheering and jumping up and down.","My lungs burned and my arms felt as heavy as bricks. Then my fingertips touched the wall.","“Who won?” I gasped.","“You did,” replied the judge with a smile.","Mia and I looked at each other. I couldn’t stop grinning.","“Good race,” said Mia.","“Thanks! You were amazing too,” I replied.","The judge hung a gold medal around my neck. It was the proudest moment of my life."],"key":{"WC":"really cold · really good (twice) · got a gold medal · a good day","G":"turn and push off (turned, pushed) · my friends was · they was · me and Mia","S":"three short sentences about the lanes (join them) · the long “and … and” sentence at the wall (split it)","D":"the coach’s shout, the judge and the chat with Mia: speech marks, punctuation inside, new speaker on a new line","SDT":"I was very tired · I was so happy","P":"Mias feet · i got · capitals to start the speech · comma after “At the wall”"}}];
+
+/* ============ RED PEN MODELS ============
+   [old>new] replace, [>new] add, [old>] cross out, [¶] new line */
+var MODELS = {
+  hook: { rows: [
+    { who: 'Draft', codes: [], text: '[me>Lucy] and [Lucy>I] [was>were] making pancakes when the pan [got really hot>sizzled and smoked]. [I was worried.>I bit my lip.] [the>When the] smoke alarm [went off and then>shrieked,] [dad ran>Dad raced] in and [then he opened all the windows>flung open every window].' }
+  ]},
+  sample: { rows: [
+    { who: 'Sheet', codes: ['P', 'WC', 'SDT'], text: '[on>On] [friday>Friday] we [went>raced] to the park[>.] [I was happy.>I grinned.]' }
+  ]},
+  wc: { rows: [
+    { who: 'I do', codes: ['WC'], text: 'The dog [went>bounded] across the [big>enormous] field and [got>snatched] the ball.' },
+    { who: 'We do', codes: ['WC'], text: 'We had a [really nice>glorious] day at the beach and the waves were [very big>towering].' }
+  ]},
+  g: { rows: [
+    { who: 'I do', codes: ['G'], text: '[Me and Ava>Ava and I] [runs>ran] to the gate but we [was>were] too late.' },
+    { who: 'We do', codes: ['G'], text: 'Yesterday we [walk>walked] to the shops and Mum [says>said] we could [of>have] [took>taken] the bus.' }
+  ]},
+  s: { rows: [
+    { who: 'I do', codes: ['S'], text: '[The>When the] bell rang[.>,] [Everyone>everyone] ran outside[. It>, although it] was raining.' },
+    { who: 'We do', codes: ['S'], text: '[We>When we] arrived at the beach[ and>,] we dropped our towels and [then we >]ran into the water[ and it>. It] was freezing[.>!]' }
+  ]},
+  d: { rows: [
+    { who: 'I do', codes: ['D'], text: '[>“]Where are you going[>?”] [said>asked] Mum. [¶][>“]Outside[>,”] I [said>replied].' },
+    { who: 'We do', codes: ['D'], text: '[>“][come>Come] back here[>!”] shouted Dad[>.] [>“][its>It’s] nearly dinner time[>.”]' }
+  ]},
+  sdt: { rows: [
+    { who: 'I do', codes: ['SDT'], text: '[Mia was nervous.>Mia’s hands shook as she clutched her speech cards.]' },
+    { who: 'We do', codes: ['SDT'], text: 'Lola [was so excited about the party.>bounced on her toes and counted the minutes until the party.]' }
+  ]},
+  p: { rows: [
+    { who: 'I do', codes: ['P'], text: '[on>On] [saturday>Saturday][>,] [emmas>Emma’s] dog ate my sandwich[>,] my apple and my muffin[>.]' },
+    { who: 'We do', codes: ['P'], text: '[the>The] [twins>twins’] birthday party is at [lucys>Lucy’s] house in [may>May][>.]' }
+  ]}
+};
+
+function escHTML(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function parseEdits(str){
+  var out=[],re=/\[([^\]>]*)>([^\]]*)\]|\[¶\]/g,last=0,m;
+  while((m=re.exec(str))){
+    if(m.index>last)out.push({t:str.slice(last,m.index)});
+    if(m[0]==='[¶]')out.push({p:true});
+    else out.push({d:m[1],i:m[2]});
+    last=re.lastIndex;
+  }
+  if(last<str.length)out.push({t:str.slice(last)});
+  return out;
+}
+function draftHTML(segs){
+  var h='',k=0;
+  segs.forEach(function(s){
+    if(s.t!==undefined){h+=escHTML(s.t);return;}
+    if(s.p){h+='<span class="ed para" style="--i:'+(k++)+'">&#8203;<span class="pm">¶</span></span>';return;}
+    var ins=s.i.trim();
+    /* keep spaces outside the mark so they are not swallowed */
+    var lead=s.d?s.d.match(/^\s*/)[0]:'',trail=s.d?s.d.match(/\s*$/)[0]:'',del=s.d?s.d.trim():'';
+    if(del&&ins)h+=lead+'<span class="ed rep" style="--i:'+k+'"><span class="del">'+escHTML(del)+'</span><span class="ins">'+escHTML(ins)+'</span></span>'+trail;
+    else if(del)h+=lead+'<span class="ed rem" style="--i:'+k+'"><span class="del">'+escHTML(del)+'</span></span>'+trail;
+    else h+='<span class="ed add" style="--i:'+k+'">&#8203;<span class="car"></span><span class="ins">'+escHTML(ins)+'</span></span>';
+    k++;
+  });
+  return {html:h,n:k};
+}
+function cleanHTML(segs){
+  var h='';
+  segs.forEach(function(s){
+    if(s.t!==undefined){h+=escHTML(s.t);return;}
+    if(s.p){h+='<br>';return;}
+    if(!s.i)return;
+    var lead=s.i.match(/^\s*/)[0],trail=s.i.match(/\s*$/)[0];
+    h+=lead+'<span class="chg">'+escHTML(s.i.trim())+'</span>'+trail;
+  });
+  return h.replace(/<\/span><span class="chg">/g,'').replace(/(<br>)\s+/g,'$1').replace(/\s{2,}/g,' ');
+}
+function buildPaper(el){
+  var model=MODELS[el.getAttribute('data-model')];
+  var interactive=el.hasAttribute('data-steps');
+  var html='';
+  model.rows.forEach(function(row,ri){
+    var segs=parseEdits(row.text),d=draftHTML(segs);
+    var cls=row.who==='We do'?'we':(row.who==='I do'?'i':'d');
+    var codes=row.codes.map(function(c){return '<span class="codebadge">'+c+'</span>';}).join('');
+    var marked=el.getAttribute('data-model')==='sample'?' visible':'';
+    var draft='<div class="draft pen'+marked+'" style="--n:'+d.n+'"><span class="who '+cls+'">'+row.who+'</span>'+d.html+'<span class="mcodes">'+codes+'</span></div>';
+    var clean='<div class="clean reveal-step"><small>Clean copy</small>'+cleanHTML(segs)+'</div>';
+    if(el.getAttribute('data-model')==='sample')clean='';
+    if(ri>0)html+='<div class="wedo-wrap reveal-step">'+draft+clean+'</div>';
+    else html+=draft+clean;
+  });
+  el.innerHTML=html;
+}
+
+/* ============ MODEL CARDS ============ */
+var CARDS=[
+  {key:'wc',code:'WC',name:'Word choice',n:1,look:['went','got','said','nice','good','big','very','really'],
+   book:'Next to <em>WC</em>, copy two swaps: <em>went &rarr; bounded</em> and <em>very big &rarr; towering</em>.',
+   learn:'Precise words paint a clearer picture. <em>Very</em> + a word can usually become one stronger word.',
+   notes:['Think aloud: “Went tells me nothing about how the dog moved. Bounded shows it is happy and fast.”','We do: students suggest swaps before you reveal. Accept any precise word they can justify.','Common swaps: said &rarr; whispered, nice &rarr; delicious, got &rarr; grabbed, very scared &rarr; terrified.']},
+  {key:'g',code:'G',name:'Grammar',n:2,look:['we was','me and Ava','could of','mixed-up tense'],
+   book:'Next to <em>G</em>, write: <em>Ava and I</em> &middot; <em>we were</em> &middot; <em>could have</em>.',
+   learn:'Keep the story in one tense, match the verb to who is doing it, and put yourself last.',
+   notes:['Trick for “me and Ava”: take Ava out. “Me ran to the gate” sounds wrong, so it is “I”.','“Could of” is what “could’ve” sounds like when you say it. It is always “could have”.','Say the sentence aloud. Grammar mistakes usually sound wrong.']},
+  {key:'s',code:'S',name:'Sentences',n:3,look:['short, short, short','and then… and then…'],
+   book:'Next to <em>S</em>, write the joining words: <em>when</em> <em>while</em> <em>as</em> <em>because</em> <em>although</em>.',
+   learn:'Join short, choppy sentences. Split long “and then” sentences so the reader can breathe.',
+   notes:['This links back to Make Them Wait: a joining word at the front needs a comma after the first part.','We do: count the “and”s first. Four “and”s in one sentence is a sign to split it.']},
+  {key:'d',code:'D',name:'Dialogue',n:4,look:['speech marks','punctuation inside','new speaker, new line'],
+   book:'Next to <em>D</em>, write: <em>new speaker, new line</em>. Punctuation goes inside the speech marks.',
+   learn:'Speech marks go around the spoken words. Punctuation goes inside them. Every new speaker starts a new line.',
+   notes:['The red ¶ means “start a new line here”.','Point out the comma in “Outside,” I replied: the sentence keeps going, so it is a comma, not a full stop.','Swap “said” for a verb that shows how it was said: asked, replied, shouted, whispered.']},
+  {key:'sdt',code:'SDT',name:'Show, don’t tell',n:5,look:['was scared','was happy','was angry','was excited'],
+   book:'Next to <em>SDT</em>, write: <em>show the body, don’t name the feeling</em>.',
+   learn:'Don’t name the feeling. Show what the body does, so the reader works it out.',
+   notes:['Ask: how would you know Mia was nervous if nobody told you? What would you see?','We do: collect three ideas for Lola before revealing. Hands, feet, face and voice are all good places to look.']},
+  {key:'p',code:'P',name:'Punctuation',n:6,look:['capital letters','apostrophes','commas in a list','full stops'],
+   book:'Next to <em>P</em>, write: <em>capitals for names, places, days and months</em>.',
+   learn:'Capitals for names, places, days and months. Apostrophes show who owns something. Commas split a list.',
+   notes:['Twins’ has the apostrophe after the s because there are two twins.','No comma before “and” in our lists: my sandwich, my apple and my muffin.']}
+];
+(function(){
+  var html='';
+  CARDS.forEach(function(c,ix){
+    var idx=ix+3;
+    html+='<div class="slide" id="slide'+idx+'"><div class="card">'+
+      '<button class="teacher-btn" onclick="toggleTeacher(this)">Teacher notes</button>'+
+      '<div class="card-head"><div class="eyebrow">Edit for &middot; <span class="num">'+c.n+'</span> of <span class="num">6</span></div><span class="mode m-talk"><svg><use href="#i-talk"/></svg>Talk</span><span class="mode m-book"><svg><use href="#i-book"/></svg>In your book</span></div>'+
+      '<h2><span class="codebadge">'+c.code+'</span>'+c.name+'</h2>'+
+      '<div class="lookfor"><span class="lf">Look for</span>'+c.look.map(function(w){return '<span class="t">'+w+'</span>';}).join('')+'</div>'+
+      '<div class="paper" data-model="'+c.key+'"></div>'+
+      '<div class="reveal-step"><div class="boxes-2">'+
+        '<div class="book-box"><div class="box-icon"><svg><use href="#i-book"/></svg></div><div><div class="box-label">In your book</div><div class="box-text">'+c.book+'</div></div></div>'+
+        '<div class="learn-box"><div class="box-icon"><svg><use href="#i-learn"/></svg></div><div><div class="box-label">Learn this</div><div class="box-text">'+c.learn+'</div></div></div>'+
+      '</div></div>'+
+      '<div class="btn-row"><button class="btn btn-red" data-labels="Red pen it|Clean copy|We do: your turn|Red pen it|Clean copy|Learn it" onclick="revealNext(this)">Red pen it</button></div>'+
+      '<div class="teacher-panel"><div class="tp-title">Model it</div><ul>'+c.notes.map(function(n){return '<li>'+n+'</li>';}).join('')+'</ul></div>'+
+      '</div><div class="slide-nav"><button class="nav-btn" tabindex="-1" onclick="prevSlide()">&larr; Back</button><span class="slide-counter"></span><button class="nav-btn" tabindex="-1" onclick="nextSlide()">Next &rarr;</button></div></div>';
+  });
+  var anchor=document.getElementById('slide9');
+  anchor.insertAdjacentHTML('beforebegin',html);
+})();
+document.querySelectorAll('.paper[data-model]').forEach(buildPaper);
+
+/* answer key in teacher notes */
+(function(){
+  var names={WC:'Word choice',G:'Grammar',S:'Sentences',D:'Dialogue',SDT:'Show, don’t tell',P:'Punctuation'};
+  var h='';
+  STORIES.forEach(function(s){
+    h+='<div class="keycol"><h4>'+s.letter+' &middot; '+escHTML(s.title)+'</h4>';
+    ['WC','G','S','D','SDT','P'].forEach(function(c){h+='<p><span class="kc">'+c+'</span>'+escHTML(s.key[c])+'</p>';});
+    h+='<p><span class="kc">Go further</span>'+escHTML(s.opening)+'</p></div>';
+  });
+  document.getElementById('keygrid').innerHTML=h;
+})();
+
+/* ============ NAVIGATION ============ */
+var slides=document.querySelectorAll('.slide');
+var sidebarItems=document.querySelectorAll('.sidebar-item');
+var totalSlides=slides.length;
+var currentSlide=0;
+var COMPARE_SLIDE=11;
+function goToSlide(n){
+  if(n<0||n>=totalSlides)return;
+  slides[currentSlide].classList.remove('active');
+  sidebarItems[currentSlide].classList.remove('active');
+  currentSlide=n;
+  slides[currentSlide].classList.add('active');
+  sidebarItems[currentSlide].classList.add('active');
+  updateCounter();
+  if(document.activeElement)document.activeElement.blur();
+  window.scrollTo(0,0);
+}
+function nextSlide(){goToSlide(currentSlide+1);}
+function prevSlide(){goToSlide(currentSlide-1);}
+function updateCounter(){
+  document.querySelectorAll('.slide-counter').forEach(function(el){
+    el.innerHTML='Card <span class="num">'+(currentSlide+1)+'</span> of <span class="num">'+totalSlides+'</span>';
+  });
+  slides.forEach(function(s,i){
+    var btns=s.querySelectorAll('.slide-nav .nav-btn');
+    if(btns[0])btns[0].disabled=(i===0);
+    if(btns[1])btns[1].disabled=(i===totalSlides-1);
+  });
+}
+updateCounter();
+function toggleSidebar(){
+  var sb=document.getElementById('sidebar');
+  sb.classList.toggle('collapsed');
+  sb.classList.toggle('open');
+}
+document.addEventListener('keydown',function(e){
+  var tag=document.activeElement?document.activeElement.tagName:'';
+  if(tag==='TEXTAREA'||tag==='SELECT'||(tag==='INPUT'&&document.activeElement.type!=='checkbox'))return;
+  if(document.activeElement)document.activeElement.blur();
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){
+    e.preventDefault();nextSlide();
+  }else if(e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='PageUp'){
+    e.preventDefault();prevSlide();
+  }
+},true);
+if(location.hash==='#compare')goToSlide(COMPARE_SLIDE);
+
+/* ============ PROGRESSIVE REVEAL ============ */
+function revealNext(btn){
+  var card=btn.closest('.card');
+  var steps=card.querySelectorAll('.reveal-step, .pen');
+  var labels=(btn.getAttribute('data-labels')||'').split('|');
+  for(var i=0;i<steps.length;i++){
+    if(!steps[i].classList.contains('visible')){
+      steps[i].classList.add('visible');
+      if(i===steps.length-1)btn.classList.add('done');
+      else if(labels[i+1])btn.textContent=labels[i+1];
+      bringIntoView(steps[i]);
+      return;
+    }
+  }
+  btn.classList.add('done');
+}
+function bringIntoView(el){
+  setTimeout(function(){
+    var r=el.getBoundingClientRect();
+    if(r.bottom>window.innerHeight-20){
+      window.scrollBy({top:Math.min(r.bottom-window.innerHeight+40,r.top-60),behavior:'smooth'});
+    }
+  },480);
+}
+
+/* ============ TEACHER NOTES ============ */
+function toggleTeacher(btn){
+  var box=btn.closest('.card, .lisc');
+  var panel=box.querySelector('.teacher-panel');
+  var open=panel.classList.toggle('open');
+  btn.textContent=open?'Hide teacher notes':'Teacher notes';
+}
+
+/* ============ TIMER ============ */
+function fmt(s){var m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r;}
+function tState(w){
+  if(!w._t){var m=+w.getAttribute('data-mins')||10;w._t={total:m*60,left:m*60,id:null};}
+  return w._t;
+}
+function tPaint(w){
+  var t=tState(w),d=w.querySelector('.timer-display');
+  d.textContent=fmt(t.left);
+  d.classList.toggle('warn',t.left>0&&t.left<=60);
+  d.classList.toggle('done',t.left===0);
+}
+function tStop(w){
+  var t=tState(w);
+  if(t.id){clearInterval(t.id);t.id=null;}
+  w.querySelector('.t-start').textContent='Start';
+}
+function timerSet(btn,mins){
+  var w=btn.closest('.timer-wrap'),t=tState(w);
+  tStop(w);t.total=mins*60;t.left=t.total;
+  w.querySelectorAll('.timer-presets .btn').forEach(function(b){b.classList.remove('sel');});
+  btn.classList.add('sel');tPaint(w);
+}
+function timerToggle(btn){
+  var w=btn.closest('.timer-wrap'),t=tState(w);
+  if(t.id){tStop(w);return;}
+  if(t.left<=0)t.left=t.total;
+  btn.textContent='Pause';
+  t.id=setInterval(function(){
+    t.left--;
+    if(t.left<=0){t.left=0;tStop(w);}
+    tPaint(w);
+  },1000);
+}
+function timerReset(btn){
+  var w=btn.closest('.timer-wrap'),t=tState(w);
+  tStop(w);t.left=t.total;tPaint(w);
+}
+document.querySelectorAll('.timer-wrap').forEach(tPaint);
+
+/* ============ TYPE UP AND COMPARE ============ */
+var current=null,view='inline';
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v);}catch(e){return null;}}
+(function(){
+  var h='';
+  STORIES.forEach(function(s){
+    h+='<button class="pick '+s.theme+'" data-id="'+s.id+'" onclick="pickStory(\''+s.id+'\')"><span class="letter">'+s.letter+'</span>'+escHTML(s.title)+'</button>';
+  });
+  document.getElementById('picks').innerHTML=h;
+  var last=store('redpen-story');
+  if(last&&STORIES.some(function(s){return s.id===last;}))pickStory(last);
+})();
+function storyById(id){for(var i=0;i<STORIES.length;i++)if(STORIES[i].id===id)return STORIES[i];return null;}
+function pickStory(id){
+  current=storyById(id);
+  document.querySelectorAll('.pick').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-id')===id);});
+  document.getElementById('origPane').innerHTML=current.original.map(function(p){return '<p>'+escHTML(p)+'</p>';}).join('');
+  document.getElementById('typed').value=store('redpen-draft-'+id)||'';
+  document.getElementById('cmpResults').hidden=true;
+  document.getElementById('cmpMsg').textContent='';
+  store('redpen-story',id);
+}
+document.getElementById('typed').addEventListener('input',function(){
+  if(current)store('redpen-draft-'+current.id,this.value);
+});
+function startWithOriginal(){
+  if(!current){msg('Choose your story first.');return;}
+  var ta=document.getElementById('typed');
+  if(ta.value.trim()&&!confirm('Replace what you have typed with the first draft?'))return;
+  ta.value=current.original.join('\n\n');
+  store('redpen-draft-'+current.id,ta.value);
+  ta.focus();
+  msg('');
+}
+function clearTyped(){
+  var ta=document.getElementById('typed');
+  if(ta.value.trim()&&!confirm('Clear everything you have typed?'))return;
+  ta.value='';
+  if(current)store('redpen-draft-'+current.id,null);
+  document.getElementById('cmpResults').hidden=true;
+}
+function msg(t){document.getElementById('cmpMsg').textContent=t;}
+
+/* tokens: words (with inner apostrophes and hyphens), single punctuation marks, paragraph breaks */
+function tokenize(text){
+  var toks=[],re=/(\n\s*)|([A-Za-z0-9À-ÿ]+(?:[-'’][A-Za-z0-9À-ÿ]+)*['’]?)|([^\sA-Za-z0-9À-ÿ])/g,m;
+  text=text.replace(/\r/g,'').trim();
+  while((m=re.exec(text))){
+    if(m[1]!==undefined){
+      if(toks.length&&toks[toks.length-1].v!=='¶')toks.push({v:'¶',k:'¶'});
+      continue;
+    }
+    var v=m[0];
+    if(v==='"'){var prev=text.charAt(m.index-1);v=(!prev||/[\s(\[]/.test(prev))?'“':'”';}
+    if(v==="'"){var pv=text.charAt(m.index-1);v=(!pv||/[\s(\[]/.test(pv))?'‘':'’';}
+    var k=v.replace(/[’‘]/g,"'").replace(/[“”]/g,'"');
+    toks.push({v:v,k:k});
+  }
+  return toks;
+}
+function diffTokens(a,b){
+  var n=a.length,m=b.length,i,j;
+  var L=[];for(i=0;i<=n;i++){L.push(new Uint16Array(m+1));}
+  for(i=n-1;i>=0;i--)for(j=m-1;j>=0;j--)L[i][j]=a[i].k===b[j].k?L[i+1][j+1]+1:Math.max(L[i+1][j],L[i][j+1]);
+  var ops=[];i=0;j=0;
+  while(i<n&&j<m){
+    if(a[i].k===b[j].k){ops.push({op:'eq',t:b[j]});i++;j++;}
+    else if(L[i+1][j]>=L[i][j+1]){ops.push({op:'del',t:a[i]});i++;}
+    else{ops.push({op:'ins',t:b[j]});j++;}
+  }
+  while(i<n){ops.push({op:'del',t:a[i++]});}
+  while(j<m){ops.push({op:'ins',t:b[j++]});}
+  /* tidy: inside each change region, show all crossed-out words before the added words */
+  var tidy=[],buf=null;
+  ops.forEach(function(o){
+    if(o.op==='eq'){if(buf){tidy=tidy.concat(buf.d,buf.i);buf=null;}tidy.push(o);}
+    else{if(!buf)buf={d:[],i:[]};(o.op==='del'?buf.d:buf.i).push(o);}
+  });
+  if(buf)tidy=tidy.concat(buf.d,buf.i);
+  return tidy;
+}
+var NOSPACE_BEFORE=/^[.,!?;:)\]”’%]$/,NOSPACE_AFTER=/^[(\[“‘]$/;
+function renderStream(items){
+  /* items: {v, cls}; neighbouring tokens with the same class share one span */
+  var paras=[[]],prev=null;
+  function push(cls,txt){
+    var cur=paras[paras.length-1],last=cur[cur.length-1];
+    if(last&&last.cls===cls)last.h+=txt;else cur.push({cls:cls,h:txt});
+  }
+  items.forEach(function(it){
+    var cls=it.cls||'';
+    if(it.v==='¶'){
+      if(cls==='rm'){push('',' ');push('rm pmk','¶');prev='¶';return;}
+      if(cls==='ad'){push('',' ');push('ad pmk','¶');}
+      paras.push([]);prev=null;return;
+    }
+    var cur=paras[paras.length-1];
+    if(cur.length&&prev&&!NOSPACE_BEFORE.test(it.v)&&!NOSPACE_AFTER.test(prev)){
+      var last=cur[cur.length-1];
+      if(last&&last.cls===cls&&cls)last.h+=' ';else push('',' ');
+    }
+    push(cls,escHTML(it.v));
+    prev=it.v;
+  });
+  return paras.filter(function(p){return p.length;}).map(function(p){
+    return '<p>'+p.map(function(r){return r.cls?'<span class="'+r.cls+'">'+r.h+'</span>':r.h;}).join('')+'</p>';
+  }).join('');
+}
+function countWords(toks){return toks.filter(function(t){return /[A-Za-z0-9]/.test(t.v);}).length;}
+function countChanges(ops){var c=0,inChange=false;ops.forEach(function(o){if(o.op==='eq'){inChange=false;}else if(!inChange){c++;inChange=true;}});return c;}
+function diffHTML(ops,mode){
+  if(mode==='side'){
+    var left=[],right=[];
+    ops.forEach(function(o){
+      if(o.op!=='ins')left.push({v:o.t.v,cls:o.op==='del'?'rm':''});
+      if(o.op!=='del')right.push({v:o.t.v,cls:o.op==='ins'?'ad':''});
+    });
+    return '<div class="side"><div class="diff"><h4>First draft</h4>'+renderStream(left)+'</div><div class="diff"><h4>Edited</h4>'+renderStream(right)+'</div></div>';
+  }
+  return '<div class="diff">'+renderStream(ops.map(function(o){return {v:o.t.v,cls:o.op==='del'?'rm':(o.op==='ins'?'ad':'')};}))+'</div>';
+}
+var lastOps=null,lastEdOps=null;
+function showChanges(){
+  if(!current){msg('Choose your story first.');return;}
+  var typed=document.getElementById('typed').value;
+  if(!typed.trim()){msg('Type your edited story first, or press Start with the first draft.');return;}
+  msg('');
+  var a=tokenize(current.original.join('\n\n')),b=tokenize(typed);
+  lastOps=diffTokens(a,b);
+  document.getElementById('stBefore').textContent=countWords(a);
+  document.getElementById('stAfter').textContent=countWords(b);
+  document.getElementById('stChanges').textContent=countChanges(lastOps);
+  document.getElementById('diffOut').innerHTML=diffHTML(lastOps,view);
+  document.getElementById('cmpResults').hidden=false;
+  document.getElementById('edResults').hidden=true;
+  bringIntoView(document.getElementById('diffOut'));
+}
+function setView(btn){
+  view=btn.getAttribute('data-v');
+  document.querySelectorAll('.viewtog button').forEach(function(b){b.classList.toggle('on',b===btn);});
+  if(lastOps)document.getElementById('diffOut').innerHTML=diffHTML(lastOps,view);
+  if(lastEdOps&&!document.getElementById('edResults').hidden)document.getElementById('edOut').innerHTML=diffHTML(lastEdOps,view);
+}
+function showEditor(btn){
+  if(!current)return;
+  lastEdOps=diffTokens(tokenize(current.original.join('\n\n')),tokenize(current.editor.join('\n\n')));
+  document.getElementById('edOut').innerHTML=diffHTML(lastEdOps,view);
+  document.getElementById('edResults').hidden=false;
+  bringIntoView(document.getElementById('edResults'));
+}
+</script>
+</body>
+</html>
