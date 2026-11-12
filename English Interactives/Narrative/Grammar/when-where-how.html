@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="When, Where, How: a 30-minute Writer's Toolkit lesson on varied sentence openers and cohesion. Ten minutes of modelling with time, place and manner openers, then twenty minutes rebuilding flat paragraphs at three levels of help. Stage 3 English.">
+<title>When, Where, How | Writer's Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!--
+    When, Where, How (grammar: varied sentence openers and cohesion)
+    WHAT: Card-by-card projector lesson. Cards 2 to 7 are about ten minutes of modelling.
+          Cards 8 to 11 are about twenty minutes of students rebuilding a flat paragraph in their books,
+          with three levels of help (Entry, First floor, Second floor), a partner check and an exit.
+    LOOK: Same paper, plum and rose palette and Fraunces + Inter type as Slow Motion and Paint the Noun.
+          Opener colours: When = blue, Where = green, How = amber, Link back = rose.
+    NAV:  Clicker or arrow keys. Right / Page Down shows the next step on a card, then moves to the next card.
+          Left / Page Up steps back. Keydown listener uses capture; nav buttons are tabindex -1.
+          Add #rebuild to the link to open straight onto the student work card (for laptops).
+-->
+<style>
+:root{
+  --paper:#ffffff;--paper-2:#fff3ee;--paper-3:#ffe4dc;--paperlight:#ffffff;--stone:#d9a7b4;
+  --rose:#ff7aa8;--rose-deep:#e5407f;--plum:#3a2638;--plum-soft:#7a5a72;--line:#ffd1dc;
+  --accent:#e5407f;--accent-2:#ff8f6b;--grad:linear-gradient(135deg,#ff5f9e 0%,#ff8f6b 100%);
+  --gold:#ffb347;--gold-soft:#fff3dc;--gold-line:#ffd79a;--gold-deep:#b35f00;
+  --sky:#2b9be0;--sky-soft:#e8f6ff;--sky-line:#b4dcf7;--sky-deep:#126fa8;
+  --red:#e8384f;--red-soft:#ffe3e6;
+  --when:#2b9be0;--when-soft:#dff1ff;--when-deep:#0f6aa3;
+  --where:#1fae6a;--where-soft:#daf7e8;--where-deep:#0f7d48;
+  --how:#ff8a3d;--how-soft:#ffead9;--how-deep:#c2510f;
+  --link:#ec4f8f;--link-soft:#ffe1ee;--link-deep:#b8296a;
+  --shadow:0 16px 36px -22px rgba(229,64,127,.42);
+  --bar:3.1rem;
+}
+html{font-size:clamp(13px,min(1.12vw,2.02vh),26px)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--plum);font-family:"Inter",system-ui,sans-serif;font-size:1rem;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(70% 55% at 92% -6%,rgba(255,122,168,.20),transparent 62%),
+             radial-gradient(60% 50% at -6% 6%,rgba(255,170,130,.20),transparent 58%),
+             radial-gradient(60% 45% at 50% 108%,rgba(255,200,220,.22),transparent 60%)}
+h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:600;line-height:1.06;margin:0}
+button{font-family:inherit}
+[data-k="when"]{--ks:var(--when-soft);--kd:var(--when-deep);--kc:var(--when)}
+[data-k="where"]{--ks:var(--where-soft);--kd:var(--where-deep);--kc:var(--where)}
+[data-k="how"]{--ks:var(--how-soft);--kd:var(--how-deep);--kc:var(--how)}
+[data-k="link"]{--ks:var(--link-soft);--kd:var(--link-deep);--kc:var(--link)}
+[data-k="plain"]{--ks:var(--paper-2);--kd:var(--plum-soft);--kc:var(--stone)}
+[data-k="rep"]{--ks:var(--red-soft);--kd:var(--red);--kc:var(--red)}
+
+/* ===== Top bar ===== */
+.topbar{position:sticky;top:0;z-index:40;height:var(--bar);display:flex;align-items:center;gap:1rem;padding:0 1.6rem;background:rgba(255,255,255,.93);backdrop-filter:blur(6px);border-bottom:2px solid var(--line)}
+.brand{font-family:"Fraunces",serif;font-weight:600;font-size:1rem;white-space:nowrap}
+.brand span{color:var(--rose-deep)}
+.stops{display:flex;gap:.2rem;margin:0 auto;min-width:0}
+.stop{font-weight:600;font-size:.74rem;color:var(--plum-soft);background:transparent;border:1px solid transparent;border-radius:100px;padding:.22rem .28rem;display:flex;align-items:center;gap:.4rem;cursor:pointer;white-space:nowrap}
+.stop .n{width:1.45rem;height:1.45rem;border-radius:50%;background:var(--paper-3);color:var(--rose-deep);display:grid;place-items:center;font-family:"Fraunces",serif;font-size:.8rem}
+.stop .l{display:none}
+.stop:hover{background:var(--paper-3)}
+.stop.seen .n{background:var(--rose);color:#fff}
+.stop.on{background:var(--grad);color:#fff;padding-right:.8rem}
+.stop.on .n{background:#fff;color:var(--accent)}
+.stop.on .l{display:inline}
+.bar-right{display:flex;gap:.5rem;align-items:center}
+.runpill{display:none;align-items:center;gap:.4rem;font-weight:700;font-size:.85rem;font-variant-numeric:tabular-nums;background:var(--accent);color:#fff;border:none;border-radius:100px;padding:.3rem .8rem;cursor:pointer}
+.runpill.show{display:inline-flex}
+.runpill svg{width:1rem;height:1rem}
+.ibtn{display:inline-flex;align-items:center;gap:.4rem;font-weight:600;font-size:.78rem;color:var(--plum-soft);background:transparent;border:1px dashed var(--line);border-radius:100px;padding:.3rem .8rem;cursor:pointer;white-space:nowrap;text-decoration:none}
+.ibtn:hover{background:var(--paper-3);color:var(--plum)}
+.ibtn svg{width:1rem;height:1rem}
+
+/* ===== Screens ===== */
+main{position:relative;z-index:1}
+.screen{display:none;min-height:calc(100vh - var(--bar));padding:1.1rem 2.2rem 0;flex-direction:column}
+.screen.on{display:flex;animation:screenIn .45s ease}
+@keyframes screenIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.content{flex:1}
+.head{margin-bottom:.9rem}
+.eyebrow{font-weight:700;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-deep);display:flex;align-items:center;gap:.6rem;margin-bottom:.45rem;flex-wrap:wrap}
+.eyebrow .min{color:var(--plum);background:var(--paper-3);border:1px solid var(--line);border-radius:100px;padding:.12rem .6rem;letter-spacing:.04em}
+.eyebrow .mode{color:#fff;background:var(--accent);border-radius:100px;padding:.12rem .65rem;letter-spacing:.06em}
+h2.big{font-size:2.6rem}
+.lede{font-size:1.08rem;color:var(--plum-soft);margin:.35rem 0 0;max-width:62ch}
+.snav{display:flex;align-items:center;gap:.7rem;padding:.75rem 0 .9rem;margin-top:1rem;border-top:1px solid var(--line)}
+.snav .grow{flex:1}
+.snav .hint{font-size:.78rem;color:var(--plum-soft)}
+.snav .stepinfo{font-size:.8rem;font-weight:700;color:var(--plum-soft);font-variant-numeric:tabular-nums}
+
+/* ===== Shared pieces ===== */
+.panel{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:1.1rem 1.4rem}
+.btn{font-weight:600;font-size:.9rem;padding:.6rem 1.2rem;border:none;border-radius:100px;cursor:pointer;background:var(--accent);color:#fff;display:inline-flex;align-items:center;gap:.45rem;transition:transform .15s,box-shadow .15s;line-height:1.2}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.btn.rose{background:var(--grad)}
+.btn.ghost{background:#fff;color:var(--accent);border:1.5px solid var(--accent)}
+.btn.soft{background:var(--paper-3);color:var(--plum)}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.btn svg{width:1.05em;height:1.05em}
+.btn.glow{animation:glow 1.8s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(229,64,127,0)}50%{box-shadow:0 0 0 6px rgba(229,64,127,.28)}}
+.tip{display:flex;gap:.8rem;align-items:flex-start;border-radius:12px;padding:.75rem 1.05rem;font-size:.98rem;line-height:1.45}
+.tip .ic{width:2.2rem;height:2.2rem;border-radius:10px;display:grid;place-items:center;flex:0 0 auto}
+.tip .ic svg{width:1.35rem;height:1.35rem}
+.tip .lbl{display:block;font-weight:700;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.12rem}
+.tip p{margin:0}
+.tip.book{background:var(--gold-soft);border:1px solid var(--gold-line);border-left:5px solid var(--gold)}
+.tip.book .ic{background:var(--gold)}
+.tip.book .lbl{color:var(--gold-deep)}
+.tip.book em{font-style:normal;font-weight:600;background:#fff;padding:0 .35em;border-radius:5px;white-space:nowrap}
+.tip.book.none{background:var(--paper-2);border-color:var(--line);border-left-color:var(--stone)}
+.tip.book.none .ic{background:var(--paper-3)}
+.tip.book.none .lbl{color:var(--plum-soft)}
+.tip.learn{background:var(--sky-soft);border:1px solid var(--sky-line);border-left:5px solid var(--sky)}
+.tip.learn .ic{background:var(--sky)}
+.tip.learn .lbl{color:var(--sky-deep)}
+.tip.learn em{font-style:normal;font-weight:700;color:var(--sky-deep)}
+.tip.warn{background:var(--red-soft);border:1px solid #ffc4cc;border-left:5px solid var(--red)}
+.tip.warn .ic{background:var(--red)}
+.tip.warn .lbl{color:var(--red)}
+.tip.warn em{font-style:normal;font-weight:700;color:var(--red)}
+.stack{display:grid;gap:.8rem;align-content:start}
+.say{border-radius:12px;padding:.8rem 1.05rem;font-size:1.02rem;line-height:1.5;background:#fff;border:1px solid var(--line);min-height:6.2rem}
+.say .lbl{display:block;font-weight:700;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:.15rem}
+.say b{color:var(--kd,var(--plum))}
+
+/* Reveal steps */
+.rv{opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease,visibility 0s linear .45s}
+.rv.on{opacity:1;visibility:visible;transform:none;transition:opacity .45s ease,transform .45s ease,visibility 0s}
+
+/* ===== Openers (coloured) ===== */
+.op{border-radius:.28em;padding:.02em .2em;background:var(--ks);box-shadow:inset 0 -.13em 0 var(--kc);color:var(--plum);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.op.tag{position:relative;display:inline-block;line-height:1.25}
+.op.tag::before{content:attr(data-tag);position:absolute;left:.15em;top:-1.15em;font-family:"Inter",sans-serif;font-weight:800;font-size:.38em;letter-spacing:.14em;text-transform:uppercase;color:var(--kd);white-space:nowrap}
+.op.drop{animation:dropIn .7s cubic-bezier(.2,1.5,.4,1)}
+@keyframes dropIn{from{opacity:0;transform:translateY(-.7em) scale(.85)}to{opacity:1;transform:none}}
+.rep{border-radius:.25em;padding:0 .12em;margin:0 -.04em;transition:background-color .35s,box-shadow .35s,color .35s}
+.lit .rep,.rep.lit{background:var(--red-soft);box-shadow:inset 0 0 0 .1em var(--red);color:var(--red)}
+.ki{display:inline-grid;place-items:center;width:1.5em;height:1.5em;border-radius:50%;background:var(--kc);color:#fff;flex:0 0 auto}
+.ki svg{width:.95em;height:.95em}
+
+/* Pattern strip */
+.pat{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+.pat .pl{font-weight:700;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--plum-soft);margin-right:.2rem}
+.pt{display:inline-flex;align-items:center;gap:.35rem;border-radius:9px;padding:.22rem .6rem .22rem .3rem;min-height:2rem;background:var(--ks);color:var(--kd);border:2px solid var(--kc);font-weight:700;font-size:.85rem;white-space:nowrap}
+.pt .ki{font-size:.8rem}
+.pt[data-k="plain"],.pt[data-k="rep"]{padding-left:.7rem;font-family:"Fraunces",serif;font-size:.95rem}
+.pat .sep{color:var(--stone);font-weight:700}
+.pt.pop{animation:dropIn .6s cubic-bezier(.2,1.5,.4,1)}
+
+/* ===== 1. Start ===== */
+.start{display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center;padding:.2rem 0}
+.kick{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--plum-soft);font-weight:700}
+h1.title{font-size:4.4rem;letter-spacing:-.01em;margin:.4rem 0 0}
+h1.title .w1{color:var(--when)} h1.title .w2{color:var(--where)} h1.title .w3{color:var(--how)}
+h1.title .sub{display:block;font-size:.3em;font-style:italic;font-weight:500;color:var(--rose-deep);margin-top:.7rem;letter-spacing:0}
+.li{font-size:1.3rem;line-height:1.45;margin:1.2rem 0 0;max-width:36ch}
+.li b{color:var(--rose-deep);font-weight:600}
+.pills{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.pill{font-size:.84rem;font-weight:600;background:var(--paperlight);border:1px solid var(--line);border-radius:100px;padding:.32rem .9rem}
+.sc{margin-top:1.1rem}
+.sc .sch{font-weight:700;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:.4rem}
+.sc ul{list-style:none;margin:0;padding:0;display:grid;gap:.38rem}
+.sc li{display:flex;gap:.7rem;align-items:center;font-size:1.02rem;background:var(--paperlight);border:1px solid var(--line);border-radius:10px;padding:.45rem .9rem}
+.sc li i{width:.9rem;height:.9rem;border-radius:4px;background:var(--grad);flex:0 0 auto;box-shadow:0 0 0 4px rgba(255,122,168,.2)}
+.start .tip.book{margin-top:1rem}
+.hero-art{background:linear-gradient(135deg,#ffeef5,#fff3ea);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:1rem 1rem .8rem}
+.strips{display:grid;gap:1.3rem;padding:1.6rem 1.2rem 1.2rem}
+.strip{position:relative;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 26px -16px rgba(229,64,127,.45);padding:.75rem 1rem;font-family:"Fraunces",serif;font-size:1.6rem;line-height:1.3;transform:rotate(var(--r))}
+.strip .op{display:inline-flex;align-items:center;gap:.4rem;padding:.12em .45em .12em .2em}
+.strip .op .ki{font-size:.82rem}
+.strip .fall{position:absolute;left:var(--x);top:var(--y);font-style:normal;font-family:"Fraunces",serif;font-weight:600;font-size:2.4rem;color:var(--stone);opacity:.7;transform:rotate(var(--rr))}
+.hero-art .cap{font-size:.95rem;color:var(--plum-soft);font-style:italic;margin:.5rem .3rem 0}
+.foot-link{display:inline-block;margin-top:1rem;font-size:.82rem;font-weight:600;color:var(--rose-deep)}
+
+/* ===== 2. Hook ===== */
+.g2{display:grid;grid-template-columns:1.35fr .95fr;gap:2rem;align-items:start}
+.board{background:#fff;border:10px solid #ffc6d8;border-radius:14px;box-shadow:var(--shadow);padding:1.2rem 1.8rem;color:var(--plum)}
+.board .bl{font-weight:700;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:.4rem}
+.board .bs{font-family:"Fraunces",serif;font-size:2.4rem;line-height:1.5;display:flex;align-items:center;gap:1rem}
+.board .rep{color:var(--plum)}
+.board.lit .rep{background:var(--red-soft);box-shadow:inset 0 0 0 .08em var(--red);color:var(--red)}
+.board .miss{font-family:"Inter",sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.06em;border-radius:100px;padding:.15rem .6rem;background:var(--ks);color:var(--kd);border:2px solid var(--kc)}
+.qbox{display:flex;gap:.8rem;align-items:flex-start;background:var(--paperlight);border:1.5px dashed var(--rose);border-radius:12px;padding:.85rem 1.05rem;font-size:1.05rem;line-height:1.45}
+.qbox svg{width:1.6rem;height:1.6rem;color:var(--rose-deep);flex:0 0 auto;margin-top:.1rem}
+.qbox b{display:block;font-family:"Fraunces",serif;font-weight:600;font-size:1.3rem;margin-bottom:.15rem}
+.qbox ul{margin:.2rem 0 0;padding-left:1.1rem}
+
+/* ===== 3. Openers ===== */
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.1rem}
+.otile{background:#fff;border:2px solid var(--kc);border-top:10px solid var(--kc);border-radius:14px;padding:.9rem 1.1rem 1rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:.55rem}
+.otile .oh{display:flex;align-items:center;gap:.7rem}
+.otile .oh .ki{font-size:1.7rem}
+.otile h3{font-size:2.1rem;color:var(--kd)}
+.otile .os{font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--kd)}
+.otile .chips{display:flex;flex-wrap:wrap;gap:.35rem}
+.otile .chips span{font-family:"Fraunces",serif;font-size:1.05rem;background:var(--ks);border-radius:7px;padding:.1rem .55rem}
+.otile .ex{font-family:"Fraunces",serif;font-size:1.25rem;line-height:1.45;border-top:1px dashed var(--line);padding-top:.55rem}
+.comma-row{display:grid;grid-template-columns:1.3fr 1fr;gap:1.2rem;margin-top:1rem;align-items:stretch}
+.comma{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:.8rem 1.3rem;display:flex;align-items:center;gap:1rem}
+.comma .cs{font-family:"Fraunces",serif;font-size:1.75rem;line-height:1.4}
+.comma .cm{display:inline-block;color:var(--red);font-weight:700;transform:scale(1.5);margin:0 .1em;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(2)}}
+.comma .cl{font-weight:700;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--red);white-space:nowrap}
+
+/* ===== 4. Watch me ===== */
+.g4{display:grid;grid-template-columns:1.45fr .85fr;gap:2rem;align-items:start}
+.rows{display:grid;gap:.4rem}
+.mrow{background:var(--paperlight);border:1px solid var(--line);border-radius:12px;padding:.55rem 1.3rem .75rem;box-shadow:var(--shadow)}
+.mrow .before{font-size:1rem;color:var(--plum-soft);display:flex;align-items:center;gap:.6rem}
+.mrow .before .bk{font-weight:700;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--stone)}
+.mrow .after{font-family:"Fraunces",serif;font-size:2rem;line-height:1.35;margin-top:1.15rem;min-height:2.7rem}
+.mrow .after .ghost{color:var(--stone);font-style:italic;font-size:1.1rem;font-family:"Inter",sans-serif}
+.g4 .pat{margin:.8rem 0 0}
+
+/* ===== 5. Link it back ===== */
+.context{font-family:"Fraunces",serif;font-size:1.4rem;line-height:1.55;background:var(--paper-2);border:1px dashed var(--line);border-radius:12px;padding:.7rem 1.2rem;color:var(--plum-soft)}
+.context .cl{display:block;font-family:"Inter",sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.15rem}
+.ref{border-radius:.25em;padding:0 .12em;margin:0 -.12em;transition:all .35s}
+.ref.on{background:var(--link-soft);box-shadow:inset 0 0 0 .1em var(--link);color:var(--link-deep)}
+.lrow{display:grid;grid-template-columns:2.4rem 1fr;gap:.8rem;align-items:center;margin-top:.55rem}
+.lrow .arrow{width:2.4rem;height:2.4rem;color:var(--link)}
+.lrow .lt{font-family:"Fraunces",serif;font-size:1.85rem;line-height:1.3;background:var(--paperlight);border:1px solid var(--line);border-radius:12px;padding:1.05rem 1.2rem .55rem;box-shadow:var(--shadow)}
+.lrow .lw{display:block;font-family:"Inter",sans-serif;font-size:.92rem;color:var(--link-deep);font-weight:600;margin-top:.15rem}
+.flat{font-size:1rem;color:var(--plum-soft);margin:.5rem 0 0;display:flex;gap:.6rem;align-items:baseline;flex-wrap:wrap}
+.flat .fk{font-weight:700;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--stone)}
+
+/* ===== 6. Mix it up ===== */
+.g6{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;align-items:start}
+.mixbox{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:.9rem 1.3rem 1rem}
+.mixbox .mh{font-weight:700;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--plum-soft);margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}
+.mixbox .mh .x,.mixbox .mh .t{width:1.5rem;height:1.5rem;border-radius:50%;display:grid;place-items:center}
+.mixbox .mh .x{background:var(--red)} .mixbox .mh .t{background:var(--where)}
+.mixbox .mh svg{width:.85rem;height:.85rem}
+.mixbox .mt{font-family:"Fraunces",serif;font-size:1.55rem;line-height:1.85}
+.mixbox .pat{margin-top:.6rem}
+.mixbox.bad{border-left:6px solid var(--red)}
+.mixbox.good{border-left:6px solid var(--where)}
+.tips{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-top:1rem}
+
+/* ===== 7. Fix it together ===== */
+.g7{display:grid;grid-template-columns:1.35fr .9fr;gap:1.6rem;align-items:start}
+.frow{background:var(--paperlight);border:1px solid var(--line);border-radius:12px;padding:.5rem 1rem .6rem;margin-bottom:.45rem;display:grid;grid-template-columns:2rem 1fr;gap:.7rem;align-items:start}
+.frow .fn{width:2rem;height:2rem;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:"Fraunces",serif;font-size:1rem;margin-top:.25rem}
+.frow .ft{font-family:"Fraunces",serif;font-size:1.55rem;line-height:1.35}
+.frow .fq{font-size:.82rem;color:var(--plum-soft);font-weight:600;margin-left:.6rem;font-family:"Inter",sans-serif}
+.frow .fchips{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.35rem}
+.ochip{display:inline-flex;align-items:center;gap:.35rem;font-weight:600;font-size:.86rem;border-radius:100px;padding:.2rem .7rem .2rem .25rem;border:2px solid var(--kc);background:#fff;color:var(--kd);cursor:pointer;transition:transform .15s,background-color .2s}
+.ochip:hover{transform:translateY(-1px)}
+.ochip .ki{font-size:.78rem}
+.ochip.on{background:var(--ks);box-shadow:0 0 0 3px var(--ks)}
+.ochip.keep{--kc:var(--stone);--kd:var(--plum-soft);--ks:var(--paper-2)}
+.ochip.keep .ki{background:var(--stone)}
+.built{background:#fff;border:1px solid var(--line);border-radius:12px;padding:.7rem 1rem;font-family:"Fraunces",serif;font-size:1.2rem;line-height:1.6}
+.built .bh{display:block;font-family:"Inter",sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--plum-soft);margin-bottom:.2rem}
+.writer{background:var(--grad);color:#fff;border-radius:14px;padding:.85rem 1.2rem;box-shadow:var(--shadow)}
+.writer .wh{font-weight:700;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:#fff;margin-bottom:.3rem}
+.writer .wt{font-family:"Fraunces",serif;font-size:1.3rem;line-height:1.75}
+.writer .op{color:var(--plum)}
+.writer .pat{margin-top:.5rem}
+.writer .pat .pl{color:#fff}
+.writer .pt{background:#fff}
+
+/* ===== 8. Choose ===== */
+.paras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.para{background:var(--paperlight);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.para svg{display:block;width:100%;height:auto;aspect-ratio:400/108;border-bottom:1px solid var(--line)}
+.para .pb{padding:.45rem 1rem .6rem;display:flex;flex-direction:column;gap:.2rem;flex:1}
+.para h3{font-size:1.3rem;display:flex;align-items:center;gap:.55rem}
+.let{width:1.8rem;height:1.8rem;border-radius:50%;background:var(--accent);color:#fff;display:inline-grid;place-items:center;font-family:"Fraunces",serif;font-size:.95rem;flex:0 0 auto}
+.para p{margin:0;font-size:.92rem;line-height:1.4}
+.para .keeps{margin-left:auto;font-family:"Inter",sans-serif;font-weight:500;font-size:.8rem;color:var(--plum-soft);white-space:nowrap}
+.para .keeps b{color:var(--red);font-family:"Fraunces",serif;font-size:1.1em}
+.foot8{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:.9rem}
+
+/* ===== 9. Rebuild ===== */
+.head9{display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:end;margin-bottom:.6rem}
+.head9 h2.big{font-size:2.3rem}
+.timer.inline{flex-direction:row;align-items:center;gap:1.1rem;padding:.5rem 1.1rem}
+.timer.inline .td{font-size:3rem;margin:0}
+.timer.inline .tright{min-width:18rem}
+.timer.inline .tbar{margin-bottom:.4rem}
+.timer.inline .tcall{margin-top:.3rem;font-size:.82rem}
+.pgroup{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.fhint{font-size:.82rem;color:var(--plum-soft);font-style:italic}
+.ptab.lo{padding:.15rem;gap:0}
+.g9 .tip.book{padding:.55rem .9rem;line-height:1.35}
+.g9 .yp{padding:.65rem 1.2rem .7rem}
+.srow .ask{margin-top:.05rem}
+.ptab.lo .let{width:2rem;height:2rem;font-size:1rem}
+.yp .yh{flex-wrap:wrap}
+.yp .yh .btn{margin-left:auto;font-size:.8rem;padding:.35rem .8rem;white-space:nowrap}
+.pickbar{display:flex;gap:2rem;align-items:center;flex-wrap:wrap;margin-bottom:.7rem}
+.pickbar .pk{font-weight:700;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--plum-soft)}
+.ptabs,.ftabs{display:flex;gap:.35rem;flex-wrap:wrap;align-items:center}
+.ptab{display:inline-flex;align-items:center;gap:.4rem;font-weight:600;font-size:.86rem;background:var(--paperlight);color:var(--plum);border:1.5px solid var(--line);border-radius:100px;padding:.18rem .75rem .18rem .2rem;cursor:pointer}
+.ptab .let{width:1.5rem;height:1.5rem;font-size:.8rem;background:#ffd6e3;color:var(--accent)}
+.ptab.on{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 0 0 3px var(--line)}
+.ptab.on .let{background:#fff;color:var(--accent)}
+.ptab.lo{background:transparent;border-color:transparent}
+.ptab.lo.on{background:transparent;border-color:transparent;box-shadow:none}
+.ptab.lo.on .let{background:var(--grad);color:#fff;box-shadow:0 0 0 3px #fff,0 0 0 5px var(--accent)}
+.ftab{display:inline-flex;align-items:center;gap:.5rem;font-weight:700;font-size:.9rem;background:#fff;color:var(--plum);border:2px solid var(--line);border-radius:12px;padding:.25rem .8rem .25rem .4rem;cursor:pointer}
+.ftab svg{width:1.6rem;height:1.6rem}
+.ftab.on{border-color:var(--accent);background:var(--link-soft);box-shadow:0 0 0 3px var(--line)}
+.g9{display:grid;grid-template-columns:1.2fr .95fr;gap:1.4rem;align-items:start}
+.yp{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:.8rem 1.2rem .9rem}
+.yp .yh{display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem}
+.yp .yh h3{font-size:1.45rem}
+.yp .yh .keeps{font-size:.82rem;color:var(--plum-soft);white-space:nowrap}
+.yp .yh .keeps b{color:var(--red);font-family:"Fraunces",serif;font-size:1.1em}
+.srow{display:grid;grid-template-columns:1.7rem 1fr;gap:.6rem;padding:.32rem 0;border-top:1px dashed var(--line)}
+.srow:first-of-type{border-top:none}
+.srow .sn{width:1.7rem;height:1.7rem;border-radius:50%;background:var(--paper-3);display:grid;place-items:center;font-family:"Fraunces",serif;font-size:.85rem;font-weight:600;margin-top:.15rem}
+.srow .st{font-family:"Fraunces",serif;font-size:1.25rem;line-height:1.4}
+.srow .st .rep{background:var(--red-soft);box-shadow:inset 0 0 0 .08em var(--red);color:var(--red)}
+.srow .sc2{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.3rem}
+.srow .sc2 .ochip{font-size:.8rem}
+.srow .res{font-family:"Fraunces",serif;font-size:1.22rem;line-height:1.45;margin-top:.35rem;background:#fff;border:1px solid var(--line);border-radius:9px;padding:.25rem .6rem;animation:screenIn .35s ease}
+.srow .ask{font-size:.82rem;font-weight:600;color:var(--plum-soft);margin-top:.15rem}
+.srow .ask span{border-radius:100px;padding:0 .45rem;background:var(--ks);color:var(--kd);margin-right:.25rem}
+.floorhead{display:flex;align-items:center;gap:.8rem;margin-bottom:.6rem}
+.floorhead svg{width:2.8rem;height:2.8rem;flex:0 0 auto}
+.floorhead b{display:block;font-family:"Fraunces",serif;font-size:1.35rem;line-height:1.1}
+.floorhead span{font-size:.92rem;color:var(--plum-soft)}
+.target{background:#fff;border:2px solid var(--rose-deep);border-radius:12px;padding:.6rem .9rem;font-size:1rem;line-height:1.45}
+.target .lbl{display:block;font-weight:700;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:.1rem}
+.bank{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.bcol{background:#fff;border:2px solid var(--kc);border-radius:12px;padding:.32rem .55rem .42rem}
+.bcol .bh{display:flex;align-items:center;gap:.4rem;font-weight:800;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--kd);margin-bottom:.2rem}
+.bcol .bh .ki{font-size:.75rem}
+.bcol .bw{font-family:"Fraunces",serif;font-size:.78rem;line-height:1.28;display:flex;flex-wrap:wrap;gap:.18rem .22rem}
+.bcol .bw span{white-space:nowrap;background:var(--ks);border-radius:5px;padding:.04rem .32rem}
+.avoid{font-size:.88rem;margin-top:.5rem;color:var(--plum-soft)}
+.avoid b{color:var(--red)}
+.chal{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
+.chal li{display:flex;gap:.7rem;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:10px;padding:.5rem .8rem;font-size:.98rem;line-height:1.4}
+.chal li .n{width:1.6rem;height:1.6rem;border-radius:50%;background:var(--rose-deep);color:#fff;display:grid;place-items:center;font-family:"Fraunces",serif;font-size:.85rem;flex:0 0 auto}
+.chal li em{font-style:normal;font-family:"Fraunces",serif;background:var(--paper-2);border-radius:5px;padding:0 .3em}
+.startbox{background:#fff;border:1.5px dashed var(--rose-deep);border-radius:12px;padding:.55rem .9rem;font-family:"Fraunces",serif;font-size:1.12rem;line-height:1.6}
+.startbox .lbl{display:block;font-family:"Inter",sans-serif;font-weight:700;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rose-deep)}
+.w9{display:grid;grid-template-columns:1.25fr .9fr;gap:1.2rem;margin-top:.9rem;align-items:stretch}
+.tlegend{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.4rem}
+.tlegend span{display:inline-flex;align-items:center;gap:.3rem;font-weight:700;font-size:.8rem;color:var(--kd);background:var(--ks);border-radius:100px;padding:.08rem .55rem .08rem .15rem}
+.tlegend .ki{font-size:.7rem}
+.steps-b{list-style:none;margin:.25rem 0 0;padding:0;counter-reset:b;display:grid;gap:.2rem}
+.steps-b li{counter-increment:b;display:flex;gap:.55rem;align-items:flex-start}
+.steps-b li::before{content:counter(b);flex:0 0 auto;width:1.35rem;height:1.35rem;border-radius:50%;background:#fff;color:var(--gold-deep);font-weight:800;font-size:.75rem;display:grid;place-items:center;margin-top:.12rem}
+
+/* Timer */
+.timer{background:var(--grad);color:#fff;border-radius:16px;padding:.75rem 1.2rem .85rem;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:center}
+.timer .tl{font-weight:700;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:#fff}
+.timer .td{font-weight:800;font-size:4.4rem;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin:.1rem 0 .45rem;transition:color .3s}
+.timer .td.warn{color:#fff6a8}
+.timer .td.end{color:#fff6a8}
+.tbar{height:.45rem;border-radius:10px;background:rgba(255,255,255,.3);overflow:hidden;margin-bottom:.6rem}
+.tbar i{display:block;height:100%;width:100%;background:#fff;transition:width .9s linear}
+.tctl{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
+.timer .btn{background:#fff;color:var(--accent);font-size:.82rem;padding:.45rem .9rem}
+.timer .btn.go{background:#fff;color:var(--accent);box-shadow:0 4px 12px -4px rgba(120,20,60,.35)}
+.timer .btn.line{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.75)}
+.tcall{margin-top:.5rem;font-size:.92rem;line-height:1.35;min-height:1.3em;color:#fff}
+.tcall.flash{animation:flash .8s ease 3}
+@keyframes flash{50%{color:#fff6a8}}
+
+/* ===== 10. Partner check ===== */
+.steps10{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+.st10{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;padding:.9rem 1.1rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:.45rem}
+.st10 .n{width:2.5rem;height:2.5rem;border-radius:50%;background:var(--rose-deep);color:#fff;display:grid;place-items:center;font-family:"Fraunces",serif;font-size:1.35rem}
+.st10 b{font-family:"Fraunces",serif;font-weight:600;font-size:1.35rem;line-height:1.1}
+.st10 p{margin:0;font-size:1rem;line-height:1.45}
+.foot10{display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:1.2rem;margin-top:1.1rem;align-items:stretch}
+.stems{background:#fff;border:1px solid var(--line);border-radius:14px;padding:.8rem 1.1rem}
+.stems .sh{font-weight:700;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:.35rem}
+.stems ul{margin:0;padding:0;list-style:none;display:grid;gap:.3rem}
+.stems li{font-family:"Fraunces",serif;font-style:italic;font-size:1.05rem;background:var(--paper-2);border-radius:7px;padding:.2rem .7rem}
+.timer.small .td{font-size:3.4rem}
+
+/* ===== 11. Before and after ===== */
+.g11{display:grid;grid-template-columns:1fr 1.25fr;gap:1.6rem;align-items:start}
+.frame-big{background:#fff;border:3px dashed var(--rose-deep);border-radius:16px;padding:1rem 1.4rem;font-family:"Fraunces",serif;font-size:1.65rem;line-height:1.8}
+.frame-big .gap{display:inline-block;min-width:4.5em;border-bottom:3px solid var(--plum);line-height:1}
+.exsteps{list-style:none;margin:.9rem 0 0;padding:0;display:grid;gap:.45rem}
+.exsteps li{display:flex;gap:.8rem;align-items:flex-start;background:var(--paperlight);border:1px solid var(--line);border-radius:10px;padding:.5rem .9rem;font-size:1rem;line-height:1.45}
+.exsteps .n{width:1.7rem;height:1.7rem;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:"Fraunces",serif;font-size:.9rem;flex:0 0 auto}
+.ba{background:var(--paperlight);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:.8rem 1.2rem 1rem}
+.ba .bah{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:.5rem}
+.ba .bah .pk{font-weight:700;font-size:.66rem;letter-spacing:.15em;text-transform:uppercase;color:var(--plum-soft)}
+.ba .bb{font-size:1rem;color:var(--plum-soft);line-height:1.6;background:var(--paper-2);border-radius:10px;padding:.5rem .8rem}
+.ba .bb .rep{background:none;box-shadow:none;color:var(--red);font-weight:700;margin:0;padding:0}
+.ba .bb .k,.ba .bw2 .k{display:block;font-weight:700;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--stone);margin-bottom:.1rem}
+.ba .bw2{font-family:"Fraunces",serif;font-size:1.28rem;line-height:1.75;margin-top:.6rem}
+.ba .pat{margin-top:.5rem}
+.ba .veil{display:grid;place-items:center;min-height:9rem;border:2px dashed var(--line);border-radius:12px;margin-top:.6rem;color:var(--plum-soft);font-size:1rem;text-align:center;padding:1rem}
+.week{margin-top:.9rem}
+
+/* ===== Opener mat overlay ===== */
+.ibtn.mat{background:var(--grad);color:#fff;border:1px solid transparent;font-weight:700}
+.ibtn.mat:hover{background:var(--accent);color:#fff}
+body.matopen .ibtn.mat{background:var(--plum);box-shadow:0 0 0 3px var(--paper-3)}
+.matwrap{position:fixed;top:var(--bar);left:0;right:0;bottom:0;z-index:60;display:none}
+.matwrap.open{display:block}
+.matback{position:absolute;inset:0;background:rgba(58,38,56,.32);backdrop-filter:blur(2px);animation:screenIn .25s ease}
+.matpanel{position:absolute;left:50%;top:.7rem;transform:translateX(-50%);width:min(96vw,84rem);max-height:calc(100% - 1.4rem);overflow:auto;background:#fff;border-radius:18px;border:2px solid var(--line);box-shadow:0 30px 60px -25px rgba(229,64,127,.55);padding:1rem 1.4rem 1.2rem;animation:matIn .35s cubic-bezier(.2,1.2,.4,1)}
+@keyframes matIn{from{opacity:0;transform:translate(-50%,-14px)}to{opacity:1;transform:translateX(-50%)}}
+.mathead{display:flex;align-items:center;gap:1.2rem;margin-bottom:.6rem;flex-wrap:wrap}
+.mathead h2{font-size:2.1rem}
+.mathead h2 .mt2{font-size:.55em;font-style:italic;font-weight:500;color:var(--rose-deep)}
+.mrule{font-family:"Fraunces",serif;font-size:1.2rem;background:linear-gradient(135deg,#ffeef5,#fff3ea);border:1.5px solid var(--line);border-radius:12px;padding:.35rem .9rem}
+.mrule .cm{color:var(--red);font-size:1.3em;line-height:0}
+.mathead .acts{margin-left:auto;display:flex;gap:.5rem;flex-wrap:wrap}
+.matcols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.9rem}
+.mcol{border:2px solid var(--kc);border-top:8px solid var(--kc);border-radius:14px;padding:.55rem .75rem .75rem}
+.mcol .mh{display:flex;align-items:center;gap:.55rem;margin-bottom:.4rem}
+.mcol .mh .ki{font-size:1.25rem}
+.mcol .mh b{display:block;font-family:"Fraunces",serif;font-weight:600;font-size:1.4rem;line-height:1;color:var(--kd)}
+.mcol .mh span.s{font-weight:700;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--kd)}
+.mcol ul{list-style:none;margin:0;padding:0;display:grid;gap:.18rem}
+.mcol li{font-family:"Fraunces",serif;font-size:1rem;line-height:1.25;background:var(--ks);border-radius:7px;padding:.06rem .55rem}
+.mattips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin-top:.7rem}
+.mattips .tip{padding-top:.5rem;padding-bottom:.5rem}
+.mattips .tip p{font-size:.95rem}
+
+/* ===== Teacher notes drawer ===== */
+.drawer{position:fixed;top:var(--bar);right:0;bottom:0;width:min(31rem,92vw);background:#fff;border-left:1px solid var(--line);box-shadow:-20px 0 40px -30px rgba(0,0,0,.45);transform:translateX(105%);transition:transform .35s ease;z-index:45;padding:1.2rem 1.4rem 2rem;overflow:auto}
+.drawer.open{transform:none}
+.drawer h3{font-size:1.4rem;margin-bottom:.6rem}
+.drawer .tt{font-weight:700;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--rose-deep);margin:.9rem 0 .3rem}
+.drawer ul{margin:.2rem 0;padding-left:1.1rem}
+.drawer li{margin:.3rem 0;font-size:.95rem;line-height:1.5}
+.drawer a{color:var(--rose-deep);font-weight:600}
+.drawer .x{position:absolute;top:.8rem;right:1rem}
+.tnotes{display:none}
+
+/* ===== Smaller screens ===== */
+@media (max-width:980px){
+  html{font-size:15px}
+  .start,.g2,.g4,.g6,.g7,.g9,.g11,.w9,.foot8,.foot10,.comma-row{grid-template-columns:1fr}
+  .three,.paras,.steps10,.tips,.head9{grid-template-columns:1fr}
+  .timer.inline{flex-wrap:wrap}
+  .tip.book em{white-space:normal}
+  .matcols{grid-template-columns:1fr 1fr}
+  .mattips{grid-template-columns:1fr}
+  .mathead .acts{margin-left:0}
+  .ibtn.mat{padding:.3rem .6rem}
+  .timer.inline .tright{min-width:0;width:100%}
+  .para .keeps{display:none}
+  .bank{grid-template-columns:1fr}
+  .screen{padding:1rem 1rem 0}
+  .snav .hint,.brand{display:none}
+  .snav{flex-wrap:wrap}
+  .snav .grow{flex-basis:0}
+  h1.title{font-size:3.6rem}
+  .board .bs{font-size:1.8rem}
+  .mrow .after,.lrow .lt{font-size:1.5rem}
+  .stops{overflow-x:auto}
+  .topbar{padding:0 .6rem;gap:.4rem}
+  #fsBtn{display:none}
+  .bar-right{gap:.3rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- Shared icons -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M15.5 4.5l4 4L9 19l-5 1 1-5Z" fill="#fff" stroke="#3a2638" stroke-width="2" stroke-linejoin="round"/><path d="M13.5 6.5l4 4" stroke="#3a2638" stroke-width="2"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 17h6M10 20.5h4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.3 1 2.2h5.2c0-.9.4-1.7 1-2.2A6 6 0 0 0 12 3Z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-talk" viewBox="0 0 24 24"><path d="M20.5 11.5a8 8 0 0 1-11.6 7.1L3.5 20l1.2-4.6A8 8 0 1 1 20.5 11.5Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="8.5" cy="11.5" r="1.2" fill="currentColor"/><circle cx="12.5" cy="11.5" r="1.2" fill="currentColor"/><circle cx="16.5" cy="11.5" r="1.2" fill="currentColor"/></symbol>
+    <symbol id="i-talk-d" viewBox="0 0 24 24"><path d="M20.5 11.5a8 8 0 0 1-11.6 7.1L3.5 20l1.2-4.6A8 8 0 1 1 20.5 11.5Z" fill="none" stroke="#3a2638" stroke-width="2.2" stroke-linejoin="round"/><circle cx="8.5" cy="11.5" r="1.2" fill="#3a2638"/><circle cx="12.5" cy="11.5" r="1.2" fill="#3a2638"/><circle cx="16.5" cy="11.5" r="1.2" fill="#3a2638"/></symbol>
+    <symbol id="i-when" viewBox="0 0 24 24"><circle cx="12" cy="12.5" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 8v4.5l3 2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-where" viewBox="0 0 24 24"><path d="M12 21.5s-6.8-6.1-6.8-11.6a6.8 6.8 0 0 1 13.6 0c0 5.5-6.8 11.6-6.8 11.6Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="12" cy="9.9" r="2.6" fill="currentColor"/></symbol>
+    <symbol id="i-how" viewBox="0 0 24 24"><path d="M4 19c5-.5 9-3.5 11.5-9.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M11.8 9.6l3.9-1.6 1.4 4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 18.5h6M17.5 14.5h3.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10.2 13.8a4 4 0 0 0 5.7 0l3.1-3.1a4 4 0 0 0-5.7-5.7l-1.2 1.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M13.8 10.2a4 4 0 0 0-5.7 0L5 13.3a4 4 0 0 0 5.7 5.7l1.2-1.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 6v5a4 4 0 0 1-4 4H5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M9 10.5 4.5 15 9 19.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-cross" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-tick" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5Z" fill="currentColor"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6.5" y="5.5" width="4" height="13" rx="1" fill="currentColor"/><rect x="13.5" y="5.5" width="4" height="13" rx="1" fill="currentColor"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 0 2.1-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M5 4v4h4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-mat" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.8" fill="none" stroke="currentColor" stroke-width="2.2"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.8" fill="none" stroke="currentColor" stroke-width="2.2"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.8" fill="none" stroke="currentColor" stroke-width="2.2"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.8" fill="currentColor"/></symbol>
+    <symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V3.5h10V9" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><rect x="3.5" y="9" width="17" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2.1"/><path d="M7 14.5h10v6H7Z" fill="#fff" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/></symbol>
+    <symbol id="i-notes" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 3h6v3H9Z" fill="currentColor"/><path d="M8.5 11h7M8.5 15h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M12 8.5V13l3 2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 2.5h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <div class="brand"><span>Writer's Toolkit</span> &middot; When, Where, How</div>
+  <nav class="stops" id="stops" aria-label="Lesson cards"></nav>
+  <div class="bar-right">
+    <button class="runpill" id="runPill" type="button" tabindex="-1" title="Back to the writing timer"><svg><use href="#i-clock"/></svg><span id="runTxt">13:00</span></button>
+    <button class="ibtn mat" id="matBtn" type="button" tabindex="-1" title="Open the opener mat"><svg><use href="#i-mat"/></svg>Opener mat</button>
+    <button class="ibtn" id="notesBtn" type="button" tabindex="-1"><svg><use href="#i-notes"/></svg>Teacher notes</button>
+    <button class="ibtn" id="fsBtn" type="button" tabindex="-1" title="Full screen"><svg><use href="#i-full"/></svg>Full screen</button>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= 1. START ================= -->
+<section class="screen on" data-name="start" data-title="Start">
+  <div class="content start">
+    <div>
+      <div class="kick">Writer's Toolkit &middot; Grammar &middot; Sentence openers</div>
+      <h1 class="title"><span class="w1">When,</span> <span class="w2">Where,</span> <span class="w3">How</span><span class="sub">Start your sentences somewhere new.</span></h1>
+      <p class="li">We are learning to <b>vary how our sentences start</b>, with time, place and manner openers, while keeping events connected.</p>
+      <div class="pills"><span class="pill">10 minutes: watch</span><span class="pill">20 minutes: rebuild</span><span class="pill">6 paragraphs to choose from</span></div>
+      <div class="sc">
+        <div class="sch">Success criteria</div>
+        <ul>
+          <li><i></i>I can spot the opener at the start of a sentence.</li>
+          <li><i></i>I can start a sentence with a When, Where or How opener and a comma.</li>
+          <li><i></i>I can link a sentence back to the one before.</li>
+          <li><i></i>I can explain how my opener helps the reader.</li>
+        </ul>
+      </div>
+      <div class="tip book">
+        <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+        <div><span class="lbl">In your book</span><p>Write the date and the title <em>When, Where, How</em>.</p></div>
+      </div>
+      <a class="foot-link" href="https://educoder101.github.io/Writers-Toolkit">&larr; Back to the Writer's Toolkit</a>
+    </div>
+    <div class="hero-art">
+      <div class="strips" role="img" aria-label="Three sentence strips. The grey word I has fallen away from the front of each one and coloured openers have taken its place.">
+        <div class="strip" style="--r:-1.6deg"><span class="op" data-k="when"><span class="ki"><svg><use href="#i-when"/></svg></span>At midnight,</span> I heard a faint tapping.<i class="fall" style="--x:94%;--y:-46%;--rr:18deg">I</i></div>
+        <div class="strip" style="--r:1.1deg"><span class="op" data-k="where"><span class="ki"><svg><use href="#i-where"/></svg></span>Beyond the window,</span> a shadow moved.<i class="fall" style="--x:97%;--y:20%;--rr:-14deg">I</i></div>
+        <div class="strip" style="--r:-.8deg"><span class="op" data-k="how"><span class="ki"><svg><use href="#i-how"/></svg></span>Without a sound,</span> I crept to the door.<i class="fall" style="--x:91%;--y:70%;--rr:26deg">I</i></div>
+      </div>
+      <p class="cap">Same story, same facts. Only the first few words changed.</p>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <div class="tt">The lesson at a glance (30 minutes)</div>
+    <ul>
+      <li><b>Cards 2 to 7 (about 10 minutes):</b> hook, the three openers, two models, mix it up, then fixing the hook together.</li>
+      <li><b>Cards 8 to 11 (about 20 minutes):</b> choose a paragraph, rebuild it in books with a 13-minute timer, partner check, before and after.</li>
+    </ul>
+    <div class="tt">Before the lesson</div>
+    <ul>
+      <li>Students need their English books, a pencil and their laptops. Coloured pencils (blue, green, orange) are a bonus for underlining openers.</li>
+      <li>The <b>Opener mat</b> button in the top bar opens the full word bank on any card. Students can open and close it themselves (Close, Esc or click outside it). A link ending in <b>#mat</b> opens the lesson with the mat showing.</li>
+      <li>Optional print: <a href="when-where-how-opener-mat.pdf" target="_blank" rel="noopener">the opener mat</a> (one page). For a day without laptops: <a href="when-where-how-printables.pdf" target="_blank" rel="noopener">all printables</a> (five pages: mat, six paragraphs, Entry sheets).</li>
+      <li>For card 9, students open this page on their laptops and add <b>#rebuild</b> to the end of the link. That jumps straight to their paragraph, their floor and the opener bank, and their choices are remembered on that laptop.</li>
+    </ul>
+    <div class="tt">Driving it</div>
+    <ul>
+      <li>A clicker or the arrow keys work throughout. Each click shows the next step on a card, then moves on to the next card. Left steps back.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 2. HOOK ================= -->
+<section class="screen" data-name="hook" data-title="Hook" data-labels="Show the pattern|What is missing?|Learn this">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>2 &middot; Hook</span><span class="min">2 min</span><span class="mode">Talk</span></div>
+      <h2 class="big">What would you change?</h2>
+    </div>
+    <div class="g2">
+      <div>
+        <div class="board" id="hookBoard">
+          <div class="bl">On the board</div>
+          <div class="bs"><span><span class="rep">I</span> heard a noise.</span><span class="miss rv" data-step="2" data-k="when">When?</span></div>
+          <div class="bs"><span><span class="rep">I</span> looked outside.</span><span class="miss rv" data-step="2" data-k="how">How?</span></div>
+          <div class="bs"><span><span class="rep">I</span> saw a shadow.</span><span class="miss rv" data-step="2" data-k="where">Where?</span></div>
+          <div class="bs"><span><span class="rep">I</span> ran upstairs.</span><span class="miss rv" data-step="2" data-k="how">How?</span></div>
+        </div>
+        <div class="pat rv" data-step="1" style="margin-top:.9rem" id="hookPat"></div>
+      </div>
+      <div class="stack">
+        <div class="qbox"><svg><use href="#i-talk"/></svg><div><b>Talk to your partner</b>What is <strong>unclear</strong>, <strong>repetitive</strong> or <strong>incorrect</strong>? Be ready with one quick suggestion.</div></div>
+        <div class="tip learn rv" data-step="3">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><span class="lbl">Learn this</span><p>Nothing here is incorrect. It is <em>flat</em>: four sentences, four <em>I</em>s, the same beat every time. The quickest fix is to change how a sentence <em>opens</em>.</p></div>
+        </div>
+        <div class="tip book none">
+          <div class="ic"><svg><use href="#i-talk-d"/></svg></div>
+          <div><span class="lbl">In your book</span><p>Nothing to write yet. Talk to your partner.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>Read the four sentences aloud, leaning on each &ldquo;I&rdquo;. Partners have thirty seconds. Invite two quick suggestions before you click.</li>
+      <li>Click 1 lights up the pattern: every sentence starts with I.</li>
+      <li>Click 2 shows what the reader still does not know: when, where and how.</li>
+      <li>Click 3: the sentences are not wrong, they are flat. Hold the four sentences in mind. The class fixes them together on card 7.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 3. THREE OPENERS ================= -->
+<section class="screen" data-name="openers" data-title="Three openers" data-labels="When?|Where?|How?|The comma">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>3 &middot; I do</span><span class="min">2 min</span><span class="mode">Watch</span></div>
+      <h2 class="big">Three openers you already own</h2>
+      <p class="lede">You already know adverbials that answer When? Where? and How? Today we move them to the <b>front</b> of the sentence.</p>
+    </div>
+    <div class="three">
+      <div class="otile rv" data-step="1" data-k="when">
+        <div class="oh"><span class="ki"><svg><use href="#i-when"/></svg></span><div><h3>When?</h3><div class="os">Time opener &middot; T</div></div></div>
+        <div class="chips"><span>At midnight,</span><span>Moments later,</span><span>After school,</span><span>As the sun set,</span></div>
+        <div class="ex"><span class="op">At midnight,</span> I heard a faint tapping.</div>
+      </div>
+      <div class="otile rv" data-step="2" data-k="where">
+        <div class="oh"><span class="ki"><svg><use href="#i-where"/></svg></span><div><h3>Where?</h3><div class="os">Place opener &middot; P</div></div></div>
+        <div class="chips"><span>Beyond the gate,</span><span>Inside the cave,</span><span>Far below,</span><span>Behind her,</span></div>
+        <div class="ex"><span class="op">Beyond the window,</span> a shadow moved.</div>
+      </div>
+      <div class="otile rv" data-step="3" data-k="how">
+        <div class="oh"><span class="ki"><svg><use href="#i-how"/></svg></span><div><h3>How?</h3><div class="os">Manner opener &middot; M</div></div></div>
+        <div class="chips"><span>Carefully,</span><span>Without a sound,</span><span>On tiptoe,</span><span>Heart pounding,</span></div>
+        <div class="ex"><span class="op">Without a sound,</span> I crept to the door.</div>
+      </div>
+    </div>
+    <div class="comma-row">
+      <div class="comma rv" data-step="4">
+        <div class="cl">The comma</div>
+        <div class="cs"><span class="op" data-k="where">Beyond the window</span><span class="cm">,</span> a shadow moved.</div>
+      </div>
+      <div class="tip book">
+        <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+        <div><span class="lbl">In your book</span><p>Rule three columns: <em>When (T)</em> <em>Where (P)</em> <em>How (M)</em>. Copy two openers into each one.</p></div>
+      </div>
+    </div>
+    <div class="tip learn rv" data-step="4" style="margin-top:.9rem">
+      <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+      <div><span class="lbl">Learn this</span><p>An opener comes first, then a <em>comma</em>, then the rest of the sentence. The comma tells the reader: here comes the main part.</p></div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>Link to the adverbial phrases lesson: these are the same When, Where and How phrases, just moved to the front.</li>
+      <li>T, P and M (time, place, manner) are the codes students write above each opener in their rebuild.</li>
+      <li>One click per opener. Read each example aloud and ask: what does the reader know now that they did not before?</li>
+      <li>&ldquo;Heart pounding&rdquo; is a How opener that shows a feeling without naming it. Your class will recognise that from show, don't tell.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 4. WATCH ME ================= -->
+<section class="screen" data-name="watch" data-title="Watch me" data-labels="Spot the pattern|When?|Where?|How?|Learn this">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>4 &middot; I do</span><span class="min">2 min</span><span class="mode">Watch</span></div>
+      <h2 class="big">Watch me swap the openers</h2>
+    </div>
+    <div class="g4">
+      <div>
+        <div class="rows" id="watchRows"></div>
+        <div class="pat" id="watchPat"></div>
+      </div>
+      <div class="stack">
+        <div class="say" id="watchSay"></div>
+        <div class="tip learn rv" data-step="5">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><span class="lbl">Learn this</span><p>Same story, three different starts: <em>When</em>, <em>Where</em>, <em>How</em>. Each opener tells the reader something new.</p></div>
+        </div>
+        <div class="tip book none">
+          <div class="ic"><svg><use href="#i-talk-d"/></svg></div>
+          <div><span class="lbl">In your book</span><p>Nothing to write. Before each click, guess: When, Where or How?</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>This is the program's model, with the path made a little more vivid and the character named Lily.</li>
+      <li>Think aloud on every click. The words on the right are a script if you want one.</li>
+      <li>Point out the second sentence: the path becomes the subject, not Lily. Openers often work best when you also let something else start the action.</li>
+      <li>&ldquo;Beyond it&rdquo; links back to the gate. That is the bridge into the next card.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 5. LINK IT BACK ================= -->
+<section class="screen" data-name="link" data-title="Link it back" data-labels="Sentence 1|Sentence 2|Sentence 3|Learn this">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>5 &middot; I do</span><span class="min">2 min</span><span class="mode">Watch</span></div>
+      <h2 class="big">Link it back</h2>
+      <p class="lede">The best openers do two jobs. They tell the reader when or where, and they <b>point back</b> to what just happened.</p>
+    </div>
+    <div class="g4">
+      <div>
+        <div class="context"><span class="cl">So far</span>At dusk, <span class="ref" id="ref3">Lily</span> opened <span class="ref" id="ref2">the gate</span>. Beyond it, a narrow path wound into the trees. Carefully, she <span class="ref" id="ref1">stepped forward</span>.</div>
+        <div class="flat"><span class="fk">Flat version</span><span>Lily heard footsteps. Lily heard a twig snap. Lily saw her little brother.</span></div>
+        <div class="lrow rv" data-step="1"><svg class="arrow"><use href="#i-back"/></svg><div class="lt"><span class="op tag" data-k="link" data-tag="Points back: when?">Moments later,</span> footsteps crunched on the path.<span class="lw">Later than what? Later than the moment she stepped forward.</span></div></div>
+        <div class="lrow rv" data-step="2"><svg class="arrow"><use href="#i-back"/></svg><div class="lt"><span class="op tag" data-k="link" data-tag="Points back: where?">Behind her,</span> a twig snapped.<span class="lw">Behind who? Behind Lily. We already know where she is standing.</span></div></div>
+        <div class="lrow rv" data-step="3"><svg class="arrow"><use href="#i-back"/></svg><div class="lt"><span class="op tag" data-k="link" data-tag="Points back: where?">By the gate,</span> her little brother was grinning from ear to ear.<span class="lw">Which gate? The one from the very first sentence.</span></div></div>
+      </div>
+      <div class="stack">
+        <div class="tip learn rv" data-step="4">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><span class="lbl">Learn this</span><p>A linking opener is a <em>hook</em> that joins this sentence to one before it. The paragraph reads as <em>one chain</em>, not a list of separate sentences.</p></div>
+        </div>
+        <div class="tip book">
+          <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+          <div><span class="lbl">In your book</span><p>Under your columns, write <em>Link it back</em> and copy three linking openers: <em>Beyond it,</em> <em>Moments later,</em> <em>Behind her,</em></p></div>
+        </div>
+        <div class="tip learn" style="background:var(--link-soft);border-color:#ffc6dc;border-left-color:var(--link)">
+          <div class="ic" style="background:var(--link)"><svg><use href="#i-link"/></svg></div>
+          <div><span class="lbl" style="color:var(--link-deep)">Linking words</span><p>it &middot; her &middot; them &middot; later &middot; there &middot; the same place again</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>The program's version uses &ldquo;Moments later, I sprinted towards the gate. Behind me, the footsteps grew louder.&rdquo; This version carries on Lily's story from card 4 and ends on a smile rather than a chase.</li>
+      <li>Each click lights up one opener and the part of the earlier text it points back to.</li>
+      <li>Ask after each one: &ldquo;Later than what?&rdquo; &ldquo;Behind who?&rdquo; &ldquo;Which gate?&rdquo; If the reader can answer, the sentence is linked.</li>
+      <li>This is cohesion: the program's &ldquo;keeping events connected&rdquo;.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 6. MIX IT UP ================= -->
+<section class="screen" data-name="mix" data-title="Mix it up" data-labels="Spot the new pattern|Fix it|Watch out">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>6 &middot; I do</span><span class="min">1 min</span><span class="mode">Spot</span></div>
+      <h2 class="big">Too much of a good thing</h2>
+    </div>
+    <div class="g6">
+      <div class="mixbox bad">
+        <div class="mh"><span class="x"><svg><use href="#i-cross"/></svg></span>Every sentence has an opener</div>
+        <div class="mt"><span class="op" data-k="when">At dusk,</span> Lily opened the gate. <span class="op" data-k="how">Slowly,</span> she walked down the path. <span class="op" data-k="how">Carefully,</span> she looked around. <span class="op" data-k="how">Quietly,</span> she listened.</div>
+        <div class="pat rv" data-step="1" id="mixPatBad"></div>
+        <p class="rv" data-step="1" style="margin:.5rem 0 0;font-weight:600;color:var(--red)">A new pattern: opener, comma, she. Opener, comma, she. Opener, comma, she.</p>
+      </div>
+      <div class="mixbox good rv" data-step="2">
+        <div class="mh"><span class="t"><svg><use href="#i-tick"/></svg></span>A mix</div>
+        <div class="mt"><span class="op" data-k="when">At dusk,</span> Lily opened the gate. She walked slowly down the path, peering into the shadows. <span class="op" data-k="where">Somewhere ahead,</span> an owl hooted.</div>
+        <div class="pat" id="mixPatGood"></div>
+      </div>
+    </div>
+    <div class="tips">
+      <div class="tip learn rv" data-step="2">
+        <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+        <div><span class="lbl">Learn this</span><p>Aim for a <em>mix</em>. Some sentences start with an opener. Some start the plain way. Different lengths help too.</p></div>
+      </div>
+      <div class="tip warn rv" data-step="3">
+        <div class="ic"><svg><use href="#i-cross"/></svg></div>
+        <div><span class="lbl">Watch out</span><p><em>Then</em> and <em>Suddenly</em> are the openers everyone overuses. Use them once, if at all.</p></div>
+      </div>
+      <div class="tip book">
+        <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+        <div><span class="lbl">In your book</span><p>Write: <em>Mix it up. Not every sentence needs an opener.</em></p></div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>Some students overcorrect and put an opener on every sentence. This card heads that off before they start.</li>
+      <li>Click 1: read the top version aloud in a sing-song rhythm so they hear the new pattern. Three &ldquo;-ly&rdquo; words in a row is also a giveaway.</li>
+      <li>Click 2: the fix keeps two openers, lets one sentence start plainly and changes the sentence lengths.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 7. FIX IT TOGETHER ================= -->
+<section class="screen" data-name="fix" data-title="Fix it together" data-labels="Show some openers|One writer's version">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>7 &middot; We do</span><span class="min">2 min</span><span class="mode">Together</span></div>
+      <h2 class="big">Fix the hook together</h2>
+      <p class="lede">For each sentence, ask: When? Where? How? Suggest an opener first. Then build it together.</p>
+    </div>
+    <div class="g7">
+      <div id="fixRows"></div>
+      <div class="stack">
+        <div class="built"><span class="bh">Our paragraph</span><span id="fixBuilt"></span><div class="pat" id="fixPat" style="margin-top:.5rem"></div></div>
+        <div class="writer rv" data-step="2"><div class="wh">One writer's version</div><div class="wt" id="hookWriter"></div><div class="pat" id="hookWriterPat"></div></div>
+        <div class="tip book none">
+          <div class="ic"><svg><use href="#i-talk-d"/></svg></div>
+          <div><span class="lbl">In your book</span><p>Nothing to write yet. Suggest an opener for each sentence.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>Take a suggestion from the class for each sentence before you click. If it is better than the chips, say it and keep going.</li>
+      <li>Click 1 shows three openers under each sentence (When, Where, How) and a Keep button. Tap a chip to try it; the paragraph on the right rebuilds, with its pattern underneath.</li>
+      <li>Steer the class away from four openers in a row. Ask: &ldquo;Which sentence should stay plain?&rdquo;</li>
+      <li>Click 2 shows one writer's version. &ldquo;It stopped.&rdquo; is deliberately plain and short: it is the scariest moment.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 8. CHOOSE ================= -->
+<section class="screen" data-name="choose" data-title="Choose">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>8 &middot; Your turn</span><span class="min">1 min</span><span class="mode">Choose</span></div>
+      <h2 class="big">Choose a flat paragraph</h2>
+      <p class="lede" style="max-width:none">Six places nobody has been before, and every paragraph keeps starting the same way. Pick the place you can picture best.</p>
+    </div>
+    <div class="paras" id="paraTiles"></div>
+    <div class="foot8">
+      <div class="tip learn">
+        <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+        <div><span class="lbl">Learn this</span><p>Your paragraph is not wrong. It is <em>flat</em>. Your job is to rebuild it so it flows.</p></div>
+      </div>
+      <div class="tip book">
+        <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+        <div><span class="lbl">In your book</span><p>Write your paragraph's letter and title, for example <em>C: The Glowing Cave</em>.</p></div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>All six paragraphs follow the program's prompt: a character discovers an unfamiliar place.</li>
+      <li>Each one repeats a different start: I, We, Zara, Then, The and She. D (Then) and E (The) are a little trickier, because the repetition is not a person.</li>
+      <li>Thirty seconds to choose. Fast finishers can do a second paragraph.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 9. REBUILD ================= -->
+<section class="screen" data-name="rebuild" data-title="Rebuild">
+  <div class="content">
+    <div class="head9">
+      <div>
+        <div class="eyebrow"><span>9 &middot; You write</span><span class="min">13 min</span><span class="mode">In your book</span></div>
+        <h2 class="big">Rebuild your paragraph</h2>
+      </div>
+      <div class="timer inline" id="wTimer">
+        <div><div class="tl">Writing time</div><div class="td" data-role="disp">13:00</div></div>
+        <div class="tright">
+          <div class="tbar"><i data-role="bar"></i></div>
+          <div class="tctl">
+            <button class="btn go" data-role="go" type="button" tabindex="-1"></button>
+            <button class="btn line" data-role="reset" type="button" tabindex="-1"><svg><use href="#i-reset"/></svg>Reset</button>
+            <button class="btn line" data-role="minus" type="button" tabindex="-1">&minus;1</button>
+            <button class="btn line" data-role="plus" type="button" tabindex="-1">+1</button>
+          </div>
+          <div class="tcall" data-role="call">Press Start when every title is written.</div>
+        </div>
+      </div>
+    </div>
+    <div class="pickbar">
+      <div class="pgroup"><span class="pk">Paragraph</span><div class="ptabs" id="ptabs"></div></div>
+      <div class="pgroup"><span class="pk">Floor</span><div class="ftabs" id="ftabs"></div><span class="fhint">Start on any floor. It is where you finish that matters.</span></div>
+    </div>
+    <div class="g9">
+      <div class="stack" id="leftCol"></div>
+      <div class="stack" id="rightCol"></div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <div class="tt">The three floors</div>
+    <ul>
+      <li><b>Entry:</b> three openers ready-made under every sentence. Students tap to try each one, choose, and copy into their books. Nudge them to make one opener their own by changing a word.</li>
+      <li><b>First floor:</b> the paragraph with When, Where and How prompts, and the big opener bank.</li>
+      <li><b>Second floor:</b> no bank. Four challenges, including linking back and a How opener that shows a feeling.</li>
+      <li>Everyone does the same core task. Students can switch floors at any time.</li>
+    </ul>
+    <div class="tt">While they write</div>
+    <ul>
+      <li>The timer calls out at five minutes and at one minute. If you change cards it keeps running in the top bar.</li>
+      <li>&ldquo;Show me how to start&rdquo; reveals the first two sentences of one writer's version. The full versions are on card 11, for after the writing.</li>
+      <li>Circulate with one question: &ldquo;Does this sentence link back to the one before?&rdquo;</li>
+      <li>Watch for commas missing after openers, and for a new pattern creeping in (opener, comma, she, every time).</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 10. PARTNER CHECK ================= -->
+<section class="screen" data-name="check" data-title="Partner check" data-labels="Step 1|Step 2|Step 3|Step 4">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>10 &middot; Partner check</span><span class="min">3 min</span><span class="mode">Swap books</span></div>
+      <h2 class="big">Swap and check</h2>
+    </div>
+    <div class="steps10">
+      <div class="st10 rv" data-step="1"><span class="n">1</span><b>Swap books</b><p>Read your partner's paragraph all the way through, quietly.</p></div>
+      <div class="st10 rv" data-step="2"><span class="n">2</span><b>Check each opener</b><p>Is it underlined? Does T, P or M match? Is there a comma after it? Tick each one in pencil.</p></div>
+      <div class="st10 rv" data-step="3"><span class="n">3</span><b>Check the pattern</b><p>Do two sentences in a row start the same way? Does at least one sentence link back?</p></div>
+      <div class="st10 rv" data-step="4"><span class="n">4</span><b>One improvement</b><p>Give one specific suggestion. The writer rewrites one sentence underneath, starting with <i>Revised:</i></p></div>
+    </div>
+    <div class="foot10">
+      <div class="stems">
+        <div class="sh">Coach stems</div>
+        <ul>
+          <li>Sentence ___ could start with a When opener.</li>
+          <li>You need a comma after ___.</li>
+          <li>Sentences ___ and ___ both start with ___.</li>
+          <li>Could ___ link back to the sentence before?</li>
+        </ul>
+      </div>
+      <div class="tip book">
+        <div class="ic"><svg><use href="#i-pencil"/></svg></div>
+        <div><span class="lbl">In your book</span><p>Under your paragraph, write <em>Revised:</em> and rewrite one sentence with your partner's suggestion.</p></div>
+      </div>
+      <div class="timer small" id="cTimer">
+        <div class="tl">Check time</div>
+        <div class="td" data-role="disp">3:00</div>
+        <div class="tbar"><i data-role="bar"></i></div>
+        <div class="tctl">
+          <button class="btn go" data-role="go" type="button" tabindex="-1"></button>
+          <button class="btn line" data-role="reset" type="button" tabindex="-1"><svg><use href="#i-reset"/></svg>Reset</button>
+        </div>
+        <div class="tcall" data-role="call"></div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>This is the program's partner check: underline where the focus was used, suggest one specific improvement, the writer revises one sentence.</li>
+      <li>Pencil only, and one suggestion, not five. The writer decides whether to take it.</li>
+      <li>If a partner finds no linking opener, that is the improvement.</li>
+    </ul>
+  </aside>
+</section>
+
+<!-- ================= 11. BEFORE AND AFTER ================= -->
+<section class="screen" data-name="exit" data-title="Before and after" data-labels="Show one writer's version">
+  <div class="content">
+    <div class="head">
+      <div class="eyebrow"><span>11 &middot; Exit</span><span class="min">2 min</span><span class="mode">Share</span></div>
+      <h2 class="big">Before and after</h2>
+    </div>
+    <div class="g11">
+      <div>
+        <div class="frame-big">I changed &ldquo;<span class="gap"></span>&rdquo; to &ldquo;<span class="gap"></span>&rdquo;. It helps the reader because <span class="gap"></span>.</div>
+        <ol class="exsteps">
+          <li><span class="n">1</span><span>Two volunteers read one sentence before, then after.</span></li>
+          <li><span class="n">2</span><span>Which choice was more effective? What does the reader know now that they did not before?</span></li>
+          <li><span class="n">3</span><span>Thumbs for each success criterion: I can spot it. I can use it. I can link it back. I can explain it.</span></li>
+        </ol>
+        <div class="tip learn week">
+          <div class="ic"><svg><use href="#i-bulb"/></svg></div>
+          <div><span class="lbl">This week</span><p>In your writing and your spelling sentences this week, start <em>at least one sentence</em> with a When, Where or How opener every time you write.</p></div>
+        </div>
+      </div>
+      <div class="ba">
+        <div class="bah"><span class="pk">Compare with one writer</span><div class="ptabs" id="baTabs"></div></div>
+        <div class="bb" id="baBefore"></div>
+        <div class="veil" id="baVeil">Finish your own first. Your teacher will show one writer's version.</div>
+        <div class="rv" data-step="1" id="baAfterWrap"><div class="bw2" id="baAfter"></div><div class="pat" id="baPat"></div></div>
+      </div>
+    </div>
+  </div>
+  <aside class="tnotes">
+    <ul>
+      <li>This is the program's exit check: two students read a before and after and explain which choice was more effective.</li>
+      <li>Then click to show one writer's version of any paragraph and pick it apart: where does it link back? Which sentence stayed plain, and why?</li>
+      <li>Every writer's version leaves one sentence plain on purpose. Ask the class to find it.</li>
+    </ul>
+  </aside>
+</section>
+
+</main>
+
+<div class="matwrap" id="matwrap" aria-hidden="true">
+  <div class="matback" data-matclose></div>
+  <div class="matpanel" role="dialog" aria-modal="true" aria-labelledby="matTitle">
+    <div class="mathead">
+      <h2 id="matTitle"><span style="color:var(--when)">When,</span> <span style="color:var(--where)">Where,</span> <span style="color:var(--how)">How</span> <span class="mt2">opener mat</span></h2>
+      <div class="mrule"><span class="op" data-k="where">Beyond the gate</span><b class="cm">,</b> a narrow path appeared.</div>
+      <div class="acts">
+        <a class="btn soft" href="when-where-how-opener-mat.pdf" target="_blank" rel="noopener" tabindex="-1"><svg><use href="#i-print"/></svg>Print the mat</a>
+        <button class="btn" type="button" tabindex="-1" data-matclose><svg><use href="#i-cross"/></svg>Close</button>
+      </div>
+    </div>
+    <div class="matcols" id="matCols"></div>
+    <div class="mattips">
+      <div class="tip learn"><div class="ic"><svg><use href="#i-bulb"/></svg></div><div><span class="lbl">Mix it up</span><p>Keep <em>one sentence plain</em>. Not every sentence needs an opener.</p></div></div>
+      <div class="tip learn" style="background:var(--link-soft);border-color:#ffc6dc;border-left-color:var(--link)"><div class="ic" style="background:var(--link)"><svg><use href="#i-link"/></svg></div><div><span class="lbl" style="color:var(--link-deep)">Link it back</span><p><em style="color:var(--link-deep)">Beyond it,</em> and <em style="color:var(--link-deep)">Moments later,</em> point back.</p></div></div>
+      <div class="tip warn"><div class="ic"><svg><use href="#i-cross"/></svg></div><div><span class="lbl">Watch out</span><p><em>Then,</em> and <em>Suddenly,</em> once at most.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<aside class="drawer" id="drawer" aria-label="Teacher notes">
+  <button class="ibtn x" id="drawerX" type="button" tabindex="-1">Close</button>
+  <h3 id="drawerH">Teacher notes</h3>
+  <div id="drawerBody"></div>
+</aside>
+
+<script>
+var C = {"bank":{"when":["At dawn,","At midnight,","After school,","Early that morning,","Later that night,","As the sun set,","Before long,","After a while,","Moments later,","Seconds later,","Just then,","At that moment,","Straight away,","Without warning,","For a long moment,","Within seconds,","At last,","All afternoon,"],"where":["Behind the shed,","Beyond the gate,","Inside the cave,","Above her head,","Beneath the floorboards,","At the top of the stairs,","Along the path,","Across the river,","Deep in the forest,","In the distance,","Somewhere ahead,","All around her,","Through the window,","Next to the door,","Far below,","On every side,","At the end of the hall,","Under the bridge,"],"how":["Slowly,","Carefully,","Quietly,","Gently,","Bravely,","Eagerly,","Without a sound,","On tiptoe,","Step by step,","In a whisper,","With a gasp,","With a grin,","As fast as she could,","Holding her breath,","Heart pounding,","With trembling fingers,","Squinting,","Rubbing her eyes,"],"link":["Beyond it,","Behind her,","Inside,","At the top,","Next to it,","Above them,","On the other side,","Even closer,","Moments later,","Seconds later,","Before long,","After that,"]},"hook":{"flat":["I heard a noise.","I looked outside.","I saw a shadow.","I ran upstairs."],"opts":[{"when":"At midnight, I heard a faint tapping.","where":"From downstairs, I heard a faint tapping.","how":"Faintly, I heard a tapping sound."},{"when":"Seconds later, I peered outside.","where":"From my bedroom window, I peered outside.","how":"Very slowly, I peered outside."},{"when":"Without warning, a shadow slid across the lawn.","where":"Beyond the gate, a shadow slid across the lawn.","how":"Out of the corner of my eye, I saw a shadow."},{"when":"Moments later, I raced upstairs.","where":"Along the dark hallway, I raced to the stairs.","how":"Heart pounding, I raced upstairs."}],"writer":[{"t":"At midnight, I heard a faint tapping.","k":"when"},{"t":"Beyond the kitchen window, a shadow slid across the lawn.","k":"where"},{"t":"It stopped.","k":"plain"},{"t":"Heart pounding, I raced upstairs.","k":"how"}]},"paras":[{"id":"door","letter":"A","title":"The Door in the Fence","repeat":"I","blurb":"A tiny wooden door leads somewhere that should not be there.","flat":["I found a tiny wooden door in the back fence.","I pushed it open.","I saw a garden full of glowing flowers.","I walked along a winding path.","I found a stone fountain shaped like a fish."],"opts":[{"when":"On Saturday morning, I found a tiny wooden door in the back fence.","where":"Behind the old shed, I found a tiny wooden door in the back fence.","how":"By pure luck, I found a tiny wooden door in the back fence."},{"when":"After a moment, I pushed it open.","where":"Through a tangle of ivy, I pushed it open.","how":"Very slowly, I pushed it open."},{"when":"At once, I saw a garden full of glowing flowers.","where":"Beyond the door, a garden full of glowing flowers stretched out.","how":"Blinking in surprise, I saw a garden full of glowing flowers."},{"when":"Moments later, I was walking along a winding path.","where":"Between the flowers, I followed a winding path.","how":"On tiptoe, I walked along a winding path."},{"when":"Before long, I found a stone fountain shaped like a fish.","where":"In the middle of the garden, I found a stone fountain shaped like a fish.","how":"With a gasp, I found a stone fountain shaped like a fish."}],"writer":[{"t":"On Saturday morning, I found a tiny wooden door hidden in the back fence.","k":"when"},{"t":"Very slowly, I pushed it open.","k":"how"},{"t":"Beyond it, a garden of glowing flowers stretched as far as I could see.","k":"where","link":true},{"t":"I followed a winding path between the petals.","k":"plain"},{"t":"In the very middle of the garden, a stone fish spouted silver water.","k":"where"}]},{"id":"museum","letter":"B","title":"The Museum at Night","repeat":"We","blurb":"A class sleepover, a whale skeleton and a door left open a crack.","flat":["We were having a class sleepover at the museum.","We crept past the giant whale skeleton.","We noticed a door that was open a crack.","We peered inside.","We saw shelves of glittering crystals."],"opts":[{"when":"Last Friday night, we were having a class sleepover at the museum.","where":"In the great hall of the museum, we were having a class sleepover.","how":"In our pyjamas, we were having a class sleepover at the museum."},{"when":"After lights out, we crept past the giant whale skeleton.","where":"Along the dark corridor, we crept past the giant whale skeleton.","how":"Without a sound, we crept past the giant whale skeleton."},{"when":"Just then, we noticed a door that was open a crack.","where":"At the end of the hall, we noticed a door that was open a crack.","how":"With wide eyes, we noticed a door that was open a crack."},{"when":"For a long moment, we peered inside.","where":"Through the gap, we peered inside.","how":"Holding our breath, we peered inside."},{"when":"Seconds later, we saw shelves of glittering crystals.","where":"On every wall, shelves of crystals glittered.","how":"Dazzled, we stared at shelves of glittering crystals."}],"writer":[{"t":"Last Friday night, our class had a sleepover in the great hall of the museum.","k":"when"},{"t":"Without a sound, we crept past the giant whale skeleton.","k":"how"},{"t":"At the end of the corridor, a door stood open a crack.","k":"where"},{"t":"We held our breath and peered inside.","k":"plain"},{"t":"On every shelf, crystals glittered in the beam of our torches.","k":"where"}]},{"id":"cave","letter":"C","title":"The Glowing Cave","repeat":"Zara","blurb":"Behind the seaweed at the end of the beach, the rocks begin to glow.","flat":["Zara climbed down the rocks at the beach.","Zara found a cave behind a curtain of seaweed.","Zara switched on her torch.","Zara saw the walls sparkle blue and green.","Zara heard the sea echoing behind her."],"opts":[{"when":"Early that morning, Zara climbed down the rocks at the beach.","where":"At the far end of the beach, Zara climbed down the rocks.","how":"Carefully, Zara climbed down the slippery rocks."},{"when":"Before long, Zara found a cave behind a curtain of seaweed.","where":"Behind a curtain of seaweed, Zara found a cave.","how":"Pushing the seaweed aside, Zara found a hidden cave."},{"when":"Straight away, Zara switched on her torch.","where":"Inside the cave, Zara switched on her torch.","how":"With trembling fingers, Zara switched on her torch."},{"when":"At once, the walls sparkled blue and green.","where":"All around her, the walls sparkled blue and green.","how":"Slowly, the walls began to sparkle blue and green."},{"when":"Moments later, Zara heard the sea echoing behind her.","where":"Behind her, the sea echoed through the cave.","how":"Faintly, the sea echoed behind her."}],"writer":[{"t":"Early that morning, Zara climbed down the slippery rocks at the far end of the beach.","k":"when"},{"t":"Behind a curtain of seaweed, she found the dark mouth of a cave.","k":"where"},{"t":"With trembling fingers, she switched on her torch.","k":"how"},{"t":"All around her, the walls began to sparkle blue and green.","k":"where","link":true},{"t":"She stood still and listened to the sea echoing behind her.","k":"plain"}]},{"id":"tree","letter":"D","title":"The Old Treehouse","repeat":"Then","blurb":"Nobody has climbed the ladder for years. What has been waiting at the top?","flat":["Ruby climbed the rickety ladder to the old treehouse.","Then she pushed open the trapdoor.","Then she saw a room full of dusty maps.","Then she found a brass telescope by the window.","Then she spotted an island she had never seen before."],"opts":[{"when":"After school, Ruby climbed the rickety ladder to the old treehouse.","where":"At the bottom of the garden, Ruby climbed the rickety ladder to the old treehouse.","how":"Rung by rung, Ruby climbed the rickety ladder to the old treehouse."},{"when":"A minute later, she pushed open the trapdoor.","where":"At the top of the ladder, she pushed open the trapdoor.","how":"With one big shove, she pushed open the trapdoor."},{"when":"At once, she saw a room full of dusty maps.","where":"Inside, she saw a room full of dusty maps.","how":"Blinking in the gloom, she saw a room full of dusty maps."},{"when":"After a while, she found a brass telescope by the window.","where":"By the window, she found a brass telescope.","how":"Brushing away cobwebs, she found a brass telescope by the window."},{"when":"Within seconds, she spotted an island she had never seen before.","where":"Far out at sea, she spotted an island she had never seen before.","how":"Squinting through the lens, she spotted an island she had never seen before."}],"writer":[{"t":"After school, Ruby climbed the rickety ladder to the old treehouse.","k":"when"},{"t":"At the top, she pushed open the trapdoor with one big shove.","k":"where","link":true},{"t":"Dusty maps covered every wall.","k":"plain"},{"t":"Brushing away cobwebs, she found a brass telescope by the window.","k":"how"},{"t":"Far out at sea, she spotted an island that was not on any of the maps.","k":"where"}]},{"id":"market","letter":"E","title":"The Floating Market","repeat":"The","blurb":"A river full of boats, and every one of them is a shop.","flat":["The little boat drifted into a busy floating market.","The stalls were piled high with mangoes and spices.","The air smelt of sweet coconut.","The sellers called out to Priya.","The boat stopped beside a stall of paper lanterns."],"opts":[{"when":"As the sun rose, the little boat drifted into a busy floating market.","where":"Around a bend in the river, the little boat drifted into a busy floating market.","how":"Gently, the little boat drifted into a busy floating market."},{"when":"Even this early, the stalls were piled high with mangoes and spices.","where":"On every side, the stalls were piled high with mangoes and spices.","how":"In tottering towers, mangoes and spices were piled on every stall."},{"when":"All morning, the air smelt of sweet coconut.","where":"Everywhere Priya turned, the air smelt of sweet coconut.","how":"Warm and sticky, the air smelt of sweet coconut."},{"when":"Every few seconds, the sellers called out to Priya.","where":"From their wooden boats, the sellers called out to Priya.","how":"Cheerfully, the sellers called out to Priya."},{"when":"At last, the boat stopped beside a stall of paper lanterns.","where":"Beside a stall of paper lanterns, the boat bumped to a stop.","how":"With a gentle bump, the boat stopped beside a stall of paper lanterns."}],"writer":[{"t":"As the sun rose, Priya’s little boat drifted around a bend in the river and into a busy floating market.","k":"when"},{"t":"On every side, stalls were piled high with mangoes and spices.","k":"where"},{"t":"The warm air smelt of sweet coconut.","k":"plain"},{"t":"From their wooden boats, the sellers called out cheerfully to Priya.","k":"where"},{"t":"With a gentle bump, her boat stopped beside a stall of glowing paper lanterns.","k":"how"}]},{"id":"station","letter":"F","title":"The Forgotten Station","repeat":"She","blurb":"An old railway line, a station lost in the bush, and a whistle that should not be there.","flat":["Isla followed the old railway line into the bush.","She found a tiny station covered in vines.","She brushed the dust off a sign.","She read the faded name: Willow Creek.","She heard a whistle in the distance."],"opts":[{"when":"After lunch, Isla followed the old railway line into the bush.","where":"Past the edge of town, Isla followed the old railway line into the bush.","how":"Step by step, Isla followed the old railway line into the bush."},{"when":"After an hour, she found a tiny station covered in vines.","where":"In a small clearing, she found a tiny station covered in vines.","how":"Pushing through the ferns, she found a tiny station covered in vines."},{"when":"Straight away, she brushed the dust off a sign.","where":"On the platform, she brushed the dust off a sign.","how":"With her sleeve, she brushed the dust off a sign."},{"when":"At last, she read the faded name: Willow Creek.","where":"Beneath the dust, a faded name appeared: Willow Creek.","how":"Squinting, she read the faded name: Willow Creek."},{"when":"Just then, she heard a whistle in the distance.","where":"Somewhere down the line, a whistle blew.","how":"Faintly, a whistle sounded in the distance."}],"writer":[{"t":"After lunch, Isla followed the old railway line deep into the bush.","k":"when"},{"t":"In a small clearing, she found a tiny station tangled in vines.","k":"where"},{"t":"With her sleeve, she brushed the dust off a sign.","k":"how"},{"t":"Willow Creek, it said, in faded gold letters.","k":"plain"},{"t":"Somewhere down the line, a whistle blew.","k":"where"}]}]};
+var ART = {"door":"\u003csvg viewBox=\"0 0 400 150\" preserveAspectRatio=\"xMidYMid slice\" role=\"img\" aria-label=\"A wooden back fence at dusk with a tiny arched door standing open. Golden light spills out and glowing flowers peek over the top.\">\n  \u003cdefs>\n    \u003clinearGradient id=\"dSky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\u003cstop offset=\"0\" stop-color=\"#f3b9a2\"/>\u003cstop offset=\"1\" stop-color=\"#f7e3cf\"/>\u003c/linearGradient>\n    \u003cradialGradient id=\"dGlow\" cx=\"0.5\" cy=\"0.5\" r=\"0.5\">\u003cstop offset=\"0\" stop-color=\"#ffe9a8\" stop-opacity=\".95\"/>\u003cstop offset=\"1\" stop-color=\"#ffe9a8\" stop-opacity=\"0\"/>\u003c/radialGradient>\n  \u003c/defs>\n  \u003crect width=\"400\" height=\"150\" fill=\"url(#dSky)\"/>\n  \u003ccircle cx=\"330\" cy=\"30\" r=\"14\" fill=\"#fff4d6\" opacity=\".8\"/>\n  \u003cellipse cx=\"290\" cy=\"64\" rx=\"120\" ry=\"34\" fill=\"url(#dGlow)\"/>\n  \u003cg stroke=\"#43343f\" stroke-width=\"2\">\n    \u003cpath d=\"M18 72 L56 48 L94 72Z\" fill=\"#a86d72\"/>\n    \u003crect x=\"24\" y=\"72\" width=\"64\" height=\"58\" fill=\"#c98b62\"/>\n    \u003crect x=\"44\" y=\"92\" width=\"22\" height=\"38\" fill=\"#8a5a3c\"/>\n  \u003c/g>\n  \u003cg fill=\"#f4a6b8\" stroke=\"#43343f\" stroke-width=\"1.5\">\n    \u003cpath d=\"M230 78 V58\" fill=\"none\" stroke=\"#4f8a3a\" stroke-width=\"2.5\"/>\u003ccircle cx=\"230\" cy=\"54\" r=\"8\"/>\n    \u003cpath d=\"M262 78 V50\" fill=\"none\" stroke=\"#4f8a3a\" stroke-width=\"2.5\"/>\u003ccircle cx=\"262\" cy=\"46\" r=\"9\" fill=\"#ffd98a\"/>\n    \u003cpath d=\"M296 78 V56\" fill=\"none\" stroke=\"#4f8a3a\" stroke-width=\"2.5\"/>\u003ccircle cx=\"296\" cy=\"52\" r=\"8\" fill=\"#c9b6e8\"/>\n    \u003cpath d=\"M330 78 V48\" fill=\"none\" stroke=\"#4f8a3a\" stroke-width=\"2.5\"/>\u003ccircle cx=\"330\" cy=\"44\" r=\"10\" fill=\"#f4a6b8\"/>\n    \u003cpath d=\"M366 78 V58\" fill=\"none\" stroke=\"#4f8a3a\" stroke-width=\"2.5\"/>\u003ccircle cx=\"366\" cy=\"54\" r=\"8\" fill=\"#ffd98a\"/>\n  \u003c/g>\n  \u003crect x=\"0\" y=\"76\" width=\"400\" height=\"66\" fill=\"#b98b5e\" stroke=\"#43343f\" stroke-width=\"2\"/>\n  \u003cg stroke=\"#8a5a3c\" stroke-width=\"2\">\u003cpath d=\"M22 76V142M44 76V142M66 76V142M88 76V142M110 76V142M132 76V142M154 76V142M176 76V142M198 76V142M242 76V142M264 76V142M286 76V142M308 76V142M330 76V142M352 76V142M374 76V142M396 76V142\"/>\u003c/g>\n  \u003cellipse cx=\"220\" cy=\"118\" rx=\"44\" ry=\"30\" fill=\"url(#dGlow)\"/>\n  \u003cpath d=\"M200 142 V108 A18 18 0 0 1 236 108 V142Z\" fill=\"#ffe08f\" stroke=\"#43343f\" stroke-width=\"2.5\"/>\n  \u003cpath d=\"M200 142 V108 A18 18 0 0 1 210 92 L194 98 L182 112 V146Z\" fill=\"#7d5230\" stroke=\"#43343f\" stroke-width=\"2.5\" stroke-linejoin=\"round\"/>\n  \u003ccircle cx=\"188\" cy=\"124\" r=\"2.5\" fill=\"#d8b15a\"/>\n  \u003cg fill=\"#4f8a3a\">\u003ccircle cx=\"246\" cy=\"84\" r=\"7\"/>\u003ccircle cx=\"254\" cy=\"94\" r=\"6\"/>\u003ccircle cx=\"190\" cy=\"82\" r=\"6\"/>\u003ccircle cx=\"176\" cy=\"90\" r=\"7\"/>\u003ccircle cx=\"244\" cy=\"104\" r=\"5\"/>\u003c/g>\n  \u003crect x=\"0\" y=\"140\" width=\"400\" height=\"10\" fill=\"#7fae5f\"/>\n\u003c/svg>","museum":"\u003csvg viewBox=\"0 0 400 150\" preserveAspectRatio=\"xMidYMid slice\" role=\"img\" aria-label=\"A dark museum hall at night with a whale skeleton hanging from the ceiling, sleeping bags on the floor and light shining through a door left open a crack.\">\n  \u003crect width=\"400\" height=\"150\" fill=\"#4a3f8f\"/>\n  \u003cg fill=\"#5a4fa6\" stroke=\"#2f2766\" stroke-width=\"2\">\u003cpath d=\"M30 96 V40 A16 16 0 0 1 62 40 V96Z\"/>\u003cpath d=\"M90 96 V40 A16 16 0 0 1 122 40 V96Z\"/>\u003cpath d=\"M150 96 V40 A16 16 0 0 1 182 40 V96Z\"/>\u003c/g>\n  \u003crect y=\"118\" width=\"400\" height=\"32\" fill=\"#3b3278\"/>\n  \u003cg fill=\"none\" stroke=\"#e9e3c4\" stroke-linecap=\"round\">\n    \u003cpath d=\"M40 46 Q170 14 300 40\" stroke-width=\"5\"/>\n    \u003cpath d=\"M70 39 q2 14 -4 24 M95 33 q3 16 -3 28 M120 28 q3 17 -2 30 M145 25 q3 17 -2 31 M170 24 q3 17 -2 31 M195 24 q3 16 -2 30 M220 26 q3 15 -2 28 M245 29 q2 14 -2 25 M270 33 q2 12 -2 21\" stroke-width=\"3.5\"/>\n    \u003cpath d=\"M300 40 L326 30 M300 40 L322 52\" stroke-width=\"5\"/>\n  \u003c/g>\n  \u003cpath d=\"M18 52 Q20 36 42 40 Q46 54 30 58Z\" fill=\"#e9e3c4\"/>\n  \u003cpath d=\"M60 0 V22 M280 0 V30\" stroke=\"#8f84cf\" stroke-width=\"1.5\"/>\n  \u003crect x=\"330\" y=\"52\" width=\"52\" height=\"70\" fill=\"#2a2160\" stroke=\"#211a52\" stroke-width=\"2\"/>\n  \u003crect x=\"334\" y=\"54\" width=\"7\" height=\"66\" fill=\"#ffd98a\"/>\n  \u003cpath d=\"M334 122 H341 L300 150 H262Z\" fill=\"#ffd98a\" opacity=\".22\"/>\n  \u003crect x=\"341\" y=\"54\" width=\"40\" height=\"66\" fill=\"#6a5fb8\" stroke=\"#211a52\" stroke-width=\"2\"/>\n  \u003cg stroke=\"#2a2160\" stroke-width=\"2\">\n    \u003crect x=\"40\" y=\"114\" width=\"58\" height=\"18\" rx=\"9\" fill=\"#a86d72\"/>\u003ccircle cx=\"48\" cy=\"118\" r=\"7\" fill=\"#e7d0bf\"/>\n    \u003crect x=\"108\" y=\"118\" width=\"58\" height=\"18\" rx=\"9\" fill=\"#2f87a6\"/>\u003ccircle cx=\"116\" cy=\"122\" r=\"7\" fill=\"#c98b62\"/>\n    \u003crect x=\"176\" y=\"114\" width=\"58\" height=\"18\" rx=\"9\" fill=\"#c08a12\"/>\u003ccircle cx=\"184\" cy=\"118\" r=\"7\" fill=\"#e7d0bf\"/>\n  \u003c/g>\n  \u003cpath d=\"M250 112 L320 82 L326 96Z\" fill=\"#fff3c4\" opacity=\".25\"/>\n  \u003crect x=\"236\" y=\"108\" width=\"20\" height=\"9\" rx=\"3\" fill=\"#9aa4ae\" stroke=\"#2a2160\" stroke-width=\"2\" transform=\"rotate(-24 246 112)\"/>\n\u003c/svg>","cave":"\u003csvg viewBox=\"0 0 400 150\" preserveAspectRatio=\"xMidYMid slice\" role=\"img\" aria-label=\"Inside a sea cave. The rock walls sparkle blue and green in a torch beam, and strands of seaweed hang across the entrance with the sea behind.\">\n  \u003cdefs>\u003cradialGradient id=\"cGlow\" cx=\"0.5\" cy=\"0.5\" r=\"0.5\">\u003cstop offset=\"0\" stop-color=\"#7fe0d0\" stop-opacity=\".55\"/>\u003cstop offset=\"1\" stop-color=\"#7fe0d0\" stop-opacity=\"0\"/>\u003c/radialGradient>\u003c/defs>\n  \u003crect width=\"400\" height=\"150\" fill=\"#1f5566\"/>\n  \u003cpath d=\"M0 0 H400 V150 H330 C340 90 300 30 230 26 C160 22 120 60 112 150 H0Z\" fill=\"#2f7183\"/>\n  \u003cellipse cx=\"250\" cy=\"70\" rx=\"150\" ry=\"70\" fill=\"url(#cGlow)\"/>\n  \u003cpath d=\"M0 150 V40 C20 22 60 20 80 40 V150Z\" fill=\"#9cc4ff\"/>\n  \u003cpath d=\"M0 110 H80 V150 H0Z\" fill=\"#2f87a6\"/>\n  \u003cpath d=\"M0 116 q10 -5 20 0 t20 0 t20 0 t20 0\" fill=\"none\" stroke=\"#dcecf3\" stroke-width=\"2.5\"/>\n  \u003cg fill=\"none\" stroke=\"#4f8a3a\" stroke-width=\"5\" stroke-linecap=\"round\">\n    \u003cpath d=\"M14 30 q6 20 -2 40 q-6 20 2 40\"/>\u003cpath d=\"M32 26 q-6 22 2 44 q6 18 -2 34\"/>\u003cpath d=\"M50 28 q6 18 -2 38 q-6 22 2 38\"/>\u003cpath d=\"M68 34 q-5 18 2 36 q5 16 -1 28\"/>\n  \u003c/g>\n  \u003cg fill=\"#7fd6ff\">\u003ccircle cx=\"160\" cy=\"40\" r=\"3\"/>\u003ccircle cx=\"200\" cy=\"30\" r=\"2.5\"/>\u003ccircle cx=\"250\" cy=\"34\" r=\"3.5\"/>\u003ccircle cx=\"300\" cy=\"46\" r=\"2.5\"/>\u003ccircle cx=\"330\" cy=\"80\" r=\"3\"/>\u003ccircle cx=\"140\" cy=\"80\" r=\"2.5\"/>\u003ccircle cx=\"350\" cy=\"120\" r=\"3\"/>\u003c/g>\n  \u003cg fill=\"#8fe39b\">\u003ccircle cx=\"180\" cy=\"56\" r=\"3\"/>\u003ccircle cx=\"226\" cy=\"22\" r=\"2.5\"/>\u003ccircle cx=\"276\" cy=\"58\" r=\"3\"/>\u003ccircle cx=\"318\" cy=\"30\" r=\"2.5\"/>\u003ccircle cx=\"150\" cy=\"110\" r=\"3\"/>\u003ccircle cx=\"340\" cy=\"100\" r=\"2.5\"/>\u003c/g>\n  \u003cg fill=\"#fff\">\u003cpath d=\"M214 44 l3 -9 l3 9 l9 3 l-9 3 l-3 9 l-3 -9 l-9 -3Z\"/>\u003cpath d=\"M296 92 l2 -6 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2Z\"/>\u003cpath d=\"M168 96 l2 -6 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2Z\"/>\u003c/g>\n  \u003cpath d=\"M370 150 L250 60 L230 90Z\" fill=\"#fff6d6\" opacity=\".22\"/>\n  \u003crect x=\"352\" y=\"126\" width=\"34\" height=\"14\" rx=\"4\" fill=\"#d8b15a\" stroke=\"#2a2160\" stroke-width=\"2\" transform=\"rotate(37 369 133)\"/>\n  \u003cpath d=\"M112 150 C120 60 160 22 230 26 C300 30 340 90 330 150\" fill=\"none\" stroke=\"#174452\" stroke-width=\"3\"/>\n\u003c/svg>","tree":"\u003csvg viewBox=\"0 0 400 150\" preserveAspectRatio=\"xMidYMid slice\" role=\"img\" aria-label=\"An old treehouse high in a tree with a rickety ladder, and a brass telescope poking out of the window towards a small island far out at sea.\">\n  \u003cdefs>\u003clinearGradient id=\"tSky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\u003cstop offset=\"0\" stop-color=\"#9fd2e0\"/>\u003cstop offset=\"1\" stop-color=\"#e3f3f7\"/>\u003c/linearGradient>\u003c/defs>\n  \u003crect width=\"400\" height=\"150\" fill=\"url(#tSky)\"/>\n  \u003crect y=\"104\" width=\"400\" height=\"46\" fill=\"#2f87a6\"/>\n  \u003cpath d=\"M200 112 q60 -6 200 0\" fill=\"none\" stroke=\"#dcecf3\" stroke-width=\"2\"/>\n  \u003cpath d=\"M300 104 Q318 84 336 92 Q350 82 364 104Z\" fill=\"#4f8a3a\" stroke=\"#2c5a20\" stroke-width=\"2\"/>\n  \u003cpath d=\"M332 92 l2 -14 M334 80 q-8 -2 -12 4 M334 80 q8 -4 12 2\" fill=\"none\" stroke=\"#2c5a20\" stroke-width=\"2\"/>\n  \u003cpath d=\"M0 150 V118 Q60 108 150 118 V150Z\" fill=\"#7fae5f\"/>\n  \u003crect x=\"58\" y=\"40\" width=\"30\" height=\"110\" fill=\"#8a5a3c\" stroke=\"#43343f\" stroke-width=\"2\"/>\n  \u003cg fill=\"#4f8a3a\" stroke=\"#2c5a20\" stroke-width=\"2\">\u003ccircle cx=\"40\" cy=\"22\" r=\"30\"/>\u003ccircle cx=\"96\" cy=\"14\" r=\"30\"/>\u003ccircle cx=\"140\" cy=\"30\" r=\"24\"/>\u003ccircle cx=\"10\" cy=\"48\" r=\"20\"/>\u003c/g>\n  \u003cpath d=\"M28 70 H150\" stroke=\"#8a5a3c\" stroke-width=\"7\" stroke-linecap=\"round\"/>\n  \u003cg stroke=\"#43343f\" stroke-width=\"2.2\" stroke-linejoin=\"round\">\n    \u003cpath d=\"M30 46 L84 26 L138 46Z\" fill=\"#a86d72\"/>\n    \u003crect x=\"36\" y=\"46\" width=\"96\" height=\"26\" fill=\"#c98b62\"/>\n    \u003crect x=\"94\" y=\"52\" width=\"24\" height=\"15\" fill=\"#fff6d6\"/>\n    \u003crect x=\"114\" y=\"52\" width=\"40\" height=\"8\" rx=\"3\" fill=\"#d8b15a\" transform=\"rotate(-10 114 56)\"/>\n    \u003crect x=\"150\" y=\"45\" width=\"12\" height=\"11\" rx=\"2\" fill=\"#b8892a\" transform=\"rotate(-10 156 50)\"/>\n  \u003c/g>\n  \u003cg stroke=\"#8a5a3c\" stroke-width=\"3\">\u003cpath d=\"M100 72 L108 140 M118 72 L126 140\"/>\u003cpath d=\"M102 86 H120 M104 100 H122 M105 114 H123 M107 128 H125\" stroke-width=\"2.5\"/>\u003c/g>\n\u003c/svg>","market":"\u003csvg viewBox=\"0 0 400 150\" preserveAspectRatio=\"xMidYMid slice\" role=\"img\" aria-label=\"A floating market at sunrise. Wooden boats piled with fruit drift along the river under a string of paper lanterns.\">\n  \u003cdefs>\u003clinearGradient id=\"mSky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\u003cstop offset=\"0\" stop-color=\"#ffb889\"/>\u003cstop offset=\"1\" stop-color=\"#ffe6c6\"/>\u003c/linearGradient>\u003c/defs>\n  \u003crect width=\"400\" height=\"150\" fill=\"url(#mSky)\"/>\n  \u003ccircle cx=\"300\" cy=\"66\" r=\"22\" fill=\"#ffd98a\"/>\n  \u003cg fill=\"#c98b62\" stroke=\"#43343f\" stroke-width=\"1.8\">\u003crect x=\"10\" y=\"50\" width=\"54\" height=\"34\"/>\u003cpath d=\"M4 50 L37 30 L70 50Z\" fill=\"#a86d72\"/>\u003crect x=\"330\" y=\"46\" width=\"60\" height=\"38\"/>\u003cpath d=\"M324 46 L360 26 L396 46Z\" fill=\"#a86d72\"/>\u003c/g>\n  \u003cg stroke=\"#8a5a3c\" stroke-width=\"3\">\u003cpath d=\"M18 84 V98 M56 84 V98 M338 84 V98 M382 84 V98\"/>\u003c/g>\n  \u003crect y=\"84\" width=\"400\" height=\"66\" fill=\"#3a9bb8\"/>\n  \u003cg fill=\"none\" stroke=\"#dcecf3\" stroke-width=\"2\" stroke-linecap=\"round\" opacity=\".8\">\u003cpath d=\"M20 140 q10 -5 20 0 t20 0\"/>\u003cpath d=\"M300 136 q10 -5 20 0 t20 0\"/>\u003cpath d=\"M170 146 q10 -5 20 0\"/>\u003c/g>\n  \u003cpath d=\"M0 12 Q200 40 400 10\" fill=\"none\" stroke=\"#43343f\" stroke-width=\"1.5\"/>\n  \u003cg stroke=\"#43343f\" stroke-width=\"1.5\">\u003cellipse cx=\"40\" cy=\"20\" rx=\"8\" ry=\"10\" fill=\"#d62828\"/>\u003cellipse cx=\"90\" cy=\"27\" rx=\"8\" ry=\"10\" fill=\"#d8b15a\"/>\u003cellipse cx=\"140\" cy=\"31\" rx=\"8\" ry=\"10\" fill=\"#ff9f43\"/>\u003cellipse cx=\"190\" cy=\"33\" rx=\"8\" ry=\"10\" fill=\"#d62828\"/>\u003cellipse cx=\"240\" cy=\"32\" rx=\"8\" ry=\"10\" fill=\"#d8b15a\"/>\u003cellipse cx=\"290\" cy=\"28\" rx=\"8\" ry=\"10\" fill=\"#ff9f43\"/>\u003cellipse cx=\"340\" cy=\"21\" rx=\"8\" ry=\"10\" fill=\"#d62828\"/>\u003c/g>\n  \u003cg stroke=\"#43343f\" stroke-width=\"2\" stroke-linejoin=\"round\">\n    \u003cpath d=\"M30 110 H160 Q150 126 130 128 H60 Q40 126 30 110Z\" fill=\"#8a5a3c\"/>\n    \u003cg fill=\"#ff9f43\">\u003ccircle cx=\"70\" cy=\"104\" r=\"7\"/>\u003ccircle cx=\"84\" cy=\"104\" r=\"7\"/>\u003ccircle cx=\"77\" cy=\"96\" r=\"7\"/>\u003c/g>\n    \u003cg fill=\"#ffd34d\">\u003ccircle cx=\"110\" cy=\"104\" r=\"7\"/>\u003ccircle cx=\"124\" cy=\"104\" r=\"7\"/>\u003ccircle cx=\"117\" cy=\"96\" r=\"7\"/>\u003c/g>\n    \u003cpath d=\"M200 120 H330 Q320 136 300 138 H230 Q210 136 200 120Z\" fill=\"#a8743f\"/>\n    \u003cg fill=\"#d62828\">\u003ccircle cx=\"236\" cy=\"114\" r=\"6\"/>\u003ccircle cx=\"248\" cy=\"114\" r=\"6\"/>\u003ccircle cx=\"242\" cy=\"106\" r=\"6\"/>\u003c/g>\n    \u003crect x=\"270\" y=\"98\" width=\"40\" height=\"22\" fill=\"#c9b6e8\"/>\n    \u003cg fill=\"#ffd98a\">\u003cellipse cx=\"278\" cy=\"94\" rx=\"6\" ry=\"7\"/>\u003cellipse cx=\"292\" cy=\"92\" rx=\"6\" ry=\"7\"/>\u003cellipse cx=\"304\" cy=\"94\" rx=\"6\" ry=\"7\"/>\u003c/g>\n    \u003cpath d=\"M150 96 H230 Q222 106 210 107 H168 Q156 106 150 96Z\" fill=\"#7d5230\"/>\n    \u003cpath d=\"M174 96 L190 80 L206 96Z\" fill=\"#f6f0e7\"/>\n  \u003c/g>\n\u003c/svg>","station":"\u003csvg viewBox=\"0 0 400 150\" preserveAspectRatio=\"xMidYMid slice\" role=\"img\" aria-label=\"A tiny railway station tangled in vines in the bush, with an old sign reading Willow Creek and a puff of steam far down the line.\">\n  \u003cdefs>\u003clinearGradient id=\"sSky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\u003cstop offset=\"0\" stop-color=\"#d7e7d2\"/>\u003cstop offset=\"1\" stop-color=\"#f6f0e7\"/>\u003c/linearGradient>\u003c/defs>\n  \u003crect width=\"400\" height=\"150\" fill=\"url(#sSky)\"/>\n  \u003cg fill=\"#fff\" opacity=\".9\">\u003ccircle cx=\"300\" cy=\"62\" r=\"7\"/>\u003ccircle cx=\"310\" cy=\"54\" r=\"9\"/>\u003ccircle cx=\"322\" cy=\"48\" r=\"11\"/>\u003c/g>\n  \u003cpath d=\"M0 92 Q100 82 200 88 T400 84 V150 H0Z\" fill=\"#c8b98e\"/>\n  \u003cg fill=\"#7a8c5a\" stroke=\"#4d5c36\" stroke-width=\"1.5\">\u003ccircle cx=\"30\" cy=\"40\" r=\"20\"/>\u003ccircle cx=\"56\" cy=\"30\" r=\"18\"/>\u003ccircle cx=\"360\" cy=\"34\" r=\"22\"/>\u003ccircle cx=\"386\" cy=\"48\" r=\"16\"/>\u003ccircle cx=\"230\" cy=\"54\" r=\"14\"/>\u003c/g>\n  \u003cg stroke=\"#e9e3d6\" stroke-width=\"4\">\u003cpath d=\"M42 50 V92 M370 50 V88 M230 66 V88\"/>\u003c/g>\n  \u003cpath d=\"M290 84 L120 150 M300 84 L230 150\" stroke=\"#6c5b67\" stroke-width=\"3\"/>\n  \u003cg stroke=\"#8a5a3c\" stroke-width=\"3\">\u003cpath d=\"M281 92 H303 M267 100 H295 M251 108 H286 M232 118 H276 M210 130 H264 M184 144 H252\"/>\u003c/g>\n  \u003cg stroke=\"#43343f\" stroke-width=\"2\" stroke-linejoin=\"round\">\n    \u003cpath d=\"M60 68 L110 52 L160 68Z\" fill=\"#a86d72\"/>\n    \u003crect x=\"68\" y=\"68\" width=\"84\" height=\"44\" fill=\"#d8c3a0\"/>\n    \u003crect x=\"80\" y=\"80\" width=\"18\" height=\"32\" fill=\"#7d5230\"/>\n    \u003crect x=\"112\" y=\"80\" width=\"26\" height=\"16\" fill=\"#9fd2e0\"/>\n    \u003crect x=\"56\" y=\"112\" width=\"110\" height=\"8\" fill=\"#b4a4ac\"/>\n  \u003c/g>\n  \u003cg fill=\"#4f8a3a\">\u003ccircle cx=\"70\" cy=\"70\" r=\"6\"/>\u003ccircle cx=\"78\" cy=\"62\" r=\"5\"/>\u003ccircle cx=\"150\" cy=\"70\" r=\"6\"/>\u003ccircle cx=\"146\" cy=\"82\" r=\"5\"/>\u003ccircle cx=\"72\" cy=\"86\" r=\"5\"/>\u003ccircle cx=\"152\" cy=\"98\" r=\"5\"/>\u003ccircle cx=\"110\" cy=\"54\" r=\"5\"/>\u003c/g>\n  \u003cg stroke=\"#43343f\" stroke-width=\"2\">\u003cpath d=\"M184 84 V122 M246 84 V122\" stroke=\"#7d5230\" stroke-width=\"4\"/>\u003crect x=\"166\" y=\"66\" width=\"98\" height=\"22\" rx=\"3\" fill=\"#2f5d3a\"/>\u003c/g>\n  \u003ctext x=\"214\" y=\"81\" text-anchor=\"middle\" font-family=\"Inter, Arial, sans-serif\" font-weight=\"800\" font-size=\"10\" letter-spacing=\".6\" fill=\"#e9d9a6\">WILLOW CREEK\u003c/text>\n  \u003cg fill=\"#4f8a3a\">\u003ccircle cx=\"170\" cy=\"70\" r=\"4\"/>\u003ccircle cx=\"260\" cy=\"84\" r=\"4\"/>\u003c/g>\n\u003c/svg>"};
+(function(){
+  var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function $(id){ return document.getElementById(id); }
+  function each(list, fn){ Array.prototype.forEach.call(list, fn); }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function ic(id){ return '<svg><use href="#'+id+'"/></svg>'; }
+  function store(k, v){ try{ if(v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
+  var KIND = {
+    when:{icon:'i-when', name:'When', code:'T', tag:'When? Time'},
+    where:{icon:'i-where', name:'Where', code:'P', tag:'Where? Place'},
+    how:{icon:'i-how', name:'How', code:'M', tag:'How? Manner'},
+    link:{icon:'i-link', name:'Link', code:'', tag:'Links back'}
+  };
+  function kiHTML(k){ return '<span class="ki">'+ic(KIND[k].icon)+'</span>'; }
+  /* Split "Opener, rest" into coloured opener + rest */
+  function split(s){ var i = s.indexOf(', '); return i < 0 ? null : [s.slice(0, i+1), s.slice(i+1)]; }
+  function opHTML(s, k, opt){
+    opt = opt || {};
+    if(!k || k === 'plain') return esc(s);
+    var p = split(s); if(!p) return esc(s);
+    var cls = 'op' + (opt.tag ? ' tag' : '') + (opt.drop ? ' drop' : '');
+    var tag = opt.tag ? ' data-tag="'+esc(KIND[k].tag)+'"' : '';
+    return '<span class="'+cls+'" data-k="'+k+'"'+tag+'>'+esc(p[0])+'</span>'+esc(p[1]);
+  }
+  /* Highlight a repeated first word */
+  function repHTML(s, w){
+    if(w && s.indexOf(w + ' ') === 0) return '<span class="rep">'+esc(w)+'</span>'+esc(s.slice(w.length));
+    return esc(s);
+  }
+  /* Pattern strip: items are {k, w} */
+  function patHTML(items, label, pop){
+    var h = '<span class="pl">'+(label || 'Opener pattern')+'</span>';
+    items.forEach(function(it, i){
+      if(i) h += '<span class="sep">&middot;</span>';
+      var k = it.k, inner;
+      if(k === 'when' || k === 'where' || k === 'how') inner = kiHTML(k) + KIND[k].name;
+      else inner = esc(it.w || 'Plain');
+      h += '<span class="pt'+(pop ? ' pop' : '')+'" data-k="'+k+'">'+inner+'</span>';
+    });
+    return h;
+  }
+  function firstWord(s){ return s.split(' ')[0].replace(/[^A-Za-z’']/g, ''); }
+  /* sentences: [{t, k}] -> pattern items; plain starts that repeat a neighbour's first word turn red */
+  function patternOf(list){
+    var items = list.map(function(x){ return x.k && x.k !== 'plain' ? {k:x.k} : {k:'plain', w:firstWord(x.t)}; });
+    var words = items.map(function(it){ return it.k === 'plain' ? it.w : null; });
+    items.forEach(function(it, i){
+      if(it.k === 'plain' && ((i > 0 && words[i-1] === it.w) || (i < words.length - 1 && words[i+1] === it.w))) it.k = 'rep';
+    });
+    return items;
+  }
+
+  var screens = Array.prototype.slice.call(document.querySelectorAll('.screen'));
+  var cur = 0;
+  var HOOK = {};
+
+  /* ---------- Top bar stops ---------- */
+  var stopsEl = $('stops');
+  screens.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'stop' + (i === 0 ? ' on' : ''); b.tabIndex = -1;
+    b.innerHTML = '<span class="n">'+(i+1)+'</span><span class="l">'+s.getAttribute('data-title')+'</span>';
+    b.addEventListener('click', function(){ go(i); });
+    stopsEl.appendChild(b);
+  });
+  var stops = Array.prototype.slice.call(stopsEl.children);
+
+  /* ---------- Steps on each card ---------- */
+  var S = screens.map(function(s){
+    var m = 0;
+    each(s.querySelectorAll('[data-step]'), function(e){ m = Math.max(m, +e.getAttribute('data-step')); });
+    var lab = s.getAttribute('data-labels');
+    var labels = lab ? lab.split('|') : [];
+    return { step:0, max:Math.max(m, labels.length), labels:labels };
+  });
+
+  /* ---------- Bottom nav on each card ---------- */
+  screens.forEach(function(s, i){
+    var nav = document.createElement('div');
+    nav.className = 'snav';
+    var next = screens[i+1] ? screens[i+1].getAttribute('data-title') : null;
+    var h = '';
+    h += i > 0 ? '<button class="btn ghost" type="button" tabindex="-1" data-act="prev">&larr; Previous card</button>' : '';
+    h += '<span class="hint">Clicker or arrow keys</span><span class="grow"></span>';
+    if(S[i].max){
+      h += '<span class="stepinfo"></span>';
+      h += '<button class="btn soft" type="button" tabindex="-1" data-act="back">Back a step</button>';
+      h += '<button class="btn rose" type="button" tabindex="-1" data-act="reveal"></button>';
+    }
+    if(next) h += '<button class="btn" type="button" tabindex="-1" data-act="next">Next: '+next+' &rarr;</button>';
+    nav.innerHTML = h;
+    s.appendChild(nav);
+  });
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-act]');
+    if(!b) return;
+    var a = b.getAttribute('data-act');
+    if(a === 'prev') go(cur-1);
+    else if(a === 'next') go(cur+1);
+    else if(a === 'reveal') stepFwd();
+    else if(a === 'back') stepBack();
+  });
+  function paintNav(){
+    var s = screens[cur], st = S[cur], nav = s.querySelector('.snav');
+    var r = nav.querySelector('[data-act=reveal]'), bk = nav.querySelector('[data-act=back]');
+    var info = nav.querySelector('.stepinfo'), nx = nav.querySelector('[data-act=next]');
+    if(r){
+      r.hidden = st.step >= st.max;
+      r.textContent = (st.labels[st.step] || 'Show next');
+      bk.disabled = st.step === 0;
+      info.textContent = 'Step ' + st.step + ' of ' + st.max;
+    }
+    if(nx) nx.classList.toggle('glow', st.step >= st.max && s.getAttribute('data-name') !== 'rebuild');
+  }
+  function applyStep(i){
+    var s = screens[i], n = S[i].step;
+    each(s.querySelectorAll('[data-step]'), function(e){ e.classList.toggle('on', +e.getAttribute('data-step') <= n); });
+    var h = HOOK[s.getAttribute('data-name')];
+    if(h) h(n);
+    if(i === cur) paintNav();
+  }
+  function stepFwd(){
+    var st = S[cur];
+    if(st.step < st.max){ st.step++; applyStep(cur); }
+    else go(cur+1);
+  }
+  function stepBack(){
+    var st = S[cur];
+    if(st.step > 0){ st.step--; applyStep(cur); }
+    else go(cur-1);
+  }
+  function go(n){
+    if(isNaN(n) || n < 0 || n >= screens.length || n === cur) return;
+    screens[cur].classList.remove('on');
+    cur = n;
+    screens[cur].classList.add('on');
+    stops.forEach(function(b, k){ b.classList.toggle('on', k === cur); if(k < cur) b.classList.add('seen'); });
+    window.scrollTo(0, 0);
+    if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    paintNav(); paintNotes(); paintRun();
+  }
+  window.goCard = go;
+  document.addEventListener('keydown', function(e){
+    var t = document.activeElement, tag = t ? t.tagName : '';
+    if(tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    if(matIsOpen()){
+      if(['Escape','ArrowRight','ArrowLeft','PageDown','PageUp'].indexOf(e.key) > -1){ e.preventDefault(); matClose(); }
+      return;
+    }
+    if(e.key === 'ArrowRight' || e.key === 'PageDown'){ e.preventDefault(); stepFwd(); }
+    else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); stepBack(); }
+    else if(e.key === 'Escape'){ $('drawer').classList.remove('open'); }
+  }, true);
+
+  /* ---------- Opener mat (students open and close it themselves) ---------- */
+  (function(){
+    var names = {when:['When?','Time opener \u00b7 write T'], where:['Where?','Place opener \u00b7 write P'], how:['How?','Manner opener \u00b7 write M'], link:['Link back','Points back']};
+    $('matCols').innerHTML = ['when','where','how','link'].map(function(k){
+      return '<div class="mcol" data-k="'+k+'"><div class="mh">'+kiHTML(k)+'<div><b>'+names[k][0]+'</b><span class="s">'+names[k][1]+'</span></div></div><ul>'+C.bank[k].map(function(w){ return '<li>'+esc(w)+'</li>'; }).join('')+'</ul></div>';
+    }).join('');
+  })();
+  function matIsOpen(){ return $('matwrap').classList.contains('open'); }
+  function matOpen(){ $('drawer').classList.remove('open'); $('matwrap').classList.add('open'); document.body.classList.add('matopen'); $('matwrap').setAttribute('aria-hidden', 'false'); }
+  function matClose(){ $('matwrap').classList.remove('open'); document.body.classList.remove('matopen'); $('matwrap').setAttribute('aria-hidden', 'true'); if(location.hash === '#mat') history.replaceState(null, '', location.pathname); }
+  window.matOpen = matOpen; window.matClose = matClose;
+  $('matBtn').addEventListener('click', function(){ if(matIsOpen()) matClose(); else matOpen(); this.blur(); });
+  document.addEventListener('click', function(e){
+    if(e.target.closest('[data-matclose]')) matClose();
+    else if(e.target.closest('[data-matopen]')) matOpen();
+  });
+
+  /* ---------- Teacher notes drawer ---------- */
+  function paintNotes(){
+    var s = screens[cur], tn = s.querySelector('.tnotes');
+    $('drawerH').textContent = 'Card ' + (cur+1) + ': ' + s.getAttribute('data-title');
+    $('drawerBody').innerHTML = tn ? tn.innerHTML : '<p>No notes for this card.</p>';
+  }
+  $('notesBtn').addEventListener('click', function(){ paintNotes(); $('drawer').classList.toggle('open'); });
+  $('drawerX').addEventListener('click', function(){ $('drawer').classList.remove('open'); });
+  $('fsBtn').addEventListener('click', function(){
+    var d = document;
+    if(!d.fullscreenElement){ if(d.documentElement.requestFullscreen) d.documentElement.requestFullscreen(); }
+    else if(d.exitFullscreen) d.exitFullscreen();
+  });
+
+  /* ---------- Card 2: hook ---------- */
+  $('hookPat').innerHTML = patHTML([{k:'rep',w:'I'},{k:'rep',w:'I'},{k:'rep',w:'I'},{k:'rep',w:'I'}], 'The pattern');
+  HOOK.hook = function(n){ $('hookBoard').classList.toggle('lit', n >= 1); };
+
+  /* ---------- Card 4: watch me ---------- */
+  var WATCH = [
+    {flat:'She opened the gate.', t:'At dusk, Lily opened the gate.', k:'when'},
+    {flat:'She saw a path.', t:'Beyond it, a narrow path wound into the trees.', k:'where'},
+    {flat:'She stepped forward.', t:'Carefully, she stepped forward.', k:'how'}
+  ];
+  var WSAY = [
+    '<span class="lbl">Thinking aloud</span>Here is a flat little story. Before I click, read it with me. What do you notice about how every sentence starts?',
+    '<span class="lbl">Thinking aloud</span><b>She, She, She.</b> Three sentences, three identical starts. The reader hears the same beat over and over.',
+    '<span class="lbl">Thinking aloud</span><b data-k="when" style="color:var(--when-deep)">When did this happen? At dusk.</b> Now the reader knows the light is fading. I also gave her a name, Lily, so we know who &ldquo;she&rdquo; is.',
+    '<span class="lbl">Thinking aloud</span><b style="color:var(--where-deep)">Where was the path? Beyond it.</b> &ldquo;It&rdquo; points back to the gate, so this sentence hooks onto the last one. I let the path start the action, not Lily.',
+    '<span class="lbl">Thinking aloud</span><b style="color:var(--how-deep)">How did she step? Carefully.</b> One word, and now we know she is nervous. Nobody had to tell us.',
+    '<span class="lbl">Thinking aloud</span>Read it again from the top. Hear how it flows now? Three openers, three different jobs.'
+  ];
+  (function(){
+    var h = '';
+    WATCH.forEach(function(r){
+      h += '<div class="mrow"><div class="before"><span class="bk">Before</span><span>'+repHTML(r.flat, 'She')+'</span></div><div class="after"><span class="ghost">?</span></div></div>';
+    });
+    $('watchRows').innerHTML = h;
+  })();
+  HOOK.watch = function(n){
+    var rows = $('watchRows').querySelectorAll('.mrow');
+    $('watchRows').classList.toggle('lit', n >= 1);
+    var pat = [];
+    WATCH.forEach(function(r, i){
+      var shown = n >= i + 2, a = rows[i].querySelector('.after');
+      var was = a.getAttribute('data-shown') === '1';
+      a.setAttribute('data-shown', shown ? '1' : '0');
+      if(shown && !was) a.innerHTML = opHTML(r.t, r.k, {tag:true, drop:!reduce});
+      else if(!shown) a.innerHTML = '<span class="ghost">' + (n >= 1 ? 'Which opener?' : '?') + '</span>';
+      pat.push(shown ? {k:r.k} : {k:'rep', w:'She'});
+    });
+    $('watchPat').innerHTML = n >= 1 ? patHTML(pat, 'Opener pattern') : '';
+    $('watchSay').innerHTML = WSAY[Math.min(n, WSAY.length - 1)];
+  };
+
+  /* ---------- Card 5: link it back ---------- */
+  HOOK.link = function(n){
+    for(var i = 1; i <= 3; i++) $('ref'+i).classList.toggle('on', n === i);
+  };
+
+  /* ---------- Card 6: mix it up ---------- */
+  $('mixPatBad').innerHTML = patHTML([{k:'when'},{k:'how'},{k:'how'},{k:'how'}]);
+  $('mixPatGood').innerHTML = patHTML([{k:'when'},{k:'plain',w:'She'},{k:'where'}]);
+
+  /* ---------- Card 7: fix it together ---------- */
+  var FIX = C.hook, fixPick = FIX.flat.map(function(){ return null; });
+  function fixRender(){
+    var h = '';
+    FIX.flat.forEach(function(s, i){
+      var p = fixPick[i], o = FIX.opts[i];
+      var shown = p ? opHTML(o[p], p) : repHTML(s, 'I');
+      h += '<div class="frow"><span class="fn">'+(i+1)+'</span><div><div class="ft">'+shown+(p ? '' : '<span class="fq">When? Where? How?</span>')+'</div>';
+      h += '<div class="fchips rv" data-step="1">';
+      ['when','where','how'].forEach(function(k){
+        h += '<button class="ochip'+(p === k ? ' on' : '')+'" type="button" tabindex="-1" data-k="'+k+'" data-fi="'+i+'" data-fk="'+k+'">'+kiHTML(k)+esc(split(o[k])[0])+'</button>';
+      });
+      h += '<button class="ochip keep'+(p === null ? ' on' : '')+'" type="button" tabindex="-1" data-fi="'+i+'" data-fk="keep"><span class="ki">I</span>Keep</button>';
+      h += '</div></div></div>';
+    });
+    $('fixRows').innerHTML = h;
+    var built = [], list = [];
+    FIX.flat.forEach(function(s, i){
+      var p = fixPick[i];
+      built.push(p ? opHTML(FIX.opts[i][p], p) : esc(s));
+      list.push(p ? {t:FIX.opts[i][p], k:p} : {t:s, k:'plain'});
+    });
+    $('fixBuilt').innerHTML = built.join(' ');
+    $('fixPat').innerHTML = patHTML(patternOf(list));
+    applyStepsOnly(screens.indexOf(document.querySelector('[data-name=fix]')));
+  }
+  function applyStepsOnly(i){
+    var s = screens[i], n = S[i].step;
+    each(s.querySelectorAll('[data-step]'), function(e){ e.classList.toggle('on', +e.getAttribute('data-step') <= n); });
+  }
+  $('fixRows').addEventListener('click', function(e){
+    var b = e.target.closest('[data-fk]'); if(!b) return;
+    var i = +b.getAttribute('data-fi'), k = b.getAttribute('data-fk');
+    fixPick[i] = k === 'keep' ? null : k;
+    fixRender();
+  });
+  $('hookWriter').innerHTML = FIX.writer.map(function(w){ return opHTML(w.t, w.k); }).join(' ');
+  $('hookWriterPat').innerHTML = patHTML(patternOf(FIX.writer));
+  fixRender();
+
+  /* ---------- Card 8: choose ---------- */
+  (function(){
+    var h = '';
+    C.paras.forEach(function(p){
+      h += '<article class="para">'+(ART[p.id] || '')+'<div class="pb"><h3><span class="let">'+p.letter+'</span>'+esc(p.title)+'<span class="keeps">Keeps starting: <b>'+esc(p.repeat)+'</b></span></h3><p>'+esc(p.blurb)+'</p></div></article>';
+    });
+    $('paraTiles').innerHTML = h;
+  })();
+
+  /* ---------- Card 9: rebuild ---------- */
+  var FLOORS = [
+    {id:'entry', name:'Entry', sub:'Openers ready to choose from'},
+    {id:'first', name:'First floor', sub:'Prompts and the big opener bank'},
+    {id:'second', name:'Second floor', sub:'Challenges, no bank'}
+  ];
+  function floorSVG(level){
+    var h = '<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 14 L20 5 L34 14" fill="none" stroke="#e5407f" stroke-width="2.4" stroke-linejoin="round"/>';
+    for(var f = 0; f < 3; f++){
+      var y = 30 - f * 8, on = f === level;
+      h += '<rect x="9" y="'+y+'" width="22" height="7" rx="1.5" fill="'+(on ? '#ff6f9e' : '#fff3ee')+'" stroke="#e5407f" stroke-width="1.8"/>';
+    }
+    return h + '</svg>';
+  }
+  var R = {para: store('wwh-para') || C.paras[0].id, floor: store('wwh-floor') || 'entry', picks:{}, start:false};
+  if(!C.paras.some(function(p){ return p.id === R.para; })) R.para = C.paras[0].id;
+  if(!FLOORS.some(function(f){ return f.id === R.floor; })) R.floor = 'entry';
+  function para(id){ for(var i = 0; i < C.paras.length; i++) if(C.paras[i].id === id) return C.paras[i]; return C.paras[0]; }
+  function bankHTML(){
+    var h = '<div class="bank">';
+    ['when','where','how','link'].forEach(function(k){
+      var label = k === 'link' ? 'Link back' : KIND[k].name + '? ' + {when:'Time',where:'Place',how:'Manner'}[k];
+      h += '<div class="bcol" data-k="'+k+'"><div class="bh">'+kiHTML(k)+label+'</div><div class="bw">'+C.bank[k].map(function(w){ return '<span>'+esc(w)+'</span>'; }).join('')+'</div></div>';
+    });
+    return h + '</div>';
+  }
+  var ASK = [['when','When?'],['where','Where?'],['how','How?']];
+  function bookHTML(f){
+    return '<div class="tip book"><div class="ic">'+ic('i-pencil')+'</div><div><span class="lbl">In your book</span><ol class="steps-b">'+
+      '<li><span>Rewrite your paragraph with new openers. '+(f === 'entry' ? 'Change <b>at least three</b>.' : 'Change <b>at least four</b>.')+'</span></li>'+
+      '<li><span>Underline each opener and write <em>T</em>, <em>P</em> or <em>M</em> above it.</span></li>'+
+      '<li><span>Circle the comma after each opener.</span></li></ol>'+
+      (f === 'first' ? '' : '<div class="tlegend"><span data-k="when">'+kiHTML('when')+'T = When</span><span data-k="where">'+kiHTML('where')+'P = Where</span><span data-k="how">'+kiHTML('how')+'M = How</span></div>')+'</div></div>';
+  }
+  function renderRebuild(){
+    var p = para(R.para), f = R.floor;
+    $('ptabs').innerHTML = C.paras.map(function(q){ return '<button class="ptab lo'+(q.id === p.id ? ' on' : '')+'" type="button" tabindex="-1" data-pid="'+q.id+'" title="'+esc(q.title)+'"><span class="let">'+q.letter+'</span></button>'; }).join('');
+    $('ftabs').innerHTML = FLOORS.map(function(fl, i){ return '<button class="ftab'+(fl.id === f ? ' on' : '')+'" type="button" tabindex="-1" data-fid="'+fl.id+'">'+floorSVG(i)+fl.name+'</button>'; }).join('');
+    var picks = R.picks[p.id] || (R.picks[p.id] = p.flat.map(function(){ return null; }));
+    var h = '<div class="yp"><div class="yh"><span class="let">'+p.letter+'</span><h3>'+esc(p.title)+'</h3><span class="keeps">Keeps starting with: <b>'+esc(p.repeat)+'</b></span>'+
+      '<button class="btn soft" type="button" tabindex="-1" id="startBtn">'+(R.start ? 'Hide the example' : 'Show me how to start')+'</button></div>';
+    p.flat.forEach(function(s, i){
+      var shown = (f === 'entry' && picks[i]) ? opHTML(p.opts[i][picks[i]], picks[i]) : repHTML(s, p.repeat);
+      h += '<div class="srow"><span class="sn">'+(i+1)+'</span><div><div class="st">'+shown+'</div>';
+      if(f === 'entry'){
+        h += '<div class="sc2">';
+        ['when','where','how'].forEach(function(k){
+          h += '<button class="ochip'+(picks[i] === k ? ' on' : '')+'" type="button" tabindex="-1" data-k="'+k+'" data-si="'+i+'" data-sk="'+k+'">'+kiHTML(k)+esc(split(p.opts[i][k])[0])+'</button>';
+        });
+        h += '</div>';
+      } else if(f === 'first'){
+        h += '<div class="ask">Ask: '+ASK.map(function(a){ return '<span data-k="'+a[0]+'">'+a[1]+'</span>'; }).join('')+'</div>';
+      }
+      h += '</div></div>';
+    });
+    if(R.start) h += '<div class="startbox" style="margin-top:.5rem"><span class="lbl">How one writer started</span>'+p.writer.slice(0, 2).map(function(w){ return opHTML(w.t, w.k); }).join(' ')+'</div>';
+    h += '</div>';
+    if(f !== 'entry') h += bookHTML(f);
+    $('leftCol').innerHTML = h;
+    var r = '';
+    if(f === 'entry'){
+      r += '<div class="target"><span class="lbl">Entry &middot; your goal</span>Tap the openers under each sentence to try them. Choose one for <b>at least three sentences</b>, using When, Where and How at least once each.</div>';
+      r += '<div class="tip learn"><div class="ic">'+ic('i-bulb')+'</div><div><span class="lbl">Make it yours</span><p>Can you change one word in an opener? <em>At dawn,</em> could become <em>At sunset,</em></p></div></div>';
+    } else if(f === 'first'){
+      r += '<div class="target"><span class="lbl">First floor &middot; your goal</span>Change <b>at least four openers</b>. Use When, Where and How. Pick from the bank or invent your own. Watch out: <b style="color:var(--red)">Then,</b> and <b style="color:var(--red)">Suddenly,</b> once at most.</div>';
+      r += bankHTML();
+    } else {
+      r += '<div class="target"><span class="lbl">Second floor &middot; your challenges</span>No bank on this floor. Invent your own openers.</div>';
+      r += '<ol class="chal">'+
+        '<li><span class="n">1</span><span>Change <b>at least four openers</b>, using When, Where and How.</span></li>'+
+        '<li><span class="n">2</span><span><b>Link two sentences back</b> to the one before, like <em>Beyond it,</em> or <em>Moments later,</em></span></li>'+
+        '<li><span class="n">3</span><span>Use a <b>How opener that shows a feeling</b> without naming it, like <em>Heart pounding,</em></span></li>'+
+        '<li><span class="n">4</span><span><b>Keep a mix.</b> Leave one sentence starting the plain way, and vary the lengths.</span></li>'+
+        '<li><span class="n">+</span><span>Go further: add <b>one new sentence</b> in the middle that starts with a linking opener.</span></li></ol>';
+    }
+    if(f === 'entry') r += bookHTML(f);
+    $('rightCol').innerHTML = r;
+  }
+  $('ptabs').addEventListener('click', function(e){ var b = e.target.closest('[data-pid]'); if(!b) return; R.para = b.getAttribute('data-pid'); R.start = false; store('wwh-para', R.para); renderRebuild(); });
+  $('ftabs').addEventListener('click', function(e){ var b = e.target.closest('[data-fid]'); if(!b) return; R.floor = b.getAttribute('data-fid'); store('wwh-floor', R.floor); renderRebuild(); });
+  $('leftCol').addEventListener('click', function(e){
+    if(e.target.closest('#startBtn')){ R.start = !R.start; renderRebuild(); return; }
+    var b = e.target.closest('[data-sk]'); if(!b) return;
+    var i = +b.getAttribute('data-si'), k = b.getAttribute('data-sk'), pk = R.picks[R.para];
+    pk[i] = pk[i] === k ? null : k;
+    renderRebuild();
+  });
+  renderRebuild();
+
+  /* ---------- Card 11: before and after ---------- */
+  var BA = R.para;
+  function renderBA(){
+    var p = para(BA);
+    $('baTabs').innerHTML = C.paras.map(function(q){ return '<button class="ptab lo'+(q.id === p.id ? ' on' : '')+'" type="button" tabindex="-1" data-bid="'+q.id+'" title="'+esc(q.title)+'"><span class="let">'+q.letter+'</span></button>'; }).join('');
+    $('baBefore').innerHTML = '<span class="k">'+p.letter+' &middot; '+esc(p.title)+' &middot; before</span>' + p.flat.map(function(s){ return repHTML(s, p.repeat); }).join(' ');
+    $('baAfter').innerHTML = '<span class="k" style="font-family:Inter,sans-serif">One writer’s version</span>' + p.writer.map(function(w){ return opHTML(w.t, w.k); }).join(' ');
+    $('baPat').innerHTML = patHTML(patternOf(p.writer));
+  }
+  $('baTabs').addEventListener('click', function(e){ var b = e.target.closest('[data-bid]'); if(!b) return; BA = b.getAttribute('data-bid'); renderBA(); });
+  HOOK.exit = function(n){ $('baVeil').hidden = n >= 1; };
+  renderBA();
+
+  /* ---------- Timers ---------- */
+  function fmt(s){ var m = Math.floor(s / 60), r = s % 60; return m + ':' + (r < 10 ? '0' : '') + r; }
+  function Timer(el, mins, calls){
+    var T = {el:el, total:mins*60, left:mins*60, id:null, end:0, base:mins*60};
+    function q(r){ return el.querySelector('[data-role='+r+']'); }
+    function call(msg){ var c = q('call'); if(!c) return; c.textContent = msg; c.classList.remove('flash'); void c.offsetWidth; c.classList.add('flash'); }
+    T.paint = function(){
+      var d = q('disp');
+      d.textContent = fmt(T.left);
+      d.classList.toggle('warn', T.left > 0 && T.left <= 60);
+      d.classList.toggle('end', T.left === 0);
+      q('bar').style.width = (T.total ? T.left / T.total * 100 : 0) + '%';
+      q('go').innerHTML = T.id ? ic('i-pause') + 'Pause' : ic('i-play') + (T.left < T.total && T.left > 0 ? 'Resume' : 'Start');
+      paintRun();
+    };
+    function tick(){
+      var prev = T.left;
+      T.left = Math.max(0, Math.round((T.end - Date.now()) / 1000));
+      if(T.left === prev) return;
+      (calls || []).forEach(function(c){ if(prev > c[0] && T.left <= c[0]) call(c[1]); });
+      if(T.left <= 0) stop();
+      T.paint();
+    }
+    function start(){
+      if(T.left <= 0) T.left = T.total;
+      if(T.left === T.total && calls && calls.start) call(calls.start);
+      T.end = Date.now() + T.left * 1000;
+      T.id = setInterval(tick, 250);
+      T.paint();
+    }
+    function stop(){ if(T.id){ clearInterval(T.id); T.id = null; } T.paint(); }
+    q('go').addEventListener('click', function(){ if(T.id) stop(); else start(); });
+    q('reset').addEventListener('click', function(){ stop(); T.total = T.base; T.left = T.base; T.paint(); });
+    function adjust(sec){
+      var nl = Math.max(60, Math.min(3600, T.left + sec)), diff = nl - T.left;
+      T.left = nl; T.total = Math.max(60, T.total + diff);
+      if(T.id) T.end += diff * 1000;
+      T.paint();
+    }
+    if(q('minus')) q('minus').addEventListener('click', function(){ adjust(-60); });
+    if(q('plus')) q('plus').addEventListener('click', function(){ adjust(60); });
+    return T;
+  }
+  var wCalls = [[300, 'Five minutes left. Have you used When, Where and How?'], [60, 'One minute. Underline your openers and circle the commas.'], [0, 'Pens down. Finish the sentence you are on.']];
+  wCalls.start = 'Writing. Start with your title.';
+  var cCalls = [[0, 'Swap back. Write your Revised: sentence.']];
+  var WT, CT;
+  var rebuildIndex = screens.map(function(s){ return s.getAttribute('data-name'); }).indexOf('rebuild');
+  function paintRun(){
+    if(!WT) return;
+    var show = (WT.id || (WT.left > 0 && WT.left < WT.total)) && cur !== rebuildIndex;
+    $('runPill').classList.toggle('show', !!show);
+    $('runTxt').textContent = fmt(WT.left);
+  }
+  WT = Timer($('wTimer'), 13, wCalls);
+  CT = Timer($('cTimer'), 3, cCalls);
+  $('runPill').addEventListener('click', function(){ go(rebuildIndex); });
+
+  /* ---------- Start ---------- */
+  screens.forEach(function(_, i){ applyStep(i); });
+  WT.paint(); CT.paint();
+  paintNav();
+  paintNotes();
+  if(location.hash === '#rebuild') go(rebuildIndex);
+  if(location.hash === '#mat') matOpen();
+})();
+</script>
+</body>
+</html>
