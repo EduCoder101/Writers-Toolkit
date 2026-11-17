@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voices in the Park &middot; Lesson 1 &middot; Year 5 English</title>
+<meta name="description" content="Year 5 English. Voices in the Park by Anthony Browne, Lesson 1: perspective and visual literacy. A teacher-led scrolling lesson.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Inter:wght@400;500;600;700&family=Bodoni+Moda:opsz,wght@6..96,500&family=Archivo+Black&family=Lato:wght@300&family=Gochi+Hand&family=Creepster&family=Press+Start+2P&family=Rye&family=Pirata+One&family=Orbitron:wght@700&family=Great+Vibes&family=Bangers&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4efe3;--paper-2:#ebe4d3;--card:#fbf8f0;--line:#d6ccb6;
+  --ink:#22302a;--ink-soft:#56645c;--park:#2f4a3c;--park-deep:#1d2f27;
+  --autumn:#c4602a;--winter:#5b6d86;--spring:#6f9a3e;--summer:#e0a21c;
+  --autumn-bg:#f6e2d3;--winter-bg:#dfe5ee;--spring-bg:#e3eed2;--summer-bg:#fbeec6;
+  --shadow:0 22px 44px -28px rgba(34,48,42,.55);
+  --pad:clamp(28px,5vw,110px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:clamp(18px,1.32vw,30px)}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Inter",system-ui,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+#bar{position:fixed;top:0;left:0;height:5px;width:0;z-index:50;
+  background:linear-gradient(90deg,var(--autumn),var(--winter),var(--spring),var(--summer))}
+
+h1,h2,h3{font-family:"Fraunces",serif;font-weight:600;line-height:1.06;margin:0}
+p{margin:0}
+section{position:relative}
+.shell{width:100%;max-width:2200px;margin:0 auto;padding:clamp(56px,5.2vw,120px) var(--pad)}
+.eyebrow{font-weight:700;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--autumn);margin-bottom:.9rem}
+h2.big{font-size:clamp(2.2rem,4.2vw,5.4rem);letter-spacing:-.01em}
+.lead{font-size:1.25rem;color:var(--ink-soft);margin-top:.9rem;max-width:44ch}
+.note{font-size:.8rem;color:var(--ink-soft);margin-top:1.6rem}
+.note b{color:var(--ink)}
+
+.band{height:14px;background:linear-gradient(90deg,var(--autumn) 0 25%,var(--winter) 25% 50%,var(--spring) 50% 75%,var(--summer) 75% 100%)}
+
+/* HERO */
+.hero .shell{display:grid;grid-template-columns:1.05fr .95fr;gap:5vw;align-items:center;min-height:92vh}
+.hero .meta{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--ink-soft);margin-bottom:1.3rem}
+.hero h1{font-size:clamp(3.2rem,7.6vw,9.6rem);letter-spacing:-.02em}
+.hero h1 .sub{display:block;font-size:.26em;font-weight:500;font-style:italic;color:var(--autumn);letter-spacing:0;margin-top:.7rem}
+.hero .tag{font-family:"Fraunces",serif;font-size:1.9rem;line-height:1.25;margin-top:1.8rem}
+.trees{width:100%;height:auto;display:block}
+
+/* FONT TILES */
+.tiles{display:grid;grid-template-columns:1fr;gap:1rem;margin-top:2rem}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);
+  padding:1.1rem 1.9rem;min-height:6.2rem;display:flex;align-items:center;gap:1.8rem}
+.tile .letter{font-family:"Inter",sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.16em;
+  color:var(--ink-soft);border:1.5px solid var(--line);border-radius:100px;width:2.2rem;height:2.2rem;
+  display:grid;place-items:center;flex:0 0 auto}
+.tile .say{font-size:clamp(1.8rem,3.7vw,5rem);line-height:1.1}
+.f-a{font-family:"Bodoni Moda","Bodoni MT","Didot",serif;font-weight:500}
+.f-b{font-family:"Archivo Black","Arial Black",sans-serif;font-weight:400}
+.f-c{font-family:"Lato","Gill Sans",sans-serif;font-weight:300}
+.f-d{font-family:"Gochi Hand","Comic Sans MS",cursive;font-weight:400}
+
+/* SEE THINK WONDER */
+.stw{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2rem}
+.stw div{border-top:5px solid var(--ink);padding-top:1rem}
+.stw div:nth-child(1){border-color:var(--autumn)}
+.stw div:nth-child(2){border-color:var(--winter)}
+.stw div:nth-child(3){border-color:var(--spring)}
+.stw h3{font-size:2.3rem}
+.stw p{font-size:1.2rem;margin-top:.5rem;max-width:26ch}
+
+/* CONNECT */
+.alt{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.picture{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.2rem}
+.picture div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.5rem 1.7rem;box-shadow:var(--shadow)}
+.picture .n{font-family:"Fraunces",serif;font-weight:600;font-size:1.1rem;color:var(--autumn)}
+.picture .who{font-family:"Fraunces",serif;font-weight:600;font-size:2rem;line-height:1.1;margin-top:.2rem;color:var(--ink)}
+.picture p{color:var(--ink-soft);margin-top:.5rem;font-size:1rem}
+.bigq{font-family:"Fraunces",serif;font-size:clamp(1.6rem,2.6vw,3.3rem);line-height:1.2;margin-top:2.4rem;max-width:30ch}
+.bigq em{color:var(--autumn);font-style:italic}
+.links{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-top:1.6rem;font-size:.8rem;color:var(--ink-soft)}
+.links a{color:var(--ink);text-decoration:none;font-weight:600;border:1.5px solid var(--line);
+  background:var(--card);border-radius:100px;padding:.35rem .95rem}
+.links a:hover{border-color:var(--autumn);color:var(--autumn)}
+
+.genre{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;margin-top:1.8rem}
+.g{border-radius:16px;min-height:8.6rem;display:grid;place-items:center;text-align:center;padding:1.4rem 1rem;
+  box-shadow:var(--shadow);position:relative;line-height:1.05}
+.g .n{position:absolute;top:.7rem;left:.9rem;font-family:"Inter",sans-serif;font-weight:700;font-size:.7rem;opacity:.7;letter-spacing:.08em}
+.g1{background:#151a14;color:#9be23f;font-family:"Creepster",fantasy;font-size:2.7rem;letter-spacing:.03em}
+.g2{background:#12123a;color:#ffd84a;font-family:"Press Start 2P",monospace;font-size:1.2rem;line-height:1.6}
+.g3{background:#e7c58c;color:#5a2a12;font-family:"Rye",serif;font-size:2.2rem}
+.g4{background:#2a1b17;color:#e9d9b0;font-family:"Pirata One",serif;font-size:2.9rem}
+.g5{background:#0c1322;color:#7fe3ff;font-family:"Orbitron",sans-serif;font-weight:700;font-size:1.75rem;letter-spacing:.06em;text-transform:uppercase}
+.g6{background:#fbe6ee;color:#a8336a;font-family:"Great Vibes",cursive;font-size:3.3rem}
+.g7{background:#ffd23c;color:#d62424;font-family:"Bangers",sans-serif;font-size:3rem;letter-spacing:.04em}
+.g8{background:#e9e4d6;color:#2b2b2b;font-family:"Special Elite",monospace;font-size:1.9rem}
+
+/* FIRST READ */
+.read{background:var(--park-deep);color:#f1ecdf}
+.read .shell{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;gap:5vw;align-items:center}
+.read .eyebrow{color:var(--summer)}
+.read h2{font-size:clamp(3.4rem,8vw,10rem);color:#fbf6ea}
+.read .lead{color:#c9d2c8;font-size:1.5rem;max-width:26ch}
+.after{background:var(--park);color:#f1ecdf}
+.after .eyebrow{color:var(--summer)}
+.after .qs{display:grid;grid-template-columns:1fr 1fr;gap:3vw;margin-top:1.4rem}
+.after .q{font-family:"Fraunces",serif;font-size:clamp(1.8rem,3vw,3.8rem);line-height:1.15;
+  border-left:6px solid var(--summer);padding-left:1.4rem}
+.after .q:nth-child(2){border-color:var(--spring)}
+
+/* SECOND READ */
+.lenses{display:grid;grid-template-columns:repeat(5,1fr);gap:1.1rem;margin-top:2.4rem}
+.lens{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.3rem 1.3rem 1.5rem;box-shadow:var(--shadow)}
+.lens .n{font-family:"Fraunces",serif;font-weight:600;font-size:2.2rem;color:var(--autumn);line-height:1}
+.lens h3{font-size:1.45rem;margin-top:.5rem}
+.lens p{font-size:.98rem;color:var(--ink-soft);margin-top:.5rem}
+.voices{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem;margin-top:1.3rem}
+.voice{border-radius:16px;padding:1.2rem 1.4rem;border:1px solid var(--line)}
+.voice .v{font-weight:700;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase}
+.voice .name{font-family:"Fraunces",serif;font-weight:600;font-size:1.7rem;line-height:1.1;margin-top:.25rem}
+.voice .who{font-size:.85rem;margin-top:.3rem;color:var(--ink-soft)}
+.v1{background:var(--autumn-bg);border-color:#e6c3a8}.v1 .v{color:var(--autumn)}
+.v2{background:var(--winter-bg);border-color:#bcc7d8}.v2 .v{color:var(--winter)}
+.v3{background:var(--spring-bg);border-color:#c2d6a3}.v3 .v{color:#57802c}
+.v4{background:var(--summer-bg);border-color:#ecd690}.v4 .v{color:#a87508}
+.btn{display:inline-block;font-family:"Inter",sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;
+  border:none;border-radius:100px;padding:.8rem 1.5rem;background:var(--ink);color:#fbf6ea;text-decoration:none;margin-top:2rem}
+.btn:hover{background:var(--autumn)}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:#fbf6ea}
+
+/* I DO */
+.split{display:grid;grid-template-columns:.8fr 1.2fr;gap:4vw;align-items:start;margin-top:2.4rem}
+.sample{border-radius:18px;padding:1.8rem 2rem 2.1rem;box-shadow:var(--shadow);position:sticky;top:2rem}
+.sample .v{font-weight:700;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+.sample .name{font-family:"Fraunces",serif;font-weight:600;font-size:2.3rem;line-height:1.1;margin:.3rem 0 1.4rem}
+.sample .say{font-size:clamp(2rem,3.4vw,4.4rem);line-height:1.12}
+.sample.v1 .v{color:var(--autumn)}.sample.v2 .v{color:var(--winter)}
+.rows{display:grid;gap:.85rem}
+.row{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.05rem 1.4rem;
+  display:grid;grid-template-columns:11rem 1fr;gap:1.2rem;align-items:baseline}
+.row .k{font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--autumn)}
+.row .q{font-family:"Fraunces",serif;font-size:1.45rem;line-height:1.25}
+.row .a{display:none;margin-top:.5rem;font-size:1.05rem;color:var(--ink-soft);border-left:4px solid var(--autumn);padding-left:.9rem}
+.show-notes .row .a{display:block}
+
+/* WE DO */
+.wedo .row .k{color:var(--winter)}
+.shift{display:grid;grid-template-columns:1fr auto 1fr;gap:1.4rem;align-items:stretch;margin-top:2.4rem}
+.pane{border-radius:18px;padding:1.8rem 2rem 2rem;min-height:15rem;box-shadow:var(--shadow)}
+.pane .k{font-weight:700;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+.pane h3{font-size:2.3rem;margin:.4rem 0 1rem}
+.pane p{font-size:1.25rem;line-height:1.4}
+.pane.before{background:#3a4658;color:#e6ebf2}
+.pane.before .k{color:#aebbd0}
+.pane.after2{background:#fff3cf;color:var(--ink);border:1px solid #ecd690}
+.pane.after2 .k{color:#a87508}
+.arrow{align-self:center;width:4.2rem;height:auto}
+.wedo-q{font-family:"Fraunces",serif;font-size:clamp(1.6rem,2.6vw,3.3rem);line-height:1.2;margin-top:2.4rem;max-width:34ch}
+.listen{display:none;margin-top:1.2rem;background:var(--winter-bg);border:1px solid #bcc7d8;border-radius:14px;
+  padding:1.2rem 1.5rem;font-size:1.05rem;max-width:70ch}
+.listen b{color:var(--winter)}
+.show-listen .listen{display:block}
+
+/* YOU DO */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:2.4rem}
+.duo .sample{position:static}
+.duo .say{font-size:clamp(1.7rem,2.9vw,3.8rem)}
+.sample.v3 .v{color:#57802c}.sample.v4 .v{color:#a87508}
+.check{list-style:none;margin:2.4rem 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:1.1rem}
+.check li{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.2rem 1.3rem 1.4rem;box-shadow:var(--shadow)}
+.check .box{display:block;width:1.5rem;height:1.5rem;border:3px solid var(--spring);border-radius:6px;margin-bottom:.8rem}
+.check b{font-family:"Fraunces",serif;font-weight:600;font-size:1.4rem;display:block;line-height:1.15}
+.check span.t{display:block;font-size:.98rem;color:var(--ink-soft);margin-top:.45rem}
+
+/* PARAGRAPH */
+.write{background:var(--park-deep);color:#f1ecdf}
+.write .eyebrow{color:var(--summer)}
+.write h2{color:#fbf6ea}
+.write .lead{color:#c9d2c8;max-width:40ch}
+.words{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2rem}
+.words span{font-family:"Fraunces",serif;font-style:italic;font-size:1.5rem;border:1.5px solid rgba(255,255,255,.3);
+  border-radius:100px;padding:.35rem 1.2rem;color:#fbf6ea}
+.words .same{border-color:var(--spring);color:#cfe6ab}
+.words .diff{border-color:var(--summer);color:#f6d989}
+.frame{font-family:"Fraunces",serif;font-style:italic;font-size:clamp(1.4rem,2.1vw,2.7rem);line-height:1.6;margin-top:2.2rem;max-width:44ch;color:#fbf6ea}
+.frame u{text-decoration:none;border-bottom:2px dashed rgba(255,255,255,.6);padding:0 2.4rem}
+
+footer{padding:2.6rem var(--pad);text-align:center;color:var(--ink-soft);font-size:.74rem}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1!important;transform:none!important}}
+@media (max-width:900px){
+  .hero .shell,.read .shell,.split,.duo,.after .qs{grid-template-columns:1fr}
+  .stw,.picture{grid-template-columns:1fr}
+  .tile{flex-direction:column;align-items:flex-start;gap:.7rem}
+  .genre,.voices{grid-template-columns:repeat(2,1fr)}
+  .lenses,.check{grid-template-columns:1fr 1fr}
+  .shift{grid-template-columns:1fr}.arrow{transform:rotate(90deg);justify-self:center}
+  .row{grid-template-columns:1fr;gap:.3rem}
+  .sample{position:static}
+}
+@media print{.reveal{opacity:1;transform:none}#bar{display:none}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<!-- shared tree artwork -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="trees" viewBox="0 0 880 330">
+      <!-- autumn -->
+      <g>
+        <rect x="100" y="170" width="20" height="120" rx="6" fill="#6b4630"/>
+        <circle cx="110" cy="120" r="70" fill="#c4602a"/>
+        <circle cx="62" cy="158" r="44" fill="#d97a34"/>
+        <circle cx="160" cy="156" r="46" fill="#b0501f"/>
+        <ellipse cx="42" cy="236" rx="9" ry="5" fill="#d97a34" transform="rotate(-30 42 236)"/>
+        <ellipse cx="170" cy="252" rx="9" ry="5" fill="#c4602a" transform="rotate(25 170 252)"/>
+        <ellipse cx="76" cy="278" rx="9" ry="5" fill="#b0501f" transform="rotate(12 76 278)"/>
+      </g>
+      <!-- winter -->
+      <g stroke="#5b6d86" stroke-linecap="round" fill="none">
+        <path d="M330 290 V150" stroke-width="18"/>
+        <path d="M330 200 L282 140 M330 176 L384 118 M330 150 L306 78 M330 150 L362 70 M282 140 L250 124 M282 140 L276 96 M384 118 L420 108 M384 118 L392 74 M306 78 L284 52 M362 70 L386 44" stroke-width="9"/>
+      </g>
+      <!-- spring -->
+      <g>
+        <rect x="540" y="176" width="20" height="114" rx="6" fill="#6b4630"/>
+        <circle cx="550" cy="124" r="68" fill="#8fb85a"/>
+        <circle cx="500" cy="158" r="42" fill="#a5c973"/>
+        <circle cx="602" cy="156" r="44" fill="#7da748"/>
+        <g fill="#f3a9c0"><circle cx="520" cy="96" r="8"/><circle cx="566" cy="74" r="8"/><circle cx="596" cy="124" r="8"/><circle cx="540" cy="146" r="8"/><circle cx="492" cy="152" r="8"/><circle cx="612" cy="172" r="8"/></g>
+      </g>
+      <!-- summer -->
+      <g>
+        <circle cx="846" cy="34" r="26" fill="#e0a21c"/>
+        <rect x="760" y="170" width="22" height="120" rx="6" fill="#6b4630"/>
+        <circle cx="771" cy="112" r="78" fill="#3f7a45"/>
+        <circle cx="714" cy="154" r="48" fill="#4c8c50"/>
+        <circle cx="828" cy="152" r="50" fill="#35693b"/>
+        <g fill="#f2c230"><circle cx="738" cy="92" r="9"/><circle cx="792" cy="70" r="9"/><circle cx="820" cy="128" r="9"/><circle cx="762" cy="140" r="9"/><circle cx="706" cy="160" r="9"/></g>
+      </g>
+      <rect x="0" y="288" width="880" height="6" rx="3" fill="currentColor" opacity=".35"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="shell">
+    <div class="reveal">
+      <p class="meta">Year 5 English &middot; Lesson 1</p>
+      <h1>Voices in the Park<span class="sub">Anthony Browne</span></h1>
+      <p class="tag">One walk in the park.<br>Four voices.</p>
+    </div>
+    <svg class="trees reveal" viewBox="0 0 880 330" role="img" aria-label="Four trees: autumn, winter, spring and summer"><use href="#trees"/></svg>
+  </div>
+</section>
+
+<div class="band"></div>
+
+<!-- 1. TUNING IN -->
+<section>
+  <div class="shell reveal">
+    <p class="eyebrow">Tuning in</p>
+    <h2 class="big">Same words. Four fonts.</h2>
+    <div class="tiles">
+      <div class="tile"><span class="letter">A</span><p class="say f-a">We went to the park today.</p></div>
+      <div class="tile"><span class="letter">B</span><p class="say f-b">We went to the park today.</p></div>
+      <div class="tile"><span class="letter">C</span><p class="say f-c">We went to the park today.</p></div>
+      <div class="tile"><span class="letter">D</span><p class="say f-d">We went to the park today.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SEE THINK WONDER -->
+<section class="alt">
+  <div class="shell reveal">
+    <p class="eyebrow">Thinking routine</p>
+    <h2 class="big">See. Think. Wonder.</h2>
+    <div class="stw">
+      <div><h3>See</h3><p>What do you see in each font?</p></div>
+      <div><h3>Think</h3><p>What kind of person might speak like this?</p></div>
+      <div><h3>Wonder</h3><p>What do you wonder about their story?</p></div>
+    </div>
+    <p class="note">Shapes, thickness, size, neat or messy. Nothing is wrong at this stage.</p>
+  </div>
+</section>
+
+<!-- 2. CONNECT -->
+<section>
+  <div class="shell reveal">
+    <p class="eyebrow">Connect</p>
+    <h2 class="big">Where have you seen this before?</h2>
+    <p class="lead">Close your eyes and picture the letters.</p>
+    <div class="picture">
+      <div><span class="n">1</span><p class="who">Harry Potter</p><p>The title on the book or the film poster.</p></div>
+      <div><span class="n">2</span><p class="who">Pok&eacute;mon</p><p>The logo on the cards and the games.</p></div>
+      <div><span class="n">3</span><p class="who">Disney</p><p>The signature before every film.</p></div>
+    </div>
+    <p class="bigq">What do the letters <em>promise</em> before you read a single word?</p>
+    <p class="links">See the real thing on the official sites:
+      <a href="https://www.harrypotter.com/" target="_blank" rel="noopener">Harry Potter</a>
+      <a href="https://www.pokemon.com/" target="_blank" rel="noopener">Pok&eacute;mon</a>
+      <a href="https://www.disney.com/" target="_blank" rel="noopener">Disney</a>
+      <a href="https://www.starwars.com/" target="_blank" rel="noopener">Star Wars</a>
+      <a href="https://www.minecraft.net/" target="_blank" rel="noopener">Minecraft</a>
+      <a href="https://www.lego.com/" target="_blank" rel="noopener">LEGO</a>
+    </p>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="shell reveal">
+    <p class="eyebrow">Connect</p>
+    <h2 class="big">Three words. Eight stories.</h2>
+    <p class="lead">What kind of story is each one?</p>
+    <div class="genre">
+      <div class="g g1"><span class="n">1</span>The story begins</div>
+      <div class="g g2"><span class="n">2</span>The story begins</div>
+      <div class="g g3"><span class="n">3</span>The story begins</div>
+      <div class="g g4"><span class="n">4</span>The story begins</div>
+      <div class="g g5"><span class="n">5</span>The story begins</div>
+      <div class="g g6"><span class="n">6</span>The story begins</div>
+      <div class="g g7"><span class="n">7</span>The story begins</div>
+      <div class="g g8"><span class="n">8</span>The story begins</div>
+    </div>
+    <p class="bigq">How did you know? The words never changed.</p>
+  </div>
+</section>
+
+<!-- 3. FIRST READ -->
+<section class="read">
+  <div class="shell">
+    <div class="reveal">
+      <p class="eyebrow">First read</p>
+      <h2>Just listen.</h2>
+      <p class="lead">Four voices. Listen to how each one sounds.</p>
+    </div>
+    <svg class="trees reveal" viewBox="0 0 880 330" role="img" aria-label="Four trees: autumn, winter, spring and summer" style="color:#f1ecdf"><use href="#trees"/></svg>
+  </div>
+</section>
+
+<section class="after">
+  <div class="shell reveal">
+    <p class="eyebrow">After the last page</p>
+    <div class="qs">
+      <p class="q">What did you notice?</p>
+      <p class="q">What stayed the same? What changed?</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. SECOND READ -->
+<section>
+  <div class="shell reveal">
+    <p class="eyebrow">Second read</p>
+    <h2 class="big">Read it again, like a detective.</h2>
+    <p class="lead">Five things an author-illustrator can choose.</p>
+    <div class="lenses">
+      <div class="lens"><span class="n">1</span><h3>Word choice</h3><p>Formal, slang, hopeful or harsh?</p></div>
+      <div class="lens"><span class="n">2</span><h3>Sentence length</h3><p>Short and sharp, or long and flowing?</p></div>
+      <div class="lens"><span class="n">3</span><h3>Tone</h3><p>What feeling sits underneath?</p></div>
+      <div class="lens"><span class="n">4</span><h3>Typography</h3><p>Rigid, scratchy, bold or delicate?</p></div>
+      <div class="lens"><span class="n">5</span><h3>Visual symbolism</h3><p>Do the weather, shadows and colours match the feeling?</p></div>
+    </div>
+    <div class="voices">
+      <div class="voice v1"><span class="v">First voice</span><p class="name">Charles&rsquo; mother</p></div>
+      <div class="voice v2"><span class="v">Second voice</span><p class="name">Smudge&rsquo;s father</p></div>
+      <div class="voice v3"><span class="v">Third voice</span><p class="name">Charles</p></div>
+      <div class="voice v4"><span class="v">Fourth voice</span><p class="name">Smudge</p></div>
+    </div>
+    <a class="btn" href="voices-in-the-park-matrix.html" target="_blank" rel="noopener">Open the printable matrix</a>
+  </div>
+</section>
+
+<div class="band"></div>
+
+<!-- I DO -->
+<section id="ido">
+  <div class="shell reveal">
+    <p class="eyebrow">I do &middot; First voice</p>
+    <h2 class="big">Charles&rsquo; mother</h2>
+    <div class="split">
+      <div class="sample v1">
+        <span class="v">Her font</span>
+        <p class="name">Neat. Upright. Proper.</p>
+        <p class="say f-a">We went to the park today.</p>
+      </div>
+      <div>
+        <div class="rows">
+          <div class="row"><span class="k">Word choice</span><div><p class="q">What kinds of words does she choose?</p><p class="a">Formal, proper words. She gives orders and judges people she has never met.</p></div></div>
+          <div class="row"><span class="k">Sentence length</span><div><p class="q">Are her sentences short or long?</p><p class="a">Short, sharp commands. She gives her son orders, just as she would a dog.</p></div></div>
+          <div class="row"><span class="k">Tone</span><div><p class="q">What feeling sits underneath?</p><p class="a">Cold, bossy and disapproving. Then panicky when Charles goes missing.</p></div></div>
+          <div class="row"><span class="k">Typography</span><div><p class="q">What does her font tell us?</p><p class="a">A stiff, old-fashioned serif. Everything in its place, just like her.</p></div></div>
+          <div class="row"><span class="k">Visual symbolism</span><div><p class="q">What do the pictures add?</p><p class="a">Autumn colours and falling leaves. Look for the shape of her hat hiding in the park.</p></div></div>
+        </div>
+        <button class="btn ghost" id="notesBtn" type="button" aria-expanded="false">Show model notes</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WE DO -->
+<section class="alt wedo" id="wedo">
+  <div class="shell reveal">
+    <p class="eyebrow" style="color:var(--winter)">We do &middot; Second voice</p>
+    <h2 class="big">Smudge&rsquo;s father</h2>
+    <div class="split">
+      <div class="sample v2" style="background:var(--winter-bg)">
+        <span class="v">His font</span>
+        <p class="name">Heavy. Thick. Plain.</p>
+        <p class="say f-b">We went to the park today.</p>
+      </div>
+      <div class="rows">
+        <div class="row"><span class="k">Word choice</span><p class="q">Which words sound like him? How are they different from the mother&rsquo;s?</p></div>
+        <div class="row"><span class="k">Sentence length</span><p class="q">Short or long? What does that tell us about his mood?</p></div>
+        <div class="row"><span class="k">Tone</span><p class="q">How is he feeling at the start?</p></div>
+        <div class="row"><span class="k">Typography</span><p class="q">Why might Browne give him such a heavy font?</p></div>
+      </div>
+    </div>
+
+    <div class="shift">
+      <div class="pane before"><span class="k">Visual symbolism</span><h3>Walking to the park</h3><p>What do you notice about the street, the colours and the sky?</p></div>
+      <svg class="arrow" viewBox="0 0 80 40" aria-hidden="true"><path d="M4 20 H66 M50 6 L68 20 L50 34" fill="none" stroke="#22302a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="pane after2"><span class="k">Visual symbolism</span><h3>Walking home</h3><p>It is the same street. What has changed?</p></div>
+    </div>
+    <p class="wedo-q">The street did not change. So what did?</p>
+    <button class="btn ghost" id="listenBtn" type="button" aria-expanded="false">Show listening for</button>
+    <div class="listen"><b>Listening for:</b> plain, everyday words and a tired, flat voice in a thick, heavy font. On the way there, winter greys, bare trees and gloomy streets. On the way home, the same street glows with light and colour, because Smudge has cheered him up. His feelings changed, so the picture changed.</div>
+  </div>
+</section>
+
+<div class="band"></div>
+
+<!-- YOU DO -->
+<section id="youdo">
+  <div class="shell reveal">
+    <p class="eyebrow" style="color:#57802c">You do &middot; In your group</p>
+    <h2 class="big">Charles and Smudge</h2>
+    <p class="lead">Complete the matrix for the third and fourth voices. How does Browne make the timid boy so different from the carefree girl?</p>
+    <div class="duo">
+      <div class="sample v3" style="background:var(--spring-bg)">
+        <span class="v">Third voice</span>
+        <p class="name">Charles</p>
+        <p class="say f-c">We went to the park today.</p>
+      </div>
+      <div class="sample v4" style="background:var(--summer-bg)">
+        <span class="v">Fourth voice</span>
+        <p class="name">Smudge</p>
+        <p class="say f-d">We went to the park today.</p>
+      </div>
+    </div>
+    <ul class="check">
+      <li><span class="box"></span><b>Word choice</b><span class="t">Formal, slang, hopeful or harsh?</span></li>
+      <li><span class="box"></span><b>Sentence length</b><span class="t">Short and sharp, or long and flowing?</span></li>
+      <li><span class="box"></span><b>Tone</b><span class="t">Anxious, joyful, lonely, something else?</span></li>
+      <li><span class="box"></span><b>Typography</b><span class="t">Rigid, scratchy, bold or delicate?</span></li>
+      <li><span class="box"></span><b>Visual symbolism</b><span class="t">Weather, shadows and colours. Do they match the feeling?</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- PARAGRAPH -->
+<section class="write" id="write">
+  <div class="shell reveal">
+    <p class="eyebrow">On your own &middot; In your book</p>
+    <h2 class="big">One paragraph. Two voices.</h2>
+    <p class="lead">Choose two voices. Compare and contrast the choices Browne made for each. Use the checklist as your guide.</p>
+    <div class="words">
+      <span class="same">both</span><span class="same">similarly</span><span class="same">just as</span>
+      <span class="diff">whereas</span><span class="diff">in contrast</span><span class="diff">however</span><span class="diff">on the other hand</span>
+    </div>
+    <p class="frame">Browne shows that <u>&nbsp;</u> is <u>&nbsp;</u> by using <u>&nbsp;</u>, whereas <u>&nbsp;</u>.</p>
+  </div>
+</section>
+
+<footer>Voices in the Park by Anthony Browne &middot; Year 5 English &middot; Lesson 1 &middot; The fonts on this page are close matches chosen for discussion, not the book&rsquo;s own typefaces.</footer>
+
+<script>
+var bar=document.getElementById('bar');
+addEventListener('scroll',function(){var h=document.documentElement;
+  bar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.06});
+document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+function toggle(btnId,sectionId,cls,showText,hideText){
+  var b=document.getElementById(btnId),s=document.getElementById(sectionId);
+  b.addEventListener('click',function(){
+    var on=s.classList.toggle(cls);
+    b.textContent=on?hideText:showText;b.setAttribute('aria-expanded',on);
+  });
+}
+toggle('notesBtn','ido','show-notes','Show model notes','Hide model notes');
+toggle('listenBtn','wedo','show-listen','Show listening for','Hide listening for');
+</script>
+</body>
+</html>
