@@ -288,6 +288,28 @@ textarea.draft:focus{outline:none;border-color:var(--winter)}
 .nav{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
 .nav a{color:var(--ink);text-decoration:none;font-weight:600;border:1.5px solid var(--line);background:var(--card);border-radius:100px;padding:.35rem 1rem}
 .nav a.here{background:var(--ink);color:#fbf6ea;border-color:var(--ink)}
+/* ---- exemplar: The Chip Thief ---- */
+.ex{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:2rem}
+.exv{border-radius:18px;padding:1.3rem 1.7rem 1.6rem;border:1px solid var(--line);box-shadow:var(--shadow)}
+.exv .v{font-family:"Inter",sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+.exv .who{font-family:"Fraunces",serif;font-weight:600;font-size:1.6rem;line-height:1.1;margin:.2rem 0 .7rem}
+.exv .t{font-size:clamp(1.05rem,1.5vw,1.95rem);line-height:1.42}
+.exv .t.f-b{font-size:clamp(.98rem,1.36vw,1.78rem);line-height:1.46}
+.exv .t.f-d{font-size:clamp(1.15rem,1.68vw,2.2rem);line-height:1.3}
+.exv.v1{background:var(--autumn-bg);border-color:#e6c3a8}.exv.v1 .v{color:var(--autumn)}
+.exv.v2{background:var(--summer-bg);border-color:#ecd690}.exv.v2 .v{color:#a87508}
+.exv.v3{background:var(--winter-bg);border-color:#bcc7d8}.exv.v3 .v{color:var(--winter)}
+.exv.v4{background:var(--spring-bg);border-color:#c2d6a3}.exv.v4 .v{color:#57802c}
+.exq{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2rem}
+.exq p{font-family:"Fraunces",serif;font-size:clamp(1.4rem,2.1vw,2.7rem);line-height:1.2;border-top:5px solid var(--autumn);padding-top:1rem}
+.exq p:nth-child(2){border-color:var(--winter)}.exq p:nth-child(3){border-color:var(--spring)}
+.extable{width:100%;border-collapse:separate;border-spacing:0;margin-top:1.6rem;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;font-size:1.02rem}
+.extable th,.extable td{text-align:left;vertical-align:top;padding:.8rem 1.1rem;border-bottom:1px solid var(--line)}
+.extable tr:last-child th,.extable tr:last-child td{border-bottom:none}
+.extable thead th{font-family:"Inter",sans-serif;font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--autumn);background:var(--paper-2)}
+.extable tbody th{font-family:"Fraunces",serif;font-weight:600;font-size:1.3rem;white-space:nowrap}
+@media (max-width:900px){.ex,.exq{grid-template-columns:1fr}.extable{font-size:.9rem}}
+
 @media (max-width:900px){
   .two,.person,.qlist,.three,.gg,.quad{grid-template-columns:1fr}
   .ideas,.fonts4{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}
@@ -320,6 +342,52 @@ textarea.draft:focus{outline:none;border-color:var(--winter)}
       <circle cx="440" cy="210" r="74" fill="#22302a"/>
       <circle cx="440" cy="210" r="22" fill="#e0a21c"/>
     </svg>
+  </div>
+</section>
+
+<div class="band"></div>
+
+<!-- EXEMPLAR -->
+<section id="model">
+  <div class="shell reveal">
+    <p class="eyebrow">Read this first &middot; A model</p>
+    <h2 class="big">The Chip Thief</h2>
+    <p class="lead">One event: a seagull steals the hot chips at the beach. Four voices.</p>
+    <div class="ex">
+      <div class="exv v1"><span class="v">Voice 1</span><p class="who">Dad</p>
+        <p class="t f-b">Fourteen dollars fifty. That is what I paid for one large box of chips. I had given clear instructions: lid on, eyes up, nobody feeds the birds. For ten seconds I looked away to find the sunscreen. Ten seconds! When I turned back, the box was upside down in the sand and a seagull was strutting off with my lunch. Next time, we are bringing sandwiches.</p></div>
+      <div class="exv v2"><span class="v">Voice 2</span><p class="who">Max, aged five</p>
+        <p class="t f-d">It was the best thing I have ever seen in my whole life. The seagull came down like a rocket and it grabbed the biggest chip and it didn&rsquo;t even say sorry and then all the other chips went flying up in the air like fireworks. Dad made a noise like a kettle. I named the seagull Kevin. Can we come back tomorrow and bring Kevin more chips?</p></div>
+      <div class="exv v3"><span class="v">Voice 3</span><p class="who">Zoe, aged thirteen</p>
+        <p class="t f-c">Everyone saw. The whole beach. Dad actually chased it, waving a towel and shouting about fourteen dollars. Max was cheering for the bird. I pulled my hat down and stared at my phone, but the girls from school were sitting right there on the next towel. So embarrassing. I am never eating chips in public again.</p></div>
+      <div class="exv v4"><span class="v">Voice 4</span><p class="who">The seagull</p>
+        <p class="t f-a">Golden. Salty. Unguarded. From high above the flags, I spotted the box and the big human looking the other way. Wings tucked, I dropped. One snap of the beak and the fattest chip was mine. Behind me, the humans squawked and flapped. Slow, noisy creatures. Tomorrow, I will bring my cousins.</p></div>
+    </div>
+    <a class="btn" href="voices-in-the-park-chip-thief.html" target="_blank" rel="noopener">Open the printable copy</a>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="shell reveal">
+    <p class="eyebrow">Look closer</p>
+    <h2 class="big">How do you know who is speaking?</h2>
+    <div class="exq">
+      <p>What does each character care about most?</p>
+      <p>Whose sentences are longest? Whose are shortest?</p>
+      <p>Which words could only belong to that character?</p>
+    </div>
+    <div class="btnrow"><button class="btn ghost" type="button" data-target="exnotes" data-show="Show what each voice does" data-hide="Hide what each voice does" aria-expanded="false">Show what each voice does</button></div>
+    <div class="hide" id="exnotes">
+      <table class="extable">
+        <thead><tr><th>Voice</th><th>Word choice</th><th>Sentence length</th><th>Sentence starts</th><th>Tone</th></tr></thead>
+        <tbody>
+          <tr><th>Dad</th><td>Prices, instructions, rules</td><td>Medium and firm</td><td>Money and time</td><td>Outraged</td></tr>
+          <tr><th>Max</th><td>Simple words, childlike similes</td><td>One long run-on joined with &ldquo;and&rdquo;</td><td>&ldquo;It&rdquo;, &ldquo;I&rdquo; and what the seagull did</td><td>Delighted</td></tr>
+          <tr><th>Zoe</th><td>&ldquo;Actually&rdquo;, &ldquo;so embarrassing&rdquo;</td><td>Short fragments</td><td>Other people watching</td><td>Mortified</td></tr>
+          <tr><th>The seagull</th><td>Hunter&rsquo;s words, calls people &ldquo;humans&rdquo;</td><td>Single words, then short and sharp</td><td>Senses and actions</td><td>Triumphant</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
 
